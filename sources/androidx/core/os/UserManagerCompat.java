@@ -15,11 +15,7 @@ public class UserManagerCompat {
     /* loaded from: classes.dex */
     static class Api24Impl {
         static boolean isUserUnlocked(Context context) {
-            Object systemService;
-            boolean isUserUnlocked;
-            systemService = context.getSystemService(UserManager.class);
-            isUserUnlocked = ((UserManager) systemService).isUserUnlocked();
-            return isUserUnlocked;
+            return ((UserManager) context.getSystemService(UserManager.class)).isUserUnlocked();
         }
     }
 }

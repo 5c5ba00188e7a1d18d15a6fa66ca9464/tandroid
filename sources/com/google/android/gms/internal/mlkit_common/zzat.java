@@ -19,7 +19,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         return zzbb.zzg(1, new Object[]{"optional-module-barcode", "com.google.android.gms.vision.barcode"}, null);
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     @Deprecated
     public final void clear() {
         throw new UnsupportedOperationException();
@@ -55,17 +55,17 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         return computeIfPresent(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean containsKey(Object obj) {
         return get(obj) != null;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean containsValue(Object obj) {
         return values().contains(obj);
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -86,7 +86,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public abstract Object get(Object obj);
 
     @Override // java.util.Map, j$.util.Map
@@ -95,17 +95,17 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         return obj3 != null ? obj3 : obj2;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final int hashCode() {
         return zzbc.zza(entrySet());
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean isEmpty() {
         return size() == 0;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final /* bridge */ /* synthetic */ Set keySet() {
         zzau zzauVar = this.zzb;
         if (zzauVar == null) {
@@ -126,13 +126,13 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         return merge(obj, obj2, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     @Deprecated
     public final Object put(Object obj, Object obj2) {
         throw new UnsupportedOperationException();
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     @Deprecated
     public final void putAll(java.util.Map map) {
         throw new UnsupportedOperationException();
@@ -143,7 +143,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
         return Map.-CC.$default$putIfAbsent(this, obj, obj2);
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     @Deprecated
     public final Object remove(Object obj) {
         throw new UnsupportedOperationException();
@@ -197,7 +197,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
 
     abstract zzam zza();
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     /* renamed from: zzb */
     public final zzam values() {
         zzam zzamVar = this.zzc;
@@ -213,7 +213,7 @@ public abstract class zzat implements Map, Serializable, j$.util.Map {
 
     abstract zzau zze();
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     /* renamed from: zzf */
     public final zzau entrySet() {
         zzau zzauVar = this.zza;

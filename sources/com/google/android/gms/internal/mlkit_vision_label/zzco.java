@@ -12,6 +12,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 final class zzco implements ObjectEncoderContext {
@@ -121,10 +122,10 @@ final class zzco implements ObjectEncoderContext {
             int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
             OutputStream outputStream = this.zze;
             if (i2 == 0) {
-                outputStream.write(i & 127);
+                outputStream.write(i & NotificationCenter.dialogTranslate);
                 return;
             } else {
-                outputStream.write((i & 127) | 128);
+                outputStream.write((i & NotificationCenter.dialogTranslate) | 128);
                 i >>>= 7;
             }
         }
@@ -135,10 +136,10 @@ final class zzco implements ObjectEncoderContext {
             int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
             OutputStream outputStream = this.zze;
             if (i == 0) {
-                outputStream.write(((int) j) & 127);
+                outputStream.write(((int) j) & NotificationCenter.dialogTranslate);
                 return;
             } else {
-                outputStream.write((((int) j) & 127) | 128);
+                outputStream.write((((int) j) & NotificationCenter.dialogTranslate) | 128);
                 j >>>= 7;
             }
         }

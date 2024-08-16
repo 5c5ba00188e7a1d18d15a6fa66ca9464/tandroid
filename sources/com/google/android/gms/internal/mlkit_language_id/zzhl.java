@@ -1,11 +1,9 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.ListIterator;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzhl implements ListIterator<String>, Iterator {
+final class zzhl implements ListIterator<String> {
     private ListIterator<String> zza;
     private final /* synthetic */ int zzb;
     private final /* synthetic */ zzhi zzc;
@@ -19,17 +17,7 @@ final class zzhl implements ListIterator<String>, Iterator {
         this.zza = zzfgVar.listIterator(i);
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final boolean hasNext() {
         return this.zza.hasNext();
     }
@@ -49,7 +37,7 @@ final class zzhl implements ListIterator<String>, Iterator {
         return this.zza.previousIndex();
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }
@@ -69,7 +57,7 @@ final class zzhl implements ListIterator<String>, Iterator {
         return this.zza.previous();
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final /* synthetic */ Object next() {
         return this.zza.next();
     }

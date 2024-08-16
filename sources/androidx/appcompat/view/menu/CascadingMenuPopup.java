@@ -27,8 +27,9 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import java.util.ArrayList;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-final class CascadingMenuPopup extends MenuPopup implements View.OnKeyListener, PopupWindow.OnDismissListener {
+public final class CascadingMenuPopup extends MenuPopup implements MenuPresenter, View.OnKeyListener, PopupWindow.OnDismissListener {
     private static final int ITEM_LAYOUT = R$layout.abc_cascading_menu_item_layout;
     private View mAnchorView;
     private final Context mContext;

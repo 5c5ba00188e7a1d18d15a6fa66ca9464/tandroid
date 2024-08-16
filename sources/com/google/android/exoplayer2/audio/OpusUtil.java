@@ -9,7 +9,7 @@ public class OpusUtil {
     private static long getPacketDurationUs(byte b, byte b2) {
         int i;
         int i2 = b & 255;
-        int i3 = i2 & 3;
+        int i3 = b & 3;
         if (i3 != 0) {
             i = 2;
             if (i3 != 1 && i3 != 2) {
@@ -20,7 +20,7 @@ public class OpusUtil {
         }
         int i4 = i2 >> 3;
         int i5 = i4 & 3;
-        return i * (i4 >= 16 ? 2500 << i5 : i4 >= 12 ? 10000 << (i5 & 1) : i5 == 3 ? 60000 : 10000 << i5);
+        return i * (i4 >= 16 ? 2500 << i5 : i4 >= 12 ? 10000 << (i4 & 1) : i5 == 3 ? 60000 : 10000 << i5);
     }
 
     public static int getChannelCount(byte[] bArr) {

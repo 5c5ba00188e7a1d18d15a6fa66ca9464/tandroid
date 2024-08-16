@@ -12,6 +12,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class Text {
@@ -138,7 +139,7 @@ public class Text {
             return;
         }
         if (!this.doNotSave && (i2 = this.ellipsizeWidth) >= 0 && this.width > i2) {
-            canvas.saveLayerAlpha(0.0f, -this.vertPad, i2 - 1, staticLayout.getHeight() + this.vertPad, 255, 31);
+            canvas.saveLayerAlpha(0.0f, -this.vertPad, i2 - 1, staticLayout.getHeight() + this.vertPad, NotificationCenter.voipServiceCreated, 31);
         }
         if (this.hackClipBounds) {
             canvas.drawText(this.layout.getText().toString(), 0.0f, -this.paint.getFontMetricsInt().ascent, this.paint);
@@ -184,6 +185,9 @@ public class Text {
 
     public CharSequence getText() {
         StaticLayout staticLayout = this.layout;
-        return (staticLayout == null || staticLayout.getText() == null) ? "" : this.layout.getText();
+        if (staticLayout == null || staticLayout.getText() == null) {
+            return "";
+        }
+        return this.layout.getText();
     }
 }

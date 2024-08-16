@@ -5,7 +5,7 @@ import com.google.android.gms.internal.mlkit_language_id.zzy$zzau;
 import com.google.android.gms.internal.mlkit_language_id.zzy$zzbh;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
+public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> implements zzgb {
     private static final zzy$zzad zzbd;
     private static volatile zzgj<zzy$zzad> zzbe;
     private zzy$zzp zzaa;
@@ -63,7 +63,7 @@ public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
 
     /* compiled from: com.google.mlkit:language-id@@16.1.1 */
     /* loaded from: classes.dex */
-    public static final class zza extends zzeo.zzd<zzy$zzad, zza> {
+    public static final class zza extends zzeo.zzd<zzy$zzad, zza> implements zzgb {
         private zza() {
             super(zzy$zzad.zzbd);
         }
@@ -162,10 +162,9 @@ public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzad>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r3v62, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzad>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
-        zzgj<zzy$zzad> zzgjVar;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzad();
@@ -176,25 +175,27 @@ public final class zzy$zzad extends zzeo.zzc<zzy$zzad, zza> {
             case 4:
                 return zzbd;
             case 5:
-                zzgj<zzy$zzad> zzgjVar2 = zzbe;
-                zzgj<zzy$zzad> zzgjVar3 = zzgjVar2;
-                if (zzgjVar2 == null) {
+                zzgj<zzy$zzad> zzgjVar = zzbe;
+                zzgj<zzy$zzad> zzgjVar2 = zzgjVar;
+                if (zzgjVar == null) {
                     synchronized (zzy$zzad.class) {
-                        zzgj<zzy$zzad> zzgjVar4 = zzbe;
-                        zzgjVar = zzgjVar4;
-                        if (zzgjVar4 == null) {
-                            ?? zzaVar = new zzeo.zza(zzbd);
-                            zzbe = zzaVar;
-                            zzgjVar = zzaVar;
+                        try {
+                            zzgj<zzy$zzad> zzgjVar3 = zzbe;
+                            zzgj<zzy$zzad> zzgjVar4 = zzgjVar3;
+                            if (zzgjVar3 == null) {
+                                ?? zzaVar = new zzeo.zza(zzbd);
+                                zzbe = zzaVar;
+                                zzgjVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzgjVar3 = zzgjVar;
                 }
-                return zzgjVar3;
+                return zzgjVar2;
             case 6:
                 return Byte.valueOf(this.zzbc);
             case 7:
-                this.zzbc = (byte) (obj == null ? 0 : 1);
+                this.zzbc = (byte) (obj != null ? 1 : 0);
                 return null;
             default:
                 throw new UnsupportedOperationException();

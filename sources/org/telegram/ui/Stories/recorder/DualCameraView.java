@@ -192,17 +192,12 @@ public class DualCameraView extends CameraView {
     }
 
     private void setupDualMatrix() {
-        boolean z;
         Matrix dualPosition = getDualPosition();
         dualPosition.reset();
         Matrix savedDualMatrix = getSavedDualMatrix();
         if (savedDualMatrix != null) {
             dualPosition.set(savedDualMatrix);
-            z = false;
         } else {
-            z = true;
-        }
-        if (z) {
             dualPosition.postConcat(this.toScreen);
             float measuredWidth = getMeasuredWidth() * 0.43f;
             float min = Math.min(getMeasuredWidth(), getMeasuredWidth()) * 0.025f;
@@ -222,7 +217,7 @@ public class DualCameraView extends CameraView {
             getDualPosition().invert(this.invMatrix);
             this.invMatrix.mapPoints(this.vertex);
             int dualShape = getDualShape() % 3;
-            float f3 = dualShape == 0 || dualShape == 1 || dualShape == 3 ? 0.5625f : 1.0f;
+            float f3 = (dualShape == 0 || dualShape == 1 || dualShape == 3) ? 0.5625f : 1.0f;
             float[] fArr2 = this.vertex;
             float f4 = fArr2[0];
             if (f4 < -1.0f || f4 > 1.0f) {
@@ -326,11 +321,11 @@ public class DualCameraView extends CameraView {
         float width;
         float f3;
         Runnable runnable;
-        boolean z = checkTap(motionEvent);
+        boolean checkTap = checkTap(motionEvent);
         if (isDual()) {
             Matrix dualPosition = getDualPosition();
-            boolean z2 = motionEvent.getPointerCount() > 1;
-            if (z2) {
+            boolean z = motionEvent.getPointerCount() > 1;
+            if (z) {
                 this.touch.x = (motionEvent.getX(0) + motionEvent.getX(1)) / 2.0f;
                 this.touch.y = (motionEvent.getY(0) + motionEvent.getY(1)) / 2.0f;
                 f = MathUtils.distance(motionEvent.getX(0), motionEvent.getY(0), motionEvent.getX(1), motionEvent.getY(1));
@@ -341,14 +336,14 @@ public class DualCameraView extends CameraView {
                 d = 0.0d;
                 f = 0.0f;
             }
-            if (this.multitouch != z2) {
+            if (this.multitouch != z) {
                 PointF pointF = this.lastTouch;
                 PointF pointF2 = this.touch;
                 pointF.x = pointF2.x;
                 pointF.y = pointF2.y;
                 this.lastTouchDistance = f;
                 this.lastTouchRotation = d;
-                this.multitouch = z2;
+                this.multitouch = z;
             }
             PointF pointF3 = this.touch;
             float f4 = pointF3.x;
@@ -393,9 +388,9 @@ public class DualCameraView extends CameraView {
                     float f9 = this.rotationDiff + degrees;
                     this.rotationDiff = f9;
                     if (!this.allowRotation) {
-                        boolean z3 = Math.abs(f9) > 20.0f;
-                        this.allowRotation = z3;
-                        if (!z3) {
+                        boolean z2 = Math.abs(f9) > 20.0f;
+                        this.allowRotation = z2;
+                        if (!z2) {
                             extractPointsData(this.touchMatrix);
                             this.allowRotation = (((float) Math.round(this.angle / 90.0f)) * 90.0f) - this.angle > 20.0f;
                         }
@@ -441,16 +436,16 @@ public class DualCameraView extends CameraView {
                 dualPosition.set(this.finalMatrix);
                 updateDualPosition();
                 float f12 = this.cy;
-                boolean z4 = Math.min(f12, f12 - (this.h / 2.0f)) < ((float) AndroidUtilities.dp(66.0f));
+                boolean z3 = Math.min(f12, f12 - (this.h / 2.0f)) < ((float) AndroidUtilities.dp(66.0f));
                 float f13 = this.cy;
-                boolean z5 = Math.max(f13, (this.h / 2.0f) + f13) > ((float) (getHeight() - AndroidUtilities.dp(66.0f)));
-                if (this.atTop != z4) {
-                    this.atTop = z4;
-                    onEntityDraggedTop(z4);
+                boolean z4 = Math.max(f13, (this.h / 2.0f) + f13) > ((float) (getHeight() - AndroidUtilities.dp(66.0f)));
+                if (this.atTop != z3) {
+                    this.atTop = z3;
+                    onEntityDraggedTop(z3);
                 }
-                if (this.atBottom != z5) {
-                    this.atBottom = z5;
-                    onEntityDraggedBottom(z5);
+                if (this.atBottom != z4) {
+                    this.atBottom = z4;
+                    onEntityDraggedBottom(z4);
                 }
             } else {
                 f2 = f;
@@ -486,9 +481,9 @@ public class DualCameraView extends CameraView {
             pointF6.y = pointF7.y;
             this.lastTouchDistance = f2;
             this.lastTouchRotation = d;
-            return this.down || z;
+            return this.down || checkTap;
         }
-        return z;
+        return checkTap;
     }
 
     public boolean isDualTouch() {
@@ -530,7 +525,7 @@ public class DualCameraView extends CameraView {
             this.verticesDst = new float[8];
         }
         int dualShape = getDualShape() % 3;
-        float f3 = dualShape == 0 || dualShape == 1 || dualShape == 3 ? 0.5625f : 1.0f;
+        float f3 = (dualShape == 0 || dualShape == 1 || dualShape == 3) ? 0.5625f : 1.0f;
         float[] fArr = this.verticesSrc;
         fArr[0] = -1.0f;
         float f4 = -f3;
@@ -543,50 +538,37 @@ public class DualCameraView extends CameraView {
         fArr[7] = f3;
         matrix.mapPoints(this.verticesDst, fArr);
         float[] fArr2 = this.verticesDst;
-        float f5 = fArr2[0];
-        float f6 = fArr2[2];
-        float f7 = (f5 - f6) * (f5 - f6);
-        float f8 = fArr2[1];
-        float f9 = fArr2[3];
-        double sqrt = Math.sqrt(f7 + ((f8 - f9) * (f8 - f9)));
+        float f5 = fArr2[0] - fArr2[2];
+        float f6 = fArr2[1] - fArr2[3];
+        double sqrt = Math.sqrt((f5 * f5) + (f6 * f6));
         float[] fArr3 = this.verticesDst;
-        float f10 = fArr3[2];
-        float f11 = fArr3[4];
-        float f12 = (f10 - f11) * (f10 - f11);
-        float f13 = fArr3[3];
-        float f14 = fArr3[5];
-        double sqrt2 = Math.sqrt(f12 + ((f13 - f14) * (f13 - f14)));
+        float f7 = fArr3[2] - fArr3[4];
+        float f8 = fArr3[3] - fArr3[5];
+        double sqrt2 = Math.sqrt((f7 * f7) + (f8 * f8));
         float[] fArr4 = this.verticesDst;
-        float f15 = fArr4[4];
-        float f16 = fArr4[6];
-        float f17 = (f15 - f16) * (f15 - f16);
-        float f18 = fArr4[5];
-        float f19 = fArr4[7];
-        double sqrt3 = Math.sqrt(f17 + ((f18 - f19) * (f18 - f19)));
+        float f9 = fArr4[4] - fArr4[6];
+        float f10 = fArr4[5] - fArr4[7];
+        double sqrt3 = Math.sqrt((f9 * f9) + (f10 * f10));
         float[] fArr5 = this.verticesDst;
-        float f20 = fArr5[6];
-        float f21 = fArr5[0];
-        float f22 = (f20 - f21) * (f20 - f21);
-        float f23 = fArr5[7];
-        float f24 = fArr5[1];
-        double sqrt4 = Math.sqrt(f22 + ((f23 - f24) * (f23 - f24)));
+        float f11 = fArr5[6] - fArr5[0];
+        float f12 = fArr5[7] - fArr5[1];
+        double sqrt4 = Math.sqrt((f11 * f11) + (f12 * f12));
         float[] fArr6 = this.verticesDst;
-        float f25 = fArr6[0];
-        float f26 = fArr6[1];
-        double sqrt5 = Math.sqrt(((f25 - f) * (f25 - f)) + ((f26 - f2) * (f26 - f2)));
+        float f13 = fArr6[0] - f;
+        float f14 = fArr6[1] - f2;
+        double sqrt5 = Math.sqrt((f13 * f13) + (f14 * f14));
         float[] fArr7 = this.verticesDst;
-        float f27 = fArr7[2];
-        float f28 = fArr7[3];
-        double sqrt6 = Math.sqrt(((f27 - f) * (f27 - f)) + ((f28 - f2) * (f28 - f2)));
+        float f15 = fArr7[2] - f;
+        float f16 = fArr7[3] - f2;
+        double sqrt6 = Math.sqrt((f15 * f15) + (f16 * f16));
         float[] fArr8 = this.verticesDst;
-        float f29 = fArr8[4];
-        float f30 = (f29 - f) * (f29 - f);
-        float f31 = fArr8[5];
-        double sqrt7 = Math.sqrt(f30 + ((f31 - f2) * (f31 - f2)));
+        float f17 = fArr8[4] - f;
+        float f18 = fArr8[5] - f2;
+        double sqrt7 = Math.sqrt((f17 * f17) + (f18 * f18));
         float[] fArr9 = this.verticesDst;
-        float f32 = fArr9[6];
-        float f33 = fArr9[7];
-        double sqrt8 = Math.sqrt(((f32 - f) * (f32 - f)) + ((f33 - f2) * (f33 - f2)));
+        float f19 = fArr9[6] - f;
+        float f20 = fArr9[7] - f2;
+        double sqrt8 = Math.sqrt((f19 * f19) + (f20 * f20));
         double d = ((sqrt + sqrt5) + sqrt6) / 2.0d;
         double d2 = ((sqrt2 + sqrt6) + sqrt7) / 2.0d;
         double d3 = ((sqrt3 + sqrt7) + sqrt8) / 2.0d;

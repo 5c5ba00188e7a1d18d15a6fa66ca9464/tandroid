@@ -82,8 +82,10 @@ public final class RtpDataLoadable implements Loader.Loadable {
                     break;
                 }
             }
-        } finally {
             DataSourceUtil.closeQuietly(rtpDataChannel);
+        } catch (Throwable th) {
+            DataSourceUtil.closeQuietly(rtpDataChannel);
+            throw th;
         }
     }
 

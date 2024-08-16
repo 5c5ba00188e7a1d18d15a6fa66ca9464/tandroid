@@ -53,7 +53,9 @@ public final class HttpMediaDrmCallback implements MediaDrmCallback {
             licenseServerUrl = this.defaultLicenseUrl;
         }
         if (TextUtils.isEmpty(licenseServerUrl)) {
-            throw new MediaDrmCallbackException(new DataSpec.Builder().setUri(Uri.EMPTY).build(), Uri.EMPTY, ImmutableMap.of(), 0L, new IllegalStateException("No license URL"));
+            DataSpec.Builder builder = new DataSpec.Builder();
+            Uri uri = Uri.EMPTY;
+            throw new MediaDrmCallbackException(builder.setUri(uri).build(), uri, ImmutableMap.of(), 0L, new IllegalStateException("No license URL"));
         }
         HashMap hashMap = new HashMap();
         UUID uuid2 = C.PLAYREADY_UUID;
@@ -103,7 +105,7 @@ public final class HttpMediaDrmCallback implements MediaDrmCallback {
         Map<String, List<String>> map;
         List<String> list;
         int i2 = invalidResponseCodeException.responseCode;
-        if (!((i2 == 307 || i2 == 308) && i < 5) || (map = invalidResponseCodeException.headerFields) == null || (list = map.get("Location")) == null || list.isEmpty()) {
+        if ((i2 != 307 && i2 != 308) || i >= 5 || (map = invalidResponseCodeException.headerFields) == null || (list = map.get("Location")) == null || list.isEmpty()) {
             return null;
         }
         return list.get(0);

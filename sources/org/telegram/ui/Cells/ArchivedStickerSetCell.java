@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -157,13 +158,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:31:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0110  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public void setStickersSet(TLRPC$StickerSetCovered tLRPC$StickerSetCovered, boolean z) {
-        TLRPC$Document tLRPC$Document;
         ImageLocation forSticker;
         this.needDivider = z;
         this.stickersSet = tLRPC$StickerSetCovered;
@@ -175,7 +170,7 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
         } else {
             this.valueTextView.setText(LocaleController.formatPluralString("Stickers", tLRPC$StickerSet.count, new Object[0]));
         }
-        TLRPC$Document tLRPC$Document2 = null;
+        TLRPC$Document tLRPC$Document = null;
         if (tLRPC$StickerSetCovered instanceof TLRPC$TL_stickerSetFullCovered) {
             ArrayList<TLRPC$Document> arrayList = ((TLRPC$TL_stickerSetFullCovered) tLRPC$StickerSetCovered).documents;
             if (arrayList == null) {
@@ -185,9 +180,9 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
             int i = 0;
             while (true) {
                 if (i < arrayList.size()) {
-                    TLRPC$Document tLRPC$Document3 = arrayList.get(i);
-                    if (tLRPC$Document3 != null && tLRPC$Document3.id == j) {
-                        tLRPC$Document2 = tLRPC$Document3;
+                    TLRPC$Document tLRPC$Document2 = arrayList.get(i);
+                    if (tLRPC$Document2 != null && tLRPC$Document2.id == j) {
+                        tLRPC$Document = tLRPC$Document2;
                         break;
                     }
                     i++;
@@ -195,53 +190,47 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                     break;
                 }
             }
-            if (tLRPC$Document2 == null && !arrayList.isEmpty()) {
+            if (tLRPC$Document == null && !arrayList.isEmpty()) {
                 tLRPC$Document = arrayList.get(0);
-                tLRPC$Document2 = tLRPC$Document;
             }
-            if (tLRPC$Document2 != null) {
-                TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
-                if (closestPhotoSizeWithSize == null) {
-                    closestPhotoSizeWithSize = tLRPC$Document2;
-                }
-                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
-                boolean z2 = closestPhotoSizeWithSize instanceof TLRPC$Document;
-                if (z2) {
-                    forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document2.thumbs, 90), tLRPC$Document2);
-                } else {
-                    forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document2, tLRPC$StickerSetCovered.set.thumb_version);
-                }
-                ImageLocation imageLocation = forSticker;
-                if (z2 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document2, true) || MessageObject.isVideoSticker(tLRPC$Document2))) {
-                    if (svgThumb != null) {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document2), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
-                        return;
-                    } else {
-                        this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document2), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
-                        return;
-                    }
-                } else if (imageLocation != null && imageLocation.imageType == 1) {
-                    this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+        } else {
+            TLRPC$Document tLRPC$Document3 = tLRPC$StickerSetCovered.cover;
+            if (tLRPC$Document3 != null) {
+                tLRPC$Document = tLRPC$Document3;
+            } else if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
+                tLRPC$Document = tLRPC$StickerSetCovered.covers.get(0);
+            }
+        }
+        if (tLRPC$Document != null) {
+            TLObject closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$StickerSetCovered.set.thumbs, 90);
+            if (closestPhotoSizeWithSize == null) {
+                closestPhotoSizeWithSize = tLRPC$Document;
+            }
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(tLRPC$StickerSetCovered.set.thumbs, Theme.key_windowBackgroundGray, 1.0f);
+            boolean z2 = closestPhotoSizeWithSize instanceof TLRPC$Document;
+            if (z2) {
+                forSticker = ImageLocation.getForDocument(FileLoader.getClosestPhotoSizeWithSize(tLRPC$Document.thumbs, 90), tLRPC$Document);
+            } else {
+                forSticker = ImageLocation.getForSticker((TLRPC$PhotoSize) closestPhotoSizeWithSize, tLRPC$Document, tLRPC$StickerSetCovered.set.thumb_version);
+            }
+            ImageLocation imageLocation = forSticker;
+            if (z2 && (MessageObject.isAnimatedStickerDocument(tLRPC$Document, true) || MessageObject.isVideoSticker(tLRPC$Document))) {
+                if (svgThumb != null) {
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", svgThumb, 0, tLRPC$StickerSetCovered);
                     return;
                 } else {
-                    this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                    this.imageView.setImage(ImageLocation.getForDocument(tLRPC$Document), "50_50", imageLocation, (String) null, 0, tLRPC$StickerSetCovered);
                     return;
                 }
-            }
-            this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
-            return;
-        }
-        tLRPC$Document = tLRPC$StickerSetCovered.cover;
-        if (tLRPC$Document == null) {
-            if (!tLRPC$StickerSetCovered.covers.isEmpty()) {
-                tLRPC$Document2 = tLRPC$StickerSetCovered.covers.get(0);
-            }
-            if (tLRPC$Document2 != null) {
+            } else if (imageLocation != null && imageLocation.imageType == 1) {
+                this.imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, tLRPC$StickerSetCovered);
+                return;
+            } else {
+                this.imageView.setImage(imageLocation, "50_50", "webp", svgThumb, tLRPC$StickerSetCovered);
+                return;
             }
         }
-        tLRPC$Document2 = tLRPC$Document;
-        if (tLRPC$Document2 != null) {
-        }
+        this.imageView.setImage((ImageLocation) null, (String) null, "webp", (Drawable) null, tLRPC$StickerSetCovered);
     }
 
     public TLRPC$StickerSetCovered getStickersSet() {
@@ -264,7 +253,16 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animatorSet = animatorSet2;
                 animatorSet2.setDuration(250L);
-                this.animatorSet.playTogether(ObjectAnimator.ofFloat(this.deleteButton, View.ALPHA, f), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_X, f), ObjectAnimator.ofFloat(this.deleteButton, View.SCALE_Y, f), ObjectAnimator.ofFloat(this.addButton, View.ALPHA, f2), ObjectAnimator.ofFloat(this.addButton, View.SCALE_X, f2), ObjectAnimator.ofFloat(this.addButton, View.SCALE_Y, f2));
+                AnimatorSet animatorSet3 = this.animatorSet;
+                Button button = this.deleteButton;
+                Property property = View.ALPHA;
+                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(button, property, f);
+                Button button2 = this.deleteButton;
+                Property property2 = View.SCALE_X;
+                ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(button2, property2, f);
+                Button button3 = this.deleteButton;
+                Property property3 = View.SCALE_Y;
+                animatorSet3.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(button3, property3, f), ObjectAnimator.ofFloat(this.addButton, property, f2), ObjectAnimator.ofFloat(this.addButton, property2, f2), ObjectAnimator.ofFloat(this.addButton, property3, f2));
                 this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ArchivedStickerSetCell.1
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {

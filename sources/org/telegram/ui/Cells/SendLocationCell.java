@@ -94,12 +94,12 @@ public class SendLocationCell extends FrameLayout {
         setWillNotDraw(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x005a  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x0064  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x006e  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0078  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0086  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00d3  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0079  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0087  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x00d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -259,7 +259,7 @@ public class SendLocationCell extends FrameLayout {
         Theme.chat_radialProgress2Paint.setAlpha((int) (0.2f * f6 * f4));
         canvas.drawArc(this.rect, -90.0f, 360.0f, false, Theme.chat_radialProgress2Paint);
         Theme.chat_radialProgress2Paint.setAlpha((int) (f6 * f4));
-        canvas.drawArc(this.rect, -90.0f, (-360.0f) * this.progress.set(f3), false, Theme.chat_radialProgress2Paint);
+        canvas.drawArc(this.rect, -90.0f, this.progress.set(f3) * (-360.0f), false, Theme.chat_radialProgress2Paint);
         Theme.chat_radialProgress2Paint.setAlpha(alpha);
         if (sharingLocationInfo != null) {
             this.textDrawable.setText(LocaleController.formatLocationLeftTime(Math.abs(sharingLocationInfo.stopTime - currentTime)));

@@ -404,19 +404,19 @@ public final class zzau extends AbstractMap implements Serializable {
         int[] zzz = zzz();
         Object[] zzA = zzA();
         Object[] zzB = zzB();
-        int size = size() - 1;
-        if (i < size) {
-            Object obj2 = zzA[size];
+        int size = size();
+        int i3 = size - 1;
+        if (i < i3) {
+            Object obj2 = zzA[i3];
             zzA[i] = obj2;
-            zzB[i] = zzB[size];
-            zzA[size] = null;
-            zzB[size] = null;
-            zzz[i] = zzz[size];
-            zzz[size] = 0;
+            zzB[i] = zzB[i3];
+            zzA[i3] = null;
+            zzB[i3] = null;
+            zzz[i] = zzz[i3];
+            zzz[i3] = 0;
             int zza = zzaw.zza(obj2) & i2;
             int zzc = zzav.zzc(obj, zza);
-            int i3 = size + 1;
-            if (zzc == i3) {
+            if (zzc == size) {
                 zzav.zze(obj, zza, i + 1);
                 return;
             }
@@ -424,7 +424,7 @@ public final class zzau extends AbstractMap implements Serializable {
                 int i4 = zzc - 1;
                 int i5 = zzz[i4];
                 int i6 = i5 & i2;
-                if (i6 == i3) {
+                if (i6 == size) {
                     zzz[i4] = ((i + 1) & i2) | (i5 & (i2 ^ (-1)));
                     return;
                 }

@@ -149,9 +149,10 @@ public class AppCompatButton extends Button implements TintableBackgroundView, T
     protected void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         super.onTextChanged(charSequence, i, i2, i3);
         AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
-        if ((appCompatTextHelper == null || ViewUtils.SDK_LEVEL_SUPPORTS_AUTOSIZE || !appCompatTextHelper.isAutoSizeEnabled()) ? false : true) {
-            this.mTextHelper.autoSizeText();
+        if (appCompatTextHelper == null || ViewUtils.SDK_LEVEL_SUPPORTS_AUTOSIZE || !appCompatTextHelper.isAutoSizeEnabled()) {
+            return;
         }
+        this.mTextHelper.autoSizeText();
     }
 
     @Override // android.widget.TextView
@@ -245,7 +246,10 @@ public class AppCompatButton extends Button implements TintableBackgroundView, T
             return super.getAutoSizeTextAvailableSizes();
         }
         AppCompatTextHelper appCompatTextHelper = this.mTextHelper;
-        return appCompatTextHelper != null ? appCompatTextHelper.getAutoSizeTextAvailableSizes() : new int[0];
+        if (appCompatTextHelper != null) {
+            return appCompatTextHelper.getAutoSizeTextAvailableSizes();
+        }
+        return new int[0];
     }
 
     public void setSupportAllCaps(boolean z) {

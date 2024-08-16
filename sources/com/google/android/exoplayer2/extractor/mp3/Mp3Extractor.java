@@ -26,6 +26,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Mp3Extractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp3.Mp3Extractor$$ExternalSyntheticLambda0
@@ -233,19 +234,19 @@ public final class Mp3Extractor implements Extractor {
         return this.basisTimeUs + ((j * 1000000) / this.synchronizedHeader.sampleRate);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:50:0x009e, code lost:
-        if (r13 == false) goto L54;
+    /* JADX WARN: Code restructure failed: missing block: B:47:0x009a, code lost:
+        if (r13 == false) goto L52;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00a0, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x009c, code lost:
         r12.skipFully(r2 + r4);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:52:0x00a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:49:0x00a1, code lost:
         r12.resetPeekPosition();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:50:0x00a4, code lost:
         r11.synchronizedHeaderData = r1;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00a6, code lost:
         return true;
      */
     /*
@@ -388,7 +389,7 @@ public final class Mp3Extractor implements Extractor {
         XingSeeker create2 = XingSeeker.create(extractorInput.getLength(), extractorInput.getPosition(), this.synchronizedHeader, parsableByteArray);
         if (create2 != null && !this.gaplessInfoHolder.hasGaplessInfo()) {
             extractorInput.resetPeekPosition();
-            extractorInput.advancePeekPosition(i + 141);
+            extractorInput.advancePeekPosition(i + NotificationCenter.fileNewChunkAvailable);
             extractorInput.peekFully(this.scratch.getData(), 0, 3);
             this.scratch.setPosition(0);
             this.gaplessInfoHolder.setFromXingHeaderValue(this.scratch.readUnsignedInt24());

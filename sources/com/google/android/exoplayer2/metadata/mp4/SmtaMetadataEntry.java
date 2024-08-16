@@ -64,7 +64,7 @@ public final class SmtaMetadataEntry implements Metadata.Entry {
     }
 
     public int hashCode() {
-        return ((527 + Floats.hashCode(this.captureFrameRate)) * 31) + this.svcTemporalLayerCount;
+        return ((Floats.hashCode(this.captureFrameRate) + 527) * 31) + this.svcTemporalLayerCount;
     }
 
     public String toString() {

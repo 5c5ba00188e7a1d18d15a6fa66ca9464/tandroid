@@ -35,10 +35,9 @@ public final class zzid$zzf extends zzeo<zzid$zzf, zza> implements zzgb {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r3v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzid$zzf>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
+    /* JADX WARN: Type inference failed for: r3v21, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzid$zzf>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
-        zzgj<zzid$zzf> zzgjVar;
         switch (zzic.zza[i - 1]) {
             case 1:
                 return new zzid$zzf();
@@ -49,25 +48,27 @@ public final class zzid$zzf extends zzeo<zzid$zzf, zza> implements zzgb {
             case 4:
                 return zzo;
             case 5:
-                zzgj<zzid$zzf> zzgjVar2 = zzp;
-                zzgj<zzid$zzf> zzgjVar3 = zzgjVar2;
-                if (zzgjVar2 == null) {
+                zzgj<zzid$zzf> zzgjVar = zzp;
+                zzgj<zzid$zzf> zzgjVar2 = zzgjVar;
+                if (zzgjVar == null) {
                     synchronized (zzid$zzf.class) {
-                        zzgj<zzid$zzf> zzgjVar4 = zzp;
-                        zzgjVar = zzgjVar4;
-                        if (zzgjVar4 == null) {
-                            ?? zzaVar = new zzeo.zza(zzo);
-                            zzp = zzaVar;
-                            zzgjVar = zzaVar;
+                        try {
+                            zzgj<zzid$zzf> zzgjVar3 = zzp;
+                            zzgj<zzid$zzf> zzgjVar4 = zzgjVar3;
+                            if (zzgjVar3 == null) {
+                                ?? zzaVar = new zzeo.zza(zzo);
+                                zzp = zzaVar;
+                                zzgjVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzgjVar3 = zzgjVar;
                 }
-                return zzgjVar3;
+                return zzgjVar2;
             case 6:
                 return Byte.valueOf(this.zzn);
             case 7:
-                this.zzn = (byte) (obj == null ? 0 : 1);
+                this.zzn = (byte) (obj != null ? 1 : 0);
                 return null;
             default:
                 throw new UnsupportedOperationException();

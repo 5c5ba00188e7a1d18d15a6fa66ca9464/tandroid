@@ -296,7 +296,7 @@ public final class MediaItem implements Bundleable {
             String str = this.mimeType;
             int hashCode2 = (hashCode + (str == null ? 0 : str.hashCode())) * 31;
             DrmConfiguration drmConfiguration = this.drmConfiguration;
-            int hashCode3 = (((((hashCode2 + (drmConfiguration == null ? 0 : drmConfiguration.hashCode())) * 31) + 0) * 31) + this.streamKeys.hashCode()) * 31;
+            int hashCode3 = (((hashCode2 + (drmConfiguration == null ? 0 : drmConfiguration.hashCode())) * 961) + this.streamKeys.hashCode()) * 31;
             String str2 = this.customCacheKey;
             int hashCode4 = (((hashCode3 + (str2 == null ? 0 : str2.hashCode())) * 31) + this.subtitleConfigurations.hashCode()) * 31;
             Object obj = this.tag;

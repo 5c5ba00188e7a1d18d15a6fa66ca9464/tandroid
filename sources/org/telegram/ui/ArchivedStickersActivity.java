@@ -391,8 +391,8 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
             int i2;
+            String str;
             if (getItemViewType(i) == 0) {
                 int i3 = i - ArchivedStickersActivity.this.stickersStartRow;
                 ArchivedStickerSetCell archivedStickerSetCell = (ArchivedStickerSetCell) viewHolder.itemView;
@@ -418,11 +418,11 @@ public class ArchivedStickersActivity extends BaseFragment implements Notificati
                     textInfoPrivacyCell.setTopPadding(17);
                     textInfoPrivacyCell.setBottomPadding(10);
                     if (ArchivedStickersActivity.this.currentType == 5) {
-                        str = "ArchivedEmojiInfo";
                         i2 = R.string.ArchivedEmojiInfo;
+                        str = "ArchivedEmojiInfo";
                     } else {
-                        str = "ArchivedStickersInfo";
                         i2 = R.string.ArchivedStickersInfo;
+                        str = "ArchivedStickersInfo";
                     }
                     textInfoPrivacyCell.setText(LocaleController.getString(str, i2));
                     return;

@@ -65,7 +65,7 @@ public class CustomReactionEditText extends EditTextCaption {
         if (i2 >= 28) {
             setFallbackLineSpacing(false);
         }
-        setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText$$ExternalSyntheticLambda1
+        setOnFocusChangeListener(new View.OnFocusChangeListener() { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText$$ExternalSyntheticLambda0
             @Override // android.view.View.OnFocusChangeListener
             public final void onFocusChange(View view, boolean z) {
                 CustomReactionEditText.this.lambda$new$0(view, z);
@@ -136,7 +136,7 @@ public class CustomReactionEditText extends EditTextCaption {
         AddReactionsSpan[] addReactionsSpanArr;
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText());
         for (final AddReactionsSpan addReactionsSpan : (AddReactionsSpan[]) spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), AddReactionsSpan.class)) {
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText$$ExternalSyntheticLambda0
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.Reactions.CustomReactionEditText$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     CustomReactionEditText.this.lambda$removeReactionsSpan$1(addReactionsSpan);

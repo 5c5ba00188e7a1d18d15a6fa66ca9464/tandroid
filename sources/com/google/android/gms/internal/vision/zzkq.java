@@ -156,7 +156,7 @@ final class zzkq<T> implements zzlc<T> {
     @Override // com.google.android.gms.internal.vision.zzlc
     public final int zzb(T t) {
         zzlu<?, ?> zzluVar = this.zzb;
-        int zze = zzluVar.zze(zzluVar.zzb(t)) + 0;
+        int zze = zzluVar.zze(zzluVar.zzb(t));
         return this.zzc ? zze + this.zzd.zza(t).zzg() : zze;
     }
 }

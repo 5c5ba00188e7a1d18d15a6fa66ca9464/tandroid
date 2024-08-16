@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.ButtonBounce;
@@ -27,7 +28,7 @@ import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.Rect;
 /* loaded from: classes3.dex */
 public class EntityView extends FrameLayout {
-    private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, 180);
+    private static final List<Integer> STICKY_ANGLES = Arrays.asList(-90, 0, 90, Integer.valueOf((int) NotificationCenter.updateBotMenuButton));
     private float angle;
     private ValueAnimator angleAnimator;
     private boolean announcedDrag;
@@ -507,7 +508,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyXAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
+        this.stickyXAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 EntityView.this.lambda$runStickyXAnimator$1(valueAnimator2);
@@ -537,7 +538,7 @@ public class EntityView extends FrameLayout {
         ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(150L);
         this.stickyYAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda2
+        this.stickyYAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 EntityView.this.lambda$runStickyYAnimator$2(valueAnimator2);
@@ -801,7 +802,7 @@ public class EntityView extends FrameLayout {
                         if (runnable != null) {
                             AndroidUtilities.cancelRunOnUIThread(runnable);
                         }
-                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda5
+                        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda4
                             @Override // java.lang.Runnable
                             public final void run() {
                                 EntityView.this.lambda$rotate$4(intValue);
@@ -831,7 +832,7 @@ public class EntityView extends FrameLayout {
                 ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
                 this.fromStickyAngleAnimator = duration;
                 duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-                this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda6
+                this.fromStickyAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda5
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                         EntityView.this.lambda$rotate$5(valueAnimator3);
@@ -953,12 +954,9 @@ public class EntityView extends FrameLayout {
                 this.selectT = 0.0f;
             }
             this.selectionView.updatePosition();
-            float[] fArr = new float[2];
-            fArr[0] = this.selectT;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.selectT, z ? 1.0f : 0.0f);
             this.selectAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda4
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda7
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     EntityView.this.lambda$updateSelect$6(valueAnimator2);
@@ -1035,14 +1033,16 @@ public class EntityView extends FrameLayout {
             this.shown = true;
             setWillNotDraw(false);
             this.paint.setColor(-1);
-            this.paint.setStyle(Paint.Style.STROKE);
+            Paint paint = this.paint;
+            Paint.Style style = Paint.Style.STROKE;
+            paint.setStyle(style);
             this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.paint.setStrokeCap(Paint.Cap.ROUND);
             this.paint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(10.0f), AndroidUtilities.dp(10.0f)}, 0.5f));
             this.paint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
             this.dotPaint.setColor(-15033089);
             this.dotStrokePaint.setColor(-1);
-            this.dotStrokePaint.setStyle(Paint.Style.STROKE);
+            this.dotStrokePaint.setStyle(style);
             this.dotStrokePaint.setStrokeWidth(AndroidUtilities.dpf2(2.66f));
             this.dotStrokePaint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
         }
@@ -1200,12 +1200,9 @@ public class EntityView extends FrameLayout {
                 valueAnimator.cancel();
                 this.trashAnimator = null;
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.trashScale;
-            fArr[1] = z ? 0.5f : 1.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.trashScale, z ? 0.5f : 1.0f);
             this.trashAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda7
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.EntityView$$ExternalSyntheticLambda6
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     EntityView.this.lambda$updateTrash$7(valueAnimator2);

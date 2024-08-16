@@ -1,26 +1,33 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class c0 extends d0 {
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public c0(c cVar, int i) {
-        super(cVar, i);
+public final /* synthetic */ class c0 implements j$.util.function.W {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ e2 b;
+
+    public /* synthetic */ c0(int i, e2 e2Var) {
+        this.a = i;
+        this.b = e2Var;
     }
 
-    @Override // j$.util.stream.c
-    final boolean k1() {
-        return false;
+    @Override // j$.util.function.W
+    public final void accept(long j) {
+        switch (this.a) {
+            case 0:
+                this.b.accept(j);
+                return;
+            default:
+                ((e0) this.b).a.accept(j);
+                return;
+        }
     }
 
-    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
-    public final /* bridge */ /* synthetic */ IntStream parallel() {
-        parallel();
-        return this;
-    }
-
-    @Override // j$.util.stream.c, j$.util.stream.BaseStream, j$.util.stream.F
-    public final /* bridge */ /* synthetic */ IntStream sequential() {
-        sequential();
-        return this;
+    @Override // j$.util.function.W
+    public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
+        switch (this.a) {
+            case 0:
+                return j$.com.android.tools.r8.a.d(this, w);
+            default:
+                return j$.com.android.tools.r8.a.d(this, w);
+        }
     }
 }

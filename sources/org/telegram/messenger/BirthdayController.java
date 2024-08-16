@@ -37,12 +37,15 @@ public class BirthdayController {
         BirthdayController birthdayController = Instance[i];
         if (birthdayController == null) {
             synchronized (lockObjects[i]) {
-                birthdayController = Instance[i];
-                if (birthdayController == null) {
-                    BirthdayController[] birthdayControllerArr = Instance;
-                    BirthdayController birthdayController2 = new BirthdayController(i);
-                    birthdayControllerArr[i] = birthdayController2;
-                    birthdayController = birthdayController2;
+                try {
+                    birthdayController = Instance[i];
+                    if (birthdayController == null) {
+                        BirthdayController[] birthdayControllerArr = Instance;
+                        BirthdayController birthdayController2 = new BirthdayController(i);
+                        birthdayControllerArr[i] = birthdayController2;
+                        birthdayController = birthdayController2;
+                    }
+                } finally {
                 }
             }
         }
@@ -80,7 +83,7 @@ public class BirthdayController {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(int i, ArrayList arrayList, final TL_birthdays tL_birthdays) {
         final ArrayList<TLRPC$User> users = MessagesStorage.getInstance(i).getUsers(arrayList);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BirthdayController.this.lambda$new$0(tL_birthdays, users);
@@ -107,14 +110,18 @@ public class BirthdayController {
         if (!z2) {
             z2 = currentTimeMillis - j > ((long) (BuildVars.DEBUG_PRIVATE_VERSION ? 25000 : 43200000));
         }
-        if (!z2) {
+        if (z2) {
+            z = z2;
+        } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(this.lastCheckDate);
             Calendar calendar2 = Calendar.getInstance();
             calendar2.setTimeInMillis(currentTimeMillis);
-            z2 = (calendar.get(5) == calendar2.get(5) && calendar.get(2) == calendar2.get(2) && calendar.get(1) == calendar2.get(1)) ? true : true;
+            if (calendar.get(5) != calendar2.get(5) || calendar.get(2) != calendar2.get(2) || calendar.get(1) != calendar2.get(1)) {
+                z = true;
+            }
         }
-        if (z2) {
+        if (z) {
             this.loading = true;
             ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLObject() { // from class: org.telegram.tgnet.TLRPC$TL_account_getBirthdays
                 @Override // org.telegram.tgnet.TLObject
@@ -137,7 +144,7 @@ public class BirthdayController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$check$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BirthdayController$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BirthdayController.this.lambda$check$2(tLObject);
@@ -259,12 +266,9 @@ public class BirthdayController {
                     if (tLRPC$User != null && !UserObject.isUserSelf(tLRPC$User)) {
                         arrayList.add(tLRPC$User);
                     }
-                } else {
-                    it = it2;
-                    i = i8;
+                    i8 = i;
+                    it2 = it;
                 }
-                i8 = i;
-                it2 = it;
             }
             return birthdayState;
         }

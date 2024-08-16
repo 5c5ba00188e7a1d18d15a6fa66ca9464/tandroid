@@ -43,7 +43,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import java.util.Map;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BillingController$$ExternalSyntheticLambda6;
+import org.telegram.messenger.BillingController$$ExternalSyntheticLambda10;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
@@ -255,13 +255,13 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadowAnimation = new AnimatorSet[2];
         this.customViewOffset = 12;
         this.dialogButtonColorKey = Theme.key_dialogButton;
-        this.topHeight = 132;
+        this.topHeight = NotificationCenter.httpFileDidFailedLoad;
         this.messageTextViewClickable = true;
         this.canCacnel = true;
         this.dismissDialogByButtons = true;
         this.containerViewLocation = new int[2];
         this.checkFocusable = true;
-        this.dismissRunnable = new BillingController$$ExternalSyntheticLambda6(this);
+        this.dismissRunnable = new BillingController$$ExternalSyntheticLambda10(this);
         this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
@@ -281,7 +281,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         boolean z = AndroidUtilities.computePerceivedBrightness(themedColor) < 0.721f;
         boolean z2 = supportsNativeBlur() && this.progressViewStyle == 0;
         this.blurredNativeBackground = z2;
-        this.blurredBackground = (z2 || (!supportsNativeBlur() && SharedConfig.getDevicePerformanceClass() >= 2 && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR))) && z;
+        this.blurredBackground = (z2 || (!supportsNativeBlur() && SharedConfig.getDevicePerformanceClass() >= 2 && LiteMode.isEnabled(256))) && z;
         this.backgroundPaddings = new Rect();
         if (i != 3 || this.blurredBackground) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.popup_fixed_alert3).mutate();
@@ -348,7 +348,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             return super.onInterceptTouchEvent(motionEvent);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:88:0x0342  */
+        /* JADX WARN: Removed duplicated region for block: B:89:0x0343  */
         @Override // android.widget.LinearLayout, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -472,7 +472,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
             setMeasuredDimension(size, (((paddingTop - i3) + getPaddingTop()) + getPaddingBottom()) - (AlertDialog.this.topAnimationIsNew ? AndroidUtilities.dp(8.0f) : 0));
             this.inLayout = false;
             if (AlertDialog.this.lastScreenWidth != AndroidUtilities.displaySize.x) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$AlertDialogView$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialog$AlertDialogView$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         AlertDialog.AlertDialogView.this.lambda$onMeasure$0();
@@ -515,7 +515,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
                 AlertDialog.this.progressViewContainer.layout(measuredWidth, measuredHeight, AlertDialog.this.progressViewContainer.getMeasuredWidth() + measuredWidth, AlertDialog.this.progressViewContainer.getMeasuredHeight() + measuredHeight);
             } else if (AlertDialog.this.contentScrollView != null) {
                 if (AlertDialog.this.onScrollChangedListener == null) {
-                    AlertDialog.this.onScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$AlertDialogView$$ExternalSyntheticLambda1
+                    AlertDialog.this.onScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$AlertDialogView$$ExternalSyntheticLambda0
                         @Override // android.view.ViewTreeObserver.OnScrollChangedListener
                         public final void onScrollChanged() {
                             AlertDialog.AlertDialogView.this.lambda$onLayout$1();
@@ -1364,12 +1364,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         this.shadowAnimation[i] = new AnimatorSet();
         BitmapDrawable bitmapDrawable = this.shadow[i];
         if (bitmapDrawable != null) {
-            AnimatorSet animatorSet2 = this.shadowAnimation[i];
-            Animator[] animatorArr = new Animator[1];
-            int[] iArr = new int[1];
-            iArr[0] = z ? 255 : 0;
-            animatorArr[0] = ObjectAnimator.ofInt(bitmapDrawable, "alpha", iArr);
-            animatorSet2.playTogether(animatorArr);
+            this.shadowAnimation[i].playTogether(ObjectAnimator.ofInt(bitmapDrawable, "alpha", z ? NotificationCenter.voipServiceCreated : 0));
         }
         this.shadowAnimation[i].setDuration(150L);
         this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.AlertDialog.7
@@ -1447,7 +1442,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     public void dismissUnless(long j) {
         long currentTimeMillis = System.currentTimeMillis() - this.shownAt;
         if (currentTimeMillis < j) {
-            AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda6(this), currentTimeMillis - j);
+            AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda10(this), currentTimeMillis - j);
         } else {
             dismiss();
         }
@@ -1459,7 +1454,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
         Utilities.Callback<Runnable> callback = this.overridenDissmissListener;
         if (callback != null) {
             this.overridenDissmissListener = null;
-            callback.run(new BillingController$$ExternalSyntheticLambda6(this));
+            callback.run(new BillingController$$ExternalSyntheticLambda10(this));
         } else if (this.dismissed) {
         } else {
             this.dismissed = true;

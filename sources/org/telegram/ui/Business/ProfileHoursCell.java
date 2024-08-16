@@ -186,7 +186,6 @@ public class ProfileHoursCell extends LinearLayout {
     public void set(TLRPC$TL_businessWorkHours tLRPC$TL_businessWorkHours, boolean z, boolean z2, boolean z3) {
         boolean z4;
         ArrayList<OpeningHoursActivity.Period>[] arrayListArr;
-        ArrayList<TLRPC$TL_businessWeeklyOpen> arrayList;
         boolean z5;
         int i;
         int i2;
@@ -265,7 +264,7 @@ public class ProfileHoursCell extends LinearLayout {
         this.firstAfterAttach = false;
         ArrayList<OpeningHoursActivity.Period>[] daysHours = OpeningHoursActivity.getDaysHours(new ArrayList(tLRPC$TL_businessWorkHours.weekly_open));
         int i8 = 7;
-        int i9 = ((calendar.get(7) + 7) - 2) % 7;
+        int i9 = (calendar.get(7) + 5) % 7;
         int i10 = calendar.get(11);
         int i11 = calendar.get(12);
         ArrayList<TLRPC$TL_businessWeeklyOpen> adaptWeeklyOpen = OpeningHoursActivity.adaptWeeklyOpen(tLRPC$TL_businessWorkHours.weekly_open, offset);
@@ -287,42 +286,42 @@ public class ProfileHoursCell extends LinearLayout {
         this.todayLinesCount = 1;
         this.todayLinesHeight = 0;
         int i17 = 0;
-        for (int i18 = 2; i17 < i18; i18 = 2) {
+        while (i17 < 2) {
             ArrayList<OpeningHoursActivity.Period>[] arrayListArr2 = i17 == 0 ? daysHours : daysHours2;
-            int i19 = 0;
-            while (i19 < i8) {
-                int i20 = (i9 + i19) % 7;
-                if (i19 == 0) {
-                    this.labelText[i19].setText(LocaleController.getString(R.string.BusinessHoursProfile));
+            int i18 = 0;
+            while (i18 < i8) {
+                int i19 = (i9 + i18) % 7;
+                if (i18 == 0) {
+                    this.labelText[i18].setText(LocaleController.getString(R.string.BusinessHoursProfile));
                     arrayListArr = daysHours;
                 } else {
-                    String displayName = DayOfWeek.values()[i20].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
+                    String displayName = DayOfWeek.values()[i19].getDisplayName(TextStyle.FULL, LocaleController.getInstance().getCurrentLocale());
                     StringBuilder sb = new StringBuilder();
                     arrayListArr = daysHours;
                     sb.append(displayName.substring(0, 1).toUpperCase());
                     sb.append(displayName.substring(1));
-                    this.labelText[i19].setText(sb.toString());
-                    this.timeText[i19][0].setVisibility(z6 ? 0 : 4);
-                    this.timeText[i19][1].setVisibility(z6 ? 0 : 4);
-                    this.labelText[i19].setVisibility(z6 ? 0 : 4);
+                    this.labelText[i18].setText(sb.toString());
+                    this.timeText[i18][0].setVisibility(z6 ? 0 : 4);
+                    this.timeText[i18][1].setVisibility(z6 ? 0 : 4);
+                    this.labelText[i18].setVisibility(z6 ? 0 : 4);
                 }
-                int i21 = 0;
+                int i20 = 0;
                 while (true) {
-                    if (i21 < (i19 == 0 ? 2 : 1)) {
-                        TextView textView = i21 == 0 ? this.timeText[i19][i17] : this.labelTimeText[i17];
-                        if (i19 == 0 && !z4 && i21 == 1) {
-                            int i22 = 0;
+                    if (i20 < (i18 == 0 ? 2 : 1)) {
+                        TextView textView = i20 == 0 ? this.timeText[i18][i17] : this.labelTimeText[i17];
+                        if (i18 == 0 && !z4 && i20 == 1) {
+                            int i21 = 0;
                             while (true) {
                                 z5 = z6;
-                                if (i22 >= adaptWeeklyOpen.size()) {
+                                if (i21 >= adaptWeeklyOpen.size()) {
                                     i = -1;
                                     break;
                                 }
-                                i = adaptWeeklyOpen.get(i22).start_minute;
+                                i = adaptWeeklyOpen.get(i21).start_minute;
                                 if (i12 < i) {
                                     break;
                                 }
-                                i22++;
+                                i21++;
                                 z6 = z5;
                             }
                             if (i == -1 && !adaptWeeklyOpen.isEmpty()) {
@@ -330,64 +329,58 @@ public class ProfileHoursCell extends LinearLayout {
                             }
                             if (i == -1) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
-                                arrayList = adaptWeeklyOpen;
                             } else {
-                                int i23 = i < i12 ? i + (10080 - i12) : i - i12;
-                                if (i23 < 60) {
-                                    arrayList = adaptWeeklyOpen;
-                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i23, new Object[0]));
+                                int i22 = i < i12 ? i + (10080 - i12) : i - i12;
+                                if (i22 < 60) {
+                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInMinutes", i22, new Object[0]));
+                                } else if (i22 < 1440) {
+                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i22 / 60.0f), new Object[0]));
                                 } else {
-                                    arrayList = adaptWeeklyOpen;
-                                    if (i23 < 1440) {
-                                        textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInHours", (int) Math.ceil(i23 / 60.0f), new Object[0]));
-                                    } else {
-                                        textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i23 / 60.0f) / 24.0f), new Object[0]));
-                                    }
+                                    textView.setText(LocaleController.formatPluralString("BusinessHoursProfileOpensInDays", (int) Math.ceil((i22 / 60.0f) / 24.0f), new Object[0]));
                                 }
                             }
                         } else {
-                            arrayList = adaptWeeklyOpen;
                             z5 = z6;
                             if (is24x7) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileFullOpen));
-                            } else if (arrayListArr2[i20].isEmpty()) {
+                            } else if (arrayListArr2[i19].isEmpty()) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileClose));
-                            } else if (OpeningHoursActivity.isFull(arrayListArr2[i20])) {
+                            } else if (OpeningHoursActivity.isFull(arrayListArr2[i19])) {
                                 textView.setText(LocaleController.getString(R.string.BusinessHoursProfileOpen));
                             } else {
                                 StringBuilder sb2 = new StringBuilder();
-                                for (int i24 = 0; i24 < arrayListArr2[i20].size(); i24++) {
-                                    if (i24 > 0) {
+                                for (int i23 = 0; i23 < arrayListArr2[i19].size(); i23++) {
+                                    if (i23 > 0) {
                                         sb2.append("\n");
                                     }
-                                    sb2.append(arrayListArr2[i20].get(i24));
+                                    sb2.append(arrayListArr2[i19].get(i23));
                                 }
-                                int size = arrayListArr2[i20].size();
+                                int size = arrayListArr2[i19].size();
                                 textView.setText(sb2);
-                                if (i19 == 0) {
+                                if (i18 == 0) {
                                     this.todayLinesCount = Math.max(this.todayLinesCount, size);
                                     this.todayLinesHeight = Math.max(this.todayLinesHeight, textView.getLineHeight() * size);
                                 }
                             }
                         }
-                        i21++;
-                        adaptWeeklyOpen = arrayList;
+                        i20++;
                         z6 = z5;
                     }
                 }
-                i19++;
+                i18++;
                 daysHours = arrayListArr;
-                z6 = z6;
                 i8 = 7;
             }
             i17++;
-            z6 = z6;
             i8 = 7;
         }
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) this.todayTimeContainer.getLayoutParams();
-        float f2 = 12.0f;
+        float f2 = 6.0f;
         layoutParams.topMargin = AndroidUtilities.dp((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 6.0f : 12.0f);
-        layoutParams.bottomMargin = AndroidUtilities.dp((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 6.0f : 6.0f);
+        if (this.todayLinesCount <= 2 && this.switchText.getVisibility() != 0) {
+            f2 = 12.0f;
+        }
+        layoutParams.bottomMargin = AndroidUtilities.dp(f2);
         layoutParams.gravity = ((this.todayLinesCount > 2 || this.switchText.getVisibility() == 0) ? 16 : 80) | (LocaleController.isRTL ? 3 : 5);
         if (i16 == this.todayLinesCount && i15 == this.todayLinesHeight) {
             return;

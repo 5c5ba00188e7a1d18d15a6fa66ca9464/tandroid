@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.MediaActionDrawable;
 /* loaded from: classes4.dex */
 public class MenuDrawable extends Drawable {
@@ -57,7 +58,7 @@ public class MenuDrawable extends Drawable {
         this.rotateToBack = true;
         this.interpolator = new DecelerateInterpolator();
         this.rect = new RectF();
-        this.alpha = 255;
+        this.alpha = NotificationCenter.voipServiceCreated;
         this.paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.backPaint.setStrokeWidth(AndroidUtilities.density * 1.66f);
         this.backPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -110,18 +111,18 @@ public class MenuDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x010b  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0221  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0385  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x03a4  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x03f8  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0415  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x043b  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0464  */
-    /* JADX WARN: Removed duplicated region for block: B:92:0x0478  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0487  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x04e3  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x010c  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0223  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0379  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0398  */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x03ea  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0407  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x041d  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x042d  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0456  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x046a  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x0479  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x04d5  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -195,7 +196,7 @@ public class MenuDrawable extends Drawable {
                 f3 = 0.0f;
                 f2 = 0.0f;
                 if (!this.rotateToBack) {
-                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -180 : 180), AndroidUtilities.dp(9.0f), 0.0f);
+                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -180 : NotificationCenter.updateBotMenuButton), AndroidUtilities.dp(9.0f), 0.0f);
                     this.paint.setColor(i9);
                     this.paint.setAlpha(this.alpha);
                     canvas.drawLine(this.roundCap ? (AndroidUtilities.dp(0.5f) * this.currentRotation) + ((this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation)) : 0.0f, 0.0f, ((AndroidUtilities.dp(18.0f) - (AndroidUtilities.dp(3.0f) * this.currentRotation)) - f3) - (this.roundCap ? (this.paint.getStrokeWidth() / 2.0f) * (1.0f - this.currentRotation) : 0.0f), 0.0f, this.paint);
@@ -211,7 +212,7 @@ public class MenuDrawable extends Drawable {
                         dp3 = dp7 + (AndroidUtilities.dp(0.25f) * this.currentRotation);
                     }
                 } else {
-                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -225 : 135), AndroidUtilities.dp(9.0f), 0.0f);
+                    canvas.rotate(this.currentRotation * (this.reverseAngle ? -225 : NotificationCenter.fileUploadFailed), AndroidUtilities.dp(9.0f), 0.0f);
                     if (this.miniIcon) {
                         this.paint.setColor(i9);
                         this.paint.setAlpha(this.alpha);
@@ -252,8 +253,8 @@ public class MenuDrawable extends Drawable {
                     float dp8 = AndroidUtilities.dp(17.0f);
                     float f13 = -AndroidUtilities.dp(4.5f);
                     float f14 = AndroidUtilities.density * 5.5f;
-                    float f15 = this.currentRotation;
-                    canvas.scale(1.0f - f15, 1.0f - f15, dp8, f13);
+                    float f15 = 1.0f - this.currentRotation;
+                    canvas.scale(f15, f15, dp8, f13);
                     if (this.type == TYPE_DEFAULT) {
                         f14 *= 1.0f - this.typeAnimationProgress;
                     }
@@ -332,8 +333,8 @@ public class MenuDrawable extends Drawable {
             float dp82 = AndroidUtilities.dp(17.0f);
             float f132 = -AndroidUtilities.dp(4.5f);
             float f142 = AndroidUtilities.density * 5.5f;
-            float f152 = this.currentRotation;
-            canvas.scale(1.0f - f152, 1.0f - f152, dp82, f132);
+            float f152 = 1.0f - this.currentRotation;
+            canvas.scale(f152, f152, dp82, f132);
             if (this.type == TYPE_DEFAULT) {
             }
             this.backPaint.setColor(i);
@@ -372,8 +373,8 @@ public class MenuDrawable extends Drawable {
         float dp822 = AndroidUtilities.dp(17.0f);
         float f1322 = -AndroidUtilities.dp(4.5f);
         float f1422 = AndroidUtilities.density * 5.5f;
-        float f1522 = this.currentRotation;
-        canvas.scale(1.0f - f1522, 1.0f - f1522, dp822, f1322);
+        float f1522 = 1.0f - this.currentRotation;
+        canvas.scale(f1522, f1522, dp822, f1322);
         if (this.type == TYPE_DEFAULT) {
         }
         this.backPaint.setColor(i);

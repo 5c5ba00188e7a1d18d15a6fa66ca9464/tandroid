@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class FlvExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.flv.FlvExtractor$$ExternalSyntheticLambda0
@@ -64,7 +65,7 @@ public final class FlvExtractor implements Extractor {
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 2);
         this.scratch.setPosition(0);
-        if ((this.scratch.readUnsignedShort() & 250) != 0) {
+        if ((this.scratch.readUnsignedShort() & NotificationCenter.playerDidStartPlaying) != 0) {
             return false;
         }
         extractorInput.peekFully(this.scratch.getData(), 0, 4);
@@ -132,7 +133,7 @@ public final class FlvExtractor implements Extractor {
                 this.videoReader = new VideoTagPayloadReader(this.extractorOutput.track(9, 2));
             }
             this.extractorOutput.endTracks();
-            this.bytesToNextTagHeader = (this.headerBuffer.readInt() - 9) + 4;
+            this.bytesToNextTagHeader = this.headerBuffer.readInt() - 5;
             this.state = 2;
             return true;
         }

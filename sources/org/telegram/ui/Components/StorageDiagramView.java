@@ -201,9 +201,10 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
         float f7 = 0.0f;
         while (true) {
             ClearViewData[] clearViewDataArr = this.data;
+            int length = clearViewDataArr.length;
             d = 180.0d;
-            i = 255;
-            if (i2 >= clearViewDataArr.length) {
+            i = NotificationCenter.voipServiceCreated;
+            if (i2 >= length) {
                 break;
             }
             ClearViewData clearViewData = clearViewDataArr[i2];
@@ -214,7 +215,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                         float f9 = ((-360.0f) * f8) + ((1.0f - this.singleProgress) * 10.0f);
                         float f10 = f9 > 0.0f ? 0.0f : f9;
                         clearViewData.paint.setColor(Theme.getColor(clearViewData.colorKey));
-                        this.data[i2].paint.setAlpha(255);
+                        this.data[i2].paint.setAlpha(NotificationCenter.voipServiceCreated);
                         double width = this.rectF.width() / 2.0f;
                         Double.isNaN(width);
                         double d4 = f10;
@@ -287,18 +288,18 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
                             canvas.drawArc(this.rectF, (-90.0f) - (f13 * 360.0f), f16, false, this.data[i3].paint);
                             f13 += f14;
                             i3++;
-                            i = 255;
+                            i = NotificationCenter.voipServiceCreated;
                             d = 180.0d;
                         }
                     }
                     f13 += f14;
                     i3++;
-                    i = 255;
+                    i = NotificationCenter.voipServiceCreated;
                     d = 180.0d;
                 }
             }
             i3++;
-            i = 255;
+            i = NotificationCenter.voipServiceCreated;
             d = 180.0d;
         }
         ImageReceiver imageReceiver = this.avatarImageReceiver;
@@ -474,7 +475,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
             }
         } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
             if (z && motionEvent.getAction() != 3) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         StorageDiagramView.this.onAvatarClick();
@@ -504,7 +505,7 @@ public class StorageDiagramView extends View implements NotificationCenter.Notif
             if (f != 0.0f) {
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(f, 0.0f);
                 this.backAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StorageDiagramView$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         StorageDiagramView.this.lambda$setPressed$1(valueAnimator2);

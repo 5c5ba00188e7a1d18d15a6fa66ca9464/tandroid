@@ -1,7 +1,7 @@
 package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 
 import java.nio.ByteBuffer;
-import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class BitReaderBuffer {
     private ByteBuffer buffer;
@@ -21,12 +21,12 @@ public class BitReaderBuffer {
         int readBits;
         int i2 = this.buffer.get(this.initialPos + (this.position / 8));
         if (i2 < 0) {
-            i2 += LiteMode.FLAG_CHAT_BLUR;
+            i2 += 256;
         }
         int i3 = this.position;
         int i4 = 8 - (i3 % 8);
         if (i <= i4) {
-            readBits = ((i2 << (i3 % 8)) & 255) >> ((i3 % 8) + (i4 - i));
+            readBits = ((i2 << (i3 % 8)) & NotificationCenter.voipServiceCreated) >> ((i3 % 8) + (i4 - i));
             this.position = i3 + i;
         } else {
             int i5 = i - i4;

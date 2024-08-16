@@ -262,8 +262,10 @@ public final class zaaa implements zaca {
             } else {
                 zaB();
             }
-        } finally {
             this.zam.unlock();
+        } catch (Throwable th) {
+            this.zam.unlock();
+            throw th;
         }
     }
 
@@ -302,19 +304,27 @@ public final class zaaa implements zaca {
     public final boolean zay(SignInConnectionListener signInConnectionListener) {
         this.zam.lock();
         try {
-            if ((!zax() && !zaw()) || this.zae.zaw()) {
+            if (!zax()) {
+                if (zaw()) {
+                }
                 this.zam.unlock();
                 return false;
             }
-            this.zag.add(signInConnectionListener);
-            if (this.zan == 0) {
-                this.zan = 1;
+            if (!this.zae.zaw()) {
+                this.zag.add(signInConnectionListener);
+                if (this.zan == 0) {
+                    this.zan = 1;
+                }
+                this.zak = null;
+                this.zae.zaq();
+                this.zam.unlock();
+                return true;
             }
-            this.zak = null;
-            this.zae.zaq();
-            return true;
-        } finally {
             this.zam.unlock();
+            return false;
+        } catch (Throwable th) {
+            this.zam.unlock();
+            throw th;
         }
     }
 

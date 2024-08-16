@@ -34,6 +34,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
@@ -164,8 +165,8 @@ public class ReactionsLayoutInBubble {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x01fc A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:102:0x01fa A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x01f7  */
     /* JADX WARN: Type inference failed for: r11v0 */
     /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v5 */
@@ -340,7 +341,7 @@ public class ReactionsLayoutInBubble {
                 reactionButton.width = AndroidUtilities.dp(8.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(4.0f);
                 if (reactionButton.avatarsDrawable != null && reactionButton.users.size() > 0) {
                     reactionButton.users.size();
-                    reactionButton.width = (int) (reactionButton.width + AndroidUtilities.dp(2.0f) + (AndroidUtilities.dp(20.0f) * 1) + ((reactionButton.users.size() > 1 ? reactionButton.users.size() - 1 : 0) * AndroidUtilities.dp(20.0f) * 0.8f) + AndroidUtilities.dp(1.0f));
+                    reactionButton.width = (int) (reactionButton.width + AndroidUtilities.dp(2.0f) + AndroidUtilities.dp(20.0f) + ((reactionButton.users.size() > 1 ? reactionButton.users.size() - 1 : 0) * AndroidUtilities.dp(20.0f) * 0.8f) + AndroidUtilities.dp(1.0f));
                     reactionButton.avatarsDrawable.height = AndroidUtilities.dp(26.0f);
                 } else if (reactionButton.hasName) {
                     reactionButton.width = (int) (reactionButton.width + reactionButton.textDrawable.getAnimateToWidth() + AndroidUtilities.dp(8.0f));
@@ -413,16 +414,14 @@ public class ReactionsLayoutInBubble {
             if (this.scrimViewReaction == null && num == null && this.scrimProgress < 0.5f) {
                 reactionButton.detachPreview();
             }
-            if (!Objects.equals(Integer.valueOf(reactionButton.reaction.hashCode()), this.scrimViewReaction) && (num == null || reactionButton.reaction.hashCode() == num.intValue())) {
+            if (!Integer.valueOf(reactionButton.reaction.hashCode()).equals(this.scrimViewReaction) && (num == null || reactionButton.reaction.hashCode() == num.intValue())) {
                 canvas.save();
-                int i2 = reactionButton.x;
-                float f8 = i2;
-                int i3 = reactionButton.y;
-                float f9 = i3;
+                float f8 = reactionButton.x;
+                float f9 = reactionButton.y;
                 if (f != 1.0f && reactionButton.animationType == 3) {
                     float f10 = 1.0f - f;
-                    f8 = (reactionButton.animateFromX * f10) + (i2 * f);
-                    f9 = (i3 * f) + (reactionButton.animateFromY * f10);
+                    f8 = (f8 * f) + (reactionButton.animateFromX * f10);
+                    f9 = (f9 * f) + (reactionButton.animateFromY * f10);
                 }
                 if (f == 1.0f || reactionButton.animationType != 1) {
                     f2 = 1.0f;
@@ -431,17 +430,17 @@ public class ReactionsLayoutInBubble {
                     canvas.scale(f11, f11, f6 + f8 + (reactionButton.width / 2.0f), f7 + f9 + (reactionButton.height / 2.0f));
                     f2 = f;
                 }
-                reactionButton.draw(canvas, f8 + f6, f7 + f9, reactionButton.animationType == 3 ? f : 1.0f, f2, num != null);
+                reactionButton.draw(canvas, f6 + f8, f7 + f9, reactionButton.animationType == 3 ? f : 1.0f, f2, num != null);
                 canvas.restore();
             }
         }
-        for (int i4 = 0; i4 < this.outButtons.size(); i4++) {
-            ReactionButton reactionButton2 = this.outButtons.get(i4);
+        for (int i2 = 0; i2 < this.outButtons.size(); i2++) {
+            ReactionButton reactionButton2 = this.outButtons.get(i2);
             float f12 = 1.0f - f;
             float f13 = (f12 * 0.5f) + 0.5f;
             canvas.save();
             canvas.scale(f13, f13, reactionButton2.x + f6 + (reactionButton2.width / 2.0f), reactionButton2.y + f7 + (reactionButton2.height / 2.0f));
-            this.outButtons.get(i4).draw(canvas, reactionButton2.x + f6, f7 + reactionButton2.y, 1.0f, f12, false);
+            this.outButtons.get(i2).draw(canvas, reactionButton2.x + f6, f7 + reactionButton2.y, 1.0f, f12, false);
             canvas.restore();
         }
     }
@@ -460,9 +459,9 @@ public class ReactionsLayoutInBubble {
                 float dp2 = AndroidUtilities.dp(14.0f);
                 float clamp = Utilities.clamp(rectF.left - AndroidUtilities.dp(12.0f), ((this.parentView != null ? chatMessageCell.getParentWidth() : AndroidUtilities.displaySize.x) - dp) - AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
                 RectF rectF2 = this.scrimRect;
-                float f = rectF.top;
+                float f = rectF.top - dp2;
                 float f2 = i;
-                rectF2.set(clamp, ((f - dp2) - dp) + f2, dp + clamp, (f - dp2) + f2);
+                rectF2.set(clamp, (f - dp) + f2, dp + clamp, f + f2);
                 float interpolation = CubicBezierInterpolator.EASE_OUT_QUINT.getInterpolation(this.scrimProgress);
                 RectF rectF3 = this.scrimRect;
                 AndroidUtilities.lerp(rectF, rectF3, interpolation, rectF3);
@@ -971,7 +970,7 @@ public class ReactionsLayoutInBubble {
             }
             if (z2) {
                 rectF.right += AndroidUtilities.dp(4.0f);
-                canvas.saveLayerAlpha(rectF, 255, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
                 rectF.right -= AndroidUtilities.dp(4.0f);
             }
             boolean z3 = this.particles != null && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
@@ -985,7 +984,7 @@ public class ReactionsLayoutInBubble {
                 if (view2 != null) {
                     view2.invalidate();
                 }
-                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, 255), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, 255), 0.4f), getDrawServiceShaderBackground()));
+                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), 0.4f), getDrawServiceShaderBackground()));
             }
             drawRoundRect(canvas, rectF, f8, ReactionsLayoutInBubble.paint);
             if (z3) {

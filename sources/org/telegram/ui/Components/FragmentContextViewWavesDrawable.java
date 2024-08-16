@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
@@ -46,8 +47,8 @@ public class FragmentContextViewWavesDrawable {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00cd  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x00d0  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -163,11 +164,11 @@ public class FragmentContextViewWavesDrawable {
                             i2 = i;
                         }
                         if (i2 == 1 && z3) {
-                            this.paint.setAlpha(255);
+                            this.paint.setAlpha(NotificationCenter.voipServiceCreated);
                         } else if (i2 == 1) {
                             this.paint.setAlpha((int) (255.0f * f18));
                         } else {
-                            this.paint.setAlpha(255);
+                            this.paint.setAlpha(NotificationCenter.voipServiceCreated);
                         }
                         if (i2 == 1 && z3) {
                             this.path.reset();
@@ -231,9 +232,9 @@ public class FragmentContextViewWavesDrawable {
 
     public void setAmplitude(float f) {
         this.animateToAmplitude = f;
-        float f2 = this.amplitude;
-        this.animateAmplitudeDiff = (f - f2) / 250.0f;
-        this.animateAmplitudeDiff2 = (f - f2) / 120.0f;
+        float f2 = f - this.amplitude;
+        this.animateAmplitudeDiff = f2 / 250.0f;
+        this.animateAmplitudeDiff2 = f2 / 120.0f;
     }
 
     public void addParent(View view) {

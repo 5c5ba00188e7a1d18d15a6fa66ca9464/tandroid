@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 final class WebvttCssParser {
     private static final Pattern VOICE_NAME_PATTERN = Pattern.compile("\\[voice=\"([^\"]*)\"\\]");
@@ -74,12 +73,18 @@ final class WebvttCssParser {
     }
 
     private static String readCueTarget(ParsableByteArray parsableByteArray) {
+        int i;
         int position = parsableByteArray.getPosition();
         int limit = parsableByteArray.limit();
-        boolean z = false;
-        while (position < limit && !z) {
-            int i = position + 1;
-            z = ((char) parsableByteArray.getData()[position]) == ')';
+        loop0: while (true) {
+            boolean z = false;
+            while (position < limit && !z) {
+                i = position + 1;
+                if (((char) parsableByteArray.getData()[position]) == ')') {
+                    z = true;
+                    position = i;
+                }
+            }
             position = i;
         }
         return parsableByteArray.readString((position - 1) - parsableByteArray.getPosition()).trim();
@@ -203,25 +208,22 @@ final class WebvttCssParser {
         int position = parsableByteArray.getPosition();
         int limit = parsableByteArray.limit();
         byte[] data = parsableByteArray.getData();
-        if (position + 2 > limit) {
+        int i = position + 2;
+        if (i > limit) {
             return false;
         }
-        int i = position + 1;
-        if (data[position] != 47) {
-            return false;
-        }
-        int i2 = i + 1;
-        if (data[i] != 42) {
+        int i2 = position + 1;
+        if (data[position] != 47 || data[i2] != 42) {
             return false;
         }
         while (true) {
-            int i3 = i2 + 1;
+            int i3 = i + 1;
             if (i3 < limit) {
-                if (((char) data[i2]) == '*' && ((char) data[i3]) == '/') {
-                    i2 = i3 + 1;
-                    limit = i2;
+                if (((char) data[i]) == '*' && ((char) data[i3]) == '/') {
+                    i += 2;
+                    limit = i;
                 } else {
-                    i2 = i3;
+                    i = i3;
                 }
             } else {
                 parsableByteArray.skipBytes(limit - parsableByteArray.getPosition());
@@ -258,7 +260,7 @@ final class WebvttCssParser {
         str2.hashCode();
         char c = 65535;
         switch (str2.hashCode()) {
-            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+            case 37:
                 if (str2.equals("%")) {
                     c = 0;
                     break;

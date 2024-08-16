@@ -21,6 +21,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -128,7 +129,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         ListAdapter listAdapter = new ListAdapter(context);
         this.listViewAdapter = listAdapter;
         recyclerListView.setAdapter(listAdapter);
-        loadChatParticipants(0, 200);
+        loadChatParticipants(0, NotificationCenter.storyQualityUpdate);
         updateRows();
         setColorProgress(0.0f);
     }
@@ -161,7 +162,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         this.membersHeaderRow = -1;
         this.lastRow = -1;
         boolean z = true;
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.emptyRow = 0;
         if (ChatObject.isPublic(this.currentChat) || ChatObject.canUserDoAdminAction(this.currentChat, 3)) {
             int i = this.rowCount;
@@ -368,7 +369,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             this.delayResults = 2;
             tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsContacts();
             this.contactsEndReached = true;
-            loadChatParticipants(0, 200, false);
+            loadChatParticipants(0, NotificationCenter.storyQualityUpdate, false);
         } else {
             tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsRecent();
         }
@@ -770,7 +771,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void notifyDataSetChanged() {
-            this.totalCount = 0 + 1;
+            this.totalCount = 1;
             this.emptyRow = 0;
             int size = this.searchAdapterHelper.getGroupSearch().size();
             if (size != 0) {
@@ -836,7 +837,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x00f2  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x00f4  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.

@@ -3,6 +3,7 @@ package com.googlecode.mp4parser.boxes.mp4.objectdescriptors;
 import com.coremedia.iso.IsoTypeReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 @Descriptor(tags = {0})
 /* loaded from: classes.dex */
 public abstract class BaseDescriptor {
@@ -27,12 +28,12 @@ public abstract class BaseDescriptor {
     public final void parse(int i, ByteBuffer byteBuffer) throws IOException {
         this.tag = i;
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
-        this.sizeOfInstance = readUInt8 & 127;
+        this.sizeOfInstance = readUInt8 & NotificationCenter.dialogTranslate;
         int i2 = 1;
         while ((readUInt8 >>> 7) == 1) {
             readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
             i2++;
-            this.sizeOfInstance = (this.sizeOfInstance << 7) | (readUInt8 & 127);
+            this.sizeOfInstance = (this.sizeOfInstance << 7) | (readUInt8 & NotificationCenter.dialogTranslate);
         }
         this.sizeBytes = i2;
         ByteBuffer slice = byteBuffer.slice();

@@ -1,64 +1,40 @@
 package j$.util.stream;
-
-import j$.util.Collection$-EL;
-import j$.util.function.Consumer;
-import java.util.Collection;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class H0 implements D0 {
-    private final Collection a;
+abstract class H0 implements F0 {
+    protected final F0 a;
+    protected final F0 b;
+    private final long c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public H0(Collection collection) {
-        this.a = collection;
+    public H0(F0 f0, F0 f02) {
+        this.a = f0;
+        this.b = f02;
+        this.c = f0.count() + f02.count();
     }
 
-    @Override // j$.util.stream.D0
-    public final D0 a(int i) {
+    @Override // j$.util.stream.F0
+    public /* bridge */ /* synthetic */ E0 a(int i) {
+        return (E0) a(i);
+    }
+
+    @Override // j$.util.stream.F0
+    public final F0 a(int i) {
+        if (i == 0) {
+            return this.a;
+        }
+        if (i == 1) {
+            return this.b;
+        }
         throw new IndexOutOfBoundsException();
     }
 
-    @Override // j$.util.stream.D0
+    @Override // j$.util.stream.F0
     public final long count() {
-        return this.a.size();
+        return this.c;
     }
 
-    @Override // j$.util.stream.D0
-    public final void e(Object[] objArr, int i) {
-        for (Object obj : this.a) {
-            objArr[i] = obj;
-            i++;
-        }
-    }
-
-    @Override // j$.util.stream.D0
-    public final void forEach(Consumer consumer) {
-        Collection$-EL.a(this.a, consumer);
-    }
-
-    @Override // j$.util.stream.D0
-    public final /* synthetic */ int j() {
-        return 0;
-    }
-
-    @Override // j$.util.stream.D0
-    public final Object[] o(j$.util.function.N n) {
-        Collection collection = this.a;
-        return collection.toArray((Object[]) n.apply(collection.size()));
-    }
-
-    @Override // j$.util.stream.D0
-    public final /* synthetic */ D0 q(long j, long j2, j$.util.function.N n) {
-        return u0.B0(this, j, j2, n);
-    }
-
-    @Override // j$.util.stream.D0
-    public final j$.util.Q spliterator() {
-        return Collection$-EL.stream(this.a).spliterator();
-    }
-
-    public final String toString() {
-        Collection collection = this.a;
-        return String.format("CollectionNode[%d][%s]", Integer.valueOf(collection.size()), collection);
+    @Override // j$.util.stream.F0
+    public final int p() {
+        return 2;
     }
 }

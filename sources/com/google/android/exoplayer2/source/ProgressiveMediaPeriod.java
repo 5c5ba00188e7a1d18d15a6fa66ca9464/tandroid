@@ -586,7 +586,6 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
 
     /* JADX INFO: Access modifiers changed from: private */
     public void maybeFinishPrepare() {
-        Metadata copyWithAppendedEntries;
         if (this.released || this.prepared || !this.sampleQueuesBuilt || this.seekMap == null) {
             return;
         }
@@ -610,12 +609,7 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
             if (icyHeaders != null) {
                 if (isAudio || this.sampleQueueTrackIds[i].isIcyTrack) {
                     Metadata metadata = format.metadata;
-                    if (metadata == null) {
-                        copyWithAppendedEntries = new Metadata(icyHeaders);
-                    } else {
-                        copyWithAppendedEntries = metadata.copyWithAppendedEntries(icyHeaders);
-                    }
-                    format = format.buildUpon().setMetadata(copyWithAppendedEntries).build();
+                    format = format.buildUpon().setMetadata(metadata == null ? new Metadata(icyHeaders) : metadata.copyWithAppendedEntries(icyHeaders)).build();
                 }
                 if (isAudio && format.averageBitrate == -1 && format.peakBitrate == -1 && icyHeaders.bitrate != -1) {
                     format = format.buildUpon().setAverageBitrate(icyHeaders.bitrate).build();
@@ -838,10 +832,11 @@ public final class ProgressiveMediaPeriod implements MediaPeriod, ExtractorOutpu
             } else {
                 max = this.seekTimeUs;
             }
+            long j = max;
             int bytesLeft = parsableByteArray.bytesLeft();
             TrackOutput trackOutput = (TrackOutput) Assertions.checkNotNull(this.icyTrackOutput);
             trackOutput.sampleData(parsableByteArray, bytesLeft);
-            trackOutput.sampleMetadata(max, 1, bytesLeft, 0, null);
+            trackOutput.sampleMetadata(j, 1, bytesLeft, 0, null);
             this.seenIcyMetadata = true;
         }
 

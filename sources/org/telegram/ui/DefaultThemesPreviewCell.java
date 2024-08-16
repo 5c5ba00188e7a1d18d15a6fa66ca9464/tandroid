@@ -214,10 +214,10 @@ public class DefaultThemesPreviewCell extends LinearLayout {
             this.val$parentFragment = baseFragment;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0079  */
-        /* JADX WARN: Removed duplicated region for block: B:29:0x007e  */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x0089  */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x008f  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x007c  */
+        /* JADX WARN: Removed duplicated region for block: B:31:0x0082  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x008d  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x0093  */
         @Override // android.view.View.OnClickListener
         @SuppressLint({"NotifyDataSetChanged"})
         /*

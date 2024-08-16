@@ -23,7 +23,9 @@ public final class PermissionChecker {
             }
             str2 = packagesForUid[0];
         }
-        if (Process.myUid() == i2 && ObjectsCompat.equals(context.getPackageName(), str2)) {
+        int myUid = Process.myUid();
+        String packageName = context.getPackageName();
+        if (myUid == i2 && ObjectsCompat.equals(packageName, str2)) {
             noteProxyOpNoThrow = AppOpsManagerCompat.checkOrNoteProxyOp(context, i2, permissionToOp, str2);
         } else {
             noteProxyOpNoThrow = AppOpsManagerCompat.noteProxyOpNoThrow(context, permissionToOp, str2);

@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class AnalyticsValidator extends AbstractChannelListener {
     private boolean validateLog(LogWithNameAndProperties logWithNameAndProperties) {
@@ -46,8 +45,8 @@ public class AnalyticsValidator extends AbstractChannelListener {
             AppCenterLog.error("AppCenterAnalytics", str2 + " name cannot be null or empty.");
             return null;
         } else if (str.length() > 256) {
-            AppCenterLog.warn("AppCenterAnalytics", String.format("%s '%s' : name length cannot be longer than %s characters. Name will be truncated.", str2, str, Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR)));
-            return str.substring(0, LiteMode.FLAG_CHAT_BLUR);
+            AppCenterLog.warn("AppCenterAnalytics", String.format("%s '%s' : name length cannot be longer than %s characters. Name will be truncated.", str2, str, 256));
+            return str.substring(0, 256);
         } else {
             return str;
         }

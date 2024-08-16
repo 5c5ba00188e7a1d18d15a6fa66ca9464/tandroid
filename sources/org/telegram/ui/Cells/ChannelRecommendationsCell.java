@@ -141,15 +141,13 @@ public class ChannelRecommendationsCell {
                 this.channels.add(new ChannelBlock(this.currentAccount, this.cell, (TLRPC$Chat) arrayList.get(i6)));
             }
             if (min < arrayList.size()) {
-                TLRPC$Chat[] tLRPC$ChatArr = new TLRPC$Chat[3];
                 TLRPC$Chat tLRPC$Chat = null;
-                tLRPC$ChatArr[0] = (min < 0 || min >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(min);
-                tLRPC$ChatArr[1] = (min < 0 || (i2 = min + 1) >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(i2);
+                TLRPC$Chat tLRPC$Chat2 = (min < 0 || min >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(min);
+                TLRPC$Chat tLRPC$Chat3 = (min < 0 || (i2 = min + 1) >= arrayList.size()) ? null : (TLRPC$Chat) arrayList.get(i2);
                 if (min >= 0 && (i = min + 2) < arrayList.size()) {
                     tLRPC$Chat = (TLRPC$Chat) arrayList.get(i);
                 }
-                tLRPC$ChatArr[2] = tLRPC$Chat;
-                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, tLRPC$ChatArr, (arrayList.size() + channelRecommendations.more) - min));
+                this.channels.add(new ChannelBlock(this.currentAccount, this.cell, new TLRPC$Chat[]{tLRPC$Chat2, tLRPC$Chat3, tLRPC$Chat}, (arrayList.size() + channelRecommendations.more) - min));
             }
         }
         if (isExpanded()) {
@@ -613,14 +611,15 @@ public class ChannelRecommendationsCell {
 
         public static void fillPath(Path path, int i, float f) {
             float f2 = i;
-            path.addCircle((f2 / 2.0f) + f, AndroidUtilities.dp(10.0f) + (avatarSize() / 2.0f), avatarSize() / 2.0f, Path.Direction.CW);
+            Path.Direction direction = Path.Direction.CW;
+            path.addCircle((f2 / 2.0f) + f, AndroidUtilities.dp(10.0f) + (avatarSize() / 2.0f), avatarSize() / 2.0f, direction);
             float f3 = 0.4f * f2;
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(((f2 - f3) / 2.0f) + f, AndroidUtilities.dp(69.0f), ((f3 + f2) / 2.0f) + f, AndroidUtilities.dp(79.0f));
-            path.addRoundRect(rectF, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), Path.Direction.CW);
+            path.addRoundRect(rectF, AndroidUtilities.dp(3.0f), AndroidUtilities.dp(3.0f), direction);
             float f4 = 0.35f * f2;
             rectF.set(((f2 - f4) / 2.0f) + f, AndroidUtilities.dp(83.0f), f + ((f2 + f4) / 2.0f), AndroidUtilities.dp(91.0f));
-            path.addRoundRect(rectF, AndroidUtilities.dp(2.5f), AndroidUtilities.dp(2.5f), Path.Direction.CW);
+            path.addRoundRect(rectF, AndroidUtilities.dp(2.5f), AndroidUtilities.dp(2.5f), direction);
         }
 
         public void attach() {

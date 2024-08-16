@@ -238,12 +238,12 @@ public final class H264Reader implements ElementaryStreamReader {
             this.isFilling = true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:53:0x00ff  */
-        /* JADX WARN: Removed duplicated region for block: B:54:0x0102  */
-        /* JADX WARN: Removed duplicated region for block: B:56:0x0106  */
-        /* JADX WARN: Removed duplicated region for block: B:60:0x0118  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x011e  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x014e  */
+        /* JADX WARN: Removed duplicated region for block: B:53:0x00fc  */
+        /* JADX WARN: Removed duplicated region for block: B:54:0x00ff  */
+        /* JADX WARN: Removed duplicated region for block: B:56:0x0103  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0115  */
+        /* JADX WARN: Removed duplicated region for block: B:63:0x011b  */
+        /* JADX WARN: Removed duplicated region for block: B:77:0x0151  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -262,9 +262,9 @@ public final class H264Reader implements ElementaryStreamReader {
                 int i8 = i2 - i;
                 byte[] bArr2 = this.buffer;
                 int length = bArr2.length;
-                int i9 = this.bufferLength;
-                if (length < i9 + i8) {
-                    this.buffer = Arrays.copyOf(bArr2, (i9 + i8) * 2);
+                int i9 = this.bufferLength + i8;
+                if (length < i9) {
+                    this.buffer = Arrays.copyOf(bArr2, i9 * 2);
                 }
                 System.arraycopy(bArr, i, this.buffer, this.bufferLength, i8);
                 int i10 = this.bufferLength + i8;

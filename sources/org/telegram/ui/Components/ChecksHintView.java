@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -76,6 +77,7 @@ public class ChecksHintView extends FrameLayout {
     }
 
     public boolean showForMessageCell(ChatMessageCell chatMessageCell, boolean z) {
+        final int i = 0;
         Runnable runnable = this.hideRunnable;
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
@@ -83,16 +85,15 @@ public class ChecksHintView extends FrameLayout {
         }
         int[] iArr = new int[2];
         chatMessageCell.getLocationInWindow(iArr);
-        int i = iArr[1];
+        int i2 = iArr[1];
         ((View) getParent()).getLocationInWindow(iArr);
-        int i2 = i - iArr[1];
+        int i3 = i2 - iArr[1];
         View view = (View) chatMessageCell.getParent();
         measure(View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE), View.MeasureSpec.makeMeasureSpec(1000, Integer.MIN_VALUE));
-        final int i3 = 0;
-        if (i2 <= getMeasuredHeight() + AndroidUtilities.dp(10.0f)) {
+        if (i3 <= getMeasuredHeight() + AndroidUtilities.dp(10.0f)) {
             return false;
         }
-        int checksY = i2 + chatMessageCell.getChecksY() + AndroidUtilities.dp(6.0f);
+        int checksY = i3 + chatMessageCell.getChecksY() + AndroidUtilities.dp(6.0f);
         int checksX = chatMessageCell.getChecksX() + AndroidUtilities.dp(5.0f);
         int measuredWidth = view.getMeasuredWidth();
         float measuredHeight = checksY - getMeasuredHeight();
@@ -141,14 +142,14 @@ public class ChecksHintView extends FrameLayout {
             this.animatorSet.addListener(new 1());
             this.animatorSet.setDuration(180L);
             this.animatorSet.start();
-            while (i3 < 2) {
-                this.textView[i3].animate().scaleX(1.04f).scaleY(1.04f).setInterpolator(CubicBezierInterpolator.EASE_IN).setStartDelay((i3 == 0 ? 132 : 500) + 140).setDuration(100L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChecksHintView.2
+            while (i < 2) {
+                this.textView[i].animate().scaleX(1.04f).scaleY(1.04f).setInterpolator(CubicBezierInterpolator.EASE_IN).setStartDelay((i == 0 ? NotificationCenter.httpFileDidFailedLoad : 500) + NotificationCenter.filePreparingStarted).setDuration(100L).setListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChecksHintView.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
-                        ChecksHintView.this.textView[i3].animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT).setStartDelay(0L).setDuration(100L).start();
+                        ChecksHintView.this.textView[i].animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(CubicBezierInterpolator.EASE_OUT).setStartDelay(0L).setDuration(100L).start();
                     }
                 }).start();
-                i3++;
+                i++;
             }
         } else {
             setAlpha(1.0f);

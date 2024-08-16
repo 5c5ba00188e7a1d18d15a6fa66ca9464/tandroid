@@ -13,7 +13,6 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Parcelable;
 import android.view.MotionEvent;
@@ -31,6 +30,7 @@ import java.io.FileOutputStream;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VideoCapturerDevice;
@@ -191,8 +191,8 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:21:0x0042  */
-            /* JADX WARN: Removed duplicated region for block: B:22:0x005e  */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x0042  */
+            /* JADX WARN: Removed duplicated region for block: B:21:0x0058  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -234,7 +234,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             protected void onDraw(Canvas canvas) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[PrivateVideoPreviewDialog.this.currentPage].setAlpha(255);
+                this.gradientPaint[PrivateVideoPreviewDialog.this.currentPage].setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.gradientPaint[PrivateVideoPreviewDialog.this.currentPage]);
                 if (PrivateVideoPreviewDialog.this.pageOffset > 0.0f) {
                     int i = PrivateVideoPreviewDialog.this.currentPage + 1;
@@ -261,7 +261,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.positiveButton.setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6.0f), 0, ColorUtils.setAlphaComponent(Theme.getColor(i), 76)));
         }
         this.positiveButton.setPadding(0, AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f));
-        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda1
+        this.positiveButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PrivateVideoPreviewDialog.this.lambda$new$0(view);
@@ -292,7 +292,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             } else {
                 this.titles[i2].setText(LocaleController.getString("VoipBackCamera", R.string.VoipBackCamera));
             }
-            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda2
+            this.titles[i2].setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PrivateVideoPreviewDialog.this.lambda$new$1(i2, view);
@@ -330,7 +330,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.micIconView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             this.micEnabled = true;
             rLottieDrawable.setCurrentFrame(69);
-            this.micIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda3
+            this.micIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PrivateVideoPreviewDialog.this.lambda$new$2(rLottieDrawable, view);
@@ -347,7 +347,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             return;
         }
         if (this.currentPage == 0 && this.needScreencast) {
-            createScreenCaptureIntent = ((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent();
+            createScreenCaptureIntent = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection")).createScreenCaptureIntent();
             ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
             return;
         }
@@ -384,11 +384,11 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
         int i = this.currentPage;
         TextView textView = textViewArr[i];
         TextView textView2 = i < textViewArr.length + (-1) ? textViewArr[i + 1] : null;
-        int measuredWidth = getMeasuredWidth() / 2;
+        getMeasuredWidth();
         float left = textView.getLeft() + (textView.getMeasuredWidth() / 2);
-        float measuredWidth2 = (getMeasuredWidth() / 2) - left;
+        float measuredWidth = (getMeasuredWidth() / 2) - left;
         if (textView2 != null) {
-            measuredWidth2 -= ((textView2.getLeft() + (textView2.getMeasuredWidth() / 2)) - left) * this.pageOffset;
+            measuredWidth -= ((textView2.getLeft() + (textView2.getMeasuredWidth() / 2)) - left) * this.pageOffset;
         }
         int i2 = 0;
         while (true) {
@@ -415,7 +415,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
             this.titles[i2].setScaleY(f);
             i2++;
         }
-        this.titlesLayout.setTranslationX(measuredWidth2);
+        this.titlesLayout.setTranslationX(measuredWidth);
         this.positiveButton.invalidate();
         if (this.needScreencast && this.currentPage == 0 && this.pageOffset <= 0.0f) {
             this.textureView.setVisibility(4);
@@ -479,7 +479,7 @@ public abstract class PrivateVideoPreviewDialog extends FrameLayout implements V
                         Utilities.blurBitmap(createScaledBitmap, 7, 1, createScaledBitmap.getWidth(), createScaledBitmap.getHeight(), createScaledBitmap.getRowBytes());
                         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
                         createScaledBitmap.compress(Bitmap.CompressFormat.JPEG, 87, new FileOutputStream(new File(filesDirFixed, "cthumb" + this.visibleCameraPage + ".jpg")));
-                        View findViewWithTag = this.viewPager.findViewWithTag(Integer.valueOf(this.visibleCameraPage - (this.needScreencast ? 0 : 1)));
+                        View findViewWithTag = this.viewPager.findViewWithTag(Integer.valueOf(this.visibleCameraPage - (1 ^ (this.needScreencast ? 1 : 0))));
                         if (findViewWithTag instanceof ImageView) {
                             ((ImageView) findViewWithTag).setImageBitmap(createScaledBitmap);
                         }

@@ -443,27 +443,27 @@ public final class DashMediaPeriod implements MediaPeriod, SequenceableLoader.Ca
             String num = i8 != -1 ? Integer.toString(i8) : "unset:" + i4;
             int i9 = i5 + 1;
             if (zArr[i4]) {
-                i2 = i9 + 1;
-            } else {
                 i2 = i9;
-                i9 = -1;
-            }
-            if (formatArr[i4].length != 0) {
-                i3 = i2 + 1;
+                i9 = i5 + 2;
             } else {
-                i3 = i2;
                 i2 = -1;
             }
-            trackGroupArr[i5] = new TrackGroup(num, formatArr2);
-            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i9, i2);
-            if (i9 != -1) {
-                String str = num + ":emsg";
-                trackGroupArr[i9] = new TrackGroup(str, new Format.Builder().setId(str).setSampleMimeType("application/x-emsg").build());
-                trackGroupInfoArr[i9] = TrackGroupInfo.embeddedEmsgTrack(iArr2, i5);
+            if (formatArr[i4].length != 0) {
+                i3 = i9 + 1;
+            } else {
+                i3 = i9;
+                i9 = -1;
             }
+            trackGroupArr[i5] = new TrackGroup(num, formatArr2);
+            trackGroupInfoArr[i5] = TrackGroupInfo.primaryTrack(adaptationSet.type, iArr2, i5, i2, i9);
             if (i2 != -1) {
-                trackGroupArr[i2] = new TrackGroup(num + ":cc", formatArr[i4]);
-                trackGroupInfoArr[i2] = TrackGroupInfo.embeddedClosedCaptionTrack(iArr2, i5);
+                String str = num + ":emsg";
+                trackGroupArr[i2] = new TrackGroup(str, new Format.Builder().setId(str).setSampleMimeType("application/x-emsg").build());
+                trackGroupInfoArr[i2] = TrackGroupInfo.embeddedEmsgTrack(iArr2, i5);
+            }
+            if (i9 != -1) {
+                trackGroupArr[i9] = new TrackGroup(num + ":cc", formatArr[i4]);
+                trackGroupInfoArr[i9] = TrackGroupInfo.embeddedClosedCaptionTrack(iArr2, i5);
             }
             i4++;
             i5 = i3;

@@ -1,6 +1,7 @@
 package org.webrtc;
 
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class YuvHelper {
     private static native void nativeABGRToI420(ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2, ByteBuffer byteBuffer3, int i3, ByteBuffer byteBuffer4, int i4, int i5, int i6);
@@ -43,7 +44,7 @@ public class YuvHelper {
     }
 
     public static void I420Rotate(ByteBuffer byteBuffer, int i, ByteBuffer byteBuffer2, int i2, ByteBuffer byteBuffer3, int i3, ByteBuffer byteBuffer4, int i4, int i5, int i6) {
-        int i7 = i6 % 180;
+        int i7 = i6 % NotificationCenter.updateBotMenuButton;
         int i8 = i7 == 0 ? i4 : i5;
         int i9 = i7 == 0 ? i5 : i4;
         int i10 = (i8 + 1) / 2;

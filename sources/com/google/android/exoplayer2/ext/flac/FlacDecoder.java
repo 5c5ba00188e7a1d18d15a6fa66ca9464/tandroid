@@ -16,11 +16,6 @@ public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
     private final FlacDecoderJni decoderJni;
     private final FlacStreamMetadata streamMetadata;
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "libflac";
-    }
-
     public FlacDecoder(int i, int i2, int i3, List<byte[]> list) throws FlacDecoderException {
         super(new DecoderInputBuffer[i], new SimpleDecoderOutputBuffer[i2]);
         if (list.size() != 1) {
@@ -38,6 +33,11 @@ public final class FlacDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleD
         } catch (IOException e2) {
             throw new IllegalStateException(e2);
         }
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "libflac";
     }
 
     @Override // com.google.android.exoplayer2.decoder.SimpleDecoder

@@ -45,7 +45,7 @@ public class Input {
     private float velocity;
     private Point[] points = new Point[3];
     private float[] tempPoint = new float[2];
-    private final Runnable fillWithCurrentBrush = new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
+    private final Runnable fillWithCurrentBrush = new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
         @Override // java.lang.Runnable
         public final void run() {
             Input.this.lambda$new$1();
@@ -72,7 +72,7 @@ public class Input {
 
     public Input(RenderView renderView) {
         this.renderView = renderView;
-        this.detector = new ShapeDetector(renderView.getContext(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda1
+        this.detector = new ShapeDetector(renderView.getContext(), new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 Input.this.setShapeHelper((Shape) obj);
@@ -185,17 +185,21 @@ public class Input {
         this.ignore = true;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0301  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x034f  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x035e  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x00a0  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x00d2  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01d5  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0204 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0205  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0200 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0201  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void process(MotionEvent motionEvent, float f) {
         boolean z;
-        boolean z2;
+        float f2;
+        int i;
+        Point point;
         if (this.fillAnimator != null || this.arrowAnimator != null) {
             return;
         }
@@ -213,16 +217,16 @@ public class Input {
         }
         this.lastScale = f;
         this.lastVelocityUpdate = System.currentTimeMillis();
-        float f2 = this.velocity;
+        float f3 = this.velocity;
         if (motionEvent.getToolType(motionEvent.getActionIndex()) == 2) {
-            f2 = Math.max(0.1f, PRESSURE_INTERPOLATOR.getInterpolation(motionEvent.getPressure()));
+            f3 = Math.max(0.1f, PRESSURE_INTERPOLATOR.getInterpolation(motionEvent.getPressure()));
             if ((motionEvent.getButtonState() & 32) == 32) {
                 z = true;
                 if (this.renderView.getCurrentBrush() != null) {
-                    f2 = ((f2 - 1.0f) * AndroidUtilities.lerp(this.renderView.getCurrentBrush().getSmoothThicknessRate(), 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
+                    f3 = ((f3 - 1.0f) * AndroidUtilities.lerp(this.renderView.getCurrentBrush().getSmoothThicknessRate(), 1.0f, androidx.core.math.MathUtils.clamp(this.realPointsCount / 16.0f, 0.0f, 1.0f))) + 1.0f;
                 }
                 float[] fArr2 = this.tempPoint;
-                Point point = new Point(fArr2[0], fArr2[1], f2);
+                Point point2 = new Point(fArr2[0], fArr2[1], f3);
                 if (actionMasked != 0) {
                     if (actionMasked == 1) {
                         if (this.ignore) {
@@ -235,18 +239,18 @@ public class Input {
                         if (!this.renderView.getPainting().applyHelperShape()) {
                             if (!this.hasMoved) {
                                 if (this.renderView.shouldDraw()) {
-                                    point.edge = true;
-                                    paintPath(new Path(point));
+                                    point2.edge = true;
+                                    paintPath(new Path(point2));
                                 }
                                 reset();
                             } else if (this.pointsCount > 0) {
                                 smoothenAndPaintPoints(true, this.renderView.getCurrentBrush().getSmoothThicknessRate());
                                 if (this.renderView.getCurrentBrush() instanceof Brush.Arrow) {
-                                    final float f3 = this.lastAngle;
-                                    final Point point2 = this.points[this.pointsCount - 1];
-                                    Point point3 = this.lastThickLocation;
-                                    final double d = point3 == null ? point.z : point3.z;
-                                    final float currentWeight = this.renderView.getCurrentWeight() * ((float) d) * 12.0f;
+                                    final float f4 = this.lastAngle;
+                                    final Point point3 = this.points[this.pointsCount - 1];
+                                    Point point4 = this.lastThickLocation;
+                                    final double d = point4 == null ? point2.z : point4.z;
+                                    final float currentWeight = 12.0f * this.renderView.getCurrentWeight() * ((float) d);
                                     ValueAnimator valueAnimator = this.arrowAnimator;
                                     if (valueAnimator != null) {
                                         valueAnimator.cancel();
@@ -255,10 +259,10 @@ public class Input {
                                     final boolean[] zArr = new boolean[1];
                                     ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                                     this.arrowAnimator = ofFloat;
-                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda2
+                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda0
                                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
-                                            Input.this.lambda$process$2(f3, point2, currentWeight, fArr3, d, zArr, valueAnimator2);
+                                            Input.this.lambda$process$2(f4, point3, currentWeight, fArr3, d, zArr, valueAnimator2);
                                         }
                                     });
                                     this.arrowAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Paint.Input.2
@@ -271,20 +275,14 @@ public class Input {
                                     this.arrowAnimator.setDuration(240L);
                                     this.arrowAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                                     this.arrowAnimator.start();
-                                    z2 = false;
-                                    if (z2) {
-                                        this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda3
-                                            @Override // java.lang.Runnable
-                                            public final void run() {
-                                                Input.this.lambda$process$3();
-                                            }
-                                        });
-                                    }
                                 }
                             }
-                            z2 = true;
-                            if (z2) {
-                            }
+                            this.renderView.getPainting().commitPath(null, this.renderView.getCurrentColor(), true, new Runnable() { // from class: org.telegram.ui.Components.Paint.Input$$ExternalSyntheticLambda1
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    Input.this.lambda$process$3();
+                                }
+                            });
                         }
                         this.pointsCount = 0;
                         this.realPointsCount = 0;
@@ -327,9 +325,9 @@ public class Input {
                         this.beganDrawing = true;
                         this.hasMoved = false;
                         this.isFirst = true;
-                        this.lastLocation = point;
+                        this.lastLocation = point2;
                         this.drawingStart = System.currentTimeMillis();
-                        this.points[0] = point;
+                        this.points[0] = point2;
                         this.pointsCount = 1;
                         this.realPointsCount = 1;
                         this.lastAngleSet = false;
@@ -338,7 +336,7 @@ public class Input {
                         AndroidUtilities.runOnUIThread(this.fillWithCurrentBrush, ViewConfiguration.getLongPressTimeout());
                         return;
                     }
-                    float distanceTo = point.getDistanceTo(this.lastLocation);
+                    float distanceTo = point2.getDistanceTo(this.lastLocation);
                     if (distanceTo < AndroidUtilities.dp(5.0f) / f) {
                         return;
                     }
@@ -356,40 +354,57 @@ public class Input {
                             renderView.selectBrush(list.get(list.size() - 1));
                         }
                     }
-                    this.points[this.pointsCount] = point;
+                    this.points[this.pointsCount] = point2;
                     if (this.renderView.getPainting() == null || !this.renderView.getPainting().masking) {
                         if (System.currentTimeMillis() - this.drawingStart > 3000) {
                             this.detector.clear();
                             this.renderView.getPainting().setHelperShape(null);
                         } else if ((this.renderView.getCurrentBrush() instanceof Brush.Radial) || (this.renderView.getCurrentBrush() instanceof Brush.Elliptical)) {
-                            this.detector.append(point.x, point.y, distanceTo > ((float) AndroidUtilities.dp(6.0f)) / f);
+                            f2 = currentTimeMillis;
+                            this.detector.append(point2.x, point2.y, distanceTo > ((float) AndroidUtilities.dp(6.0f)) / f);
+                            i = this.pointsCount + 1;
+                            this.pointsCount = i;
+                            this.realPointsCount++;
+                            if (i != 3) {
+                                Point[] pointArr = this.points;
+                                Point point5 = pointArr[2];
+                                double d2 = point5.y;
+                                Point point6 = pointArr[1];
+                                double d3 = d2 - point6.y;
+                                double d4 = point5.x;
+                                point = point2;
+                                float atan2 = (float) Math.atan2(d3, d4 - point6.x);
+                                if (!this.lastAngleSet) {
+                                    this.lastAngle = atan2;
+                                    this.lastAngleSet = true;
+                                } else {
+                                    float clamp = androidx.core.math.MathUtils.clamp(distanceTo / (AndroidUtilities.dp(16.0f) / f), 0.0f, 1.0f);
+                                    if (clamp > 0.4f) {
+                                        this.lastAngle = lerpAngle(this.lastAngle, atan2, clamp);
+                                    }
+                                }
+                                smoothenAndPaintPoints(false, this.renderView.getCurrentBrush().getSmoothThicknessRate());
+                            } else {
+                                point = point2;
+                            }
+                            this.lastLocation = point;
+                            if (distanceTo > AndroidUtilities.dp(8.0f) / f) {
+                                this.lastThickLocation = point;
+                            }
+                            this.velocity = androidx.core.math.MathUtils.clamp(this.velocity + (f2 / 75.0f), 0.6f, 1.0f);
+                            return;
                         }
                     }
-                    int i = this.pointsCount + 1;
+                    f2 = currentTimeMillis;
+                    i = this.pointsCount + 1;
                     this.pointsCount = i;
                     this.realPointsCount++;
-                    if (i == 3) {
-                        Point[] pointArr = this.points;
-                        Point point4 = pointArr[2];
-                        double d2 = point4.y;
-                        Point point5 = pointArr[1];
-                        float atan2 = (float) Math.atan2(d2 - point5.y, point4.x - point5.x);
-                        if (!this.lastAngleSet) {
-                            this.lastAngle = atan2;
-                            this.lastAngleSet = true;
-                        } else {
-                            float clamp = androidx.core.math.MathUtils.clamp(distanceTo / (AndroidUtilities.dp(16.0f) / f), 0.0f, 1.0f);
-                            if (clamp > 0.4f) {
-                                this.lastAngle = lerpAngle(this.lastAngle, atan2, clamp);
-                            }
-                        }
-                        smoothenAndPaintPoints(false, this.renderView.getCurrentBrush().getSmoothThicknessRate());
+                    if (i != 3) {
                     }
                     this.lastLocation = point;
                     if (distanceTo > AndroidUtilities.dp(8.0f) / f) {
-                        this.lastThickLocation = point;
                     }
-                    this.velocity = androidx.core.math.MathUtils.clamp(this.velocity + (currentTimeMillis / 75.0f), 0.6f, 1.0f);
+                    this.velocity = androidx.core.math.MathUtils.clamp(this.velocity + (f2 / 75.0f), 0.6f, 1.0f);
                     return;
                 }
                 return;
@@ -399,7 +414,7 @@ public class Input {
         if (this.renderView.getCurrentBrush() != null) {
         }
         float[] fArr22 = this.tempPoint;
-        Point point6 = new Point(fArr22[0], fArr22[1], f2);
+        Point point22 = new Point(fArr22[0], fArr22[1], f3);
         if (actionMasked != 0) {
         }
         if (this.ignore) {
@@ -418,44 +433,41 @@ public class Input {
         double d4 = f2;
         Double.isNaN(d4);
         double d5 = cos * d4;
-        float f3 = fArr[0];
-        double d6 = f3;
+        double d6 = fArr[0];
         Double.isNaN(d6);
-        double d7 = d3 + (d6 * d5);
-        double d8 = point.y;
+        double d7 = point.y;
         Double.isNaN(d4);
-        double d9 = sin * d4;
-        double d10 = f3;
+        double d8 = sin * d4;
+        Double.isNaN(d6);
+        Point point2 = new Point(d3 + (d5 * d6), d7 + (d6 * d8), d);
+        double d9 = point.x;
+        double d10 = floatValue;
         Double.isNaN(d10);
-        double d11 = point.x;
-        double d12 = floatValue;
-        Double.isNaN(d12);
-        double d13 = (d5 * d12) + d11;
-        double d14 = point.y;
-        Double.isNaN(d12);
-        paintPath(new Path(new Point[]{new Point(d7, d8 + (d10 * d9), d), new Point(d13, d14 + (d9 * d12), d, true)}));
+        double d11 = d9 + (d5 * d10);
+        double d12 = point.y;
+        Double.isNaN(d10);
+        paintPath(new Path(new Point[]{point2, new Point(d11, d12 + (d8 * d10), d, true)}));
         Double.isNaN(d2);
         double cos2 = Math.cos(d2 + 2.5918139392115793d);
         Double.isNaN(d2);
         double sin2 = Math.sin(d2 + 2.748893571891069d);
-        double d15 = point.x;
+        double d13 = point.x;
         Double.isNaN(d4);
-        double d16 = cos2 * d4;
-        float f4 = fArr[0];
-        double d17 = f4;
-        Double.isNaN(d17);
-        double d18 = d15 + (d17 * d16);
-        double d19 = point.y;
+        double d14 = cos2 * d4;
+        double d15 = fArr[0];
+        Double.isNaN(d15);
+        double d16 = d13 + (d14 * d15);
+        double d17 = point.y;
         Double.isNaN(d4);
-        double d20 = sin2 * d4;
-        double d21 = f4;
-        Double.isNaN(d21);
-        double d22 = point.x;
-        Double.isNaN(d12);
-        double d23 = d22 + (d16 * d12);
-        double d24 = point.y;
-        Double.isNaN(d12);
-        paintPath(new Path(new Point[]{new Point(d18, d19 + (d21 * d20), d), new Point(d23, d24 + (d20 * d12), d, true)}));
+        double d18 = sin2 * d4;
+        Double.isNaN(d15);
+        Point point3 = new Point(d16, d17 + (d15 * d18), d);
+        double d19 = point.x;
+        Double.isNaN(d10);
+        double d20 = d19 + (d14 * d10);
+        double d21 = point.y;
+        Double.isNaN(d10);
+        paintPath(new Path(new Point[]{point3, new Point(d20, d21 + (d18 * d10), d, true)}));
         if (!zArr[0] && floatValue > 0.4f) {
             zArr[0] = true;
             BotWebViewVibrationEffect.SELECTION_CHANGE.vibrate();

@@ -439,9 +439,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
+        int i;
         Object chat;
         Property property;
-        Property property2;
         this.searching = false;
         this.searchWas = false;
         this.allSpans.clear();
@@ -457,32 +457,32 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        int i = this.type;
-        if (i == 0 || i == 2) {
+        int i2 = this.type;
+        if (i2 == 0 || i2 == 2) {
             if (this.isInclude) {
                 this.actionBar.setTitle(LocaleController.getString("FilterAlwaysShow", R.string.FilterAlwaysShow));
             } else {
                 this.actionBar.setTitle(LocaleController.getString("FilterNeverShow", R.string.FilterNeverShow));
             }
-        } else if (i == 1) {
+        } else if (i2 == 1) {
             updateHint();
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.UsersSelectActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i3) {
+                if (i3 == -1) {
                     UsersSelectActivity.this.finishFragment();
-                } else if (i2 == 1) {
+                } else if (i3 == 1) {
                     UsersSelectActivity.this.onDonePressed(true);
                 }
             }
         });
         ViewGroup viewGroup = new ViewGroup(context) { // from class: org.telegram.ui.UsersSelectActivity.2
             @Override // android.view.View
-            protected void onMeasure(int i2, int i3) {
+            protected void onMeasure(int i3, int i4) {
                 int dp;
-                int size = View.MeasureSpec.getSize(i2);
-                int size2 = View.MeasureSpec.getSize(i3);
+                int size = View.MeasureSpec.getSize(i3);
+                int size2 = View.MeasureSpec.getSize(i4);
                 setMeasuredDimension(size, size2);
                 if (AndroidUtilities.isTablet() || size2 > size) {
                     dp = AndroidUtilities.dp(144.0f);
@@ -500,14 +500,14 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
 
             @Override // android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i2, int i3, int i4, int i5) {
+            protected void onLayout(boolean z2, int i3, int i4, int i5, int i6) {
                 UsersSelectActivity.this.scrollView.layout(0, 0, UsersSelectActivity.this.scrollView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight());
                 UsersSelectActivity.this.listView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.listView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.listView.getMeasuredHeight());
                 UsersSelectActivity.this.emptyView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.emptyView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.emptyView.getMeasuredHeight());
                 UsersSelectActivity.this.progressView.layout(0, UsersSelectActivity.this.scrollView.getMeasuredHeight(), UsersSelectActivity.this.emptyView.getMeasuredWidth(), UsersSelectActivity.this.scrollView.getMeasuredHeight() + UsersSelectActivity.this.progressView.getMeasuredHeight());
                 if (UsersSelectActivity.this.floatingButton != null) {
-                    int dp = LocaleController.isRTL ? AndroidUtilities.dp(14.0f) : ((i4 - i2) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredWidth();
-                    int dp2 = ((i5 - i3) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredHeight();
+                    int dp = LocaleController.isRTL ? AndroidUtilities.dp(14.0f) : ((i5 - i3) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredWidth();
+                    int dp2 = ((i6 - i4) - AndroidUtilities.dp(14.0f)) - UsersSelectActivity.this.floatingButton.getMeasuredHeight();
                     UsersSelectActivity.this.floatingButton.layout(dp, dp2, UsersSelectActivity.this.floatingButton.getMeasuredWidth() + dp, UsersSelectActivity.this.floatingButton.getMeasuredHeight() + dp2);
                 }
             }
@@ -522,7 +522,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
         };
         this.fragmentView = viewGroup;
-        ViewGroup viewGroup2 = viewGroup;
         ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.UsersSelectActivity.3
             @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
             public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z2) {
@@ -539,7 +538,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.scrollView = scrollView;
         scrollView.setVerticalScrollBarEnabled(false);
         AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor(Theme.key_windowBackgroundWhite));
-        viewGroup2.addView(this.scrollView);
+        viewGroup.addView(this.scrollView);
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
         this.scrollView.addView(spansContainer, LayoutHelper.createFrame(-1, -2.0f));
@@ -577,6 +576,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.editText.setTextIsSelectable(false);
         this.editText.setPadding(0, 0, 0, 0);
         this.editText.setImeOptions(268435462);
+        int i3 = 5;
         this.editText.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         this.spansContainer.addView(this.editText);
         this.editText.setHintText(LocaleController.getString("SearchForPeopleAndGroups", R.string.SearchForPeopleAndGroups));
@@ -604,8 +604,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             private boolean wasEmpty;
 
             @Override // android.view.View.OnKeyListener
-            public boolean onKey(View view, int i2, KeyEvent keyEvent) {
-                if (i2 == 67) {
+            public boolean onKey(View view, int i4, KeyEvent keyEvent) {
+                if (i4 == 67) {
                     if (keyEvent.getAction() == 0) {
                         this.wasEmpty = UsersSelectActivity.this.editText.length() == 0;
                     } else if (keyEvent.getAction() == 1 && this.wasEmpty && !UsersSelectActivity.this.allSpans.isEmpty()) {
@@ -648,11 +648,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         });
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.UsersSelectActivity.7
             @Override // android.text.TextWatcher
-            public void beforeTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            public void beforeTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
-            public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
+            public void onTextChanged(CharSequence charSequence, int i4, int i5, int i6) {
             }
 
             @Override // android.text.TextWatcher
@@ -679,15 +679,15 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.progressView.showDate(false);
         this.progressView.setItemsCount(3);
         FlickerLoadingView flickerLoadingView2 = this.progressView;
-        int i2 = Theme.key_actionBarDefaultSubmenuBackground;
-        int i3 = Theme.key_listSelector;
-        flickerLoadingView2.setColors(i2, i3, i3);
-        viewGroup2.addView(this.progressView);
+        int i4 = Theme.key_actionBarDefaultSubmenuBackground;
+        int i5 = Theme.key_listSelector;
+        flickerLoadingView2.setColors(i4, i5, i5);
+        viewGroup.addView(this.progressView);
         StickerEmptyView stickerEmptyView = new StickerEmptyView(context, this.progressView, 1) { // from class: org.telegram.ui.UsersSelectActivity.8
             @Override // org.telegram.ui.Components.StickerEmptyView, android.view.View
-            public void setVisibility(int i4) {
-                super.setVisibility(i4);
-                if (i4 != 0) {
+            public void setVisibility(int i6) {
+                super.setVisibility(i6);
+                if (i6 != 0) {
                     showProgress(false, false);
                 }
             }
@@ -695,7 +695,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.emptyView = stickerEmptyView;
         stickerEmptyView.showProgress(ContactsController.getInstance(this.currentAccount).isLoadingContacts());
         this.emptyView.title.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
-        viewGroup2.addView(this.emptyView);
+        viewGroup.addView(this.emptyView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
@@ -709,17 +709,17 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.listView.setVerticalScrollBarEnabled(false);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         this.listView.addItemDecoration(new ItemDecoration());
-        viewGroup2.addView(this.listView);
+        viewGroup.addView(this.listView);
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
-            public final void onItemClick(View view, int i4) {
-                UsersSelectActivity.this.lambda$createView$1(context, view, i4);
+            public final void onItemClick(View view, int i6) {
+                UsersSelectActivity.this.lambda$createView$1(context, view, i6);
             }
         });
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.UsersSelectActivity.9
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
-                if (i4 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i6) {
+                if (i6 == 1) {
                     AndroidUtilities.hideKeyboard(UsersSelectActivity.this.editText);
                 }
             }
@@ -728,8 +728,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 < 21) {
+        int i6 = Build.VERSION.SDK_INT;
+        if (i6 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -739,14 +739,12 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
         this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
         this.floatingButton.setImageResource(R.drawable.floating_check);
-        if (i4 >= 21) {
+        if (i6 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             ImageView imageView2 = this.floatingButton;
             property = View.TRANSLATION_Z;
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(imageView2, property, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
-            ImageView imageView3 = this.floatingButton;
-            property2 = View.TRANSLATION_Z;
-            stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(imageView3, property2, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
+            stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButton, property, AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
             this.floatingButton.setStateListAnimator(stateListAnimator);
             this.floatingButton.setOutlineProvider(new ViewOutlineProvider() { // from class: org.telegram.ui.UsersSelectActivity.10
                 @Override // android.view.ViewOutlineProvider
@@ -756,7 +754,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 }
             });
         }
-        viewGroup2.addView(this.floatingButton);
+        viewGroup.addView(this.floatingButton);
         this.floatingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.UsersSelectActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -764,16 +762,21 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
         });
         this.floatingButton.setContentDescription(LocaleController.getString("Next", R.string.Next));
-        int i5 = this.isInclude ? 5 : 3;
-        for (int i6 = 1; i6 <= i5; i6++) {
-            int i7 = 4;
+        if (this.isInclude) {
+            i = 1;
+        } else {
+            i = 1;
+            i3 = 3;
+        }
+        while (i <= i3) {
             String str = "non_contacts";
+            int i7 = 4;
             if (this.type == 2) {
-                if (i6 == 1) {
+                if (i == 1) {
                     str = "existing_chats";
                     i7 = 1;
-                } else if (i6 != 2 || this.doNotNewChats) {
-                    if (i6 != (!this.doNotNewChats ? 1 : 0) + 2) {
+                } else if (i != 2 || this.doNotNewChats) {
+                    if (i != (!this.doNotNewChats ? 1 : 0) + 2) {
                         i7 = 8;
                     }
                     str = "contacts";
@@ -782,25 +785,25 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     i7 = 2;
                 }
             } else if (this.isInclude) {
-                if (i6 == 1) {
+                if (i == 1) {
                     i7 = MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
                     str = "contacts";
-                } else if (i6 == 2) {
+                } else if (i == 2) {
                     i7 = MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
-                } else if (i6 == 3) {
+                } else if (i == 3) {
                     i7 = MessagesController.DIALOG_FILTER_FLAG_GROUPS;
                     str = "groups";
-                } else if (i6 == 4) {
+                } else if (i == 4) {
                     i7 = MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
                     str = "channels";
                 } else {
                     i7 = MessagesController.DIALOG_FILTER_FLAG_BOTS;
                     str = "bots";
                 }
-            } else if (i6 == 1) {
+            } else if (i == 1) {
                 i7 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
                 str = "muted";
-            } else if (i6 == 2) {
+            } else if (i == 2) {
                 i7 = MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
                 str = "read";
             } else {
@@ -812,6 +815,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 this.spansContainer.addSpan(groupCreateSpan, false);
                 groupCreateSpan.setOnClickListener(this);
             }
+            i++;
         }
         ArrayList<Long> arrayList = this.initialIds;
         if (arrayList != null && !arrayList.isEmpty()) {
@@ -842,8 +846,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0092  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -854,8 +858,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             Object object = groupCreateUserCell.getObject();
             boolean z = object instanceof String;
             if (z) {
-                int i2 = 4;
                 j = -9223372036854775807L;
+                int i2 = 4;
                 if (this.type != 2) {
                     if (this.isInclude) {
                         if (i == 1) {
@@ -1093,7 +1097,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             c = 65535;
                             break;
                     }
-                    j = -9223372036854775800L;
                     switch (c) {
                         case 0:
                             j = Long.MIN_VALUE;
@@ -1118,6 +1121,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             break;
                         case 7:
                         case '\b':
+                            j = -9223372036854775800L;
                             break;
                         default:
                             j = -9223372036854775801L;
@@ -1311,19 +1315,25 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
+            int i;
+            int size;
             if (this.searching) {
-                return this.searchResult.size() + this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
-            }
-            UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
-            int i = 0;
-            if (!usersSelectActivity.noChatTypes) {
-                if (usersSelectActivity.type == 2) {
-                    i = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 3;
-                } else if (UsersSelectActivity.this.type == 0) {
-                    i = UsersSelectActivity.this.isInclude ? 7 : 5;
+                i = this.searchResult.size();
+                size = this.searchAdapterHelper.getLocalServerSearch().size() + this.searchAdapterHelper.getGlobalSearch().size();
+            } else {
+                UsersSelectActivity usersSelectActivity = UsersSelectActivity.this;
+                if (!usersSelectActivity.noChatTypes) {
+                    if (usersSelectActivity.type == 2) {
+                        i = (!UsersSelectActivity.this.doNotNewChats ? 1 : 0) + 3;
+                    } else if (UsersSelectActivity.this.type == 0) {
+                        i = UsersSelectActivity.this.isInclude ? 7 : 5;
+                    }
+                    size = this.contacts.size();
                 }
+                i = 0;
+                size = this.contacts.size();
             }
-            return i + this.contacts.size();
+            return i + size;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -1338,25 +1348,25 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:106:0x022b  */
-        /* JADX WARN: Removed duplicated region for block: B:133:0x02f3  */
-        /* JADX WARN: Removed duplicated region for block: B:134:0x02f9  */
-        /* JADX WARN: Removed duplicated region for block: B:137:0x0307  */
-        /* JADX WARN: Removed duplicated region for block: B:138:0x030a  */
-        /* JADX WARN: Removed duplicated region for block: B:141:0x0317  */
-        /* JADX WARN: Removed duplicated region for block: B:154:? A[RETURN, SYNTHETIC] */
-        /* JADX WARN: Removed duplicated region for block: B:98:0x0210  */
-        /* JADX WARN: Removed duplicated region for block: B:99:0x0216  */
-        /* JADX WARN: Type inference failed for: r6v0 */
-        /* JADX WARN: Type inference failed for: r6v1 */
-        /* JADX WARN: Type inference failed for: r6v10, types: [java.lang.StringBuilder] */
-        /* JADX WARN: Type inference failed for: r6v11 */
-        /* JADX WARN: Type inference failed for: r6v12 */
-        /* JADX WARN: Type inference failed for: r6v13 */
-        /* JADX WARN: Type inference failed for: r6v14 */
-        /* JADX WARN: Type inference failed for: r6v15 */
-        /* JADX WARN: Type inference failed for: r6v16 */
-        /* JADX WARN: Type inference failed for: r6v2 */
+        /* JADX WARN: Removed duplicated region for block: B:100:0x0214  */
+        /* JADX WARN: Removed duplicated region for block: B:101:0x021a  */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x022f  */
+        /* JADX WARN: Removed duplicated region for block: B:135:0x02f6  */
+        /* JADX WARN: Removed duplicated region for block: B:136:0x02fc  */
+        /* JADX WARN: Removed duplicated region for block: B:139:0x030a  */
+        /* JADX WARN: Removed duplicated region for block: B:140:0x030d  */
+        /* JADX WARN: Removed duplicated region for block: B:143:0x031a  */
+        /* JADX WARN: Removed duplicated region for block: B:156:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Type inference failed for: r7v0 */
+        /* JADX WARN: Type inference failed for: r7v1 */
+        /* JADX WARN: Type inference failed for: r7v10, types: [java.lang.StringBuilder] */
+        /* JADX WARN: Type inference failed for: r7v11 */
+        /* JADX WARN: Type inference failed for: r7v12 */
+        /* JADX WARN: Type inference failed for: r7v13 */
+        /* JADX WARN: Type inference failed for: r7v14 */
+        /* JADX WARN: Type inference failed for: r7v15 */
+        /* JADX WARN: Type inference failed for: r7v16 */
+        /* JADX WARN: Type inference failed for: r7v2 */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1389,10 +1399,10 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                 }
             }
             GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-            ?? r6 = 0;
-            r6 = 0;
-            r6 = 0;
-            r6 = 0;
+            ?? r7 = 0;
+            r7 = 0;
+            r7 = 0;
+            r7 = 0;
             if (this.searching) {
                 int size = this.searchResult.size();
                 int size2 = this.searchAdapterHelper.getGlobalSearch().size();
@@ -1418,7 +1428,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                             if (!TextUtils.isEmpty(publicUsername)) {
                                 tLObject2 = tLObject;
                                 if (charSequence.toString().startsWith("@" + publicUsername)) {
-                                    r6 = charSequence;
+                                    r7 = charSequence;
                                     charSequence = null;
                                     tLObject2 = tLObject;
                                 }
@@ -1444,11 +1454,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                                 spannableStringBuilder4.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4)), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
                             }
                             charSequence = null;
-                            r6 = spannableStringBuilder4;
+                            r7 = spannableStringBuilder4;
                             tLObject2 = tLObject;
                         } catch (Exception unused) {
                             charSequence = null;
-                            r6 = publicUsername;
+                            r7 = publicUsername;
                             tLObject2 = tLObject;
                         }
                     }
@@ -1460,16 +1470,16 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     if (UsersSelectActivity.this.type != 2) {
                         if (UsersSelectActivity.this.type == 0) {
                             if (!this.searching) {
-                                r6 = new StringBuilder();
+                                r7 = new StringBuilder();
                                 ArrayList<MessagesController.DialogFilter> arrayList = UsersSelectActivity.this.getMessagesController().dialogFilters;
                                 int size4 = arrayList.size();
                                 for (int i3 = 0; i3 < size4; i3++) {
                                     MessagesController.DialogFilter dialogFilter = arrayList.get(i3);
                                     if (dialogFilter.includesDialog(UsersSelectActivity.this.getAccountInstance(), j)) {
-                                        if (r6.length() > 0) {
-                                            r6.append(", ");
+                                        if (r7.length() > 0) {
+                                            r7.append(", ");
                                         }
-                                        r6.append(dialogFilter.name);
+                                        r7.append(dialogFilter.name);
                                     }
                                 }
                             }
@@ -1518,7 +1528,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                         }
                     }
                     z = false;
-                    spannableStringBuilder2 = r6;
+                    spannableStringBuilder2 = r7;
                     z2 = true;
                     spannableStringBuilder = spannableStringBuilder2;
                     if (!z2) {
@@ -1596,7 +1606,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             if (UsersSelectActivity.this.type != 2) {
             }
             z = false;
-            spannableStringBuilder2 = r6;
+            spannableStringBuilder2 = r7;
             z2 = true;
             spannableStringBuilder = spannableStringBuilder2;
             if (!z2) {
@@ -1703,11 +1713,11 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x00b1, code lost:
-            if (r20 == false) goto L66;
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x00b6, code lost:
+            if (r20 == false) goto L67;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:37:0x00c1, code lost:
-            if (r21 == false) goto L66;
+        /* JADX WARN: Code restructure failed: missing block: B:37:0x00c6, code lost:
+            if (r21 == false) goto L67;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1723,7 +1733,9 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
             String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
             String str4 = null;
-            translitString = (lowerCase.equals(translitString) || translitString.length() == 0) ? null : null;
+            if (lowerCase.equals(translitString) || translitString.length() == 0) {
+                translitString = null;
+            }
             char c = 0;
             char c2 = 1;
             int i2 = (translitString != null ? 1 : 0) + 1;
@@ -1763,7 +1775,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     while (i4 < i2) {
                         String str5 = strArr[i4];
                         int i5 = 0;
-                        for (int i6 = 3; i5 < i6; i6 = 3) {
+                        while (i5 < 3) {
                             String str6 = strArr2[i5];
                             if (str6 != null) {
                                 if (str6.startsWith(str5)) {

@@ -1,37 +1,75 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class s implements j$.util.function.m {
-    public final /* synthetic */ int a;
-    public final /* synthetic */ f2 b;
+final class s extends X1 {
+    public final /* synthetic */ int b;
+    final /* synthetic */ b c;
 
-    public /* synthetic */ s(int i, f2 f2Var) {
-        this.a = i;
-        this.b = f2Var;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ s(b bVar, e2 e2Var, int i) {
+        super(e2Var);
+        this.b = i;
+        this.c = bVar;
     }
 
-    @Override // j$.util.function.m
+    @Override // j$.util.stream.e2, j$.util.function.n
     public final void accept(double d) {
-        int i = this.a;
-        f2 f2Var = this.b;
-        switch (i) {
+        switch (this.b) {
             case 0:
-                f2Var.accept(d);
+                this.a.accept(((j$.util.function.w) ((t) this.c).n).a.applyAsDouble(d));
+                return;
+            case 1:
+                this.a.accept((e2) ((j$.util.function.q) ((u) this.c).n).apply(d));
+                return;
+            case 2:
+                this.a.accept(((j$.util.function.s) ((v) this.c).n).a.applyAsInt(d));
+                return;
+            case 3:
+                this.a.accept(((j$.util.function.v) ((w) this.c).n).applyAsLong(d));
+                return;
+            case 4:
+                D d2 = (D) ((j$.util.function.q) ((t) this.c).n).apply(d);
+                if (d2 != null) {
+                    try {
+                        d2.sequential().j(new q(1, this));
+                    } catch (Throwable th) {
+                        try {
+                            d2.close();
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
+                        }
+                        throw th;
+                    }
+                }
+                if (d2 != null) {
+                    d2.close();
+                    return;
+                }
+                return;
+            case 5:
+                if (((j$.util.function.r) ((t) this.c).n).a.test(d)) {
+                    this.a.accept(d);
+                    return;
+                }
                 return;
             default:
-                ((t) f2Var).a.accept(d);
+                ((j$.util.function.n) ((t) this.c).n).accept(d);
+                this.a.accept(d);
                 return;
         }
     }
 
-    @Override // j$.util.function.m
-    public final j$.util.function.m m(j$.util.function.m mVar) {
-        switch (this.a) {
-            case 0:
-                mVar.getClass();
-                return new j$.util.function.j(this, mVar);
+    @Override // j$.util.stream.X1, j$.util.stream.e2
+    public void n(long j) {
+        switch (this.b) {
+            case 4:
+                this.a.n(-1L);
+                return;
+            case 5:
+                this.a.n(-1L);
+                return;
             default:
-                mVar.getClass();
-                return new j$.util.function.j(this, mVar);
+                super.n(j);
+                return;
         }
     }
 }

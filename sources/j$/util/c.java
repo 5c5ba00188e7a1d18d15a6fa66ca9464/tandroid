@@ -18,21 +18,19 @@ public final /* synthetic */ class c implements Comparator, Serializable {
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int i = this.a;
-        Object obj3 = this.b;
-        switch (i) {
+        switch (this.a) {
             case 0:
-                ToDoubleFunction toDoubleFunction = (ToDoubleFunction) obj3;
-                return Double.compare(toDoubleFunction.applyAsDouble(obj), toDoubleFunction.applyAsDouble(obj2));
-            case 1:
-                ToIntFunction toIntFunction = (ToIntFunction) obj3;
+                ToIntFunction toIntFunction = (ToIntFunction) this.b;
                 return Integer.compare(toIntFunction.applyAsInt(obj), toIntFunction.applyAsInt(obj2));
+            case 1:
+                ToDoubleFunction toDoubleFunction = (ToDoubleFunction) this.b;
+                return Double.compare(toDoubleFunction.applyAsDouble(obj), toDoubleFunction.applyAsDouble(obj2));
             case 2:
-                ToLongFunction toLongFunction = (ToLongFunction) obj3;
-                return Long.compare(toLongFunction.applyAsLong(obj), toLongFunction.applyAsLong(obj2));
-            default:
-                Function function = (Function) obj3;
+                Function function = (Function) this.b;
                 return ((Comparable) function.apply(obj)).compareTo(function.apply(obj2));
+            default:
+                ToLongFunction toLongFunction = (ToLongFunction) this.b;
+                return Long.compare(toLongFunction.applyAsLong(obj), toLongFunction.applyAsLong(obj2));
         }
     }
 }

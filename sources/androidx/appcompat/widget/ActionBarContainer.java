@@ -72,9 +72,9 @@ public class ActionBarContainer extends FrameLayout {
                 this.mBackground.setBounds(view.getLeft(), this.mActionBarView.getTop(), this.mActionBarView.getRight(), this.mActionBarView.getBottom());
             }
         }
-        boolean z = true;
-        if (!this.mIsSplit ? this.mBackground != null || this.mStackedBackground != null : this.mSplitBackground != null) {
-            z = false;
+        boolean z = false;
+        if (!this.mIsSplit ? !(this.mBackground != null || this.mStackedBackground != null) : this.mSplitBackground == null) {
+            z = true;
         }
         setWillNotDraw(z);
         invalidate();
@@ -97,9 +97,9 @@ public class ActionBarContainer extends FrameLayout {
                 drawable2.setBounds(this.mTabContainer.getLeft(), this.mTabContainer.getTop(), this.mTabContainer.getRight(), this.mTabContainer.getBottom());
             }
         }
-        boolean z = true;
-        if (!this.mIsSplit ? this.mBackground != null || this.mStackedBackground != null : this.mSplitBackground != null) {
-            z = false;
+        boolean z = false;
+        if (!this.mIsSplit ? !(this.mBackground != null || this.mStackedBackground != null) : this.mSplitBackground == null) {
+            z = true;
         }
         setWillNotDraw(z);
         invalidate();

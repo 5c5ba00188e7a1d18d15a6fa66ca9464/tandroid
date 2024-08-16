@@ -279,7 +279,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                 TLRPC$WallPaper wallpaper = chatThemeItem.chatTheme.getWallpaper(this.lastThemeIndex);
                 if (wallpaper != null) {
                     final int i3 = wallpaper.settings.intensity;
-                    chatThemeItem.chatTheme.loadWallpaperThumb(this.lastThemeIndex, new ResultCallback() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda1
+                    chatThemeItem.chatTheme.loadWallpaperThumb(this.lastThemeIndex, new ResultCallback() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda2
                         @Override // org.telegram.tgnet.ResultCallback
                         public final void onComplete(Object obj) {
                             ThemeSmallPreviewView.this.lambda$setItem$0(j, chatThemeItem, i3, (Pair) obj);
@@ -301,7 +301,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                         ImageReceiver imageReceiver = new ImageReceiver();
                         imageReceiver.setAllowLoadingOnAttachedOnly(false);
                         imageReceiver.setImage(forDocument, "120_140", null, null, null, 1);
-                        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda2
+                        imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda3
                             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
                             public final void didSetImage(ImageReceiver imageReceiver2, boolean z4, boolean z5, boolean z6) {
                                 ThemeSmallPreviewView.this.lambda$setItem$1(chatThemeItem, tLRPC$WallPaper2, imageReceiver2, z4, z5, z6);
@@ -325,7 +325,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                     if (drawable instanceof MotionBackgroundDrawable) {
                         ((MotionBackgroundDrawable) drawable).setPatternBitmap(i4);
                     }
-                    ChatThemeController.chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda3
+                    ChatThemeController.chatThemeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda4
                         @Override // java.lang.Runnable
                         public final void run() {
                             ThemeSmallPreviewView.this.lambda$setItem$3(chatThemeItem, i4);
@@ -422,12 +422,9 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             if (valueAnimator2 != null) {
                 valueAnimator2.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = f;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(f, z ? 1.0f : 0.0f);
             this.strokeAlphaAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                     ThemeSmallPreviewView.this.lambda$setSelected$4(valueAnimator3);
@@ -513,7 +510,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
             ChatThemeBottomSheet.ChatThemeItem chatThemeItem3 = this.chatThemeItem;
             int settingsIndex = chatThemeItem3.chatTheme.getSettingsIndex(chatThemeItem3.themeIndex);
             fillOutBubblePaint(themeDrawable.outBubblePaintSecond, tlTheme.settings.get(settingsIndex).message_colors);
-            themeDrawable.outBubblePaintSecond.setAlpha(255);
+            themeDrawable.outBubblePaintSecond.setAlpha(NotificationCenter.voipServiceCreated);
             getPreviewDrawable(tlTheme, settingsIndex);
         } else {
             ChatThemeBottomSheet.ChatThemeItem chatThemeItem4 = this.chatThemeItem;
@@ -611,7 +608,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
         if (staticLayout != null) {
             return staticLayout;
         }
-        TextPaint textPaint = new TextPaint(129);
+        TextPaint textPaint = new TextPaint((int) NotificationCenter.walletPendingTransactionsChanged);
         this.noThemeTextPaint = textPaint;
         textPaint.setColor(getThemedColor(Theme.key_chat_emojiPanelTrendingDescription));
         this.noThemeTextPaint.setTextSize(AndroidUtilities.dp(noThemeStringTextSize()));
@@ -645,7 +642,7 @@ public class ThemeSmallPreviewView extends FrameLayout implements NotificationCe
                 this.backupImageView.getImageReceiver().getLottieAnimation().start();
             }
             this.backupImageView.animate().scaleX(2.0f).scaleY(2.0f).setDuration(300L).setInterpolator(AndroidUtilities.overshootInterpolator).start();
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda4
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.ThemeSmallPreviewView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThemeSmallPreviewView.this.lambda$playEmojiAnimation$5();

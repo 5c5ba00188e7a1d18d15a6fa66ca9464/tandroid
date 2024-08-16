@@ -7,6 +7,7 @@ import java.security.AccessController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import libcore.io.Memory;
+import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
@@ -20,9 +21,9 @@ final class zzeq {
     private static final boolean zzg;
     private static final boolean zzh;
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x006c  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x006d  */
     /* JADX WARN: Removed duplicated region for block: B:29:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x0130  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x012f  */
     static {
         boolean z;
         zzep zzepVar;
@@ -179,7 +180,7 @@ final class zzeq {
         zzep zzepVar = zzf;
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((255 << i) ^ (-1))));
+        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -187,7 +188,7 @@ final class zzeq {
         zzep zzepVar = zzf;
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((255 << i) ^ (-1))));
+        zzepVar.zza.putInt(obj, j2, ((255 & b) << i) | (zzepVar.zza.getInt(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -274,12 +275,12 @@ final class zzeq {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ boolean zzt(Object obj, long j) {
-        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3))) & 255)) != 0;
+        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) (((j ^ (-1)) & 3) << 3))) & NotificationCenter.voipServiceCreated)) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ boolean zzu(Object obj, long j) {
-        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) ((j & 3) << 3))) & 255)) != 0;
+        return ((byte) ((zzf.zza.getInt(obj, (-4) & j) >>> ((int) ((j & 3) << 3))) & NotificationCenter.voipServiceCreated)) != 0;
     }
 
     /* JADX WARN: Multi-variable type inference failed */

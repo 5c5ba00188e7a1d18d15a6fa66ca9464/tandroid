@@ -1,9 +1,10 @@
 package j$.util;
 
 import j$.util.function.Consumer;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 /* loaded from: classes2.dex */
-final class S implements java.util.Iterator, Consumer {
+final class S implements Iterator, Consumer {
     boolean a = false;
     Object b;
     final /* synthetic */ Q c;
@@ -27,7 +28,7 @@ final class S implements java.util.Iterator, Consumer {
     @Override // java.util.Iterator
     public final boolean hasNext() {
         if (!this.a) {
-            this.c.a(this);
+            this.c.s(this);
         }
         return this.a;
     }

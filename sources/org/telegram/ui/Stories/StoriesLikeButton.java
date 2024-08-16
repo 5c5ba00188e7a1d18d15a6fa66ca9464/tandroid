@@ -7,6 +7,7 @@ import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC$TL_availableReaction;
 import org.telegram.ui.ActionBar.Theme;
@@ -45,7 +46,7 @@ public class StoriesLikeButton extends View {
             float f = this.progressToLiked.set(this.liked ? 1.0f : 0.0f);
             if (f < 1.0f) {
                 this.sharedResources.likeDrawable.setBounds(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getMeasuredHeight() - getPaddingBottom());
-                this.sharedResources.likeDrawable.setAlpha(255);
+                this.sharedResources.likeDrawable.setAlpha(NotificationCenter.voipServiceCreated);
                 this.sharedResources.likeDrawable.draw(canvas);
             }
             if (f > 0.0f) {

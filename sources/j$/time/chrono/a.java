@@ -3,7 +3,7 @@ package j$.time.chrono;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 /* loaded from: classes2.dex */
-public abstract class a implements d {
+public abstract class a implements f {
     static {
         new ConcurrentHashMap();
         new ConcurrentHashMap();
@@ -12,7 +12,7 @@ public abstract class a implements d {
 
     @Override // java.lang.Comparable
     public final int compareTo(Object obj) {
-        ((d) obj).getClass();
+        ((f) obj).getClass();
         return 0;
     }
 

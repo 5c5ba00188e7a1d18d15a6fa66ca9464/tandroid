@@ -1,6 +1,8 @@
 package com.google.gson;
 
 import com.google.gson.internal.LazilyParsedNumber;
+import com.google.gson.internal.NumberLimits;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 /* loaded from: classes.dex */
@@ -71,6 +73,25 @@ public final class JsonPrimitive extends JsonElement {
         return isNumber() ? getAsNumber().doubleValue() : Double.parseDouble(getAsString());
     }
 
+    public BigDecimal getAsBigDecimal() {
+        Object obj = this.value;
+        if (obj instanceof BigDecimal) {
+            return (BigDecimal) obj;
+        }
+        return NumberLimits.parseBigDecimal(getAsString());
+    }
+
+    public BigInteger getAsBigInteger() {
+        Object obj = this.value;
+        if (obj instanceof BigInteger) {
+            return (BigInteger) obj;
+        }
+        if (isIntegral(this)) {
+            return BigInteger.valueOf(getAsNumber().longValue());
+        }
+        return NumberLimits.parseBigInteger(getAsString());
+    }
+
     public long getAsLong() {
         return isNumber() ? getAsNumber().longValue() : Long.parseLong(getAsString());
     }
@@ -108,16 +129,25 @@ public final class JsonPrimitive extends JsonElement {
         if (this.value == null) {
             return jsonPrimitive.value == null;
         } else if (isIntegral(this) && isIntegral(jsonPrimitive)) {
+            if ((this.value instanceof BigInteger) || (jsonPrimitive.value instanceof BigInteger)) {
+                return getAsBigInteger().equals(jsonPrimitive.getAsBigInteger());
+            }
             return getAsNumber().longValue() == jsonPrimitive.getAsNumber().longValue();
         } else {
             Object obj2 = this.value;
-            if ((obj2 instanceof Number) && (jsonPrimitive.value instanceof Number)) {
-                double doubleValue = getAsNumber().doubleValue();
-                double doubleValue2 = jsonPrimitive.getAsNumber().doubleValue();
-                if (doubleValue != doubleValue2) {
-                    return Double.isNaN(doubleValue) && Double.isNaN(doubleValue2);
+            if (obj2 instanceof Number) {
+                Object obj3 = jsonPrimitive.value;
+                if (obj3 instanceof Number) {
+                    if ((obj2 instanceof BigDecimal) && (obj3 instanceof BigDecimal)) {
+                        return getAsBigDecimal().compareTo(jsonPrimitive.getAsBigDecimal()) == 0;
+                    }
+                    double asDouble = getAsDouble();
+                    double asDouble2 = jsonPrimitive.getAsDouble();
+                    if (asDouble != asDouble2) {
+                        return Double.isNaN(asDouble) && Double.isNaN(asDouble2);
+                    }
+                    return true;
                 }
-                return true;
             }
             return obj2.equals(jsonPrimitive.value);
         }

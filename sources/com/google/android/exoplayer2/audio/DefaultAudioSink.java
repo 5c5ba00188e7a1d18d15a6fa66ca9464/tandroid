@@ -1312,16 +1312,20 @@ public final class DefaultAudioSink implements AudioSink {
     private static void releaseAudioTrackAsync(final AudioTrack audioTrack, final ConditionVariable conditionVariable) {
         conditionVariable.close();
         synchronized (releaseExecutorLock) {
-            if (releaseExecutor == null) {
-                releaseExecutor = Util.newSingleThreadExecutor("ExoPlayer:AudioTrackReleaseThread");
-            }
-            pendingReleaseCount++;
-            releaseExecutor.execute(new Runnable() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink$$ExternalSyntheticLambda16
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DefaultAudioSink.lambda$releaseAudioTrackAsync$0(audioTrack, conditionVariable);
+            try {
+                if (releaseExecutor == null) {
+                    releaseExecutor = Util.newSingleThreadExecutor("ExoPlayer:AudioTrackReleaseThread");
                 }
-            });
+                pendingReleaseCount++;
+                releaseExecutor.execute(new Runnable() { // from class: com.google.android.exoplayer2.audio.DefaultAudioSink$$ExternalSyntheticLambda16
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DefaultAudioSink.lambda$releaseAudioTrackAsync$0(audioTrack, conditionVariable);
+                    }
+                });
+            } catch (Throwable th) {
+                throw th;
+            }
         }
     }
 
@@ -1332,23 +1336,29 @@ public final class DefaultAudioSink implements AudioSink {
             audioTrack.release();
             conditionVariable.open();
             synchronized (releaseExecutorLock) {
-                int i = pendingReleaseCount - 1;
-                pendingReleaseCount = i;
-                if (i == 0) {
-                    releaseExecutor.shutdown();
-                    releaseExecutor = null;
+                try {
+                    int i = pendingReleaseCount - 1;
+                    pendingReleaseCount = i;
+                    if (i == 0) {
+                        releaseExecutor.shutdown();
+                        releaseExecutor = null;
+                    }
+                } finally {
                 }
             }
         } catch (Throwable th) {
             conditionVariable.open();
             synchronized (releaseExecutorLock) {
-                int i2 = pendingReleaseCount - 1;
-                pendingReleaseCount = i2;
-                if (i2 == 0) {
-                    releaseExecutor.shutdown();
-                    releaseExecutor = null;
+                try {
+                    int i2 = pendingReleaseCount - 1;
+                    pendingReleaseCount = i2;
+                    if (i2 == 0) {
+                        releaseExecutor.shutdown();
+                        releaseExecutor = null;
+                    }
+                    throw th;
+                } finally {
                 }
-                throw th;
             }
         }
     }

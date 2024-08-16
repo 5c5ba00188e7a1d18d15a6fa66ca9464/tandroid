@@ -1,13 +1,11 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-final class zzx implements Iterator, j$.util.Iterator {
+final class zzx implements Iterator {
     final Iterator zza;
     Collection zzb;
     final /* synthetic */ zzy zzc;
@@ -18,22 +16,12 @@ final class zzx implements Iterator, j$.util.Iterator {
         this.zza = zzyVar.zza.entrySet().iterator();
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         return this.zza.hasNext();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final /* bridge */ /* synthetic */ Object next() {
         Map.Entry entry = (Map.Entry) this.zza.next();
         this.zzb = (Collection) entry.getValue();
@@ -42,7 +30,7 @@ final class zzx implements Iterator, j$.util.Iterator {
         return new zzba(key, zzyVar.zzb.zzb(key, (Collection) entry.getValue()));
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         zzs.zzd(this.zzb != null, "no calls to next() since the last call to remove()");
         this.zza.remove();

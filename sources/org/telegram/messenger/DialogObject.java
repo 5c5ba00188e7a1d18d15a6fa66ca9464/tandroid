@@ -41,7 +41,7 @@ public class DialogObject {
     }
 
     public static long makeFolderDialogId(int i) {
-        return 2305843009213693952L | i;
+        return i | 2305843009213693952L;
     }
 
     public static boolean isChannel(TLRPC$Dialog tLRPC$Dialog) {

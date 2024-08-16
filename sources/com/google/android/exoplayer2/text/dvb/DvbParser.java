@@ -13,8 +13,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class DvbParser {
     private static final byte[] defaultMap2To4 = {0, 7, 8, 15};
@@ -241,49 +240,53 @@ final class DvbParser {
     }
 
     private static RegionComposition parseRegionComposition(ParsableBitArray parsableBitArray, int i) {
-        int readBits;
-        int readBits2;
-        int readBits3 = parsableBitArray.readBits(8);
+        int i2;
+        int i3;
+        int readBits = parsableBitArray.readBits(8);
         parsableBitArray.skipBits(4);
         boolean readBit = parsableBitArray.readBit();
         parsableBitArray.skipBits(3);
-        int i2 = 16;
-        int readBits4 = parsableBitArray.readBits(16);
-        int readBits5 = parsableBitArray.readBits(16);
-        int readBits6 = parsableBitArray.readBits(3);
-        int readBits7 = parsableBitArray.readBits(3);
-        int i3 = 2;
+        int i4 = 16;
+        int readBits2 = parsableBitArray.readBits(16);
+        int readBits3 = parsableBitArray.readBits(16);
+        int readBits4 = parsableBitArray.readBits(3);
+        int readBits5 = parsableBitArray.readBits(3);
+        int i5 = 2;
         parsableBitArray.skipBits(2);
-        int readBits8 = parsableBitArray.readBits(8);
-        int readBits9 = parsableBitArray.readBits(8);
-        int readBits10 = parsableBitArray.readBits(4);
-        int readBits11 = parsableBitArray.readBits(2);
+        int readBits6 = parsableBitArray.readBits(8);
+        int readBits7 = parsableBitArray.readBits(8);
+        int readBits8 = parsableBitArray.readBits(4);
+        int readBits9 = parsableBitArray.readBits(2);
         parsableBitArray.skipBits(2);
-        int i4 = i - 10;
+        int i6 = i - 10;
         SparseArray sparseArray = new SparseArray();
-        while (i4 > 0) {
-            int readBits12 = parsableBitArray.readBits(i2);
-            int readBits13 = parsableBitArray.readBits(i3);
-            int readBits14 = parsableBitArray.readBits(i3);
-            int readBits15 = parsableBitArray.readBits(12);
-            int i5 = readBits11;
+        while (i6 > 0) {
+            int readBits10 = parsableBitArray.readBits(i4);
+            int readBits11 = parsableBitArray.readBits(i5);
+            int readBits12 = parsableBitArray.readBits(i5);
+            int readBits13 = parsableBitArray.readBits(12);
+            int i7 = readBits9;
             parsableBitArray.skipBits(4);
-            int readBits16 = parsableBitArray.readBits(12);
-            i4 -= 6;
-            if (readBits13 == 1 || readBits13 == 2) {
-                i4 -= 2;
-                readBits = parsableBitArray.readBits(8);
-                readBits2 = parsableBitArray.readBits(8);
-            } else {
-                readBits = 0;
-                readBits2 = 0;
+            int readBits14 = parsableBitArray.readBits(12);
+            int i8 = i6 - 6;
+            if (readBits11 != 1 && readBits11 != 2) {
+                i6 = i8;
+                i3 = 0;
+                i2 = 0;
+                sparseArray.put(readBits10, new RegionObject(readBits11, readBits12, readBits13, readBits14, i3, i2));
+                readBits9 = i7;
+                i5 = 2;
+                i4 = 16;
             }
-            sparseArray.put(readBits12, new RegionObject(readBits13, readBits14, readBits15, readBits16, readBits, readBits2));
-            readBits11 = i5;
-            i3 = 2;
-            i2 = 16;
+            i6 -= 8;
+            i3 = parsableBitArray.readBits(8);
+            i2 = parsableBitArray.readBits(8);
+            sparseArray.put(readBits10, new RegionObject(readBits11, readBits12, readBits13, readBits14, i3, i2));
+            readBits9 = i7;
+            i5 = 2;
+            i4 = 16;
         }
-        return new RegionComposition(readBits3, readBit, readBits4, readBits5, readBits6, readBits7, readBits8, readBits9, readBits10, readBits11, sparseArray);
+        return new RegionComposition(readBits, readBit, readBits2, readBits3, readBits4, readBits5, readBits6, readBits7, readBits8, readBits9, sparseArray);
     }
 
     private static ClutDefinition parseClutDefinition(ParsableBitArray parsableBitArray, int i) {
@@ -303,18 +306,17 @@ final class DvbParser {
         while (i6 > 0) {
             int readBits5 = parsableBitArray.readBits(i4);
             int readBits6 = parsableBitArray.readBits(i4);
-            int i7 = i6 - 2;
             int[] iArr = (readBits6 & 128) != 0 ? generateDefault2BitClutEntries : (readBits6 & 64) != 0 ? generateDefault4BitClutEntries : generateDefault8BitClutEntries;
             if ((readBits6 & 1) != 0) {
                 readBits3 = parsableBitArray.readBits(i4);
                 i3 = parsableBitArray.readBits(i4);
                 readBits = parsableBitArray.readBits(i4);
                 readBits2 = parsableBitArray.readBits(i4);
-                i2 = i7 - 4;
+                i2 = i6 - 6;
             } else {
                 int readBits7 = parsableBitArray.readBits(4) << 4;
                 readBits = parsableBitArray.readBits(4) << 4;
-                i2 = i7 - 2;
+                i2 = i6 - 4;
                 readBits2 = parsableBitArray.readBits(i5) << 6;
                 readBits3 = parsableBitArray.readBits(6) << i5;
                 i3 = readBits7;
@@ -322,7 +324,7 @@ final class DvbParser {
             if (readBits3 == 0) {
                 i3 = 0;
                 readBits = 0;
-                readBits2 = 255;
+                readBits2 = NotificationCenter.voipServiceCreated;
             }
             double d = readBits3;
             double d2 = i3 - 128;
@@ -334,7 +336,7 @@ final class DvbParser {
             Double.isNaN(d2);
             Double.isNaN(d3);
             Double.isNaN(d);
-            iArr[readBits5] = getColor((byte) (255 - (readBits2 & 255)), Util.constrainValue((int) (d + (1.402d * d2)), 0, 255), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255));
+            iArr[readBits5] = getColor((byte) (255 - (readBits2 & NotificationCenter.voipServiceCreated)), Util.constrainValue((int) (d + (1.402d * d2)), 0, (int) NotificationCenter.voipServiceCreated), Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.voipServiceCreated), Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.voipServiceCreated));
             i6 = i2;
             readBits4 = readBits4;
             i4 = 8;
@@ -379,30 +381,57 @@ final class DvbParser {
         iArr[0] = 0;
         for (int i = 1; i < 16; i++) {
             if (i < 8) {
-                iArr[i] = getColor(255, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) != 0 ? 255 : 0);
+                iArr[i] = getColor(NotificationCenter.voipServiceCreated, (i & 1) != 0 ? NotificationCenter.voipServiceCreated : 0, (i & 2) != 0 ? NotificationCenter.voipServiceCreated : 0, (i & 4) != 0 ? NotificationCenter.voipServiceCreated : 0);
             } else {
-                iArr[i] = getColor(255, (i & 1) != 0 ? 127 : 0, (i & 2) != 0 ? 127 : 0, (i & 4) == 0 ? 0 : 127);
+                int i2 = i & 1;
+                int i3 = NotificationCenter.dialogTranslate;
+                int i4 = i2 != 0 ? NotificationCenter.dialogTranslate : 0;
+                int i5 = (i & 2) != 0 ? NotificationCenter.dialogTranslate : 0;
+                if ((i & 4) == 0) {
+                    i3 = 0;
+                }
+                iArr[i] = getColor(NotificationCenter.voipServiceCreated, i4, i5, i3);
             }
         }
         return iArr;
     }
 
     private static int[] generateDefault8BitClutEntries() {
-        int[] iArr = new int[LiteMode.FLAG_CHAT_BLUR];
+        int i;
+        int[] iArr = new int[256];
         iArr[0] = 0;
-        for (int i = 0; i < 256; i++) {
-            if (i < 8) {
-                iArr[i] = getColor(63, (i & 1) != 0 ? 255 : 0, (i & 2) != 0 ? 255 : 0, (i & 4) == 0 ? 0 : 255);
+        for (int i2 = 0; i2 < 256; i2++) {
+            int i3 = NotificationCenter.voipServiceCreated;
+            if (i2 < 8) {
+                int i4 = (i2 & 1) != 0 ? NotificationCenter.voipServiceCreated : 0;
+                int i5 = (i2 & 2) != 0 ? NotificationCenter.voipServiceCreated : 0;
+                if ((i2 & 4) == 0) {
+                    i3 = 0;
+                }
+                iArr[i2] = getColor(63, i4, i5, i3);
             } else {
-                int i2 = i & 136;
-                if (i2 == 0) {
-                    iArr[i] = getColor(255, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
-                } else if (i2 == 8) {
-                    iArr[i] = getColor(127, ((i & 1) != 0 ? 85 : 0) + ((i & 16) != 0 ? 170 : 0), ((i & 2) != 0 ? 85 : 0) + ((i & 32) != 0 ? 170 : 0), ((i & 4) == 0 ? 0 : 85) + ((i & 64) == 0 ? 0 : 170));
-                } else if (i2 == 128) {
-                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + 127 + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + 127 + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + 127 + ((i & 64) == 0 ? 0 : 85));
-                } else if (i2 == 136) {
-                    iArr[i] = getColor(255, ((i & 1) != 0 ? 43 : 0) + ((i & 16) != 0 ? 85 : 0), ((i & 2) != 0 ? 43 : 0) + ((i & 32) != 0 ? 85 : 0), ((i & 4) == 0 ? 0 : 43) + ((i & 64) == 0 ? 0 : 85));
+                int i6 = i2 & NotificationCenter.fileUploadProgressChanged;
+                int i7 = NotificationCenter.groupCallVisibilityChanged;
+                if (i6 == 0) {
+                    int i8 = ((i2 & 1) != 0 ? 85 : 0) + ((i2 & 16) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
+                    int i9 = ((i2 & 2) != 0 ? 85 : 0) + ((i2 & 32) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
+                    i = (i2 & 4) == 0 ? 0 : 85;
+                    if ((i2 & 64) == 0) {
+                        i7 = 0;
+                    }
+                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, i8, i9, i + i7);
+                } else if (i6 == 8) {
+                    int i10 = ((i2 & 1) != 0 ? 85 : 0) + ((i2 & 16) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
+                    int i11 = ((i2 & 2) != 0 ? 85 : 0) + ((i2 & 32) != 0 ? NotificationCenter.groupCallVisibilityChanged : 0);
+                    i = (i2 & 4) == 0 ? 0 : 85;
+                    if ((i2 & 64) == 0) {
+                        i7 = 0;
+                    }
+                    iArr[i2] = getColor(NotificationCenter.dialogTranslate, i10, i11, i + i7);
+                } else if (i6 == 128) {
+                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, ((i2 & 1) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + NotificationCenter.dialogTranslate + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + NotificationCenter.dialogTranslate + ((i2 & 64) == 0 ? 0 : 85));
+                } else if (i6 == 136) {
+                    iArr[i2] = getColor(NotificationCenter.voipServiceCreated, ((i2 & 1) != 0 ? 43 : 0) + ((i2 & 16) != 0 ? 85 : 0), ((i2 & 2) != 0 ? 43 : 0) + ((i2 & 32) != 0 ? 85 : 0), ((i2 & 4) == 0 ? 0 : 43) + ((i2 & 64) == 0 ? 0 : 85));
                 }
             }
         }
@@ -438,20 +467,30 @@ final class DvbParser {
             if (readBits != 240) {
                 switch (readBits) {
                     case 16:
-                        if (i == 3) {
-                            bArr3 = bArr5 == null ? defaultMap2To8 : bArr5;
-                        } else if (i == 2) {
-                            bArr3 = bArr7 == null ? defaultMap2To4 : bArr7;
+                        if (i != 3) {
+                            if (i != 2) {
+                                bArr2 = null;
+                            } else if (bArr7 == null) {
+                                bArr3 = defaultMap2To4;
+                                bArr2 = bArr3;
+                            } else {
+                                bArr2 = bArr7;
+                            }
+                            i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
+                            parsableBitArray.byteAlign();
+                            continue;
+                        } else if (bArr5 == null) {
+                            bArr3 = defaultMap2To8;
+                            bArr2 = bArr3;
+                            i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
+                            parsableBitArray.byteAlign();
+                            continue;
                         } else {
-                            bArr2 = null;
+                            bArr2 = bArr5;
                             i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
                             parsableBitArray.byteAlign();
                             continue;
                         }
-                        bArr2 = bArr3;
-                        i4 = paint2BitPixelCodeString(parsableBitArray, iArr, bArr2, i4, i5, paint, canvas);
-                        parsableBitArray.byteAlign();
-                        continue;
                     case 17:
                         if (i == 3) {
                             bArr4 = bArr6 == null ? defaultMap4To8 : bArr6;
@@ -469,10 +508,10 @@ final class DvbParser {
                             case 32:
                                 bArr7 = buildClutMapTable(4, 4, parsableBitArray);
                                 continue;
-                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                            case 33:
                                 bArr5 = buildClutMapTable(4, 8, parsableBitArray);
                                 continue;
-                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                            case 34:
                                 bArr6 = buildClutMapTable(16, 8, parsableBitArray);
                                 continue;
                             default:

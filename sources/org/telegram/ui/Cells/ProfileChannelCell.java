@@ -264,89 +264,97 @@ public class ProfileChannelCell extends FrameLayout {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r3v1 */
-        /* JADX WARN: Type inference failed for: r3v3 */
-        /* JADX WARN: Type inference failed for: r3v4 */
-        /* JADX WARN: Type inference failed for: r3v5 */
-        /* JADX WARN: Type inference failed for: r3v6, types: [org.telegram.tgnet.TLRPC$Message] */
-        /* JADX WARN: Type inference failed for: r4v11 */
-        /* JADX WARN: Type inference failed for: r4v3, types: [org.telegram.tgnet.TLRPC$Message] */
-        /* JADX WARN: Type inference failed for: r4v5 */
+        /* JADX WARN: Type inference failed for: r12v4 */
+        /* JADX WARN: Type inference failed for: r12v5 */
+        /* JADX WARN: Type inference failed for: r12v7, types: [org.telegram.tgnet.TLRPC$Message] */
+        /* JADX WARN: Type inference failed for: r4v13 */
+        /* JADX WARN: Type inference failed for: r4v14 */
+        /* JADX WARN: Type inference failed for: r4v15 */
         public /* synthetic */ void lambda$fetch$3(final int i, final MessagesStorage messagesStorage, final long j, long j2, final int i2) {
-            ?? r3;
-            final ?? r4;
-            SQLiteCursor queryFinalized;
+            TLRPC$Message tLRPC$Message;
+            final TLRPC$Message tLRPC$Message2;
+            SQLiteCursor sQLiteCursor;
             NativeByteBuffer byteBufferValue;
             ArrayList<TLRPC$User> arrayList = new ArrayList<>();
             ArrayList<TLRPC$Chat> arrayList2 = new ArrayList<>();
-            SQLiteCursor sQLiteCursor = null;
+            SQLiteCursor sQLiteCursor2 = null;
             try {
                 try {
                     if (i <= 0) {
-                        queryFinalized = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? ORDER BY mid DESC LIMIT 1", Long.valueOf(-j));
+                        sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? ORDER BY mid DESC LIMIT 1", Long.valueOf(-j));
                     } else {
-                        queryFinalized = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? AND mid = ? LIMIT 1", Long.valueOf(-j), Integer.valueOf(i));
+                        sQLiteCursor = messagesStorage.getDatabase().queryFinalized("SELECT data, mid FROM messages_v2 WHERE uid = ? AND mid = ? LIMIT 1", Long.valueOf(-j), Integer.valueOf(i));
                     }
                     try {
                         try {
                             ArrayList<Long> arrayList3 = new ArrayList<>();
                             ArrayList arrayList4 = new ArrayList();
-                            if (queryFinalized.next() && (byteBufferValue = queryFinalized.byteBufferValue(0)) != null) {
-                                r3 = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                            if (sQLiteCursor.next() && (byteBufferValue = sQLiteCursor.byteBufferValue(0)) != null) {
+                                tLRPC$Message = TLRPC$Message.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                                 try {
-                                    r3.readAttachPath(byteBufferValue, j2);
+                                    tLRPC$Message.readAttachPath(byteBufferValue, j2);
                                     byteBufferValue.reuse();
-                                    r3.id = queryFinalized.intValue(1);
-                                    r3.dialog_id = -j;
-                                    MessagesStorage.addUsersAndChatsFromMessage(r3, arrayList3, arrayList4, null);
-                                    sQLiteCursor = r3;
+                                    tLRPC$Message.id = sQLiteCursor.intValue(1);
+                                    tLRPC$Message.dialog_id = -j;
+                                    MessagesStorage.addUsersAndChatsFromMessage(tLRPC$Message, arrayList3, arrayList4, null);
+                                    sQLiteCursor2 = tLRPC$Message;
                                 } catch (Exception e) {
                                     e = e;
-                                    sQLiteCursor = queryFinalized;
+                                    sQLiteCursor2 = sQLiteCursor;
                                     FileLog.e(e);
-                                    if (sQLiteCursor != null) {
+                                    if (sQLiteCursor2 != null) {
+                                        sQLiteCursor = sQLiteCursor2;
+                                        tLRPC$Message2 = tLRPC$Message;
                                         sQLiteCursor.dispose();
+                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
+                                            }
+                                        });
                                     }
-                                    r4 = r3;
+                                    tLRPC$Message2 = tLRPC$Message;
                                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                                         @Override // java.lang.Runnable
                                         public final void run() {
-                                            ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, r4, j, i, messagesStorage);
+                                            ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
                                         }
                                     });
                                 }
                             }
-                            queryFinalized.dispose();
-                            if (sQLiteCursor != null) {
+                            sQLiteCursor.dispose();
+                            tLRPC$Message2 = sQLiteCursor2;
+                            if (sQLiteCursor2 != null) {
                                 if (!arrayList3.isEmpty()) {
                                     messagesStorage.getUsersInternal(arrayList3, arrayList);
                                 }
+                                tLRPC$Message2 = sQLiteCursor2;
                                 if (!arrayList4.isEmpty()) {
                                     messagesStorage.getChatsInternal(TextUtils.join(",", arrayList4), arrayList2);
+                                    tLRPC$Message2 = sQLiteCursor2;
                                 }
                             }
-                            queryFinalized.dispose();
-                            r4 = sQLiteCursor;
-                        } catch (Exception e2) {
-                            e = e2;
-                            r3 = sQLiteCursor;
+                        } catch (Throwable th) {
+                            th = th;
+                            sQLiteCursor2 = sQLiteCursor;
+                            if (sQLiteCursor2 != null) {
+                                sQLiteCursor2.dispose();
+                            }
+                            throw th;
                         }
-                    } catch (Throwable th) {
-                        th = th;
-                        sQLiteCursor = queryFinalized;
-                        if (sQLiteCursor != null) {
-                            sQLiteCursor.dispose();
-                        }
-                        throw th;
+                    } catch (Exception e2) {
+                        e = e2;
+                        tLRPC$Message = sQLiteCursor2;
                     }
                 } catch (Exception e3) {
                     e = e3;
-                    r3 = null;
+                    tLRPC$Message = null;
                 }
+                sQLiteCursor.dispose();
                 AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Cells.ProfileChannelCell$ChannelMessageFetcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
-                        ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, r4, j, i, messagesStorage);
+                        ProfileChannelCell.ChannelMessageFetcher.this.lambda$fetch$2(i2, tLRPC$Message2, j, i, messagesStorage);
                     }
                 });
             } catch (Throwable th2) {

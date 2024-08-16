@@ -62,23 +62,22 @@ final class TransferRtpDataChannel extends BaseDataSource implements RtpDataChan
         }
         int min = Math.min(i2, this.unreadData.length);
         System.arraycopy(this.unreadData, 0, bArr, i, min);
-        int i3 = min + 0;
         byte[] bArr2 = this.unreadData;
         this.unreadData = Arrays.copyOfRange(bArr2, min, bArr2.length);
-        if (i3 == i2) {
-            return i3;
+        if (min == i2) {
+            return min;
         }
         try {
             byte[] poll = this.packetQueue.poll(this.pollTimeoutMs, TimeUnit.MILLISECONDS);
             if (poll == null) {
                 return -1;
             }
-            int min2 = Math.min(i2 - i3, poll.length);
-            System.arraycopy(poll, 0, bArr, i + i3, min2);
+            int min2 = Math.min(i2 - min, poll.length);
+            System.arraycopy(poll, 0, bArr, i + min, min2);
             if (min2 < poll.length) {
                 this.unreadData = Arrays.copyOfRange(poll, min2, poll.length);
             }
-            return i3 + min2;
+            return min + min2;
         } catch (InterruptedException unused) {
             Thread.currentThread().interrupt();
             return -1;

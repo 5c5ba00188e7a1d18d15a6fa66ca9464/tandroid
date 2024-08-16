@@ -15,8 +15,9 @@ public class HttpClientRetryer extends HttpClientDecorator {
     private final Random mRandom;
 
     static {
+        long millis = TimeUnit.SECONDS.toMillis(10L);
         TimeUnit timeUnit = TimeUnit.MINUTES;
-        RETRY_INTERVALS = new long[]{TimeUnit.SECONDS.toMillis(10L), timeUnit.toMillis(5L), timeUnit.toMillis(20L)};
+        RETRY_INTERVALS = new long[]{millis, timeUnit.toMillis(5L), timeUnit.toMillis(20L)};
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

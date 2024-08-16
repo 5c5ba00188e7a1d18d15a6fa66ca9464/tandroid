@@ -9,9 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.util.Log;
+import androidx.appcompat.widget.AppCompatImageHelper$$ExternalSyntheticApiModelOutline0;
 import java.lang.reflect.Method;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -92,7 +92,7 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
     protected boolean isCompatTintEnabled() {
         if (Build.VERSION.SDK_INT == 21) {
             Drawable drawable = this.mDrawable;
-            return (drawable instanceof GradientDrawable) || (drawable instanceof DrawableContainer) || (drawable instanceof InsetDrawable) || (drawable instanceof RippleDrawable);
+            return (drawable instanceof GradientDrawable) || (drawable instanceof DrawableContainer) || (drawable instanceof InsetDrawable) || AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(drawable);
         }
         return false;
     }
@@ -101,20 +101,21 @@ public class WrappedDrawableApi21 extends WrappedDrawableApi14 {
     public boolean isProjected() {
         Method method;
         Drawable drawable = this.mDrawable;
-        if (drawable != null && (method = sIsProjectedDrawableMethod) != null) {
-            try {
-                return ((Boolean) method.invoke(drawable, new Object[0])).booleanValue();
-            } catch (Exception e) {
-                Log.w("WrappedDrawableApi21", "Error calling Drawable#isProjected() method", e);
-            }
+        if (drawable == null || (method = sIsProjectedDrawableMethod) == null) {
+            return false;
         }
-        return false;
+        try {
+            return ((Boolean) method.invoke(drawable, null)).booleanValue();
+        } catch (Exception e) {
+            Log.w("WrappedDrawableApi21", "Error calling Drawable#isProjected() method", e);
+            return false;
+        }
     }
 
     private void findAndCacheIsProjectedDrawableMethod() {
         if (sIsProjectedDrawableMethod == null) {
             try {
-                sIsProjectedDrawableMethod = Drawable.class.getDeclaredMethod("isProjected", new Class[0]);
+                sIsProjectedDrawableMethod = Drawable.class.getDeclaredMethod("isProjected", null);
             } catch (Exception e) {
                 Log.w("WrappedDrawableApi21", "Failed to retrieve Drawable#isProjected() method", e);
             }

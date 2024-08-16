@@ -1,55 +1,56 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
 import java.util.ArrayDeque;
 /* loaded from: classes2.dex */
-final class g1 extends h1 {
+abstract class g1 extends i1 implements j$.util.N {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public g1(D0 d0) {
-        super(d0);
+    public g1(E0 e0) {
+        super(e0);
     }
 
-    @Override // j$.util.Q
-    public final boolean a(Consumer consumer) {
-        D0 f;
-        if (h()) {
-            boolean a = this.d.a(consumer);
-            if (!a) {
-                if (this.c == null && (f = h1.f(this.e)) != null) {
-                    j$.util.Q spliterator = f.spliterator();
-                    this.d = spliterator;
-                    return spliterator.a(consumer);
-                }
-                this.a = null;
-            }
-            return a;
-        }
-        return false;
-    }
-
-    @Override // j$.util.Q
-    public final void forEachRemaining(Consumer consumer) {
+    @Override // j$.util.N
+    /* renamed from: forEachRemaining */
+    public final void e(Object obj) {
         if (this.a == null) {
             return;
         }
         if (this.d != null) {
             do {
-            } while (a(consumer));
+            } while (p(obj));
             return;
         }
         j$.util.Q q = this.c;
         if (q != null) {
-            q.forEachRemaining(consumer);
+            ((j$.util.N) q).forEachRemaining(obj);
             return;
         }
-        ArrayDeque g = g();
+        ArrayDeque f = f();
         while (true) {
-            D0 f = h1.f(g);
-            if (f == null) {
+            E0 e0 = (E0) i1.b(f);
+            if (e0 == null) {
                 this.a = null;
                 return;
             }
-            f.forEach(consumer);
+            e0.g(obj);
         }
+    }
+
+    @Override // j$.util.N
+    /* renamed from: tryAdvance */
+    public final boolean p(Object obj) {
+        E0 e0;
+        if (h()) {
+            boolean tryAdvance = ((j$.util.N) this.d).tryAdvance(obj);
+            if (!tryAdvance) {
+                if (this.c == null && (e0 = (E0) i1.b(this.e)) != null) {
+                    j$.util.N spliterator = e0.spliterator();
+                    this.d = spliterator;
+                    return spliterator.tryAdvance(obj);
+                }
+                this.a = null;
+            }
+            return tryAdvance;
+        }
+        return false;
     }
 }

@@ -93,12 +93,11 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
 
     @Override // org.telegram.ui.Components.Premium.PremiumPreviewBottomSheet
     protected void updateRows() {
-        int i = 0 + 1;
-        this.rowCount = i;
+        this.rowCount = 1;
         this.paddingRow = 0;
-        this.additionStartRow = i;
+        this.additionStartRow = 1;
         List<TLRPC$TL_premiumGiftCodeOption> list = this.giftCodeOptions;
-        int size = i + (list != null ? list.size() : 0) + 2;
+        int size = (list != null ? list.size() : 0) + 3;
         this.rowCount = size;
         this.additionEndRow = size;
         this.featuresStartRow = size;
@@ -140,7 +139,7 @@ public class PremiumPreviewGiftToUsersBottomSheet extends PremiumPreviewBottomSh
         coloredImageSpan.setColorKey(Theme.key_windowBackgroundWhiteBlueText4);
         int indexOf = TextUtils.indexOf(replaceTags, "⚡");
         if (indexOf >= 0) {
-            spannableStringBuilder.setSpan(coloredImageSpan, indexOf, indexOf + 1, 33);
+            spannableStringBuilder.setSpan(coloredImageSpan, indexOf, 1 + indexOf, 33);
         }
         this.subtitleView.append(spannableStringBuilder);
     }

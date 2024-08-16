@@ -42,10 +42,10 @@ public class TLRPC$TL_codeSettings extends TLObject {
                 this.logout_tokens.add(readByteArray);
             }
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.token = abstractSerializedData.readString(z);
         }
-        this.app_sandbox = (this.flags & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.app_sandbox = (this.flags & 256) != 0;
     }
 
     @Override // org.telegram.tgnet.TLObject
@@ -61,7 +61,7 @@ public class TLRPC$TL_codeSettings extends TLObject {
         this.flags = i4;
         int i5 = this.allow_firebase ? i4 | 128 : i4 & (-129);
         this.flags = i5;
-        int i6 = this.app_sandbox ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+        int i6 = this.app_sandbox ? i5 | 256 : i5 & (-257);
         this.flags = i6;
         int i7 = this.unknown_number ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
         this.flags = i7;
@@ -74,7 +74,7 @@ public class TLRPC$TL_codeSettings extends TLObject {
                 abstractSerializedData.writeByteArray(this.logout_tokens.get(i8));
             }
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeString(this.token);
         }
     }

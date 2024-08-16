@@ -63,7 +63,7 @@ public class StoriesStorage {
     }
 
     public void getAllStories(final Consumer<TL_stories$TL_stories_allStories> consumer) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda6
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesStorage.this.lambda$getAllStories$3(consumer);
@@ -72,181 +72,203 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0153  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x015e  */
-    /* JADX WARN: Type inference failed for: r6v13 */
-    /* JADX WARN: Type inference failed for: r6v5, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r6v7 */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01c2  */
+    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v20 */
+    /* JADX WARN: Type inference failed for: r3v26 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public /* synthetic */ void lambda$getAllStories$3(final Consumer consumer) {
+        final Consumer consumer2;
         SQLiteCursor sQLiteCursor;
-        boolean z;
+        ArrayList<TL_stories$StoryItem> arrayList;
         SQLiteDatabase sQLiteDatabase;
         int i;
         LongSparseIntArray longSparseIntArray;
+        SQLiteDatabase sQLiteDatabase2;
         int i2;
+        LongSparseIntArray longSparseIntArray2;
+        int i3;
         TLRPC$Peer tLRPC$Peer;
-        SQLiteDatabase database = this.storage.getDatabase();
-        ArrayList<TL_stories$PeerStories> arrayList = new ArrayList<>();
-        ArrayList<Long> arrayList2 = new ArrayList<>();
-        ArrayList<Long> arrayList3 = new ArrayList<>();
-        ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
-        int i3 = 1;
+        Consumer consumer3 = consumer;
         int i4 = 0;
+        int i5 = 1;
+        SQLiteDatabase database = this.storage.getDatabase();
+        ArrayList<TL_stories$PeerStories> arrayList2 = new ArrayList<>();
+        ArrayList<Long> arrayList3 = new ArrayList<>();
+        ArrayList<Long> arrayList4 = new ArrayList<>();
+        ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
         try {
             SQLiteCursor queryFinalized = database.queryFinalized("SELECT dialog_id, max_read FROM stories_counter", new Object[0]);
             try {
-                LongSparseIntArray longSparseIntArray2 = new LongSparseIntArray();
+                LongSparseIntArray longSparseIntArray3 = new LongSparseIntArray();
                 while (queryFinalized.next()) {
                     long longValue = queryFinalized.longValue(0);
-                    longSparseIntArray2.put(longValue, queryFinalized.intValue(1));
+                    longSparseIntArray3.put(longValue, queryFinalized.intValue(1));
                     if (longValue > 0) {
-                        arrayList2.add(Long.valueOf(longValue));
-                    } else {
                         arrayList3.add(Long.valueOf(longValue));
+                    } else {
+                        arrayList4.add(Long.valueOf(longValue));
                     }
                 }
                 queryFinalized.dispose();
-                int i5 = 0;
-                while (i5 < longSparseIntArray2.size()) {
-                    long keyAt = longSparseIntArray2.keyAt(i5);
-                    int valueAt = longSparseIntArray2.valueAt(i5);
-                    Locale locale = Locale.US;
-                    Object[] objArr = new Object[i3];
-                    objArr[i4] = Long.valueOf(keyAt);
-                    sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i4]);
+                int i6 = 0;
+                while (i6 < longSparseIntArray3.size()) {
                     try {
-                        ArrayList<TL_stories$StoryItem> arrayList4 = new ArrayList<>();
-                        ?? r6 = i3;
-                        while (sQLiteCursor.next()) {
-                            NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i4);
-                            NativeByteBuffer byteBufferValue2 = sQLiteCursor.byteBufferValue(r6);
-                            if (byteBufferValue != null) {
-                                sQLiteDatabase = database;
-                                TL_stories$StoryItem TLdeserialize = TL_stories$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r6), r6);
-                                TLdeserialize.dialogId = keyAt;
-                                TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader = TLdeserialize.fwd_from;
-                                if (tL_stories$StoryFwdHeader != null && (tLRPC$Peer = tL_stories$StoryFwdHeader.from) != null) {
-                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer, arrayList2, arrayList3);
-                                }
-                                longSparseIntArray = longSparseIntArray2;
-                                int i6 = 0;
-                                while (i6 < TLdeserialize.media_areas.size()) {
-                                    if (TLdeserialize.media_areas.get(i6) instanceof TL_stories$TL_mediaAreaChannelPost) {
-                                        i2 = i5;
-                                        long j = ((TL_stories$TL_mediaAreaChannelPost) TLdeserialize.media_areas.get(i6)).channel_id;
-                                        if (!arrayList3.contains(Long.valueOf(j))) {
-                                            arrayList3.add(Long.valueOf(j));
-                                        }
-                                    } else {
-                                        i2 = i5;
-                                    }
-                                    i6++;
-                                    i5 = i2;
-                                }
-                                i = i5;
-                                TLRPC$Peer tLRPC$Peer2 = TLdeserialize.from_id;
-                                if (tLRPC$Peer2 != null) {
-                                    MessagesStorage.addLoadPeerInfo(tLRPC$Peer2, arrayList2, arrayList3);
-                                }
-                                StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
-                                arrayList4.add(TLdeserialize);
-                                byteBufferValue.reuse();
-                            } else {
-                                sQLiteDatabase = database;
-                                i = i5;
-                                longSparseIntArray = longSparseIntArray2;
-                            }
-                            if (byteBufferValue2 != null) {
-                                byteBufferValue2.reuse();
-                            }
-                            database = sQLiteDatabase;
-                            longSparseIntArray2 = longSparseIntArray;
-                            i5 = i;
-                            r6 = 1;
-                            i4 = 0;
-                        }
-                        SQLiteDatabase sQLiteDatabase2 = database;
-                        int i7 = i5;
-                        LongSparseIntArray longSparseIntArray3 = longSparseIntArray2;
-                        sQLiteCursor.dispose();
-                        TL_stories$TL_peerStories tL_stories$TL_peerStories = new TL_stories$TL_peerStories();
-                        tL_stories$TL_peerStories.stories = arrayList4;
-                        tL_stories$TL_peerStories.max_read_id = valueAt;
-                        tL_stories$TL_peerStories.peer = MessagesController.getInstance(this.currentAccount).getPeer(keyAt);
-                        arrayList.add(tL_stories$TL_peerStories);
-                        i5 = i7 + 1;
-                        database = sQLiteDatabase2;
-                        longSparseIntArray2 = longSparseIntArray3;
-                        i3 = 1;
-                        i4 = 0;
-                    } catch (Throwable th) {
-                        th = th;
+                        long keyAt = longSparseIntArray3.keyAt(i6);
+                        int valueAt = longSparseIntArray3.valueAt(i6);
+                        Locale locale = Locale.US;
+                        Object[] objArr = new Object[i5];
+                        objArr[i4] = Long.valueOf(keyAt);
+                        sQLiteCursor = database.queryFinalized(String.format(locale, "SELECT data, custom_params FROM stories WHERE dialog_id = %d", objArr), new Object[i4]);
                         try {
-                            FileLog.e(th);
-                            if (sQLiteCursor != null) {
-                                sQLiteCursor.dispose();
+                            arrayList = new ArrayList<>();
+                            ?? r3 = i5;
+                            while (sQLiteCursor.next()) {
+                                NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(i4);
+                                NativeByteBuffer byteBufferValue2 = sQLiteCursor.byteBufferValue(r3);
+                                if (byteBufferValue != null) {
+                                    sQLiteDatabase2 = database;
+                                    TL_stories$StoryItem TLdeserialize = TL_stories$StoryItem.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(r3), r3);
+                                    TLdeserialize.dialogId = keyAt;
+                                    TL_stories$StoryFwdHeader tL_stories$StoryFwdHeader = TLdeserialize.fwd_from;
+                                    if (tL_stories$StoryFwdHeader != null && (tLRPC$Peer = tL_stories$StoryFwdHeader.from) != null) {
+                                        MessagesStorage.addLoadPeerInfo(tLRPC$Peer, arrayList3, arrayList4);
+                                    }
+                                    longSparseIntArray2 = longSparseIntArray3;
+                                    int i7 = 0;
+                                    while (i7 < TLdeserialize.media_areas.size()) {
+                                        if (TLdeserialize.media_areas.get(i7) instanceof TL_stories$TL_mediaAreaChannelPost) {
+                                            i3 = i6;
+                                            long j = ((TL_stories$TL_mediaAreaChannelPost) TLdeserialize.media_areas.get(i7)).channel_id;
+                                            if (!arrayList4.contains(Long.valueOf(j))) {
+                                                arrayList4.add(Long.valueOf(j));
+                                            }
+                                        } else {
+                                            i3 = i6;
+                                        }
+                                        i7++;
+                                        i6 = i3;
+                                    }
+                                    i2 = i6;
+                                    TLRPC$Peer tLRPC$Peer2 = TLdeserialize.from_id;
+                                    if (tLRPC$Peer2 != null) {
+                                        MessagesStorage.addLoadPeerInfo(tLRPC$Peer2, arrayList3, arrayList4);
+                                    }
+                                    StoryCustomParamsHelper.readLocalParams(TLdeserialize, byteBufferValue2);
+                                    arrayList.add(TLdeserialize);
+                                    byteBufferValue.reuse();
+                                } else {
+                                    sQLiteDatabase2 = database;
+                                    i2 = i6;
+                                    longSparseIntArray2 = longSparseIntArray3;
+                                }
+                                if (byteBufferValue2 != null) {
+                                    byteBufferValue2.reuse();
+                                }
+                                database = sQLiteDatabase2;
+                                longSparseIntArray3 = longSparseIntArray2;
+                                i6 = i2;
+                                i4 = 0;
+                                r3 = 1;
                             }
-                            z = true;
-                            if (!z) {
-                            }
-                        } catch (Throwable th2) {
-                            if (sQLiteCursor != null) {
-                                sQLiteCursor.dispose();
-                            }
-                            throw th2;
+                            sQLiteDatabase = database;
+                            i = i6;
+                            longSparseIntArray = longSparseIntArray3;
+                            sQLiteCursor.dispose();
+                        } catch (Throwable th) {
+                            th = th;
                         }
+                        try {
+                            TL_stories$TL_peerStories tL_stories$TL_peerStories = new TL_stories$TL_peerStories();
+                            tL_stories$TL_peerStories.stories = arrayList;
+                            tL_stories$TL_peerStories.max_read_id = valueAt;
+                            tL_stories$TL_peerStories.peer = MessagesController.getInstance(this.currentAccount).getPeer(keyAt);
+                            arrayList2.add(tL_stories$TL_peerStories);
+                            i6 = i + 1;
+                            consumer3 = consumer;
+                            database = sQLiteDatabase;
+                            longSparseIntArray3 = longSparseIntArray;
+                            i4 = 0;
+                            i5 = 1;
+                        } catch (Throwable th2) {
+                            th = th2;
+                            sQLiteCursor = null;
+                            consumer2 = consumer;
+                            try {
+                                FileLog.e(th);
+                                if (sQLiteCursor != null) {
+                                    sQLiteCursor.dispose();
+                                }
+                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda15
+                                    @Override // java.lang.Runnable
+                                    public final void run() {
+                                        Consumer.this.accept(null);
+                                    }
+                                });
+                                return;
+                            } catch (Throwable th3) {
+                                if (sQLiteCursor != null) {
+                                    sQLiteCursor.dispose();
+                                }
+                                throw th3;
+                            }
+                        }
+                    } catch (Throwable th4) {
+                        th = th4;
+                        consumer2 = consumer;
+                        sQLiteCursor = null;
+                        FileLog.e(th);
+                        if (sQLiteCursor != null) {
+                        }
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda15
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                Consumer.this.accept(null);
+                            }
+                        });
+                        return;
                     }
                 }
-                z = false;
-            } catch (Throwable th3) {
-                th = th3;
+                final TL_stories$TL_stories_allStories tL_stories$TL_stories_allStories = new TL_stories$TL_stories_allStories();
+                tL_stories$TL_stories_allStories.peer_stories = arrayList2;
+                tL_stories$TL_stories_allStories.users = this.storage.getUsers(arrayList3);
+                tL_stories$TL_stories_allStories.chats = this.storage.getChats(arrayList4);
+                int i8 = 0;
+                while (i8 < tL_stories$TL_stories_allStories.peer_stories.size()) {
+                    TL_stories$PeerStories tL_stories$PeerStories = tL_stories$TL_stories_allStories.peer_stories.get(i8);
+                    checkExpiredStories(DialogObject.getPeerDialogId(tL_stories$PeerStories.peer), tL_stories$PeerStories.stories);
+                    if (tL_stories$PeerStories.stories.isEmpty()) {
+                        tL_stories$TL_stories_allStories.peer_stories.remove(i8);
+                        i8--;
+                    }
+                    Collections.sort(tL_stories$PeerStories.stories, StoriesController.storiesComparator);
+                    i8++;
+                }
+                Collections.sort(tL_stories$TL_stories_allStories.peer_stories, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda13
+                    @Override // j$.util.function.ToIntFunction
+                    public final int applyAsInt(Object obj) {
+                        int lambda$getAllStories$1;
+                        lambda$getAllStories$1 = StoriesStorage.lambda$getAllStories$1((TL_stories$PeerStories) obj);
+                        return lambda$getAllStories$1;
+                    }
+                }));
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda14
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        Consumer.this.accept(tL_stories$TL_stories_allStories);
+                    }
+                });
+            } catch (Throwable th5) {
+                th = th5;
+                consumer2 = consumer3;
                 sQLiteCursor = queryFinalized;
             }
-        } catch (Throwable th4) {
-            th = th4;
-            sQLiteCursor = null;
+        } catch (Throwable th6) {
+            th = th6;
+            consumer2 = consumer3;
         }
-        if (!z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda12
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Consumer.this.accept(null);
-                }
-            });
-            return;
-        }
-        final TL_stories$TL_stories_allStories tL_stories$TL_stories_allStories = new TL_stories$TL_stories_allStories();
-        tL_stories$TL_stories_allStories.peer_stories = arrayList;
-        tL_stories$TL_stories_allStories.users = this.storage.getUsers(arrayList2);
-        tL_stories$TL_stories_allStories.chats = this.storage.getChats(arrayList3);
-        int i8 = 0;
-        while (i8 < tL_stories$TL_stories_allStories.peer_stories.size()) {
-            TL_stories$PeerStories tL_stories$PeerStories = tL_stories$TL_stories_allStories.peer_stories.get(i8);
-            checkExpiredStories(DialogObject.getPeerDialogId(tL_stories$PeerStories.peer), tL_stories$PeerStories.stories);
-            if (tL_stories$PeerStories.stories.isEmpty()) {
-                tL_stories$TL_stories_allStories.peer_stories.remove(i8);
-                i8--;
-            }
-            Collections.sort(tL_stories$PeerStories.stories, StoriesController.storiesComparator);
-            i8++;
-        }
-        Collections.sort(tL_stories$TL_stories_allStories.peer_stories, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda13
-            @Override // j$.util.function.ToIntFunction
-            public final int applyAsInt(Object obj) {
-                int lambda$getAllStories$1;
-                lambda$getAllStories$1 = StoriesStorage.lambda$getAllStories$1((TL_stories$PeerStories) obj);
-                return lambda$getAllStories$1;
-            }
-        }));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda14
-            @Override // java.lang.Runnable
-            public final void run() {
-                Consumer.this.accept(tL_stories$TL_stories_allStories);
-            }
-        });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -352,7 +374,7 @@ public class StoriesStorage {
     }
 
     public void saveAllStories(final ArrayList<TL_stories$PeerStories> arrayList, final boolean z, final boolean z2, final Runnable runnable) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda11
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesStorage.this.lambda$saveAllStories$4(arrayList, z, z2, runnable);
@@ -457,7 +479,7 @@ public class StoriesStorage {
         if (j == 0) {
             return;
         }
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda0
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesStorage.this.lambda$updateStoryItem$7(j, tL_stories$StoryItem);
@@ -544,8 +566,8 @@ public class StoriesStorage {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x00cb A[Catch: all -> 0x00f7, TryCatch #0 {all -> 0x00f7, blocks: (B:3:0x0006, B:5:0x0017, B:7:0x0039, B:9:0x0043, B:11:0x0053, B:14:0x0059, B:23:0x00ae, B:25:0x00cb, B:27:0x00d1, B:17:0x007f, B:19:0x0083), top: B:32:0x0006 }] */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00cf A[Catch: all -> 0x0052, TryCatch #0 {all -> 0x0052, blocks: (B:3:0x0009, B:5:0x0017, B:7:0x0039, B:9:0x0043, B:13:0x0057, B:16:0x005d, B:25:0x00b2, B:27:0x00cf, B:29:0x00d5, B:19:0x0083, B:21:0x0087), top: B:33:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -743,7 +765,6 @@ public class StoriesStorage {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$fillMessagesWithStories$14(Timer.Task task, final ArrayList arrayList, long j, boolean z, Timer timer, int[] iArr, Runnable runnable, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        boolean z2;
         Timer.done(task);
         if (tLObject != null) {
             TL_stories$TL_stories_stories tL_stories$TL_stories_stories = (TL_stories$TL_stories_stories) tLObject;
@@ -751,24 +772,21 @@ public class StoriesStorage {
                 MessageObject messageObject = (MessageObject) arrayList.get(i);
                 int i2 = 0;
                 while (true) {
-                    if (i2 >= tL_stories$TL_stories_stories.stories.size()) {
-                        z2 = false;
-                        break;
-                    } else if (tL_stories$TL_stories_stories.stories.get(i2).id == getStoryId(messageObject)) {
-                        applyStory(this.currentAccount, j, messageObject, tL_stories$TL_stories_stories.stories.get(i2));
-                        z2 = true;
-                        break;
-                    } else {
+                    if (i2 < tL_stories$TL_stories_stories.stories.size()) {
+                        if (tL_stories$TL_stories_stories.stories.get(i2).id == getStoryId(messageObject)) {
+                            applyStory(this.currentAccount, j, messageObject, tL_stories$TL_stories_stories.stories.get(i2));
+                            break;
+                        }
                         i2++;
+                    } else {
+                        TL_stories$TL_storyItemDeleted tL_stories$TL_storyItemDeleted = new TL_stories$TL_storyItemDeleted();
+                        tL_stories$TL_storyItemDeleted.id = getStoryId(messageObject);
+                        applyStory(this.currentAccount, j, messageObject, tL_stories$TL_storyItemDeleted);
+                        break;
                     }
                 }
-                if (!z2) {
-                    TL_stories$TL_storyItemDeleted tL_stories$TL_storyItemDeleted = new TL_stories$TL_storyItemDeleted();
-                    tL_stories$TL_storyItemDeleted.id = getStoryId(messageObject);
-                    applyStory(this.currentAccount, j, messageObject, tL_stories$TL_storyItemDeleted);
-                }
                 if (z) {
-                    this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda9
+                    this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda5
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoriesStorage.this.lambda$fillMessagesWithStories$13(arrayList);
@@ -811,9 +829,12 @@ public class StoriesStorage {
         }
         for (int i3 = 0; i3 < messageObject.messageOwner.media.webpage.attributes.size(); i3++) {
             TLRPC$WebPageAttribute tLRPC$WebPageAttribute = messageObject.messageOwner.media.webpage.attributes.get(i3);
-            if ((tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) && ((TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute).id == tL_stories$StoryItem.id) {
-                tLRPC$WebPageAttribute.flags |= 1;
-                ((TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute).storyItem = checkExpiredStateLocal(i, j, tL_stories$StoryItem);
+            if (tLRPC$WebPageAttribute instanceof TLRPC$TL_webPageAttributeStory) {
+                TLRPC$TL_webPageAttributeStory tLRPC$TL_webPageAttributeStory = (TLRPC$TL_webPageAttributeStory) tLRPC$WebPageAttribute;
+                if (tLRPC$TL_webPageAttributeStory.id == tL_stories$StoryItem.id) {
+                    tLRPC$WebPageAttribute.flags |= 1;
+                    tLRPC$TL_webPageAttributeStory.storyItem = checkExpiredStateLocal(i, j, tL_stories$StoryItem);
+                }
             }
         }
     }
@@ -892,10 +913,7 @@ public class StoriesStorage {
         }
         int currentTime = ConnectionsManager.getInstance(i).getCurrentTime();
         int i2 = tL_stories$StoryItem.expire_date;
-        boolean z = true;
-        if (i2 <= 0 ? currentTime - tL_stories$StoryItem.date <= 86400 : currentTime <= i2) {
-            z = false;
-        }
+        boolean z = i2 <= 0 ? currentTime - tL_stories$StoryItem.date > 86400 : currentTime > i2;
         if (tL_stories$StoryItem.pinned || !z || j == 0 || j == UserConfig.getInstance(i).clientUserId) {
             return tL_stories$StoryItem;
         }
@@ -925,7 +943,7 @@ public class StoriesStorage {
         } catch (Exception e) {
             this.storage.checkSQLException(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 Consumer.this.accept(longSparseIntArray);
@@ -934,7 +952,7 @@ public class StoriesStorage {
     }
 
     public void putPeerStories(final TL_stories$PeerStories tL_stories$PeerStories) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda15
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesStorage.this.lambda$putPeerStories$17(tL_stories$PeerStories);
@@ -948,7 +966,7 @@ public class StoriesStorage {
     }
 
     public void deleteAllUserStories(final long j) {
-        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda2
+        this.storage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.StoriesStorage$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 StoriesStorage.this.lambda$deleteAllUserStories$18(j);

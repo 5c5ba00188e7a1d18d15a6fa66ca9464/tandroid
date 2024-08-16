@@ -163,10 +163,9 @@ public class HelloParticles {
                     Drawable.this.bitmaps.put(str, this.bitmap);
                 }
                 RectF rectF = Drawable.this.rect;
-                float f = rectF.left;
-                int i2 = this.w;
-                float f2 = f + (i2 / 4.0f);
-                float f3 = rectF.right - (i2 / 4.0f);
+                float f = this.w / 4.0f;
+                float f2 = rectF.left + f;
+                float f3 = rectF.right - f;
                 if (i % 2 == 0) {
                     f3 = rectF.centerX() - (this.w / 2.0f);
                 } else {
@@ -176,12 +175,12 @@ public class HelloParticles {
                 float abs = Math.abs(Utilities.fastRandom.nextInt() % f4) + f2;
                 float abs2 = Drawable.this.rect.top + Math.abs(Utilities.fastRandom.nextInt() % Drawable.this.rect.height());
                 float f5 = 0.0f;
-                for (int i3 = 0; i3 < 10; i3++) {
+                for (int i2 = 0; i2 < 10; i2++) {
                     float abs3 = Math.abs(Utilities.fastRandom.nextInt() % f4) + f2;
                     float abs4 = Drawable.this.rect.top + Math.abs(Utilities.fastRandom.nextInt() % Drawable.this.rect.height());
                     float f6 = 2.14748365E9f;
-                    for (int i4 = 0; i4 < Drawable.this.particles.size(); i4++) {
-                        Particle particle = Drawable.this.particles.get(i4);
+                    for (int i3 = 0; i3 < Drawable.this.particles.size(); i3++) {
+                        Particle particle = Drawable.this.particles.get(i3);
                         if (particle.set) {
                             float min = Math.min(Math.abs((particle.x + ((particle.w * (this.scale / Drawable.this.bitmapScale)) * 1.1f)) - abs3), Math.abs(particle.x - abs3));
                             float f7 = particle.y - abs4;

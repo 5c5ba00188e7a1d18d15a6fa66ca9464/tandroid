@@ -18,17 +18,17 @@ public class ErrorAttachmentLog extends AbstractLog {
     private String fileName;
     private UUID id;
 
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public String getType() {
-        return "errorAttachment";
-    }
-
     public static ErrorAttachmentLog attachmentWithBinary(byte[] bArr, String str, String str2) {
         ErrorAttachmentLog errorAttachmentLog = new ErrorAttachmentLog();
         errorAttachmentLog.setData(bArr);
         errorAttachmentLog.setFileName(str);
         errorAttachmentLog.setContentType(str2);
         return errorAttachmentLog;
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public String getType() {
+        return "errorAttachment";
     }
 
     public UUID getId() {

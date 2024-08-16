@@ -1,32 +1,49 @@
 package j$.util.stream;
 
-import j$.util.function.Supplier;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes2.dex */
-public final class s0 implements C3 {
-    final r0 a;
-    final Supplier b;
+final class s0 extends c {
+    private final r0 j;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public s0(U2 u2, r0 r0Var, n nVar) {
-        this.a = r0Var;
-        this.b = nVar;
+    public s0(r0 r0Var, b bVar, j$.util.Q q) {
+        super(bVar, q);
+        this.j = r0Var;
     }
 
-    @Override // j$.util.stream.C3
-    public final Object a(u0 u0Var, j$.util.Q q) {
-        return (Boolean) new t0(this, u0Var, q).invoke();
+    s0(s0 s0Var, j$.util.Q q) {
+        super(s0Var, q);
+        this.j = s0Var.j;
     }
 
-    @Override // j$.util.stream.C3
-    public final int b() {
-        return T2.u | T2.r;
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.e
+    public final Object a() {
+        boolean z;
+        b bVar = this.a;
+        p0 p0Var = (p0) this.j.b.get();
+        bVar.D0(this.b, p0Var);
+        boolean z2 = p0Var.b;
+        z = this.j.a.b;
+        if (z2 == z) {
+            Boolean valueOf = Boolean.valueOf(z2);
+            AtomicReference atomicReference = this.h;
+            while (!atomicReference.compareAndSet(null, valueOf) && atomicReference.get() == null) {
+            }
+        }
+        return null;
     }
 
-    @Override // j$.util.stream.C3
-    public final Object c(u0 u0Var, j$.util.Q q) {
-        q0 q0Var = (q0) this.b.get();
-        u0Var.X0(q, q0Var);
-        return Boolean.valueOf(q0Var.b);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.e
+    public final e d(j$.util.Q q) {
+        return new s0(this, q);
+    }
+
+    @Override // j$.util.stream.c
+    protected final Object i() {
+        boolean z;
+        z = this.j.a.b;
+        return Boolean.valueOf(!z);
     }
 }

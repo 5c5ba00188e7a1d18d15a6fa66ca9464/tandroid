@@ -104,20 +104,24 @@ public final class zzda extends GmsClient {
 
     public final void zzB(ListenerHolder.ListenerKey listenerKey, boolean z, TaskCompletionSource taskCompletionSource) throws RemoteException {
         synchronized (this.zzg) {
-            zzcw zzcwVar = (zzcw) this.zzg.remove(listenerKey);
-            if (zzcwVar == null) {
-                taskCompletionSource.setResult(Boolean.FALSE);
-                return;
-            }
-            zzcwVar.zzh();
-            if (z) {
-                if (zzE(zzm.zzj)) {
-                    ((zzo) getService()).zzy(zzdb.zzb(null, zzcwVar, null, null), new zzcl(this, Boolean.TRUE, taskCompletionSource));
-                } else {
-                    ((zzo) getService()).zzz(new zzdf(2, null, null, zzcwVar, null, new zzcn(Boolean.TRUE, taskCompletionSource), null));
+            try {
+                zzcw zzcwVar = (zzcw) this.zzg.remove(listenerKey);
+                if (zzcwVar == null) {
+                    taskCompletionSource.setResult(Boolean.FALSE);
+                    return;
                 }
-            } else {
-                taskCompletionSource.setResult(Boolean.TRUE);
+                zzcwVar.zzh();
+                if (z) {
+                    if (zzE(zzm.zzj)) {
+                        ((zzo) getService()).zzy(zzdb.zzb(null, zzcwVar, null, null), new zzcl(this, Boolean.TRUE, taskCompletionSource));
+                    } else {
+                        ((zzo) getService()).zzz(new zzdf(2, null, null, zzcwVar, null, new zzcn(Boolean.TRUE, taskCompletionSource), null));
+                    }
+                } else {
+                    taskCompletionSource.setResult(Boolean.TRUE);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -131,8 +135,8 @@ public final class zzda extends GmsClient {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:12:0x0044 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:10:0x003b, B:12:0x0044, B:14:0x0080, B:13:0x0057, B:9:0x002e), top: B:19:0x001a }] */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0057 A[Catch: all -> 0x0082, TryCatch #0 {, blocks: (B:4:0x001a, B:8:0x0028, B:10:0x003b, B:12:0x0044, B:14:0x0080, B:13:0x0057, B:9:0x002e), top: B:19:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0046 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:12:0x003d, B:14:0x0046, B:16:0x0082, B:15:0x0059, B:11:0x0030), top: B:20:0x001a }] */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0059 A[Catch: all -> 0x002e, TryCatch #0 {all -> 0x002e, blocks: (B:4:0x001a, B:8:0x0028, B:12:0x003d, B:14:0x0046, B:16:0x0082, B:15:0x0059, B:11:0x0030), top: B:20:0x001a }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -143,27 +147,31 @@ public final class zzda extends GmsClient {
         listenerKey.getClass();
         boolean zzE = zzE(zzm.zzj);
         synchronized (this.zzg) {
-            zzcw zzcwVar2 = (zzcw) this.zzg.get(listenerKey);
-            if (zzcwVar2 != null && !zzE) {
-                zzcwVar2.zzg(zza);
-                zzcwVar = zzcwVar2;
-                zzcwVar2 = null;
-                getContext();
-                String idString = listenerKey.toIdString();
-                if (!zzE) {
-                    ((zzo) getService()).zzk(zzdb.zzb(zzcwVar2, zzcwVar, null, idString), locationRequest, new zzcl(this, null, taskCompletionSource));
-                } else {
-                    LocationRequest.Builder builder = new LocationRequest.Builder(locationRequest);
-                    builder.zzb(null);
-                    ((zzo) getService()).zzz(new zzdf(1, zzdd.zza(null, builder.build()), null, zzcwVar, null, new zzcp(taskCompletionSource, zzcwVar), idString));
+            try {
+                zzcw zzcwVar2 = (zzcw) this.zzg.get(listenerKey);
+                if (zzcwVar2 != null && !zzE) {
+                    zzcwVar2.zzg(zza);
+                    zzcwVar = zzcwVar2;
+                    zzcwVar2 = null;
+                    getContext();
+                    String idString = listenerKey.toIdString();
+                    if (!zzE) {
+                        ((zzo) getService()).zzk(zzdb.zzb(zzcwVar2, zzcwVar, null, idString), locationRequest, new zzcl(this, null, taskCompletionSource));
+                    } else {
+                        LocationRequest.Builder builder = new LocationRequest.Builder(locationRequest);
+                        builder.zzb(null);
+                        ((zzo) getService()).zzz(new zzdf(1, zzdd.zza(null, builder.build()), null, zzcwVar, null, new zzcp(taskCompletionSource, zzcwVar), idString));
+                    }
                 }
-            }
-            zzcw zzcwVar3 = new zzcw(zzcsVar);
-            this.zzg.put(listenerKey, zzcwVar3);
-            zzcwVar = zzcwVar3;
-            getContext();
-            String idString2 = listenerKey.toIdString();
-            if (!zzE) {
+                zzcw zzcwVar3 = new zzcw(zzcsVar);
+                this.zzg.put(listenerKey, zzcwVar3);
+                zzcwVar = zzcwVar3;
+                getContext();
+                String idString2 = listenerKey.toIdString();
+                if (!zzE) {
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.LinkAddress;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -22,6 +21,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.telegram.messenger.voip.JNIUtilities$$ExternalSyntheticApiModelOutline3;
 import org.webrtc.NetworkChangeDetector;
 import org.webrtc.NetworkMonitorAutoDetect;
 /* loaded from: classes.dex */
@@ -375,14 +375,14 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
         @SuppressLint({"NewApi"})
         NetworkChangeDetector.IPAddress[] getIPAddresses(LinkProperties linkProperties) {
             List linkAddresses;
-            List<LinkAddress> linkAddresses2;
+            List<Object> linkAddresses2;
             InetAddress address;
             linkAddresses = linkProperties.getLinkAddresses();
             NetworkChangeDetector.IPAddress[] iPAddressArr = new NetworkChangeDetector.IPAddress[linkAddresses.size()];
             linkAddresses2 = linkProperties.getLinkAddresses();
             int i = 0;
-            for (LinkAddress linkAddress : linkAddresses2) {
-                address = linkAddress.getAddress();
+            for (Object obj : linkAddresses2) {
+                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(obj).getAddress();
                 iPAddressArr[i] = new NetworkChangeDetector.IPAddress(address.getAddress());
                 i++;
             }
@@ -686,7 +686,10 @@ public class NetworkMonitorAutoDetect extends BroadcastReceiver implements Netwo
     }
 
     private String getWifiSSID(NetworkState networkState) {
-        return getConnectionType(networkState) != NetworkChangeDetector.ConnectionType.CONNECTION_WIFI ? "" : this.wifiManagerDelegate.getWifiSSID();
+        if (getConnectionType(networkState) != NetworkChangeDetector.ConnectionType.CONNECTION_WIFI) {
+            return "";
+        }
+        return this.wifiManagerDelegate.getWifiSSID();
     }
 
     @Override // android.content.BroadcastReceiver

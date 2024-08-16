@@ -75,7 +75,7 @@ public class DispatchQueuePool {
         } else if (remove.getPriority() != 10) {
             remove.setPriority(10);
         }
-        remove.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda1
+        remove.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DispatchQueuePool.this.lambda$execute$1(runnable, remove);
@@ -86,7 +86,7 @@ public class DispatchQueuePool {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
         runnable.run();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePool$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 DispatchQueuePool.this.lambda$execute$0(dispatchQueue);

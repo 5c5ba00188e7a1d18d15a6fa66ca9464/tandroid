@@ -19,11 +19,6 @@ public final class LibflacAudioRenderer extends DecoderAudioRenderer<FlacDecoder
     private static final int STREAM_MARKER_SIZE = 4;
     private static final String TAG = "LibflacAudioRenderer";
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return TAG;
-    }
-
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public /* bridge */ /* synthetic */ void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException {
         Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
@@ -39,6 +34,11 @@ public final class LibflacAudioRenderer extends DecoderAudioRenderer<FlacDecoder
 
     public LibflacAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, AudioSink audioSink) {
         super(handler, audioRendererEventListener, audioSink);
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return TAG;
     }
 
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer

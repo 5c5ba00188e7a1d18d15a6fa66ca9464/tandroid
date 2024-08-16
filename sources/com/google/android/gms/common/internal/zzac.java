@@ -33,9 +33,12 @@ final class zzac implements IGmsServiceBroker {
             }
             this.zza.transact(46, obtain, obtain2, 0);
             obtain2.readException();
-        } finally {
             obtain2.recycle();
             obtain.recycle();
+        } catch (Throwable th) {
+            obtain2.recycle();
+            obtain.recycle();
+            throw th;
         }
     }
 }

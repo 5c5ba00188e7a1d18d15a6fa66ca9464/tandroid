@@ -7,7 +7,7 @@ public final class zzff {
     private static final zzfg zzqb;
 
     static {
-        zzqb = zzfd.zzed() && zzfd.zzee() ? new zzfj() : new zzfh();
+        zzqb = (zzfd.zzed() && zzfd.zzee()) ? new zzfj() : new zzfh();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

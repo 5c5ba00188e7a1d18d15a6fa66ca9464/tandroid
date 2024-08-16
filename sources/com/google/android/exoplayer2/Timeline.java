@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.util.BundleUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class Timeline implements Bundleable {
     public static final Timeline EMPTY = new Timeline() { // from class: com.google.android.exoplayer2.Timeline.1
@@ -175,7 +176,7 @@ public abstract class Timeline implements Bundleable {
         }
 
         public int hashCode() {
-            int hashCode = (((217 + this.uid.hashCode()) * 31) + this.mediaItem.hashCode()) * 31;
+            int hashCode = (((this.uid.hashCode() + NotificationCenter.channelStarsUpdated) * 31) + this.mediaItem.hashCode()) * 31;
             Object obj = this.manifest;
             int hashCode2 = (hashCode + (obj == null ? 0 : obj.hashCode())) * 31;
             MediaItem.LiveConfiguration liveConfiguration = this.liveConfiguration;
@@ -397,7 +398,7 @@ public abstract class Timeline implements Bundleable {
 
         public int hashCode() {
             Object obj = this.id;
-            int hashCode = (217 + (obj == null ? 0 : obj.hashCode())) * 31;
+            int hashCode = ((obj == null ? 0 : obj.hashCode()) + NotificationCenter.channelStarsUpdated) * 31;
             Object obj2 = this.uid;
             int hashCode2 = obj2 != null ? obj2.hashCode() : 0;
             long j = this.durationUs;
@@ -599,7 +600,7 @@ public abstract class Timeline implements Bundleable {
     public int hashCode() {
         Window window = new Window();
         Period period = new Period();
-        int windowCount = 217 + getWindowCount();
+        int windowCount = getWindowCount() + NotificationCenter.channelStarsUpdated;
         for (int i = 0; i < getWindowCount(); i++) {
             windowCount = (windowCount * 31) + getWindow(i, window).hashCode();
         }

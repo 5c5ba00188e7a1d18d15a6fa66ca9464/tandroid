@@ -1,15 +1,32 @@
 package j$.util.stream;
-/* loaded from: classes2.dex */
-enum r0 {
-    ANY(true, true),
-    ALL(false, false),
-    NONE(true, false);
-    
-    private final boolean a;
-    private final boolean b;
 
-    r0(boolean z, boolean z2) {
-        this.a = z;
-        this.b = z2;
+import j$.util.function.Supplier;
+/* JADX INFO: Access modifiers changed from: package-private */
+/* loaded from: classes2.dex */
+public final class r0 implements x3 {
+    final q0 a;
+    final Supplier b;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public r0(T2 t2, q0 q0Var, Supplier supplier) {
+        this.a = q0Var;
+        this.b = supplier;
+    }
+
+    @Override // j$.util.stream.x3
+    public final Object a(b bVar, j$.util.Q q) {
+        p0 p0Var = (p0) this.b.get();
+        bVar.D0(q, p0Var);
+        return Boolean.valueOf(p0Var.b);
+    }
+
+    @Override // j$.util.stream.x3
+    public final Object c(b bVar, j$.util.Q q) {
+        return (Boolean) new s0(this, bVar, q).invoke();
+    }
+
+    @Override // j$.util.stream.x3
+    public final int d() {
+        return S2.u | S2.r;
     }
 }

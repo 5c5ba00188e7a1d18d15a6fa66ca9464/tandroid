@@ -6,7 +6,7 @@ final class zzbx {
 
     private static zzbu<?> zzao() {
         try {
-            return (zzbu) Class.forName("com.google.protobuf.ExtensionSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            return (zzbu) Class.forName("com.google.protobuf.ExtensionSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
             return null;
         }

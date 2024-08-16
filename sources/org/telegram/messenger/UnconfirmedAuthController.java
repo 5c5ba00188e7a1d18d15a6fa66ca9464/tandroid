@@ -45,7 +45,7 @@ public class UnconfirmedAuthController {
             return;
         }
         this.fetchingCache = true;
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda1
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 UnconfirmedAuthController.this.lambda$readCache$1();
@@ -83,7 +83,7 @@ public class UnconfirmedAuthController {
                 FileLog.e(e2);
             }
             sQLiteCursor.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     UnconfirmedAuthController.this.lambda$readCache$0(hashSet, arrayList);
@@ -189,7 +189,7 @@ public class UnconfirmedAuthController {
             return;
         }
         this.savingCache = true;
-        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda3
+        MessagesStorage.getInstance(this.currentAccount).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 UnconfirmedAuthController.this.lambda$saveCache$4();
@@ -198,20 +198,20 @@ public class UnconfirmedAuthController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0050, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x004b, code lost:
+        if (r1 != null) goto L12;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x0051, code lost:
         if (r1 == null) goto L9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0052, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0053, code lost:
         r1.dispose();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0055, code lost:
-        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda2(r5));
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0056, code lost:
+        org.telegram.messenger.AndroidUtilities.runOnUIThread(new org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda4(r5));
      */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x005d, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x005e, code lost:
         return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:8:0x0047, code lost:
-        if (r1 != null) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -261,14 +261,14 @@ public class UnconfirmedAuthController {
         Utilities.Callback[] callbackArr = new Utilities.Callback[arrayList2.size()];
         for (final int i = 0; i < arrayList2.size(); i++) {
             final UnconfirmedAuth unconfirmedAuth = (UnconfirmedAuth) arrayList2.get(i);
-            callbackArr[i] = new Utilities.Callback() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda6
+            callbackArr[i] = new Utilities.Callback() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     UnconfirmedAuthController.lambda$updateList$6(zArr, i, z, unconfirmedAuth, (Runnable) obj);
                 }
             };
         }
-        Utilities.raceCallbacks(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda7
+        Utilities.raceCallbacks(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 UnconfirmedAuthController.this.lambda$updateList$7(zArr, arrayList2, z, callback);
@@ -304,7 +304,7 @@ public class UnconfirmedAuthController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$updateList$6(final boolean[] zArr, final int i, boolean z, UnconfirmedAuth unconfirmedAuth, final Runnable runnable) {
-        Utilities.Callback<Boolean> callback = new Utilities.Callback() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda0
+        Utilities.Callback<Boolean> callback = new Utilities.Callback() { // from class: org.telegram.messenger.UnconfirmedAuthController$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UnconfirmedAuthController.lambda$updateList$5(zArr, i, runnable, (Boolean) obj);
@@ -400,7 +400,7 @@ public class UnconfirmedAuthController {
             TLRPC$TL_account_changeAuthorizationSettings tLRPC$TL_account_changeAuthorizationSettings = new TLRPC$TL_account_changeAuthorizationSettings();
             tLRPC$TL_account_changeAuthorizationSettings.hash = this.hash;
             tLRPC$TL_account_changeAuthorizationSettings.confirmed = true;
-            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda0
+            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tLRPC$TL_account_changeAuthorizationSettings, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda3
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$confirm$1(callback, tLObject, tLRPC$TL_error);
@@ -410,7 +410,7 @@ public class UnconfirmedAuthController {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$confirm$1(final Utilities.Callback callback, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$confirm$0(callback, tLObject, tLRPC$TL_error);
@@ -429,7 +429,7 @@ public class UnconfirmedAuthController {
         public void deny(final Utilities.Callback<Boolean> callback) {
             TLRPC$TL_account_resetAuthorization tLRPC$TL_account_resetAuthorization = new TLRPC$TL_account_resetAuthorization();
             tLRPC$TL_account_resetAuthorization.hash = this.hash;
-            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda3
+            ConnectionsManager.getInstance(UnconfirmedAuthController.this.currentAccount).sendRequest(tLRPC$TL_account_resetAuthorization, new RequestDelegate() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$deny$3(callback, tLObject, tLRPC$TL_error);
@@ -439,7 +439,7 @@ public class UnconfirmedAuthController {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$deny$3(final Utilities.Callback callback, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UnconfirmedAuthController$UnconfirmedAuth$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     UnconfirmedAuthController.UnconfirmedAuth.this.lambda$deny$2(callback, tLObject, tLRPC$TL_error);

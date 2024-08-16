@@ -11,6 +11,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -41,7 +42,7 @@ public class SuggestClearDatabaseBottomSheet extends BottomSheet {
         StickerImageView stickerImageView = new StickerImageView(parentActivity, this.currentAccount);
         stickerImageView.setStickerNum(7);
         stickerImageView.getImageReceiver().setAutoRepeat(1);
-        linearLayout.addView(stickerImageView, LayoutHelper.createLinear(144, 144, 1, 0, 16, 0, 0));
+        linearLayout.addView(stickerImageView, LayoutHelper.createLinear((int) NotificationCenter.messagePlayingProgressDidChanged, (int) NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
         TextView textView = new TextView(parentActivity);
         textView.setGravity(8388611);
         int i = Theme.key_dialogTextBlack;

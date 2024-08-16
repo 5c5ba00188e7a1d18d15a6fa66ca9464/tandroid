@@ -426,9 +426,16 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:48:0x00ec, code lost:
+        if (r3 >= (r2 + r0)) goto L66;
+     */
     @Override // androidx.viewpager.widget.ViewPager, android.view.View
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean onTouchEvent(MotionEvent motionEvent) {
         int i;
+        int i2;
         if (this.adapter == null) {
             return false;
         }
@@ -467,18 +474,20 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                 int currentItem = getCurrentItem();
                 if (realCount > 1) {
                     if (motionEvent.getX() > getWidth() / 3.0f) {
-                        i = this.adapter.getExtraCount();
-                        int i2 = currentItem + 1;
-                        if (i2 < realCount + i) {
-                            i = i2;
-                        }
+                        i2 = this.adapter.getExtraCount();
+                        i = currentItem + 1;
                     } else {
                         int extraCount = this.adapter.getExtraCount();
-                        int i3 = (-1) + currentItem;
-                        i = i3 < extraCount ? (realCount + extraCount) - 1 : i3;
+                        i = currentItem - 1;
+                        if (i < extraCount) {
+                            i2 = (realCount + extraCount) - 1;
+                            this.callback.onRelease();
+                            setCurrentItem(i2, false);
+                        }
+                        i2 = i;
+                        this.callback.onRelease();
+                        setCurrentItem(i2, false);
                     }
-                    this.callback.onRelease();
-                    setCurrentItem(i, false);
                 }
             }
         } else if (action == 2) {
@@ -836,7 +845,6 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
         ImageLocation imageLocation2;
         ArrayList<TLRPC$PhotoSize> arrayList;
         TLRPC$Photo tLRPC$Photo;
-        boolean z;
         TLRPC$Photo tLRPC$Photo2;
         if (i == NotificationCenter.dialogPhotosUpdate) {
             MessagesController.DialogPhotos dialogPhotos2 = (MessagesController.DialogPhotos) objArr[0];
@@ -929,12 +937,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                         if (imageLocation != null) {
                             int size2 = tLRPC$Photo4.sizes.size();
                             int i5 = 0;
-                            while (true) {
-                                if (i5 >= size2) {
-                                    imageLocation2 = imageLocation;
-                                    z = false;
-                                    break;
-                                }
+                            while (i5 < size2) {
                                 TLRPC$FileLocation tLRPC$FileLocation = tLRPC$Photo4.sizes.get(i5).location;
                                 if (tLRPC$FileLocation != null) {
                                     int i6 = tLRPC$FileLocation.local_id;
@@ -946,7 +949,7 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                             if (!tLRPC$Photo4.video_sizes.isEmpty()) {
                                                 this.videoLocations.set(0, ImageLocation.getForPhoto(FileLoader.getClosestVideoSizeWithSize(tLRPC$Photo4.video_sizes, 1000), tLRPC$Photo4));
                                             }
-                                            z = true;
+                                            tLRPC$Photo3 = null;
                                         } else {
                                             i5++;
                                             imageLocation = imageLocation2;
@@ -957,12 +960,8 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                 i5++;
                                 imageLocation = imageLocation2;
                             }
-                            if (z) {
-                                tLRPC$Photo3 = null;
-                            }
-                        } else {
-                            imageLocation2 = imageLocation;
                         }
+                        imageLocation2 = imageLocation;
                         TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo4.sizes, 640);
                         if (closestPhotoSizeWithSize2 != null) {
                             int i7 = tLRPC$Photo4.dc_id;
@@ -987,14 +986,15 @@ public class ProfileGalleryView extends CircularViewPager implements Notificatio
                                         TLRPC$VideoSize vectorMarkupVideoSize = FileLoader.getVectorMarkupVideoSize(tLRPC$Photo4);
                                         if (vectorMarkupVideoSize != null) {
                                             this.vectorAvatars.add(new VectorAvatarThumbDrawable(vectorMarkupVideoSize, user != null && user.premium, 2));
+                                            tLRPC$Photo = null;
                                             this.videoLocations.add(null);
                                             this.videoFileNames.add(null);
                                         } else {
                                             this.vectorAvatars.add(null);
                                             this.videoLocations.add(ImageLocation.getForPhoto(closestVideoSizeWithSize2, tLRPC$Photo4));
                                             this.videoFileNames.add(FileLoader.getAttachFileName(closestVideoSizeWithSize2));
+                                            tLRPC$Photo = null;
                                         }
-                                        tLRPC$Photo = null;
                                     } else {
                                         this.vectorAvatars.add(this.prevVectorAvatarThumbDrawable);
                                         tLRPC$Photo = null;

@@ -31,18 +31,26 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized long getDownloadId() {
-        if (this.mDownloadId == -1) {
-            this.mDownloadId = SharedPreferencesManager.getLong("Distribute.download_id", -1L);
+        try {
+            if (this.mDownloadId == -1) {
+                this.mDownloadId = SharedPreferencesManager.getLong("Distribute.download_id", -1L);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.mDownloadId;
     }
 
     private synchronized void setDownloadId(long j) {
-        this.mDownloadId = j;
-        if (j != -1) {
-            SharedPreferencesManager.putLong("Distribute.download_id", j);
-        } else {
-            SharedPreferencesManager.remove("Distribute.download_id");
+        try {
+            this.mDownloadId = j;
+            if (j != -1) {
+                SharedPreferencesManager.putLong("Distribute.download_id", j);
+            } else {
+                SharedPreferencesManager.remove("Distribute.download_id");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -58,24 +66,28 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
 
     @Override // com.microsoft.appcenter.distribute.download.AbstractReleaseDownloader, com.microsoft.appcenter.distribute.download.ReleaseDownloader
     public synchronized void cancel() {
-        if (isCancelled()) {
-            return;
-        }
-        super.cancel();
-        DownloadManagerRequestTask downloadManagerRequestTask = this.mRequestTask;
-        if (downloadManagerRequestTask != null) {
-            downloadManagerRequestTask.cancel(true);
-            this.mRequestTask = null;
-        }
-        DownloadManagerUpdateTask downloadManagerUpdateTask = this.mUpdateTask;
-        if (downloadManagerUpdateTask != null) {
-            downloadManagerUpdateTask.cancel(true);
-            this.mUpdateTask = null;
-        }
-        long downloadId = getDownloadId();
-        if (downloadId != -1) {
-            remove(downloadId);
-            setDownloadId(-1L);
+        try {
+            if (isCancelled()) {
+                return;
+            }
+            super.cancel();
+            DownloadManagerRequestTask downloadManagerRequestTask = this.mRequestTask;
+            if (downloadManagerRequestTask != null) {
+                downloadManagerRequestTask.cancel(true);
+                this.mRequestTask = null;
+            }
+            DownloadManagerUpdateTask downloadManagerUpdateTask = this.mUpdateTask;
+            if (downloadManagerUpdateTask != null) {
+                downloadManagerUpdateTask.cancel(true);
+                this.mUpdateTask = null;
+            }
+            long downloadId = getDownloadId();
+            if (downloadId != -1) {
+                remove(downloadId);
+                setDownloadId(-1L);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -139,17 +151,20 @@ public class DownloadManagerReleaseDownloader extends AbstractReleaseDownloader 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void onDownloadComplete(Cursor cursor) {
         boolean z;
-        if (isCancelled()) {
-            return;
-        }
-        AppCenterLog.debug("AppCenterDistribute", "Download was successful for id=" + this.mDownloadId);
-        if (this.mListener.onComplete(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow("local_uri"))))) {
-            z = true;
-        } else {
-            z = Build.VERSION.SDK_INT < 24 ? this.mListener.onComplete(getFileUriOnOldDevices(cursor)) : false;
-        }
-        if (!z) {
-            this.mListener.onError("Installer not found");
+        try {
+            if (isCancelled()) {
+                return;
+            }
+            AppCenterLog.debug("AppCenterDistribute", "Download was successful for id=" + this.mDownloadId);
+            if (this.mListener.onComplete(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow("local_uri"))))) {
+                z = true;
+            } else {
+                z = Build.VERSION.SDK_INT < 24 ? this.mListener.onComplete(getFileUriOnOldDevices(cursor)) : false;
+            }
+            if (!z) {
+                this.mListener.onError("Installer not found");
+            }
+        } finally {
         }
     }
 

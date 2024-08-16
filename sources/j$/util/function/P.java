@@ -1,50 +1,35 @@
 package j$.util.function;
 
-import java.util.function.IntPredicate;
+import java.util.function.LongBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class P implements IntPredicate {
-    public final /* synthetic */ Q a;
+public final /* synthetic */ class P implements S {
+    public final /* synthetic */ LongBinaryOperator a;
 
-    private /* synthetic */ P(Q q) {
-        this.a = q;
+    private /* synthetic */ P(LongBinaryOperator longBinaryOperator) {
+        this.a = longBinaryOperator;
     }
 
-    public static /* synthetic */ IntPredicate a(Q q) {
-        if (q == null) {
+    public static /* synthetic */ S a(LongBinaryOperator longBinaryOperator) {
+        if (longBinaryOperator == null) {
             return null;
         }
-        return q instanceof O ? ((O) q).a : new P(q);
+        return longBinaryOperator instanceof Q ? ((Q) longBinaryOperator).a : new P(longBinaryOperator);
     }
 
-    @Override // java.util.function.IntPredicate
-    public final /* synthetic */ IntPredicate and(IntPredicate intPredicate) {
-        return a(((O) this.a).a(O.b(intPredicate)));
+    @Override // j$.util.function.S
+    public final /* synthetic */ long applyAsLong(long j, long j2) {
+        return this.a.applyAsLong(j, j2);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
-        Q q = this.a;
+        LongBinaryOperator longBinaryOperator = this.a;
         if (obj instanceof P) {
             obj = ((P) obj).a;
         }
-        return q.equals(obj);
+        return longBinaryOperator.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {
         return this.a.hashCode();
-    }
-
-    @Override // java.util.function.IntPredicate
-    public final /* synthetic */ IntPredicate negate() {
-        return a(((O) this.a).c());
-    }
-
-    @Override // java.util.function.IntPredicate
-    public final /* synthetic */ IntPredicate or(IntPredicate intPredicate) {
-        return a(((O) this.a).d(O.b(intPredicate)));
-    }
-
-    @Override // java.util.function.IntPredicate
-    public final /* synthetic */ boolean test(int i) {
-        return ((O) this.a).e(i);
     }
 }

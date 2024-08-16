@@ -9,6 +9,7 @@ import android.text.TextPaint;
 import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -31,7 +32,7 @@ public class MatrixParticlesDrawable {
         textPaint.setTextAlign(Paint.Align.CENTER);
         int i = 0;
         while (i < 16) {
-            int i2 = i < 10 ? i + 48 : (i - 10) + 65;
+            int i2 = i < 10 ? i + 48 : i + 55;
             Bitmap[] bitmapArr = this.bitmaps;
             int i3 = this.size;
             bitmapArr[i] = Bitmap.createBitmap(i3, i3, Bitmap.Config.ARGB_8888);
@@ -172,16 +173,16 @@ public class MatrixParticlesDrawable {
         }
 
         public void draw(Canvas canvas, float f, float f2, long j, float f3) {
-            long j2 = this.nextUpdateTime;
-            if (j2 - j < 150) {
-                float clamp = Utilities.clamp(1.0f - (((float) (j2 - j)) / 150.0f), 1.0f, 0.0f);
+            long j2 = this.nextUpdateTime - j;
+            if (j2 < 150) {
+                float clamp = Utilities.clamp(1.0f - (((float) j2) / 150.0f), 1.0f, 0.0f);
                 MatrixParticlesDrawable.this.paint.setAlpha((int) ((1.0f - clamp) * f3 * 255.0f));
                 MatrixParticlesDrawable matrixParticlesDrawable = MatrixParticlesDrawable.this;
                 canvas.drawBitmap(matrixParticlesDrawable.bitmaps[this.index], f, f2, matrixParticlesDrawable.paint);
                 MatrixParticlesDrawable.this.paint.setAlpha((int) (f3 * clamp * 255.0f));
                 MatrixParticlesDrawable matrixParticlesDrawable2 = MatrixParticlesDrawable.this;
                 canvas.drawBitmap(matrixParticlesDrawable2.bitmaps[this.nextIndex], f, f2, matrixParticlesDrawable2.paint);
-                MatrixParticlesDrawable.this.paint.setAlpha(255);
+                MatrixParticlesDrawable.this.paint.setAlpha(NotificationCenter.voipServiceCreated);
                 if (clamp >= 1.0f) {
                     this.index = this.nextIndex;
                     this.lastUpdateTime = j;

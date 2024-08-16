@@ -17,8 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-class FontProvider {
+public class FontProvider {
     private static final Comparator<byte[]> sByteArrayComparator = new Comparator() { // from class: androidx.core.provider.FontProvider$$ExternalSyntheticLambda0
         @Override // java.util.Comparator
         public final int compare(Object obj, Object obj2) {
@@ -60,9 +61,7 @@ class FontProvider {
     }
 
     static FontsContractCompat.FontInfo[] query(Context context, FontRequest fontRequest, String str, CancellationSignal cancellationSignal) {
-        int i;
         Uri withAppendedId;
-        int i2;
         boolean z;
         ArrayList arrayList = new ArrayList();
         Uri build = new Uri.Builder().scheme("content").authority(str).build();
@@ -79,32 +78,34 @@ class FontProvider {
                 int columnIndex5 = cursor.getColumnIndex("font_weight");
                 int columnIndex6 = cursor.getColumnIndex("font_italic");
                 while (cursor.moveToNext()) {
-                    int i3 = columnIndex != -1 ? cursor.getInt(columnIndex) : 0;
-                    int i4 = columnIndex4 != -1 ? cursor.getInt(columnIndex4) : 0;
+                    int i = columnIndex != -1 ? cursor.getInt(columnIndex) : 0;
+                    int i2 = columnIndex4 != -1 ? cursor.getInt(columnIndex4) : 0;
                     if (columnIndex3 == -1) {
-                        i = i3;
                         withAppendedId = ContentUris.withAppendedId(build, cursor.getLong(columnIndex2));
                     } else {
-                        i = i3;
                         withAppendedId = ContentUris.withAppendedId(build2, cursor.getLong(columnIndex3));
                     }
-                    int i5 = columnIndex5 != -1 ? cursor.getInt(columnIndex5) : 400;
-                    if (columnIndex6 == -1 || cursor.getInt(columnIndex6) != 1) {
-                        i2 = i;
-                        z = false;
-                    } else {
-                        i2 = i;
+                    int i3 = columnIndex5 != -1 ? cursor.getInt(columnIndex5) : 400;
+                    if (columnIndex6 != -1) {
                         z = true;
+                        if (cursor.getInt(columnIndex6) == 1) {
+                            arrayList2.add(FontsContractCompat.FontInfo.create(withAppendedId, i2, i3, z, i));
+                        }
                     }
-                    arrayList2.add(FontsContractCompat.FontInfo.create(withAppendedId, i4, i5, z, i2));
+                    z = false;
+                    arrayList2.add(FontsContractCompat.FontInfo.create(withAppendedId, i2, i3, z, i));
                 }
                 arrayList = arrayList2;
             }
-            return (FontsContractCompat.FontInfo[]) arrayList.toArray(new FontsContractCompat.FontInfo[0]);
-        } finally {
             if (cursor != null) {
                 cursor.close();
             }
+            return (FontsContractCompat.FontInfo[]) arrayList.toArray(new FontsContractCompat.FontInfo[0]);
+        } catch (Throwable th) {
+            if (cursor != null) {
+                cursor.close();
+            }
+            throw th;
         }
     }
 

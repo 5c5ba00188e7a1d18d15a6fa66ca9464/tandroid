@@ -142,7 +142,7 @@ public class VoIPFloatingLayout extends FrameLayout {
             });
             setClipToOutline(true);
         }
-        this.mutedPaint.setColor(ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu));
+        this.mutedPaint.setColor(ColorUtils.setAlphaComponent(-16777216, 102));
         this.mutedDrawable = ContextCompat.getDrawable(context, R.drawable.calls_mute_mini);
     }
 
@@ -506,10 +506,7 @@ public class VoIPFloatingLayout extends FrameLayout {
         if (valueAnimator2 != null) {
             valueAnimator2.cancel();
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.mutedProgress;
-        fArr[1] = z ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.mutedProgress, z ? 1.0f : 0.0f);
         this.mutedAnimator = ofFloat;
         ofFloat.addUpdateListener(this.mutedUpdateListener);
         this.mutedAnimator.setDuration(150L);

@@ -312,10 +312,11 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
             if (findReply != null && !findReply.isSpecial()) {
                 z = true;
             }
-            z2 = z;
+        } else {
+            z = z2;
         }
-        if (this.shownEditItem != z2) {
-            this.shownEditItem = z2;
+        if (this.shownEditItem != z) {
+            this.shownEditItem = z;
             this.editItem.animate().alpha(this.shownEditItem ? 1.0f : 0.0f).scaleX(this.shownEditItem ? 1.0f : 0.7f).scaleY(this.shownEditItem ? 1.0f : 0.7f).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).setDuration(340L).start();
         }
     }
@@ -354,15 +355,15 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r0v22, types: [android.app.Dialog] */
-    /* JADX WARN: Type inference failed for: r0v23, types: [org.telegram.ui.ActionBar.AlertDialog] */
-    /* JADX WARN: Type inference failed for: r0v24, types: [org.telegram.ui.ActionBar.AlertDialog] */
+    /* JADX WARN: Type inference failed for: r0v16, types: [android.app.Dialog] */
+    /* JADX WARN: Type inference failed for: r0v17, types: [org.telegram.ui.ActionBar.AlertDialog] */
+    /* JADX WARN: Type inference failed for: r0v18, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r13v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
     /* JADX WARN: Type inference failed for: r1v11 */
-    /* JADX WARN: Type inference failed for: r1v5 */
-    /* JADX WARN: Type inference failed for: r1v6, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r4v4, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r1v12, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v17 */
+    /* JADX WARN: Type inference failed for: r4v13, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     public static void openRenameReplyAlert(Context context, final int i, String str, final QuickRepliesController.QuickReply quickReply, final Theme.ResourcesProvider resourcesProvider, boolean z, final Utilities.Callback<String> callback) {
         Object builder;
         String str2;
@@ -370,7 +371,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         Activity findActivity = AndroidUtilities.findActivity(context);
         final View currentFocus = findActivity != null ? findActivity.getCurrentFocus() : null;
-        boolean z2 = (lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) && !z;
+        boolean z2 = lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f) && !z;
         final ?? r13 = new AlertDialog[1];
         if (z2) {
             builder = new AlertDialogDecor.Builder(context, resourcesProvider);
@@ -604,10 +605,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float[] fArr = new float[2];
-        fArr[0] = textView.getAlpha();
-        fArr[1] = bool.booleanValue() ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(textView.getAlpha(), bool.booleanValue() ? 1.0f : 0.0f);
         valueAnimatorArr[0] = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda14
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -780,7 +778,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 imageView.setImageResource(R.drawable.list_reorder);
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_stickers_menu), PorterDuff.Mode.MULTIPLY));
                 imageView.setAlpha(0.0f);
-                addView(imageView, LayoutHelper.createFrame(50, 50, (LocaleController.isRTL ? 3 : 5) | R.styleable.AppCompatTheme_toolbarNavigationButtonStyle));
+                addView(imageView, LayoutHelper.createFrame(50, 50, (LocaleController.isRTL ? 3 : 5) | 112));
             } else {
                 this.orderView = null;
             }
@@ -870,9 +868,10 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                     str2 = "36_36";
                     imageLocation = forObject2;
                 }
+                long j2 = j;
                 ImageReceiver imageReceiver2 = this.imageReceiver;
                 MessageObject messageObject2 = quickReply.topMessage;
-                imageReceiver2.setImage(imageLocation, str2, messageObject2.strippedThumb, j, (String) null, messageObject2, 0);
+                imageReceiver2.setImage(imageLocation, str2, messageObject2.strippedThumb, j2, (String) null, messageObject2, 0);
                 this.imageReceiver.setRoundRadius(AndroidUtilities.dp(4.0f));
             } else if (media != null && (tLRPC$WebPage = media.webpage) != null && (tLRPC$Photo = tLRPC$WebPage.photo) != null) {
                 TLRPC$PhotoSize closestPhotoSizeWithSize3 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.dp(36.0f), true, null, true);
@@ -932,7 +931,8 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
             TextView textView = new TextView(context);
             this.titleView = textView;
             textView.setSingleLine();
-            textView.setEllipsize(TextUtils.TruncateAt.END);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView.setEllipsize(truncateAt);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
             textView.setTypeface(AndroidUtilities.bold());
             textView.setTextSize(1, 16.0f);
@@ -941,7 +941,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
             TextView textView2 = new TextView(context);
             this.textView = textView2;
             textView2.setLines(2);
-            textView2.setEllipsize(TextUtils.TruncateAt.END);
+            textView2.setEllipsize(truncateAt);
             textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
             textView2.setTextSize(1, 15.0f);
             boolean z2 = LocaleController.isRTL;
@@ -1004,9 +1004,10 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                     str = "36_36";
                     imageLocation = forObject2;
                 }
+                long j2 = j;
                 ImageReceiver imageReceiver2 = this.imageReceiver;
                 MessageObject messageObject3 = quickReply.topMessage;
-                imageReceiver2.setImage(imageLocation, str, messageObject3.strippedThumb, j, (String) null, messageObject3, 0);
+                imageReceiver2.setImage(imageLocation, str, messageObject3.strippedThumb, j2, (String) null, messageObject3, 0);
                 this.imageReceiver.setRoundRadius(AndroidUtilities.dp(6.0f));
             } else {
                 this.avatarDrawable.setInfo(UserConfig.getInstance(i).getCurrentUser());

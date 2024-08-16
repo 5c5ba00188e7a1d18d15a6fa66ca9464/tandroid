@@ -21,29 +21,30 @@ public class zzec extends AbstractMap {
     private Map zzf = Collections.emptyMap();
 
     private final int zzk(Comparable comparable) {
-        int size = this.zzb.size() - 1;
-        int i = 0;
-        if (size >= 0) {
-            int compareTo = comparable.compareTo(((zzdw) this.zzb.get(size)).zza());
+        int size = this.zzb.size();
+        int i = size - 1;
+        int i2 = 0;
+        if (i >= 0) {
+            int compareTo = comparable.compareTo(((zzdw) this.zzb.get(i)).zza());
             if (compareTo > 0) {
-                return -(size + 2);
+                return -(size + 1);
             }
             if (compareTo == 0) {
-                return size;
+                return i;
             }
         }
-        while (i <= size) {
-            int i2 = (i + size) / 2;
-            int compareTo2 = comparable.compareTo(((zzdw) this.zzb.get(i2)).zza());
+        while (i2 <= i) {
+            int i3 = (i2 + i) / 2;
+            int compareTo2 = comparable.compareTo(((zzdw) this.zzb.get(i3)).zza());
             if (compareTo2 < 0) {
-                size = i2 - 1;
+                i = i3 - 1;
             } else if (compareTo2 <= 0) {
-                return i2;
+                return i3;
             } else {
-                i = i2 + 1;
+                i2 = i3 + 1;
             }
         }
-        return -(i + 1);
+        return -(i2 + 1);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

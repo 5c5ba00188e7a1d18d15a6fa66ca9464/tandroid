@@ -83,10 +83,9 @@ public class FirebaseInstallationServiceClient {
                 if (responseCode < 500 || responseCode >= 600) {
                     logBadConfigError();
                     readCreateResponse = InstallationResponse.builder().setResponseCode(InstallationResponse.ResponseCode.BAD_CONFIG).build();
-                } else {
-                    openHttpURLConnection.disconnect();
-                    TrafficStats.clearThreadStatsTag();
                 }
+                openHttpURLConnection.disconnect();
+                TrafficStats.clearThreadStatsTag();
             }
             openHttpURLConnection.disconnect();
             TrafficStats.clearThreadStatsTag();
@@ -184,19 +183,18 @@ public class FirebaseInstallationServiceClient {
                 readGenerateAuthTokenResponse = readGenerateAuthTokenResponse(openHttpURLConnection);
             } else {
                 logFisCommunicationError(openHttpURLConnection, null, str, str3);
-                if (responseCode != 401 && responseCode != 404) {
-                    if (responseCode == 429) {
-                        throw new FirebaseInstallationsException("Firebase servers have received too many requests from this client in a short period of time. Please try again later.", FirebaseInstallationsException.Status.TOO_MANY_REQUESTS);
-                    }
+                if (responseCode == 401 || responseCode == 404) {
+                    readGenerateAuthTokenResponse = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.AUTH_ERROR).build();
+                } else if (responseCode == 429) {
+                    throw new FirebaseInstallationsException("Firebase servers have received too many requests from this client in a short period of time. Please try again later.", FirebaseInstallationsException.Status.TOO_MANY_REQUESTS);
+                } else {
                     if (responseCode < 500 || responseCode >= 600) {
                         logBadConfigError();
                         readGenerateAuthTokenResponse = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.BAD_CONFIG).build();
-                    } else {
-                        openHttpURLConnection.disconnect();
-                        TrafficStats.clearThreadStatsTag();
                     }
+                    openHttpURLConnection.disconnect();
+                    TrafficStats.clearThreadStatsTag();
                 }
-                readGenerateAuthTokenResponse = TokenResult.builder().setResponseCode(TokenResult.ResponseCode.AUTH_ERROR).build();
             }
             openHttpURLConnection.disconnect();
             TrafficStats.clearThreadStatsTag();
@@ -326,16 +324,12 @@ public class FirebaseInstallationServiceClient {
 
     private static String availableFirebaseOptions(String str, String str2, String str3) {
         String str4;
-        Object[] objArr = new Object[3];
-        objArr[0] = str2;
-        objArr[1] = str3;
         if (TextUtils.isEmpty(str)) {
             str4 = "";
         } else {
             str4 = ", " + str;
         }
-        objArr[2] = str4;
-        return String.format("Firebase options used while communicating with Firebase server APIs: %s, %s%s", objArr);
+        return String.format("Firebase options used while communicating with Firebase server APIs: %s, %s%s", str2, str3, str4);
     }
 
     private static String readErrorResponse(HttpURLConnection httpURLConnection) {

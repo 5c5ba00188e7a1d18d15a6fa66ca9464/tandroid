@@ -20,8 +20,11 @@ final class EmojiEditableFactory extends Editable.Factory {
     public static Editable.Factory getInstance() {
         if (sInstance == null) {
             synchronized (INSTANCE_LOCK) {
-                if (sInstance == null) {
-                    sInstance = new EmojiEditableFactory();
+                try {
+                    if (sInstance == null) {
+                        sInstance = new EmojiEditableFactory();
+                    }
+                } finally {
                 }
             }
         }

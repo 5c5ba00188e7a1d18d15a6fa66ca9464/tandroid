@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.Components.AnimationProperties;
@@ -228,7 +229,7 @@ public class PhotoCropView extends FrameLayout {
                 canvas.drawCircle(actualRect.centerX(), actualRect.centerY(), actualRect.width() / 2.0f, this.circlePaint);
             }
             this.circlePaint.setColor(getThemedColor(Theme.key_chat_editMediaButton));
-            this.circlePaint.setAlpha(Math.min(255, (int) (this.thumbAnimationProgress * 255.0f * this.thumbImageVisibleProgress)));
+            this.circlePaint.setAlpha(Math.min((int) NotificationCenter.voipServiceCreated, (int) (this.thumbAnimationProgress * 255.0f * this.thumbImageVisibleProgress)));
             canvas.drawCircle(videoThumbX + i, measuredHeight + dp + AndroidUtilities.dp(8.0f), AndroidUtilities.dp(3.0f), this.circlePaint);
         }
         return drawChild;
@@ -324,12 +325,7 @@ public class PhotoCropView extends FrameLayout {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.thumbOverrideAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        Property<PhotoCropView, Float> property = this.PROGRESS_VALUE;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, this.PROGRESS_VALUE, z ? 1.0f : 0.0f));
         this.thumbOverrideAnimation.setDuration(180L);
         this.thumbOverrideAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhotoCropView.6
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

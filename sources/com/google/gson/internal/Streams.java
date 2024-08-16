@@ -21,18 +21,18 @@ public final class Streams {
             try {
                 jsonReader.peek();
                 z = false;
-            } catch (EOFException e) {
-                e = e;
-                z = true;
-            }
-            try {
-                return TypeAdapters.JSON_ELEMENT.read(jsonReader);
+                try {
+                    return TypeAdapters.JSON_ELEMENT.read(jsonReader);
+                } catch (EOFException e) {
+                    e = e;
+                    if (z) {
+                        return JsonNull.INSTANCE;
+                    }
+                    throw new JsonSyntaxException(e);
+                }
             } catch (EOFException e2) {
                 e = e2;
-                if (z) {
-                    return JsonNull.INSTANCE;
-                }
-                throw new JsonSyntaxException(e);
+                z = true;
             }
         } catch (MalformedJsonException e3) {
             throw new JsonSyntaxException(e3);

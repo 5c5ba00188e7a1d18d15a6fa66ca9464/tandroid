@@ -180,7 +180,7 @@ public class ProximitySheet extends FrameLayout {
                 return Button.class.getName();
             }
         };
-        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, 270, 0.5f));
+        linearLayout2.addView(this.kmPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onRequestPermissionResultReceived, 0.5f));
         this.kmPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -204,7 +204,7 @@ public class ProximitySheet extends FrameLayout {
         this.mPicker.setMaxValue(10);
         this.mPicker.setWrapSelectorWheel(false);
         this.mPicker.setTextOffset(-AndroidUtilities.dp(20.0f));
-        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, 270, 0.5f));
+        linearLayout2.addView(this.mPicker, LayoutHelper.createLinear(0, (int) NotificationCenter.onRequestPermissionResultReceived, 0.5f));
         this.mPicker.setFormatter(new NumberPicker.Formatter() { // from class: org.telegram.ui.Components.ProximitySheet$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.NumberPicker.Formatter
             public final String format(int i) {
@@ -260,7 +260,7 @@ public class ProximitySheet extends FrameLayout {
     public /* synthetic */ String lambda$new$3(int i) {
         if (this.useImperialSystem) {
             if (i == 1) {
-                return LocaleController.formatString("FootsShort", R.string.FootsShort, 250);
+                return LocaleController.formatString("FootsShort", R.string.FootsShort, Integer.valueOf((int) NotificationCenter.playerDidStartPlaying));
             }
             if (i > 1) {
                 i--;
@@ -296,7 +296,7 @@ public class ProximitySheet extends FrameLayout {
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0027, code lost:
         r1 = r1 * 100;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:6:0x001a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
         if (r1 > 1) goto L13;
      */
     /*
@@ -354,7 +354,7 @@ public class ProximitySheet extends FrameLayout {
 
     private void checkDismiss(float f, float f2) {
         float translationY = this.containerView.getTranslationY();
-        if (!((translationY < AndroidUtilities.getPixelsInCM(0.8f, false) && (f2 < 3500.0f || Math.abs(f2) < Math.abs(f))) || (f2 < 0.0f && Math.abs(f2) >= 3500.0f))) {
+        if ((translationY >= AndroidUtilities.getPixelsInCM(0.8f, false) || (f2 >= 3500.0f && Math.abs(f2) >= Math.abs(f))) && (f2 >= 0.0f || Math.abs(f2) < 3500.0f)) {
             this.useFastDismiss = true;
             dismiss();
             return;
@@ -469,8 +469,8 @@ public class ProximitySheet extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0082  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -499,21 +499,20 @@ public class ProximitySheet extends FrameLayout {
                 if (i14 == -1) {
                     i14 = 51;
                 }
-                int i15 = i14 & 7;
-                int i16 = i14 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                int i17 = i15 & 7;
-                if (i17 == 1) {
+                int i15 = i14 & 112;
+                int i16 = i14 & 7;
+                if (i16 == 1) {
                     i5 = ((i12 - measuredWidth2) / 2) + layoutParams.leftMargin;
                     i6 = layoutParams.rightMargin;
-                } else if (i17 == 5) {
+                } else if (i16 == 5) {
                     i5 = i3 - measuredWidth2;
                     i6 = layoutParams.rightMargin;
                 } else {
                     i7 = layoutParams.leftMargin;
-                    if (i16 != 16) {
+                    if (i15 != 16) {
                         i8 = ((i11 - measuredHeight2) / 2) + layoutParams.topMargin;
                         i9 = layoutParams.bottomMargin;
-                    } else if (i16 == 80) {
+                    } else if (i15 == 80) {
                         i8 = i11 - measuredHeight2;
                         i9 = layoutParams.bottomMargin;
                     } else {
@@ -524,7 +523,7 @@ public class ProximitySheet extends FrameLayout {
                     childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);
                 }
                 i7 = i5 - i6;
-                if (i16 != 16) {
+                if (i15 != 16) {
                 }
                 i10 = i8 - i9;
                 childAt.layout(i7, i10, measuredWidth2 + i7, measuredHeight2 + i10);

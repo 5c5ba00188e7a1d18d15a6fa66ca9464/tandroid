@@ -44,6 +44,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -182,7 +183,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.progressToNoVideoStub = 1.0f;
         this.imageReceiver = new ImageReceiver();
         this.onFirstFrameRunnables = new ArrayList<>();
-        this.noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
+        this.noRtmpStreamCallback = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 GroupCallMiniTextureView.this.lambda$new$0();
@@ -206,12 +207,15 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
         textPaint2.setColor(-1);
         final String string = LocaleController.getString("VoipVideoOnPause", R.string.VoipVideoOnPause);
-        final StaticLayout staticLayout = new StaticLayout(LocaleController.getString("VoipVideoScreenSharingTwoLines", R.string.VoipVideoScreenSharingTwoLines), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        String string2 = LocaleController.getString("VoipVideoScreenSharingTwoLines", R.string.VoipVideoScreenSharingTwoLines);
+        int dp = AndroidUtilities.dp(400.0f);
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+        final StaticLayout staticLayout = new StaticLayout(string2, textPaint, dp, alignment, 1.0f, 0.0f, false);
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(call.chatId));
-        final StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", R.string.VoipVideoNotAvailable, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-        final String string2 = LocaleController.getString("VoipVideoScreenSharing", R.string.VoipVideoScreenSharing);
+        final StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", R.string.VoipVideoNotAvailable, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), alignment, 1.0f, 0.0f, false);
+        final String string3 = LocaleController.getString("VoipVideoScreenSharing", R.string.VoipVideoScreenSharing);
         final float measureText = textPaint.measureText(string);
-        final float measureText2 = textPaint2.measureText(string2);
+        final float measureText2 = textPaint2.measureText(string3);
         VoIPTextureView voIPTextureView = new VoIPTextureView(groupCallRenderersContainer.getContext(), false, false, true, true) { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.1
             float overlayIconAlphaFrom;
 
@@ -235,7 +239,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             @Override // org.telegram.ui.Components.voip.VoIPTextureView, android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
                 float f;
-                float dp;
+                float dp2;
                 float f2;
                 int i;
                 float f3;
@@ -270,10 +274,10 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     ChatObject.VideoParticipant videoParticipant = groupCallMiniTextureView4.participant;
                     if (videoParticipant == call.videoNotAvailableParticipant) {
                         if (groupCallMiniTextureView4.showingInFullscreen || !groupCallRenderersContainer.inFullscreenMode) {
-                            float dp2 = AndroidUtilities.dp(48.0f);
-                            textPaint.setAlpha(255);
+                            float dp3 = AndroidUtilities.dp(48.0f);
+                            textPaint.setAlpha(NotificationCenter.voipServiceCreated);
                             canvas.save();
-                            canvas.translate((((getMeasuredWidth() - dp2) / 2.0f) - (AndroidUtilities.dp(400.0f) / 2.0f)) + (dp2 / 2.0f), ((getMeasuredHeight() / 2) - dp2) + dp2 + AndroidUtilities.dp(10.0f));
+                            canvas.translate((((getMeasuredWidth() - dp3) / 2.0f) - (AndroidUtilities.dp(400.0f) / 2.0f)) + (dp3 / 2.0f), ((getMeasuredHeight() / 2) - dp3) + dp3 + AndroidUtilities.dp(10.0f));
                             staticLayout2.draw(canvas);
                             canvas.restore();
                         }
@@ -292,16 +296,16 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                             GroupCallMiniTextureView.this.stopSharingTextView.setScaleY(1.0f);
                         }
                         float f5 = GroupCallMiniTextureView.this.drawFirst ? 0.0f : groupCallRenderersContainer.progressToFullscreenMode;
-                        int dp3 = AndroidUtilities.dp(33.0f);
+                        int dp4 = AndroidUtilities.dp(33.0f);
                         GroupCallMiniTextureView groupCallMiniTextureView5 = GroupCallMiniTextureView.this;
                         if (groupCallMiniTextureView5.animateToFullscreen || groupCallMiniTextureView5.showingInFullscreen) {
-                            f = dp3;
-                            dp = AndroidUtilities.dp(10.0f) + (AndroidUtilities.dp(39.0f) * groupCallRenderersContainer.progressToFullscreenMode);
+                            f = dp4;
+                            dp2 = AndroidUtilities.dp(10.0f) + (AndroidUtilities.dp(39.0f) * groupCallRenderersContainer.progressToFullscreenMode);
                         } else {
-                            f = dp3;
-                            dp = AndroidUtilities.dp(10.0f) * Math.max(1.0f - groupCallRenderersContainer.progressToFullscreenMode, (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : 0.0f);
+                            f = dp4;
+                            dp2 = AndroidUtilities.dp(10.0f) * Math.max(1.0f - groupCallRenderersContainer.progressToFullscreenMode, (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : 0.0f);
                         }
-                        int i2 = (int) (f + dp);
+                        int i2 = (int) (f + dp2);
                         int measuredWidth = (getMeasuredWidth() - i2) / 2;
                         float f6 = (GroupCallMiniTextureView.this.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : 0.0f;
                         GroupCallMiniTextureView groupCallMiniTextureView6 = GroupCallMiniTextureView.this;
@@ -312,11 +316,11 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                             f2 = (groupCallMiniTextureView6.showingAsScrimView || GroupCallMiniTextureView.this.animateToScrimView) ? groupCallRenderersContainer.progressToScrimView : groupCallRenderersContainer.progressToFullscreenMode;
                         }
                         float measuredHeight = ((getMeasuredHeight() - i2) / 2) - AndroidUtilities.dp(28.0f);
-                        float dp4 = AndroidUtilities.dp(17.0f);
-                        float dp5 = AndroidUtilities.dp(74.0f);
+                        float dp5 = AndroidUtilities.dp(17.0f);
+                        float dp6 = AndroidUtilities.dp(74.0f);
                         GroupCallMiniTextureView groupCallMiniTextureView7 = GroupCallMiniTextureView.this;
-                        int dp6 = (int) ((measuredHeight - ((dp4 + (dp5 * ((groupCallMiniTextureView7.showingInFullscreen || groupCallMiniTextureView7.animateToFullscreen) ? groupCallRenderersContainer.progressToFullscreenMode : 0.0f))) * f5)) + (AndroidUtilities.dp(17.0f) * f2));
-                        GroupCallMiniTextureView.this.castingScreenDrawable.setBounds(measuredWidth, dp6, measuredWidth + i2, dp6 + i2);
+                        int dp7 = (int) ((measuredHeight - ((dp5 + (dp6 * ((groupCallMiniTextureView7.showingInFullscreen || groupCallMiniTextureView7.animateToFullscreen) ? groupCallRenderersContainer.progressToFullscreenMode : 0.0f))) * f5)) + (AndroidUtilities.dp(17.0f) * f2));
+                        GroupCallMiniTextureView.this.castingScreenDrawable.setBounds(measuredWidth, dp7, measuredWidth + i2, dp7 + i2);
                         GroupCallMiniTextureView.this.castingScreenDrawable.draw(canvas);
                         float f7 = groupCallRenderersContainer.progressToFullscreenMode;
                         if (f7 <= 0.0f && f6 <= 0.0f) {
@@ -330,7 +334,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                             } else {
                                 groupCallMiniTextureView8.stopSharingTextView.setAlpha(0.0f);
                             }
-                            canvas.drawText(string2, (measuredWidth - (measureText2 / 2.0f)) + (i2 / 2.0f), AndroidUtilities.dp(32.0f) + i, textPaint2);
+                            canvas.drawText(string3, (measuredWidth - (measureText2 / 2.0f)) + (i2 / 2.0f), AndroidUtilities.dp(32.0f) + i, textPaint2);
                         }
                         GroupCallMiniTextureView.this.stopSharingTextView.setTranslationY(((AndroidUtilities.dp(72.0f) + i) + GroupCallMiniTextureView.this.swipeToBackDy) - this.currentClipVertical);
                         GroupCallMiniTextureView.this.stopSharingTextView.setTranslationX(((getMeasuredWidth() - GroupCallMiniTextureView.this.stopSharingTextView.getMeasuredWidth()) / 2.0f) - this.currentClipHorizontal);
@@ -398,15 +402,15 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     }
                     float f12 = f9 * f3;
                     if (f12 > 0.0f) {
-                        float dp7 = AndroidUtilities.dp(48.0f);
-                        float measuredWidth2 = (getMeasuredWidth() - dp7) / 2.0f;
-                        float measuredHeight3 = (getMeasuredHeight() - dp7) / 2.0f;
+                        float dp8 = AndroidUtilities.dp(48.0f);
+                        float measuredWidth2 = (getMeasuredWidth() - dp8) / 2.0f;
+                        float measuredHeight3 = (getMeasuredHeight() - dp8) / 2.0f;
                         if (GroupCallMiniTextureView.this.participant == call.videoNotAvailableParticipant) {
-                            measuredHeight3 -= dp7 / 2.5f;
+                            measuredHeight3 -= dp8 / 2.5f;
                         }
                         RectF rectF = AndroidUtilities.rectTmp;
-                        float f13 = measuredHeight3 + dp7;
-                        rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp7), (int) f13);
+                        float f13 = measuredHeight3 + dp8;
+                        rectF.set((int) measuredWidth2, (int) measuredHeight3, (int) (measuredWidth2 + dp8), (int) f13);
                         if (f12 != 1.0f) {
                             canvas.saveLayerAlpha(rectF, (int) (f12 * 255.0f), 31);
                         } else {
@@ -420,7 +424,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                             return;
                         }
                         textPaint.setAlpha((int) (f14 * 255.0f));
-                        canvas.drawText(string, (measuredWidth2 - (measureText / 2.0f)) + (dp7 / 2.0f), f13 + AndroidUtilities.dp(16.0f), textPaint);
+                        canvas.drawText(string, (measuredWidth2 - (measureText / 2.0f)) + (dp8 / 2.0f), f13 + AndroidUtilities.dp(16.0f), textPaint);
                     }
                 }
             }
@@ -565,7 +569,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         SimpleTextView simpleTextView = new SimpleTextView(groupCallRenderersContainer.getContext());
         this.nameView = simpleTextView;
         simpleTextView.setTextSize(13);
-        simpleTextView.setTextColor(ColorUtils.setAlphaComponent(-1, 229));
+        simpleTextView.setTextColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.didReplacedPhotoInMemCache));
         simpleTextView.setTypeface(AndroidUtilities.bold());
         simpleTextView.setFullTextMaxLines(1);
         simpleTextView.setBuildFullLayout(true);
@@ -604,7 +608,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         this.stopSharingTextView.setTextColor(-1);
         this.stopSharingTextView.setBackground(createSimpleSelectorRoundRectDrawable);
         this.stopSharingTextView.setGravity(17);
-        this.stopSharingTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda3
+        this.stopSharingTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 GroupCallMiniTextureView.this.lambda$new$1(view);
@@ -816,10 +820,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(min, 1073741824), View.MeasureSpec.makeMeasureSpec(min + getPaddingBottom(), 1073741824));
         } else if (this.useSpanSize) {
             this.overlayIconAlpha = 1.0f;
-            int i4 = 6;
-            if ((!GroupCallActivity.isTabletMode || this.tabletGridView == null) && !GroupCallActivity.isLandscapeMode) {
-                i4 = 2;
-            }
+            int i4 = ((!GroupCallActivity.isTabletMode || this.tabletGridView == null) && !GroupCallActivity.isLandscapeMode) ? 2 : 6;
             if (this.tabletGridView != null) {
                 dp = View.MeasureSpec.getSize(i) - AndroidUtilities.dp(344.0f);
             } else if (GroupCallActivity.isTabletMode) {
@@ -946,52 +947,52 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:103:0x0180, code lost:
-        if (org.telegram.messenger.voip.VoIPService.getSharedInstance().getVideoState(r23.participant.presentation) == 2) goto L304;
+        if (org.telegram.messenger.voip.VoIPService.getSharedInstance().getVideoState(r23.participant.presentation) == 2) goto L302;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x0182, code lost:
-        r1 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:108:0x018b, code lost:
+        if (r4 != r11.videoNotAvailableParticipant) goto L346;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x018e, code lost:
-        if (r1 != r11.videoNotAvailableParticipant) goto L348;
+    /* JADX WARN: Code restructure failed: missing block: B:110:0x0193, code lost:
+        if (org.telegram.messenger.ChatObject.Call.videoIsActive(r10, r4.presentation, r11) == false) goto L346;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:111:0x0196, code lost:
-        if (org.telegram.messenger.ChatObject.Call.videoIsActive(r10, r1.presentation, r11) == false) goto L348;
+    /* JADX WARN: Code restructure failed: missing block: B:111:0x0195, code lost:
+        r4 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:119:0x01bd, code lost:
-        if (r1 != false) goto L312;
+    /* JADX WARN: Code restructure failed: missing block: B:119:0x01bc, code lost:
+        if (r4 != false) goto L310;
      */
     /* JADX WARN: Code restructure failed: missing block: B:45:0x0089, code lost:
-        if (r23.participant != r10.videoNotAvailableParticipant) goto L282;
+        if (r23.participant != r10.videoNotAvailableParticipant) goto L280;
      */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x02be  */
-    /* JADX WARN: Removed duplicated region for block: B:160:0x02d2  */
-    /* JADX WARN: Removed duplicated region for block: B:165:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0370  */
-    /* JADX WARN: Removed duplicated region for block: B:225:0x038b  */
-    /* JADX WARN: Removed duplicated region for block: B:228:0x0396  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x039e  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x03bb  */
-    /* JADX WARN: Removed duplicated region for block: B:241:0x0405  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x040f  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x0424  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x044d  */
-    /* JADX WARN: Removed duplicated region for block: B:254:0x0471  */
-    /* JADX WARN: Removed duplicated region for block: B:257:0x049b  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x04dc  */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x04ed A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:275:0x04f5  */
-    /* JADX WARN: Removed duplicated region for block: B:277:0x04ff  */
-    /* JADX WARN: Removed duplicated region for block: B:287:0x0543  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0568  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0575  */
-    /* JADX WARN: Removed duplicated region for block: B:306:0x059b  */
-    /* JADX WARN: Removed duplicated region for block: B:309:0x05a6  */
-    /* JADX WARN: Removed duplicated region for block: B:314:0x05b1  */
-    /* JADX WARN: Removed duplicated region for block: B:321:0x05c0  */
-    /* JADX WARN: Removed duplicated region for block: B:327:0x05e5  */
-    /* JADX WARN: Removed duplicated region for block: B:351:0x0669  */
-    /* JADX WARN: Removed duplicated region for block: B:354:0x067b  */
-    /* JADX WARN: Removed duplicated region for block: B:359:0x069f  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x02bc  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x02d0  */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x02e6  */
+    /* JADX WARN: Removed duplicated region for block: B:211:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x0382  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x038d  */
+    /* JADX WARN: Removed duplicated region for block: B:228:0x0395  */
+    /* JADX WARN: Removed duplicated region for block: B:232:0x03b2  */
+    /* JADX WARN: Removed duplicated region for block: B:240:0x03fc  */
+    /* JADX WARN: Removed duplicated region for block: B:241:0x0406  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x0444  */
+    /* JADX WARN: Removed duplicated region for block: B:253:0x0468  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x0492  */
+    /* JADX WARN: Removed duplicated region for block: B:262:0x04d3  */
+    /* JADX WARN: Removed duplicated region for block: B:271:0x04e4 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x04ec  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x04f6  */
+    /* JADX WARN: Removed duplicated region for block: B:286:0x053a  */
+    /* JADX WARN: Removed duplicated region for block: B:297:0x055f  */
+    /* JADX WARN: Removed duplicated region for block: B:300:0x056c  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0592  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x059d  */
+    /* JADX WARN: Removed duplicated region for block: B:313:0x05a8  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x05b7  */
+    /* JADX WARN: Removed duplicated region for block: B:326:0x05dc  */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0660  */
+    /* JADX WARN: Removed duplicated region for block: B:353:0x0672  */
+    /* JADX WARN: Removed duplicated region for block: B:358:0x0696  */
     /* JADX WARN: Removed duplicated region for block: B:64:0x00dd  */
     /* JADX WARN: Removed duplicated region for block: B:65:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:69:0x00f9  */
@@ -1003,10 +1004,10 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
     public void updateAttachState(boolean z) {
         boolean z2;
         boolean z3;
-        int dp;
-        float f;
         int i;
         boolean z4;
+        int i2;
+        float f;
         ViewGroup.MarginLayoutParams marginLayoutParams;
         ChatObject.VideoParticipant videoParticipant;
         ChatObject.VideoParticipant videoParticipant2;
@@ -1024,13 +1025,13 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         ValueAnimator valueAnimator2;
         ChatObject.VideoParticipant videoParticipant4;
         GroupCallGridCell groupCallGridCell;
+        boolean z6 = false;
         if (this.forceDetached) {
             return;
         }
-        boolean z6 = false;
         if (this.call.call.rtmp_stream) {
-            int dp2 = AndroidUtilities.dp(this.showingInFullscreen ? 36.0f : 21.0f);
-            this.noRtmpStreamTextView.setPadding(dp2, 0, dp2, 0);
+            int dp = AndroidUtilities.dp(this.showingInFullscreen ? 36.0f : 21.0f);
+            this.noRtmpStreamTextView.setPadding(dp, 0, dp, 0);
         }
         if (this.participant == null && ((groupCallGridCell = this.primaryView) != null || this.secondaryView != null || this.tabletGridView != null)) {
             if (groupCallGridCell != null) {
@@ -1073,7 +1074,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     } else {
                         groupCallRenderersContainer = this.parentContainer;
                         if (!groupCallRenderersContainer.inLayout) {
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     GroupCallMiniTextureView.this.lambda$updateAttachState$2(this);
@@ -1161,8 +1162,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     }
                 }
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    for (int i2 = 0; i2 < this.attachedRenderers.size(); i2++) {
-                        if (this.attachedRenderers.get(i2).participant.equals(this.participant)) {
+                    for (int i3 = 0; i3 < this.attachedRenderers.size(); i3++) {
+                        if (this.attachedRenderers.get(i3).participant.equals(this.participant)) {
                             throw new RuntimeException("try add two same renderers");
                         }
                     }
@@ -1224,301 +1225,260 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         if (groupCallUserCell2 == null || this.primaryView != null || this.parentContainer.inFullscreenMode) {
                             if (!this.showingAsScrimView) {
                                 if (groupCallUserCell2 != null && this.primaryView == null) {
-                                    dp = AndroidUtilities.dp(80.0f);
+                                    i = AndroidUtilities.dp(80.0f);
                                 } else {
                                     GroupCallGridCell groupCallGridCell5 = this.tabletGridView;
-                                    if (groupCallGridCell5 == null || !z10) {
+                                    if (groupCallGridCell5 != null && z10) {
+                                        i2 = groupCallGridCell5.gridAdapter.getItemCount();
+                                        z4 = true;
+                                        f = groupCallGridCell5.spanCount;
+                                        i = -1;
+                                    } else {
                                         GroupCallGridCell groupCallGridCell6 = this.primaryView;
                                         if ((groupCallGridCell6 == null || groupCallUserCell2 != null) && this.isFullscreenMode) {
                                             if (groupCallGridCell6 != null) {
-                                                dp = AndroidUtilities.dp(80.0f);
+                                                i = AndroidUtilities.dp(80.0f);
                                             }
                                         } else if (groupCallGridCell6 != null) {
                                             f = groupCallGridCell6.spanCount;
-                                            dp = -1;
-                                            i = 0;
+                                            i = -1;
+                                            i2 = 0;
                                             z4 = true;
-                                            marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                                            if (dp != 0 && (marginLayoutParams.height != dp || z3 || this.useSpanSize != z4 || ((z4 && this.spanCount != f) || this.gridItemsCount != i))) {
-                                                marginLayoutParams.height = dp;
-                                                marginLayoutParams.width = z4 ? -1 : dp;
-                                                this.useSpanSize = z4;
-                                                this.spanCount = f;
-                                                this.checkScale = true;
-                                                if (!z2) {
-                                                    this.textureView.animateToLayout();
-                                                    this.updateNextLayoutAnimated = true;
-                                                } else {
-                                                    this.textureView.requestLayout();
-                                                }
-                                                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
-                                                    @Override // java.lang.Runnable
-                                                    public final void run() {
-                                                        GroupCallMiniTextureView.this.requestLayout();
-                                                    }
-                                                });
-                                                this.parentContainer.requestLayout();
-                                                invalidate();
+                                        } else {
+                                            i = AndroidUtilities.dp(46.0f);
+                                        }
+                                    }
+                                    marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+                                    if (i != 0 && (marginLayoutParams.height != i || z3 || this.useSpanSize != z4 || ((z4 && this.spanCount != f) || this.gridItemsCount != i2))) {
+                                        marginLayoutParams.height = i;
+                                        marginLayoutParams.width = z4 ? -1 : i;
+                                        this.useSpanSize = z4;
+                                        this.spanCount = f;
+                                        this.checkScale = true;
+                                        if (!z2) {
+                                            this.textureView.animateToLayout();
+                                            this.updateNextLayoutAnimated = true;
+                                        } else {
+                                            this.textureView.requestLayout();
+                                        }
+                                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
+                                            @Override // java.lang.Runnable
+                                            public final void run() {
+                                                GroupCallMiniTextureView.this.requestLayout();
                                             }
-                                            videoParticipant = this.participant;
-                                            if (!videoParticipant.participant.self && !videoParticipant.presentation && VoIPService.getSharedInstance() != null) {
-                                                this.textureView.renderer.setMirror(VoIPService.getSharedInstance().isFrontFaceCamera());
-                                                this.textureView.renderer.setRotateTextureWithScreen(true);
-                                                this.textureView.renderer.setUseCameraRotation(true);
-                                            } else {
-                                                this.textureView.renderer.setMirror(false);
-                                                this.textureView.renderer.setRotateTextureWithScreen(true);
-                                                this.textureView.renderer.setUseCameraRotation(false);
-                                            }
-                                            this.textureView.updateRotation();
-                                            if (this.participant.participant.self) {
-                                                this.textureView.renderer.setMaxTextureSize(720);
-                                            } else {
-                                                this.textureView.renderer.setMaxTextureSize(0);
-                                            }
-                                            videoParticipant2 = this.participant;
-                                            if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
-                                                ChatObject.Call call3 = this.call;
-                                                if (call3.canStreamVideo || this.participant == call3.videoNotAvailableParticipant) {
-                                                    z5 = true;
-                                                    boolean z11 = (z2 || this.secondaryView == null || this.showingInFullscreen || z5) ? false : true;
-                                                    if (z5 != this.hasVideo && !z11) {
-                                                        this.hasVideo = z5;
-                                                        valueAnimator = this.noVideoStubAnimator;
-                                                        if (valueAnimator != null) {
-                                                            valueAnimator.removeAllListeners();
-                                                            this.noVideoStubAnimator.cancel();
-                                                        }
-                                                        if (!z2) {
-                                                            if (!this.hasVideo && this.noVideoStubLayout.getVisibility() != 0) {
-                                                                this.noVideoStubLayout.setVisibility(0);
-                                                                this.noVideoStubLayout.setAlpha(0.0f);
-                                                            }
-                                                            float[] fArr = new float[2];
-                                                            fArr[0] = this.progressToNoVideoStub;
-                                                            fArr[1] = this.hasVideo ? 0.0f : 1.0f;
-                                                            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-                                                            this.noVideoStubAnimator = ofFloat;
-                                                            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda6
-                                                                @Override // android.animation.ValueAnimator.AnimatorUpdateListener
-                                                                public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
-                                                                    GroupCallMiniTextureView.this.lambda$updateAttachState$3(valueAnimator3);
-                                                                }
-                                                            });
-                                                            this.noVideoStubAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.6
-                                                                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                                                                public void onAnimationEnd(Animator animator) {
-                                                                    GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
-                                                                    groupCallMiniTextureView.progressToNoVideoStub = groupCallMiniTextureView.hasVideo ? 0.0f : 1.0f;
-                                                                    groupCallMiniTextureView.noVideoStubLayout.setAlpha(GroupCallMiniTextureView.this.progressToNoVideoStub);
-                                                                    GroupCallMiniTextureView.this.noVideoStubLayout.setVisibility(GroupCallMiniTextureView.this.hasVideo ? 8 : 0);
-                                                                    GroupCallMiniTextureView.this.textureView.invalidate();
-                                                                }
-                                                            });
-                                                            this.noVideoStubAnimator.start();
-                                                        } else {
-                                                            boolean z12 = this.hasVideo;
-                                                            this.progressToNoVideoStub = z12 ? 0.0f : 1.0f;
-                                                            this.noVideoStubLayout.setVisibility(z12 ? 8 : 0);
-                                                            this.noVideoStubLayout.setAlpha(this.progressToNoVideoStub);
-                                                            this.textureView.invalidate();
-                                                        }
-                                                        if (this.hasVideo) {
-                                                            this.noVideoStubLayout.updateMuteButtonState(false);
-                                                        }
-                                                    }
-                                                    if (this.participant.participant.self && VoIPService.getSharedInstance() != null) {
-                                                        VoIPService.getSharedInstance().setLocalSink(this.textureView.renderer, this.participant.presentation);
-                                                    }
-                                                    this.statusIcon.setParticipant(this.participant.participant, z2);
-                                                    if (this.noVideoStubLayout.getVisibility() == 0) {
-                                                        this.noVideoStubLayout.updateMuteButtonState(true);
-                                                    }
-                                                    videoParticipant3 = this.participant;
-                                                    if (videoParticipant3.presentation ? !((tLRPC$TL_groupCallParticipantVideo = videoParticipant3.participant.video) == null || !tLRPC$TL_groupCallParticipantVideo.paused) : !((tLRPC$TL_groupCallParticipantVideo2 = videoParticipant3.participant.presentation) == null || !tLRPC$TL_groupCallParticipantVideo2.paused)) {
-                                                        z6 = true;
-                                                    }
-                                                    if (this.videoIsPaused != z6) {
-                                                        this.videoIsPaused = z6;
-                                                        this.textureView.renderer.animate().alpha(this.videoIsPaused ? 0.0f : 1.0f).setDuration(250L).start();
-                                                        this.textureView.invalidate();
-                                                    }
-                                                    if (!GroupCallActivity.paused || !this.hasVideo) {
-                                                        if (this.participant.participant.self) {
-                                                            if (VoIPService.getSharedInstance() != null) {
-                                                                VoIPService.getSharedInstance().setLocalSink(null, this.participant.presentation);
-                                                            }
-                                                        } else if (VoIPService.getSharedInstance() != null) {
-                                                            VoIPService sharedInstance4 = VoIPService.getSharedInstance();
-                                                            ChatObject.VideoParticipant videoParticipant9 = this.participant;
-                                                            sharedInstance4.removeRemoteSink(videoParticipant9.participant, videoParticipant9.presentation);
-                                                            VoIPService sharedInstance5 = VoIPService.getSharedInstance();
-                                                            ChatObject.VideoParticipant videoParticipant10 = this.participant;
-                                                            sharedInstance5.removeRemoteSink(videoParticipant10.participant, videoParticipant10.presentation);
-                                                        }
-                                                        if (GroupCallActivity.paused && this.textureView.renderer.isFirstFrameRendered()) {
-                                                            saveThumb();
-                                                            this.textureView.renderer.clearFirstFrame();
-                                                            this.textureView.renderer.setAlpha(0.0f);
-                                                            this.textureView.blurRenderer.setAlpha(0.0f);
-                                                        }
-                                                    } else {
-                                                        if (!this.textureView.renderer.isFirstFrameRendered()) {
-                                                            loadThumb();
-                                                        }
-                                                        if (this.participant.participant.self) {
-                                                            if (VoIPService.getSharedInstance() != null) {
-                                                                VoIPService.getSharedInstance().setLocalSink(this.textureView.renderer, this.participant.presentation);
-                                                            }
-                                                        } else if (VoIPService.getSharedInstance() != null) {
-                                                            VoIPService sharedInstance6 = VoIPService.getSharedInstance();
-                                                            ChatObject.VideoParticipant videoParticipant11 = this.participant;
-                                                            sharedInstance6.addRemoteSink(videoParticipant11.participant, videoParticipant11.presentation, this.textureView.renderer, null);
-                                                            VoIPService sharedInstance7 = VoIPService.getSharedInstance();
-                                                            ChatObject.VideoParticipant videoParticipant12 = this.participant;
-                                                            sharedInstance7.addRemoteSink(videoParticipant12.participant, videoParticipant12.presentation, this.textureView.renderer, null);
-                                                            ChatObject.Call call4 = this.call;
-                                                            if (call4 != null && call4.call.rtmp_stream && !this.textureView.renderer.isFirstFrameRendered() && !this.postedNoRtmpStreamCallback) {
-                                                                AndroidUtilities.runOnUIThread(this.noRtmpStreamCallback, 15000L);
-                                                                this.postedNoRtmpStreamCallback = true;
-                                                            }
-                                                        }
-                                                    }
-                                                    updateIconColor(true);
-                                                }
-                                            }
-                                            this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
-                                            peerId = MessageObject.getPeerId(this.participant.participant.peer);
-                                            if (DialogObject.isUserDialog(peerId)) {
-                                                TLRPC$User user = AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId));
-                                                this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, user);
-                                                forChat = ImageLocation.getForUser(user, 0);
-                                                forChat2 = ImageLocation.getForUser(user, 1);
-                                                tLRPC$User = user;
-                                            } else {
-                                                TLRPC$Chat chat = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().getChat(Long.valueOf(-peerId));
-                                                this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, chat);
-                                                forChat = ImageLocation.getForChat(chat, 0);
-                                                forChat2 = ImageLocation.getForChat(chat, 1);
-                                                tLRPC$User = chat;
-                                            }
-                                            ImageLocation imageLocation = forChat;
-                                            TLRPC$Chat tLRPC$Chat = tLRPC$User;
-                                            this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat, 0);
-                                            this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat, 0);
-                                            z5 = false;
-                                            if (z2) {
-                                            }
-                                            if (z5 != this.hasVideo) {
+                                        });
+                                        this.parentContainer.requestLayout();
+                                        invalidate();
+                                    }
+                                    videoParticipant = this.participant;
+                                    if (!videoParticipant.participant.self && !videoParticipant.presentation && VoIPService.getSharedInstance() != null) {
+                                        this.textureView.renderer.setMirror(VoIPService.getSharedInstance().isFrontFaceCamera());
+                                        this.textureView.renderer.setRotateTextureWithScreen(true);
+                                        this.textureView.renderer.setUseCameraRotation(true);
+                                    } else {
+                                        this.textureView.renderer.setMirror(false);
+                                        this.textureView.renderer.setRotateTextureWithScreen(true);
+                                        this.textureView.renderer.setUseCameraRotation(false);
+                                    }
+                                    this.textureView.updateRotation();
+                                    if (!this.participant.participant.self) {
+                                        this.textureView.renderer.setMaxTextureSize(720);
+                                    } else {
+                                        this.textureView.renderer.setMaxTextureSize(0);
+                                    }
+                                    videoParticipant2 = this.participant;
+                                    if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
+                                        ChatObject.Call call3 = this.call;
+                                        if (call3.canStreamVideo || this.participant == call3.videoNotAvailableParticipant) {
+                                            z5 = true;
+                                            boolean z11 = (z2 || this.secondaryView == null || this.showingInFullscreen || z5) ? false : true;
+                                            if (z5 != this.hasVideo && !z11) {
                                                 this.hasVideo = z5;
                                                 valueAnimator = this.noVideoStubAnimator;
                                                 if (valueAnimator != null) {
+                                                    valueAnimator.removeAllListeners();
+                                                    this.noVideoStubAnimator.cancel();
                                                 }
                                                 if (!z2) {
+                                                    if (!this.hasVideo && this.noVideoStubLayout.getVisibility() != 0) {
+                                                        this.noVideoStubLayout.setVisibility(0);
+                                                        this.noVideoStubLayout.setAlpha(0.0f);
+                                                    }
+                                                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progressToNoVideoStub, this.hasVideo ? 0.0f : 1.0f);
+                                                    this.noVideoStubAnimator = ofFloat;
+                                                    ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda3
+                                                        @Override // android.animation.ValueAnimator.AnimatorUpdateListener
+                                                        public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
+                                                            GroupCallMiniTextureView.this.lambda$updateAttachState$3(valueAnimator3);
+                                                        }
+                                                    });
+                                                    this.noVideoStubAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.6
+                                                        @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+                                                        public void onAnimationEnd(Animator animator) {
+                                                            GroupCallMiniTextureView groupCallMiniTextureView = GroupCallMiniTextureView.this;
+                                                            groupCallMiniTextureView.progressToNoVideoStub = groupCallMiniTextureView.hasVideo ? 0.0f : 1.0f;
+                                                            groupCallMiniTextureView.noVideoStubLayout.setAlpha(GroupCallMiniTextureView.this.progressToNoVideoStub);
+                                                            GroupCallMiniTextureView.this.noVideoStubLayout.setVisibility(GroupCallMiniTextureView.this.hasVideo ? 8 : 0);
+                                                            GroupCallMiniTextureView.this.textureView.invalidate();
+                                                        }
+                                                    });
+                                                    this.noVideoStubAnimator.start();
+                                                } else {
+                                                    boolean z12 = this.hasVideo;
+                                                    this.progressToNoVideoStub = z12 ? 0.0f : 1.0f;
+                                                    this.noVideoStubLayout.setVisibility(z12 ? 8 : 0);
+                                                    this.noVideoStubLayout.setAlpha(this.progressToNoVideoStub);
+                                                    this.textureView.invalidate();
                                                 }
                                                 if (this.hasVideo) {
+                                                    this.noVideoStubLayout.updateMuteButtonState(false);
                                                 }
                                             }
-                                            if (this.participant.participant.self) {
+                                            if (this.participant.participant.self && VoIPService.getSharedInstance() != null) {
                                                 VoIPService.getSharedInstance().setLocalSink(this.textureView.renderer, this.participant.presentation);
                                             }
                                             this.statusIcon.setParticipant(this.participant.participant, z2);
                                             if (this.noVideoStubLayout.getVisibility() == 0) {
+                                                this.noVideoStubLayout.updateMuteButtonState(true);
                                             }
                                             videoParticipant3 = this.participant;
-                                            if (videoParticipant3.presentation) {
-                                                if (this.videoIsPaused != z6) {
-                                                }
-                                                if (!GroupCallActivity.paused) {
-                                                }
+                                            if (!videoParticipant3.presentation ? !((tLRPC$TL_groupCallParticipantVideo = videoParticipant3.participant.video) == null || !tLRPC$TL_groupCallParticipantVideo.paused) : !((tLRPC$TL_groupCallParticipantVideo2 = videoParticipant3.participant.presentation) == null || !tLRPC$TL_groupCallParticipantVideo2.paused)) {
+                                                z6 = true;
+                                            }
+                                            if (this.videoIsPaused != z6) {
+                                                this.videoIsPaused = z6;
+                                                this.textureView.renderer.animate().alpha(this.videoIsPaused ? 0.0f : 1.0f).setDuration(250L).start();
+                                                this.textureView.invalidate();
+                                            }
+                                            if (!GroupCallActivity.paused || !this.hasVideo) {
                                                 if (this.participant.participant.self) {
+                                                    if (VoIPService.getSharedInstance() != null) {
+                                                        VoIPService.getSharedInstance().setLocalSink(null, this.participant.presentation);
+                                                    }
+                                                } else if (VoIPService.getSharedInstance() != null) {
+                                                    VoIPService sharedInstance4 = VoIPService.getSharedInstance();
+                                                    ChatObject.VideoParticipant videoParticipant9 = this.participant;
+                                                    sharedInstance4.removeRemoteSink(videoParticipant9.participant, videoParticipant9.presentation);
+                                                    VoIPService sharedInstance5 = VoIPService.getSharedInstance();
+                                                    ChatObject.VideoParticipant videoParticipant10 = this.participant;
+                                                    sharedInstance5.removeRemoteSink(videoParticipant10.participant, videoParticipant10.presentation);
                                                 }
-                                                if (GroupCallActivity.paused) {
+                                                if (GroupCallActivity.paused && this.textureView.renderer.isFirstFrameRendered()) {
                                                     saveThumb();
                                                     this.textureView.renderer.clearFirstFrame();
                                                     this.textureView.renderer.setAlpha(0.0f);
                                                     this.textureView.blurRenderer.setAlpha(0.0f);
                                                 }
-                                                updateIconColor(true);
                                             } else {
-                                                if (this.videoIsPaused != z6) {
-                                                }
-                                                if (!GroupCallActivity.paused) {
+                                                if (!this.textureView.renderer.isFirstFrameRendered()) {
+                                                    loadThumb();
                                                 }
                                                 if (this.participant.participant.self) {
+                                                    if (VoIPService.getSharedInstance() != null) {
+                                                        VoIPService.getSharedInstance().setLocalSink(this.textureView.renderer, this.participant.presentation);
+                                                    }
+                                                } else if (VoIPService.getSharedInstance() != null) {
+                                                    VoIPService sharedInstance6 = VoIPService.getSharedInstance();
+                                                    ChatObject.VideoParticipant videoParticipant11 = this.participant;
+                                                    sharedInstance6.addRemoteSink(videoParticipant11.participant, videoParticipant11.presentation, this.textureView.renderer, null);
+                                                    VoIPService sharedInstance7 = VoIPService.getSharedInstance();
+                                                    ChatObject.VideoParticipant videoParticipant12 = this.participant;
+                                                    sharedInstance7.addRemoteSink(videoParticipant12.participant, videoParticipant12.presentation, this.textureView.renderer, null);
+                                                    ChatObject.Call call4 = this.call;
+                                                    if (call4 != null && call4.call.rtmp_stream && !this.textureView.renderer.isFirstFrameRendered() && !this.postedNoRtmpStreamCallback) {
+                                                        AndroidUtilities.runOnUIThread(this.noRtmpStreamCallback, 15000L);
+                                                        this.postedNoRtmpStreamCallback = true;
+                                                    }
                                                 }
-                                                if (GroupCallActivity.paused) {
-                                                }
-                                                updateIconColor(true);
                                             }
-                                        } else {
-                                            dp = AndroidUtilities.dp(46.0f);
+                                            updateIconColor(true);
                                         }
-                                    } else if (groupCallGridCell5 != null) {
-                                        i = groupCallGridCell5.gridAdapter.getItemCount();
-                                        z4 = true;
-                                        f = groupCallGridCell5.spanCount;
-                                        dp = -1;
-                                        marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                                        if (dp != 0) {
-                                            marginLayoutParams.height = dp;
-                                            marginLayoutParams.width = z4 ? -1 : dp;
-                                            this.useSpanSize = z4;
-                                            this.spanCount = f;
-                                            this.checkScale = true;
-                                            if (!z2) {
-                                            }
-                                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda5
-                                                @Override // java.lang.Runnable
-                                                public final void run() {
-                                                    GroupCallMiniTextureView.this.requestLayout();
-                                                }
-                                            });
-                                            this.parentContainer.requestLayout();
-                                            invalidate();
-                                        }
-                                        videoParticipant = this.participant;
-                                        if (!videoParticipant.participant.self) {
-                                        }
-                                        this.textureView.renderer.setMirror(false);
-                                        this.textureView.renderer.setRotateTextureWithScreen(true);
-                                        this.textureView.renderer.setUseCameraRotation(false);
-                                        this.textureView.updateRotation();
-                                        if (this.participant.participant.self) {
-                                        }
-                                        videoParticipant2 = this.participant;
-                                        if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
-                                        }
-                                        this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
-                                        peerId = MessageObject.getPeerId(this.participant.participant.peer);
-                                        if (DialogObject.isUserDialog(peerId)) {
-                                        }
-                                        ImageLocation imageLocation2 = forChat;
-                                        TLRPC$Chat tLRPC$Chat2 = tLRPC$User;
-                                        this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2, 0);
-                                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat2, 0);
-                                        z5 = false;
-                                        if (z2) {
-                                        }
-                                        if (z5 != this.hasVideo) {
-                                        }
-                                        if (this.participant.participant.self) {
-                                        }
-                                        this.statusIcon.setParticipant(this.participant.participant, z2);
-                                        if (this.noVideoStubLayout.getVisibility() == 0) {
-                                        }
-                                        videoParticipant3 = this.participant;
-                                        if (videoParticipant3.presentation) {
-                                        }
+                                    }
+                                    this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
+                                    peerId = MessageObject.getPeerId(this.participant.participant.peer);
+                                    if (!DialogObject.isUserDialog(peerId)) {
+                                        TLRPC$User user = AccountInstance.getInstance(this.currentAccount).getMessagesController().getUser(Long.valueOf(peerId));
+                                        this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, user);
+                                        forChat = ImageLocation.getForUser(user, 0);
+                                        forChat2 = ImageLocation.getForUser(user, 1);
+                                        tLRPC$User = user;
                                     } else {
-                                        dp = AndroidUtilities.dp(46.0f);
+                                        TLRPC$Chat chat = AccountInstance.getInstance(UserConfig.selectedAccount).getMessagesController().getChat(Long.valueOf(-peerId));
+                                        this.noVideoStubLayout.avatarDrawable.setInfo(this.currentAccount, chat);
+                                        forChat = ImageLocation.getForChat(chat, 0);
+                                        forChat2 = ImageLocation.getForChat(chat, 1);
+                                        tLRPC$User = chat;
+                                    }
+                                    ImageLocation imageLocation = forChat;
+                                    TLRPC$Chat tLRPC$Chat = tLRPC$User;
+                                    this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat, 0);
+                                    this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat, 0);
+                                    z5 = false;
+                                    if (z2) {
+                                    }
+                                    if (z5 != this.hasVideo) {
+                                        this.hasVideo = z5;
+                                        valueAnimator = this.noVideoStubAnimator;
+                                        if (valueAnimator != null) {
+                                        }
+                                        if (!z2) {
+                                        }
+                                        if (this.hasVideo) {
+                                        }
+                                    }
+                                    if (this.participant.participant.self) {
+                                        VoIPService.getSharedInstance().setLocalSink(this.textureView.renderer, this.participant.presentation);
+                                    }
+                                    this.statusIcon.setParticipant(this.participant.participant, z2);
+                                    if (this.noVideoStubLayout.getVisibility() == 0) {
+                                    }
+                                    videoParticipant3 = this.participant;
+                                    if (!videoParticipant3.presentation) {
+                                        if (this.videoIsPaused != z6) {
+                                        }
+                                        if (!GroupCallActivity.paused) {
+                                        }
+                                        if (this.participant.participant.self) {
+                                        }
+                                        if (GroupCallActivity.paused) {
+                                            saveThumb();
+                                            this.textureView.renderer.clearFirstFrame();
+                                            this.textureView.renderer.setAlpha(0.0f);
+                                            this.textureView.blurRenderer.setAlpha(0.0f);
+                                        }
+                                        updateIconColor(true);
+                                    } else {
+                                        if (this.videoIsPaused != z6) {
+                                        }
+                                        if (!GroupCallActivity.paused) {
+                                        }
+                                        if (this.participant.participant.self) {
+                                        }
+                                        if (GroupCallActivity.paused) {
+                                        }
+                                        updateIconColor(true);
                                     }
                                 }
                                 f = 1.0f;
-                                i = 0;
+                                i2 = 0;
                                 z4 = false;
                                 marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                                if (dp != 0) {
+                                if (i != 0) {
+                                    marginLayoutParams.height = i;
+                                    marginLayoutParams.width = z4 ? -1 : i;
+                                    this.useSpanSize = z4;
+                                    this.spanCount = f;
+                                    this.checkScale = true;
+                                    if (!z2) {
+                                    }
+                                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda2
+                                        @Override // java.lang.Runnable
+                                        public final void run() {
+                                            GroupCallMiniTextureView.this.requestLayout();
+                                        }
+                                    });
+                                    this.parentContainer.requestLayout();
+                                    invalidate();
                                 }
                                 videoParticipant = this.participant;
                                 if (!videoParticipant.participant.self) {
@@ -1527,19 +1487,19 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                 this.textureView.renderer.setRotateTextureWithScreen(true);
                                 this.textureView.renderer.setUseCameraRotation(false);
                                 this.textureView.updateRotation();
-                                if (this.participant.participant.self) {
+                                if (!this.participant.participant.self) {
                                 }
                                 videoParticipant2 = this.participant;
                                 if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
                                 }
                                 this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
                                 peerId = MessageObject.getPeerId(this.participant.participant.peer);
-                                if (DialogObject.isUserDialog(peerId)) {
+                                if (!DialogObject.isUserDialog(peerId)) {
                                 }
-                                ImageLocation imageLocation22 = forChat;
-                                TLRPC$Chat tLRPC$Chat22 = tLRPC$User;
-                                this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation22, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat22, 0);
-                                this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation22, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat22, 0);
+                                ImageLocation imageLocation2 = forChat;
+                                TLRPC$Chat tLRPC$Chat2 = tLRPC$User;
+                                this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2, 0);
+                                this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat2, 0);
                                 z5 = false;
                                 if (z2) {
                                 }
@@ -1551,16 +1511,16 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                                 if (this.noVideoStubLayout.getVisibility() == 0) {
                                 }
                                 videoParticipant3 = this.participant;
-                                if (videoParticipant3.presentation) {
+                                if (!videoParticipant3.presentation) {
                                 }
                             }
                         }
-                        dp = 0;
-                        f = 1.0f;
                         i = 0;
+                        f = 1.0f;
+                        i2 = 0;
                         z4 = false;
                         marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                        if (dp != 0) {
+                        if (i != 0) {
                         }
                         videoParticipant = this.participant;
                         if (!videoParticipant.participant.self) {
@@ -1569,19 +1529,19 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         this.textureView.renderer.setRotateTextureWithScreen(true);
                         this.textureView.renderer.setUseCameraRotation(false);
                         this.textureView.updateRotation();
-                        if (this.participant.participant.self) {
+                        if (!this.participant.participant.self) {
                         }
                         videoParticipant2 = this.participant;
                         if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
                         }
                         this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
                         peerId = MessageObject.getPeerId(this.participant.participant.peer);
-                        if (DialogObject.isUserDialog(peerId)) {
+                        if (!DialogObject.isUserDialog(peerId)) {
                         }
-                        ImageLocation imageLocation222 = forChat;
-                        TLRPC$Chat tLRPC$Chat222 = tLRPC$User;
-                        this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat222, 0);
-                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation222, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat222, 0);
+                        ImageLocation imageLocation22 = forChat;
+                        TLRPC$Chat tLRPC$Chat22 = tLRPC$User;
+                        this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation22, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat22, 0);
+                        this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation22, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat22, 0);
                         z5 = false;
                         if (z2) {
                         }
@@ -1593,15 +1553,15 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                         if (this.noVideoStubLayout.getVisibility() == 0) {
                         }
                         videoParticipant3 = this.participant;
-                        if (videoParticipant3.presentation) {
+                        if (!videoParticipant3.presentation) {
                         }
                     }
-                    dp = -1;
+                    i = -1;
                     f = 1.0f;
-                    i = 0;
+                    i2 = 0;
                     z4 = false;
                     marginLayoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                    if (dp != 0) {
+                    if (i != 0) {
                     }
                     videoParticipant = this.participant;
                     if (!videoParticipant.participant.self) {
@@ -1610,19 +1570,19 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     this.textureView.renderer.setRotateTextureWithScreen(true);
                     this.textureView.renderer.setUseCameraRotation(false);
                     this.textureView.updateRotation();
-                    if (this.participant.participant.self) {
+                    if (!this.participant.participant.self) {
                     }
                     videoParticipant2 = this.participant;
                     if (ChatObject.Call.videoIsActive(videoParticipant2.participant, videoParticipant2.presentation, this.call)) {
                     }
                     this.noVideoStubLayout.avatarImageReceiver.setCurrentAccount(this.currentAccount);
                     peerId = MessageObject.getPeerId(this.participant.participant.peer);
-                    if (DialogObject.isUserDialog(peerId)) {
+                    if (!DialogObject.isUserDialog(peerId)) {
                     }
-                    ImageLocation imageLocation2222 = forChat;
-                    TLRPC$Chat tLRPC$Chat2222 = tLRPC$User;
-                    this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation2222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat2222, 0);
-                    this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation2222, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat2222, 0);
+                    ImageLocation imageLocation222 = forChat;
+                    TLRPC$Chat tLRPC$Chat222 = tLRPC$User;
+                    this.noVideoStubLayout.avatarImageReceiver.setImage(imageLocation222, null, (forChat2 != null || (imageFromMemory = ImageLoader.getInstance().getImageFromMemory(forChat2.location, null, "50_50")) == null) ? this.noVideoStubLayout.avatarDrawable : imageFromMemory, null, tLRPC$Chat222, 0);
+                    this.noVideoStubLayout.backgroundImageReceiver.setImage(imageLocation222, "50_50_b", new ColorDrawable(Theme.getColor(Theme.key_voipgroup_listViewBackground)), null, tLRPC$Chat222, 0);
                     z5 = false;
                     if (z2) {
                     }
@@ -1634,7 +1594,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
                     if (this.noVideoStubLayout.getVisibility() == 0) {
                     }
                     videoParticipant3 = this.participant;
-                    if (videoParticipant3.presentation) {
+                    if (!videoParticipant3.presentation) {
                     }
                 }
                 updateInfo();
@@ -1710,59 +1670,14 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         return this.textureView.stubVisibleProgress == 1.0f;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:100:?, code lost:
-        return;
-     */
     /* JADX WARN: Code restructure failed: missing block: B:47:0x00c4, code lost:
-        if (r0 != false) goto L48;
+        if (r0 != false) goto L66;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:48:0x00c6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:51:0x00ca, code lost:
+        if (r2 != null) goto L66;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00cc, code lost:
         r9 = r10;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:51:0x00cb, code lost:
-        if (r2 != null) goto L48;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:53:0x00ce, code lost:
-        setTranslationX(((r11.getX() + r9.getX()) - getLeft()) - r12.getLeft());
-        setTranslationY((((r11.getY() + org.telegram.messenger.AndroidUtilities.dp(2.0f)) + r9.getY()) - getTop()) - r12.getTop());
-        r8.textureView.setRoundCorners(org.telegram.messenger.AndroidUtilities.dp(8.0f));
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:54:0x0110, code lost:
-        if (r8.attached == false) goto L66;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x0114, code lost:
-        if (r8.animateEnter != false) goto L65;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x0118, code lost:
-        if (org.telegram.ui.GroupCallActivity.isTabletMode != false) goto L57;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x011a, code lost:
-        r8.drawFirst = true;
-        setAlpha((1.0f - r1) * r11.getAlpha());
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x012a, code lost:
-        if (r8.primaryView == null) goto L64;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:63:0x012e, code lost:
-        if (r8.tabletGridView != null) goto L63;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:64:0x0130, code lost:
-        setAlpha(r1 * r11.getAlpha());
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:95:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:96:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:98:?, code lost:
-        return;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:99:?, code lost:
-        return;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1846,6 +1761,19 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         } else if (groupCallGridCell4 != null) {
             groupCallGridCell3 = groupCallGridCell4;
         }
+        setTranslationX(((groupCallGridCell3.getX() + viewGroup.getX()) - getLeft()) - groupCallRenderersContainer.getLeft());
+        setTranslationY((((groupCallGridCell3.getY() + AndroidUtilities.dp(2.0f)) + viewGroup.getY()) - getTop()) - groupCallRenderersContainer.getTop());
+        this.textureView.setRoundCorners(AndroidUtilities.dp(8.0f));
+        if (!this.attached || this.animateEnter) {
+            return;
+        }
+        if (!GroupCallActivity.isTabletMode) {
+            this.drawFirst = true;
+            setAlpha((1.0f - f) * groupCallGridCell3.getAlpha());
+        } else if (this.primaryView == null || this.tabletGridView != null) {
+        } else {
+            setAlpha(f * groupCallGridCell3.getAlpha());
+        }
     }
 
     public boolean isAttached() {
@@ -1920,7 +1848,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         if (this.participant == null || this.textureView.renderer.getMeasuredHeight() == 0 || this.textureView.renderer.getMeasuredWidth() == 0) {
             return;
         }
-        getRenderBufferBitmap(new GlGenericDrawer.TextureCallback() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda1
+        getRenderBufferBitmap(new GlGenericDrawer.TextureCallback() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda0
             @Override // org.webrtc.GlGenericDrawer.TextureCallback
             public final void run(Bitmap bitmap, int i) {
                 GroupCallMiniTextureView.this.lambda$saveThumb$5(bitmap, i);
@@ -1933,7 +1861,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         if (bitmap == null || bitmap.getPixel(0, 0) == 0) {
             return;
         }
-        Utilities.stackBlurBitmap(bitmap, Math.max(7, Math.max(bitmap.getWidth(), bitmap.getHeight()) / 180));
+        Utilities.stackBlurBitmap(bitmap, Math.max(7, Math.max(bitmap.getWidth(), bitmap.getHeight()) / NotificationCenter.updateBotMenuButton));
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
@@ -2043,7 +1971,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             this.colorAnimator = ofFloat;
             final int i4 = i;
             final int i5 = color;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView$$ExternalSyntheticLambda4
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     GroupCallMiniTextureView.this.lambda$updateIconColor$6(i2, i4, i3, i5, valueAnimator2);
@@ -2149,8 +2077,8 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             this.bigWaveDrawable.maxRadius = AndroidUtilities.dp(95.0f);
             this.bigWaveDrawable.generateBlob();
             this.paint.setColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_listeningText), Theme.getColor(Theme.key_voipgroup_speakingText), this.speakingProgress));
-            this.paint.setAlpha(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
-            this.backgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, 127));
+            this.paint.setAlpha(102);
+            this.backgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, NotificationCenter.dialogTranslate));
         }
 
         @Override // android.view.View

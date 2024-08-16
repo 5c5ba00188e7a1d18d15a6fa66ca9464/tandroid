@@ -37,7 +37,7 @@ final class OggPacket {
                 int i2 = oggPageHeader.headerSize;
                 if ((oggPageHeader.type & 1) == 1 && this.packetArray.limit() == 0) {
                     i2 += calculatePacketSize(0);
-                    i = this.segmentCount + 0;
+                    i = this.segmentCount;
                 } else {
                     i = 0;
                 }
@@ -95,7 +95,7 @@ final class OggPacket {
             }
             int[] iArr = oggPageHeader.laces;
             this.segmentCount = i4 + 1;
-            i2 = iArr[i4 + i];
+            i2 = iArr[i5];
             i3 += i2;
         } while (i2 == 255);
         return i3;

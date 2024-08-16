@@ -99,7 +99,7 @@ public class DispatchQueuePoolBackground {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$execute$1(Runnable runnable, final DispatchQueue dispatchQueue) {
         runnable.run();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda3
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DispatchQueuePoolBackground.this.lambda$execute$0(dispatchQueue);
@@ -163,7 +163,7 @@ public class DispatchQueuePoolBackground {
         if (backgroundQueue == null) {
             backgroundQueue = new DispatchQueuePoolBackground(Math.max(1, Runtime.getRuntime().availableProcessors()));
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda0
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 DispatchQueuePoolBackground.lambda$finishCollectUpdateRunnables$3(arrayList2);
@@ -175,7 +175,7 @@ public class DispatchQueuePoolBackground {
     public static /* synthetic */ void lambda$finishCollectUpdateRunnables$3(final ArrayList arrayList) {
         backgroundQueue.execute(arrayList);
         arrayList.clear();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DispatchQueuePoolBackground$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DispatchQueuePoolBackground.lambda$finishCollectUpdateRunnables$2(arrayList);

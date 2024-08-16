@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Id3Decoder extends SimpleMetadataDecoder {
     public static final FramePredicate NO_FRAMES_PREDICATE = new FramePredicate() { // from class: com.google.android.exoplayer2.metadata.id3.Id3Decoder$$ExternalSyntheticLambda0
@@ -87,11 +88,11 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
 
     private static Id3Header decodeHeader(ParsableByteArray parsableByteArray) {
         int readUnsignedInt24;
+        boolean z = false;
         if (parsableByteArray.bytesLeft() < 10) {
             Log.w("Id3Decoder", "Data too short to be an ID3 tag");
             return null;
         }
-        boolean z = false;
         if (parsableByteArray.readUnsignedInt24() != 4801587) {
             Log.w("Id3Decoder", "Unexpected first three bytes of ID3 tag header: 0x" + String.format("%06X", Integer.valueOf(readUnsignedInt24)));
             return null;
@@ -130,10 +131,10 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         return new Id3Header(readUnsignedByte, z, readSynchSafeInt);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:31:0x0076, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0079, code lost:
         if ((r10 & 1) != 0) goto L33;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0086, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0087, code lost:
         if ((r10 & 128) != 0) goto L33;
      */
     /*
@@ -149,6 +150,7 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
             try {
                 boolean z2 = true;
                 if (parsableByteArray.bytesLeft() < i2) {
+                    parsableByteArray.setPosition(position);
                     return true;
                 }
                 if (i >= 3) {
@@ -161,10 +163,12 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
                     i3 = 0;
                 }
                 if (readUnsignedInt24 == 0 && readUnsignedInt242 == 0 && i3 == 0) {
+                    parsableByteArray.setPosition(position);
                     return true;
                 }
                 if (i == 4 && !z) {
                     if ((8421504 & readUnsignedInt242) != 0) {
+                        parsableByteArray.setPosition(position);
                         return false;
                     }
                     readUnsignedInt242 = (((readUnsignedInt242 >> 24) & 255) << 21) | (readUnsignedInt242 & 255) | (((readUnsignedInt242 >> 8) & 255) << 7) | (((readUnsignedInt242 >> 16) & 255) << 14);
@@ -182,20 +186,23 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
                         i4 += 4;
                     }
                     if (readUnsignedInt242 < i4) {
+                        parsableByteArray.setPosition(position);
+                        return false;
+                    } else if (parsableByteArray.bytesLeft() >= readUnsignedInt242) {
+                        parsableByteArray.skipBytes((int) readUnsignedInt242);
+                    } else {
+                        parsableByteArray.setPosition(position);
                         return false;
                     }
-                    if (parsableByteArray.bytesLeft() < readUnsignedInt242) {
-                        return false;
-                    }
-                    parsableByteArray.skipBytes((int) readUnsignedInt242);
                 }
-            } finally {
+            } catch (Throwable th) {
                 parsableByteArray.setPosition(position);
+                throw th;
             }
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:131:0x0190, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:130:0x018d, code lost:
         if (r13 == 67) goto L98;
      */
     /*
@@ -219,7 +226,7 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         if (i == 4) {
             readUnsignedInt24 = parsableByteArray.readUnsignedIntToInt();
             if (!z) {
-                readUnsignedInt24 = (((readUnsignedInt24 >> 24) & 255) << 21) | (readUnsignedInt24 & 255) | (((readUnsignedInt24 >> 8) & 255) << 7) | (((readUnsignedInt24 >> 16) & 255) << 14);
+                readUnsignedInt24 = (((readUnsignedInt24 >> 24) & NotificationCenter.voipServiceCreated) << 21) | (readUnsignedInt24 & NotificationCenter.voipServiceCreated) | (((readUnsignedInt24 >> 8) & NotificationCenter.voipServiceCreated) << 7) | (((readUnsignedInt24 >> 16) & NotificationCenter.voipServiceCreated) << 14);
             }
         } else if (i == 3) {
             readUnsignedInt24 = parsableByteArray.readUnsignedIntToInt();
@@ -253,32 +260,30 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
         }
         if (i == 3) {
             int i6 = i4;
-            z3 = (i6 & 128) != 0;
+            z6 = (i6 & 128) != 0;
             z4 = (i6 & 64) != 0;
-            z2 = (i6 & 32) != 0;
-            z6 = z3;
             z5 = false;
+            z2 = (i6 & 32) != 0;
+            z3 = z6;
         } else {
             int i7 = i4;
             if (i == 4) {
-                boolean z7 = (i7 & 64) != 0;
-                boolean z8 = (i7 & 8) != 0;
-                boolean z9 = (i7 & 4) != 0;
+                z2 = (i7 & 64) != 0;
+                z3 = (i7 & 8) != 0;
+                z4 = (i7 & 4) != 0;
                 z5 = (i7 & 2) != 0;
-                boolean z10 = (i7 & 1) != 0;
-                z2 = z7;
-                z3 = z10;
-                z6 = z8;
-                z4 = z9;
+                if ((i7 & 1) != 0) {
+                    z6 = true;
+                }
             } else {
                 z2 = false;
                 z3 = false;
                 z4 = false;
                 z5 = false;
-                z6 = false;
             }
+            z6 = false;
         }
-        if (z6 || z4) {
+        if (z3 || z4) {
             Log.w(str, "Skipping unsupported compressed or encrypted frame");
             parsableByteArray.setPosition(i3);
             return null;
@@ -287,7 +292,7 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
             i5--;
             parsableByteArray.skipBytes(1);
         }
-        if (z3) {
+        if (z6) {
             i5 -= 4;
             parsableByteArray.skipBytes(4);
         }
@@ -618,7 +623,10 @@ public final class Id3Decoder extends SimpleMetadataDecoder {
     }
 
     private static String decodeStringIfValid(byte[] bArr, int i, int i2, Charset charset) {
-        return (i2 <= i || i2 > bArr.length) ? "" : new String(bArr, i, i2 - i, charset);
+        if (i2 <= i || i2 > bArr.length) {
+            return "";
+        }
+        return new String(bArr, i, i2 - i, charset);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

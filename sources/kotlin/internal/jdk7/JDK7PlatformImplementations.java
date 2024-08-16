@@ -16,7 +16,6 @@ public class JDK7PlatformImplementations extends PlatformImplementations {
         private ReflectSdkVersion() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:10:0x0023  */
         static {
             Integer num;
             Object obj;
@@ -27,15 +26,14 @@ public class JDK7PlatformImplementations extends PlatformImplementations {
             }
             if (obj instanceof Integer) {
                 num = (Integer) obj;
-                if (num != null) {
-                    if (num.intValue() > 0) {
-                        num2 = num;
-                    }
+                if (num != null && num.intValue() > 0) {
+                    num2 = num;
                 }
                 sdkVersion = num2;
             }
             num = null;
             if (num != null) {
+                num2 = num;
             }
             sdkVersion = num2;
         }

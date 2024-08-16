@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 /* loaded from: classes4.dex */
@@ -23,7 +24,7 @@ public class StoryReactionWidgetBackground extends Drawable {
     private Paint xRefPaint;
     private final int STYLE_FILLED = 0;
     private final int STYLE_TRANSCLUENT = 1;
-    int alpha = 255;
+    int alpha = NotificationCenter.voipServiceCreated;
     float[] points = new float[15];
     Path path = new Path();
 
@@ -82,7 +83,7 @@ public class StoryReactionWidgetBackground extends Drawable {
                 this.xRefPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 this.xRefPaint.setStrokeWidth(AndroidUtilities.dp(3.0f));
             }
-            this.backgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, 127));
+            this.backgroundPaint.setColor(ColorUtils.setAlphaComponent(-16777216, NotificationCenter.dialogTranslate));
         }
         if (this.alpha != 255 || this.style == 1) {
             canvas.saveLayerAlpha(getBounds().left - (getBounds().width() * 0.2f), getBounds().top, getBounds().right + (getBounds().width() * 0.2f), getBounds().bottom + (getBounds().height() * 0.2f), this.alpha, 31);

@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class VorbisUtil {
     public static int iLog(int i) {
@@ -95,7 +96,7 @@ public final class VorbisUtil {
             readLittleEndianInt3 = -1;
         }
         int readUnsignedByte2 = parsableByteArray.readUnsignedByte();
-        return new VorbisIdHeader(readLittleEndianUnsignedIntToInt, readUnsignedByte, readLittleEndianUnsignedIntToInt2, readLittleEndianInt, readLittleEndianInt2, readLittleEndianInt3, (int) Math.pow(2.0d, readUnsignedByte2 & 15), (int) Math.pow(2.0d, (readUnsignedByte2 & 240) >> 4), (parsableByteArray.readUnsignedByte() & 1) > 0, Arrays.copyOf(parsableByteArray.getData(), parsableByteArray.limit()));
+        return new VorbisIdHeader(readLittleEndianUnsignedIntToInt, readUnsignedByte, readLittleEndianUnsignedIntToInt2, readLittleEndianInt, readLittleEndianInt2, readLittleEndianInt3, (int) Math.pow(2.0d, readUnsignedByte2 & 15), (int) Math.pow(2.0d, (readUnsignedByte2 & NotificationCenter.reloadInterface) >> 4), (parsableByteArray.readUnsignedByte() & 1) > 0, Arrays.copyOf(parsableByteArray.getData(), parsableByteArray.limit()));
     }
 
     public static CommentHeader readVorbisCommentHeader(ParsableByteArray parsableByteArray) throws ParserException {
@@ -107,10 +108,10 @@ public final class VorbisUtil {
             verifyVorbisHeaderCapturePattern(3, parsableByteArray, false);
         }
         String readString = parsableByteArray.readString((int) parsableByteArray.readLittleEndianUnsignedInt());
-        int length = 11 + readString.length();
+        int length = readString.length();
         long readLittleEndianUnsignedInt = parsableByteArray.readLittleEndianUnsignedInt();
         String[] strArr = new String[(int) readLittleEndianUnsignedInt];
-        int i = length + 4;
+        int i = length + 15;
         for (int i2 = 0; i2 < readLittleEndianUnsignedInt; i2++) {
             String readString2 = parsableByteArray.readString((int) parsableByteArray.readLittleEndianUnsignedInt());
             strArr[i2] = readString2;

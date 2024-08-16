@@ -20,7 +20,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes.dex */
 public class ComponentRuntime extends AbstractComponentContainer implements ComponentLoader {
-    private static final Provider<Set<Object>> EMPTY_PROVIDER = new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda1
+    private static final Provider<Set<Object>> EMPTY_PROVIDER = new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda0
         @Override // com.google.firebase.inject.Provider
         public final Object get() {
             return Collections.emptySet();
@@ -90,7 +90,7 @@ public class ComponentRuntime extends AbstractComponentContainer implements Comp
                 CycleDetector.detect(arrayList2);
             }
             for (final Component<?> component : list) {
-                this.components.put(component, new Lazy(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda0
+                this.components.put(component, new Lazy(new Provider() { // from class: com.google.firebase.components.ComponentRuntime$$ExternalSyntheticLambda1
                     @Override // com.google.firebase.inject.Provider
                     public final Object get() {
                         Object lambda$discoverComponents$0;

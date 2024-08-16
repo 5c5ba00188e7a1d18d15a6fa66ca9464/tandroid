@@ -246,7 +246,7 @@ public class DefaultDrmSession implements DrmSession {
             this.mediaDrm.setPlayerIdForSession(openSession, this.playerId);
             this.cryptoConfig = this.mediaDrm.createCryptoConfig(this.sessionId);
             this.state = 3;
-            dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda2
+            dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     ((DrmSessionEventListener.EventDispatcher) obj).drmSessionAcquired(r1);
@@ -309,7 +309,7 @@ public class DefaultDrmSession implements DrmSession {
                     return;
                 }
                 this.state = 4;
-                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda4
+                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda1
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         ((DrmSessionEventListener.EventDispatcher) obj).drmKeysRestored();
@@ -361,7 +361,7 @@ public class DefaultDrmSession implements DrmSession {
                 byte[] bArr = (byte[]) obj2;
                 if (this.mode == 3) {
                     this.mediaDrm.provideKeyResponse((byte[]) Util.castNonNull(this.offlineLicenseKeySetId), bArr);
-                    dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda0
+                    dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda3
                         @Override // com.google.android.exoplayer2.util.Consumer
                         public final void accept(Object obj3) {
                             ((DrmSessionEventListener.EventDispatcher) obj3).drmKeysRemoved();
@@ -375,7 +375,7 @@ public class DefaultDrmSession implements DrmSession {
                     this.offlineLicenseKeySetId = provideKeyResponse;
                 }
                 this.state = 4;
-                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda1
+                dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda4
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj3) {
                         ((DrmSessionEventListener.EventDispatcher) obj3).drmKeysLoaded();
@@ -405,7 +405,7 @@ public class DefaultDrmSession implements DrmSession {
     private void onError(final Exception exc, int i) {
         this.lastException = new DrmSession.DrmSessionException(exc, DrmUtil.getErrorCodeForMediaDrmException(exc, i));
         Log.e("DefaultDrmSession", "DRM session error", exc);
-        dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda3
+        dispatchEvent(new Consumer() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSession$$ExternalSyntheticLambda2
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ((DrmSessionEventListener.EventDispatcher) obj).drmSessionManagerError(exc);
@@ -492,8 +492,11 @@ public class DefaultDrmSession implements DrmSession {
             }
             DefaultDrmSession.this.loadErrorHandlingPolicy.onLoadTaskConcluded(requestTask.taskId);
             synchronized (this) {
-                if (!this.isReleased) {
-                    DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
+                try {
+                    if (!this.isReleased) {
+                        DefaultDrmSession.this.responseHandler.obtainMessage(message.what, Pair.create(requestTask.request, bArr)).sendToTarget();
+                    }
+                } finally {
                 }
             }
         }
@@ -519,11 +522,15 @@ public class DefaultDrmSession implements DrmSession {
                     return false;
                 }
                 synchronized (this) {
-                    if (this.isReleased) {
-                        return false;
+                    try {
+                        if (this.isReleased) {
+                            return false;
+                        }
+                        sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
+                        return true;
+                    } catch (Throwable th) {
+                        throw th;
                     }
-                    sendMessageDelayed(Message.obtain(message), retryDelayMsFor);
-                    return true;
                 }
             }
             return false;

@@ -1,34 +1,24 @@
 package j$.util.function;
 
-import java.util.function.DoubleUnaryOperator;
+import java.util.function.IntBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class A implements DoubleUnaryOperator {
+public final /* synthetic */ class A implements IntBinaryOperator {
     public final /* synthetic */ B a;
 
     private /* synthetic */ A(B b) {
         this.a = b;
     }
 
-    public static /* synthetic */ DoubleUnaryOperator a(B b) {
+    public static /* synthetic */ IntBinaryOperator a(B b) {
         if (b == null) {
             return null;
         }
         return b instanceof z ? ((z) b).a : new A(b);
     }
 
-    @Override // java.util.function.DoubleUnaryOperator
-    public final /* synthetic */ DoubleUnaryOperator andThen(DoubleUnaryOperator doubleUnaryOperator) {
-        return a(((z) this.a).a(z.d(doubleUnaryOperator)));
-    }
-
-    @Override // java.util.function.DoubleUnaryOperator
-    public final /* synthetic */ double applyAsDouble(double d) {
-        return ((z) this.a).b(d);
-    }
-
-    @Override // java.util.function.DoubleUnaryOperator
-    public final /* synthetic */ DoubleUnaryOperator compose(DoubleUnaryOperator doubleUnaryOperator) {
-        return a(((z) this.a).c(z.d(doubleUnaryOperator)));
+    @Override // java.util.function.IntBinaryOperator
+    public final /* synthetic */ int applyAsInt(int i, int i2) {
+        return this.a.applyAsInt(i, i2);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.SeekBar;
 /* loaded from: classes3.dex */
@@ -66,8 +67,10 @@ public class SeekBarWaveform {
         if (paintInner == null) {
             paintInner = new Paint(1);
             paintOuter = new Paint(1);
-            paintInner.setStyle(Paint.Style.FILL);
-            paintOuter.setStyle(Paint.Style.FILL);
+            Paint paint = paintInner;
+            Paint.Style style = Paint.Style.FILL;
+            paint.setStyle(style);
+            paintOuter.setStyle(style);
         }
     }
 
@@ -277,7 +280,7 @@ public class SeekBarWaveform {
                     int i13 = i9 + 1;
                     byte[] bArr2 = this.waveformBytes;
                     if (i13 < bArr2.length) {
-                        min = (byte) (((byte) (min << i12)) | (bArr2[i13] & ((2 << (i12 - 1)) - 1)));
+                        min = (byte) (((byte) (min << i12)) | (bArr2[i13] & ((2 << (4 - i11)) - 1)));
                     }
                 }
                 int i14 = 0;
@@ -434,7 +437,7 @@ public class SeekBarWaveform {
         if (this.exploding || this.explosionRate > 0.0f) {
             canvas.restore();
             if (this.particles == null) {
-                this.particles = new Particles(250, new Runnable() { // from class: org.telegram.ui.Components.SeekBarWaveform$$ExternalSyntheticLambda0
+                this.particles = new Particles(NotificationCenter.playerDidStartPlaying, new Runnable() { // from class: org.telegram.ui.Components.SeekBarWaveform$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         SeekBarWaveform.this.invalidate();
@@ -612,7 +615,7 @@ public class SeekBarWaveform {
                     particle2.x = rectF.left + (rectF.width() * Utilities.random.nextFloat());
                     RectF rectF2 = this.emitArea;
                     particle2.y = rectF2.top + (rectF2.height() * Utilities.random.nextFloat());
-                    double nextInt = Utilities.random.nextInt(200) - 125;
+                    double nextInt = Utilities.random.nextInt(NotificationCenter.storyQualityUpdate) - 125;
                     Double.isNaN(nextInt);
                     double d = nextInt * 0.017453292519943295d;
                     particle2.vx = ((float) (Math.cos(d) - Math.sin(d))) * 0.8f;

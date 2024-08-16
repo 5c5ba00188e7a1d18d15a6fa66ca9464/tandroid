@@ -91,8 +91,8 @@ public class AutoDeleteMessagesActivity extends BaseFragment implements Notifica
         FrameLayout frameLayout2 = new FrameLayout(context);
         StickerImageView stickerImageView = new StickerImageView(context, this.currentAccount);
         stickerImageView.setStickerNum(10);
-        frameLayout2.addView(stickerImageView, LayoutHelper.createFrame(130, 130, 17));
-        linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, 170));
+        frameLayout2.addView(stickerImageView, LayoutHelper.createFrame((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 17));
+        linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, (int) NotificationCenter.groupCallVisibilityChanged));
         LinearLayout linearLayout2 = new LinearLayout(getContext());
         this.checkBoxContainer = linearLayout2;
         linearLayout2.setOrientation(1);

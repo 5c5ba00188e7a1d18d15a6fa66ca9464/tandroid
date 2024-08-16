@@ -161,7 +161,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             drawable.colorKey = Theme.key_premiumStartSmallStarsColor2;
             drawable.init();
         } else if (i2 == 2) {
-            SpeedLineParticles$Drawable speedLineParticles$Drawable = new SpeedLineParticles$Drawable(200);
+            SpeedLineParticles$Drawable speedLineParticles$Drawable = new SpeedLineParticles$Drawable(NotificationCenter.storyQualityUpdate);
             this.speedLinesDrawable = speedLineParticles$Drawable;
             speedLineParticles$Drawable.init();
         } else if (i2 == 13) {
@@ -272,7 +272,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 this.imageReceiver.setImage(null, null, combinedDrawable, null, premiumPromo, 1);
                 FileLoader.getInstance(this.currentAccount).loadFile(tLRPC$Document, premiumPromo, 3, 0);
                 this.document = tLRPC$Document;
-                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda2
+                Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoScreenPreview.this.lambda$setVideo$1(tLRPC$Document);
@@ -458,12 +458,12 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         }
         if (this.fromTop) {
             ImageReceiver imageReceiver = this.imageReceiver;
-            float f6 = this.roundRadius;
-            imageReceiver.setRoundRadius(0, 0, (int) f6, (int) f6);
+            int i3 = (int) this.roundRadius;
+            imageReceiver.setRoundRadius(0, 0, i3, i3);
         } else {
             ImageReceiver imageReceiver2 = this.imageReceiver;
-            float f7 = this.roundRadius;
-            imageReceiver2.setRoundRadius((int) f7, (int) f7, 0, 0);
+            int i4 = (int) this.roundRadius;
+            imageReceiver2.setRoundRadius(i4, i4, 0, 0);
         }
         if (!this.firstFrameRendered) {
             this.imageReceiver.setImageCoords(rectF.left, rectF.top, rectF.width(), rectF.height());
@@ -491,8 +491,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
             }
             this.progress = Math.abs(measuredWidth);
             z = measuredWidth < 1.0f;
-            if (measuredWidth >= 0.1f) {
-                r1 = false;
+            if (measuredWidth < 0.1f) {
+                r1 = true;
             }
         } else {
             float measuredWidth2 = (-f) / getMeasuredWidth();
@@ -664,7 +664,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
         VideoPlayerHolderBase videoPlayerHolderBase = this.videoPlayerBase;
         if (videoPlayerHolderBase != null) {
             this.lastFrameTime = videoPlayerHolderBase.getCurrentPosition();
-            this.videoPlayerBase.release(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda0
+            this.videoPlayerBase.release(new Runnable() { // from class: org.telegram.ui.Components.Premium.VideoScreenPreview$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     VideoScreenPreview.lambda$stopVideoPlayer$2();

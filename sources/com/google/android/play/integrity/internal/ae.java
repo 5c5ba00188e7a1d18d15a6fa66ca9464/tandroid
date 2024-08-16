@@ -108,12 +108,16 @@ public final class ae {
         Handler handler;
         Map map = a;
         synchronized (map) {
-            if (!map.containsKey(this.d)) {
-                HandlerThread handlerThread = new HandlerThread(this.d, 10);
-                handlerThread.start();
-                map.put(this.d, new Handler(handlerThread.getLooper()));
+            try {
+                if (!map.containsKey(this.d)) {
+                    HandlerThread handlerThread = new HandlerThread(this.d, 10);
+                    handlerThread.start();
+                    map.put(this.d, new Handler(handlerThread.getLooper()));
+                }
+                handler = (Handler) map.get(this.d);
+            } catch (Throwable th) {
+                throw th;
             }
-            handler = (Handler) map.get(this.d);
         }
         return handler;
     }

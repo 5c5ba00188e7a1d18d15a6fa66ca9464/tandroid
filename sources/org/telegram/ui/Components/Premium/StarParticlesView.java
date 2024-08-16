@@ -22,6 +22,7 @@ import androidx.core.math.MathUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
@@ -45,7 +46,7 @@ public class StarParticlesView extends View {
         this(context, r0);
         int i;
         if (SharedConfig.getDevicePerformanceClass() == 2) {
-            i = 200;
+            i = NotificationCenter.storyQualityUpdate;
         } else {
             i = SharedConfig.getDevicePerformanceClass() == 1 ? 100 : 50;
         }
@@ -104,7 +105,7 @@ public class StarParticlesView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (this.clipGradientPaint != null) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
         }
         this.drawable.onDraw(canvas);
         if (this.clipGradientPaint != null) {
@@ -225,10 +226,10 @@ public class StarParticlesView extends View {
 
         public void init() {
             if (this.useRotate) {
-                int i = this.count;
-                this.points1 = new float[i * 2];
-                this.points2 = new float[i * 2];
-                this.points3 = new float[i * 2];
+                int i = this.count * 2;
+                this.points1 = new float[i];
+                this.points2 = new float[i];
+                this.points3 = new float[i];
             }
             generateBitmaps();
             if (this.particles.isEmpty()) {
@@ -342,7 +343,7 @@ public class StarParticlesView extends View {
                     this.svg[i7] = true;
                 } else if (i9 == 28) {
                     if (i7 == 0) {
-                        this.stars[i7] = SvgHelper.getBitmap(R.raw.filled_premium_dollar, i8, i8, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 255));
+                        this.stars[i7] = SvgHelper.getBitmap(R.raw.filled_premium_dollar, i8, i8, ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), NotificationCenter.voipServiceCreated));
                         this.flip[i7] = true;
                     }
                     Bitmap createBitmap = Bitmap.createBitmap(i8, i8, Bitmap.Config.ARGB_8888);
@@ -382,7 +383,7 @@ public class StarParticlesView extends View {
                                 mainGradientPaint.setPathEffect(new CornerPathEffect(AndroidUtilities.dpf2(this.size1 / 5.0f)));
                             }
                             if (this.forceMaxAlpha) {
-                                mainGradientPaint.setAlpha(255);
+                                mainGradientPaint.setAlpha(NotificationCenter.voipServiceCreated);
                             } else if (this.useBlur) {
                                 mainGradientPaint.setAlpha(60);
                             } else {
@@ -390,7 +391,7 @@ public class StarParticlesView extends View {
                             }
                             canvas.drawPath(path, mainGradientPaint);
                             mainGradientPaint.setPathEffect(null);
-                            mainGradientPaint.setAlpha(255);
+                            mainGradientPaint.setAlpha(NotificationCenter.voipServiceCreated);
                         } else {
                             paint.setColor(getPathColor(i7));
                             if (this.roundEffect) {
@@ -438,7 +439,7 @@ public class StarParticlesView extends View {
 
         protected int getPathColor(int i) {
             if (this.type == 100) {
-                return ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), 200);
+                return ColorUtils.setAlphaComponent(Theme.getColor(this.colorKey, this.resourcesProvider), NotificationCenter.storyQualityUpdate);
             }
             return Theme.getColor(this.colorKey, this.resourcesProvider);
         }
@@ -533,65 +534,71 @@ public class StarParticlesView extends View {
                     Drawable drawable = Drawable.this;
                     float[] fArr = drawable.points1;
                     int i2 = drawable.pointsCount1;
-                    fArr[i2 * 2] = this.x;
-                    fArr[(i2 * 2) + 1] = this.y;
+                    int i3 = i2 * 2;
+                    fArr[i3] = this.x;
+                    fArr[i3 + 1] = this.y;
                     drawable.pointsCount1 = i2 + 1;
                 } else if (i == 1) {
                     Drawable drawable2 = Drawable.this;
                     float[] fArr2 = drawable2.points2;
-                    int i3 = drawable2.pointsCount2;
-                    fArr2[i3 * 2] = this.x;
-                    fArr2[(i3 * 2) + 1] = this.y;
-                    drawable2.pointsCount2 = i3 + 1;
+                    int i4 = drawable2.pointsCount2;
+                    int i5 = i4 * 2;
+                    fArr2[i5] = this.x;
+                    fArr2[i5 + 1] = this.y;
+                    drawable2.pointsCount2 = i4 + 1;
                 } else if (i == 2) {
                     Drawable drawable3 = Drawable.this;
                     float[] fArr3 = drawable3.points3;
-                    int i4 = drawable3.pointsCount3;
-                    fArr3[i4 * 2] = this.x;
-                    fArr3[(i4 * 2) + 1] = this.y;
-                    drawable3.pointsCount3 = i4 + 1;
+                    int i6 = drawable3.pointsCount3;
+                    int i7 = i6 * 2;
+                    fArr3[i7] = this.x;
+                    fArr3[i7 + 1] = this.y;
+                    drawable3.pointsCount3 = i6 + 1;
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:37:0x00ec  */
-            /* JADX WARN: Removed duplicated region for block: B:41:0x011c  */
-            /* JADX WARN: Removed duplicated region for block: B:47:0x014d  */
+            /* JADX WARN: Removed duplicated region for block: B:34:0x00e1  */
+            /* JADX WARN: Removed duplicated region for block: B:38:0x0111  */
+            /* JADX WARN: Removed duplicated region for block: B:44:0x0142  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
             public void draw(Canvas canvas, long j, float f) {
                 float f2;
                 float f3;
-                float f4;
                 Drawable drawable;
                 Paint paint;
+                float f4;
                 Drawable drawable2 = Drawable.this;
                 if (drawable2.useRotate) {
                     int i = this.starIndex;
                     if (i == 0) {
                         float[] fArr = drawable2.points1;
                         int i2 = drawable2.pointsCount1;
-                        this.drawingX = fArr[i2 * 2];
-                        this.drawingY = fArr[(i2 * 2) + 1];
+                        int i3 = i2 * 2;
+                        this.drawingX = fArr[i3];
+                        this.drawingY = fArr[i3 + 1];
                         drawable2.pointsCount1 = i2 + 1;
                     } else if (i == 1) {
                         float[] fArr2 = drawable2.points2;
-                        int i3 = drawable2.pointsCount2;
-                        this.drawingX = fArr2[i3 * 2];
-                        this.drawingY = fArr2[(i3 * 2) + 1];
-                        drawable2.pointsCount2 = i3 + 1;
+                        int i4 = drawable2.pointsCount2;
+                        int i5 = i4 * 2;
+                        this.drawingX = fArr2[i5];
+                        this.drawingY = fArr2[i5 + 1];
+                        drawable2.pointsCount2 = i4 + 1;
                     } else if (i == 2) {
                         float[] fArr3 = drawable2.points3;
-                        int i4 = drawable2.pointsCount3;
-                        this.drawingX = fArr3[i4 * 2];
-                        this.drawingY = fArr3[(i4 * 2) + 1];
-                        drawable2.pointsCount3 = i4 + 1;
+                        int i6 = drawable2.pointsCount3;
+                        int i7 = i6 * 2;
+                        this.drawingX = fArr3[i7];
+                        this.drawingY = fArr3[i7 + 1];
+                        drawable2.pointsCount3 = i6 + 1;
                     }
                 } else {
                     this.drawingX = this.x;
                     this.drawingY = this.y;
                 }
-                if (!(!drawable2.excludeRect.isEmpty() && Drawable.this.excludeRect.contains(this.drawingX, this.drawingY))) {
+                if (drawable2.excludeRect.isEmpty() || !Drawable.this.excludeRect.contains(this.drawingX, this.drawingY)) {
                     canvas.save();
                     canvas.translate(this.drawingX, this.drawingY);
                     float f5 = this.randomRotate;
@@ -599,12 +606,12 @@ public class StarParticlesView extends View {
                         canvas.rotate(f5, Drawable.this.stars[this.starIndex].getWidth() / 2.0f, Drawable.this.stars[this.starIndex].getHeight() / 2.0f);
                     }
                     if (Drawable.this.checkTime) {
-                        long j2 = this.lifeTime;
-                        if (j2 - j < 200) {
-                            f3 = Utilities.clamp(1.0f - (((float) (j2 - j)) / 150.0f), 1.0f, 0.0f);
-                            f4 = this.inProgress;
-                            if (f4 >= 1.0f || GLIconSettingsView.smallStarsSize != 1.0f) {
-                                float interpolation = AndroidUtilities.overshootInterpolator.getInterpolation(f4) * GLIconSettingsView.smallStarsSize;
+                        long j2 = this.lifeTime - j;
+                        if (j2 < 200) {
+                            f2 = Utilities.clamp(1.0f - (((float) j2) / 150.0f), 1.0f, 0.0f);
+                            f3 = this.inProgress;
+                            if (f3 >= 1.0f || GLIconSettingsView.smallStarsSize != 1.0f) {
+                                float interpolation = AndroidUtilities.overshootInterpolator.getInterpolation(f3) * GLIconSettingsView.smallStarsSize;
                                 canvas.scale(interpolation, interpolation, 0.0f, 0.0f);
                             }
                             drawable = Drawable.this;
@@ -625,7 +632,7 @@ public class StarParticlesView extends View {
                                     paint = drawable3.paint;
                                 }
                             }
-                            float f6 = 1.0f - f3;
+                            float f6 = 1.0f - f2;
                             paint.setAlpha((int) (this.alpha * f6 * f));
                             Bitmap bitmap = Drawable.this.stars[this.starIndex];
                             if (Drawable.this.useScale) {
@@ -636,11 +643,11 @@ public class StarParticlesView extends View {
                             canvas.restore();
                         }
                     }
-                    f3 = 0.0f;
-                    f4 = this.inProgress;
-                    if (f4 >= 1.0f) {
+                    f2 = 0.0f;
+                    f3 = this.inProgress;
+                    if (f3 >= 1.0f) {
                     }
-                    float interpolation2 = AndroidUtilities.overshootInterpolator.getInterpolation(f4) * GLIconSettingsView.smallStarsSize;
+                    float interpolation2 = AndroidUtilities.overshootInterpolator.getInterpolation(f3) * GLIconSettingsView.smallStarsSize;
                     canvas.scale(interpolation2, interpolation2, 0.0f, 0.0f);
                     drawable = Drawable.this;
                     if (drawable.flip[this.starIndex]) {
@@ -649,7 +656,7 @@ public class StarParticlesView extends View {
                     paint = drawable32.overridePaint;
                     if (paint == null) {
                     }
-                    float f62 = 1.0f - f3;
+                    float f62 = 1.0f - f2;
                     paint.setAlpha((int) (this.alpha * f62 * f));
                     Bitmap bitmap2 = Drawable.this.stars[this.starIndex];
                     if (Drawable.this.useScale) {
@@ -663,12 +670,12 @@ public class StarParticlesView extends View {
                 float dp = AndroidUtilities.dp(4.0f) * (Drawable.this.dt / 660.0f);
                 Drawable drawable4 = Drawable.this;
                 if (drawable4.flip[this.starIndex]) {
-                    f2 = dp * Math.min(drawable4.speedScale, 3.5f) * 4.0f;
+                    f4 = dp * Math.min(drawable4.speedScale, 3.5f) * 4.0f;
                 } else {
-                    f2 = dp * drawable4.speedScale;
+                    f4 = dp * drawable4.speedScale;
                 }
-                this.x += this.vecX * f2;
-                this.y += this.vecY * f2;
+                this.x += this.vecX * f4;
+                this.y += this.vecY * f4;
                 float f8 = this.inProgress;
                 if (f8 != 1.0f) {
                     float f9 = f8 + (Drawable.this.dt / 200.0f);
@@ -762,7 +769,7 @@ public class StarParticlesView extends View {
                 }
                 Drawable drawable4 = Drawable.this;
                 if (drawable4.flip[this.starIndex]) {
-                    atan2 = Math.toRadians(280.0f - (200.0f * Utilities.fastRandom.nextFloat()));
+                    atan2 = Math.toRadians(280.0f - (Utilities.fastRandom.nextFloat() * 200.0f));
                 } else if (drawable4.startFromCenter) {
                     atan2 = Utilities.fastRandom.nextDouble() * 3.141592653589793d * 2.0d;
                 } else {

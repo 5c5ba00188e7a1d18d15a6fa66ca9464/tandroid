@@ -235,7 +235,7 @@ public class ShortcutInfoCompat {
     public static List<ShortcutInfoCompat> fromShortcuts(Context context, List<ShortcutInfo> list) {
         ArrayList arrayList = new ArrayList(list.size());
         for (ShortcutInfo shortcutInfo : list) {
-            arrayList.add(new Builder(context, shortcutInfo).build());
+            arrayList.add(new Builder(context, ShortcutInfoCompat$$ExternalSyntheticApiModelOutline13.m(shortcutInfo)).build());
         }
         return arrayList;
     }
@@ -522,9 +522,8 @@ public class ShortcutInfoCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public static class Api33Impl {
+    private static class Api33Impl {
         static void setExcludedFromSurfaces(ShortcutInfo.Builder builder, int i) {
             builder.setExcludedFromSurfaces(i);
         }

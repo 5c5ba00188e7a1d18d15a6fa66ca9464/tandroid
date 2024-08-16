@@ -1,42 +1,73 @@
 package j$.util.stream;
 
-import j$.util.function.BiConsumer;
-import j$.util.function.BiFunction;
+import j$.util.function.Consumer;
 import j$.util.function.Supplier;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class v1 extends u1 {
-    public final /* synthetic */ int h;
-    final /* synthetic */ Object i;
-    final /* synthetic */ Object j;
-    final /* synthetic */ Object k;
+final class v1 extends O1 implements N1, d2 {
+    final /* synthetic */ Supplier b;
+    final /* synthetic */ j$.util.function.o0 c;
+    final /* synthetic */ j$.util.function.f d;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ v1(U2 u2, Object obj, Object obj2, Object obj3, int i) {
-        super(u2);
-        this.h = i;
-        this.i = obj;
-        this.k = obj2;
-        this.j = obj3;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public v1(Supplier supplier, j$.util.function.o0 o0Var, j$.util.function.f fVar) {
+        this.b = supplier;
+        this.c = o0Var;
+        this.d = fVar;
     }
 
-    @Override // j$.util.stream.u1
-    public final O1 u() {
-        int i = this.h;
-        Object obj = this.i;
-        Object obj2 = this.k;
-        Object obj3 = this.j;
-        switch (i) {
-            case 0:
-                return new w1((Supplier) obj3, (j$.util.function.F0) obj2, (j$.util.function.f) obj);
-            case 1:
-                return new B1((Supplier) obj3, (j$.util.function.z0) obj2, (j$.util.function.f) obj);
-            case 2:
-                return new C1(obj3, (BiFunction) obj2, (j$.util.function.f) obj);
-            case 3:
-                return new G1((Supplier) obj3, (BiConsumer) obj2, (BiConsumer) obj);
-            default:
-                return new K1((Supplier) obj3, (j$.util.function.C0) obj2, (j$.util.function.f) obj);
-        }
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final /* synthetic */ void accept(double d) {
+        t0.b();
+        throw null;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(int i) {
+        t0.k();
+        throw null;
+    }
+
+    @Override // j$.util.stream.e2
+    public final void accept(long j) {
+        this.c.accept(this.a, j);
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        j((Long) obj);
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
+    }
+
+    @Override // j$.util.function.W
+    public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
+        return j$.com.android.tools.r8.a.d(this, w);
+    }
+
+    @Override // j$.util.stream.N1
+    public final void h(N1 n1) {
+        this.a = this.d.apply(this.a, ((v1) n1).a);
+    }
+
+    @Override // j$.util.stream.d2
+    public final /* synthetic */ void j(Long l) {
+        t0.i(this, l);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.e2
+    public final void n(long j) {
+        this.a = this.b.get();
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ boolean q() {
+        return false;
     }
 }

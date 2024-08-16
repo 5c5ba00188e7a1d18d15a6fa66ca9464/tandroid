@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 import org.webrtc.MediaStreamTrack;
 /* loaded from: classes.dex */
 public final class MimeTypes {
@@ -19,66 +19,6 @@ public final class MimeTypes {
         public final String codecPrefix;
         public final String mimeType;
         public final int trackType;
-    }
-
-    public static String getMimeTypeFromMp4ObjectType(int i) {
-        if (i != 32) {
-            if (i != 33) {
-                if (i != 35) {
-                    if (i != 64) {
-                        if (i != 163) {
-                            if (i != 177) {
-                                if (i != 165) {
-                                    if (i != 166) {
-                                        switch (i) {
-                                            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
-                                            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
-                                            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
-                                            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
-                                            case 100:
-                                            case 101:
-                                                return "video/mpeg2";
-                                            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
-                                            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
-                                            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
-                                                return MediaController.AUDIO_MIME_TYPE;
-                                            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
-                                            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
-                                                return "audio/mpeg";
-                                            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
-                                                return "video/mpeg";
-                                            default:
-                                                switch (i) {
-                                                    case 169:
-                                                    case 172:
-                                                        return "audio/vnd.dts";
-                                                    case 170:
-                                                    case 171:
-                                                        return "audio/vnd.dts.hd";
-                                                    case 173:
-                                                        return "audio/opus";
-                                                    case 174:
-                                                        return "audio/ac4";
-                                                    default:
-                                                        return null;
-                                                }
-                                        }
-                                    }
-                                    return "audio/eac3";
-                                }
-                                return "audio/ac3";
-                            }
-                            return "video/x-vnd.on2.vp9";
-                        }
-                        return "video/wvc1";
-                    }
-                    return MediaController.AUDIO_MIME_TYPE;
-                }
-                return "video/hevc";
-            }
-            return MediaController.VIDEO_MIME_TYPE;
-        }
-        return "video/mp4v-es";
     }
 
     public static boolean isAudio(String str) {
@@ -266,13 +206,124 @@ public final class MimeTypes {
         if (lowerCase.startsWith("vp8") || lowerCase.startsWith("vp08")) {
             return "video/x-vnd.on2.vp8";
         }
-        if (!lowerCase.startsWith("mp4a")) {
-            return lowerCase.startsWith("mha1") ? "audio/mha1" : lowerCase.startsWith("mhm1") ? "audio/mhm1" : (lowerCase.startsWith("ac-3") || lowerCase.startsWith("dac3")) ? "audio/ac3" : (lowerCase.startsWith("ec-3") || lowerCase.startsWith("dec3")) ? "audio/eac3" : lowerCase.startsWith("ec+3") ? "audio/eac3-joc" : (lowerCase.startsWith("ac-4") || lowerCase.startsWith("dac4")) ? "audio/ac4" : lowerCase.startsWith("dtsc") ? "audio/vnd.dts" : lowerCase.startsWith("dtse") ? "audio/vnd.dts.hd;profile=lbr" : (lowerCase.startsWith("dtsh") || lowerCase.startsWith("dtsl")) ? "audio/vnd.dts.hd" : lowerCase.startsWith("dtsx") ? "audio/vnd.dts.uhd;profile=p2" : lowerCase.startsWith("opus") ? "audio/opus" : lowerCase.startsWith("vorbis") ? "audio/vorbis" : lowerCase.startsWith("flac") ? "audio/flac" : lowerCase.startsWith("stpp") ? "application/ttml+xml" : lowerCase.startsWith("wvtt") ? "text/vtt" : lowerCase.contains("cea708") ? "application/cea-708" : (lowerCase.contains("eia608") || lowerCase.contains("cea608")) ? "application/cea-608" : getCustomMimeTypeForCodec(lowerCase);
+        if (lowerCase.startsWith("mp4a")) {
+            if (lowerCase.startsWith("mp4a.") && (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(lowerCase)) != null) {
+                str2 = getMimeTypeFromMp4ObjectType(objectTypeFromMp4aRFC6381CodecString.objectTypeIndication);
+            }
+            return str2 == null ? MediaController.AUDIO_MIME_TYPE : str2;
+        } else if (lowerCase.startsWith("mha1")) {
+            return "audio/mha1";
+        } else {
+            if (lowerCase.startsWith("mhm1")) {
+                return "audio/mhm1";
+            }
+            if (lowerCase.startsWith("ac-3") || lowerCase.startsWith("dac3")) {
+                return "audio/ac3";
+            }
+            if (lowerCase.startsWith("ec-3") || lowerCase.startsWith("dec3")) {
+                return "audio/eac3";
+            }
+            if (lowerCase.startsWith("ec+3")) {
+                return "audio/eac3-joc";
+            }
+            if (lowerCase.startsWith("ac-4") || lowerCase.startsWith("dac4")) {
+                return "audio/ac4";
+            }
+            if (lowerCase.startsWith("dtsc")) {
+                return "audio/vnd.dts";
+            }
+            if (lowerCase.startsWith("dtse")) {
+                return "audio/vnd.dts.hd;profile=lbr";
+            }
+            if (lowerCase.startsWith("dtsh") || lowerCase.startsWith("dtsl")) {
+                return "audio/vnd.dts.hd";
+            }
+            if (lowerCase.startsWith("dtsx")) {
+                return "audio/vnd.dts.uhd;profile=p2";
+            }
+            if (lowerCase.startsWith("opus")) {
+                return "audio/opus";
+            }
+            if (lowerCase.startsWith("vorbis")) {
+                return "audio/vorbis";
+            }
+            if (lowerCase.startsWith("flac")) {
+                return "audio/flac";
+            }
+            if (lowerCase.startsWith("stpp")) {
+                return "application/ttml+xml";
+            }
+            if (lowerCase.startsWith("wvtt")) {
+                return "text/vtt";
+            }
+            if (lowerCase.contains("cea708")) {
+                return "application/cea-708";
+            }
+            if (lowerCase.contains("eia608") || lowerCase.contains("cea608")) {
+                return "application/cea-608";
+            }
+            return getCustomMimeTypeForCodec(lowerCase);
         }
-        if (lowerCase.startsWith("mp4a.") && (objectTypeFromMp4aRFC6381CodecString = getObjectTypeFromMp4aRFC6381CodecString(lowerCase)) != null) {
-            str2 = getMimeTypeFromMp4ObjectType(objectTypeFromMp4aRFC6381CodecString.objectTypeIndication);
+    }
+
+    public static String getMimeTypeFromMp4ObjectType(int i) {
+        if (i != 32) {
+            if (i != 33) {
+                if (i != 35) {
+                    if (i != 64) {
+                        if (i != 163) {
+                            if (i != 177) {
+                                if (i != 165) {
+                                    if (i != 166) {
+                                        switch (i) {
+                                            case 96:
+                                            case 97:
+                                            case 98:
+                                            case 99:
+                                            case 100:
+                                            case 101:
+                                                return "video/mpeg2";
+                                            case 102:
+                                            case 103:
+                                            case 104:
+                                                return MediaController.AUDIO_MIME_TYPE;
+                                            case 105:
+                                            case 107:
+                                                return "audio/mpeg";
+                                            case 106:
+                                                return "video/mpeg";
+                                            default:
+                                                switch (i) {
+                                                    case NotificationCenter.closeInCallActivity /* 169 */:
+                                                    case NotificationCenter.configLoaded /* 172 */:
+                                                        return "audio/vnd.dts";
+                                                    case NotificationCenter.groupCallVisibilityChanged /* 170 */:
+                                                    case NotificationCenter.appDidLogout /* 171 */:
+                                                        return "audio/vnd.dts.hd";
+                                                    case NotificationCenter.needDeleteDialog /* 173 */:
+                                                        return "audio/opus";
+                                                    case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
+                                                        return "audio/ac4";
+                                                    default:
+                                                        return null;
+                                                }
+                                        }
+                                    }
+                                    return "audio/eac3";
+                                }
+                                return "audio/ac3";
+                            }
+                            return "video/x-vnd.on2.vp9";
+                        }
+                        return "video/wvc1";
+                    }
+                    return MediaController.AUDIO_MIME_TYPE;
+                }
+                return "video/hevc";
+            }
+            return MediaController.VIDEO_MIME_TYPE;
         }
-        return str2 == null ? MediaController.AUDIO_MIME_TYPE : str2;
+        return "video/mp4v-es";
     }
 
     public static int getTrackType(String str) {

@@ -164,7 +164,7 @@ public class ActionBar extends FrameLayout {
         this.rectTmp = new Rect();
         this.ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
         this.resourcesProvider = resourcesProvider;
-        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda0
+        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBar.this.lambda$new$0(view);
@@ -199,7 +199,7 @@ public class ActionBar extends FrameLayout {
         this.backButtonImageView.setBackgroundDrawable(Theme.createSelectorDrawable(this.itemsBackgroundColor));
         this.backButtonImageView.setPadding(AndroidUtilities.dp(1.0f), 0, 0, 0);
         addView(this.backButtonImageView, LayoutHelper.createFrame(54, 54, 51));
-        this.backButtonImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda2
+        this.backButtonImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ActionBar.this.lambda$createBackButtonImage$1(view);
@@ -945,7 +945,7 @@ public class ActionBar extends FrameLayout {
         animatorSet2.playTogether(arrayList);
         if (this.backgroundUpdateListener != null) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ActionBar.this.lambda$hideActionMode$3(valueAnimator);
@@ -1106,11 +1106,8 @@ public class ActionBar extends FrameLayout {
                 this.subtitleTextView.setVisibility(z ? 4 : 0);
             }
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.searchFieldVisibleAlpha;
-        fArr[1] = z ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda3
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.searchFieldVisibleAlpha, z ? 1.0f : 0.0f);
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBar$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ActionBar.this.lambda$onSearchFieldVisibilityChanged$4(valueAnimator);
@@ -1126,42 +1123,19 @@ public class ActionBar extends FrameLayout {
                 view.setScaleX(0.95f);
                 view.setScaleY(0.95f);
             }
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, z ? 0.0f : 1.0f));
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(view, View.SCALE_Y, z ? 0.95f : 1.0f));
             AnimatorSet animatorSet2 = this.searchVisibleAnimator;
-            Animator[] animatorArr = new Animator[1];
-            Property property = View.ALPHA;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 0.0f : 1.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr2);
-            animatorSet2.playTogether(animatorArr);
-            AnimatorSet animatorSet3 = this.searchVisibleAnimator;
-            Animator[] animatorArr2 = new Animator[1];
-            Property property2 = View.SCALE_Y;
-            float[] fArr3 = new float[1];
-            fArr3[0] = z ? 0.95f : 1.0f;
-            animatorArr2[0] = ObjectAnimator.ofFloat(view, property2, fArr3);
-            animatorSet3.playTogether(animatorArr2);
-            AnimatorSet animatorSet4 = this.searchVisibleAnimator;
-            Animator[] animatorArr3 = new Animator[1];
-            Property property3 = View.SCALE_X;
-            float[] fArr4 = new float[1];
+            Property property = View.SCALE_X;
             if (!z) {
                 f = 1.0f;
             }
-            fArr4[0] = f;
-            animatorArr3[0] = ObjectAnimator.ofFloat(view, property3, fArr4);
-            animatorSet4.playTogether(animatorArr3);
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(view, property, f));
         }
         BackupImageView backupImageView = this.avatarSearchImageView;
         if (backupImageView != null) {
             backupImageView.setVisibility(0);
-            AnimatorSet animatorSet5 = this.searchVisibleAnimator;
-            Animator[] animatorArr4 = new Animator[1];
-            BackupImageView backupImageView2 = this.avatarSearchImageView;
-            Property property4 = View.ALPHA;
-            float[] fArr5 = new float[1];
-            fArr5[0] = z ? 1.0f : 0.0f;
-            animatorArr4[0] = ObjectAnimator.ofFloat(backupImageView2, property4, fArr5);
-            animatorSet5.playTogether(animatorArr4);
+            this.searchVisibleAnimator.playTogether(ObjectAnimator.ofFloat(this.avatarSearchImageView, View.ALPHA, z ? 1.0f : 0.0f));
         }
         this.centerScale = true;
         requestLayout();
@@ -1247,8 +1221,8 @@ public class ActionBar extends FrameLayout {
         if (actionBarMenu == null || str == null) {
             return;
         }
-        boolean z2 = this.isSearchFieldVisible;
-        actionBarMenu.openSearchField(!z2, !z2, str, z);
+        boolean z2 = !this.isSearchFieldVisible;
+        actionBarMenu.openSearchField(z2, z2, str, z);
     }
 
     public void openSearchField(boolean z) {
@@ -1429,8 +1403,8 @@ public class ActionBar extends FrameLayout {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:115:0x024f  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x025c  */
+    /* JADX WARN: Removed duplicated region for block: B:115:0x024e  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x025d  */
     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1517,21 +1491,20 @@ public class ActionBar extends FrameLayout {
                     if (i19 == -1) {
                         i19 = 51;
                     }
-                    int i20 = i19 & 7;
-                    int i21 = i19 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                    int i22 = i20 & 7;
-                    if (i22 == 1) {
+                    int i20 = i19 & 112;
+                    int i21 = i19 & 7;
+                    if (i21 == 1) {
                         i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
                         i6 = layoutParams.rightMargin;
-                    } else if (i22 == 5) {
+                    } else if (i21 == 5) {
                         i5 = i3 - measuredWidth;
                         i6 = layoutParams.rightMargin;
                     } else {
                         i7 = layoutParams.leftMargin;
-                        if (i21 != 16) {
+                        if (i20 != 16) {
                             i8 = (((i4 - i2) - measuredHeight) / 2) + layoutParams.topMargin;
                             i9 = layoutParams.bottomMargin;
-                        } else if (i21 == 80) {
+                        } else if (i20 == 80) {
                             i8 = (i4 - i2) - measuredHeight;
                             i9 = layoutParams.bottomMargin;
                         } else {
@@ -1542,7 +1515,7 @@ public class ActionBar extends FrameLayout {
                         childAt.layout(i7, i10, measuredWidth + i7, measuredHeight + i10);
                     }
                     i7 = i5 - i6;
-                    if (i21 != 16) {
+                    if (i20 != 16) {
                     }
                     i10 = i8 - i9;
                     childAt.layout(i7, i10, measuredWidth + i7, measuredHeight + i10);
@@ -1852,11 +1825,7 @@ public class ActionBar extends FrameLayout {
         this.titleAnimationRunning = true;
         ViewPropertyAnimator alpha = this.titleTextView[1].animate().alpha(0.0f);
         if (!z2) {
-            int dp2 = AndroidUtilities.dp(20.0f);
-            if (z) {
-                dp2 = -dp2;
-            }
-            alpha.translationY(dp2);
+            alpha.translationY(z ? -AndroidUtilities.dp(20.0f) : AndroidUtilities.dp(20.0f));
         }
         if (interpolator != null) {
             alpha.setInterpolator(interpolator);

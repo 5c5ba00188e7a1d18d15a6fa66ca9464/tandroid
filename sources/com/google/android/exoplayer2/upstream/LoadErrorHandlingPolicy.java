@@ -52,13 +52,13 @@ public interface LoadErrorHandlingPolicy {
 
         public boolean isFallbackAvailable(int i) {
             if (i == 1) {
-                if (this.numberOfLocations - this.numberOfExcludedLocations <= 1) {
-                    return false;
+                if (this.numberOfLocations - this.numberOfExcludedLocations > 1) {
+                    return true;
                 }
-            } else if (this.numberOfTracks - this.numberOfExcludedTracks <= 1) {
-                return false;
+            } else if (this.numberOfTracks - this.numberOfExcludedTracks > 1) {
+                return true;
             }
-            return true;
+            return false;
         }
     }
 

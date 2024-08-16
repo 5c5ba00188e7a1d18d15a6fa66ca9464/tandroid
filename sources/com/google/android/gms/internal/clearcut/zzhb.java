@@ -15,8 +15,11 @@ public final class zzhb extends zzfu<zzhb> implements Cloneable {
     public static zzhb[] zzge() {
         if (zzbkd == null) {
             synchronized (zzfy.zzrr) {
-                if (zzbkd == null) {
-                    zzbkd = new zzhb[0];
+                try {
+                    if (zzbkd == null) {
+                        zzbkd = new zzhb[0];
+                    }
+                } finally {
                 }
             }
         }

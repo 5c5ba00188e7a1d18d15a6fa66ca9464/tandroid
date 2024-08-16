@@ -26,13 +26,17 @@ public final class w extends t {
         s sVar;
         obj = this.c.g;
         synchronized (obj) {
-            ae.o(this.c, this.a);
-            atomicInteger = this.c.m;
-            if (atomicInteger.getAndIncrement() > 0) {
-                sVar = this.c.c;
-                sVar.d("Already connected to the service.", new Object[0]);
+            try {
+                ae.o(this.c, this.a);
+                atomicInteger = this.c.m;
+                if (atomicInteger.getAndIncrement() > 0) {
+                    sVar = this.c.c;
+                    sVar.d("Already connected to the service.", new Object[0]);
+                }
+                ae.q(this.c, this.b);
+            } catch (Throwable th) {
+                throw th;
             }
-            ae.q(this.c, this.b);
         }
     }
 }

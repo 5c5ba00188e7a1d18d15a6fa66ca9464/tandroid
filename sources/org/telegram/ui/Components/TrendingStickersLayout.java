@@ -152,20 +152,17 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
 
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
             public void setAdapterVisible(boolean z) {
-                boolean z2 = true;
                 if (!z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.searchAdapter) {
                     if (z || TrendingStickersLayout.this.listView.getAdapter() == TrendingStickersLayout.this.adapter) {
-                        z2 = false;
-                    } else {
-                        TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.adapter);
+                        return;
                     }
+                    TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.adapter);
                 } else {
                     TrendingStickersLayout.this.listView.setAdapter(TrendingStickersLayout.this.searchAdapter);
                 }
-                if (!z2 || TrendingStickersLayout.this.listView.getAdapter().getItemCount() <= 0) {
-                    return;
+                if (TrendingStickersLayout.this.listView.getAdapter().getItemCount() > 0) {
+                    TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
                 }
-                TrendingStickersLayout.this.layoutManager.scrollToPositionWithOffset(0, (-TrendingStickersLayout.this.listView.getPaddingTop()) + AndroidUtilities.dp(58.0f) + TrendingStickersLayout.this.topOffset, false);
             }
 
             @Override // org.telegram.ui.Adapters.StickersSearchAdapter.Delegate
@@ -745,7 +742,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     featuredStickerSetInfoCell = new EmptyCell(this.context);
                 } else if (i == 2) {
                     FeaturedStickerSetInfoCell featuredStickerSetInfoCell2 = new FeaturedStickerSetInfoCell(this.context, 17, true, true, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
+                    featuredStickerSetInfoCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$0(view);
@@ -760,7 +757,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     featuredStickerSetInfoCell = null;
                 } else {
                     ?? featuredStickerSetCell2 = new FeaturedStickerSetCell2(this.context, TrendingStickersLayout.this.resourcesProvider);
-                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda2
+                    featuredStickerSetCell2.setAddOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TrendingStickersLayout$TrendingStickersAdapter$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             TrendingStickersLayout.TrendingStickersAdapter.this.lambda$onCreateViewHolder$1(view);
@@ -1005,14 +1002,14 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                     }
                     int i9 = 0;
                     while (true) {
-                        i = this.stickersPerRow;
-                        if (i9 >= i4 * i) {
+                        i = this.stickersPerRow * i4;
+                        if (i9 >= i) {
                             break;
                         }
                         this.positionsToSets.put(this.totalItems + i9, tLRPC$StickerSetCovered);
                         i9++;
                     }
-                    this.totalItems += i4 * i;
+                    this.totalItems += i;
                     i3 = i7;
                 }
                 i2++;
@@ -1092,14 +1089,14 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
                         }
                         int i8 = 0;
                         while (true) {
-                            i2 = this.stickersPerRow;
-                            if (i8 >= i * i2) {
+                            i2 = this.stickersPerRow * i;
+                            if (i8 >= i2) {
                                 break;
                             }
                             this.positionsToSets.put(this.totalItems + i8, tLRPC$StickerSetCovered);
                             i8++;
                         }
-                        this.totalItems += i * i2;
+                        this.totalItems += i2;
                         size = i6;
                     }
                 }

@@ -1,54 +1,103 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
+import java.util.concurrent.CountedCompleter;
+import java.util.concurrent.atomic.AtomicReference;
 /* loaded from: classes2.dex */
-abstract class L implements D3 {
-    boolean a;
-    Object b;
+final class L extends c {
+    private final F j;
 
-    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
-    public /* synthetic */ void accept(double d) {
-        u0.i0();
-        throw null;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public L(F f, b bVar, j$.util.Q q) {
+        super(bVar, q);
+        this.j = f;
     }
 
-    @Override // j$.util.stream.f2
-    public /* synthetic */ void accept(int i) {
-        u0.p0();
-        throw null;
+    L(L l, j$.util.Q q) {
+        super(l, q);
+        this.j = l.j;
     }
 
-    @Override // j$.util.stream.f2
-    public /* synthetic */ void accept(long j) {
-        u0.q0();
-        throw null;
-    }
-
-    @Override // j$.util.function.Consumer
-    /* renamed from: accept */
-    public final void p(Object obj) {
-        if (this.a) {
-            return;
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.e
+    public final Object a() {
+        b bVar = this.a;
+        y3 y3Var = (y3) this.j.d.get();
+        bVar.D0(this.b, y3Var);
+        Object obj = y3Var.get();
+        if (!this.j.a) {
+            if (obj != null) {
+                AtomicReference atomicReference = this.h;
+                while (!atomicReference.compareAndSet(null, obj) && atomicReference.get() == null) {
+                }
+            }
+            return null;
+        } else if (obj != null) {
+            e eVar = this;
+            while (true) {
+                if (eVar != null) {
+                    e eVar2 = (e) eVar.getCompleter();
+                    if (eVar2 != null && eVar2.d != eVar) {
+                        h();
+                        break;
+                    }
+                    eVar = eVar2;
+                } else {
+                    AtomicReference atomicReference2 = this.h;
+                    while (!atomicReference2.compareAndSet(null, obj) && atomicReference2.get() == null) {
+                    }
+                }
+            }
+            return obj;
+        } else {
+            return null;
         }
-        this.a = true;
-        this.b = obj;
     }
 
-    @Override // j$.util.function.Consumer
-    public final /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.e
+    public final e d(j$.util.Q q) {
+        return new L(this, q);
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void end() {
+    @Override // j$.util.stream.c
+    protected final Object i() {
+        return this.j.b;
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void f(long j) {
-    }
-
-    @Override // j$.util.stream.f2
-    public final boolean h() {
-        return this.a;
+    @Override // j$.util.stream.e, java.util.concurrent.CountedCompleter
+    public final void onCompletion(CountedCompleter countedCompleter) {
+        if (this.j.a) {
+            L l = (L) this.d;
+            L l2 = null;
+            while (true) {
+                if (l != l2) {
+                    Object b = l.b();
+                    if (b != null && this.j.c.test(b)) {
+                        e(b);
+                        e eVar = this;
+                        while (true) {
+                            if (eVar != null) {
+                                e eVar2 = (e) eVar.getCompleter();
+                                if (eVar2 != null && eVar2.d != eVar) {
+                                    h();
+                                    break;
+                                }
+                                eVar = eVar2;
+                            } else {
+                                AtomicReference atomicReference = this.h;
+                                while (!atomicReference.compareAndSet(null, b) && atomicReference.get() == null) {
+                                }
+                            }
+                        }
+                    } else {
+                        l2 = l;
+                        l = (L) this.e;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        super.onCompletion(countedCompleter);
     }
 }

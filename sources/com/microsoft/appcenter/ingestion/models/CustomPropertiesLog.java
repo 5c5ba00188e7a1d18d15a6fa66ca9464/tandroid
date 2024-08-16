@@ -13,11 +13,6 @@ import org.json.JSONStringer;
 public class CustomPropertiesLog extends AbstractLog {
     private Map<String, Object> properties;
 
-    @Override // com.microsoft.appcenter.ingestion.models.Log
-    public String getType() {
-        return "customProperties";
-    }
-
     private static Map<String, Object> readProperties(JSONObject jSONObject) throws JSONException {
         JSONArray jSONArray = jSONObject.getJSONArray("properties");
         HashMap hashMap = new HashMap();
@@ -85,6 +80,11 @@ public class CustomPropertiesLog extends AbstractLog {
         } else {
             throw new JSONException("Invalid value type");
         }
+    }
+
+    @Override // com.microsoft.appcenter.ingestion.models.Log
+    public String getType() {
+        return "customProperties";
     }
 
     public Map<String, Object> getProperties() {

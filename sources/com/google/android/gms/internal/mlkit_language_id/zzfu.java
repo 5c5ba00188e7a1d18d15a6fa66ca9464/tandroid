@@ -17,7 +17,7 @@ final class zzfu {
 
     private static zzfs zzc() {
         try {
-            return (zzfs) Class.forName("com.google.protobuf.MapFieldSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            return (zzfs) Class.forName("com.google.protobuf.MapFieldSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
             return null;
         }

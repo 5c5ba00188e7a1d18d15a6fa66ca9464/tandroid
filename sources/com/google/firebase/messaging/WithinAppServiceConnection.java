@@ -101,23 +101,27 @@ class WithinAppServiceConnection implements ServiceConnection {
     }
 
     private synchronized void flushQueue() {
-        if (Log.isLoggable("FirebaseMessaging", 3)) {
-            Log.d("FirebaseMessaging", "flush queue called");
-        }
-        while (!this.intentQueue.isEmpty()) {
+        try {
             if (Log.isLoggable("FirebaseMessaging", 3)) {
-                Log.d("FirebaseMessaging", "found intent to be delivered");
+                Log.d("FirebaseMessaging", "flush queue called");
             }
-            WithinAppServiceBinder withinAppServiceBinder = this.binder;
-            if (withinAppServiceBinder != null && withinAppServiceBinder.isBinderAlive()) {
+            while (!this.intentQueue.isEmpty()) {
                 if (Log.isLoggable("FirebaseMessaging", 3)) {
-                    Log.d("FirebaseMessaging", "binder is alive, sending the intent.");
+                    Log.d("FirebaseMessaging", "found intent to be delivered");
                 }
-                this.binder.send(this.intentQueue.poll());
-            } else {
-                startConnectionIfNeeded();
-                return;
+                WithinAppServiceBinder withinAppServiceBinder = this.binder;
+                if (withinAppServiceBinder != null && withinAppServiceBinder.isBinderAlive()) {
+                    if (Log.isLoggable("FirebaseMessaging", 3)) {
+                        Log.d("FirebaseMessaging", "binder is alive, sending the intent.");
+                    }
+                    this.binder.send(this.intentQueue.poll());
+                } else {
+                    startConnectionIfNeeded();
+                    return;
+                }
             }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -147,25 +151,29 @@ class WithinAppServiceConnection implements ServiceConnection {
 
     @Override // android.content.ServiceConnection
     public synchronized void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        if (Log.isLoggable("FirebaseMessaging", 3)) {
-            String valueOf = String.valueOf(componentName);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 20);
-            sb.append("onServiceConnected: ");
-            sb.append(valueOf);
-            Log.d("FirebaseMessaging", sb.toString());
+        try {
+            if (Log.isLoggable("FirebaseMessaging", 3)) {
+                String valueOf = String.valueOf(componentName);
+                StringBuilder sb = new StringBuilder(valueOf.length() + 20);
+                sb.append("onServiceConnected: ");
+                sb.append(valueOf);
+                Log.d("FirebaseMessaging", sb.toString());
+            }
+            this.connectionInProgress = false;
+            if (!(iBinder instanceof WithinAppServiceBinder)) {
+                String valueOf2 = String.valueOf(iBinder);
+                StringBuilder sb2 = new StringBuilder(valueOf2.length() + 28);
+                sb2.append("Invalid service connection: ");
+                sb2.append(valueOf2);
+                Log.e("FirebaseMessaging", sb2.toString());
+                finishAllInQueue();
+                return;
+            }
+            this.binder = (WithinAppServiceBinder) iBinder;
+            flushQueue();
+        } catch (Throwable th) {
+            throw th;
         }
-        this.connectionInProgress = false;
-        if (!(iBinder instanceof WithinAppServiceBinder)) {
-            String valueOf2 = String.valueOf(iBinder);
-            StringBuilder sb2 = new StringBuilder(valueOf2.length() + 28);
-            sb2.append("Invalid service connection: ");
-            sb2.append(valueOf2);
-            Log.e("FirebaseMessaging", sb2.toString());
-            finishAllInQueue();
-            return;
-        }
-        this.binder = (WithinAppServiceBinder) iBinder;
-        flushQueue();
     }
 
     @Override // android.content.ServiceConnection
@@ -183,13 +191,17 @@ class WithinAppServiceConnection implements ServiceConnection {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized Task<Void> sendIntent(Intent intent) {
         BindRequest bindRequest;
-        if (Log.isLoggable("FirebaseMessaging", 3)) {
-            Log.d("FirebaseMessaging", "new intent queued in the bind-strategy delivery");
+        try {
+            if (Log.isLoggable("FirebaseMessaging", 3)) {
+                Log.d("FirebaseMessaging", "new intent queued in the bind-strategy delivery");
+            }
+            bindRequest = new BindRequest(intent);
+            bindRequest.arrangeTimeout(this.scheduledExecutorService);
+            this.intentQueue.add(bindRequest);
+            flushQueue();
+        } catch (Throwable th) {
+            throw th;
         }
-        bindRequest = new BindRequest(intent);
-        bindRequest.arrangeTimeout(this.scheduledExecutorService);
-        this.intentQueue.add(bindRequest);
-        flushQueue();
         return bindRequest.getTask();
     }
 

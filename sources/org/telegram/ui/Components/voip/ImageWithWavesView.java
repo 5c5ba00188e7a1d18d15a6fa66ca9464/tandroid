@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -32,7 +33,7 @@ public class ImageWithWavesView extends FrameLayout {
         avatarWavesDrawable.setShowWaves(true, this);
         BackupImageView backupImageView = new BackupImageView(context);
         this.backupImageView = backupImageView;
-        addView(backupImageView, LayoutHelper.createFrame(135, 135, 17));
+        addView(backupImageView, LayoutHelper.createFrame((int) NotificationCenter.fileUploadFailed, (int) NotificationCenter.fileUploadFailed, 17));
         setWillNotDraw(false);
         AnimatorSet animatorSet = new AnimatorSet();
         this.animatorSet = animatorSet;

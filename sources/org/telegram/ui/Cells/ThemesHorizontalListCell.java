@@ -236,8 +236,9 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                         }
                         byte[] bArr = ThemesHorizontalListCell.bytes;
                         if (bArr[i3] == 10) {
-                            int i5 = (i3 - i4) + 1;
-                            String str = new String(bArr, i4, i5 - 1, "UTF-8");
+                            int i5 = i3 - i4;
+                            int i6 = i5 + 1;
+                            String str = new String(bArr, i4, i5, "UTF-8");
                             if (str.startsWith("WLS=")) {
                                 String substring = str.substring(4);
                                 Uri parse = Uri.parse(substring);
@@ -247,15 +248,15 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                                 themeInfo2.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
                                 String queryParameter = parse.getQueryParameter("mode");
                                 if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
-                                    int i6 = 0;
+                                    int i7 = 0;
                                     while (true) {
-                                        if (i6 >= split.length) {
+                                        if (i7 >= split.length) {
                                             break;
-                                        } else if ("blur".equals(split[i6])) {
+                                        } else if ("blur".equals(split[i7])) {
                                             this.themeInfo.isBlured = true;
                                             break;
                                         } else {
-                                            i6++;
+                                            i7++;
                                         }
                                     }
                                 }
@@ -293,7 +294,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                                     }
                                 }
                             } else if (str.startsWith("WPS")) {
-                                this.themeInfo.previewWallpaperOffset = i5 + i2;
+                                this.themeInfo.previewWallpaperOffset = i6 + i2;
                                 z = true;
                                 break;
                             } else {
@@ -324,8 +325,8 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                                     }
                                 }
                             }
-                            i4 += i5;
-                            i2 += i5;
+                            i4 += i6;
+                            i2 += i6;
                         }
                         i3++;
                     }
@@ -391,8 +392,11 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
 
         /* JADX INFO: Access modifiers changed from: private */
         public void applyTheme() {
-            this.inDrawable.setColorFilter(new PorterDuffColorFilter(this.themeInfo.getPreviewInColor(), PorterDuff.Mode.MULTIPLY));
-            this.outDrawable.setColorFilter(new PorterDuffColorFilter(this.themeInfo.getPreviewOutColor(), PorterDuff.Mode.MULTIPLY));
+            Drawable drawable = this.inDrawable;
+            int previewInColor = this.themeInfo.getPreviewInColor();
+            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+            drawable.setColorFilter(new PorterDuffColorFilter(previewInColor, mode));
+            this.outDrawable.setColorFilter(new PorterDuffColorFilter(this.themeInfo.getPreviewOutColor(), mode));
             double[] dArr = null;
             if (this.themeInfo.pathToFile == null) {
                 updateColors(false);
@@ -440,7 +444,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 this.hasWhiteBackground = false;
             }
             if (this.themeInfo.getPreviewBackgroundColor() == 0 && this.themeInfo.previewParsed && this.backgroundDrawable == null) {
-                Drawable createDefaultWallpaper = Theme.createDefaultWallpaper(100, 200);
+                Drawable createDefaultWallpaper = Theme.createDefaultWallpaper(100, NotificationCenter.storyQualityUpdate);
                 this.backgroundDrawable = createDefaultWallpaper;
                 if (createDefaultWallpaper instanceof MotionBackgroundDrawable) {
                     ((MotionBackgroundDrawable) createDefaultWallpaper).setRoundRadius(AndroidUtilities.dp(6.0f));
@@ -465,7 +469,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 themeInfo3.setPreviewInColor(Theme.getDefaultColor(Theme.key_chat_inBubble));
                 this.themeInfo.setPreviewOutColor(Theme.getDefaultColor(Theme.key_chat_outBubble));
                 boolean exists = new File(this.themeInfo.pathToFile).exists();
-                if ((!(exists && parseTheme()) || !exists) && (tLRPC$TL_theme = (themeInfo2 = this.themeInfo).info) != null) {
+                if ((!exists || !parseTheme() || !exists) && (tLRPC$TL_theme = (themeInfo2 = this.themeInfo).info) != null) {
                     if (tLRPC$TL_theme.document != null) {
                         themeInfo2.themeLoaded = false;
                         this.placeholderAlpha = 1.0f;
@@ -577,7 +581,6 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
             int dp;
-            boolean z = true;
             if (this.accentId != this.themeInfo.currentAccentId) {
                 updateColors(true);
             }
@@ -591,20 +594,20 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
             canvas.drawText(charSequence, ((AndroidUtilities.dp(76.0f) - ceil) / 2) + dp2, AndroidUtilities.dp(131.0f), this.textPaint);
             Theme.ThemeInfo themeInfo = this.themeInfo;
             TLRPC$TL_theme tLRPC$TL_theme = themeInfo.info;
-            if (tLRPC$TL_theme != null && (tLRPC$TL_theme.document == null || !themeInfo.themeLoaded)) {
-                z = false;
-            }
-            if (z) {
+            if (tLRPC$TL_theme == null || (tLRPC$TL_theme.document != null && themeInfo.themeLoaded)) {
                 this.paint.setColor(blend(this.oldBackColor, this.backColor));
                 if (this.accentColorChanged) {
-                    this.inDrawable.setColorFilter(new PorterDuffColorFilter(blend(this.oldInColor, this.inColor), PorterDuff.Mode.MULTIPLY));
-                    this.outDrawable.setColorFilter(new PorterDuffColorFilter(blend(this.oldOutColor, this.outColor), PorterDuff.Mode.MULTIPLY));
+                    Drawable drawable = this.inDrawable;
+                    int blend = blend(this.oldInColor, this.inColor);
+                    PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                    drawable.setColorFilter(new PorterDuffColorFilter(blend, mode));
+                    this.outDrawable.setColorFilter(new PorterDuffColorFilter(blend(this.oldOutColor, this.outColor), mode));
                     this.accentColorChanged = false;
                 }
-                Drawable drawable = this.backgroundDrawable;
-                if (drawable != null) {
+                Drawable drawable2 = this.backgroundDrawable;
+                if (drawable2 != null) {
                     if (this.bitmapShader != null) {
-                        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable2;
                         float width = bitmapDrawable.getBitmap().getWidth();
                         float height = bitmapDrawable.getBitmap().getHeight();
                         float width2 = width / this.rect.width();
@@ -622,7 +625,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.bitmapPaint);
                     } else {
                         RectF rectF = this.rect;
-                        drawable.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
+                        drawable2.setBounds((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
                         this.backgroundDrawable.draw(canvas);
                     }
                 } else {
@@ -648,8 +651,8 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 if (this.optionsDrawable != null && ThemesHorizontalListCell.this.currentType == 0) {
                     int dp4 = ((int) this.rect.right) - AndroidUtilities.dp(16.0f);
                     int dp5 = ((int) this.rect.top) + AndroidUtilities.dp(6.0f);
-                    Drawable drawable2 = this.optionsDrawable;
-                    drawable2.setBounds(dp4, dp5, drawable2.getIntrinsicWidth() + dp4, this.optionsDrawable.getIntrinsicHeight() + dp5);
+                    Drawable drawable3 = this.optionsDrawable;
+                    drawable3.setBounds(dp4, dp5, drawable3.getIntrinsicWidth() + dp4, this.optionsDrawable.getIntrinsicHeight() + dp5);
                     this.optionsDrawable.draw(canvas);
                 }
             }
@@ -662,14 +665,14 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 if (this.loadingDrawable != null) {
                     int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText7);
                     if (this.loadingColor != color) {
-                        Drawable drawable3 = this.loadingDrawable;
+                        Drawable drawable4 = this.loadingDrawable;
                         this.loadingColor = color;
-                        Theme.setDrawableColor(drawable3, color);
+                        Theme.setDrawableColor(drawable4, color);
                     }
                     int centerX = (int) (this.rect.centerX() - (this.loadingDrawable.getIntrinsicWidth() / 2));
                     int centerY = (int) (this.rect.centerY() - (this.loadingDrawable.getIntrinsicHeight() / 2));
-                    Drawable drawable4 = this.loadingDrawable;
-                    drawable4.setBounds(centerX, centerY, drawable4.getIntrinsicWidth() + centerX, this.loadingDrawable.getIntrinsicHeight() + centerY);
+                    Drawable drawable5 = this.loadingDrawable;
+                    drawable5.setBounds(centerX, centerY, drawable5.getIntrinsicWidth() + centerX, this.loadingDrawable.getIntrinsicHeight() + centerY);
                     this.loadingDrawable.draw(canvas);
                 }
             } else if ((tLRPC$TL_theme2 != null && !themeInfo3.themeLoaded) || this.placeholderAlpha > 0.0f) {
@@ -680,15 +683,15 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                 if (this.loadingDrawable != null) {
                     int color2 = Theme.getColor(Theme.key_windowBackgroundWhiteGrayText7);
                     if (this.loadingColor != color2) {
-                        Drawable drawable5 = this.loadingDrawable;
+                        Drawable drawable6 = this.loadingDrawable;
                         this.loadingColor = color2;
-                        Theme.setDrawableColor(drawable5, color2);
+                        Theme.setDrawableColor(drawable6, color2);
                     }
                     int centerX2 = (int) (this.rect.centerX() - (this.loadingDrawable.getIntrinsicWidth() / 2));
                     int centerY2 = (int) (this.rect.centerY() - (this.loadingDrawable.getIntrinsicHeight() / 2));
                     this.loadingDrawable.setAlpha((int) (this.placeholderAlpha * 255.0f));
-                    Drawable drawable6 = this.loadingDrawable;
-                    drawable6.setBounds(centerX2, centerY2, drawable6.getIntrinsicWidth() + centerX2, this.loadingDrawable.getIntrinsicHeight() + centerY2);
+                    Drawable drawable7 = this.loadingDrawable;
+                    drawable7.setBounds(centerX2, centerY2, drawable7.getIntrinsicWidth() + centerX2, this.loadingDrawable.getIntrinsicHeight() + centerY2);
                     this.loadingDrawable.draw(canvas);
                 }
                 if (this.themeInfo.themeLoaded) {

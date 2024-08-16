@@ -43,7 +43,6 @@ import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.GenericProvider;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.Intro;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -156,7 +155,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.darkThemeDrawable.setCurrentFrame(Theme.getCurrentTheme().isDark() ? this.darkThemeDrawable.getFramesCount() - 1 : 0, false);
         rLottieImageView.setContentDescription(LocaleController.getString(Theme.getCurrentTheme().isDark() ? R.string.AccDescrSwitchToDayTheme : R.string.AccDescrSwitchToNightTheme));
         rLottieImageView.setAnimation(this.darkThemeDrawable);
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 IntroActivity.this.lambda$createView$0(rLottieImageView, view);
@@ -166,7 +165,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.frameLayout2 = frameLayout3;
         this.frameContainerView.addView(frameLayout3, LayoutHelper.createFrame(-1, -2.0f, 51, 0.0f, 78.0f, 0.0f, 0.0f));
         TextureView textureView = new TextureView(context);
-        this.frameLayout2.addView(textureView, LayoutHelper.createFrame(200, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 17));
+        this.frameLayout2.addView(textureView, LayoutHelper.createFrame((int) NotificationCenter.storyQualityUpdate, 150, 17));
         textureView.setSurfaceTextureListener(new 2());
         ViewPager viewPager = new ViewPager(context);
         this.viewPager = viewPager;
@@ -243,7 +242,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         this.startMessagingButton.setTextSize(1, 15.0f);
         this.startMessagingButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         this.frameContainerView.addView(this.startMessagingButton, LayoutHelper.createFrame(-1, 50.0f, 81, 16.0f, 0.0f, 16.0f, 76.0f));
-        this.startMessagingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda1
+        this.startMessagingButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 IntroActivity.this.lambda$createView$1(view);
@@ -257,7 +256,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         textView2.setGravity(17);
         this.switchLanguageTextView.setTextSize(1, 16.0f);
         this.frameContainerView.addView(this.switchLanguageTextView, LayoutHelper.createFrame(-2, 30.0f, 81, 0.0f, 0.0f, 0.0f, 20.0f));
-        this.switchLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda2
+        this.switchLanguageTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 IntroActivity.this.lambda$createView$2(view);
@@ -503,7 +502,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             }
             final TLRPC$LangPackString tLRPC$LangPackString = (TLRPC$LangPackString) tLRPC$Vector.objects.get(0);
             if (tLRPC$LangPackString instanceof TLRPC$TL_langPackString) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         IntroActivity.this.lambda$checkContinueText$3(tLRPC$LangPackString, str);
@@ -644,7 +643,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         public EGLThread(SurfaceTexture surfaceTexture) {
             super("EGLThread");
             this.textures = new int[24];
-            this.telegramMaskProvider = new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda2
+            this.telegramMaskProvider = new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
                 @Override // org.telegram.messenger.GenericProvider
                 public final Object provide(Object obj) {
                     Bitmap lambda$new$0;
@@ -702,106 +701,106 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
                 }
                 finish();
                 return false;
-            }
-            if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
+            } else if (!this.egl10.eglInitialize(eglGetDisplay, new int[2])) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.e("eglInitialize failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
                 }
                 finish();
                 return false;
-            }
-            int[] iArr = new int[1];
-            EGLConfig[] eGLConfigArr = new EGLConfig[1];
-            if (!this.egl10.eglChooseConfig(this.eglDisplay, EmuDetector.with(IntroActivity.this.getParentActivity()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12326, 0, 12338, 1, 12337, 2, 12344}, eGLConfigArr, 1, iArr)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                }
-                finish();
-                return false;
-            } else if (iArr[0] > 0) {
-                EGLConfig eGLConfig = eGLConfigArr[0];
-                this.eglConfig = eGLConfig;
-                EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
-                this.eglContext = eglCreateContext;
-                if (eglCreateContext == null) {
+            } else {
+                int[] iArr = new int[1];
+                EGLConfig[] eGLConfigArr = new EGLConfig[1];
+                if (!this.egl10.eglChooseConfig(this.eglDisplay, EmuDetector.with(IntroActivity.this.getParentActivity()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 24, 12326, 0, 12338, 1, 12337, 2, 12344}, eGLConfigArr, 1, iArr)) {
                     if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        FileLog.e("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                    }
+                    finish();
+                    return false;
+                } else if (iArr[0] > 0) {
+                    EGLConfig eGLConfig = eGLConfigArr[0];
+                    this.eglConfig = eGLConfig;
+                    EGLContext eglCreateContext = this.egl10.eglCreateContext(this.eglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
+                    this.eglContext = eglCreateContext;
+                    if (eglCreateContext == null) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("eglCreateContext failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                        }
+                        finish();
+                        return false;
+                    }
+                    SurfaceTexture surfaceTexture = this.surfaceTexture;
+                    if (surfaceTexture instanceof SurfaceTexture) {
+                        EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, surfaceTexture, null);
+                        this.eglSurface = eglCreateWindowSurface;
+                        if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                            }
+                            finish();
+                            return false;
+                        } else if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
+                            }
+                            finish();
+                            return false;
+                        } else {
+                            GLES20.glGenTextures(23, this.textures, 0);
+                            loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
+                            loadTexture(R.drawable.intro_fast_arrow, 1);
+                            loadTexture(R.drawable.intro_fast_body, 2);
+                            loadTexture(R.drawable.intro_fast_spiral, 3);
+                            loadTexture(R.drawable.intro_ic_bubble_dot, 4);
+                            loadTexture(R.drawable.intro_ic_bubble, 5);
+                            loadTexture(R.drawable.intro_ic_cam_lens, 6);
+                            loadTexture(R.drawable.intro_ic_cam, 7);
+                            loadTexture(R.drawable.intro_ic_pencil, 8);
+                            loadTexture(R.drawable.intro_ic_pin, 9);
+                            loadTexture(R.drawable.intro_ic_smile_eye, 10);
+                            loadTexture(R.drawable.intro_ic_smile, 11);
+                            loadTexture(R.drawable.intro_ic_videocam, 12);
+                            loadTexture(R.drawable.intro_knot_down, 13);
+                            loadTexture(R.drawable.intro_knot_up, 14);
+                            loadTexture(R.drawable.intro_powerful_infinity_white, 15);
+                            loadTexture(R.drawable.intro_powerful_infinity, 16);
+                            loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), false);
+                            loadTexture(R.drawable.intro_powerful_star, 18);
+                            loadTexture(R.drawable.intro_private_door, 19);
+                            loadTexture(R.drawable.intro_private_screw, 20);
+                            loadTexture(R.drawable.intro_tg_plane, 21);
+                            loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda2
+                                @Override // org.telegram.messenger.GenericProvider
+                                public final Object provide(Object obj) {
+                                    Bitmap lambda$initGL$1;
+                                    lambda$initGL$1 = IntroActivity.EGLThread.lambda$initGL$1((Void) obj);
+                                    return lambda$initGL$1;
+                                }
+                            }, 22);
+                            loadTexture(this.telegramMaskProvider, 23);
+                            updateTelegramTextures();
+                            updatePowerfulTextures();
+                            int[] iArr2 = this.textures;
+                            Intro.setPrivateTextures(iArr2[19], iArr2[20]);
+                            int[] iArr3 = this.textures;
+                            Intro.setFreeTextures(iArr3[14], iArr3[13]);
+                            int[] iArr4 = this.textures;
+                            Intro.setFastTextures(iArr4[2], iArr4[3], iArr4[1], iArr4[0]);
+                            int[] iArr5 = this.textures;
+                            Intro.setIcTextures(iArr5[4], iArr5[5], iArr5[6], iArr5[7], iArr5[8], iArr5[9], iArr5[10], iArr5[11], iArr5[12]);
+                            Intro.onSurfaceCreated();
+                            IntroActivity.this.currentDate = System.currentTimeMillis() - 1000;
+                            return true;
+                        }
+                    }
+                    finish();
+                    return false;
+                } else {
+                    if (BuildVars.LOGS_ENABLED) {
+                        FileLog.e("eglConfig not initialized");
                     }
                     finish();
                     return false;
                 }
-                SurfaceTexture surfaceTexture = this.surfaceTexture;
-                if (surfaceTexture instanceof SurfaceTexture) {
-                    EGLSurface eglCreateWindowSurface = this.egl10.eglCreateWindowSurface(this.eglDisplay, this.eglConfig, surfaceTexture, null);
-                    this.eglSurface = eglCreateWindowSurface;
-                    if (eglCreateWindowSurface == null || eglCreateWindowSurface == EGL10.EGL_NO_SURFACE) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("createWindowSurface failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                        }
-                        finish();
-                        return false;
-                    } else if (!this.egl10.eglMakeCurrent(this.eglDisplay, eglCreateWindowSurface, eglCreateWindowSurface, this.eglContext)) {
-                        if (BuildVars.LOGS_ENABLED) {
-                            FileLog.e("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.egl10.eglGetError()));
-                        }
-                        finish();
-                        return false;
-                    } else {
-                        GLES20.glGenTextures(23, this.textures, 0);
-                        loadTexture(R.drawable.intro_fast_arrow_shadow, 0);
-                        loadTexture(R.drawable.intro_fast_arrow, 1);
-                        loadTexture(R.drawable.intro_fast_body, 2);
-                        loadTexture(R.drawable.intro_fast_spiral, 3);
-                        loadTexture(R.drawable.intro_ic_bubble_dot, 4);
-                        loadTexture(R.drawable.intro_ic_bubble, 5);
-                        loadTexture(R.drawable.intro_ic_cam_lens, 6);
-                        loadTexture(R.drawable.intro_ic_cam, 7);
-                        loadTexture(R.drawable.intro_ic_pencil, 8);
-                        loadTexture(R.drawable.intro_ic_pin, 9);
-                        loadTexture(R.drawable.intro_ic_smile_eye, 10);
-                        loadTexture(R.drawable.intro_ic_smile, 11);
-                        loadTexture(R.drawable.intro_ic_videocam, 12);
-                        loadTexture(R.drawable.intro_knot_down, 13);
-                        loadTexture(R.drawable.intro_knot_up, 14);
-                        loadTexture(R.drawable.intro_powerful_infinity_white, 15);
-                        loadTexture(R.drawable.intro_powerful_infinity, 16);
-                        loadTexture(R.drawable.intro_powerful_mask, 17, Theme.getColor(Theme.key_windowBackgroundWhite), false);
-                        loadTexture(R.drawable.intro_powerful_star, 18);
-                        loadTexture(R.drawable.intro_private_door, 19);
-                        loadTexture(R.drawable.intro_private_screw, 20);
-                        loadTexture(R.drawable.intro_tg_plane, 21);
-                        loadTexture(new GenericProvider() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
-                            @Override // org.telegram.messenger.GenericProvider
-                            public final Object provide(Object obj) {
-                                Bitmap lambda$initGL$1;
-                                lambda$initGL$1 = IntroActivity.EGLThread.lambda$initGL$1((Void) obj);
-                                return lambda$initGL$1;
-                            }
-                        }, 22);
-                        loadTexture(this.telegramMaskProvider, 23);
-                        updateTelegramTextures();
-                        updatePowerfulTextures();
-                        int[] iArr2 = this.textures;
-                        Intro.setPrivateTextures(iArr2[19], iArr2[20]);
-                        int[] iArr3 = this.textures;
-                        Intro.setFreeTextures(iArr3[14], iArr3[13]);
-                        int[] iArr4 = this.textures;
-                        Intro.setFastTextures(iArr4[2], iArr4[3], iArr4[1], iArr4[0]);
-                        int[] iArr5 = this.textures;
-                        Intro.setIcTextures(iArr5[4], iArr5[5], iArr5[6], iArr5[7], iArr5[8], iArr5[9], iArr5[10], iArr5[11], iArr5[12]);
-                        Intro.onSurfaceCreated();
-                        IntroActivity.this.currentDate = System.currentTimeMillis() - 1000;
-                        return true;
-                    }
-                }
-                finish();
-                return false;
-            } else {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.e("eglConfig not initialized");
-                }
-                finish();
-                return false;
             }
         }
 
@@ -900,7 +899,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         }
 
         public void shutdown() {
-            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda1
+            postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$EGLThread$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     IntroActivity.EGLThread.this.lambda$shutdown$2();
@@ -935,7 +934,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda3
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 IntroActivity.this.lambda$getThemeDescriptions$5();
@@ -963,7 +962,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         if (z) {
             EGLThread eGLThread = this.eglThread;
             if (eGLThread != null) {
-                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda5
+                eGLThread.postRunnable(new Runnable() { // from class: org.telegram.ui.IntroActivity$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         IntroActivity.this.lambda$updateColors$6();

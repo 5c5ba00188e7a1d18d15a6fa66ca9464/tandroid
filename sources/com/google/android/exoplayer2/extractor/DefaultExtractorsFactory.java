@@ -71,20 +71,24 @@ public final class DefaultExtractorsFactory implements ExtractorsFactory {
     @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
     public synchronized Extractor[] createExtractors(Uri uri, Map<String, List<String>> map) {
         ArrayList arrayList;
-        int[] iArr = DEFAULT_EXTRACTOR_ORDER;
-        arrayList = new ArrayList(iArr.length);
-        int inferFileTypeFromResponseHeaders = FileTypes.inferFileTypeFromResponseHeaders(map);
-        if (inferFileTypeFromResponseHeaders != -1) {
-            addExtractorsForFileType(inferFileTypeFromResponseHeaders, arrayList);
-        }
-        int inferFileTypeFromUri = FileTypes.inferFileTypeFromUri(uri);
-        if (inferFileTypeFromUri != -1 && inferFileTypeFromUri != inferFileTypeFromResponseHeaders) {
-            addExtractorsForFileType(inferFileTypeFromUri, arrayList);
-        }
-        for (int i : iArr) {
-            if (i != inferFileTypeFromResponseHeaders && i != inferFileTypeFromUri) {
-                addExtractorsForFileType(i, arrayList);
+        try {
+            int[] iArr = DEFAULT_EXTRACTOR_ORDER;
+            arrayList = new ArrayList(iArr.length);
+            int inferFileTypeFromResponseHeaders = FileTypes.inferFileTypeFromResponseHeaders(map);
+            if (inferFileTypeFromResponseHeaders != -1) {
+                addExtractorsForFileType(inferFileTypeFromResponseHeaders, arrayList);
             }
+            int inferFileTypeFromUri = FileTypes.inferFileTypeFromUri(uri);
+            if (inferFileTypeFromUri != -1 && inferFileTypeFromUri != inferFileTypeFromResponseHeaders) {
+                addExtractorsForFileType(inferFileTypeFromUri, arrayList);
+            }
+            for (int i : iArr) {
+                if (i != inferFileTypeFromResponseHeaders && i != inferFileTypeFromUri) {
+                    addExtractorsForFileType(i, arrayList);
+                }
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return (Extractor[]) arrayList.toArray(new Extractor[arrayList.size()]);
     }
@@ -158,14 +162,14 @@ public final class DefaultExtractorsFactory implements ExtractorsFactory {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static Constructor<? extends Extractor> getMidiExtractorConstructor() throws ClassNotFoundException, NoSuchMethodException {
-        return Class.forName("com.google.android.exoplayer2.decoder.midi.MidiExtractor").asSubclass(Extractor.class).getConstructor(new Class[0]);
+        return Class.forName("com.google.android.exoplayer2.decoder.midi.MidiExtractor").asSubclass(Extractor.class).getConstructor(null);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static Constructor<? extends Extractor> getFlacExtractorConstructor() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Boolean bool = Boolean.TRUE;
         int i = FlacLibrary.$r8$clinit;
-        if (bool.equals(FlacLibrary.class.getMethod("isAvailable", new Class[0]).invoke(null, new Object[0]))) {
+        if (bool.equals(FlacLibrary.class.getMethod("isAvailable", null).invoke(null, null))) {
             ExtractorsFactory extractorsFactory = com.google.android.exoplayer2.ext.flac.FlacExtractor.FACTORY;
             return com.google.android.exoplayer2.ext.flac.FlacExtractor.class.asSubclass(Extractor.class).getConstructor(Integer.TYPE);
         }

@@ -120,28 +120,19 @@ public final class CoroutineScheduler implements Executor, Closeable {
         }
 
         private final boolean tryAcquireCpuPermit() {
-            boolean z;
+            long j;
             if (this.state == WorkerState.CPU_ACQUIRED) {
                 return true;
             }
             CoroutineScheduler coroutineScheduler = CoroutineScheduler.this;
-            while (true) {
-                long j = coroutineScheduler.controlState;
-                if (((int) ((9223367638808264704L & j) >> 42)) != 0) {
-                    if (CoroutineScheduler.controlState$FU.compareAndSet(coroutineScheduler, j, j - 4398046511104L)) {
-                        z = true;
-                        break;
-                    }
-                } else {
-                    z = false;
-                    break;
+            do {
+                j = coroutineScheduler.controlState;
+                if (((int) ((9223367638808264704L & j) >> 42)) == 0) {
+                    return false;
                 }
-            }
-            if (z) {
-                this.state = WorkerState.CPU_ACQUIRED;
-                return true;
-            }
-            return false;
+            } while (!CoroutineScheduler.controlState$FU.compareAndSet(coroutineScheduler, j, j - 4398046511104L));
+            this.state = WorkerState.CPU_ACQUIRED;
+            return true;
         }
 
         public final boolean tryReleaseCpu(WorkerState workerState) {
@@ -244,28 +235,32 @@ public final class CoroutineScheduler implements Executor, Closeable {
         private final void tryTerminateWorker() {
             CoroutineScheduler coroutineScheduler = CoroutineScheduler.this;
             synchronized (coroutineScheduler.workers) {
-                if (coroutineScheduler.isTerminated()) {
-                    return;
-                }
-                if (((int) (coroutineScheduler.controlState & 2097151)) <= coroutineScheduler.corePoolSize) {
-                    return;
-                }
-                if (workerCtl$FU.compareAndSet(this, -1, 1)) {
-                    int indexInArray = getIndexInArray();
-                    setIndexInArray(0);
-                    coroutineScheduler.parkedWorkersStackTopUpdate(this, indexInArray, 0);
-                    int andDecrement = (int) (2097151 & CoroutineScheduler.controlState$FU.getAndDecrement(coroutineScheduler));
-                    if (andDecrement != indexInArray) {
-                        Worker worker = coroutineScheduler.workers.get(andDecrement);
-                        Intrinsics.checkNotNull(worker);
-                        Worker worker2 = worker;
-                        coroutineScheduler.workers.setSynchronized(indexInArray, worker2);
-                        worker2.setIndexInArray(indexInArray);
-                        coroutineScheduler.parkedWorkersStackTopUpdate(worker2, andDecrement, indexInArray);
+                try {
+                    if (coroutineScheduler.isTerminated()) {
+                        return;
                     }
-                    coroutineScheduler.workers.setSynchronized(andDecrement, null);
-                    Unit unit = Unit.INSTANCE;
-                    this.state = WorkerState.TERMINATED;
+                    if (((int) (coroutineScheduler.controlState & 2097151)) <= coroutineScheduler.corePoolSize) {
+                        return;
+                    }
+                    if (workerCtl$FU.compareAndSet(this, -1, 1)) {
+                        int indexInArray = getIndexInArray();
+                        setIndexInArray(0);
+                        coroutineScheduler.parkedWorkersStackTopUpdate(this, indexInArray, 0);
+                        int andDecrement = (int) (2097151 & CoroutineScheduler.controlState$FU.getAndDecrement(coroutineScheduler));
+                        if (andDecrement != indexInArray) {
+                            Worker worker = coroutineScheduler.workers.get(andDecrement);
+                            Intrinsics.checkNotNull(worker);
+                            Worker worker2 = worker;
+                            coroutineScheduler.workers.setSynchronized(indexInArray, worker2);
+                            worker2.setIndexInArray(indexInArray);
+                            coroutineScheduler.parkedWorkersStackTopUpdate(worker2, andDecrement, indexInArray);
+                        }
+                        coroutineScheduler.workers.setSynchronized(andDecrement, null);
+                        Unit unit = Unit.INSTANCE;
+                        this.state = WorkerState.TERMINATED;
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -377,24 +372,22 @@ public final class CoroutineScheduler implements Executor, Closeable {
         this.maxPoolSize = i2;
         this.idleWorkerKeepAliveNs = j;
         this.schedulerName = str;
-        if (!(i >= 1)) {
+        if (i < 1) {
             throw new IllegalArgumentException(("Core pool size " + i + " should be at least 1").toString());
-        }
-        if (!(i2 >= i)) {
+        } else if (i2 < i) {
             throw new IllegalArgumentException(("Max pool size " + i2 + " should be greater than or equals to core pool size " + i).toString());
-        }
-        if (!(i2 <= 2097150)) {
+        } else if (i2 > 2097150) {
             throw new IllegalArgumentException(("Max pool size " + i2 + " should not exceed maximal supported number of threads 2097150").toString());
-        }
-        if (!(j > 0)) {
+        } else if (j <= 0) {
             throw new IllegalArgumentException(("Idle worker keep alive time " + j + " must be positive").toString());
+        } else {
+            this.globalCpuQueue = new GlobalQueue();
+            this.globalBlockingQueue = new GlobalQueue();
+            this.parkedWorkersStack = 0L;
+            this.workers = new ResizableAtomicArray<>(i + 1);
+            this.controlState = i << 42;
+            this._isTerminated = 0;
         }
-        this.globalCpuQueue = new GlobalQueue();
-        this.globalBlockingQueue = new GlobalQueue();
-        this.parkedWorkersStack = 0L;
-        this.workers = new ResizableAtomicArray<>(i + 1);
-        this.controlState = i << 42;
-        this._isTerminated = 0;
     }
 
     public final boolean parkedWorkersStackPush(Worker worker) {
@@ -603,12 +596,12 @@ public final class CoroutineScheduler implements Executor, Closeable {
                 return 0;
             }
             int i2 = ((int) (this.controlState & 2097151)) + 1;
-            if (!(i2 > 0 && this.workers.get(i2) == null)) {
+            if (i2 <= 0 || this.workers.get(i2) != null) {
                 throw new IllegalArgumentException("Failed requirement.".toString());
             }
             Worker worker = new Worker(i2);
             this.workers.setSynchronized(i2, worker);
-            if (!(i2 == ((int) (2097151 & controlState$FU.incrementAndGet(this))))) {
+            if (i2 != ((int) (2097151 & controlState$FU.incrementAndGet(this)))) {
                 throw new IllegalArgumentException("Failed requirement.".toString());
             }
             worker.start();

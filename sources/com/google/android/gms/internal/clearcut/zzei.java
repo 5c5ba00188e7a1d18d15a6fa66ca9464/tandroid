@@ -34,29 +34,32 @@ public class zzei<K extends Comparable<K>, V> extends AbstractMap<K, V> {
     }
 
     private final int zza(K k) {
-        int size = this.zzom.size() - 1;
-        if (size >= 0) {
-            int compareTo = k.compareTo((Comparable) this.zzom.get(size).getKey());
+        int i;
+        int size = this.zzom.size();
+        int i2 = size - 1;
+        if (i2 >= 0) {
+            int compareTo = k.compareTo((Comparable) this.zzom.get(i2).getKey());
             if (compareTo > 0) {
-                return -(size + 2);
-            }
-            if (compareTo == 0) {
-                return size;
-            }
-        }
-        int i = 0;
-        while (i <= size) {
-            int i2 = (i + size) / 2;
-            int compareTo2 = k.compareTo((Comparable) this.zzom.get(i2).getKey());
-            if (compareTo2 < 0) {
-                size = i2 - 1;
-            } else if (compareTo2 <= 0) {
+                i = size + 1;
+                return -i;
+            } else if (compareTo == 0) {
                 return i2;
-            } else {
-                i = i2 + 1;
             }
         }
-        return -(i + 1);
+        int i3 = 0;
+        while (i3 <= i2) {
+            int i4 = (i3 + i2) / 2;
+            int compareTo2 = k.compareTo((Comparable) this.zzom.get(i4).getKey());
+            if (compareTo2 < 0) {
+                i2 = i4 - 1;
+            } else if (compareTo2 <= 0) {
+                return i4;
+            } else {
+                i3 = i4 + 1;
+            }
+        }
+        i = i3 + 1;
+        return -i;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

@@ -47,59 +47,69 @@ public class zzy {
 
     private static <T> T zza(HashMap<String, T> hashMap, String str, T t) {
         synchronized (zzy.class) {
-            if (hashMap.containsKey(str)) {
-                T t2 = hashMap.get(str);
-                if (t2 != null) {
-                    t = t2;
+            try {
+                if (hashMap.containsKey(str)) {
+                    T t2 = hashMap.get(str);
+                    if (t2 != null) {
+                        t = t2;
+                    }
+                    return t;
                 }
-                return t;
+                return null;
+            } catch (Throwable th) {
+                throw th;
             }
-            return null;
         }
     }
 
     public static String zza(ContentResolver contentResolver, String str, String str2) {
         synchronized (zzy.class) {
-            zza(contentResolver);
-            Object obj = zzcz;
-            if (zzcu.containsKey(str)) {
-                String str3 = zzcu.get(str);
-                return str3 != null ? str3 : null;
-            }
-            for (String str4 : zzdb) {
-                if (str.startsWith(str4)) {
-                    if (!zzda || zzcu.isEmpty()) {
-                        zzcu.putAll(zza(contentResolver, zzdb));
-                        zzda = true;
-                        if (zzcu.containsKey(str)) {
-                            String str5 = zzcu.get(str);
-                            return str5 != null ? str5 : null;
-                        }
-                    }
-                    return null;
+            try {
+                zza(contentResolver);
+                Object obj = zzcz;
+                if (zzcu.containsKey(str)) {
+                    String str3 = zzcu.get(str);
+                    return str3 != null ? str3 : null;
                 }
-            }
-            Cursor query = contentResolver.query(CONTENT_URI, null, null, new String[]{str}, null);
-            if (query != null) {
-                try {
-                    if (query.moveToFirst()) {
-                        String string = query.getString(1);
-                        if (string != null && string.equals(null)) {
-                            string = null;
+                for (String str4 : zzdb) {
+                    if (str.startsWith(str4)) {
+                        if (!zzda || zzcu.isEmpty()) {
+                            zzcu.putAll(zza(contentResolver, zzdb));
+                            zzda = true;
+                            if (zzcu.containsKey(str)) {
+                                String str5 = zzcu.get(str);
+                                return str5 != null ? str5 : null;
+                            }
                         }
-                        zza(obj, str, string);
-                        String str6 = string != null ? string : null;
-                        query.close();
-                        return str6;
-                    }
-                } finally {
-                    if (query != null) {
-                        query.close();
+                        return null;
                     }
                 }
+                Cursor query = contentResolver.query(CONTENT_URI, null, null, new String[]{str}, null);
+                if (query != null) {
+                    try {
+                        if (query.moveToFirst()) {
+                            String string = query.getString(1);
+                            if (string != null && string.equals(null)) {
+                                string = null;
+                            }
+                            zza(obj, str, string);
+                            String str6 = string != null ? string : null;
+                            query.close();
+                            return str6;
+                        }
+                    } finally {
+                        if (query != null) {
+                            query.close();
+                        }
+                    }
+                }
+                zza(obj, str, (String) null);
+                if (query != null) {
+                    query.close();
+                }
+                return null;
+            } finally {
             }
-            zza(obj, str, (String) null);
-            return null;
         }
     }
 
@@ -139,17 +149,25 @@ public class zzy {
 
     private static void zza(Object obj, String str, String str2) {
         synchronized (zzy.class) {
-            if (obj == zzcz) {
-                zzcu.put(str, str2);
+            try {
+                if (obj == zzcz) {
+                    zzcu.put(str, str2);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     private static <T> void zza(Object obj, HashMap<String, T> hashMap, String str, T t) {
         synchronized (zzy.class) {
-            if (obj == zzcz) {
-                hashMap.put(str, t);
-                zzcu.remove(str);
+            try {
+                if (obj == zzcz) {
+                    hashMap.put(str, t);
+                    zzcu.remove(str);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

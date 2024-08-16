@@ -111,7 +111,7 @@ public final class DefaultHlsExtractorFactory implements HlsExtractorFactory {
     private static TsExtractor createTsExtractor(int i, boolean z, Format format, List<Format> list, TimestampAdjuster timestampAdjuster) {
         int i2 = i | 16;
         if (list != null) {
-            i2 |= 32;
+            i2 = i | 48;
         } else if (z) {
             list = Collections.singletonList(new Format.Builder().setSampleMimeType("application/cea-608").build());
         } else {

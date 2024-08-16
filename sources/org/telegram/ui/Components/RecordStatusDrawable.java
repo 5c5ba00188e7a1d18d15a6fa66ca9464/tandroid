@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class RecordStatusDrawable extends StatusDrawable {
@@ -14,7 +15,7 @@ public class RecordStatusDrawable extends StatusDrawable {
     private long lastUpdateTime = 0;
     private boolean started = false;
     private RectF rect = new RectF();
-    int alpha = 255;
+    int alpha = NotificationCenter.voipServiceCreated;
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {

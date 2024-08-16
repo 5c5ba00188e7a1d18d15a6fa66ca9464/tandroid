@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -354,7 +355,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
                 }
             }
             View findViewByPosition = GradientHeaderActivity.this.listView.getLayoutManager() != null ? GradientHeaderActivity.this.listView.getLayoutManager().findViewByPosition(0) : null;
-            GradientHeaderActivity.this.currentYOffset = findViewByPosition == null ? 0 : findViewByPosition.getBottom();
+            GradientHeaderActivity.this.currentYOffset = findViewByPosition != null ? findViewByPosition.getBottom() : 0;
             int bottom = ((BaseFragment) GradientHeaderActivity.this).actionBar.getBottom() + AndroidUtilities.dp(16.0f);
             GradientHeaderActivity gradientHeaderActivity2 = GradientHeaderActivity.this;
             gradientHeaderActivity2.totalProgress = 1.0f - ((gradientHeaderActivity2.currentYOffset - bottom) / (GradientHeaderActivity.this.firstViewHeight - bottom));
@@ -394,7 +395,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             if (!GradientHeaderActivity.this.isDialogVisible) {
                 invalidate();
             }
-            GradientHeaderActivity.this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), GradientHeaderActivity.this.progress * (-getMeasuredWidth()) * 0.1f, 0.0f);
+            GradientHeaderActivity.this.gradientTools.gradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), (-getMeasuredWidth()) * 0.1f * GradientHeaderActivity.this.progress, 0.0f);
             if (!GradientHeaderActivity.this.whiteBackground) {
                 canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), GradientHeaderActivity.this.currentYOffset + GradientHeaderActivity.this.yOffset + AndroidUtilities.dp(20.0f), GradientHeaderActivity.this.gradientTools.paint);
             } else {
@@ -417,7 +418,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             if (f3 > 0.01f || !GradientHeaderActivity.this.drawActionBarShadow()) {
                 return;
             }
-            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, 255, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
+            ((BaseFragment) GradientHeaderActivity.this).parentLayout.drawHeaderShadow(canvas, NotificationCenter.voipServiceCreated, ((BaseFragment) GradientHeaderActivity.this).actionBar.getMeasuredHeight());
         }
 
         private void setLightStatusBar(int i) {
@@ -425,9 +426,8 @@ public abstract class GradientHeaderActivity extends BaseFragment {
             Boolean bool = this.lightStatusBar;
             if (bool == null || bool.booleanValue() != z) {
                 View view = GradientHeaderActivity.this.fragmentView;
-                Boolean valueOf = Boolean.valueOf(z);
-                this.lightStatusBar = valueOf;
-                AndroidUtilities.setLightStatusBar(view, valueOf.booleanValue());
+                this.lightStatusBar = Boolean.valueOf(z);
+                AndroidUtilities.setLightStatusBar(view, z);
             }
         }
 
@@ -452,7 +452,7 @@ public abstract class GradientHeaderActivity extends BaseFragment {
                 StarParticlesView.Drawable drawable = new StarParticlesView.Drawable(50) { // from class: org.telegram.ui.GradientHeaderActivity.8.1
                     @Override // org.telegram.ui.Components.Premium.StarParticlesView.Drawable
                     protected int getPathColor(int i) {
-                        return ColorUtils.setAlphaComponent(Theme.getDefaultColor(this.colorKey), 200);
+                        return ColorUtils.setAlphaComponent(Theme.getDefaultColor(this.colorKey), NotificationCenter.storyQualityUpdate);
                     }
                 };
                 this.drawable = drawable;

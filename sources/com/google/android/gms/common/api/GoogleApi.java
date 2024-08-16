@@ -212,7 +212,7 @@ public abstract class GoogleApi<O extends Api.ApiOptions> {
         String str = null;
         if (PlatformVersion.isAtLeastR()) {
             try {
-                str = (String) Context.class.getMethod("getAttributionTag", new Class[0]).invoke(context, new Object[0]);
+                str = (String) Context.class.getMethod("getAttributionTag", null).invoke(context, null);
             } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException unused) {
             }
         }

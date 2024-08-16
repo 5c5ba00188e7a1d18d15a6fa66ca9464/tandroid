@@ -45,7 +45,7 @@ public class ESDescriptor extends BaseDescriptor {
         if (this.oCRstreamFlag == 1) {
             this.oCREsId = IsoTypeReader.readUInt16(byteBuffer);
         }
-        int sizeBytes = getSizeBytes() + 1 + 2 + 1 + (this.streamDependenceFlag == 1 ? 2 : 0) + (this.URLFlag == 1 ? this.URLLength + 1 : 0) + (this.oCRstreamFlag == 1 ? 2 : 0);
+        int sizeBytes = getSizeBytes() + 4 + (this.streamDependenceFlag == 1 ? 2 : 0) + (this.URLFlag == 1 ? this.URLLength + 1 : 0) + (this.oCRstreamFlag == 1 ? 2 : 0);
         int position = byteBuffer.position();
         if (getSize() > sizeBytes + 2) {
             BaseDescriptor createFrom = ObjectDescriptorFactory.createFrom(-1, byteBuffer);

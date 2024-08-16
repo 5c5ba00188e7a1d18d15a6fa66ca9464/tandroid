@@ -8,6 +8,7 @@ import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.view.Surface;
 import org.telegram.messenger.FileLog;
+import org.telegram.ui.Components.voip.PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0;
 import org.webrtc.VideoSink;
 @TargetApi(21)
 /* loaded from: classes.dex */
@@ -62,7 +63,7 @@ public class ScreenCapturerAndroid implements VideoCapturer, VideoSink {
             throw new RuntimeException("surfaceTextureHelper not set.");
         }
         this.surfaceTextureHelper = surfaceTextureHelper;
-        this.mediaProjectionManager = (MediaProjectionManager) context.getSystemService("media_projection");
+        this.mediaProjectionManager = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(context.getSystemService("media_projection"));
     }
 
     @Override // org.webrtc.VideoCapturer

@@ -12,10 +12,14 @@ public final class RootTelemetryConfigManager {
     public static synchronized RootTelemetryConfigManager getInstance() {
         RootTelemetryConfigManager rootTelemetryConfigManager;
         synchronized (RootTelemetryConfigManager.class) {
-            if (zza == null) {
-                zza = new RootTelemetryConfigManager();
+            try {
+                if (zza == null) {
+                    zza = new RootTelemetryConfigManager();
+                }
+                rootTelemetryConfigManager = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            rootTelemetryConfigManager = zza;
         }
         return rootTelemetryConfigManager;
     }

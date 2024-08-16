@@ -1,95 +1,78 @@
 package j$.time.format;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class k implements h {
-    static final long[] f = {0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000L};
-    final j$.time.temporal.l a;
-    final int b;
-    final int c;
-    private final y d;
-    final int e;
+public final class k implements g {
+    static final String[] c = {"+HH", "+HHmm", "+HH:mm", "+HHMM", "+HH:MM", "+HHMMss", "+HH:MM:ss", "+HHMMSS", "+HH:MM:SS"};
+    static final k d = new k("+HH:MM:ss", "Z");
+    private final String a;
+    private final int b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public k(j$.time.temporal.l lVar, int i, int i2, y yVar) {
-        this.a = lVar;
-        this.b = i;
-        this.c = i2;
-        this.d = yVar;
-        this.e = 0;
-    }
-
-    protected k(j$.time.temporal.l lVar, int i, int i2, y yVar, int i3) {
-        this.a = lVar;
-        this.b = i;
-        this.c = i2;
-        this.d = yVar;
-        this.e = i3;
+    static {
+        new k("+HH:MM:ss", "0");
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static /* synthetic */ y b(k kVar) {
-        return kVar.d;
+    public k(String str, String str2) {
+        int i = 0;
+        while (true) {
+            String[] strArr = c;
+            if (i >= 9) {
+                throw new IllegalArgumentException("Invalid zone offset pattern: ".concat(str));
+            }
+            if (strArr[i].equals(str)) {
+                this.b = i;
+                this.a = str2;
+                return;
+            }
+            i++;
+        }
     }
 
-    @Override // j$.time.format.h
-    public final boolean a(t tVar, StringBuilder sb) {
-        j$.time.temporal.l lVar = this.a;
-        Long e = tVar.e(lVar);
+    @Override // j$.time.format.g
+    public final boolean a(s sVar, StringBuilder sb) {
+        Long e = sVar.e(j$.time.temporal.a.OFFSET_SECONDS);
         if (e == null) {
             return false;
         }
         long longValue = e.longValue();
-        w b = tVar.b();
-        String l = longValue == Long.MIN_VALUE ? "9223372036854775808" : Long.toString(Math.abs(longValue));
-        int length = l.length();
-        int i = this.c;
-        if (length > i) {
-            throw new j$.time.d("Field " + lVar + " cannot be printed as the value " + longValue + " exceeds the maximum print width of " + i);
-        }
-        b.getClass();
-        int i2 = this.b;
-        y yVar = this.d;
-        if (longValue >= 0) {
-            int i3 = e.a[yVar.ordinal()];
-            if (i3 == 1 ? !(i2 >= 19 || longValue < f[i2]) : i3 == 2) {
-                sb.append('+');
+        int i = (int) longValue;
+        if (longValue == i) {
+            String str = this.a;
+            if (i != 0) {
+                int abs = Math.abs((i / 3600) % 100);
+                int abs2 = Math.abs((i / 60) % 60);
+                int abs3 = Math.abs(i % 60);
+                int length = sb.length();
+                sb.append(i < 0 ? "-" : "+");
+                sb.append((char) ((abs / 10) + 48));
+                sb.append((char) ((abs % 10) + 48));
+                int i2 = this.b;
+                if (i2 >= 3 || (i2 >= 1 && abs2 > 0)) {
+                    int i3 = i2 % 2;
+                    sb.append(i3 == 0 ? ":" : "");
+                    sb.append((char) ((abs2 / 10) + 48));
+                    sb.append((char) ((abs2 % 10) + 48));
+                    abs += abs2;
+                    if (i2 >= 7 || (i2 >= 5 && abs3 > 0)) {
+                        sb.append(i3 == 0 ? ":" : "");
+                        sb.append((char) ((abs3 / 10) + 48));
+                        sb.append((char) ((abs3 % 10) + 48));
+                        abs += abs3;
+                    }
+                }
+                if (abs == 0) {
+                    sb.setLength(length);
+                }
+                return true;
             }
-        } else {
-            int i4 = e.a[yVar.ordinal()];
-            if (i4 == 1 || i4 == 2 || i4 == 3) {
-                sb.append('-');
-            } else if (i4 == 4) {
-                throw new j$.time.d("Field " + lVar + " cannot be printed as the value " + longValue + " cannot be negative according to the SignStyle");
-            }
+            sb.append(str);
+            return true;
         }
-        for (int i5 = 0; i5 < i2 - l.length(); i5++) {
-            sb.append('0');
-        }
-        sb.append(l);
-        return true;
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final k c() {
-        return this.e == -1 ? this : new k(this.a, this.b, this.c, this.d, -1);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final k d(int i) {
-        return new k(this.a, this.b, this.c, this.d, this.e + i);
+        throw new ArithmeticException();
     }
 
     public final String toString() {
-        y yVar = this.d;
-        j$.time.temporal.l lVar = this.a;
-        int i = this.c;
-        int i2 = this.b;
-        if (i2 == 1 && i == 19 && yVar == y.NORMAL) {
-            return "Value(" + lVar + ")";
-        } else if (i2 == i && yVar == y.NOT_NEGATIVE) {
-            return "Value(" + lVar + "," + i2 + ")";
-        } else {
-            return "Value(" + lVar + "," + i2 + "," + i + "," + yVar + ")";
-        }
+        String replace = this.a.replace("'", "''");
+        return "Offset(" + c[this.b] + ",'" + replace + "')";
     }
 }

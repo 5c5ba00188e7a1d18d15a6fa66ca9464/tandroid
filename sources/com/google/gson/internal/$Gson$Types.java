@@ -76,7 +76,7 @@ public final class $Gson$Types {
     }
 
     private static boolean equal(Object obj, Object obj2) {
-        return obj == obj2 || (obj != null && obj.equals(obj2));
+        return Objects.equals(obj, obj2);
     }
 
     public static boolean equals(Type type, Type type2) {
@@ -108,7 +108,7 @@ public final class $Gson$Types {
         } else if ((type instanceof TypeVariable) && (type2 instanceof TypeVariable)) {
             TypeVariable typeVariable = (TypeVariable) type;
             TypeVariable typeVariable2 = (TypeVariable) type2;
-            return typeVariable.getGenericDeclaration() == typeVariable2.getGenericDeclaration() && typeVariable.getName().equals(typeVariable2.getName());
+            return Objects.equals(typeVariable.getGenericDeclaration(), typeVariable2.getGenericDeclaration()) && typeVariable.getName().equals(typeVariable2.getName());
         } else {
             return false;
         }
@@ -185,13 +185,13 @@ public final class $Gson$Types {
         return resolve(type, cls, type2, new HashMap());
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x00dc, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00df, code lost:
         if (r0 == null) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:60:0x00de, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:62:0x00e1, code lost:
         r12.put(r0, r11);
      */
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x00e1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:63:0x00e4, code lost:
         return r11;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -330,6 +330,14 @@ public final class $Gson$Types {
         $Gson$Preconditions.checkArgument(((type instanceof Class) && ((Class) type).isPrimitive()) ? false : true);
     }
 
+    public static boolean requiresOwnerType(Type type) {
+        if (type instanceof Class) {
+            Class cls = (Class) type;
+            return (Modifier.isStatic(cls.getModifiers()) || cls.getDeclaringClass() == null) ? false : true;
+        }
+        return false;
+    }
+
     /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: $Gson$Types.java */
     /* loaded from: classes.dex */
@@ -340,14 +348,8 @@ public final class $Gson$Types {
 
         public ParameterizedTypeImpl(Type type, Type type2, Type... typeArr) {
             Objects.requireNonNull(type2);
-            if (type2 instanceof Class) {
-                Class cls = (Class) type2;
-                boolean z = true;
-                boolean z2 = Modifier.isStatic(cls.getModifiers()) || cls.getEnclosingClass() == null;
-                if (type == null && !z2) {
-                    z = false;
-                }
-                $Gson$Preconditions.checkArgument(z);
+            if (type == null && $Gson$Types.requiresOwnerType(type2)) {
+                throw new IllegalArgumentException("Must specify owner type for " + type2);
             }
             this.ownerType = type == null ? null : $Gson$Types.canonicalize(type);
             this.rawType = $Gson$Types.canonicalize(type2);

@@ -397,8 +397,8 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                         ImageReceiver imageReceiver2 = drawingObject.imageReceiver;
                         float f14 = drawingObject.lastX + drawingObject.randomOffsetX;
                         float f15 = drawingObject.lastY + drawingObject.randomOffsetY;
-                        float f16 = drawingObject.lastW;
-                        imageReceiver2.setImageCoords(f14, f15, f16 * 3.0f, f16 * 3.0f);
+                        float f16 = drawingObject.lastW * 3.0f;
+                        imageReceiver2.setImageCoords(f14, f15, f16, f16);
                         if (!drawingObject.isOut) {
                             canvas.save();
                             canvas.scale(-1.0f, 1.0f, drawingObject.imageReceiver.getCenterX(), drawingObject.imageReceiver.getCenterY());
@@ -594,44 +594,33 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
     }
 
     public boolean showAnimationForCell(ChatMessageCell chatMessageCell, int i, boolean z, boolean z2) {
-        if (chatMessageCell == null || this.drawingObjects.size() > 12) {
-            return false;
-        }
-        MessageObject messageObject = chatMessageCell.getMessageObject();
-        if (chatMessageCell.getEffect() != null || chatMessageCell.getPhotoImage().hasNotThumb()) {
-            String stickerEmoji = messageObject.getStickerEmoji();
-            if (stickerEmoji == null) {
-                stickerEmoji = messageObject.messageOwner.message;
-            }
-            if (chatMessageCell.getEffect() == null && stickerEmoji == null) {
+        if (chatMessageCell != null && this.drawingObjects.size() <= 12) {
+            MessageObject messageObject = chatMessageCell.getMessageObject();
+            if (chatMessageCell.getEffect() != null || chatMessageCell.getPhotoImage().hasNotThumb()) {
+                String stickerEmoji = messageObject.getStickerEmoji();
+                if (stickerEmoji == null) {
+                    stickerEmoji = messageObject.messageOwner.message;
+                }
+                if (chatMessageCell.getEffect() == null && stickerEmoji == null) {
+                    return false;
+                }
+                float imageHeight = chatMessageCell.getPhotoImage().getImageHeight();
+                float imageWidth = chatMessageCell.getPhotoImage().getImageWidth();
+                if (chatMessageCell.getEffect() != null || (imageHeight > 0.0f && imageWidth > 0.0f)) {
+                    return createDrawingObject(unwrapEmoji(stickerEmoji), chatMessageCell.getMessageObject().getId(), chatMessageCell.getMessageObject().getDocument(), messageObject, i, z, z2, imageWidth, imageHeight, chatMessageCell.getMessageObject().isOutOwner());
+                }
                 return false;
-            }
-            float imageHeight = chatMessageCell.getPhotoImage().getImageHeight();
-            float imageWidth = chatMessageCell.getPhotoImage().getImageWidth();
-            if (chatMessageCell.getEffect() != null || (imageHeight > 0.0f && imageWidth > 0.0f)) {
-                return createDrawingObject(unwrapEmoji(stickerEmoji), chatMessageCell.getMessageObject().getId(), chatMessageCell.getMessageObject().getDocument(), messageObject, i, z, z2, imageWidth, imageHeight, chatMessageCell.getMessageObject().isOutOwner());
             }
             return false;
         }
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:141:0x0231  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x026e  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x038b  */
-    /* JADX WARN: Removed duplicated region for block: B:186:0x043f  */
-    /* JADX WARN: Removed duplicated region for block: B:206:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public boolean createDrawingObject(String str, int i, TLRPC$Document tLRPC$Document, final MessageObject messageObject, int i2, final boolean z, boolean z2, float f, float f2, boolean z3) {
         final MessageObject messageObject2;
         TLRPC$Document tLRPC$Document2;
-        TLRPC$VideoSize tLRPC$VideoSize;
         int intValue;
         TLRPC$VideoSize premiumStickerAnimation;
-        final DrawingObject drawingObject;
         Runnable runnable;
         int i3 = i;
         int i4 = i2;
@@ -709,14 +698,18 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                             return false;
                         }
                         if (effect.effect_sticker_id != 0) {
-                            premiumStickerAnimation = MessageObject.getPremiumStickerAnimation(tLRPC$Document2);
-                            z5 = premiumStickerAnimation != null;
+                            TLRPC$VideoSize premiumStickerAnimation2 = MessageObject.getPremiumStickerAnimation(tLRPC$Document2);
+                            premiumStickerAnimation = premiumStickerAnimation2;
+                            z5 = premiumStickerAnimation2 != null;
+                            messageObject2 = messageObject;
                         } else {
+                            messageObject2 = messageObject;
                             premiumStickerAnimation = null;
                         }
                     } else if (z5) {
                         tLRPC$Document2 = messageObject.getDocument();
                         premiumStickerAnimation = messageObject.getPremiumStickerAnimation();
+                        messageObject2 = messageObject;
                     } else {
                         messageObject2 = messageObject;
                         if (messageObject2 != null && messageObject.isAnimatedAnimatedEmoji()) {
@@ -748,148 +741,120 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                             }
                             tLRPC$Document2 = arrayList.get(i4);
                         }
-                        tLRPC$VideoSize = null;
-                        if (tLRPC$Document2 == null || tLRPC$VideoSize != null) {
-                            drawingObject = new DrawingObject();
-                            drawingObject.isPremiumSticker = z5;
-                            drawingObject.isMessageEffect = z6;
-                            if (!z6) {
-                                drawingObject.randomOffsetX = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-                                drawingObject.randomOffsetY = (f2 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
-                            }
-                            drawingObject.messageId = i;
-                            drawingObject.document = tLRPC$Document2;
-                            drawingObject.isOut = z3;
-                            drawingObject.imageReceiver.setAllowStartAnimation(true);
-                            drawingObject.imageReceiver.setAllowLottieVibration(z);
-                            if (tLRPC$VideoSize != null) {
-                                int filterWidth = getFilterWidth();
-                                Integer num = this.lastAnimationIndex.get(Long.valueOf(tLRPC$Document2.id));
-                                int intValue2 = (num == null ? 0 : num.intValue()) + 1;
-                                this.lastAnimationIndex.put(Long.valueOf(tLRPC$Document2.id), Integer.valueOf(intValue2));
-                                ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document2);
-                                ImageReceiver imageReceiver = drawingObject.imageReceiver;
-                                imageReceiver.setUniqKeyPrefix(intValue2 + "_" + drawingObject.messageId + "_");
-                                ImageReceiver imageReceiver2 = drawingObject.imageReceiver;
-                                imageReceiver2.setImage(forDocument, filterWidth + "_" + filterWidth + "_pcache", null, "tgs", this.set, 1);
-                                drawingObject.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.EmojiAnimationsOverlay.3
-                                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-                                    public /* synthetic */ void didSetImageBitmap(int i10, String str2, Drawable drawable) {
-                                        ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i10, str2, drawable);
-                                    }
-
-                                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-                                    public void didSetImage(ImageReceiver imageReceiver3, boolean z7, boolean z8, boolean z9) {
-                                        if (drawingObject.imageReceiver.getLottieAnimation() != null) {
-                                            drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
-                                        }
-                                    }
-
-                                    @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
-                                    public void onAnimationReady(ImageReceiver imageReceiver3) {
-                                        if (!z || !messageObject2.isAnimatedAnimatedEmoji() || imageReceiver3.getLottieAnimation() == null || imageReceiver3.getLottieAnimation().hasVibrationPattern()) {
-                                            return;
-                                        }
-                                        EmojiAnimationsOverlay.this.contentLayout.performHapticFeedback(3, 1);
-                                    }
-                                });
-                                if (drawingObject.imageReceiver.getLottieAnimation() != null) {
-                                    drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
-                                }
-                            } else {
-                                int filterWidth2 = getFilterWidth();
-                                if (i7 > 0) {
-                                    Integer num2 = this.lastAnimationIndex.get(Long.valueOf(tLRPC$Document2.id));
-                                    int intValue3 = num2 == null ? 0 : num2.intValue();
-                                    this.lastAnimationIndex.put(Long.valueOf(tLRPC$Document2.id), Integer.valueOf((intValue3 + 1) % 4));
-                                    ImageReceiver imageReceiver3 = drawingObject.imageReceiver;
-                                    imageReceiver3.setUniqKeyPrefix(intValue3 + "_" + drawingObject.messageId + "_");
-                                }
-                                drawingObject.document = tLRPC$Document2;
-                                ImageReceiver imageReceiver4 = drawingObject.imageReceiver;
-                                ImageLocation forDocument2 = ImageLocation.getForDocument(tLRPC$VideoSize, tLRPC$Document2);
-                                imageReceiver4.setImage(forDocument2, filterWidth2 + "_" + filterWidth2, null, "tgs", this.set, 1);
-                            }
-                            drawingObject.imageReceiver.setLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
-                            drawingObject.imageReceiver.setAutoRepeat(0);
-                            if (drawingObject.imageReceiver.getLottieAnimation() != null) {
-                                if (drawingObject.isPremiumSticker) {
-                                    drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
-                                }
-                                drawingObject.imageReceiver.getLottieAnimation().start();
-                            }
-                            this.drawingObjects.add(drawingObject);
-                            drawingObject.imageReceiver.onAttachedToWindow();
-                            drawingObject.imageReceiver.setParentView(this.contentLayout);
-                            this.contentLayout.invalidate();
-                            if (!z && !z5 && UserConfig.getInstance(this.currentAccount).clientUserId != this.dialogId) {
-                                int i10 = this.lastTappedMsgId;
-                                if (i10 != 0 && i10 != i && (runnable = this.sentInteractionsRunnable) != null) {
-                                    AndroidUtilities.cancelRunOnUIThread(runnable);
-                                    this.sentInteractionsRunnable.run();
-                                }
-                                this.lastTappedMsgId = i;
-                                this.lastTappedEmoji = str;
-                                if (this.lastTappedTime == 0) {
-                                    this.lastTappedTime = System.currentTimeMillis();
-                                    this.timeIntervals.clear();
-                                    this.animationIndexes.clear();
-                                    this.timeIntervals.add(0L);
-                                    this.animationIndexes.add(Integer.valueOf(i4));
-                                } else {
-                                    this.timeIntervals.add(Long.valueOf(System.currentTimeMillis() - this.lastTappedTime));
-                                    this.animationIndexes.add(Integer.valueOf(i4));
-                                }
-                                Runnable runnable2 = this.sentInteractionsRunnable;
-                                if (runnable2 != null) {
-                                    AndroidUtilities.cancelRunOnUIThread(runnable2);
-                                    this.sentInteractionsRunnable = null;
-                                }
-                                Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda1
-                                    @Override // java.lang.Runnable
-                                    public final void run() {
-                                        EmojiAnimationsOverlay.this.lambda$createDrawingObject$2();
-                                    }
-                                };
-                                this.sentInteractionsRunnable = runnable3;
-                                AndroidUtilities.runOnUIThread(runnable3, 500L);
-                            }
-                            if (z2) {
-                                return true;
-                            }
-                            MessagesController.getInstance(this.currentAccount).sendTyping(this.dialogId, this.threadMsgId, 11, str, 0);
-                            return true;
-                        }
+                        premiumStickerAnimation = null;
+                    }
+                    if (tLRPC$Document2 == null && premiumStickerAnimation == null) {
                         return false;
                     }
-                    tLRPC$VideoSize = premiumStickerAnimation;
-                    messageObject2 = messageObject;
-                    if (tLRPC$Document2 == null) {
-                    }
-                    drawingObject = new DrawingObject();
+                    final DrawingObject drawingObject = new DrawingObject();
                     drawingObject.isPremiumSticker = z5;
                     drawingObject.isMessageEffect = z6;
                     if (!z6) {
+                        drawingObject.randomOffsetX = (f / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
+                        drawingObject.randomOffsetY = (f2 / 4.0f) * ((this.random.nextInt() % 101) / 100.0f);
                     }
                     drawingObject.messageId = i;
                     drawingObject.document = tLRPC$Document2;
                     drawingObject.isOut = z3;
                     drawingObject.imageReceiver.setAllowStartAnimation(true);
                     drawingObject.imageReceiver.setAllowLottieVibration(z);
-                    if (tLRPC$VideoSize != null) {
+                    if (premiumStickerAnimation == null) {
+                        int filterWidth = getFilterWidth();
+                        Integer num = this.lastAnimationIndex.get(Long.valueOf(tLRPC$Document2.id));
+                        int intValue2 = (num == null ? 0 : num.intValue()) + 1;
+                        this.lastAnimationIndex.put(Long.valueOf(tLRPC$Document2.id), Integer.valueOf(intValue2));
+                        ImageLocation forDocument = ImageLocation.getForDocument(tLRPC$Document2);
+                        ImageReceiver imageReceiver = drawingObject.imageReceiver;
+                        imageReceiver.setUniqKeyPrefix(intValue2 + "_" + drawingObject.messageId + "_");
+                        ImageReceiver imageReceiver2 = drawingObject.imageReceiver;
+                        imageReceiver2.setImage(forDocument, filterWidth + "_" + filterWidth + "_pcache", null, "tgs", this.set, 1);
+                        drawingObject.imageReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.EmojiAnimationsOverlay.3
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public /* synthetic */ void didSetImageBitmap(int i10, String str2, Drawable drawable) {
+                                ImageReceiver.ImageReceiverDelegate.-CC.$default$didSetImageBitmap(this, i10, str2, drawable);
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public void didSetImage(ImageReceiver imageReceiver3, boolean z7, boolean z8, boolean z9) {
+                                if (drawingObject.imageReceiver.getLottieAnimation() != null) {
+                                    drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
+                                }
+                            }
+
+                            @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
+                            public void onAnimationReady(ImageReceiver imageReceiver3) {
+                                if (!z || !messageObject2.isAnimatedAnimatedEmoji() || imageReceiver3.getLottieAnimation() == null || imageReceiver3.getLottieAnimation().hasVibrationPattern()) {
+                                    return;
+                                }
+                                EmojiAnimationsOverlay.this.contentLayout.performHapticFeedback(3, 1);
+                            }
+                        });
+                        if (drawingObject.imageReceiver.getLottieAnimation() != null) {
+                            drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
+                        }
+                    } else {
+                        int filterWidth2 = getFilterWidth();
+                        if (i7 > 0) {
+                            Integer num2 = this.lastAnimationIndex.get(Long.valueOf(tLRPC$Document2.id));
+                            int intValue3 = num2 == null ? 0 : num2.intValue();
+                            this.lastAnimationIndex.put(Long.valueOf(tLRPC$Document2.id), Integer.valueOf((intValue3 + 1) % 4));
+                            ImageReceiver imageReceiver3 = drawingObject.imageReceiver;
+                            imageReceiver3.setUniqKeyPrefix(intValue3 + "_" + drawingObject.messageId + "_");
+                        }
+                        drawingObject.document = tLRPC$Document2;
+                        ImageReceiver imageReceiver4 = drawingObject.imageReceiver;
+                        ImageLocation forDocument2 = ImageLocation.getForDocument(premiumStickerAnimation, tLRPC$Document2);
+                        imageReceiver4.setImage(forDocument2, filterWidth2 + "_" + filterWidth2, null, "tgs", this.set, 1);
                     }
                     drawingObject.imageReceiver.setLayerNum(ConnectionsManager.DEFAULT_DATACENTER_ID);
                     drawingObject.imageReceiver.setAutoRepeat(0);
                     if (drawingObject.imageReceiver.getLottieAnimation() != null) {
+                        if (drawingObject.isPremiumSticker) {
+                            drawingObject.imageReceiver.getLottieAnimation().setCurrentFrame(0, false, true);
+                        }
+                        drawingObject.imageReceiver.getLottieAnimation().start();
                     }
                     this.drawingObjects.add(drawingObject);
                     drawingObject.imageReceiver.onAttachedToWindow();
                     drawingObject.imageReceiver.setParentView(this.contentLayout);
                     this.contentLayout.invalidate();
-                    if (!z) {
+                    if (z && !z5 && UserConfig.getInstance(this.currentAccount).clientUserId != this.dialogId) {
+                        int i10 = this.lastTappedMsgId;
+                        if (i10 != 0 && i10 != i && (runnable = this.sentInteractionsRunnable) != null) {
+                            AndroidUtilities.cancelRunOnUIThread(runnable);
+                            this.sentInteractionsRunnable.run();
+                        }
+                        this.lastTappedMsgId = i;
+                        this.lastTappedEmoji = str;
+                        if (this.lastTappedTime == 0) {
+                            this.lastTappedTime = System.currentTimeMillis();
+                            this.timeIntervals.clear();
+                            this.animationIndexes.clear();
+                            this.timeIntervals.add(0L);
+                            this.animationIndexes.add(Integer.valueOf(i4));
+                        } else {
+                            this.timeIntervals.add(Long.valueOf(System.currentTimeMillis() - this.lastTappedTime));
+                            this.animationIndexes.add(Integer.valueOf(i4));
+                        }
+                        Runnable runnable2 = this.sentInteractionsRunnable;
+                        if (runnable2 != null) {
+                            AndroidUtilities.cancelRunOnUIThread(runnable2);
+                            this.sentInteractionsRunnable = null;
+                        }
+                        Runnable runnable3 = new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda1
+                            @Override // java.lang.Runnable
+                            public final void run() {
+                                EmojiAnimationsOverlay.this.lambda$createDrawingObject$2();
+                            }
+                        };
+                        this.sentInteractionsRunnable = runnable3;
+                        AndroidUtilities.runOnUIThread(runnable3, 500L);
                     }
                     if (z2) {
+                        MessagesController.getInstance(this.currentAccount).sendTyping(this.dialogId, this.threadMsgId, 11, str, 0);
+                        return true;
                     }
+                    return true;
                 }
             }
         }
@@ -898,7 +863,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createDrawingObject$1(final MessageObject messageObject, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 EmojiAnimationsOverlay.this.lambda$createDrawingObject$0(tLObject, messageObject);
@@ -937,7 +902,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         stickerSetBulletinLayout.subtitleTextView.setText(LocaleController.getString("PremiumStickerTooltip", R.string.PremiumStickerTooltip));
         Bulletin.UndoButton undoButton = new Bulletin.UndoButton(this.chatActivity.getParentActivity(), true, this.chatActivity.getResourceProvider());
         stickerSetBulletinLayout.setButton(undoButton);
-        undoButton.setUndoAction(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda3
+        undoButton.setUndoAction(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 EmojiAnimationsOverlay.this.lambda$showStickerSetBulletin$3(messageObject);
@@ -960,11 +925,11 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         this.chatActivity.showDialog(stickersAlert);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x002d, code lost:
-        if (r8.charAt(r3) <= 57343) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x002d, code lost:
+        if (r8.charAt(r5) <= 57343) goto L15;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0047, code lost:
-        if (r8.charAt(r3) != 9794) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0047, code lost:
+        if (r8.charAt(r5) != 9794) goto L25;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r8v4, types: [java.lang.CharSequence] */
@@ -1249,7 +1214,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
             if (fileProgress == null) {
                 fileProgress = Float.valueOf(1.0f);
             }
-            return (fileProgress.floatValue() * 0.55f) + 0.15f + (0.3f * fileProgress.floatValue());
+            return (fileProgress.floatValue() * 0.55f) + 0.15f + (fileProgress.floatValue() * 0.3f);
         }
     }
 

@@ -4,25 +4,14 @@ import j$.util.function.Consumer;
 import java.util.Comparator;
 /* loaded from: classes2.dex */
 final class a0 extends a implements K {
-    @Override // j$.util.K, j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return a.q(this, consumer);
-    }
-
-    @Override // j$.util.K
-    public final void b(j$.util.function.h0 h0Var) {
-        h0Var.getClass();
-    }
-
-    @Override // j$.util.K
-    public final boolean e(j$.util.function.h0 h0Var) {
-        h0Var.getClass();
-        return false;
-    }
-
-    @Override // j$.util.K, j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
         a.h(this, consumer);
+    }
+
+    @Override // j$.util.K
+    public final void d(j$.util.function.W w) {
+        w.getClass();
     }
 
     @Override // j$.util.Q
@@ -32,12 +21,23 @@ final class a0 extends a implements K {
 
     @Override // j$.util.Q
     public final /* synthetic */ long getExactSizeIfKnown() {
-        return a.i(this);
+        return a.j(this);
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ boolean hasCharacteristics(int i) {
         return a.k(this, i);
+    }
+
+    @Override // j$.util.K
+    public final boolean i(j$.util.function.W w) {
+        w.getClass();
+        return false;
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return a.q(this, consumer);
     }
 
     @Override // j$.util.a, j$.util.E, j$.util.N, j$.util.Q

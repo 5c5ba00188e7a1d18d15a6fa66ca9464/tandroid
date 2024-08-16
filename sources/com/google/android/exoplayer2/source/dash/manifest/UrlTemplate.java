@@ -72,14 +72,14 @@ public final class UrlTemplate {
                     iArr[i2] = 1;
                 } else {
                     int indexOf3 = substring.indexOf("%0");
-                    if (indexOf3 != -1) {
+                    if (indexOf3 == -1) {
+                        str2 = "%01d";
+                    } else {
                         str2 = substring.substring(indexOf3);
                         if (!str2.endsWith("d") && !str2.endsWith("x") && !str2.endsWith("X")) {
                             str2 = str2 + "d";
                         }
                         substring = substring.substring(0, indexOf3);
-                    } else {
-                        str2 = "%01d";
                     }
                     substring.hashCode();
                     switch (substring.hashCode()) {

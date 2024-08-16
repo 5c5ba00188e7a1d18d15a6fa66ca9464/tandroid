@@ -35,43 +35,50 @@ public class DrawingInBackgroundThreadDrawable implements NotificationCenter.Not
     private int currentLayerNum = 1;
     private Paint paint = new Paint(1);
     private final Runnable bitmapCreateTask = new Runnable() { // from class: org.telegram.ui.Components.DrawingInBackgroundThreadDrawable.1
-        /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
-            if (r2.backgroundBitmap.getHeight() == r1) goto L8;
-         */
         @Override // java.lang.Runnable
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void run() {
+            int i;
+            Bitmap bitmap;
             try {
                 DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable = DrawingInBackgroundThreadDrawable.this;
-                int i = drawingInBackgroundThreadDrawable.height + drawingInBackgroundThreadDrawable.padding;
-                Bitmap bitmap = drawingInBackgroundThreadDrawable.backgroundBitmap;
-                if (bitmap != null) {
-                    int width = bitmap.getWidth();
-                    DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = DrawingInBackgroundThreadDrawable.this;
-                    if (width == drawingInBackgroundThreadDrawable2.width) {
-                    }
-                }
-                Bitmap bitmap2 = DrawingInBackgroundThreadDrawable.this.backgroundBitmap;
-                if (bitmap2 != null) {
-                    bitmap2.recycle();
-                }
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable3 = DrawingInBackgroundThreadDrawable.this;
-                drawingInBackgroundThreadDrawable3.backgroundBitmap = Bitmap.createBitmap(drawingInBackgroundThreadDrawable3.width, i, Bitmap.Config.ARGB_8888);
-                DrawingInBackgroundThreadDrawable.this.backgroundCanvas = new Canvas(DrawingInBackgroundThreadDrawable.this.backgroundBitmap);
-                DrawingInBackgroundThreadDrawable.this.backgroundBitmap.eraseColor(0);
-                DrawingInBackgroundThreadDrawable.this.backgroundCanvas.save();
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable4 = DrawingInBackgroundThreadDrawable.this;
-                drawingInBackgroundThreadDrawable4.backgroundCanvas.translate(0.0f, drawingInBackgroundThreadDrawable4.padding);
-                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable5 = DrawingInBackgroundThreadDrawable.this;
-                drawingInBackgroundThreadDrawable5.drawInBackground(drawingInBackgroundThreadDrawable5.backgroundCanvas);
-                DrawingInBackgroundThreadDrawable.this.backgroundCanvas.restore();
-                DrawingInBackgroundThreadDrawable.this.backgroundBitmap.prepareToDraw();
+                i = drawingInBackgroundThreadDrawable.height + drawingInBackgroundThreadDrawable.padding;
+                bitmap = drawingInBackgroundThreadDrawable.backgroundBitmap;
             } catch (Exception e) {
                 FileLog.e(e);
                 DrawingInBackgroundThreadDrawable.this.error = true;
             }
+            if (bitmap != null) {
+                int width = bitmap.getWidth();
+                DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable2 = DrawingInBackgroundThreadDrawable.this;
+                if (width == drawingInBackgroundThreadDrawable2.width) {
+                    if (drawingInBackgroundThreadDrawable2.backgroundBitmap.getHeight() != i) {
+                    }
+                    DrawingInBackgroundThreadDrawable.this.backgroundBitmap.eraseColor(0);
+                    DrawingInBackgroundThreadDrawable.this.backgroundCanvas.save();
+                    DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable3 = DrawingInBackgroundThreadDrawable.this;
+                    drawingInBackgroundThreadDrawable3.backgroundCanvas.translate(0.0f, drawingInBackgroundThreadDrawable3.padding);
+                    DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable4 = DrawingInBackgroundThreadDrawable.this;
+                    drawingInBackgroundThreadDrawable4.drawInBackground(drawingInBackgroundThreadDrawable4.backgroundCanvas);
+                    DrawingInBackgroundThreadDrawable.this.backgroundCanvas.restore();
+                    DrawingInBackgroundThreadDrawable.this.backgroundBitmap.prepareToDraw();
+                    AndroidUtilities.runOnUIThread(DrawingInBackgroundThreadDrawable.this.uiFrameRunnable);
+                }
+            }
+            Bitmap bitmap2 = DrawingInBackgroundThreadDrawable.this.backgroundBitmap;
+            if (bitmap2 != null) {
+                bitmap2.recycle();
+            }
+            DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable5 = DrawingInBackgroundThreadDrawable.this;
+            drawingInBackgroundThreadDrawable5.backgroundBitmap = Bitmap.createBitmap(drawingInBackgroundThreadDrawable5.width, i, Bitmap.Config.ARGB_8888);
+            DrawingInBackgroundThreadDrawable.this.backgroundCanvas = new Canvas(DrawingInBackgroundThreadDrawable.this.backgroundBitmap);
+            DrawingInBackgroundThreadDrawable.this.backgroundBitmap.eraseColor(0);
+            DrawingInBackgroundThreadDrawable.this.backgroundCanvas.save();
+            DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable32 = DrawingInBackgroundThreadDrawable.this;
+            drawingInBackgroundThreadDrawable32.backgroundCanvas.translate(0.0f, drawingInBackgroundThreadDrawable32.padding);
+            DrawingInBackgroundThreadDrawable drawingInBackgroundThreadDrawable42 = DrawingInBackgroundThreadDrawable.this;
+            drawingInBackgroundThreadDrawable42.drawInBackground(drawingInBackgroundThreadDrawable42.backgroundCanvas);
+            DrawingInBackgroundThreadDrawable.this.backgroundCanvas.restore();
+            DrawingInBackgroundThreadDrawable.this.backgroundBitmap.prepareToDraw();
             AndroidUtilities.runOnUIThread(DrawingInBackgroundThreadDrawable.this.uiFrameRunnable);
         }
     };

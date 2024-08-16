@@ -1,35 +1,48 @@
 package j$.util.function;
-
-import java.util.function.LongToIntFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class r0 implements LongToIntFunction {
-    public final /* synthetic */ s0 a;
+public final /* synthetic */ class r0 implements Predicate {
+    public final /* synthetic */ java.util.function.Predicate a;
 
-    private /* synthetic */ r0(s0 s0Var) {
-        this.a = s0Var;
+    private /* synthetic */ r0(java.util.function.Predicate predicate) {
+        this.a = predicate;
     }
 
-    public static /* synthetic */ LongToIntFunction a(s0 s0Var) {
-        if (s0Var == null) {
+    public static /* synthetic */ Predicate a(java.util.function.Predicate predicate) {
+        if (predicate == null) {
             return null;
         }
-        return s0Var instanceof q0 ? ((q0) s0Var).a : new r0(s0Var);
+        return predicate instanceof s0 ? ((s0) predicate).a : new r0(predicate);
     }
 
-    @Override // java.util.function.LongToIntFunction
-    public final /* synthetic */ int applyAsInt(long j) {
-        return ((q0) this.a).a(j);
+    @Override // j$.util.function.Predicate
+    public final /* synthetic */ Predicate and(Predicate predicate) {
+        return a(this.a.and(s0.a(predicate)));
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
-        s0 s0Var = this.a;
+        java.util.function.Predicate predicate = this.a;
         if (obj instanceof r0) {
             obj = ((r0) obj).a;
         }
-        return s0Var.equals(obj);
+        return predicate.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {
         return this.a.hashCode();
+    }
+
+    @Override // j$.util.function.Predicate
+    public final /* synthetic */ Predicate negate() {
+        return a(this.a.negate());
+    }
+
+    @Override // j$.util.function.Predicate
+    public final /* synthetic */ Predicate or(Predicate predicate) {
+        return a(this.a.or(s0.a(predicate)));
+    }
+
+    @Override // j$.util.function.Predicate
+    public final /* synthetic */ boolean test(Object obj) {
+        return this.a.test(obj);
     }
 }

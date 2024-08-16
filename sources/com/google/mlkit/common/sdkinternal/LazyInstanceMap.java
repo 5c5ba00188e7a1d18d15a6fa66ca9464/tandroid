@@ -11,12 +11,16 @@ public abstract class LazyInstanceMap<K, V> {
 
     public V get(K k) {
         synchronized (this.zza) {
-            if (this.zza.containsKey(k)) {
-                return (V) this.zza.get(k);
+            try {
+                if (this.zza.containsKey(k)) {
+                    return (V) this.zza.get(k);
+                }
+                V create = create(k);
+                this.zza.put(k, create);
+                return create;
+            } catch (Throwable th) {
+                throw th;
             }
-            V create = create(k);
-            this.zza.put(k, create);
-            return create;
         }
     }
 }

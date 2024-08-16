@@ -50,7 +50,7 @@ public class BookmarksFragment extends UniversalFragment {
     public AddressBarList.BookmarksList searchList;
     private NumberTextView selectedCount;
     private final Utilities.Callback<String> whenClicked;
-    public AddressBarList.BookmarksList list = new AddressBarList.BookmarksList(this.currentAccount, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda0
+    public AddressBarList.BookmarksList list = new AddressBarList.BookmarksList(this.currentAccount, new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             BookmarksFragment.this.updateWithOffset();
@@ -126,7 +126,7 @@ public class BookmarksFragment extends UniversalFragment {
                 hashSet.add(AddressBarList.getLink(messageObject));
             }
         }
-        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda2
+        new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.formatPluralString("DeleteOptionsTitle", hashSet2.size(), new Object[0])).setMessage(LocaleController.getString(hashSet2.size() == 1 ? "AreYouSureUnsaveSingleMessage" : "AreYouSureUnsaveFewMessages")).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 BookmarksFragment.this.lambda$deleteSelectedMessages$0(hashSet2, dialogInterface, i);
@@ -158,7 +158,7 @@ public class BookmarksFragment extends UniversalFragment {
         if (runnable != null) {
             runnable.run();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 BookmarksFragment.lambda$gotoMessage$1(clientUserId, intValue);
@@ -201,7 +201,7 @@ public class BookmarksFragment extends UniversalFragment {
         numberTextView.setTextSize(18);
         this.selectedCount.setTypeface(AndroidUtilities.bold());
         this.selectedCount.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
-        this.selectedCount.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda1
+        this.selectedCount.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.web.BookmarksFragment$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$2;

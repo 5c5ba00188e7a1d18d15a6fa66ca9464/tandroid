@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.util;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
 /* loaded from: classes.dex */
 public final class NalUnitUtil {
@@ -111,16 +110,16 @@ public final class NalUnitUtil {
             int i5 = 0;
             int i6 = 0;
             for (int i7 = 0; i7 < i4; i7++) {
-                int i8 = scratchEscapePositions[i7] - i6;
-                System.arraycopy(bArr, i6, bArr, i5, i8);
-                int i9 = i5 + i8;
+                int i8 = scratchEscapePositions[i7] - i5;
+                System.arraycopy(bArr, i5, bArr, i6, i8);
+                int i9 = i6 + i8;
                 int i10 = i9 + 1;
                 bArr[i9] = 0;
-                i5 = i10 + 1;
+                i6 = i9 + 2;
                 bArr[i10] = 0;
-                i6 += i8 + 3;
+                i5 += i8 + 3;
             }
-            System.arraycopy(bArr, i6, bArr, i5, i2 - i5);
+            System.arraycopy(bArr, i5, bArr, i6, i2 - i6);
         }
         return i2;
     }
@@ -183,7 +182,6 @@ public final class NalUnitUtil {
         boolean z2;
         int i4;
         float f;
-        int i5;
         ParsableNalUnitBitArray parsableNalUnitBitArray = new ParsableNalUnitBitArray(bArr, i, i2);
         int readBits = parsableNalUnitBitArray.readBits(8);
         int readBits2 = parsableNalUnitBitArray.readBits(8);
@@ -196,13 +194,13 @@ public final class NalUnitUtil {
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.skipBit();
             if (parsableNalUnitBitArray.readBit()) {
-                int i6 = readUnsignedExpGolombCodedInt != 3 ? 8 : 12;
-                int i7 = 0;
-                while (i7 < i6) {
+                int i5 = readUnsignedExpGolombCodedInt != 3 ? 8 : 12;
+                int i6 = 0;
+                while (i6 < i5) {
                     if (parsableNalUnitBitArray.readBit()) {
-                        skipScalingList(parsableNalUnitBitArray, i7 < 6 ? 16 : 64);
+                        skipScalingList(parsableNalUnitBitArray, i6 < 6 ? 16 : 64);
                     }
-                    i7++;
+                    i6++;
                 }
             }
         } else {
@@ -224,7 +222,7 @@ public final class NalUnitUtil {
                 z = readBit;
                 long readUnsignedExpGolombCodedInt5 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 i3 = readUnsignedExpGolombCodedInt;
-                for (int i8 = 0; i8 < readUnsignedExpGolombCodedInt5; i8++) {
+                for (int i7 = 0; i7 < readUnsignedExpGolombCodedInt5; i7++) {
                     parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
                 }
                 z2 = readBit2;
@@ -239,7 +237,8 @@ public final class NalUnitUtil {
         parsableNalUnitBitArray.skipBit();
         int readUnsignedExpGolombCodedInt7 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1;
         boolean readBit3 = parsableNalUnitBitArray.readBit();
-        int readUnsignedExpGolombCodedInt8 = (2 - (readBit3 ? 1 : 0)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
+        int i8 = 2 - (readBit3 ? 1 : 0);
+        int readUnsignedExpGolombCodedInt8 = (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1) * i8;
         if (!readBit3) {
             parsableNalUnitBitArray.skipBit();
         }
@@ -251,28 +250,25 @@ public final class NalUnitUtil {
             int readUnsignedExpGolombCodedInt10 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             int readUnsignedExpGolombCodedInt11 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             int readUnsignedExpGolombCodedInt12 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-            if (i3 == 0) {
-                i5 = 2 - (readBit3 ? 1 : 0);
-            } else {
+            if (i3 != 0) {
                 int i11 = i3;
-                r9 = i11 == 3 ? 1 : 2;
-                i5 = (2 - (readBit3 ? 1 : 0)) * (i11 == 1 ? 2 : 1);
+                int i12 = i11 == 3 ? 1 : 2;
+                i8 *= i11 == 1 ? 2 : 1;
+                r9 = i12;
             }
             i9 -= (readUnsignedExpGolombCodedInt9 + readUnsignedExpGolombCodedInt10) * r9;
-            i10 -= (readUnsignedExpGolombCodedInt11 + readUnsignedExpGolombCodedInt12) * i5;
+            i10 -= (readUnsignedExpGolombCodedInt11 + readUnsignedExpGolombCodedInt12) * i8;
         }
-        int i12 = i9;
-        int i13 = i10;
-        float f2 = 1.0f;
+        int i13 = i9;
+        int i14 = i10;
         if (parsableNalUnitBitArray.readBit() && parsableNalUnitBitArray.readBit()) {
             int readBits4 = parsableNalUnitBitArray.readBits(8);
             if (readBits4 == 255) {
                 int readBits5 = parsableNalUnitBitArray.readBits(16);
                 int readBits6 = parsableNalUnitBitArray.readBits(16);
                 if (readBits5 != 0 && readBits6 != 0) {
-                    f2 = readBits5 / readBits6;
+                    f = readBits5 / readBits6;
                 }
-                f = f2;
             } else {
                 float[] fArr = ASPECT_RATIO_IDC_VALUES;
                 if (readBits4 < fArr.length) {
@@ -281,10 +277,10 @@ public final class NalUnitUtil {
                     Log.w("NalUnitUtil", "Unexpected aspect_ratio_idc value: " + readBits4);
                 }
             }
-            return new SpsData(readBits, readBits2, readBits3, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt6, i12, i13, f, z, readBit3, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i4, z2);
+            return new SpsData(readBits, readBits2, readBits3, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt6, i13, i14, f, z, readBit3, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i4, z2);
         }
         f = 1.0f;
-        return new SpsData(readBits, readBits2, readBits3, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt6, i12, i13, f, z, readBit3, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i4, z2);
+        return new SpsData(readBits, readBits2, readBits3, readUnsignedExpGolombCodedInt2, readUnsignedExpGolombCodedInt6, i13, i14, f, z, readBit3, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, i4, z2);
     }
 
     public static H265SpsData parseH265SpsNalUnit(byte[] bArr, int i, int i2) {
@@ -292,6 +288,7 @@ public final class NalUnitUtil {
     }
 
     public static H265SpsData parseH265SpsNalUnitPayload(byte[] bArr, int i, int i2) {
+        float f;
         ParsableNalUnitBitArray parsableNalUnitBitArray = new ParsableNalUnitBitArray(bArr, i, i2);
         parsableNalUnitBitArray.skipBits(4);
         int readBits = parsableNalUnitBitArray.readBits(3);
@@ -300,10 +297,15 @@ public final class NalUnitUtil {
         boolean readBit = parsableNalUnitBitArray.readBit();
         int readBits3 = parsableNalUnitBitArray.readBits(5);
         int i3 = 0;
-        for (int i4 = 0; i4 < 32; i4++) {
+        int i4 = 0;
+        while (true) {
+            if (i4 >= 32) {
+                break;
+            }
             if (parsableNalUnitBitArray.readBit()) {
                 i3 |= 1 << i4;
             }
+            i4++;
         }
         int[] iArr = new int[6];
         for (int i5 = 0; i5 < 6; i5++) {
@@ -338,10 +340,11 @@ public final class NalUnitUtil {
             readUnsignedExpGolombCodedInt3 -= ((readUnsignedExpGolombCodedInt2 == 1 || readUnsignedExpGolombCodedInt2 == 2) ? 2 : 1) * (readUnsignedExpGolombCodedInt5 + readUnsignedExpGolombCodedInt6);
             readUnsignedExpGolombCodedInt4 -= (readUnsignedExpGolombCodedInt2 == 1 ? 2 : 1) * (readUnsignedExpGolombCodedInt7 + readUnsignedExpGolombCodedInt8);
         }
+        int i8 = readUnsignedExpGolombCodedInt3;
         parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
         parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
         int readUnsignedExpGolombCodedInt9 = parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
-        for (int i8 = parsableNalUnitBitArray.readBit() ? 0 : readBits; i8 <= readBits; i8++) {
+        for (int i9 = parsableNalUnitBitArray.readBit() ? 0 : readBits; i9 <= readBits; i9++) {
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
             parsableNalUnitBitArray.readUnsignedExpGolombCodedInt();
@@ -364,12 +367,12 @@ public final class NalUnitUtil {
         }
         skipShortTermReferencePictureSets(parsableNalUnitBitArray);
         if (parsableNalUnitBitArray.readBit()) {
-            for (int i9 = 0; i9 < parsableNalUnitBitArray.readUnsignedExpGolombCodedInt(); i9++) {
-                parsableNalUnitBitArray.skipBits(readUnsignedExpGolombCodedInt9 + 4 + 1);
+            for (int i10 = 0; i10 < parsableNalUnitBitArray.readUnsignedExpGolombCodedInt(); i10++) {
+                parsableNalUnitBitArray.skipBits(readUnsignedExpGolombCodedInt9 + 5);
             }
         }
         parsableNalUnitBitArray.skipBits(2);
-        float f = 1.0f;
+        float f2 = 1.0f;
         if (parsableNalUnitBitArray.readBit()) {
             if (parsableNalUnitBitArray.readBit()) {
                 int readBits5 = parsableNalUnitBitArray.readBits(8);
@@ -377,12 +380,12 @@ public final class NalUnitUtil {
                     int readBits6 = parsableNalUnitBitArray.readBits(16);
                     int readBits7 = parsableNalUnitBitArray.readBits(16);
                     if (readBits6 != 0 && readBits7 != 0) {
-                        f = readBits6 / readBits7;
+                        f2 = readBits6 / readBits7;
                     }
                 } else {
                     float[] fArr = ASPECT_RATIO_IDC_VALUES;
                     if (readBits5 < fArr.length) {
-                        f = fArr[readBits5];
+                        f2 = fArr[readBits5];
                     } else {
                         Log.w("NalUnitUtil", "Unexpected aspect_ratio_idc value: " + readBits5);
                     }
@@ -405,8 +408,11 @@ public final class NalUnitUtil {
             if (parsableNalUnitBitArray.readBit()) {
                 readUnsignedExpGolombCodedInt4 *= 2;
             }
+            f = f2;
+        } else {
+            f = 1.0f;
         }
-        return new H265SpsData(readBits2, readBit, readBits3, i3, iArr, readBits4, readUnsignedExpGolombCodedInt, readUnsignedExpGolombCodedInt3, readUnsignedExpGolombCodedInt4, f);
+        return new H265SpsData(readBits2, readBit, readBits3, i3, iArr, readBits4, readUnsignedExpGolombCodedInt, i8, readUnsignedExpGolombCodedInt4, f);
     }
 
     public static PpsData parsePpsNalUnit(byte[] bArr, int i, int i2) {
@@ -479,7 +485,7 @@ public final class NalUnitUtil {
         int i3 = 8;
         for (int i4 = 0; i4 < i; i4++) {
             if (i2 != 0) {
-                i2 = ((parsableNalUnitBitArray.readSignedExpGolombCodedInt() + i3) + LiteMode.FLAG_CHAT_BLUR) % LiteMode.FLAG_CHAT_BLUR;
+                i2 = ((parsableNalUnitBitArray.readSignedExpGolombCodedInt() + i3) + 256) % 256;
             }
             if (i2 != 0) {
                 i3 = i2;
@@ -517,8 +523,7 @@ public final class NalUnitUtil {
         int[] iArr2 = new int[0];
         int i = -1;
         int i2 = -1;
-        int i3 = 0;
-        while (i3 < readUnsignedExpGolombCodedInt) {
+        for (int i3 = 0; i3 < readUnsignedExpGolombCodedInt; i3++) {
             if (i3 != 0 && parsableNalUnitBitArray.readBit()) {
                 int i4 = i + i2;
                 int readUnsignedExpGolombCodedInt2 = (1 - ((parsableNalUnitBitArray.readBit() ? 1 : 0) * 2)) * (parsableNalUnitBitArray.readUnsignedExpGolombCodedInt() + 1);
@@ -594,7 +599,6 @@ public final class NalUnitUtil {
                 i2 = readUnsignedExpGolombCodedInt4;
                 iArr2 = iArr6;
             }
-            i3++;
         }
     }
 }

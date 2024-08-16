@@ -5,6 +5,7 @@ import com.google.android.exoplayer2.drm.DrmInitData;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Ac4Util {
     private static final int[] SAMPLE_COUNT = {2002, 2000, 1920, 1601, 1600, 1001, 1000, 960, 800, 800, 480, 400, 400, 2048};
@@ -138,9 +139,9 @@ public final class Ac4Util {
         data[1] = 64;
         data[2] = -1;
         data[3] = -1;
-        data[4] = (byte) ((i >> 16) & 255);
-        data[5] = (byte) ((i >> 8) & 255);
-        data[6] = (byte) (i & 255);
+        data[4] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
+        data[5] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
+        data[6] = (byte) (i & NotificationCenter.voipServiceCreated);
     }
 
     private static int readVariableBits(ParsableBitArray parsableBitArray, int i) {

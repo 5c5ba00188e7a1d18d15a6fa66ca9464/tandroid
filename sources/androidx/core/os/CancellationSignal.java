@@ -21,43 +21,49 @@ public final class CancellationSignal {
 
     public void cancel() {
         synchronized (this) {
-            if (this.mIsCanceled) {
-                return;
-            }
-            this.mIsCanceled = true;
-            this.mCancelInProgress = true;
-            OnCancelListener onCancelListener = this.mOnCancelListener;
-            Object obj = this.mCancellationSignalObj;
-            if (onCancelListener != null) {
-                try {
-                    onCancelListener.onCancel();
-                } catch (Throwable th) {
-                    synchronized (this) {
-                        this.mCancelInProgress = false;
-                        notifyAll();
-                        throw th;
+            try {
+                if (this.mIsCanceled) {
+                    return;
+                }
+                this.mIsCanceled = true;
+                this.mCancelInProgress = true;
+                OnCancelListener onCancelListener = this.mOnCancelListener;
+                Object obj = this.mCancellationSignalObj;
+                if (onCancelListener != null) {
+                    try {
+                        onCancelListener.onCancel();
+                    } catch (Throwable th) {
+                        synchronized (this) {
+                            this.mCancelInProgress = false;
+                            notifyAll();
+                            throw th;
+                        }
                     }
                 }
-            }
-            if (obj != null) {
-                Api16Impl.cancel(obj);
-            }
-            synchronized (this) {
-                this.mCancelInProgress = false;
-                notifyAll();
+                if (obj != null) {
+                    Api16Impl.cancel(obj);
+                }
+                synchronized (this) {
+                    this.mCancelInProgress = false;
+                    notifyAll();
+                }
+            } finally {
             }
         }
     }
 
     public void setOnCancelListener(OnCancelListener onCancelListener) {
         synchronized (this) {
-            waitForCancelFinishedLocked();
-            if (this.mOnCancelListener == onCancelListener) {
-                return;
-            }
-            this.mOnCancelListener = onCancelListener;
-            if (this.mIsCanceled && onCancelListener != null) {
-                onCancelListener.onCancel();
+            try {
+                waitForCancelFinishedLocked();
+                if (this.mOnCancelListener == onCancelListener) {
+                    return;
+                }
+                this.mOnCancelListener = onCancelListener;
+                if (this.mIsCanceled && onCancelListener != null) {
+                    onCancelListener.onCancel();
+                }
+            } finally {
             }
         }
     }
@@ -65,14 +71,18 @@ public final class CancellationSignal {
     public Object getCancellationSignalObject() {
         Object obj;
         synchronized (this) {
-            if (this.mCancellationSignalObj == null) {
-                android.os.CancellationSignal createCancellationSignal = Api16Impl.createCancellationSignal();
-                this.mCancellationSignalObj = createCancellationSignal;
-                if (this.mIsCanceled) {
-                    Api16Impl.cancel(createCancellationSignal);
+            try {
+                if (this.mCancellationSignalObj == null) {
+                    android.os.CancellationSignal createCancellationSignal = Api16Impl.createCancellationSignal();
+                    this.mCancellationSignalObj = createCancellationSignal;
+                    if (this.mIsCanceled) {
+                        Api16Impl.cancel(createCancellationSignal);
+                    }
                 }
+                obj = this.mCancellationSignalObj;
+            } catch (Throwable th) {
+                throw th;
             }
-            obj = this.mCancellationSignalObj;
         }
         return obj;
     }

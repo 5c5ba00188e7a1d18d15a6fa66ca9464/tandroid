@@ -30,9 +30,13 @@ public final class zzaf implements ServiceConnection {
 
     private final void zzd(BillingResult billingResult) {
         synchronized (this.zzb) {
-            BillingClientStateListener billingClientStateListener = this.zzd;
-            if (billingClientStateListener != null) {
-                billingClientStateListener.onBillingSetupFinished(billingResult);
+            try {
+                BillingClientStateListener billingClientStateListener = this.zzd;
+                if (billingClientStateListener != null) {
+                    billingClientStateListener.onBillingSetupFinished(billingResult);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -78,16 +82,20 @@ public final class zzaf implements ServiceConnection {
         this.zza.zzg = null;
         this.zza.zza = 0;
         synchronized (this.zzb) {
-            BillingClientStateListener billingClientStateListener = this.zzd;
-            if (billingClientStateListener != null) {
-                billingClientStateListener.onBillingServiceDisconnected();
+            try {
+                BillingClientStateListener billingClientStateListener = this.zzd;
+                if (billingClientStateListener != null) {
+                    billingClientStateListener.onBillingServiceDisconnected();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x01d0  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01e3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -117,145 +125,148 @@ public final class zzaf implements ServiceConnection {
         zze zzeVar3;
         zze zzeVar4;
         synchronized (this.zzb) {
-            if (this.zzc) {
-                return null;
-            }
-            if (TextUtils.isEmpty(null)) {
-                bundle = null;
-            } else {
-                bundle = new Bundle();
-                bundle.putString("accountName", null);
-            }
-            int i17 = 3;
             try {
-                context = this.zza.zze;
-                String packageName = context.getPackageName();
-                int i18 = 20;
-                i2 = 3;
-                while (true) {
-                    if (i18 < 3) {
-                        i18 = 0;
-                        break;
-                    }
-                    if (bundle == null) {
-                        try {
-                            zzeVar3 = this.zza.zzg;
-                            i2 = zzeVar3.zzq(i18, packageName, "subs");
-                        } catch (Exception e) {
-                            e = e;
-                            i17 = i2;
-                            zzb.zzk("BillingClient", "Exception while checking if billing is supported; try to reconnect", e);
-                            this.zza.zza = 0;
-                            this.zza.zzg = null;
-                            i = 42;
-                            i2 = i17;
-                            if (i2 != 0) {
-                            }
-                            return null;
+                if (this.zzc) {
+                    return null;
+                }
+                if (TextUtils.isEmpty(null)) {
+                    bundle = null;
+                } else {
+                    bundle = new Bundle();
+                    bundle.putString("accountName", null);
+                }
+                int i17 = 3;
+                try {
+                    context = this.zza.zze;
+                    String packageName = context.getPackageName();
+                    int i18 = 20;
+                    i2 = 3;
+                    while (true) {
+                        if (i18 < 3) {
+                            i18 = 0;
+                            break;
                         }
+                        if (bundle == null) {
+                            try {
+                                zzeVar3 = this.zza.zzg;
+                                i2 = zzeVar3.zzq(i18, packageName, "subs");
+                            } catch (Exception e) {
+                                e = e;
+                                i17 = i2;
+                                zzb.zzk("BillingClient", "Exception while checking if billing is supported; try to reconnect", e);
+                                this.zza.zza = 0;
+                                this.zza.zzg = null;
+                                i = 42;
+                                i2 = i17;
+                                if (i2 != 0) {
+                                }
+                                return null;
+                            }
+                        } else {
+                            zzeVar4 = this.zza.zzg;
+                            i2 = zzeVar4.zzc(i18, packageName, "subs", bundle);
+                        }
+                        if (i2 == 0) {
+                            zzb.zzi("BillingClient", "highestLevelSupportedForSubs: " + i18);
+                            break;
+                        }
+                        i18--;
+                    }
+                    boolean z = true;
+                    this.zza.zzj = i18 >= 5;
+                    this.zza.zzi = i18 >= 3;
+                    if (i18 < 3) {
+                        zzb.zzi("BillingClient", "In-app billing API does not support subscription on this device.");
+                        i = 9;
                     } else {
-                        zzeVar4 = this.zza.zzg;
-                        i2 = zzeVar4.zzc(i18, packageName, "subs", bundle);
+                        i = 1;
+                    }
+                    int i19 = 20;
+                    while (true) {
+                        if (i19 < 3) {
+                            break;
+                        }
+                        if (bundle == null) {
+                            zzeVar2 = this.zza.zzg;
+                            i2 = zzeVar2.zzq(i19, packageName, "inapp");
+                        } else {
+                            zzeVar = this.zza.zzg;
+                            i2 = zzeVar.zzc(i19, packageName, "inapp", bundle);
+                        }
+                        if (i2 == 0) {
+                            this.zza.zzk = i19;
+                            i16 = this.zza.zzk;
+                            zzb.zzi("BillingClient", "mHighestLevelSupportedForInApp: " + i16);
+                            break;
+                        }
+                        i19--;
+                    }
+                    BillingClientImpl billingClientImpl = this.zza;
+                    i3 = billingClientImpl.zzk;
+                    billingClientImpl.zzw = i3 >= 20;
+                    BillingClientImpl billingClientImpl2 = this.zza;
+                    i4 = billingClientImpl2.zzk;
+                    billingClientImpl2.zzv = i4 >= 19;
+                    BillingClientImpl billingClientImpl3 = this.zza;
+                    i5 = billingClientImpl3.zzk;
+                    billingClientImpl3.zzu = i5 >= 18;
+                    BillingClientImpl billingClientImpl4 = this.zza;
+                    i6 = billingClientImpl4.zzk;
+                    billingClientImpl4.zzt = i6 >= 17;
+                    BillingClientImpl billingClientImpl5 = this.zza;
+                    i7 = billingClientImpl5.zzk;
+                    billingClientImpl5.zzs = i7 >= 16;
+                    BillingClientImpl billingClientImpl6 = this.zza;
+                    i8 = billingClientImpl6.zzk;
+                    billingClientImpl6.zzr = i8 >= 15;
+                    BillingClientImpl billingClientImpl7 = this.zza;
+                    i9 = billingClientImpl7.zzk;
+                    billingClientImpl7.zzq = i9 >= 14;
+                    BillingClientImpl billingClientImpl8 = this.zza;
+                    i10 = billingClientImpl8.zzk;
+                    billingClientImpl8.zzp = i10 >= 12;
+                    BillingClientImpl billingClientImpl9 = this.zza;
+                    i11 = billingClientImpl9.zzk;
+                    billingClientImpl9.zzo = i11 >= 10;
+                    BillingClientImpl billingClientImpl10 = this.zza;
+                    i12 = billingClientImpl10.zzk;
+                    billingClientImpl10.zzn = i12 >= 9;
+                    BillingClientImpl billingClientImpl11 = this.zza;
+                    i13 = billingClientImpl11.zzk;
+                    billingClientImpl11.zzm = i13 >= 8;
+                    BillingClientImpl billingClientImpl12 = this.zza;
+                    i14 = billingClientImpl12.zzk;
+                    if (i14 < 6) {
+                        z = false;
+                    }
+                    billingClientImpl12.zzl = z;
+                    i15 = this.zza.zzk;
+                    if (i15 < 3) {
+                        zzb.zzj("BillingClient", "In-app billing API version 3 is not supported on this device.");
+                        i = 36;
                     }
                     if (i2 == 0) {
-                        zzb.zzi("BillingClient", "highestLevelSupportedForSubs: " + i18);
-                        break;
-                    }
-                    i18--;
-                }
-                boolean z = true;
-                this.zza.zzj = i18 >= 5;
-                this.zza.zzi = i18 >= 3;
-                if (i18 < 3) {
-                    zzb.zzi("BillingClient", "In-app billing API does not support subscription on this device.");
-                    i = 9;
-                } else {
-                    i = 1;
-                }
-                int i19 = 20;
-                while (true) {
-                    if (i19 < 3) {
-                        break;
-                    }
-                    if (bundle == null) {
-                        zzeVar2 = this.zza.zzg;
-                        i2 = zzeVar2.zzq(i19, packageName, "inapp");
+                        this.zza.zza = 2;
                     } else {
-                        zzeVar = this.zza.zzg;
-                        i2 = zzeVar.zzc(i19, packageName, "inapp", bundle);
+                        this.zza.zza = 0;
+                        this.zza.zzg = null;
                     }
-                    if (i2 == 0) {
-                        this.zza.zzk = i19;
-                        i16 = this.zza.zzk;
-                        zzb.zzi("BillingClient", "mHighestLevelSupportedForInApp: " + i16);
-                        break;
-                    }
-                    i19--;
+                } catch (Exception e2) {
+                    e = e2;
                 }
-                BillingClientImpl billingClientImpl = this.zza;
-                i3 = billingClientImpl.zzk;
-                billingClientImpl.zzw = i3 >= 20;
-                BillingClientImpl billingClientImpl2 = this.zza;
-                i4 = billingClientImpl2.zzk;
-                billingClientImpl2.zzv = i4 >= 19;
-                BillingClientImpl billingClientImpl3 = this.zza;
-                i5 = billingClientImpl3.zzk;
-                billingClientImpl3.zzu = i5 >= 18;
-                BillingClientImpl billingClientImpl4 = this.zza;
-                i6 = billingClientImpl4.zzk;
-                billingClientImpl4.zzt = i6 >= 17;
-                BillingClientImpl billingClientImpl5 = this.zza;
-                i7 = billingClientImpl5.zzk;
-                billingClientImpl5.zzs = i7 >= 16;
-                BillingClientImpl billingClientImpl6 = this.zza;
-                i8 = billingClientImpl6.zzk;
-                billingClientImpl6.zzr = i8 >= 15;
-                BillingClientImpl billingClientImpl7 = this.zza;
-                i9 = billingClientImpl7.zzk;
-                billingClientImpl7.zzq = i9 >= 14;
-                BillingClientImpl billingClientImpl8 = this.zza;
-                i10 = billingClientImpl8.zzk;
-                billingClientImpl8.zzp = i10 >= 12;
-                BillingClientImpl billingClientImpl9 = this.zza;
-                i11 = billingClientImpl9.zzk;
-                billingClientImpl9.zzo = i11 >= 10;
-                BillingClientImpl billingClientImpl10 = this.zza;
-                i12 = billingClientImpl10.zzk;
-                billingClientImpl10.zzn = i12 >= 9;
-                BillingClientImpl billingClientImpl11 = this.zza;
-                i13 = billingClientImpl11.zzk;
-                billingClientImpl11.zzm = i13 >= 8;
-                BillingClientImpl billingClientImpl12 = this.zza;
-                i14 = billingClientImpl12.zzk;
-                if (i14 < 6) {
-                    z = false;
-                }
-                billingClientImpl12.zzl = z;
-                i15 = this.zza.zzk;
-                if (i15 < 3) {
-                    zzb.zzj("BillingClient", "In-app billing API version 3 is not supported on this device.");
-                    i = 36;
-                }
-                if (i2 == 0) {
-                    this.zza.zza = 2;
+                if (i2 != 0) {
+                    zzarVar2 = this.zza.zzf;
+                    zzarVar2.zzb(zzaq.zzb(6));
+                    zzd(zzat.zzl);
                 } else {
-                    this.zza.zza = 0;
-                    this.zza.zzg = null;
+                    zzarVar = this.zza.zzf;
+                    BillingResult billingResult = zzat.zza;
+                    zzarVar.zza(zzaq.zza(i, 6, billingResult));
+                    zzd(billingResult);
                 }
-            } catch (Exception e2) {
-                e = e2;
+                return null;
+            } finally {
             }
-            if (i2 != 0) {
-                zzarVar2 = this.zza.zzf;
-                zzarVar2.zzb(zzaq.zzb(6));
-                zzd(zzat.zzl);
-            } else {
-                zzarVar = this.zza.zzf;
-                BillingResult billingResult = zzat.zza;
-                zzarVar.zza(zzaq.zza(i, 6, billingResult));
-                zzd(billingResult);
-            }
-            return null;
         }
     }
 

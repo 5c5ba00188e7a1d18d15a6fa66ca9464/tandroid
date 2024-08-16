@@ -11,15 +11,12 @@ public final class CoroutineContextKt {
     }
 
     public static final UndispatchedCoroutine<?> updateUndispatchedCompletion(Continuation<?> continuation, CoroutineContext coroutineContext, Object obj) {
-        if (continuation instanceof CoroutineStackFrame) {
-            if (coroutineContext.get(UndispatchedMarker.INSTANCE) != null) {
-                UndispatchedCoroutine<?> undispatchedCompletion = undispatchedCompletion((CoroutineStackFrame) continuation);
-                if (undispatchedCompletion != null) {
-                    undispatchedCompletion.saveThreadContext(coroutineContext, obj);
-                }
-                return undispatchedCompletion;
+        if ((continuation instanceof CoroutineStackFrame) && coroutineContext.get(UndispatchedMarker.INSTANCE) != null) {
+            UndispatchedCoroutine<?> undispatchedCompletion = undispatchedCompletion((CoroutineStackFrame) continuation);
+            if (undispatchedCompletion != null) {
+                undispatchedCompletion.saveThreadContext(coroutineContext, obj);
             }
-            return null;
+            return undispatchedCompletion;
         }
         return null;
     }

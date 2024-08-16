@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class WebvttCueParser {
     public static final Pattern CUE_HEADER_PATTERN = Pattern.compile("^(\\S+)\\s+-->\\s+(\\S+)(.*)?$");
@@ -43,23 +43,23 @@ public final class WebvttCueParser {
 
     static {
         HashMap hashMap = new HashMap();
-        hashMap.put("white", Integer.valueOf(Color.rgb(255, 255, 255)));
-        hashMap.put("lime", Integer.valueOf(Color.rgb(0, 255, 0)));
-        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, 255, 255)));
-        hashMap.put("red", Integer.valueOf(Color.rgb(255, 0, 0)));
-        hashMap.put("yellow", Integer.valueOf(Color.rgb(255, 255, 0)));
-        hashMap.put("magenta", Integer.valueOf(Color.rgb(255, 0, 255)));
-        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, 255)));
+        hashMap.put("white", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
+        hashMap.put("lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, 0)));
+        hashMap.put("cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
+        hashMap.put("red", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, 0)));
+        hashMap.put("yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, 0)));
+        hashMap.put("magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, (int) NotificationCenter.voipServiceCreated)));
+        hashMap.put("blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.voipServiceCreated)));
         hashMap.put("black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_TEXT_COLORS = Collections.unmodifiableMap(hashMap);
         HashMap hashMap2 = new HashMap();
-        hashMap2.put("bg_white", Integer.valueOf(Color.rgb(255, 255, 255)));
-        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, 255, 0)));
-        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, 255, 255)));
-        hashMap2.put("bg_red", Integer.valueOf(Color.rgb(255, 0, 0)));
-        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb(255, 255, 0)));
-        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb(255, 0, 255)));
-        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, 255)));
+        hashMap2.put("bg_white", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
+        hashMap2.put("bg_lime", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, 0)));
+        hashMap2.put("bg_cyan", Integer.valueOf(Color.rgb(0, (int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated)));
+        hashMap2.put("bg_red", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, 0)));
+        hashMap2.put("bg_yellow", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.voipServiceCreated, 0)));
+        hashMap2.put("bg_magenta", Integer.valueOf(Color.rgb((int) NotificationCenter.voipServiceCreated, 0, (int) NotificationCenter.voipServiceCreated)));
+        hashMap2.put("bg_blue", Integer.valueOf(Color.rgb(0, 0, (int) NotificationCenter.voipServiceCreated)));
         hashMap2.put("bg_black", Integer.valueOf(Color.rgb(0, 0, 0)));
         DEFAULT_BACKGROUND_COLORS = Collections.unmodifiableMap(hashMap2);
     }
@@ -472,19 +472,19 @@ public final class WebvttCueParser {
         str.hashCode();
         char c = 65535;
         switch (str.hashCode()) {
-            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
+            case 98:
                 if (str.equals("b")) {
                     c = 0;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+            case 99:
                 if (str.equals("c")) {
                     c = 1;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
+            case 105:
                 if (str.equals("i")) {
                     c = 2;
                     break;
@@ -549,19 +549,19 @@ public final class WebvttCueParser {
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
+            case 98:
                 if (str2.equals("b")) {
                     c = 1;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+            case 99:
                 if (str2.equals("c")) {
                     c = 2;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
+            case 105:
                 if (str2.equals("i")) {
                     c = 3;
                     break;

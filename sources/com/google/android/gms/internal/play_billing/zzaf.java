@@ -220,7 +220,7 @@ public final class zzaf extends zzx {
 
     /* JADX WARN: Removed duplicated region for block: B:40:0x009e A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:41:0x009f A[RETURN] */
-    @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map, j$.util.Map
+    @Override // com.google.android.gms.internal.play_billing.zzx, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -298,7 +298,7 @@ public final class zzaf extends zzx {
         }
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final int size() {
         return this.zzd;
     }

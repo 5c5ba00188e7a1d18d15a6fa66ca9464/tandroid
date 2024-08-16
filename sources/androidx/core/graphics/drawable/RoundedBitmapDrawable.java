@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class RoundedBitmapDrawable extends Drawable {
     final Bitmap mBitmap;
@@ -164,7 +165,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public RoundedBitmapDrawable(Resources resources, Bitmap bitmap) {
-        this.mTargetDensity = 160;
+        this.mTargetDensity = NotificationCenter.audioRouteChanged;
         if (resources != null) {
             this.mTargetDensity = resources.getDisplayMetrics().densityDpi;
         }

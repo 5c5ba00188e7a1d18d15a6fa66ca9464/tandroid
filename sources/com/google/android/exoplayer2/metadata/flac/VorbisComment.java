@@ -123,7 +123,7 @@ public class VorbisComment implements Metadata.Entry {
     }
 
     public int hashCode() {
-        return ((527 + this.key.hashCode()) * 31) + this.value.hashCode();
+        return ((this.key.hashCode() + 527) * 31) + this.value.hashCode();
     }
 
     @Override // android.os.Parcelable

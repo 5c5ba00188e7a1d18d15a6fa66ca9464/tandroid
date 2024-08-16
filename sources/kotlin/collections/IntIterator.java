@@ -1,30 +1,18 @@
 package kotlin.collections;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 /* compiled from: PrimitiveIterators.kt */
 /* loaded from: classes.dex */
-public abstract class IntIterator implements Iterator<Integer>, j$.util.Iterator {
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Integer> consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
+public abstract class IntIterator implements Iterator<Integer> {
     public abstract int nextInt();
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public void remove() {
         throw new UnsupportedOperationException("Operation is not supported for read-only collection");
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
-    public /* bridge */ /* synthetic */ Object next() {
+    @Override // java.util.Iterator
+    public /* bridge */ /* synthetic */ Integer next() {
         return Integer.valueOf(nextInt());
     }
 }

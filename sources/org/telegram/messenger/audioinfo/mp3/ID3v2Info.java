@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.audioinfo.AudioInfo;
 /* loaded from: classes3.dex */
 public class ID3v2Info extends AudioInfo {
@@ -62,20 +62,21 @@ public class ID3v2Info extends AudioInfo {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x005d, code lost:
-        r1 = org.telegram.messenger.audioinfo.mp3.ID3v2Info.LOGGER;
+        r0 = org.telegram.messenger.audioinfo.mp3.ID3v2Info.LOGGER;
      */
     /* JADX WARN: Code restructure failed: missing block: B:13:0x0063, code lost:
-        if (r1.isLoggable(r13) == false) goto L38;
+        if (r0.isLoggable(r13) == false) goto L39;
      */
     /* JADX WARN: Code restructure failed: missing block: B:14:0x0065, code lost:
-        r1.log(r13, "ID3 frame claims to extend frames area");
+        r0.log(r13, "ID3 frame claims to extend frames area");
      */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00d9  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public ID3v2Info(InputStream inputStream, Level level) throws IOException, ID3v2Exception {
+        Logger logger;
         ID3v2DataInput data;
-        long remainingLength;
         this.debugLevel = level;
         if (isID3v2StartPosition(inputStream)) {
             ID3v2TagHeader iD3v2TagHeader = new ID3v2TagHeader(inputStream);
@@ -84,36 +85,38 @@ public class ID3v2Info extends AudioInfo {
             ID3v2TagBody tagBody = iD3v2TagHeader.tagBody(inputStream);
             while (true) {
                 try {
-                    if (tagBody.getRemainingLength() <= 10) {
-                        break;
-                    }
-                    ID3v2FrameHeader iD3v2FrameHeader = new ID3v2FrameHeader(tagBody);
-                    if (iD3v2FrameHeader.isPadding()) {
-                        break;
-                    } else if (iD3v2FrameHeader.getBodySize() > tagBody.getRemainingLength()) {
-                        break;
-                    } else if (iD3v2FrameHeader.isValid() && !iD3v2FrameHeader.isEncryption()) {
-                        ID3v2FrameBody frameBody = tagBody.frameBody(iD3v2FrameHeader);
-                        try {
-                            parseFrame(frameBody);
-                            data = frameBody.getData();
-                            remainingLength = frameBody.getRemainingLength();
-                        } catch (ID3v2Exception e) {
-                            if (LOGGER.isLoggable(level)) {
-                                LOGGER.log(level, String.format("ID3 exception occured in frame %s: %s", iD3v2FrameHeader.getFrameId(), e.getMessage()));
-                            }
-                            data = frameBody.getData();
-                            remainingLength = frameBody.getRemainingLength();
-                        }
-                        data.skipFully(remainingLength);
-                    } else {
-                        tagBody.getData().skipFully(iD3v2FrameHeader.getBodySize());
-                    }
-                } catch (ID3v2Exception e2) {
-                    Logger logger = LOGGER;
+                } catch (ID3v2Exception e) {
+                    logger = LOGGER;
                     if (logger.isLoggable(level)) {
-                        logger.log(level, "ID3 exception occured: " + e2.getMessage());
                     }
+                }
+                if (tagBody.getRemainingLength() <= 10) {
+                    break;
+                }
+                ID3v2FrameHeader iD3v2FrameHeader = new ID3v2FrameHeader(tagBody);
+                if (iD3v2FrameHeader.isPadding()) {
+                    break;
+                }
+                if (iD3v2FrameHeader.getBodySize() > tagBody.getRemainingLength()) {
+                    break;
+                } else if (iD3v2FrameHeader.isValid() && !iD3v2FrameHeader.isEncryption()) {
+                    ID3v2FrameBody frameBody = tagBody.frameBody(iD3v2FrameHeader);
+                    try {
+                        parseFrame(frameBody);
+                        data = frameBody.getData();
+                    } catch (ID3v2Exception e2) {
+                        if (LOGGER.isLoggable(level)) {
+                            LOGGER.log(level, String.format("ID3 exception occured in frame %s: %s", iD3v2FrameHeader.getFrameId(), e2.getMessage()));
+                        }
+                        data = frameBody.getData();
+                    }
+                    data.skipFully(frameBody.getRemainingLength());
+                } else {
+                    tagBody.getData().skipFully(iD3v2FrameHeader.getBodySize());
+                }
+                logger = LOGGER;
+                if (logger.isLoggable(level)) {
+                    logger.log(level, "ID3 exception occured: " + e.getMessage());
                 }
             }
             tagBody.getData().skipFully(tagBody.getRemainingLength());
@@ -123,12 +126,20 @@ public class ID3v2Info extends AudioInfo {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:252:0x04d7 A[Catch: all -> 0x04b9, TryCatch #6 {all -> 0x04b9, blocks: (B:240:0x049f, B:242:0x04b4, B:250:0x04cc, B:252:0x04d7, B:254:0x04ee, B:256:0x050b, B:258:0x050f, B:255:0x0507, B:247:0x04bb, B:249:0x04c3), top: B:283:0x049f }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     void parseFrame(ID3v2FrameBody iD3v2FrameBody) throws IOException, ID3v2Exception {
         String str;
+        byte[] bArr;
+        BitmapFactory.Options options;
+        int i;
+        Bitmap decodeByteArray;
         Bitmap bitmap;
         byte b;
         ID3v1Genre genre;
-        int i;
+        int i2;
         Logger logger = LOGGER;
         if (logger.isLoggable(this.debugLevel)) {
             logger.log(this.debugLevel, "Parsing frame: " + iD3v2FrameBody.getFrameHeader().getFrameId());
@@ -351,24 +362,25 @@ public class ID3v2Info extends AudioInfo {
                     AttachedPicture parseAttachedPictureFrame = parseAttachedPictureFrame(iD3v2FrameBody);
                     if (this.cover == null || (b = parseAttachedPictureFrame.type) == 3 || b == 0) {
                         try {
-                            byte[] bArr = parseAttachedPictureFrame.imageData;
-                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            bArr = parseAttachedPictureFrame.imageData;
+                            options = new BitmapFactory.Options();
                             options.inJustDecodeBounds = true;
                             options.inSampleSize = 1;
                             BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
-                            int i2 = options.outWidth;
-                            if (i2 > 800 || options.outHeight > 800) {
-                                for (int max = Math.max(i2, options.outHeight); max > 800; max /= 2) {
-                                    options.inSampleSize *= 2;
-                                }
+                            i = options.outWidth;
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                        if (i <= 800) {
+                            if (options.outHeight > 800) {
                             }
                             options.inJustDecodeBounds = false;
-                            Bitmap decodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
+                            decodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
                             this.cover = decodeByteArray;
                             if (decodeByteArray != null) {
-                                float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
-                                if (max2 > 0.0f) {
-                                    this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
+                                float max = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
+                                if (max > 0.0f) {
+                                    this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max), (int) (this.cover.getHeight() / max), true);
                                 } else {
                                     this.smallCover = this.cover;
                                 }
@@ -376,8 +388,16 @@ public class ID3v2Info extends AudioInfo {
                                     this.smallCover = this.cover;
                                 }
                             }
-                        } catch (Throwable th) {
-                            th.printStackTrace();
+                            this.coverPictureType = parseAttachedPictureFrame.type;
+                            return;
+                        }
+                        for (int max2 = Math.max(i, options.outHeight); max2 > 800; max2 /= 2) {
+                            options.inSampleSize *= 2;
+                        }
+                        options.inJustDecodeBounds = false;
+                        decodeByteArray = BitmapFactory.decodeByteArray(bArr, 0, bArr.length, options);
+                        this.cover = decodeByteArray;
+                        if (decodeByteArray != null) {
                         }
                         this.coverPictureType = parseAttachedPictureFrame.type;
                         return;
@@ -403,8 +423,8 @@ public class ID3v2Info extends AudioInfo {
                             int indexOf = parseTextFrame.indexOf(41);
                             if (indexOf > 1) {
                                 genre = ID3v1Genre.getGenre(Integer.parseInt(parseTextFrame.substring(1, indexOf)));
-                                if (genre == null && parseTextFrame.length() > (i = indexOf + 1)) {
-                                    this.genre = parseTextFrame.substring(i);
+                                if (genre == null && parseTextFrame.length() > (i2 = indexOf + 1)) {
+                                    this.genre = parseTextFrame.substring(i2);
                                 }
                             } else {
                                 genre = null;
@@ -539,7 +559,7 @@ public class ID3v2Info extends AudioInfo {
                 this.title = parseTextFrame(iD3v2FrameBody);
                 return;
             case 14:
-            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+            case 31:
                 String parseTextFrame5 = parseTextFrame(iD3v2FrameBody);
                 if (parseTextFrame5.length() > 0) {
                     try {
@@ -589,7 +609,7 @@ public class ID3v2Info extends AudioInfo {
 
     CommentOrUnsynchronizedLyrics parseCommentOrUnsynchronizedLyricsFrame(ID3v2FrameBody iD3v2FrameBody) throws IOException, ID3v2Exception {
         ID3v2Encoding readEncoding = iD3v2FrameBody.readEncoding();
-        return new CommentOrUnsynchronizedLyrics(iD3v2FrameBody.readFixedLengthString(3, ID3v2Encoding.ISO_8859_1), iD3v2FrameBody.readZeroTerminatedString(200, readEncoding), iD3v2FrameBody.readFixedLengthString((int) iD3v2FrameBody.getRemainingLength(), readEncoding));
+        return new CommentOrUnsynchronizedLyrics(iD3v2FrameBody.readFixedLengthString(3, ID3v2Encoding.ISO_8859_1), iD3v2FrameBody.readZeroTerminatedString(NotificationCenter.storyQualityUpdate, readEncoding), iD3v2FrameBody.readFixedLengthString((int) iD3v2FrameBody.getRemainingLength(), readEncoding));
     }
 
     AttachedPicture parseAttachedPictureFrame(ID3v2FrameBody iD3v2FrameBody) throws IOException, ID3v2Exception {
@@ -598,10 +618,16 @@ public class ID3v2Info extends AudioInfo {
         if (iD3v2FrameBody.getTagHeader().getVersion() == 2) {
             String upperCase = iD3v2FrameBody.readFixedLengthString(3, ID3v2Encoding.ISO_8859_1).toUpperCase();
             upperCase.hashCode();
-            readZeroTerminatedString = !upperCase.equals("JPG") ? !upperCase.equals("PNG") ? "image/unknown" : "image/png" : "image/jpeg";
+            if (upperCase.equals("JPG")) {
+                readZeroTerminatedString = "image/jpeg";
+            } else if (upperCase.equals("PNG")) {
+                readZeroTerminatedString = "image/png";
+            } else {
+                readZeroTerminatedString = "image/unknown";
+            }
         } else {
             readZeroTerminatedString = iD3v2FrameBody.readZeroTerminatedString(20, ID3v2Encoding.ISO_8859_1);
         }
-        return new AttachedPicture(iD3v2FrameBody.getData().readByte(), iD3v2FrameBody.readZeroTerminatedString(200, readEncoding), readZeroTerminatedString, iD3v2FrameBody.getData().readFully((int) iD3v2FrameBody.getRemainingLength()));
+        return new AttachedPicture(iD3v2FrameBody.getData().readByte(), iD3v2FrameBody.readZeroTerminatedString(NotificationCenter.storyQualityUpdate, readEncoding), readZeroTerminatedString, iD3v2FrameBody.getData().readFully((int) iD3v2FrameBody.getRemainingLength()));
     }
 }

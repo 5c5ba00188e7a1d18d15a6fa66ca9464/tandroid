@@ -56,7 +56,8 @@ public class MentionCell extends LinearLayout {
         textView.setTextSize(1, 15.0f);
         textView.setSingleLine(true);
         textView.setGravity(3);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
+        TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+        textView.setEllipsize(truncateAt);
         addView(textView, LayoutHelper.createLinear(-2, -2, 16, 12, 0, 0, 0));
         TextView textView2 = new TextView(context);
         this.usernameTextView = textView2;
@@ -64,7 +65,7 @@ public class MentionCell extends LinearLayout {
         textView2.setTextSize(1, 15.0f);
         textView2.setSingleLine(true);
         textView2.setGravity(3);
-        textView2.setEllipsize(TextUtils.TruncateAt.END);
+        textView2.setEllipsize(truncateAt);
         addView(textView2, LayoutHelper.createLinear(-2, -2, 16, 12, 0, 8, 0));
     }
 

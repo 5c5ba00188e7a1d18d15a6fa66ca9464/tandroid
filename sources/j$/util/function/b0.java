@@ -1,31 +1,27 @@
 package j$.util.function;
 
-import java.util.function.LongBinaryOperator;
+import java.util.function.LongToIntFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class b0 implements d0 {
-    public final /* synthetic */ LongBinaryOperator a;
+public final /* synthetic */ class b0 {
+    public final /* synthetic */ LongToIntFunction a;
 
-    private /* synthetic */ b0(LongBinaryOperator longBinaryOperator) {
-        this.a = longBinaryOperator;
+    private /* synthetic */ b0(LongToIntFunction longToIntFunction) {
+        this.a = longToIntFunction;
     }
 
-    public static /* synthetic */ d0 a(LongBinaryOperator longBinaryOperator) {
-        if (longBinaryOperator == null) {
+    public static /* synthetic */ b0 a(LongToIntFunction longToIntFunction) {
+        if (longToIntFunction == null) {
             return null;
         }
-        return longBinaryOperator instanceof c0 ? ((c0) longBinaryOperator).a : new b0(longBinaryOperator);
-    }
-
-    @Override // j$.util.function.d0
-    public final /* synthetic */ long applyAsLong(long j, long j2) {
-        return this.a.applyAsLong(j, j2);
+        return new b0(longToIntFunction);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        LongToIntFunction longToIntFunction = this.a;
         if (obj instanceof b0) {
             obj = ((b0) obj).a;
         }
-        return this.a.equals(obj);
+        return longToIntFunction.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

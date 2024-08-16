@@ -160,11 +160,11 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             } else if (i == 3) {
                 str = "StoriesSoundPath";
                 str2 = "StoriesSoundDocId";
-            } else if (i != 4 && i != 5) {
-                throw new RuntimeException("Unsupported type");
-            } else {
+            } else if (i == 4 || i == 5) {
                 str = "ReactionSoundPath";
                 str2 = "ReactionSoundDocId";
+            } else {
+                throw new RuntimeException("Unsupported type");
             }
         }
         SharedPreferences notificationsSettings = getNotificationsSettings();
@@ -410,7 +410,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0099 A[Catch: Exception -> 0x00d3, TryCatch #0 {Exception -> 0x00d3, blocks: (B:16:0x003d, B:18:0x0044, B:19:0x005b, B:21:0x005f, B:23:0x0063, B:24:0x007c, B:26:0x0080, B:28:0x0086, B:33:0x0099, B:35:0x00a7, B:37:0x00ad, B:38:0x00c6), top: B:45:0x003d }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x009c A[Catch: Exception -> 0x005b, TryCatch #0 {Exception -> 0x005b, blocks: (B:16:0x003d, B:18:0x0044, B:21:0x005e, B:23:0x0062, B:25:0x0066, B:26:0x007f, B:28:0x0083, B:30:0x0089, B:35:0x009c, B:37:0x00aa, B:39:0x00b0, B:40:0x00c9), top: B:46:0x003d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -506,19 +506,16 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
     }
 
     private void checkSelection(Tone tone) {
-        boolean z = true;
         if (this.selectedTones.get(tone.stableId) != null) {
             this.selectedTones.remove(tone.stableId);
-        } else if (tone.fromServer) {
-            this.selectedTones.put(tone.stableId, tone);
+        } else if (!tone.fromServer) {
+            return;
         } else {
-            z = false;
+            this.selectedTones.put(tone.stableId, tone);
         }
-        if (z) {
-            updateActionMode();
-            Adapter adapter = this.adapter;
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-        }
+        updateActionMode();
+        Adapter adapter = this.adapter;
+        adapter.notifyItemRangeChanged(0, adapter.getItemCount());
     }
 
     private void updateActionMode() {
@@ -635,7 +632,7 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         this.systemTonesHeaderRow = -1;
         this.systemTonesStartRow = -1;
         this.systemTonesEndRow = -1;
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.serverTonesHeaderRow = 0;
         if (!this.serverTones.isEmpty()) {
             int i = this.rowCount;
@@ -645,23 +642,22 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             this.serverTonesEndRow = size;
         }
         int i2 = this.rowCount;
-        int i3 = i2 + 1;
         this.uploadRow = i2;
-        this.rowCount = i3 + 1;
-        this.dividerRow = i3;
+        this.rowCount = i2 + 2;
+        this.dividerRow = i2 + 1;
         if (!this.systemTones.isEmpty()) {
-            int i4 = this.rowCount;
-            int i5 = i4 + 1;
-            this.rowCount = i5;
-            this.systemTonesHeaderRow = i4;
-            this.systemTonesStartRow = i5;
-            int size2 = i5 + this.systemTones.size();
+            int i3 = this.rowCount;
+            int i4 = i3 + 1;
+            this.rowCount = i4;
+            this.systemTonesHeaderRow = i3;
+            this.systemTonesStartRow = i4;
+            int size2 = i4 + this.systemTones.size();
             this.rowCount = size2;
             this.systemTonesEndRow = size2;
         }
-        int i6 = this.rowCount;
-        this.rowCount = i6 + 1;
-        this.dividerRow2 = i6;
+        int i5 = this.rowCount;
+        this.rowCount = i5 + 1;
+        this.dividerRow2 = i5;
     }
 
     @Override // org.telegram.ui.Components.ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate
@@ -748,27 +744,29 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType != 0) {
-                if (itemViewType != 1) {
-                    if (itemViewType != 2) {
+                if (itemViewType == 1) {
+                    HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
+                    NotificationsSoundActivity notificationsSoundActivity = NotificationsSoundActivity.this;
+                    if (i == notificationsSoundActivity.serverTonesHeaderRow) {
+                        headerCell.setText(LocaleController.getString("TelegramTones", R.string.TelegramTones));
+                        return;
+                    } else if (i == notificationsSoundActivity.systemTonesHeaderRow) {
+                        headerCell.setText(LocaleController.getString("SystemTones", R.string.SystemTones));
+                        return;
+                    } else {
                         return;
                     }
+                } else if (itemViewType != 2) {
+                    return;
+                } else {
                     CreationTextCell creationTextCell = (CreationTextCell) viewHolder.itemView;
                     Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.poll_add_circle);
                     Drawable drawable2 = creationTextCell.getContext().getResources().getDrawable(R.drawable.poll_add_plus);
-                    drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked, NotificationsSoundActivity.this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-                    drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck, NotificationsSoundActivity.this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                    int color = Theme.getColor(Theme.key_switchTrackChecked, NotificationsSoundActivity.this.resourcesProvider);
+                    PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                    drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
+                    drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck, NotificationsSoundActivity.this.resourcesProvider), mode));
                     creationTextCell.setTextAndIcon(LocaleController.getString("UploadSound", R.string.UploadSound), new CombinedDrawable(drawable, drawable2), false);
-                    return;
-                }
-                HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                NotificationsSoundActivity notificationsSoundActivity = NotificationsSoundActivity.this;
-                if (i == notificationsSoundActivity.serverTonesHeaderRow) {
-                    headerCell.setText(LocaleController.getString("TelegramTones", R.string.TelegramTones));
-                    return;
-                } else if (i == notificationsSoundActivity.systemTonesHeaderRow) {
-                    headerCell.setText(LocaleController.getString("SystemTones", R.string.SystemTones));
-                    return;
-                } else {
                     return;
                 }
             }
@@ -994,12 +992,12 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 str = "StoriesSound";
                 str2 = "StoriesSoundPath";
                 str3 = "StoriesSoundDocId";
-            } else if (i != 5 && i != 4) {
-                throw new RuntimeException("Unsupported type");
-            } else {
+            } else if (i == 5 || i == 4) {
                 str = "ReactionSound";
                 str2 = "ReactionSoundPath";
                 str3 = "ReactionSoundDocId";
+            } else {
+                throw new RuntimeException("Unsupported type");
             }
         }
         Tone tone = this.selectedTone;
@@ -1047,32 +1045,32 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             return;
         }
         boolean z = true;
-        boolean z2 = false;
         if (intent.getData() != null) {
             String path = AndroidUtilities.getPath(intent.getData());
             if (path != null) {
                 if (this.chatAttachAlert.getDocumentLayout().isRingtone(new File(path))) {
                     getMediaDataController().uploadRingtone(path);
                     getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
-                    z2 = z;
                 }
             }
             z = false;
-            z2 = z;
-        } else if (intent.getClipData() != null) {
-            ClipData clipData = intent.getClipData();
-            boolean z3 = false;
-            for (int i3 = 0; i3 < clipData.getItemCount(); i3++) {
-                String uri = clipData.getItemAt(i3).getUri().toString();
-                if (this.chatAttachAlert.getDocumentLayout().isRingtone(new File(uri))) {
-                    getMediaDataController().uploadRingtone(uri);
-                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
-                    z3 = true;
+        } else {
+            if (intent.getClipData() != null) {
+                ClipData clipData = intent.getClipData();
+                boolean z2 = false;
+                for (int i3 = 0; i3 < clipData.getItemCount(); i3++) {
+                    String uri = clipData.getItemAt(i3).getUri().toString();
+                    if (this.chatAttachAlert.getDocumentLayout().isRingtone(new File(uri))) {
+                        getMediaDataController().uploadRingtone(uri);
+                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onUserRingtonesUpdated, new Object[0]);
+                        z2 = true;
+                    }
                 }
+                z = z2;
             }
-            z2 = z3;
+            z = false;
         }
-        if (z2) {
+        if (z) {
             this.chatAttachAlert.dismiss();
         }
     }

@@ -22,12 +22,16 @@ public class MLTaskExecutor {
     public static MLTaskExecutor getInstance() {
         MLTaskExecutor mLTaskExecutor;
         synchronized (zza) {
-            if (zzb == null) {
-                HandlerThread handlerThread = new HandlerThread("MLHandler", 9);
-                handlerThread.start();
-                zzb = new MLTaskExecutor(handlerThread.getLooper());
+            try {
+                if (zzb == null) {
+                    HandlerThread handlerThread = new HandlerThread("MLHandler", 9);
+                    handlerThread.start();
+                    zzb = new MLTaskExecutor(handlerThread.getLooper());
+                }
+                mLTaskExecutor = zzb;
+            } catch (Throwable th) {
+                throw th;
             }
-            mLTaskExecutor = zzb;
         }
         return mLTaskExecutor;
     }

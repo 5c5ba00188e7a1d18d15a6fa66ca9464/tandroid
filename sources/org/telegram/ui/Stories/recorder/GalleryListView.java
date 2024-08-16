@@ -29,6 +29,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.LruCache;
 import android.util.Pair;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -414,7 +415,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 selectAlbum(draftsAlbum, true);
                 return;
             }
-            i2--;
+            i2 = i - 3;
         } else if (this.containsDrafts) {
             if (i2 >= 0 && i2 < this.drafts.size()) {
                 StoryEntry storyEntry = this.drafts.get(i2);
@@ -456,19 +457,25 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             }
             ArrayList arrayList = new ArrayList();
             GalleryListView.this.dropDownContainer.setVisibility(0);
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.SCALE_X, 1.0f));
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.SCALE_Y, 1.0f));
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.ALPHA, 1.0f));
+            ActionBarMenuItem actionBarMenuItem = GalleryListView.this.dropDownContainer;
+            Property property = View.SCALE_X;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem, property, 1.0f));
+            ActionBarMenuItem actionBarMenuItem2 = GalleryListView.this.dropDownContainer;
+            Property property2 = View.SCALE_Y;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem2, property2, 1.0f));
+            ActionBarMenuItem actionBarMenuItem3 = GalleryListView.this.dropDownContainer;
+            Property property3 = View.ALPHA;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem3, property3, 1.0f));
             final EditTextBoldCursor searchField = GalleryListView.this.searchItem.getSearchField();
             if (searchField != null) {
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.SCALE_X, 0.8f));
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.SCALE_Y, 0.8f));
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.ALPHA, 0.0f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property, 0.8f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property2, 0.8f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property3, 0.0f));
             }
             GalleryListView.this.listView.setVisibility(0);
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.listView, View.ALPHA, 1.0f));
+            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.listView, property3, 1.0f));
             GalleryListView.this.listView.setFastScrollVisible(true);
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.searchContainer, View.ALPHA, 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.searchContainer, property3, 0.0f));
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$12$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -507,21 +514,27 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 animatorSet.cancel();
             }
             ArrayList arrayList = new ArrayList();
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.SCALE_X, 0.8f));
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.SCALE_Y, 0.8f));
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.dropDownContainer, View.ALPHA, 0.0f));
+            ActionBarMenuItem actionBarMenuItem = GalleryListView.this.dropDownContainer;
+            Property property = View.SCALE_X;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem, property, 0.8f));
+            ActionBarMenuItem actionBarMenuItem2 = GalleryListView.this.dropDownContainer;
+            Property property2 = View.SCALE_Y;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem2, property2, 0.8f));
+            ActionBarMenuItem actionBarMenuItem3 = GalleryListView.this.dropDownContainer;
+            Property property3 = View.ALPHA;
+            arrayList.add(ObjectAnimator.ofFloat(actionBarMenuItem3, property3, 0.0f));
             EditTextBoldCursor searchField = GalleryListView.this.searchItem.getSearchField();
             if (searchField != null) {
                 searchField.setVisibility(0);
                 searchField.setHandlesColor(-1);
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.SCALE_X, 1.0f));
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.SCALE_Y, 1.0f));
-                arrayList.add(ObjectAnimator.ofFloat(searchField, View.ALPHA, 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property, 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property2, 1.0f));
+                arrayList.add(ObjectAnimator.ofFloat(searchField, property3, 1.0f));
             }
             GalleryListView.this.searchContainer.setVisibility(0);
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.listView, View.ALPHA, 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.listView, property3, 0.0f));
             GalleryListView.this.listView.setFastScrollVisible(false);
-            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.searchContainer, View.ALPHA, 1.0f));
+            arrayList.add(ObjectAnimator.ofFloat(GalleryListView.this.searchContainer, property3, 1.0f));
             GalleryListView.this.searchEmptyView.setVisibility(0);
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.GalleryListView$12$$ExternalSyntheticLambda0
@@ -911,8 +924,9 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             if (str == null || (num = (hashMap = bitmapsUseCounts).get(str)) == null) {
                 return;
             }
-            Integer valueOf = Integer.valueOf(num.intValue() - 1);
-            if (valueOf.intValue() <= 0) {
+            int intValue = num.intValue() - 1;
+            Integer valueOf = Integer.valueOf(intValue);
+            if (intValue <= 0) {
                 hashMap.remove(str);
             } else {
                 hashMap.put(str, valueOf);
@@ -975,6 +989,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
             Bitmap bitmap = null;
             r0 = null;
             r0 = null;
+            r0 = null;
             int[] iArr2 = null;
             if (obj == null) {
                 return null;
@@ -991,8 +1006,8 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 options.inDither = true;
                 options.inJustDecodeBounds = false;
                 Bitmap readBitmap = readBitmap(photoEntry, options);
-                if (readBitmap != null && ((float) readBitmap.getHeight()) / ((float) readBitmap.getWidth()) < 1.39f) {
-                    if (photoEntry.gradientTopColor == 0 && photoEntry.gradientBottomColor == 0 && readBitmap != null && !readBitmap.isRecycled()) {
+                if (readBitmap != null && readBitmap.getHeight() / readBitmap.getWidth() < 1.39f) {
+                    if (photoEntry.gradientTopColor == 0 && photoEntry.gradientBottomColor == 0 && !readBitmap.isRecycled()) {
                         iArr2 = DominantColors.getColorsSync(true, readBitmap, true);
                         photoEntry.gradientTopColor = iArr2[0];
                         photoEntry.gradientBottomColor = iArr2[1];
@@ -1356,7 +1371,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                         cell.set((StoryEntry) GalleryListView.this.drafts.get(0), GalleryListView.this.drafts.size());
                         return;
                     }
-                    i2--;
+                    i2 = i - 3;
                 } else if (GalleryListView.this.containsDrafts) {
                     if (i2 < 0 || i2 >= GalleryListView.this.drafts.size()) {
                         i2 -= GalleryListView.this.drafts.size();
@@ -1383,7 +1398,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            return getTotalItemsCount() + 2 + 1;
+            return getTotalItemsCount() + 3;
         }
 
         @Override // org.telegram.ui.Components.RecyclerListView.FastScrollAdapter
@@ -1394,7 +1409,7 @@ public class GalleryListView extends FrameLayout implements NotificationCenter.N
                 if (i2 == 0) {
                     return null;
                 }
-                i2--;
+                i2 = i - 3;
             } else if (GalleryListView.this.containsDrafts) {
                 if (i2 < 0 || i2 >= GalleryListView.this.drafts.size()) {
                     i2 -= GalleryListView.this.drafts.size();

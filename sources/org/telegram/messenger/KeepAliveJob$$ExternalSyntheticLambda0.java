@@ -4,6 +4,6 @@ package org.telegram.messenger;
 public final /* synthetic */ class KeepAliveJob$$ExternalSyntheticLambda0 implements Runnable {
     @Override // java.lang.Runnable
     public final void run() {
-        KeepAliveJob.$r8$lambda$a7YHYzYsHDx-57iX2of7xAId_3Q();
+        KeepAliveJob.$r8$lambda$R3Qm7rjCixvSkJ9CuBP_gyavRqA();
     }
 }

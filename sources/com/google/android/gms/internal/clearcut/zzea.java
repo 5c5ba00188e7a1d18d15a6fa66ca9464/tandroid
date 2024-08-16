@@ -27,7 +27,7 @@ public final class zzea {
 
     private static zzeg zzk(String str) {
         try {
-            return (zzeg) Class.forName(str).getConstructor(new Class[0]).newInstance(new Object[0]);
+            return (zzeg) Class.forName(str).getConstructor(null).newInstance(null);
         } catch (Throwable unused) {
             return null;
         }

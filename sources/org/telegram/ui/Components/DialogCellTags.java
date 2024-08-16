@@ -10,6 +10,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class DialogCellTags {
@@ -162,7 +163,7 @@ public class DialogCellTags {
         RectF rectF = AndroidUtilities.rectTmp;
         float f = i;
         rectF.set(0.0f, 0.0f, f, AndroidUtilities.dp(14.66f));
-        canvas.saveLayerAlpha(rectF, 255, 31);
+        canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
         if (LocaleController.isRTL) {
             canvas.translate(f, 0.0f);
         }

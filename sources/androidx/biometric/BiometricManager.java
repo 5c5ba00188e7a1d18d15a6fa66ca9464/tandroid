@@ -118,22 +118,46 @@ public class BiometricManager {
         return -2;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0046 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:26:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private int canAuthenticateWithStrongBiometricOnApi29() {
+        int canAuthenticateWithWeakBiometricOnApi29;
         BiometricPrompt.CryptoObject wrapForBiometricPrompt;
         Method canAuthenticateWithCryptoMethod = Api29Impl.getCanAuthenticateWithCryptoMethod();
         if (canAuthenticateWithCryptoMethod != null && (wrapForBiometricPrompt = CryptoObjectUtils.wrapForBiometricPrompt(CryptoObjectUtils.createFakeCryptoObject())) != null) {
             try {
                 Object invoke = canAuthenticateWithCryptoMethod.invoke(this.mBiometricManager, wrapForBiometricPrompt);
-                if (invoke instanceof Integer) {
+                if (!(invoke instanceof Integer)) {
+                    Log.w("BiometricManager", "Invalid return type for canAuthenticate(CryptoObject).");
+                } else {
                     return ((Integer) invoke).intValue();
                 }
-                Log.w("BiometricManager", "Invalid return type for canAuthenticate(CryptoObject).");
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            } catch (IllegalAccessException e) {
+                e = e;
                 Log.w("BiometricManager", "Failed to invoke canAuthenticate(CryptoObject).", e);
+                canAuthenticateWithWeakBiometricOnApi29 = canAuthenticateWithWeakBiometricOnApi29();
+                return this.mInjector.isStrongBiometricGuaranteed() ? canAuthenticateWithWeakBiometricOnApi29 : canAuthenticateWithWeakBiometricOnApi29;
+            } catch (IllegalArgumentException e2) {
+                e = e2;
+                Log.w("BiometricManager", "Failed to invoke canAuthenticate(CryptoObject).", e);
+                canAuthenticateWithWeakBiometricOnApi29 = canAuthenticateWithWeakBiometricOnApi29();
+                if (this.mInjector.isStrongBiometricGuaranteed()) {
+                }
+            } catch (InvocationTargetException e3) {
+                e = e3;
+                Log.w("BiometricManager", "Failed to invoke canAuthenticate(CryptoObject).", e);
+                canAuthenticateWithWeakBiometricOnApi29 = canAuthenticateWithWeakBiometricOnApi29();
+                if (this.mInjector.isStrongBiometricGuaranteed()) {
+                }
             }
         }
-        int canAuthenticateWithWeakBiometricOnApi29 = canAuthenticateWithWeakBiometricOnApi29();
-        return (this.mInjector.isStrongBiometricGuaranteed() || canAuthenticateWithWeakBiometricOnApi29 != 0) ? canAuthenticateWithWeakBiometricOnApi29 : canAuthenticateWithFingerprintOrUnknownBiometric();
+        canAuthenticateWithWeakBiometricOnApi29 = canAuthenticateWithWeakBiometricOnApi29();
+        if (this.mInjector.isStrongBiometricGuaranteed() && canAuthenticateWithWeakBiometricOnApi29 == 0) {
+            return canAuthenticateWithFingerprintOrUnknownBiometric();
+        }
     }
 
     private int canAuthenticateWithWeakBiometricOnApi29() {
@@ -168,9 +192,7 @@ public class BiometricManager {
     /* loaded from: classes.dex */
     public static class Api30Impl {
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager, int i) {
-            int canAuthenticate;
-            canAuthenticate = biometricManager.canAuthenticate(i);
-            return canAuthenticate;
+            return biometricManager.canAuthenticate(i);
         }
     }
 
@@ -178,15 +200,11 @@ public class BiometricManager {
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static android.hardware.biometrics.BiometricManager create(Context context) {
-            Object systemService;
-            systemService = context.getSystemService(android.hardware.biometrics.BiometricManager.class);
-            return (android.hardware.biometrics.BiometricManager) systemService;
+            return (android.hardware.biometrics.BiometricManager) context.getSystemService(android.hardware.biometrics.BiometricManager.class);
         }
 
         static int canAuthenticate(android.hardware.biometrics.BiometricManager biometricManager) {
-            int canAuthenticate;
-            canAuthenticate = biometricManager.canAuthenticate();
-            return canAuthenticate;
+            return biometricManager.canAuthenticate();
         }
 
         static Method getCanAuthenticateWithCryptoMethod() {

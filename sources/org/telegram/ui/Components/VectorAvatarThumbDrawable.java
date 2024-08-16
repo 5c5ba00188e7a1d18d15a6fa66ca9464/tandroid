@@ -53,7 +53,7 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
         this.currentAccount = UserConfig.selectedAccount;
         this.type = i;
         this.isPremium = z;
-        gradientTools.setColors(ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(0).intValue(), 255), tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(1).intValue(), 255) : 0, tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(2).intValue(), 255) : 0, tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(3).intValue(), 255) : 0);
+        gradientTools.setColors(ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(0).intValue(), NotificationCenter.voipServiceCreated), tLRPC$VideoSize.background_colors.size() > 1 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(1).intValue(), NotificationCenter.voipServiceCreated) : 0, tLRPC$VideoSize.background_colors.size() > 2 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(2).intValue(), NotificationCenter.voipServiceCreated) : 0, tLRPC$VideoSize.background_colors.size() > 3 ? ColorUtils.setAlphaComponent(tLRPC$VideoSize.background_colors.get(3).intValue(), NotificationCenter.voipServiceCreated) : 0);
         if (tLRPC$VideoSize instanceof TLRPC$TL_videoSizeEmojiMarkup) {
             AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable((i == 1 && z) ? 7 : i == 2 ? 15 : 8, UserConfig.selectedAccount, ((TLRPC$TL_videoSizeEmojiMarkup) tLRPC$VideoSize).emoji_id);
             this.animatedEmojiDrawable = animatedEmojiDrawable;
@@ -93,7 +93,9 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
                     TLRPC$Document tLRPC$Document2 = stickerSet.documents.get(i);
                     if (this.isPremium && this.type == 1) {
                         str3 = "50_50";
-                    } else if (this.type != 2) {
+                    } else if (this.type == 2) {
+                        str3 = "100_100";
+                    } else {
                         tLRPC$Document = null;
                         str = null;
                         str2 = "50_50_firstframe";
@@ -103,8 +105,6 @@ public class VectorAvatarThumbDrawable extends Drawable implements AnimatedEmoji
                             return;
                         }
                         return;
-                    } else {
-                        str3 = "100_100";
                     }
                     str2 = str3;
                     str = "50_50_firstframe";

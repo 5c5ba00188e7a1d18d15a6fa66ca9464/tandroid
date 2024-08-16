@@ -192,40 +192,39 @@ public class ManageChatUserCell extends FrameLayout {
         this.currentStatus = charSequence2;
         this.currentName = charSequence;
         this.currentObject = obj;
-        float f3 = 20.5f;
         if (this.optionsButton != null) {
             boolean onOptionsButtonCheck = this.delegate.onOptionsButtonCheck(this, false);
             this.optionsButton.setVisibility(onOptionsButtonCheck ? 0 : 4);
             SimpleTextView simpleTextView = this.nameTextView;
             boolean z2 = LocaleController.isRTL;
-            simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? onOptionsButtonCheck ? 46 : 28 : this.namePadding + 68, (charSequence2 == null || charSequence2.length() > 0) ? 11.5f : 11.5f, LocaleController.isRTL ? this.namePadding + 68 : onOptionsButtonCheck ? 46 : 28, 0.0f));
+            simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, (z2 ? 5 : 3) | 48, z2 ? onOptionsButtonCheck ? 46 : 28 : this.namePadding + 68, (charSequence2 == null || charSequence2.length() > 0) ? 11.5f : 20.5f, LocaleController.isRTL ? this.namePadding + 68 : onOptionsButtonCheck ? 46 : 28, 0.0f));
             SimpleTextView simpleTextView2 = this.statusTextView;
             boolean z3 = LocaleController.isRTL;
             int i = (z3 ? 5 : 3) | 48;
-            float f4 = z3 ? onOptionsButtonCheck ? 46 : 28 : this.namePadding + 68;
+            float f3 = z3 ? onOptionsButtonCheck ? 46 : 28 : this.namePadding + 68;
             if (z3) {
                 f2 = this.namePadding + 68;
             } else {
                 f2 = onOptionsButtonCheck ? 46 : 28;
             }
-            simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, i, f4, 34.5f, f2, 0.0f));
+            simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, i, f3, 34.5f, f2, 0.0f));
         } else {
             ImageView imageView = this.customImageView;
             if (imageView != null) {
                 boolean z4 = imageView.getVisibility() == 0;
                 SimpleTextView simpleTextView3 = this.nameTextView;
                 boolean z5 = LocaleController.isRTL;
-                simpleTextView3.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, (z5 ? 5 : 3) | 48, z5 ? z4 ? 54 : 28 : this.namePadding + 68, (charSequence2 == null || charSequence2.length() > 0) ? 11.5f : 11.5f, LocaleController.isRTL ? this.namePadding + 68 : z4 ? 54 : 28, 0.0f));
+                simpleTextView3.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, (z5 ? 5 : 3) | 48, z5 ? z4 ? 54 : 28 : this.namePadding + 68, (charSequence2 == null || charSequence2.length() > 0) ? 11.5f : 20.5f, LocaleController.isRTL ? this.namePadding + 68 : z4 ? 54 : 28, 0.0f));
                 SimpleTextView simpleTextView4 = this.statusTextView;
                 boolean z6 = LocaleController.isRTL;
                 int i2 = (z6 ? 5 : 3) | 48;
-                float f5 = z6 ? z4 ? 54 : 28 : this.namePadding + 68;
+                float f4 = z6 ? z4 ? 54 : 28 : this.namePadding + 68;
                 if (z6) {
                     f = this.namePadding + 68;
                 } else {
                     f = z4 ? 54 : 28;
                 }
-                simpleTextView4.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, i2, f5, 34.5f, f, 0.0f));
+                simpleTextView4.setLayoutParams(LayoutHelper.createFrame(-1, 20.0f, i2, f4, 34.5f, f, 0.0f));
             }
         }
         this.needDivider = z;
@@ -267,7 +266,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = i;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x01a1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x01a3, code lost:
         if (r12.equals(r6) == false) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:

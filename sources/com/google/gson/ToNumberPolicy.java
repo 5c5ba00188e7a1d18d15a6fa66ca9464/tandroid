@@ -1,6 +1,7 @@
 package com.google.gson;
 
 import com.google.gson.internal.LazilyParsedNumber;
+import com.google.gson.internal.NumberLimits;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 import java.io.IOException;
@@ -23,18 +24,30 @@ public enum ToNumberPolicy implements ToNumberStrategy {
         @Override // com.google.gson.ToNumberStrategy
         public Number readNumber(JsonReader jsonReader) throws IOException, JsonParseException {
             String nextString = jsonReader.nextString();
+            if (nextString.indexOf(46) >= 0) {
+                return parseAsDouble(nextString, jsonReader);
+            }
             try {
-                try {
-                    return Long.valueOf(Long.parseLong(nextString));
-                } catch (NumberFormatException e) {
-                    throw new JsonParseException("Cannot parse " + nextString + "; at path " + jsonReader.getPreviousPath(), e);
-                }
+                return Long.valueOf(Long.parseLong(nextString));
             } catch (NumberFormatException unused) {
-                Double valueOf = Double.valueOf(nextString);
-                if ((valueOf.isInfinite() || valueOf.isNaN()) && !jsonReader.isLenient()) {
+                return parseAsDouble(nextString, jsonReader);
+            }
+        }
+
+        private Number parseAsDouble(String str, JsonReader jsonReader) throws IOException {
+            try {
+                Double valueOf = Double.valueOf(str);
+                if (!valueOf.isInfinite()) {
+                    if (valueOf.isNaN()) {
+                    }
+                    return valueOf;
+                }
+                if (!jsonReader.isLenient()) {
                     throw new MalformedJsonException("JSON forbids NaN and infinities: " + valueOf + "; at path " + jsonReader.getPreviousPath());
                 }
                 return valueOf;
+            } catch (NumberFormatException e) {
+                throw new JsonParseException("Cannot parse " + str + "; at path " + jsonReader.getPreviousPath(), e);
             }
         }
     },
@@ -43,7 +56,7 @@ public enum ToNumberPolicy implements ToNumberStrategy {
         public BigDecimal readNumber(JsonReader jsonReader) throws IOException {
             String nextString = jsonReader.nextString();
             try {
-                return new BigDecimal(nextString);
+                return NumberLimits.parseBigDecimal(nextString);
             } catch (NumberFormatException e) {
                 throw new JsonParseException("Cannot parse " + nextString + "; at path " + jsonReader.getPreviousPath(), e);
             }

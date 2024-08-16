@@ -38,7 +38,6 @@ public final class zzid$zzi extends zzeo<zzid$zzi, zza> implements zzgb {
         /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzid$zzi$zzb>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
         @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
         public final Object zza(int i, Object obj, Object obj2) {
-            zzgj<zzb> zzgjVar;
             switch (zzic.zza[i - 1]) {
                 case 1:
                     return new zzb();
@@ -49,21 +48,23 @@ public final class zzid$zzi extends zzeo<zzid$zzi, zza> implements zzgb {
                 case 4:
                     return zzh;
                 case 5:
-                    zzgj<zzb> zzgjVar2 = zzi;
-                    zzgj<zzb> zzgjVar3 = zzgjVar2;
-                    if (zzgjVar2 == null) {
+                    zzgj<zzb> zzgjVar = zzi;
+                    zzgj<zzb> zzgjVar2 = zzgjVar;
+                    if (zzgjVar == null) {
                         synchronized (zzb.class) {
-                            zzgj<zzb> zzgjVar4 = zzi;
-                            zzgjVar = zzgjVar4;
-                            if (zzgjVar4 == null) {
-                                ?? zzaVar = new zzeo.zza(zzh);
-                                zzi = zzaVar;
-                                zzgjVar = zzaVar;
+                            try {
+                                zzgj<zzb> zzgjVar3 = zzi;
+                                zzgj<zzb> zzgjVar4 = zzgjVar3;
+                                if (zzgjVar3 == null) {
+                                    ?? zzaVar = new zzeo.zza(zzh);
+                                    zzi = zzaVar;
+                                    zzgjVar4 = zzaVar;
+                                }
+                            } finally {
                             }
                         }
-                        zzgjVar3 = zzgjVar;
                     }
-                    return zzgjVar3;
+                    return zzgjVar2;
                 case 6:
                     return (byte) 1;
                 case 7:
@@ -99,7 +100,6 @@ public final class zzid$zzi extends zzeo<zzid$zzi, zza> implements zzgb {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzid$zzi>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
-        zzgj<zzid$zzi> zzgjVar;
         switch (zzic.zza[i - 1]) {
             case 1:
                 return new zzid$zzi();
@@ -110,21 +110,23 @@ public final class zzid$zzi extends zzeo<zzid$zzi, zza> implements zzgb {
             case 4:
                 return zzd;
             case 5:
-                zzgj<zzid$zzi> zzgjVar2 = zze;
-                zzgj<zzid$zzi> zzgjVar3 = zzgjVar2;
-                if (zzgjVar2 == null) {
+                zzgj<zzid$zzi> zzgjVar = zze;
+                zzgj<zzid$zzi> zzgjVar2 = zzgjVar;
+                if (zzgjVar == null) {
                     synchronized (zzid$zzi.class) {
-                        zzgj<zzid$zzi> zzgjVar4 = zze;
-                        zzgjVar = zzgjVar4;
-                        if (zzgjVar4 == null) {
-                            ?? zzaVar = new zzeo.zza(zzd);
-                            zze = zzaVar;
-                            zzgjVar = zzaVar;
+                        try {
+                            zzgj<zzid$zzi> zzgjVar3 = zze;
+                            zzgj<zzid$zzi> zzgjVar4 = zzgjVar3;
+                            if (zzgjVar3 == null) {
+                                ?? zzaVar = new zzeo.zza(zzd);
+                                zze = zzaVar;
+                                zzgjVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzgjVar3 = zzgjVar;
                 }
-                return zzgjVar3;
+                return zzgjVar2;
             case 6:
                 return (byte) 1;
             case 7:

@@ -44,51 +44,51 @@ class AppCompatTextHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01de  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01e5  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0214  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x0225  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0262  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0271  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x0277  */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0280  */
-    /* JADX WARN: Removed duplicated region for block: B:133:0x0286  */
-    /* JADX WARN: Removed duplicated region for block: B:136:0x028f  */
-    /* JADX WARN: Removed duplicated region for block: B:137:0x0295  */
-    /* JADX WARN: Removed duplicated region for block: B:140:0x029e  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02a4  */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02ad  */
-    /* JADX WARN: Removed duplicated region for block: B:145:0x02b3  */
-    /* JADX WARN: Removed duplicated region for block: B:148:0x02c7  */
-    /* JADX WARN: Removed duplicated region for block: B:151:0x02d8  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x02e8  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0300  */
-    /* JADX WARN: Removed duplicated region for block: B:157:0x0307  */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x030e  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x01e0  */
+    /* JADX WARN: Removed duplicated region for block: B:106:0x01e7  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0216  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x0264  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x026a  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0273  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x0279  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0282  */
+    /* JADX WARN: Removed duplicated region for block: B:133:0x0288  */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0291  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:140:0x02a0  */
+    /* JADX WARN: Removed duplicated region for block: B:141:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:144:0x02af  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x02b5  */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x02c9  */
+    /* JADX WARN: Removed duplicated region for block: B:151:0x02da  */
+    /* JADX WARN: Removed duplicated region for block: B:152:0x02ea  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x0302  */
+    /* JADX WARN: Removed duplicated region for block: B:157:0x0309  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0310  */
     /* JADX WARN: Removed duplicated region for block: B:161:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:30:0x00cc  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00f5  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0142  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x016e  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0176  */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x0189  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01ac  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x01b3  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x01ba  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x01c1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:99:0x01ca  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00f7  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0144  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0170  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:91:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x01bc  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x01c3 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:99:0x01cc  */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void loadFromAttributes(AttributeSet attributeSet, int i) {
         String str;
-        ColorStateList colorStateList;
         String str2;
+        ColorStateList colorStateList;
         boolean z;
         ColorStateList colorStateList2;
         ColorStateList colorStateList3;
@@ -198,8 +198,8 @@ class AppCompatTextHelper {
             obtainStyledAttributes3.recycle();
         } else {
             str = null;
-            colorStateList = null;
             str2 = null;
+            colorStateList = null;
             z = false;
             colorStateList2 = null;
             colorStateList3 = null;
@@ -528,7 +528,7 @@ class AppCompatTextHelper {
             int i2 = tintTypedArray.getInt(R$styleable.TextAppearance_android_textFontWeight, -1);
             this.mFontWeight = i2;
             if (i2 != -1) {
-                this.mStyle = (this.mStyle & 2) | 0;
+                this.mStyle &= 2;
             }
         }
         int i3 = R$styleable.TextAppearance_android_fontFamily;
@@ -885,15 +885,11 @@ class AppCompatTextHelper {
     /* loaded from: classes.dex */
     static class Api26Impl {
         static boolean setFontVariationSettings(TextView textView, String str) {
-            boolean fontVariationSettings;
-            fontVariationSettings = textView.setFontVariationSettings(str);
-            return fontVariationSettings;
+            return textView.setFontVariationSettings(str);
         }
 
         static int getAutoSizeStepGranularity(TextView textView) {
-            int autoSizeStepGranularity;
-            autoSizeStepGranularity = textView.getAutoSizeStepGranularity();
-            return autoSizeStepGranularity;
+            return textView.getAutoSizeStepGranularity();
         }
 
         static void setAutoSizeTextTypeUniformWithConfiguration(TextView textView, int i, int i2, int i3, int i4) {
@@ -912,9 +908,7 @@ class AppCompatTextHelper {
         }
 
         static LocaleList forLanguageTags(String str) {
-            LocaleList forLanguageTags;
-            forLanguageTags = LocaleList.forLanguageTags(str);
-            return forLanguageTags;
+            return LocaleList.forLanguageTags(str);
         }
     }
 
@@ -937,9 +931,7 @@ class AppCompatTextHelper {
     /* loaded from: classes.dex */
     static class Api21Impl {
         static Locale forLanguageTag(String str) {
-            Locale forLanguageTag;
-            forLanguageTag = Locale.forLanguageTag(str);
-            return forLanguageTag;
+            return Locale.forLanguageTag(str);
         }
     }
 
@@ -947,9 +939,7 @@ class AppCompatTextHelper {
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static Typeface create(Typeface typeface, int i, boolean z) {
-            Typeface create;
-            create = Typeface.create(typeface, i, z);
-            return create;
+            return Typeface.create(typeface, i, z);
         }
     }
 }

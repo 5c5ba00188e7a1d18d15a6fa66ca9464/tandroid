@@ -252,7 +252,7 @@ final class AudioTrackPositionTracker {
             return;
         }
         try {
-            long intValue = (((Integer) Util.castNonNull((Integer) method.invoke(Assertions.checkNotNull(this.audioTrack), new Object[0]))).intValue() * 1000) - this.bufferSizeUs;
+            long intValue = (((Integer) Util.castNonNull((Integer) method.invoke(Assertions.checkNotNull(this.audioTrack), null))).intValue() * 1000) - this.bufferSizeUs;
             this.latencyUs = intValue;
             long max = Math.max(intValue, 0L);
             this.latencyUs = max;

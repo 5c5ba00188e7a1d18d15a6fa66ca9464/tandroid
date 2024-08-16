@@ -75,7 +75,9 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         animatedDrawable.setPlayInDirectionOfCustomEndFrame(true);
         animatedDrawable.setCustomEndFrame(20);
         animatedDrawable.setCurrentFrame(20);
-        this.alignView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        RLottieImageView rLottieImageView2 = this.alignView;
+        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+        rLottieImageView2.setColorFilter(new PorterDuffColorFilter(-1, mode));
         this.alignView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -98,7 +100,7 @@ public class PaintTextOptionsView extends FrameLayout implements NotificationCen
         ImageView imageView2 = new ImageView(context);
         this.plusView = imageView2;
         imageView2.setImageResource(R.drawable.msg_add);
-        this.plusView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+        this.plusView.setColorFilter(new PorterDuffColorFilter(-1, mode));
         this.plusView.setBackground(Theme.createSelectorDrawable(1090519039));
         this.plusView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.PaintTextOptionsView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener

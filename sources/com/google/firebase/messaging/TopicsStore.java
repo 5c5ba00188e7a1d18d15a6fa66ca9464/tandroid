@@ -20,15 +20,19 @@ public final class TopicsStore {
 
     public static synchronized TopicsStore getInstance(Context context, Executor executor) {
         synchronized (TopicsStore.class) {
-            WeakReference<TopicsStore> weakReference = topicsStoreWeakReference;
-            TopicsStore topicsStore = weakReference != null ? weakReference.get() : null;
-            if (topicsStore == null) {
-                TopicsStore topicsStore2 = new TopicsStore(context.getSharedPreferences("com.google.android.gms.appid", 0), executor);
-                topicsStore2.initStore();
-                topicsStoreWeakReference = new WeakReference<>(topicsStore2);
-                return topicsStore2;
+            try {
+                WeakReference<TopicsStore> weakReference = topicsStoreWeakReference;
+                TopicsStore topicsStore = weakReference != null ? weakReference.get() : null;
+                if (topicsStore == null) {
+                    TopicsStore topicsStore2 = new TopicsStore(context.getSharedPreferences("com.google.android.gms.appid", 0), executor);
+                    topicsStore2.initStore();
+                    topicsStoreWeakReference = new WeakReference<>(topicsStore2);
+                    return topicsStore2;
+                }
+                return topicsStore;
+            } catch (Throwable th) {
+                throw th;
             }
-            return topicsStore;
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.appcompat.R$id;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class AlertDialogLayout extends LinearLayoutCompat {
     public AlertDialogLayout(Context context, AttributeSet attributeSet) {
@@ -142,7 +141,7 @@ public class AlertDialogLayout extends LinearLayoutCompat {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a9  */
     @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -159,7 +158,7 @@ public class AlertDialogLayout extends LinearLayoutCompat {
         int measuredHeight = getMeasuredHeight();
         int childCount = getChildCount();
         int gravity = getGravity();
-        int i9 = gravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+        int i9 = gravity & 112;
         int i10 = gravity & 8388615;
         if (i9 == 16) {
             paddingTop = getPaddingTop() + (((i4 - i2) - measuredHeight) / 2);

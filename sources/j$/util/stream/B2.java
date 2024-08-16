@@ -1,51 +1,50 @@
 package j$.util.stream;
 
-import j$.util.Collection$-EL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.Arrays;
 /* loaded from: classes2.dex */
-final class B2 extends t2 {
-    private ArrayList d;
+final class B2 extends p2 {
+    private double[] c;
+    private int d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public B2(f2 f2Var, Comparator comparator) {
-        super(f2Var, comparator);
+    public B2(e2 e2Var) {
+        super(e2Var);
     }
 
-    @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
-        this.d.add(obj);
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final void accept(double d) {
+        double[] dArr = this.c;
+        int i = this.d;
+        this.d = i + 1;
+        dArr[i] = d;
     }
 
-    @Override // j$.util.stream.b2, j$.util.stream.f2
-    public final void end() {
-        j$.util.a.s(this.d, this.b);
-        f2 f2Var = this.a;
-        f2Var.f(this.d.size());
-        if (this.c) {
-            Iterator it = this.d.iterator();
-            while (it.hasNext()) {
-                Object next = it.next();
-                if (f2Var.h()) {
-                    break;
-                }
-                f2Var.accept((f2) next);
+    @Override // j$.util.stream.X1, j$.util.stream.e2
+    public final void m() {
+        int i = 0;
+        Arrays.sort(this.c, 0, this.d);
+        e2 e2Var = this.a;
+        e2Var.n(this.d);
+        if (this.b) {
+            while (i < this.d && !e2Var.q()) {
+                e2Var.accept(this.c[i]);
+                i++;
             }
         } else {
-            ArrayList arrayList = this.d;
-            f2Var.getClass();
-            Collection$-EL.a(arrayList, new a(f2Var, 3));
+            while (i < this.d) {
+                e2Var.accept(this.c[i]);
+                i++;
+            }
         }
-        f2Var.end();
-        this.d = null;
+        e2Var.m();
+        this.c = null;
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
+    @Override // j$.util.stream.X1, j$.util.stream.e2
+    public final void n(long j) {
         if (j >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        this.d = j >= 0 ? new ArrayList((int) j) : new ArrayList();
+        this.c = new double[(int) j];
     }
 }

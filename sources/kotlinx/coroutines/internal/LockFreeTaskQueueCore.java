@@ -25,22 +25,22 @@ public final class LockFreeTaskQueueCore<E> {
         int i2 = i - 1;
         this.mask = i2;
         this.array = new AtomicReferenceArray(i);
-        if (!(i2 <= 1073741823)) {
+        if (i2 > 1073741823) {
             throw new IllegalStateException("Check failed.".toString());
         }
-        if (!((i & i2) == 0)) {
+        if ((i & i2) != 0) {
             throw new IllegalStateException("Check failed.".toString());
         }
     }
 
     public final boolean isEmpty() {
         long j = this._state;
-        return ((int) ((1073741823 & j) >> 0)) == ((int) ((j & 1152921503533105152L) >> 30));
+        return ((int) (1073741823 & j)) == ((int) ((j & 1152921503533105152L) >> 30));
     }
 
     public final int getSize() {
         long j = this._state;
-        return 1073741823 & (((int) ((j & 1152921503533105152L) >> 30)) - ((int) ((1073741823 & j) >> 0)));
+        return 1073741823 & (((int) ((j & 1152921503533105152L) >> 30)) - ((int) (1073741823 & j)));
     }
 
     private final LockFreeTaskQueueCore<E> fillPlaceholder(int i, E e) {
@@ -59,7 +59,7 @@ public final class LockFreeTaskQueueCore<E> {
     /* JADX WARN: Multi-variable type inference failed */
     private final LockFreeTaskQueueCore<E> allocateNextCopy(long j) {
         LockFreeTaskQueueCore<E> lockFreeTaskQueueCore = new LockFreeTaskQueueCore<>(this.capacity * 2, this.singleConsumer);
-        int i = (int) ((1073741823 & j) >> 0);
+        int i = (int) (1073741823 & j);
         int i2 = (int) ((1152921503533105152L & j) >> 30);
         while (true) {
             int i3 = this.mask;
@@ -106,7 +106,7 @@ public final class LockFreeTaskQueueCore<E> {
         }
 
         public final long updateHead(long j, int i) {
-            return wo(j, 1073741823L) | (i << 0);
+            return wo(j, 1073741823L) | i;
         }
 
         public final long updateTail(long j, int i) {
@@ -128,7 +128,7 @@ public final class LockFreeTaskQueueCore<E> {
         return true;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x004c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x004a, code lost:
         return 1;
      */
     /*
@@ -140,7 +140,7 @@ public final class LockFreeTaskQueueCore<E> {
             if ((3458764513820540928L & j) != 0) {
                 return Companion.addFailReason(j);
             }
-            int i = (int) ((1073741823 & j) >> 0);
+            int i = (int) (1073741823 & j);
             int i2 = (int) ((1152921503533105152L & j) >> 30);
             int i3 = this.mask;
             if (((i2 + 2) & i3) == (i & i3)) {
@@ -167,7 +167,7 @@ public final class LockFreeTaskQueueCore<E> {
             if ((1152921504606846976L & j) != 0) {
                 return REMOVE_FROZEN;
             }
-            int i = (int) ((1073741823 & j) >> 0);
+            int i = (int) (1073741823 & j);
             int i2 = (int) ((1152921503533105152L & j) >> 30);
             int i3 = this.mask;
             if ((i2 & i3) == (i & i3)) {
@@ -201,7 +201,7 @@ public final class LockFreeTaskQueueCore<E> {
         int i3;
         do {
             j = this._state;
-            i3 = (int) ((1073741823 & j) >> 0);
+            i3 = (int) (1073741823 & j);
             if ((1152921504606846976L & j) != 0) {
                 return next();
             }

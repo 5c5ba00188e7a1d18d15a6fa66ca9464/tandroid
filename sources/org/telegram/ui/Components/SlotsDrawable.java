@@ -87,9 +87,9 @@ public class SlotsDrawable extends RLottieDrawable {
                         frame = RLottieDrawable.getFrame(jArr[i], this.frameNums[i], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), i == 0);
                         if (i != 0) {
                             int[] iArr = this.frameNums;
-                            int i2 = iArr[i];
-                            if (i2 + 1 < this.frameCounts[i]) {
-                                iArr[i] = i2 + 1;
+                            int i2 = iArr[i] + 1;
+                            if (i2 < this.frameCounts[i]) {
+                                iArr[i] = i2;
                             } else if (i != 4) {
                                 iArr[i] = 0;
                                 this.nextFrameIsLast = false;
@@ -114,9 +114,9 @@ public class SlotsDrawable extends RLottieDrawable {
                     }
                     if (this.playWinAnimation) {
                         int[] iArr3 = this.frameNums;
-                        int i4 = iArr3[0];
-                        if (i4 + 1 < this.frameCounts[0]) {
-                            iArr3[0] = i4 + 1;
+                        int i4 = iArr3[0] + 1;
+                        if (i4 < this.frameCounts[0]) {
+                            iArr3[0] = i4;
                         } else {
                             iArr3[0] = -1;
                         }
@@ -136,9 +136,9 @@ public class SlotsDrawable extends RLottieDrawable {
                         RLottieDrawable.getFrame(j, i6, this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
                         if (!this.nextFrameIsLast) {
                             int[] iArr4 = this.secondFrameNums;
-                            int i7 = iArr4[i5];
-                            if (i7 + 1 < this.secondFrameCounts[i5]) {
-                                iArr4[i5] = i7 + 1;
+                            int i7 = iArr4[i5] + 1;
+                            if (i7 < this.secondFrameCounts[i5]) {
+                                iArr4[i5] = i7;
                             } else {
                                 iArr4[i5] = -1;
                             }
@@ -147,9 +147,9 @@ public class SlotsDrawable extends RLottieDrawable {
                     }
                     frame = RLottieDrawable.getFrame(this.nativePtrs[4], this.frameNums[4], this.backgroundBitmap, this.width, this.height, this.backgroundBitmap.getRowBytes(), false);
                     int[] iArr5 = this.frameNums;
-                    int i8 = iArr5[4];
-                    if (i8 + 1 < this.frameCounts[4]) {
-                        iArr5[4] = i8 + 1;
+                    int i8 = iArr5[4] + 1;
+                    if (i8 < this.frameCounts[4]) {
+                        iArr5[4] = i8;
                     }
                     int[] iArr6 = this.secondFrameNums;
                     if (iArr6[0] == -1 && iArr6[1] == -1 && iArr6[2] == -1) {
@@ -355,8 +355,8 @@ public class SlotsDrawable extends RLottieDrawable {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00c5  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x00d8  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x00d4  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -446,13 +446,8 @@ public class SlotsDrawable extends RLottieDrawable {
                     }
                 }
             } else if (this.nativePtrs[i3] == 0) {
-                if (i3 == 3) {
-                    tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
-                    i2 = 1;
-                } else {
-                    tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
-                    i2 = 2;
-                }
+                tLRPC$TL_messages_stickerSet2 = tLRPC$TL_messages_stickerSet;
+                i2 = i3 == 3 ? 1 : 2;
                 final TLRPC$Document tLRPC$Document22 = tLRPC$TL_messages_stickerSet2.documents.get(i2);
                 readRes = RLottieDrawable.readRes(FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(tLRPC$Document22, true), 0);
                 if (TextUtils.isEmpty(readRes)) {

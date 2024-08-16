@@ -26,8 +26,11 @@ public class ConnectionTracker {
     public static ConnectionTracker getInstance() {
         if (zzc == null) {
             synchronized (zzb) {
-                if (zzc == null) {
-                    zzc = new ConnectionTracker();
+                try {
+                    if (zzc == null) {
+                        zzc = new ConnectionTracker();
+                    }
+                } finally {
                 }
             }
         }

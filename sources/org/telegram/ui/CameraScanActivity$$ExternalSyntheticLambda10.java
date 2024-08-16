@@ -10,6 +10,6 @@ public final /* synthetic */ class CameraScanActivity$$ExternalSyntheticLambda10
 
     @Override // java.lang.Runnable
     public final void run() {
-        CameraScanActivity.$r8$lambda$h8v1QMMoLncbYidu-wfSmb6Y5VU(this.f$0);
+        CameraScanActivity.$r8$lambda$XHlz7YZ60quI6Z-47ADHWVNh_9k(this.f$0);
     }
 }

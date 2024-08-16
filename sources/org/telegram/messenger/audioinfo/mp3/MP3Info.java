@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.messenger.audioinfo.mp3.MP3Frame;
 /* loaded from: classes3.dex */
@@ -103,12 +104,26 @@ public class MP3Info extends AudioInfo {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:8:0x0013  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:64:0x00cf -> B:65:0x00d0). Please submit an issue!!! */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     MP3Frame readFirstFrame(MP3Input mP3Input, StopReadCondition stopReadCondition) throws IOException {
+        int read;
+        int i;
         MP3Frame.Header header;
-        int read = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
-        int i = 0;
+        if (!stopReadCondition.stopRead(mP3Input)) {
+            read = mP3Input.read();
+            i = 0;
+            while (read != -1) {
+            }
+            return null;
+        }
+        i = 0;
+        read = -1;
         while (read != -1) {
-            if (i == 255 && (read & 224) == 224) {
+            if (i == 255 && (read & NotificationCenter.didReceiveCall) == 224) {
                 mP3Input.mark(2);
                 int read2 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 if (read2 == -1) {
@@ -119,10 +134,10 @@ public class MP3Info extends AudioInfo {
                     break;
                 }
                 try {
-                    header = new MP3Frame.Header(read, read2, read3);
                 } catch (MP3Exception unused) {
                     header = null;
                 }
+                header = new MP3Frame.Header(read, read2, read3);
                 if (header != null) {
                     mP3Input.reset();
                     mP3Input.mark(header.getFrameSize() + 2);
@@ -138,29 +153,33 @@ public class MP3Info extends AudioInfo {
                             int read4 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                             int read5 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                             if (read4 != -1 && read5 != -1) {
-                                if (read4 == 255 && (read5 & 254) == (read & 254)) {
+                                if (read4 == 255 && (read5 & NotificationCenter.didClearDatabase) == (read & NotificationCenter.didClearDatabase)) {
                                     int read6 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     int read7 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                                     if (read6 != -1 && read7 != -1) {
-                                        try {
-                                            if (new MP3Frame.Header(read5, read6, read7).isCompatible(header)) {
-                                                mP3Input.reset();
-                                                mP3Input.skipFully(i2);
-                                            }
-                                        } catch (MP3Exception unused2) {
+                                        if (new MP3Frame.Header(read5, read6, read7).isCompatible(header)) {
+                                            mP3Input.reset();
+                                            mP3Input.skipFully(i2);
                                         }
                                     }
                                 }
                             }
                             return mP3Frame;
                         }
-                    } catch (EOFException unused3) {
+                    } catch (EOFException unused2) {
                     }
                 }
                 mP3Input.reset();
             }
-            i = read;
-            read = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
+            if (stopReadCondition.stopRead(mP3Input)) {
+                i = read;
+                read = -1;
+                while (read != -1) {
+                }
+            } else {
+                i = read;
+                read = mP3Input.read();
+            }
         }
         return null;
     }
@@ -172,7 +191,7 @@ public class MP3Info extends AudioInfo {
         int read = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
         int read2 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
         if (read != -1 && read2 != -1) {
-            if (read == 255 && (read2 & 224) == 224) {
+            if (read == 255 && (read2 & NotificationCenter.didReceiveCall) == 224) {
                 int read3 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 int read4 = stopReadCondition.stopRead(mP3Input) ? -1 : mP3Input.read();
                 if (read3 != -1 && read4 != -1) {

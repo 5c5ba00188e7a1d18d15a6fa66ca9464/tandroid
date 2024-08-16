@@ -65,7 +65,7 @@ public final class ChapterFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        int i = (((((((527 + this.startTimeMs) * 31) + this.endTimeMs) * 31) + ((int) this.startOffset)) * 31) + ((int) this.endOffset)) * 31;
+        int i = (((((((this.startTimeMs + 527) * 31) + this.endTimeMs) * 31) + ((int) this.startOffset)) * 31) + ((int) this.endOffset)) * 31;
         String str = this.chapterId;
         return i + (str != null ? str.hashCode() : 0);
     }

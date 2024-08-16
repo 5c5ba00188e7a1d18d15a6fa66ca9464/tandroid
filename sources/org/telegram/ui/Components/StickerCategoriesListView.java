@@ -322,7 +322,7 @@ public class StickerCategoriesListView extends RecyclerListView {
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r5v1, types: [int] */
-    /* JADX WARN: Type inference failed for: r5v8 */
+    /* JADX WARN: Type inference failed for: r5v10 */
     /* JADX WARN: Type inference failed for: r5v9 */
     public void updateCategoriesShown(boolean z, boolean z2) {
         this.categoriesShouldShow = z;
@@ -339,10 +339,7 @@ public class StickerCategoriesListView extends RecyclerListView {
             this.categoriesShownAnimator = null;
         }
         if (z2) {
-            float[] fArr = new float[2];
-            fArr[0] = this.categoriesShownT;
-            fArr[1] = r5 == 0 ? 0.0f : 1.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.categoriesShownT, r5 != 0 ? 1.0f : 0.0f);
             this.categoriesShownAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -365,7 +362,7 @@ public class StickerCategoriesListView extends RecyclerListView {
             this.categoriesShownAnimator.start();
             return;
         }
-        setCategoriesShownT(r5 == 0 ? 0.0f : 1.0f);
+        setCategoriesShownT(r5 != 0 ? 1.0f : 0.0f);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -395,42 +392,56 @@ public class StickerCategoriesListView extends RecyclerListView {
         return this.categoriesShownT > 0.5f;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:13:0x0025  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:30:? A[RETURN, SYNTHETIC] */
     @Override // androidx.recyclerview.widget.RecyclerView
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onScrolled(int i, int i2) {
         boolean z;
         boolean z2;
+        boolean z3;
         Utilities.Callback<Integer> callback;
         super.onScrolled(i, i2);
         if (getChildCount() > 0) {
             View childAt = getChildAt(0);
+            z2 = true;
             if (childAt instanceof CategoryButton) {
                 z = true;
-            } else {
-                z2 = childAt.getRight() <= this.dontOccupyWidth;
+            } else if (childAt.getRight() <= this.dontOccupyWidth) {
                 z = false;
             }
-        } else {
-            z = false;
-            z2 = false;
-        }
-        boolean z3 = this.scrolledIntoOccupiedWidth;
-        if (z3 != z2) {
-            this.scrolledIntoOccupiedWidth = z2;
-            Utilities.Callback<Integer> callback2 = this.onScrollIntoOccupiedWidth;
-            if (callback2 != null) {
-                callback2.run(Integer.valueOf(z2 ? Math.max(0, getScrollToStartWidth() - (this.paddingWidth - this.dontOccupyWidth)) : 0));
+            z3 = this.scrolledIntoOccupiedWidth;
+            if (z3 == z2) {
+                this.scrolledIntoOccupiedWidth = z2;
+                Utilities.Callback<Integer> callback2 = this.onScrollIntoOccupiedWidth;
+                if (callback2 != null) {
+                    callback2.run(Integer.valueOf(z2 ? Math.max(0, getScrollToStartWidth() - (this.paddingWidth - this.dontOccupyWidth)) : 0));
+                }
+                invalidate();
+            } else if (z3 && (callback = this.onScrollIntoOccupiedWidth) != null) {
+                callback.run(Integer.valueOf(Math.max(0, getScrollToStartWidth() - (this.paddingWidth - this.dontOccupyWidth))));
             }
-            invalidate();
-        } else if (z3 && (callback = this.onScrollIntoOccupiedWidth) != null) {
-            callback.run(Integer.valueOf(Math.max(0, getScrollToStartWidth() - (this.paddingWidth - this.dontOccupyWidth))));
-        }
-        if (this.scrolledFully != z) {
-            this.scrolledFully = z;
-            Utilities.Callback<Boolean> callback3 = this.onScrollFully;
-            if (callback3 != null) {
-                callback3.run(Boolean.valueOf(z));
+            if (this.scrolledFully == z) {
+                this.scrolledFully = z;
+                Utilities.Callback<Boolean> callback3 = this.onScrollFully;
+                if (callback3 != null) {
+                    callback3.run(Boolean.valueOf(z));
+                }
+                invalidate();
+                return;
             }
-            invalidate();
+            return;
+        }
+        z = false;
+        z2 = false;
+        z3 = this.scrolledIntoOccupiedWidth;
+        if (z3 == z2) {
+        }
+        if (this.scrolledFully == z) {
         }
     }
 
@@ -462,10 +473,11 @@ public class StickerCategoriesListView extends RecyclerListView {
         this.backgroundPaint.setColor(i);
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.gradient_right).mutate();
         this.leftBoundDrawable = mutate;
-        mutate.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        mutate.setColorFilter(new PorterDuffColorFilter(i, mode));
         Drawable mutate2 = getContext().getResources().getDrawable(R.drawable.gradient_left).mutate();
         this.rightBoundDrawable = mutate2;
-        mutate2.setColorFilter(new PorterDuffColorFilter(i, PorterDuff.Mode.MULTIPLY));
+        mutate2.setColorFilter(new PorterDuffColorFilter(i, mode));
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView, android.view.View
@@ -486,7 +498,7 @@ public class StickerCategoriesListView extends RecyclerListView {
                 int width = (int) (i2 + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT)));
                 canvas.drawRect((int) (i + ((getWidth() + AndroidUtilities.dp(32.0f)) * (1.0f - this.categoriesShownT))), 0.0f, width, getHeight(), this.backgroundPaint);
                 if (width < getWidth() && (drawable = this.leftBoundDrawable) != null) {
-                    drawable.setAlpha(255);
+                    drawable.setAlpha(NotificationCenter.voipServiceCreated);
                     Drawable drawable2 = this.leftBoundDrawable;
                     drawable2.setBounds(width, 0, drawable2.getIntrinsicWidth() + width, getHeight());
                     this.leftBoundDrawable.draw(canvas);
@@ -767,10 +779,7 @@ public class StickerCategoriesListView extends RecyclerListView {
                     this.selectedAnimator = null;
                 }
                 if (z2) {
-                    float[] fArr = new float[2];
-                    fArr[0] = this.selectedT;
-                    fArr[1] = z ? 1.0f : 0.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.selectedT, z ? 1.0f : 0.0f);
                     this.selectedAnimator = ofFloat;
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.StickerCategoriesListView$CategoryButton$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -967,7 +976,7 @@ public class StickerCategoriesListView extends RecyclerListView {
                 tLRPC$TL_messages_getEmojiGroups2.hash = (int) j;
                 tLRPC$TL_messages_getEmojiGroups = tLRPC$TL_messages_getEmojiGroups2;
             }
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getEmojiGroups, new RequestDelegate() { // from class: org.telegram.ui.Components.StickerCategoriesListView$EmojiGroupFetcher$$ExternalSyntheticLambda2
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_getEmojiGroups, new RequestDelegate() { // from class: org.telegram.ui.Components.StickerCategoriesListView$EmojiGroupFetcher$$ExternalSyntheticLambda1
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StickerCategoriesListView.EmojiGroupFetcher.lambda$getRemote$0(Utilities.Callback4.this, tLObject, tLRPC$TL_error);
@@ -991,7 +1000,7 @@ public class StickerCategoriesListView extends RecyclerListView {
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // org.telegram.messenger.CacheFetcher
         public void getLocal(final int i, final Integer num, final Utilities.Callback2<Long, TLRPC$TL_messages_emojiGroups> callback2) {
-            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.StickerCategoriesListView$EmojiGroupFetcher$$ExternalSyntheticLambda1
+            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Components.StickerCategoriesListView$EmojiGroupFetcher$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickerCategoriesListView.EmojiGroupFetcher.lambda$getLocal$1(i, num, callback2);
@@ -1001,7 +1010,8 @@ public class StickerCategoriesListView extends RecyclerListView {
 
         /* JADX INFO: Access modifiers changed from: private */
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:32:0x006c  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x006d  */
+        /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1015,51 +1025,59 @@ public class StickerCategoriesListView extends RecyclerListView {
                 try {
                     SQLiteDatabase database = MessagesStorage.getInstance(i).getDatabase();
                     if (database != null) {
-                        sQLiteCursor = database.queryFinalized("SELECT data FROM emoji_groups WHERE type = ?", num);
                         try {
-                            if (!sQLiteCursor.next() || (byteBufferValue = sQLiteCursor.byteBufferValue(0)) == null) {
-                                tLRPC$messages_EmojiGroups = null;
-                            } else {
-                                tLRPC$messages_EmojiGroups = TLRPC$messages_EmojiGroups.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
-                                byteBufferValue.reuse();
-                            }
-                            if (!(tLRPC$messages_EmojiGroups instanceof TLRPC$TL_messages_emojiGroups)) {
+                            sQLiteCursor = database.queryFinalized("SELECT data FROM emoji_groups WHERE type = ?", num);
+                            try {
+                                if (!sQLiteCursor.next() || (byteBufferValue = sQLiteCursor.byteBufferValue(0)) == null) {
+                                    tLRPC$messages_EmojiGroups = null;
+                                } else {
+                                    tLRPC$messages_EmojiGroups = TLRPC$messages_EmojiGroups.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), true);
+                                    byteBufferValue.reuse();
+                                }
+                                if (!(tLRPC$messages_EmojiGroups instanceof TLRPC$TL_messages_emojiGroups)) {
+                                    callback2.run(0L, null);
+                                } else {
+                                    callback2.run(Long.valueOf(tLRPC$TL_messages_emojiGroups.hash), (TLRPC$TL_messages_emojiGroups) tLRPC$messages_EmojiGroups);
+                                }
+                                sQLiteCursor2 = sQLiteCursor;
+                            } catch (Exception e) {
+                                e = e;
+                                FileLog.e(e);
                                 callback2.run(0L, null);
-                            } else {
-                                callback2.run(Long.valueOf(tLRPC$TL_messages_emojiGroups.hash), (TLRPC$TL_messages_emojiGroups) tLRPC$messages_EmojiGroups);
-                            }
-                            sQLiteCursor2 = sQLiteCursor;
-                        } catch (Exception e) {
-                            e = e;
-                            FileLog.e(e);
-                            callback2.run(0L, null);
-                            if (sQLiteCursor != null) {
-                                sQLiteCursor.dispose();
+                                if (sQLiteCursor == null) {
+                                    sQLiteCursor2 = sQLiteCursor;
+                                    sQLiteCursor2.dispose();
+                                }
                                 return;
                             }
-                            return;
+                        } catch (Exception e2) {
+                            e = e2;
+                            sQLiteCursor = null;
+                            FileLog.e(e);
+                            callback2.run(0L, null);
+                            if (sQLiteCursor == null) {
+                            }
+                        } catch (Throwable th) {
+                            th = th;
+                            if (sQLiteCursor2 != null) {
+                                sQLiteCursor2.dispose();
+                            }
+                            throw th;
                         }
                     }
-                    if (sQLiteCursor2 != null) {
-                        sQLiteCursor2.dispose();
+                    if (sQLiteCursor2 == null) {
+                        return;
                     }
-                } catch (Throwable th) {
-                    th = th;
+                } catch (Throwable th2) {
+                    th = th2;
                     sQLiteCursor2 = i;
-                    if (sQLiteCursor2 != null) {
-                        sQLiteCursor2.dispose();
-                    }
-                    throw th;
                 }
-            } catch (Exception e2) {
-                e = e2;
-                sQLiteCursor = null;
-            } catch (Throwable th2) {
-                th = th2;
-                if (sQLiteCursor2 != null) {
-                }
-                throw th;
+            } catch (Exception e3) {
+                e = e3;
+            } catch (Throwable th3) {
+                th = th3;
             }
+            sQLiteCursor2.dispose();
         }
 
         /* JADX INFO: Access modifiers changed from: protected */

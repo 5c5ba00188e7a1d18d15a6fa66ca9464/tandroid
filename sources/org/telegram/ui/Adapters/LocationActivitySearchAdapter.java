@@ -43,7 +43,7 @@ public class LocationActivitySearchAdapter extends BaseLocationAdapter {
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public int getItemCount() {
-        int size = this.locations.isEmpty() ? 0 : 0 + this.locations.size() + 1;
+        int size = !this.locations.isEmpty() ? this.locations.size() + 1 : 0;
         if (this.myLocationDenied) {
             return size;
         }

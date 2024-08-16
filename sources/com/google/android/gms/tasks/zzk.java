@@ -20,11 +20,15 @@ final class zzk implements Runnable {
         OnFailureListener onFailureListener2;
         obj = this.zzb.zzb;
         synchronized (obj) {
-            zzl zzlVar = this.zzb;
-            onFailureListener = zzlVar.zzc;
-            if (onFailureListener != null) {
-                onFailureListener2 = zzlVar.zzc;
-                onFailureListener2.onFailure((Exception) Preconditions.checkNotNull(this.zza.getException()));
+            try {
+                zzl zzlVar = this.zzb;
+                onFailureListener = zzlVar.zzc;
+                if (onFailureListener != null) {
+                    onFailureListener2 = zzlVar.zzc;
+                    onFailureListener2.onFailure((Exception) Preconditions.checkNotNull(this.zza.getException()));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

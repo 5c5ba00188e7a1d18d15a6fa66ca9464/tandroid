@@ -512,18 +512,7 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             if (z2) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animator = animatorSet2;
-                Animator[] animatorArr = new Animator[2];
-                FrameLayout frameLayout = this.container;
-                Property property = View.SCALE_X;
-                float[] fArr = new float[1];
-                fArr[0] = z ? 0.787f : 1.0f;
-                animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
-                FrameLayout frameLayout2 = this.container;
-                Property property2 = View.SCALE_Y;
-                float[] fArr2 = new float[1];
-                fArr2[0] = z ? 0.787f : 1.0f;
-                animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
-                animatorSet2.playTogether(animatorArr);
+                animatorSet2.playTogether(ObjectAnimator.ofFloat(this.container, View.SCALE_X, z ? 0.787f : 1.0f), ObjectAnimator.ofFloat(this.container, View.SCALE_Y, z ? 0.787f : 1.0f));
                 this.animator.setDuration(200L);
                 this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.5
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -589,18 +578,9 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             animatorSet2.setInterpolator(new DecelerateInterpolator());
             this.animatorSet.setDuration(180L);
             AnimatorSet animatorSet3 = this.animatorSet;
-            Animator[] animatorArr = new Animator[2];
             FrameLayout frameLayout = this.videoInfoContainer;
             Property property = View.ALPHA;
-            float[] fArr = new float[1];
-            fArr[0] = z ? 1.0f : 0.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
-            CheckBox2 checkBox2 = this.checkBox;
-            Property property2 = View.ALPHA;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 1.0f : 0.0f;
-            animatorArr[1] = ObjectAnimator.ofFloat(checkBox2, property2, fArr2);
-            animatorSet3.playTogether(animatorArr);
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(frameLayout, property, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.checkBox, property, z ? 1.0f : 0.0f));
             this.animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoAttachPhotoCell.6
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {

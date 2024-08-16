@@ -73,9 +73,7 @@ public final class PopupWindowCompat {
         }
 
         static boolean getOverlapAnchor(PopupWindow popupWindow) {
-            boolean overlapAnchor;
-            overlapAnchor = popupWindow.getOverlapAnchor();
-            return overlapAnchor;
+            return popupWindow.getOverlapAnchor();
         }
 
         static void setWindowLayoutType(PopupWindow popupWindow, int i) {
@@ -83,9 +81,7 @@ public final class PopupWindowCompat {
         }
 
         static int getWindowLayoutType(PopupWindow popupWindow) {
-            int windowLayoutType;
-            windowLayoutType = popupWindow.getWindowLayoutType();
-            return windowLayoutType;
+            return popupWindow.getWindowLayoutType();
         }
     }
 

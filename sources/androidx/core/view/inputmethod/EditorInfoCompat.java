@@ -99,8 +99,7 @@ public final class EditorInfoCompat {
         } else {
             subSequence = charSequence.subSequence(i6, i7 + i6);
         }
-        int i8 = min2 + 0;
-        setSurroundingText(editorInfo, subSequence, i8, i4 + i8);
+        setSurroundingText(editorInfo, subSequence, min2, i4 + min2);
     }
 
     private static boolean isCutOnSurrogate(CharSequence charSequence, int i, int i2) {

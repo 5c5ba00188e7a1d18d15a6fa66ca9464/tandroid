@@ -57,7 +57,7 @@ public final class ChapterTocFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        int i = (((527 + (this.isRoot ? 1 : 0)) * 31) + (this.isOrdered ? 1 : 0)) * 31;
+        int i = ((((this.isRoot ? 1 : 0) + 527) * 31) + (this.isOrdered ? 1 : 0)) * 31;
         String str = this.elementId;
         return i + (str != null ? str.hashCode() : 0);
     }

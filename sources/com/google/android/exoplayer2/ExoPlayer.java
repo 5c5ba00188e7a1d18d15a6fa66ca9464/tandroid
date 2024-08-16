@@ -101,14 +101,14 @@ public interface ExoPlayer extends Player {
         }
 
         public Builder(final Context context) {
-            this(context, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda2
+            this(context, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda1
                 @Override // com.google.common.base.Supplier
                 public final Object get() {
                     RenderersFactory lambda$new$0;
                     lambda$new$0 = ExoPlayer.Builder.lambda$new$0(context);
                     return lambda$new$0;
                 }
-            }, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda3
+            }, new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda2
                 @Override // com.google.common.base.Supplier
                 public final Object get() {
                     MediaSource.Factory lambda$new$1;
@@ -202,7 +202,7 @@ public interface ExoPlayer extends Player {
         public Builder setTrackSelector(final TrackSelector trackSelector) {
             Assertions.checkState(!this.buildCalled);
             Assertions.checkNotNull(trackSelector);
-            this.trackSelectorSupplier = new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda0
+            this.trackSelectorSupplier = new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda3
                 @Override // com.google.common.base.Supplier
                 public final Object get() {
                     TrackSelector lambda$setTrackSelector$18;
@@ -216,7 +216,7 @@ public interface ExoPlayer extends Player {
         public Builder setLoadControl(final LoadControl loadControl) {
             Assertions.checkState(!this.buildCalled);
             Assertions.checkNotNull(loadControl);
-            this.loadControlSupplier = new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda1
+            this.loadControlSupplier = new Supplier() { // from class: com.google.android.exoplayer2.ExoPlayer$Builder$$ExternalSyntheticLambda0
                 @Override // com.google.common.base.Supplier
                 public final Object get() {
                     LoadControl lambda$setLoadControl$19;

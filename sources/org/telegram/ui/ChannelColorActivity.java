@@ -425,7 +425,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         if (chat != null) {
             this.currentLevel = chat.level;
         }
-        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda3
+        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(j, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda4
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelColorActivity.this.lambda$new$0(chat, (TL_stories$TL_premium_boostsStatus) obj);
@@ -544,7 +544,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         int i2 = Theme.key_windowBackgroundGray;
         recyclerListView2.setBackgroundColor(getThemedColor(i2));
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 119, 0.0f, 0.0f, 0.0f, 68.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 ChannelColorActivity.this.lambda$createView$4(chatFull, view, i3);
@@ -559,7 +559,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, this.resourceProvider);
         this.button = buttonWithCounterView;
         buttonWithCounterView.setText(LocaleController.getString(R.string.ApplyChanges), false);
-        this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda2
+        this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChannelColorActivity.this.lambda$createView$5(view);
@@ -724,7 +724,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         this.galleryWallpaper = tLRPC$WallPaper;
         updateButton(false);
         updateMessagesPreview(false);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelColorActivity.this.lambda$createView$2();
@@ -756,7 +756,12 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         return !hasUnsavedChanged() || this.currentLevel < minLevelRequired();
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r2v27 */
+    /* JADX WARN: Type inference failed for: r2v28, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r2v37 */
     private void buttonClick() {
+        ?? r2;
         if (this.boostsStatus == null || this.button.isLoading()) {
             return;
         }
@@ -789,22 +794,23 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 chat.color = new TLRPC$TL_peerColor();
                 chat.flags2 |= 128;
             }
-            int i = tLRPC$TL_channels_updateColor.flags | 4;
-            tLRPC$TL_channels_updateColor.flags = i;
+            int i = tLRPC$TL_channels_updateColor.flags;
+            tLRPC$TL_channels_updateColor.flags = i | 4;
             int i2 = this.selectedReplyColor;
             tLRPC$TL_channels_updateColor.color = i2;
             TLRPC$TL_peerColor tLRPC$TL_peerColor = chat.color;
-            int i3 = tLRPC$TL_peerColor.flags | 1;
-            tLRPC$TL_peerColor.flags = i3;
+            int i3 = tLRPC$TL_peerColor.flags;
+            int i4 = i3 | 1;
+            tLRPC$TL_peerColor.flags = i4;
             tLRPC$TL_peerColor.color = i2;
             long j = this.selectedReplyEmoji;
             if (j != 0) {
-                tLRPC$TL_channels_updateColor.flags = i | 1;
+                tLRPC$TL_channels_updateColor.flags = i | 5;
                 tLRPC$TL_channels_updateColor.background_emoji_id = j;
-                tLRPC$TL_peerColor.flags = i3 | 2;
+                tLRPC$TL_peerColor.flags = i3 | 3;
                 tLRPC$TL_peerColor.background_emoji_id = j;
             } else {
-                tLRPC$TL_peerColor.flags = i3 & (-3);
+                tLRPC$TL_peerColor.flags = i4 & (-3);
                 tLRPC$TL_peerColor.background_emoji_id = 0L;
             }
             iArr[0] = iArr[0] + 1;
@@ -821,15 +827,15 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             tLRPC$TL_channels_updateColor2.for_profile = true;
             if (chat.profile_color == null) {
                 chat.profile_color = new TLRPC$TL_peerColor();
-                chat.flags2 |= LiteMode.FLAG_CHAT_BLUR;
+                chat.flags2 |= 256;
             }
-            int i4 = this.selectedProfileColor;
-            if (i4 >= 0) {
+            int i5 = this.selectedProfileColor;
+            if (i5 >= 0) {
                 tLRPC$TL_channels_updateColor2.flags |= 4;
-                tLRPC$TL_channels_updateColor2.color = i4;
+                tLRPC$TL_channels_updateColor2.color = i5;
                 TLRPC$TL_peerColor tLRPC$TL_peerColor2 = chat.profile_color;
                 tLRPC$TL_peerColor2.flags |= 1;
-                tLRPC$TL_peerColor2.color = i4;
+                tLRPC$TL_peerColor2.color = i5;
             } else {
                 chat.profile_color.flags &= -2;
             }
@@ -904,12 +910,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 }
                 getMessagesController().putChatFull(chatFull);
                 NotificationCenter notificationCenter = getNotificationCenter();
-                int i5 = NotificationCenter.chatInfoDidLoad;
+                int i6 = NotificationCenter.chatInfoDidLoad;
                 Boolean bool = Boolean.FALSE;
-                notificationCenter.lambda$postNotificationNameOnUIThread$1(i5, chatFull, 0, bool, bool);
+                notificationCenter.lambda$postNotificationNameOnUIThread$1(i6, chatFull, 0, bool, bool);
             }
         }
-        if (!DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji)) {
+        if (DialogObject.emojiStatusesEqual(this.currentStatusEmoji, this.selectedStatusEmoji)) {
+            r2 = 0;
+        } else {
             TLRPC$TL_channels_updateEmojiStatus tLRPC$TL_channels_updateEmojiStatus = new TLRPC$TL_channels_updateEmojiStatus();
             tLRPC$TL_channels_updateEmojiStatus.channel = getMessagesController().getInputChannel(-this.dialogId);
             TLRPC$EmojiStatus tLRPC$EmojiStatus = this.selectedStatusEmoji;
@@ -923,6 +931,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 chat.flags |= LiteMode.FLAG_CALLS_ANIMATIONS;
             }
             getMessagesController().updateEmojiStatusUntilUpdate(this.dialogId, this.selectedStatusEmoji);
+            r2 = 0;
             iArr[0] = iArr[0] + 1;
             getConnectionsManager().sendRequest(tLRPC$TL_channels_updateEmojiStatus, new RequestDelegate() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda11
                 @Override // org.telegram.tgnet.RequestDelegate
@@ -931,13 +940,17 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                 }
             });
         }
-        if (iArr[0] == 0) {
+        if (iArr[r2] == 0) {
             finishFragment();
-            this.button.setLoading(false);
+            this.button.setLoading(r2);
             return;
         }
-        getMessagesController().putChat(chat, false);
-        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_EMOJI_STATUS));
+        getMessagesController().putChat(chat, r2);
+        NotificationCenter notificationCenter2 = getNotificationCenter();
+        int i7 = NotificationCenter.updateInterfaces;
+        Object[] objArr = new Object[1];
+        objArr[r2] = Integer.valueOf(MessagesController.UPDATE_MASK_EMOJI_STATUS);
+        notificationCenter2.lambda$postNotificationNameOnUIThread$1(i7, objArr);
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1016,7 +1029,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     }
 
     private void showLimit() {
-        getMessagesController().getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda16
+        getMessagesController().getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda17
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelColorActivity.this.lambda$showLimit$13((ChannelBoostsController.CanApplyBoost) obj);
@@ -1026,13 +1039,13 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0032  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x0075  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0089  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00ba  */
-    /* JADX WARN: Removed duplicated region for block: B:56:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0076  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x008a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x009e  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00bb  */
+    /* JADX WARN: Removed duplicated region for block: B:57:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1138,12 +1151,12 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         if (getVisibleDialog() != null) {
             return;
         }
-        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.ChannelColorUnsaved)).setMessage(LocaleController.getString(R.string.ChannelColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda5
+        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.ChannelColorUnsaved)).setMessage(LocaleController.getString(R.string.ChannelColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChannelColorActivity.this.lambda$showUnsavedAlert$14(dialogInterface, i);
             }
-        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda6
+        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChannelColorActivity.this.lambda$showUnsavedAlert$15(dialogInterface, i);
@@ -1231,50 +1244,38 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
     protected void updateRows() {
         Adapter adapter;
         Adapter adapter2;
-        int i = 0 + 1;
         this.messagesPreviewRow = 0;
-        int i2 = i + 1;
-        this.replyColorListRow = i;
-        int i3 = i2 + 1;
-        this.replyEmojiRow = i2;
-        int i4 = i3 + 1;
-        this.replyHintRow = i3;
-        int i5 = i4 + 1;
-        this.wallpaperThemesRow = i4;
-        int i6 = i5 + 1;
-        this.wallpaperRow = i5;
-        int i7 = i6 + 1;
-        this.wallpaperHintRow = i6;
-        int i8 = i7 + 1;
-        this.profilePreviewRow = i7;
-        int i9 = i8 + 1;
-        this.profileColorGridRow = i8;
-        int i10 = i9 + 1;
-        this.rowsCount = i10;
-        this.profileEmojiRow = i9;
+        this.replyColorListRow = 1;
+        this.replyEmojiRow = 2;
+        this.replyHintRow = 3;
+        this.wallpaperThemesRow = 4;
+        this.wallpaperRow = 5;
+        this.wallpaperHintRow = 6;
+        this.profilePreviewRow = 7;
+        this.profileColorGridRow = 8;
+        this.rowsCount = 10;
+        this.profileEmojiRow = 9;
         if (this.selectedProfileEmoji != 0 || this.selectedProfileColor >= 0) {
             boolean z = this.removeProfileColorRow >= 0;
-            this.rowsCount = i10 + 1;
-            this.removeProfileColorRow = i10;
+            this.rowsCount = 11;
+            this.removeProfileColorRow = 10;
             if (!z && (adapter = this.adapter) != null) {
-                adapter.notifyItemInserted(i10);
+                adapter.notifyItemInserted(10);
                 this.adapter.notifyItemChanged(this.profileEmojiRow);
             }
         } else {
-            int i11 = this.removeProfileColorRow;
+            int i = this.removeProfileColorRow;
             this.removeProfileColorRow = -1;
-            if (i11 >= 0 && (adapter2 = this.adapter) != null) {
-                adapter2.notifyItemRemoved(i11);
+            if (i >= 0 && (adapter2 = this.adapter) != null) {
+                adapter2.notifyItemRemoved(i);
                 this.adapter.notifyItemChanged(this.profileEmojiRow);
             }
         }
-        int i12 = this.rowsCount;
-        int i13 = i12 + 1;
-        this.profileHintRow = i12;
-        int i14 = i13 + 1;
-        this.statusEmojiRow = i13;
-        this.rowsCount = i14 + 1;
-        this.statusHintRow = i14;
+        int i2 = this.rowsCount;
+        this.profileHintRow = i2;
+        this.statusEmojiRow = i2 + 1;
+        this.rowsCount = i2 + 3;
+        this.statusHintRow = i2 + 2;
     }
 
     protected int getProfileInfoStrRes() {
@@ -1749,7 +1750,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             this.backgroundView = coloredActionBar;
             coloredActionBar.setProgressToGradient(1.0f);
             coloredActionBar.ignoreMeasure = true;
-            addView(coloredActionBar, LayoutHelper.createFrame(-1, ChannelColorActivity.this.isGroup ? 194 : 134, 119));
+            addView(coloredActionBar, LayoutHelper.createFrame(-1, ChannelColorActivity.this.isGroup ? NotificationCenter.savedMessagesDialogsUpdate : NotificationCenter.fileUploaded, 119));
             PeerColorActivity.ProfilePreview profilePreview = new PeerColorActivity.ProfilePreview(getContext(), ((BaseFragment) ChannelColorActivity.this).currentAccount, ChannelColorActivity.this.dialogId, ((BaseFragment) ChannelColorActivity.this).resourceProvider) { // from class: org.telegram.ui.ChannelColorActivity.ProfilePreview.1
                 @Override // org.telegram.ui.PeerColorActivity.ProfilePreview
                 public void setColor(int i, boolean z) {
@@ -1861,8 +1862,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             } else if (i2 < 7) {
                 this.color = Theme.getColor(Theme.keys_avatar_nameInMessage[i2], this.resourcesProvider);
             } else {
-                MessagesController messagesController = MessagesController.getInstance(i);
-                MessagesController.PeerColors peerColors = z ? messagesController.peerColors : messagesController.profilePeerColors;
+                MessagesController.PeerColors peerColors = z ? MessagesController.getInstance(i).peerColors : MessagesController.getInstance(i).profilePeerColors;
                 MessagesController.PeerColor color = peerColors == null ? null : peerColors.getColor(i2);
                 if (color != null) {
                     this.color = color.getColor(0, this.resourcesProvider);
@@ -2258,9 +2258,6 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
 
         /* JADX INFO: Access modifiers changed from: private */
-        /* JADX WARN: Type inference failed for: r4v23 */
-        /* JADX WARN: Type inference failed for: r4v5, types: [int, boolean] */
-        /* JADX WARN: Type inference failed for: r4v8 */
         public boolean parseTheme(final Theme.ThemeInfo themeInfo) {
             int stringKeyToInt;
             int intValue;
@@ -2281,15 +2278,15 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                     int i2 = i;
                     int i3 = 0;
                     int i4 = 0;
-                    ?? r4 = z;
                     while (true) {
                         if (i3 >= read) {
                             break;
                         }
                         byte[] bArr = ThemesHorizontalListCell.bytes;
                         if (bArr[i3] == 10) {
-                            int i5 = (i3 - i4) + r4;
-                            String str = new String(bArr, i4, i5 - 1, "UTF-8");
+                            int i5 = i3 - i4;
+                            int i6 = i5 + 1;
+                            String str = new String(bArr, i4, i5, "UTF-8");
                             if (str.startsWith("WLS=")) {
                                 String substring = str.substring(4);
                                 Uri parse = Uri.parse(substring);
@@ -2298,15 +2295,15 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                                 themeInfo.pathToWallpaper = new File(filesDirFixed, Utilities.MD5(substring) + ".wp").getAbsolutePath();
                                 String queryParameter = parse.getQueryParameter("mode");
                                 if (queryParameter != null && (split = queryParameter.toLowerCase().split(" ")) != null && split.length > 0) {
-                                    int i6 = 0;
+                                    int i7 = 0;
                                     while (true) {
-                                        if (i6 >= split.length) {
+                                        if (i7 >= split.length) {
                                             break;
-                                        } else if ("blur".equals(split[i6])) {
-                                            themeInfo.isBlured = r4;
+                                        } else if ("blur".equals(split[i7])) {
+                                            themeInfo.isBlured = z;
                                             break;
                                         } else {
-                                            i6++;
+                                            i7++;
                                         }
                                     }
                                 }
@@ -2343,7 +2340,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                                     }
                                 }
                             } else if (str.startsWith("WPS")) {
-                                themeInfo.previewWallpaperOffset = i5 + i2;
+                                themeInfo.previewWallpaperOffset = i6 + i2;
                                 z2 = true;
                                 break;
                             } else {
@@ -2374,11 +2371,11 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
                                     }
                                 }
                             }
-                            i4 += i5;
-                            i2 += i5;
+                            i4 += i6;
+                            i2 += i6;
                         }
                         i3++;
-                        r4 = 1;
+                        z = true;
                     }
                     if (z2 || i == i2) {
                         break;
@@ -2476,7 +2473,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         int i = Theme.key_windowBackgroundGray;
         recyclerListView.setBackgroundColor(getThemedColor(i));
         this.adapter.notifyDataSetChanged();
-        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda6
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelColorActivity.this.updateColors((View) obj);
@@ -2884,14 +2881,14 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:51:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00a0  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2978,7 +2975,7 @@ public class ChannelColorActivity extends BaseFragment implements NotificationCe
             }
         } else if (i != NotificationCenter.boostByChannelCreated || ((Boolean) objArr[1]).booleanValue()) {
         } else {
-            getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda4
+            getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelColorActivity$$ExternalSyntheticLambda5
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     ChannelColorActivity.this.updateBoostsAndLevels((TL_stories$TL_premium_boostsStatus) obj);

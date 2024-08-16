@@ -145,8 +145,6 @@ public final class zzlx {
     }
 
     public final boolean equals(Object obj) {
-        boolean z;
-        boolean z2;
         if (this == obj) {
             return true;
         }
@@ -158,33 +156,19 @@ public final class zzlx {
                 int[] iArr2 = zzlxVar.zzc;
                 int i2 = 0;
                 while (true) {
-                    if (i2 >= i) {
-                        z = true;
-                        break;
-                    } else if (iArr[i2] != iArr2[i2]) {
-                        z = false;
-                        break;
-                    } else {
-                        i2++;
-                    }
-                }
-                if (z) {
-                    Object[] objArr = this.zzd;
-                    Object[] objArr2 = zzlxVar.zzd;
-                    int i3 = this.zzb;
-                    int i4 = 0;
-                    while (true) {
-                        if (i4 >= i3) {
-                            z2 = true;
+                    if (i2 < i) {
+                        if (iArr[i2] != iArr2[i2]) {
                             break;
-                        } else if (!objArr[i4].equals(objArr2[i4])) {
-                            z2 = false;
-                            break;
-                        } else {
-                            i4++;
                         }
-                    }
-                    if (z2) {
+                        i2++;
+                    } else {
+                        Object[] objArr = this.zzd;
+                        Object[] objArr2 = zzlxVar.zzd;
+                        int i3 = this.zzb;
+                        for (int i4 = 0; i4 < i3; i4++) {
+                            if (objArr[i4].equals(objArr2[i4])) {
+                            }
+                        }
                         return true;
                     }
                 }

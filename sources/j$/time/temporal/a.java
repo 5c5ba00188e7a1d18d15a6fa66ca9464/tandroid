@@ -50,40 +50,39 @@ public enum a implements l {
     }
 
     @Override // j$.time.temporal.l
-    public final boolean a(k kVar) {
-        return kVar.b(this);
-    }
-
-    @Override // j$.time.temporal.l
-    public final q b(k kVar) {
-        return kVar.a(this);
-    }
-
-    @Override // j$.time.temporal.l
-    public final q c() {
+    public final q a() {
         return this.b;
     }
 
     @Override // j$.time.temporal.l
-    public final long d(k kVar) {
-        return kVar.c(this);
-    }
-
-    public final int e(long j) {
-        return this.b.a(j, this);
-    }
-
-    public final void f(long j) {
-        this.b.b(j, this);
+    public final long b(k kVar) {
+        return kVar.b(this);
     }
 
     @Override // j$.time.temporal.l
-    public final boolean isDateBased() {
+    public final boolean c(k kVar) {
+        return kVar.e(this);
+    }
+
+    @Override // j$.time.temporal.l
+    public final q d(k kVar) {
+        return kVar.a(this);
+    }
+
+    @Override // j$.time.temporal.l
+    public final boolean e() {
         return ordinal() >= DAY_OF_WEEK.ordinal() && ordinal() <= ERA.ordinal();
     }
 
-    @Override // j$.time.temporal.l
-    public final boolean isTimeBased() {
+    public final int f(long j) {
+        return this.b.a(j, this);
+    }
+
+    public final void g(long j) {
+        this.b.b(j, this);
+    }
+
+    public final boolean h() {
         return ordinal() < DAY_OF_WEEK.ordinal();
     }
 

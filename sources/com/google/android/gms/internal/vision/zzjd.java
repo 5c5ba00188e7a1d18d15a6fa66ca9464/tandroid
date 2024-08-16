@@ -8,7 +8,7 @@ import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-public final class zzjd extends zzhj<Integer> implements zzkw, RandomAccess {
+public final class zzjd extends zzhj<Integer> implements zzjl<Integer>, zzkw, RandomAccess {
     private static final zzjd zza;
     private int[] zzb;
     private int zzc;
@@ -211,7 +211,7 @@ public final class zzjd extends zzhj<Integer> implements zzkw, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.vision.zzjl
-    public final /* synthetic */ zzjl zza(int i) {
+    public final /* synthetic */ zzjl<Integer> zza(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }

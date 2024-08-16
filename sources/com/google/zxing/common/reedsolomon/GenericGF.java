@@ -1,6 +1,7 @@
 package com.google.zxing.common.reedsolomon;
 
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class GenericGF {
     public static final GenericGF AZTEC_DATA_6;
@@ -28,8 +29,8 @@ public final class GenericGF {
         GenericGF genericGF = new GenericGF(67, 64, 1);
         AZTEC_DATA_6 = genericGF;
         AZTEC_PARAM = new GenericGF(19, 16, 1);
-        QR_CODE_FIELD_256 = new GenericGF(285, LiteMode.FLAG_CHAT_BLUR, 0);
-        GenericGF genericGF2 = new GenericGF(301, LiteMode.FLAG_CHAT_BLUR, 1);
+        QR_CODE_FIELD_256 = new GenericGF(NotificationCenter.didUpdateGlobalAutoDeleteTimer, 256, 0);
+        GenericGF genericGF2 = new GenericGF(301, 256, 1);
         DATA_MATRIX_FIELD_256 = genericGF2;
         AZTEC_DATA_8 = genericGF2;
         MAXICODE_FIELD_64 = genericGF;

@@ -44,9 +44,8 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
     @Override // android.widget.HorizontalScrollView, android.widget.FrameLayout, android.view.View
     public void onMeasure(int i, int i2) {
         int mode = View.MeasureSpec.getMode(i);
-        boolean z = true;
-        boolean z2 = mode == 1073741824;
-        setFillViewport(z2);
+        boolean z = mode == 1073741824;
+        setFillViewport(z);
         int childCount = this.mTabLayout.getChildCount();
         if (childCount > 1 && (mode == 1073741824 || mode == Integer.MIN_VALUE)) {
             if (childCount > 2) {
@@ -59,7 +58,7 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
             this.mMaxTabWidth = -1;
         }
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(this.mContentHeight, 1073741824);
-        if ((z2 || !this.mAllowCollapse) ? false : false) {
+        if (!z && this.mAllowCollapse) {
             this.mTabLayout.measure(0, makeMeasureSpec);
             if (this.mTabLayout.getMeasuredWidth() > View.MeasureSpec.getSize(i)) {
                 performCollapse();
@@ -72,7 +71,7 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
         int measuredWidth = getMeasuredWidth();
         super.onMeasure(i, makeMeasureSpec);
         int measuredWidth2 = getMeasuredWidth();
-        if (!z2 || measuredWidth == measuredWidth2) {
+        if (!z || measuredWidth == measuredWidth2) {
             return;
         }
         setTabSelected(this.mSelectedTabIndex);
@@ -226,7 +225,7 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public TabView(Context context, ActionBar.Tab tab, boolean z) {
-            super(context, null, r5);
+            super(context, null, r3);
             int i = R$attr.actionBarTabStyle;
             int[] iArr = {16842964};
             this.BG_ATTRS = iArr;

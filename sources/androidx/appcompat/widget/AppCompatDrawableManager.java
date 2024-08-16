@@ -282,10 +282,14 @@ public final class AppCompatDrawableManager {
     public static synchronized AppCompatDrawableManager get() {
         AppCompatDrawableManager appCompatDrawableManager;
         synchronized (AppCompatDrawableManager.class) {
-            if (INSTANCE == null) {
-                preload();
+            try {
+                if (INSTANCE == null) {
+                    preload();
+                }
+                appCompatDrawableManager = INSTANCE;
+            } catch (Throwable th) {
+                throw th;
             }
-            appCompatDrawableManager = INSTANCE;
         }
         return appCompatDrawableManager;
     }

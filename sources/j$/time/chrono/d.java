@@ -1,4 +1,17 @@
 package j$.time.chrono;
+
+import j$.time.p;
+import j$.time.temporal.j;
 /* loaded from: classes2.dex */
-public interface d extends Comparable {
+public abstract /* synthetic */ class d {
+    public static int a(p pVar, j$.time.temporal.a aVar) {
+        if (aVar instanceof j$.time.temporal.a) {
+            int i = e.a[aVar.ordinal()];
+            if (i != 1) {
+                return i != 2 ? pVar.i().d(aVar) : pVar.f().getTotalSeconds();
+            }
+            throw new j$.time.temporal.p("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
+        }
+        return j.a(pVar, aVar);
+    }
 }

@@ -1,14 +1,12 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-class zzs implements Iterator, j$.util.Iterator {
+class zzs implements Iterator {
     final Iterator zza;
     final Collection zzb;
     final /* synthetic */ zzt zzc;
@@ -34,29 +32,19 @@ class zzs implements Iterator, j$.util.Iterator {
         this.zza = it;
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         zza();
         return this.zza.hasNext();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final Object next() {
         zza();
         return this.zza.next();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         int i;
         this.zza.remove();

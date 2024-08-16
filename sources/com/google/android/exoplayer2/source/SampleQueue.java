@@ -165,6 +165,10 @@ public class SampleQueue implements TrackOutput {
     }
 
     public final synchronized int peekSourceId() {
+        try {
+        } catch (Throwable th) {
+            throw th;
+        }
         return hasNextSample() ? this.sourceIds[getRelativeIndex(this.readPosition)] : this.upstreamSourceId;
     }
 
@@ -386,75 +390,86 @@ public class SampleQueue implements TrackOutput {
     }
 
     private synchronized int peekSampleMetadata(FormatHolder formatHolder, DecoderInputBuffer decoderInputBuffer, boolean z, boolean z2, SampleExtrasHolder sampleExtrasHolder) {
-        decoderInputBuffer.waitingForKeys = false;
-        if (!hasNextSample()) {
-            if (!z2 && !this.isLastSampleQueued) {
-                Format format = this.upstreamFormat;
-                if (format == null || (!z && format == this.downstreamFormat)) {
+        try {
+            decoderInputBuffer.waitingForKeys = false;
+            if (!hasNextSample()) {
+                if (!z2 && !this.isLastSampleQueued) {
+                    Format format = this.upstreamFormat;
+                    if (format == null || (!z && format == this.downstreamFormat)) {
+                        return -3;
+                    }
+                    onFormatResult((Format) Assertions.checkNotNull(format), formatHolder);
+                    return -5;
+                }
+                decoderInputBuffer.setFlags(4);
+                return -4;
+            }
+            Format format2 = this.sharedSampleMetadata.get(getReadIndex()).format;
+            if (!z && format2 == this.downstreamFormat) {
+                int relativeIndex = getRelativeIndex(this.readPosition);
+                if (!mayReadSample(relativeIndex)) {
+                    decoderInputBuffer.waitingForKeys = true;
                     return -3;
                 }
-                onFormatResult((Format) Assertions.checkNotNull(format), formatHolder);
-                return -5;
+                decoderInputBuffer.setFlags(this.flags[relativeIndex]);
+                long j = this.timesUs[relativeIndex];
+                decoderInputBuffer.timeUs = j;
+                if (j < this.startTimeUs) {
+                    decoderInputBuffer.addFlag(Integer.MIN_VALUE);
+                }
+                sampleExtrasHolder.size = this.sizes[relativeIndex];
+                sampleExtrasHolder.offset = this.offsets[relativeIndex];
+                sampleExtrasHolder.cryptoData = this.cryptoDatas[relativeIndex];
+                return -4;
             }
-            decoderInputBuffer.setFlags(4);
-            return -4;
+            onFormatResult(format2, formatHolder);
+            return -5;
+        } catch (Throwable th) {
+            throw th;
         }
-        Format format2 = this.sharedSampleMetadata.get(getReadIndex()).format;
-        if (!z && format2 == this.downstreamFormat) {
-            int relativeIndex = getRelativeIndex(this.readPosition);
-            if (!mayReadSample(relativeIndex)) {
-                decoderInputBuffer.waitingForKeys = true;
-                return -3;
-            }
-            decoderInputBuffer.setFlags(this.flags[relativeIndex]);
-            long j = this.timesUs[relativeIndex];
-            decoderInputBuffer.timeUs = j;
-            if (j < this.startTimeUs) {
-                decoderInputBuffer.addFlag(Integer.MIN_VALUE);
-            }
-            sampleExtrasHolder.size = this.sizes[relativeIndex];
-            sampleExtrasHolder.offset = this.offsets[relativeIndex];
-            sampleExtrasHolder.cryptoData = this.cryptoDatas[relativeIndex];
-            return -4;
-        }
-        onFormatResult(format2, formatHolder);
-        return -5;
     }
 
     private synchronized boolean setUpstreamFormat(Format format) {
-        this.upstreamFormatRequired = false;
-        if (Util.areEqual(format, this.upstreamFormat)) {
-            return false;
+        try {
+            this.upstreamFormatRequired = false;
+            if (Util.areEqual(format, this.upstreamFormat)) {
+                return false;
+            }
+            if (!this.sharedSampleMetadata.isEmpty() && this.sharedSampleMetadata.getEndValue().format.equals(format)) {
+                this.upstreamFormat = this.sharedSampleMetadata.getEndValue().format;
+            } else {
+                this.upstreamFormat = format;
+            }
+            Format format2 = this.upstreamFormat;
+            this.upstreamAllSamplesAreSyncSamples = MimeTypes.allSamplesAreSyncSamples(format2.sampleMimeType, format2.codecs);
+            this.loggedUnexpectedNonSyncSample = false;
+            return true;
+        } catch (Throwable th) {
+            throw th;
         }
-        if (!this.sharedSampleMetadata.isEmpty() && this.sharedSampleMetadata.getEndValue().format.equals(format)) {
-            this.upstreamFormat = this.sharedSampleMetadata.getEndValue().format;
-        } else {
-            this.upstreamFormat = format;
-        }
-        Format format2 = this.upstreamFormat;
-        this.upstreamAllSamplesAreSyncSamples = MimeTypes.allSamplesAreSyncSamples(format2.sampleMimeType, format2.codecs);
-        this.loggedUnexpectedNonSyncSample = false;
-        return true;
     }
 
     private synchronized long discardSampleMetadataTo(long j, boolean z, boolean z2) {
         int i;
-        int i2 = this.length;
-        if (i2 != 0) {
-            long[] jArr = this.timesUs;
-            int i3 = this.relativeFirstIndex;
-            if (j >= jArr[i3]) {
-                if (z2 && (i = this.readPosition) != i2) {
-                    i2 = i + 1;
+        try {
+            int i2 = this.length;
+            if (i2 != 0) {
+                long[] jArr = this.timesUs;
+                int i3 = this.relativeFirstIndex;
+                if (j >= jArr[i3]) {
+                    if (z2 && (i = this.readPosition) != i2) {
+                        i2 = i + 1;
+                    }
+                    int findSampleBefore = findSampleBefore(i3, i2, j, z);
+                    if (findSampleBefore == -1) {
+                        return -1L;
+                    }
+                    return discardSamples(findSampleBefore);
                 }
-                int findSampleBefore = findSampleBefore(i3, i2, j, z);
-                if (findSampleBefore == -1) {
-                    return -1L;
-                }
-                return discardSamples(findSampleBefore);
             }
+            return -1L;
+        } finally {
         }
-        return -1L;
     }
 
     public synchronized long discardSampleMetadataToRead() {
@@ -484,63 +499,67 @@ public class SampleQueue implements TrackOutput {
 
     private synchronized void commitSample(long j, int i, long j2, int i2, TrackOutput.CryptoData cryptoData) {
         DrmSessionManager.DrmSessionReference drmSessionReference;
-        int i3 = this.length;
-        if (i3 > 0) {
-            int relativeIndex = getRelativeIndex(i3 - 1);
-            Assertions.checkArgument(this.offsets[relativeIndex] + ((long) this.sizes[relativeIndex]) <= j2);
-        }
-        this.isLastSampleQueued = (536870912 & i) != 0;
-        this.largestQueuedTimestampUs = Math.max(this.largestQueuedTimestampUs, j);
-        int relativeIndex2 = getRelativeIndex(this.length);
-        this.timesUs[relativeIndex2] = j;
-        this.offsets[relativeIndex2] = j2;
-        this.sizes[relativeIndex2] = i2;
-        this.flags[relativeIndex2] = i;
-        this.cryptoDatas[relativeIndex2] = cryptoData;
-        this.sourceIds[relativeIndex2] = this.upstreamSourceId;
-        if (this.sharedSampleMetadata.isEmpty() || !this.sharedSampleMetadata.getEndValue().format.equals(this.upstreamFormat)) {
-            DrmSessionManager drmSessionManager = this.drmSessionManager;
-            if (drmSessionManager != null) {
-                drmSessionReference = drmSessionManager.preacquireSession(this.drmEventDispatcher, this.upstreamFormat);
-            } else {
-                drmSessionReference = DrmSessionManager.DrmSessionReference.EMPTY;
+        try {
+            int i3 = this.length;
+            if (i3 > 0) {
+                int relativeIndex = getRelativeIndex(i3 - 1);
+                Assertions.checkArgument(this.offsets[relativeIndex] + ((long) this.sizes[relativeIndex]) <= j2);
             }
-            this.sharedSampleMetadata.appendSpan(getWriteIndex(), new SharedSampleMetadata((Format) Assertions.checkNotNull(this.upstreamFormat), drmSessionReference));
-        }
-        int i4 = this.length + 1;
-        this.length = i4;
-        int i5 = this.capacity;
-        if (i4 == i5) {
-            int i6 = i5 + 1000;
-            int[] iArr = new int[i6];
-            long[] jArr = new long[i6];
-            long[] jArr2 = new long[i6];
-            int[] iArr2 = new int[i6];
-            int[] iArr3 = new int[i6];
-            TrackOutput.CryptoData[] cryptoDataArr = new TrackOutput.CryptoData[i6];
-            int i7 = this.relativeFirstIndex;
-            int i8 = i5 - i7;
-            System.arraycopy(this.offsets, i7, jArr, 0, i8);
-            System.arraycopy(this.timesUs, this.relativeFirstIndex, jArr2, 0, i8);
-            System.arraycopy(this.flags, this.relativeFirstIndex, iArr2, 0, i8);
-            System.arraycopy(this.sizes, this.relativeFirstIndex, iArr3, 0, i8);
-            System.arraycopy(this.cryptoDatas, this.relativeFirstIndex, cryptoDataArr, 0, i8);
-            System.arraycopy(this.sourceIds, this.relativeFirstIndex, iArr, 0, i8);
-            int i9 = this.relativeFirstIndex;
-            System.arraycopy(this.offsets, 0, jArr, i8, i9);
-            System.arraycopy(this.timesUs, 0, jArr2, i8, i9);
-            System.arraycopy(this.flags, 0, iArr2, i8, i9);
-            System.arraycopy(this.sizes, 0, iArr3, i8, i9);
-            System.arraycopy(this.cryptoDatas, 0, cryptoDataArr, i8, i9);
-            System.arraycopy(this.sourceIds, 0, iArr, i8, i9);
-            this.offsets = jArr;
-            this.timesUs = jArr2;
-            this.flags = iArr2;
-            this.sizes = iArr3;
-            this.cryptoDatas = cryptoDataArr;
-            this.sourceIds = iArr;
-            this.relativeFirstIndex = 0;
-            this.capacity = i6;
+            this.isLastSampleQueued = (536870912 & i) != 0;
+            this.largestQueuedTimestampUs = Math.max(this.largestQueuedTimestampUs, j);
+            int relativeIndex2 = getRelativeIndex(this.length);
+            this.timesUs[relativeIndex2] = j;
+            this.offsets[relativeIndex2] = j2;
+            this.sizes[relativeIndex2] = i2;
+            this.flags[relativeIndex2] = i;
+            this.cryptoDatas[relativeIndex2] = cryptoData;
+            this.sourceIds[relativeIndex2] = this.upstreamSourceId;
+            if (this.sharedSampleMetadata.isEmpty() || !this.sharedSampleMetadata.getEndValue().format.equals(this.upstreamFormat)) {
+                DrmSessionManager drmSessionManager = this.drmSessionManager;
+                if (drmSessionManager != null) {
+                    drmSessionReference = drmSessionManager.preacquireSession(this.drmEventDispatcher, this.upstreamFormat);
+                } else {
+                    drmSessionReference = DrmSessionManager.DrmSessionReference.EMPTY;
+                }
+                this.sharedSampleMetadata.appendSpan(getWriteIndex(), new SharedSampleMetadata((Format) Assertions.checkNotNull(this.upstreamFormat), drmSessionReference));
+            }
+            int i4 = this.length + 1;
+            this.length = i4;
+            int i5 = this.capacity;
+            if (i4 == i5) {
+                int i6 = i5 + 1000;
+                int[] iArr = new int[i6];
+                long[] jArr = new long[i6];
+                long[] jArr2 = new long[i6];
+                int[] iArr2 = new int[i6];
+                int[] iArr3 = new int[i6];
+                TrackOutput.CryptoData[] cryptoDataArr = new TrackOutput.CryptoData[i6];
+                int i7 = this.relativeFirstIndex;
+                int i8 = i5 - i7;
+                System.arraycopy(this.offsets, i7, jArr, 0, i8);
+                System.arraycopy(this.timesUs, this.relativeFirstIndex, jArr2, 0, i8);
+                System.arraycopy(this.flags, this.relativeFirstIndex, iArr2, 0, i8);
+                System.arraycopy(this.sizes, this.relativeFirstIndex, iArr3, 0, i8);
+                System.arraycopy(this.cryptoDatas, this.relativeFirstIndex, cryptoDataArr, 0, i8);
+                System.arraycopy(this.sourceIds, this.relativeFirstIndex, iArr, 0, i8);
+                int i9 = this.relativeFirstIndex;
+                System.arraycopy(this.offsets, 0, jArr, i8, i9);
+                System.arraycopy(this.timesUs, 0, jArr2, i8, i9);
+                System.arraycopy(this.flags, 0, iArr2, i8, i9);
+                System.arraycopy(this.sizes, 0, iArr3, i8, i9);
+                System.arraycopy(this.cryptoDatas, 0, cryptoDataArr, i8, i9);
+                System.arraycopy(this.sourceIds, 0, iArr, i8, i9);
+                this.offsets = jArr;
+                this.timesUs = jArr2;
+                this.flags = iArr2;
+                this.sizes = iArr3;
+                this.cryptoDatas = cryptoDataArr;
+                this.sourceIds = iArr;
+                this.relativeFirstIndex = 0;
+                this.capacity = i6;
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 

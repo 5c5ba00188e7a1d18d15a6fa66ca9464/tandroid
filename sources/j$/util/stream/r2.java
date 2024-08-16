@@ -4,12 +4,12 @@ abstract class r2 extends Z1 {
     protected boolean b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public r2(f2 f2Var) {
-        super(f2Var);
+    public r2(e2 e2Var) {
+        super(e2Var);
     }
 
-    @Override // j$.util.stream.Z1, j$.util.stream.f2
-    public final boolean h() {
+    @Override // j$.util.stream.Z1, j$.util.stream.e2
+    public final boolean q() {
         this.b = true;
         return false;
     }

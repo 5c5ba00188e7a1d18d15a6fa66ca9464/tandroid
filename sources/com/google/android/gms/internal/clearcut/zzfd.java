@@ -8,6 +8,7 @@ import java.security.AccessController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import libcore.io.Memory;
+import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -45,7 +46,7 @@ public final class zzfd {
 
         @Override // com.google.android.gms.internal.clearcut.zzfd.zzd
         public final void zza(long j, byte b) {
-            Memory.pokeByte((int) (j & (-1)), b);
+            Memory.pokeByte((int) j, b);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzfd.zzd
@@ -69,7 +70,7 @@ public final class zzfd {
 
         @Override // com.google.android.gms.internal.clearcut.zzfd.zzd
         public final void zza(byte[] bArr, long j, long j2, long j3) {
-            Memory.pokeByteArray((int) (j2 & (-1)), bArr, (int) j, (int) j3);
+            Memory.pokeByteArray((int) j2, bArr, (int) j, (int) j3);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzfd.zzd
@@ -367,7 +368,7 @@ public final class zzfd {
     public static void zza(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((255 << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -437,7 +438,7 @@ public final class zzfd {
     public static void zzb(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((255 << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zzj(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

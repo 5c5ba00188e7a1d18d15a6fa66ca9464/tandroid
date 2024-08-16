@@ -1,57 +1,59 @@
 package j$.util.stream;
 
-import j$.util.function.BiConsumer;
-import j$.util.function.Function;
-import j$.util.function.Supplier;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class j implements Collector {
-    public final /* synthetic */ java.util.stream.Collector a;
+public final /* synthetic */ class j implements java.util.stream.Collector {
+    public final /* synthetic */ Collector a;
 
-    private /* synthetic */ j(java.util.stream.Collector collector) {
+    private /* synthetic */ j(Collector collector) {
         this.a = collector;
     }
 
-    public static /* synthetic */ Collector a(java.util.stream.Collector collector) {
+    public static /* synthetic */ java.util.stream.Collector a(Collector collector) {
         if (collector == null) {
             return null;
         }
-        return collector instanceof k ? ((k) collector).a : new j(collector);
+        return collector instanceof i ? ((i) collector).a : new j(collector);
     }
 
-    @Override // j$.util.stream.Collector
+    @Override // java.util.stream.Collector
     public final /* synthetic */ BiConsumer accumulator() {
-        return BiConsumer.VivifiedWrapper.convert(this.a.accumulator());
+        return j$.util.function.a.a(this.a.accumulator());
     }
 
-    @Override // j$.util.stream.Collector
+    @Override // java.util.stream.Collector
     public final /* synthetic */ Set characteristics() {
         return this.a.characteristics();
     }
 
-    @Override // j$.util.stream.Collector
-    public final /* synthetic */ j$.util.function.f combiner() {
-        return j$.util.function.d.a(this.a.combiner());
+    @Override // java.util.stream.Collector
+    public final /* synthetic */ BinaryOperator combiner() {
+        return j$.util.function.e.a(this.a.combiner());
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        Collector collector = this.a;
         if (obj instanceof j) {
             obj = ((j) obj).a;
         }
-        return this.a.equals(obj);
+        return collector.equals(obj);
     }
 
-    @Override // j$.util.stream.Collector
+    @Override // java.util.stream.Collector
     public final /* synthetic */ Function finisher() {
-        return Function.VivifiedWrapper.convert(this.a.finisher());
+        return j$.util.function.y.a(this.a.finisher());
     }
 
     public final /* synthetic */ int hashCode() {
         return this.a.hashCode();
     }
 
-    @Override // j$.util.stream.Collector
+    @Override // java.util.stream.Collector
     public final /* synthetic */ Supplier supplier() {
-        return j$.util.function.K0.a(this.a.supplier());
+        return j$.util.function.u0.a(this.a.supplier());
     }
 }

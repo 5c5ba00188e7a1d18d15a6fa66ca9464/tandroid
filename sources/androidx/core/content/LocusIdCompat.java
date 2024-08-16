@@ -66,9 +66,7 @@ public final class LocusIdCompat {
         }
 
         static String getId(LocusId locusId) {
-            String id;
-            id = locusId.getId();
-            return id;
+            return locusId.getId();
         }
     }
 }

@@ -105,7 +105,7 @@ public class StoryUploadingService extends Service implements NotificationCenter
             this.builder.setContentText(LocaleController.getString("StoryUploading", i5));
         }
         this.currentProgress = 0.0f;
-        this.builder.setProgress(100, Math.round(0.0f * 100.0f), false);
+        this.builder.setProgress(100, Math.round(0.0f), false);
         startForeground(33, this.builder.build());
         try {
             NotificationManagerCompat.from(ApplicationLoader.applicationContext).notify(33, this.builder.build());

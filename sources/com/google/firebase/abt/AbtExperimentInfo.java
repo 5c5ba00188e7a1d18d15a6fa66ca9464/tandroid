@@ -31,9 +31,20 @@ public class AbtExperimentInfo {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static AbtExperimentInfo fromMap(Map<String, String> map) throws AbtException {
+        String str;
         validateExperimentInfoMap(map);
         try {
-            return new AbtExperimentInfo(map.get("experimentId"), map.get("variantId"), map.containsKey("triggerEvent") ? map.get("triggerEvent") : "", protoTimestampStringParser.parse(map.get("experimentStartTime")), Long.parseLong(map.get("triggerTimeoutMillis")), Long.parseLong(map.get("timeToLiveMillis")));
+            Date parse = protoTimestampStringParser.parse(map.get("experimentStartTime"));
+            long parseLong = Long.parseLong(map.get("triggerTimeoutMillis"));
+            long parseLong2 = Long.parseLong(map.get("timeToLiveMillis"));
+            String str2 = map.get("experimentId");
+            String str3 = map.get("variantId");
+            if (map.containsKey("triggerEvent")) {
+                str = map.get("triggerEvent");
+            } else {
+                str = "";
+            }
+            return new AbtExperimentInfo(str2, str3, str, parse, parseLong, parseLong2);
         } catch (NumberFormatException e) {
             throw new AbtException("Could not process experiment: one of the durations could not be converted into a long.", e);
         } catch (ParseException e2) {

@@ -90,7 +90,7 @@ public class BottomSheetTabs extends FrameLayout {
         this.rect = new RectF();
         this.actionBarLayout = actionBarLayout;
         setNavigationBarColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda0
+        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BottomSheetTabs.this.lambda$new$0(view);
@@ -145,7 +145,7 @@ public class BottomSheetTabs extends FrameLayout {
             return;
         }
         final boolean closeAttachedSheets = closeAttachedSheets();
-        new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda1
+        new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 BottomSheetTabs.this.lambda$openTab$1(webTabData, closeAttachedSheets, (BaseFragment) obj);
@@ -156,7 +156,7 @@ public class BottomSheetTabs extends FrameLayout {
                 return;
             }
             final ChatActivity of = ChatActivity.of(webTabData.props.botId);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     BaseFragment.this.presentFragment(of);
@@ -470,12 +470,10 @@ public class BottomSheetTabs extends FrameLayout {
         }
         setImportantForAccessibility(1);
         int i2 = R.string.AccDescrTabs;
-        Object[] objArr = new Object[1];
         if (charSequence == null) {
             charSequence = "";
         }
-        objArr[0] = charSequence;
-        setContentDescription(LocaleController.formatString(i2, objArr));
+        setContentDescription(LocaleController.formatString(i2, charSequence));
     }
 
     public boolean removeAll() {
@@ -626,7 +624,7 @@ public class BottomSheetTabs extends FrameLayout {
                     findTabDrawable.closeRipple.setState(contains ? new int[]{16842919, 16842910} : new int[0]);
                 } else if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
                     if (this.closeRippleHit && motionEvent.getAction() == 1) {
-                        removeTab(webTabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda3
+                        removeTab(webTabData, new Utilities.Callback() { // from class: org.telegram.ui.ActionBar.BottomSheetTabs$$ExternalSyntheticLambda2
                             @Override // org.telegram.messenger.Utilities.Callback
                             public final void run(Object obj) {
                                 BottomSheetTabs.lambda$onTouchEvent$7((Boolean) obj);

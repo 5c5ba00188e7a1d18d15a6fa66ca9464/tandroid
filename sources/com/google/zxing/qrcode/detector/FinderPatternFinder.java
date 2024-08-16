@@ -400,34 +400,30 @@ public class FinderPatternFinder {
     }
 
     protected final boolean handlePossibleCenter(int[] iArr, int i, int i2) {
-        boolean z = false;
-        int i3 = iArr[0] + iArr[1] + iArr[2] + iArr[3] + iArr[4];
+        int i3 = 0;
+        int i4 = iArr[0] + iArr[1] + iArr[2] + iArr[3] + iArr[4];
         int centerFromEnd = (int) centerFromEnd(iArr, i2);
-        float crossCheckVertical = crossCheckVertical(i, centerFromEnd, iArr[2], i3);
+        float crossCheckVertical = crossCheckVertical(i, centerFromEnd, iArr[2], i4);
         if (!Float.isNaN(crossCheckVertical)) {
-            int i4 = (int) crossCheckVertical;
-            float crossCheckHorizontal = crossCheckHorizontal(centerFromEnd, i4, iArr[2], i3);
-            if (!Float.isNaN(crossCheckHorizontal) && crossCheckDiagonal(i4, (int) crossCheckHorizontal)) {
-                float f = i3 / 7.0f;
-                int i5 = 0;
+            int i5 = (int) crossCheckVertical;
+            float crossCheckHorizontal = crossCheckHorizontal(centerFromEnd, i5, iArr[2], i4);
+            if (!Float.isNaN(crossCheckHorizontal) && crossCheckDiagonal(i5, (int) crossCheckHorizontal)) {
+                float f = i4 / 7.0f;
                 while (true) {
-                    if (i5 >= this.possibleCenters.size()) {
-                        break;
-                    }
-                    FinderPattern finderPattern = this.possibleCenters.get(i5);
-                    if (finderPattern.aboutEquals(f, crossCheckVertical, crossCheckHorizontal)) {
-                        this.possibleCenters.set(i5, finderPattern.combineEstimate(crossCheckVertical, crossCheckHorizontal, f));
-                        z = true;
-                        break;
-                    }
-                    i5++;
-                }
-                if (!z) {
-                    FinderPattern finderPattern2 = new FinderPattern(crossCheckHorizontal, crossCheckVertical, f);
-                    this.possibleCenters.add(finderPattern2);
-                    ResultPointCallback resultPointCallback = this.resultPointCallback;
-                    if (resultPointCallback != null) {
-                        resultPointCallback.foundPossibleResultPoint(finderPattern2);
+                    if (i3 < this.possibleCenters.size()) {
+                        FinderPattern finderPattern = this.possibleCenters.get(i3);
+                        if (finderPattern.aboutEquals(f, crossCheckVertical, crossCheckHorizontal)) {
+                            this.possibleCenters.set(i3, finderPattern.combineEstimate(crossCheckVertical, crossCheckHorizontal, f));
+                            break;
+                        }
+                        i3++;
+                    } else {
+                        FinderPattern finderPattern2 = new FinderPattern(crossCheckHorizontal, crossCheckVertical, f);
+                        this.possibleCenters.add(finderPattern2);
+                        ResultPointCallback resultPointCallback = this.resultPointCallback;
+                        if (resultPointCallback != null) {
+                            resultPointCallback.foundPossibleResultPoint(finderPattern2);
+                        }
                     }
                 }
                 return true;
@@ -485,29 +481,28 @@ public class FinderPatternFinder {
     }
 
     private FinderPattern[] selectBestPatterns() throws NotFoundException {
+        int i = 2;
         if (this.possibleCenters.size() < 3) {
             throw NotFoundException.getNotFoundInstance();
         }
         Collections.sort(this.possibleCenters, moduleComparator);
-        double[] dArr = new double[3];
         FinderPattern[] finderPatternArr = new FinderPattern[3];
-        int i = 0;
+        int i2 = 0;
         double d = Double.MAX_VALUE;
-        while (i < this.possibleCenters.size() - 2) {
-            FinderPattern finderPattern = this.possibleCenters.get(i);
+        while (i2 < this.possibleCenters.size() - i) {
+            FinderPattern finderPattern = this.possibleCenters.get(i2);
             float estimatedModuleSize = finderPattern.getEstimatedModuleSize();
-            i++;
-            int i2 = i;
-            while (i2 < this.possibleCenters.size() - 1) {
-                FinderPattern finderPattern2 = this.possibleCenters.get(i2);
+            i2++;
+            int i3 = i2;
+            while (i3 < this.possibleCenters.size() - 1) {
+                FinderPattern finderPattern2 = this.possibleCenters.get(i3);
                 double squaredDistance = squaredDistance(finderPattern, finderPattern2);
-                i2++;
-                for (int i3 = i2; i3 < this.possibleCenters.size(); i3++) {
-                    FinderPattern finderPattern3 = this.possibleCenters.get(i3);
+                i3++;
+                int i4 = i3;
+                while (i4 < this.possibleCenters.size()) {
+                    FinderPattern finderPattern3 = this.possibleCenters.get(i4);
                     if (finderPattern3.getEstimatedModuleSize() <= 1.4f * estimatedModuleSize) {
-                        dArr[0] = squaredDistance;
-                        dArr[1] = squaredDistance(finderPattern2, finderPattern3);
-                        dArr[2] = squaredDistance(finderPattern, finderPattern3);
+                        double[] dArr = {squaredDistance, squaredDistance(finderPattern2, finderPattern3), squaredDistance(finderPattern, finderPattern3)};
                         Arrays.sort(dArr);
                         double abs = Math.abs(dArr[2] - (dArr[1] * 2.0d)) + Math.abs(dArr[2] - (dArr[0] * 2.0d));
                         if (abs < d) {
@@ -517,6 +512,8 @@ public class FinderPatternFinder {
                             d = abs;
                         }
                     }
+                    i4++;
+                    i = 2;
                 }
             }
         }

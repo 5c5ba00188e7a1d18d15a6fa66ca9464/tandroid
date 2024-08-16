@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class DecodedBitStreamParser {
     private static final char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".toCharArray();
@@ -21,13 +22,12 @@ final class DecodedBitStreamParser {
         Mode mode;
         BitSource bitSource = new BitSource(bArr);
         StringBuilder sb = new StringBuilder(50);
-        int i = 1;
         ArrayList arrayList = new ArrayList(1);
-        CharacterSetECI characterSetECI = null;
+        int i = -1;
         int i2 = -1;
-        int i3 = -1;
         boolean z = false;
-        while (true) {
+        CharacterSetECI characterSetECI = null;
+        do {
             try {
                 if (bitSource.available() < 4) {
                     forBits = Mode.TERMINATOR;
@@ -46,45 +46,47 @@ final class DecodedBitStreamParser {
                         z = true;
                         break;
                     case 8:
+                        mode = mode2;
                         if (bitSource.available() < 16) {
                             throw FormatException.getFormatInstance();
                         }
                         int readBits = bitSource.readBits(8);
-                        i3 = bitSource.readBits(8);
-                        i2 = readBits;
-                        mode = mode2;
+                        i2 = bitSource.readBits(8);
+                        i = readBits;
                         break;
                     case 9:
+                        mode = mode2;
                         characterSetECI = CharacterSetECI.getCharacterSetECIByValue(parseECIValue(bitSource));
-                        if (characterSetECI == null) {
+                        if (characterSetECI != null) {
+                            break;
+                        } else {
                             throw FormatException.getFormatInstance();
                         }
-                        mode = mode2;
-                        break;
                     case 10:
-                        int readBits2 = bitSource.readBits(4);
-                        int readBits3 = bitSource.readBits(mode2.getCharacterCountBits(version));
-                        if (readBits2 == i) {
-                            decodeHanziSegment(bitSource, sb, readBits3);
-                        }
                         mode = mode2;
+                        int readBits2 = bitSource.readBits(4);
+                        int readBits3 = bitSource.readBits(mode.getCharacterCountBits(version));
+                        if (readBits2 == 1) {
+                            decodeHanziSegment(bitSource, sb, readBits3);
+                            break;
+                        }
                         break;
                     default:
                         int readBits4 = bitSource.readBits(mode2.getCharacterCountBits(version));
-                        int i4 = iArr[mode2.ordinal()];
-                        if (i4 == i) {
+                        int i3 = iArr[mode2.ordinal()];
+                        if (i3 == 1) {
                             mode = mode2;
                             decodeNumericSegment(bitSource, sb, readBits4);
                             break;
-                        } else if (i4 == 2) {
+                        } else if (i3 == 2) {
                             mode = mode2;
                             decodeAlphanumericSegment(bitSource, sb, readBits4, z);
                             break;
-                        } else if (i4 == 3) {
+                        } else if (i3 == 3) {
                             mode = mode2;
                             decodeByteSegment(bitSource, sb, readBits4, characterSetECI, arrayList, map);
                             break;
-                        } else if (i4 == 4) {
+                        } else if (i3 == 4) {
                             decodeKanjiSegment(bitSource, sb, readBits4);
                             mode = mode2;
                             break;
@@ -92,14 +94,11 @@ final class DecodedBitStreamParser {
                             throw FormatException.getFormatInstance();
                         }
                 }
-                if (mode == Mode.TERMINATOR) {
-                    return new DecoderResult(bArr, sb.toString(), arrayList.isEmpty() ? null : arrayList, errorCorrectionLevel == null ? null : errorCorrectionLevel.toString(), i2, i3);
-                }
-                i = 1;
             } catch (IllegalArgumentException unused) {
                 throw FormatException.getFormatInstance();
             }
-        }
+        } while (mode != Mode.TERMINATOR);
+        return new DecoderResult(bArr, sb.toString(), arrayList.isEmpty() ? null : arrayList, errorCorrectionLevel == null ? null : errorCorrectionLevel.toString(), i, i2);
     }
 
     /* loaded from: classes.dex */
@@ -162,8 +161,8 @@ final class DecodedBitStreamParser {
             int readBits = bitSource.readBits(13);
             int i3 = (readBits % 96) | ((readBits / 96) << 8);
             int i4 = i3 + (i3 < 2560 ? 41377 : 42657);
-            bArr[i2] = (byte) ((i4 >> 8) & 255);
-            bArr[i2 + 1] = (byte) (i4 & 255);
+            bArr[i2] = (byte) ((i4 >> 8) & NotificationCenter.voipServiceCreated);
+            bArr[i2 + 1] = (byte) (i4 & NotificationCenter.voipServiceCreated);
             i2 += 2;
             i--;
         }
@@ -182,7 +181,7 @@ final class DecodedBitStreamParser {
         int i2 = 0;
         while (i > 0) {
             int readBits = bitSource.readBits(13);
-            int i3 = (readBits % 192) | ((readBits / 192) << 8);
+            int i3 = (readBits % NotificationCenter.dialogPhotosUpdate) | ((readBits / NotificationCenter.dialogPhotosUpdate) << 8);
             int i4 = i3 + (i3 < 7936 ? 33088 : 49472);
             bArr[i2] = (byte) (i4 >> 8);
             bArr[i2 + 1] = (byte) i4;
@@ -296,12 +295,12 @@ final class DecodedBitStreamParser {
     private static int parseECIValue(BitSource bitSource) throws FormatException {
         int readBits = bitSource.readBits(8);
         if ((readBits & 128) == 0) {
-            return readBits & 127;
+            return readBits & NotificationCenter.dialogTranslate;
         }
-        if ((readBits & 192) == 128) {
+        if ((readBits & NotificationCenter.dialogPhotosUpdate) == 128) {
             return bitSource.readBits(8) | ((readBits & 63) << 8);
         }
-        if ((readBits & 224) == 192) {
+        if ((readBits & NotificationCenter.didReceiveCall) == 192) {
             return bitSource.readBits(16) | ((readBits & 31) << 16);
         }
         throw FormatException.getFormatInstance();

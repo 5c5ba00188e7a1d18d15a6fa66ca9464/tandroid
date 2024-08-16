@@ -185,15 +185,15 @@ public final class RawResourceDataSource extends BaseDataSource {
                         if (assetFileDescriptor != null) {
                             assetFileDescriptor.close();
                         }
-                    } finally {
-                        this.assetFileDescriptor = null;
-                        if (this.opened) {
-                            this.opened = false;
-                            transferEnded();
-                        }
+                    } catch (IOException e) {
+                        throw new RawResourceDataSourceException(null, e, 2000);
                     }
-                } catch (IOException e) {
-                    throw new RawResourceDataSourceException(null, e, 2000);
+                } finally {
+                    this.assetFileDescriptor = null;
+                    if (this.opened) {
+                        this.opened = false;
+                        transferEnded();
+                    }
                 }
             } catch (IOException e2) {
                 throw new RawResourceDataSourceException(null, e2, 2000);

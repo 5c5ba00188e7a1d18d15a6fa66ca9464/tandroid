@@ -25,6 +25,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
@@ -112,8 +113,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x047d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x041b  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x047c A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -146,7 +147,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         setOrientation(1);
         setPadding(0, AndroidUtilities.dp(11.0f), 0, AndroidUtilities.dp(11.0f));
         this.shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow, resourcesProvider);
-        int currentTimeMillis = ((int) (System.currentTimeMillis() / 1000)) - 3600;
+        int currentTimeMillis = (int) (System.currentTimeMillis() / 1000);
         if (i == 3) {
             boolean z = j < 0;
             TLRPC$TL_message tLRPC$TL_message = new TLRPC$TL_message();
@@ -191,9 +192,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             TLRPC$WebPage tLRPC$WebPage3 = tLRPC$TL_message.media.webpage;
             tLRPC$WebPage3.flags |= 8;
             tLRPC$WebPage3.description = LocaleController.getString(z ? R.string.ChannelColorPreviewLinkDescription : R.string.UserColorPreviewLinkDescription);
-            tLRPC$TL_message.date = currentTimeMillis + 60;
+            tLRPC$TL_message.date = currentTimeMillis - 3540;
             tLRPC$TL_message.dialog_id = 1L;
-            tLRPC$TL_message.flags = 259;
+            tLRPC$TL_message.flags = NotificationCenter.appUpdateAvailable;
             if (j == 0) {
                 TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                 tLRPC$TL_message.from_id = tLRPC$TL_peerUser;
@@ -222,9 +223,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         } else if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
             tLRPC$TL_message2.message = LocaleController.getString("DoubleTapPreviewMessage", R.string.DoubleTapPreviewMessage);
-            tLRPC$TL_message2.date = currentTimeMillis + 60;
+            tLRPC$TL_message2.date = currentTimeMillis - 3540;
             tLRPC$TL_message2.dialog_id = 1L;
-            tLRPC$TL_message2.flags = 259;
+            tLRPC$TL_message2.flags = NotificationCenter.appUpdateAvailable;
             TLRPC$TL_peerUser tLRPC$TL_peerUser3 = new TLRPC$TL_peerUser();
             tLRPC$TL_message2.from_id = tLRPC$TL_peerUser3;
             tLRPC$TL_peerUser3.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -257,10 +258,10 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 tLRPC$TL_messageEntityCustomEmoji.document_id = 5386654653003864312L;
                 tLRPC$TL_message3.entities.add(tLRPC$TL_messageEntityCustomEmoji);
             }
-            int i4 = currentTimeMillis + 60;
+            int i4 = currentTimeMillis - 3540;
             tLRPC$TL_message3.date = i4;
             tLRPC$TL_message3.dialog_id = 1L;
-            tLRPC$TL_message3.flags = 259;
+            tLRPC$TL_message3.flags = NotificationCenter.appUpdateAvailable;
             TLRPC$TL_peerUser tLRPC$TL_peerUser5 = new TLRPC$TL_peerUser();
             tLRPC$TL_message3.from_id = tLRPC$TL_peerUser5;
             tLRPC$TL_peerUser5.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -298,9 +299,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
                 tLRPC$TL_messageEntityCustomEmoji2.document_id = 5373141891321699086L;
                 tLRPC$TL_message4.entities.add(tLRPC$TL_messageEntityCustomEmoji2);
             }
-            tLRPC$TL_message4.date = currentTimeMillis + 960;
+            tLRPC$TL_message4.date = currentTimeMillis - 2640;
             tLRPC$TL_message4.dialog_id = 1L;
-            tLRPC$TL_message4.flags = 259;
+            tLRPC$TL_message4.flags = NotificationCenter.appUpdateAvailable;
             TLRPC$TL_peerUser tLRPC$TL_peerUser7 = new TLRPC$TL_peerUser();
             tLRPC$TL_message4.from_id = tLRPC$TL_peerUser7;
             tLRPC$TL_peerUser7.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -323,7 +324,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             }
             tLRPC$TL_message5.date = i4;
             tLRPC$TL_message5.dialog_id = 1L;
-            tLRPC$TL_message5.flags = 265;
+            tLRPC$TL_message5.flags = NotificationCenter.chatAvailableReactionsUpdated;
             tLRPC$TL_message5.from_id = new TLRPC$TL_peerUser();
             tLRPC$TL_message5.id = 1;
             TLRPC$TL_messageReplyHeader tLRPC$TL_messageReplyHeader2 = new TLRPC$TL_messageReplyHeader();
@@ -945,7 +946,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         while (i < 2) {
             Drawable drawable2 = i == 0 ? this.oldBackgroundDrawable : this.backgroundDrawable;
             if (drawable2 != null) {
-                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? 255 : (int) (255.0f * themeAnimationValue);
+                int i2 = (i != 1 || this.oldBackgroundDrawable == null || (this.parentLayout == null && !this.customAnimation)) ? NotificationCenter.voipServiceCreated : (int) (255.0f * themeAnimationValue);
                 if (i2 > 0) {
                     drawable2.setAlpha(i2);
                     if ((drawable2 instanceof ColorDrawable) || (drawable2 instanceof GradientDrawable) || (drawable2 instanceof MotionBackgroundDrawable)) {

@@ -41,7 +41,7 @@ public class PaintTypeface {
     private final Typeface typeface;
 
     static {
-        PaintTypeface paintTypeface = new PaintTypeface("roboto", "PhotoEditorTypefaceRoboto", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda2
+        PaintTypeface paintTypeface = new PaintTypeface("roboto", "PhotoEditorTypefaceRoboto", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$0;
@@ -50,7 +50,7 @@ public class PaintTypeface {
             }
         }));
         ROBOTO_MEDIUM = paintTypeface;
-        PaintTypeface paintTypeface2 = new PaintTypeface("italic", "PhotoEditorTypefaceItalic", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda3
+        PaintTypeface paintTypeface2 = new PaintTypeface("italic", "PhotoEditorTypefaceItalic", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$1;
@@ -59,7 +59,7 @@ public class PaintTypeface {
             }
         }));
         ROBOTO_ITALIC = paintTypeface2;
-        PaintTypeface paintTypeface3 = new PaintTypeface("serif", "PhotoEditorTypefaceSerif", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda4
+        PaintTypeface paintTypeface3 = new PaintTypeface("serif", "PhotoEditorTypefaceSerif", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$2;
@@ -68,7 +68,7 @@ public class PaintTypeface {
             }
         }));
         ROBOTO_SERIF = paintTypeface3;
-        PaintTypeface paintTypeface4 = new PaintTypeface("condensed", "PhotoEditorTypefaceCondensed", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda5
+        PaintTypeface paintTypeface4 = new PaintTypeface("condensed", "PhotoEditorTypefaceCondensed", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda6
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$3;
@@ -77,7 +77,7 @@ public class PaintTypeface {
             }
         }));
         ROBOTO_CONDENSED = paintTypeface4;
-        PaintTypeface paintTypeface5 = new PaintTypeface("mono", "PhotoEditorTypefaceMono", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda6
+        PaintTypeface paintTypeface5 = new PaintTypeface("mono", "PhotoEditorTypefaceMono", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$4;
@@ -86,7 +86,7 @@ public class PaintTypeface {
             }
         }));
         ROBOTO_MONO = paintTypeface5;
-        PaintTypeface paintTypeface6 = new PaintTypeface("mw_bold", "PhotoEditorTypefaceMerriweather", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda7
+        PaintTypeface paintTypeface6 = new PaintTypeface("mw_bold", "PhotoEditorTypefaceMerriweather", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$5;
@@ -95,7 +95,7 @@ public class PaintTypeface {
             }
         }));
         MW_BOLD = paintTypeface6;
-        PaintTypeface paintTypeface7 = new PaintTypeface("courier_new_bold", "PhotoEditorTypefaceCourierNew", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda8
+        PaintTypeface paintTypeface7 = new PaintTypeface("courier_new_bold", "PhotoEditorTypefaceCourierNew", new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda9
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$static$6;
@@ -180,7 +180,7 @@ public class PaintTypeface {
         this.name = str;
         this.nameKey = null;
         this.typeface = null;
-        this.lazyTypeface = new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda11
+        this.lazyTypeface = new LazyTypeface(new LazyTypeface.LazyTypefaceLoader() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda12
             @Override // org.telegram.ui.Components.Paint.PaintTypeface.LazyTypeface.LazyTypefaceLoader
             public final Typeface load() {
                 Typeface lambda$new$7;
@@ -220,7 +220,7 @@ public class PaintTypeface {
             return;
         }
         loadingTypefaces = true;
-        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda9
+        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 PaintTypeface.lambda$load$9();
@@ -230,16 +230,17 @@ public class PaintTypeface {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$load$9() {
-        Set<Font> availableFonts;
+        Set<Object> availableFonts;
         File file;
         FontData parseFont;
         final ArrayList arrayList = new ArrayList(BUILT_IN_FONTS);
         if (Build.VERSION.SDK_INT >= 29) {
             availableFonts = SystemFonts.getAvailableFonts();
             HashMap hashMap = new HashMap();
-            for (Font font : availableFonts) {
-                file = font.getFile();
-                if (!file.getName().contains("Noto") && (parseFont = parseFont(font)) != null) {
+            for (Object obj : availableFonts) {
+                Font m = PaintTypeface$$ExternalSyntheticApiModelOutline1.m(obj);
+                file = m.getFile();
+                if (!file.getName().contains("Noto") && (parseFont = parseFont(m)) != null) {
                     Family family = (Family) hashMap.get(parseFont.family);
                     if (family == null) {
                         family = new Family();
@@ -263,7 +264,7 @@ public class PaintTypeface {
                 }
             }
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.PaintTypeface$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 PaintTypeface.lambda$load$8(arrayList);
@@ -394,13 +395,13 @@ public class PaintTypeface {
         return nameRecord.read(randomAccessFile, i);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a7, code lost:
-        if (r2 == null) goto L42;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00a9, code lost:
+        if (r2 == null) goto L43;
      */
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0004, code lost:
         r1 = r9.getFile();
      */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x00af A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00b2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -414,30 +415,37 @@ public class PaintTypeface {
         }
         try {
             randomAccessFile = new RandomAccessFile(file, "r");
+        } catch (Exception e) {
+            e = e;
+            randomAccessFile = null;
+        } catch (Throwable th) {
+            th = th;
+            randomAccessFile = randomAccessFile2;
+            if (randomAccessFile != null) {
+            }
+            throw th;
+        }
+        try {
+            readInt = randomAccessFile.readInt();
+        } catch (Exception e2) {
+            e = e2;
             try {
-                try {
-                    readInt = randomAccessFile.readInt();
-                } catch (Exception e) {
-                    e = e;
-                    FileLog.e(e);
-                }
-            } catch (Throwable th) {
-                th = th;
+                FileLog.e(e);
+            } catch (Throwable th2) {
+                th = th2;
                 randomAccessFile2 = randomAccessFile;
-                if (randomAccessFile2 != null) {
+                randomAccessFile = randomAccessFile2;
+                if (randomAccessFile != null) {
                     try {
-                        randomAccessFile2.close();
+                        randomAccessFile.close();
                     } catch (Exception unused) {
                     }
                 }
                 throw th;
             }
-        } catch (Exception e2) {
-            e = e2;
-            randomAccessFile = null;
-        } catch (Throwable th2) {
-            th = th2;
-            if (randomAccessFile2 != null) {
+        } catch (Throwable th3) {
+            th = th3;
+            if (randomAccessFile != null) {
             }
             throw th;
         }

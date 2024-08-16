@@ -1,37 +1,44 @@
 package j$.util.stream;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class w extends c0 {
-    public final /* synthetic */ int l;
-    final /* synthetic */ Object m;
+public final class w extends g0 {
+    public final /* synthetic */ int m;
+    final /* synthetic */ Object n;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ w(c cVar, int i, Object obj, int i2) {
-        super(cVar, i);
-        this.l = i2;
-        this.m = obj;
+    public /* synthetic */ w(b bVar, int i, Object obj, int i2) {
+        super(bVar, i, 1);
+        this.m = i2;
+        this.n = obj;
+    }
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public w(b bVar, j$.util.function.W w) {
+        super(bVar, 0, 1);
+        this.m = 5;
+        this.n = w;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        switch (this.l) {
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        switch (this.m) {
             case 0:
-                return new t(this, f2Var, 2);
+                return new s(this, e2Var, 3);
             case 1:
-                return new X(this, f2Var, 1);
+                return new W(this, e2Var, 3);
             case 2:
-                return new X(this, f2Var, 3);
+                return new e0(this, e2Var, 0);
             case 3:
-                return new X(this, f2Var, 7);
+                return new e0(this, e2Var, 4);
             case 4:
-                return new X(this, f2Var, 8);
+                return new e0(this, e2Var, 5);
             case 5:
-                return new f0(this, f2Var, 3);
+                return new e0(this, e2Var, 6);
             case 6:
-                return new R1(this, f2Var, 3);
+                return new R1(this, e2Var);
             default:
-                return new p(this, f2Var);
+                return new o(this, e2Var, 5);
         }
     }
 }

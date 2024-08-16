@@ -1461,7 +1461,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                             }
                         } else {
                             while (i < 6) {
-                                int i5 = 170 * i;
+                                int i5 = NotificationCenter.groupCallVisibilityChanged * i;
                                 float f5 = this.fft.getSpectrumReal()[i5];
                                 float f6 = this.fft.getSpectrumImaginary()[i5];
                                 float sqrt3 = (float) (Math.sqrt((f5 * f5) + (f6 * f6)) / 30.0d);
@@ -1478,7 +1478,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                             return;
                         }
                         this.lastUpdateTime = System.currentTimeMillis();
-                        VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda1
+                        VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
                                 VideoPlayer.VisualizerBufferSink.this.lambda$handleBuffer$1(fArr);
@@ -1490,7 +1490,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
                 }
                 return;
             }
-            VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda0
+            VideoPlayer.this.audioUpdateHandler.postDelayed(new Runnable() { // from class: org.telegram.ui.Components.VideoPlayer$VisualizerBufferSink$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     VideoPlayer.VisualizerBufferSink.this.lambda$handleBuffer$0();

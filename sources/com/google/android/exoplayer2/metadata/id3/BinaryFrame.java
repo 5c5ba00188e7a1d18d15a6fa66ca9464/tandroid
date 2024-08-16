@@ -41,7 +41,7 @@ public final class BinaryFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        return ((527 + this.id.hashCode()) * 31) + Arrays.hashCode(this.data);
+        return ((this.id.hashCode() + 527) * 31) + Arrays.hashCode(this.data);
     }
 
     @Override // android.os.Parcelable

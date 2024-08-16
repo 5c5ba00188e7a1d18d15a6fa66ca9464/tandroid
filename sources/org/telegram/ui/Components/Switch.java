@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.BaseCell;
 /* loaded from: classes3.dex */
@@ -205,9 +206,7 @@ public class Switch extends View {
     }
 
     private void animateToCheckedState(boolean z) {
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", z ? 1.0f : 0.0f);
         this.checkAnimator = ofFloat;
         ofFloat.setDuration(200L);
         this.checkAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.2
@@ -220,9 +219,7 @@ public class Switch extends View {
     }
 
     private void animateIcon(boolean z) {
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "iconProgress", fArr);
+        ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "iconProgress", z ? 1.0f : 0.0f);
         this.iconAnimator = ofFloat;
         ofFloat.setDuration(200L);
         this.iconAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.Switch.3
@@ -340,31 +337,31 @@ public class Switch extends View {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:19:0x00a8, code lost:
-        if (r12 == 0) goto L21;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x00aa, code lost:
-        r16 = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x00ad, code lost:
-        r16 = 1.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00b2, code lost:
         if (r12 == 0) goto L47;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x00ad, code lost:
+        if (r12 == 0) goto L21;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00af, code lost:
+        r16 = 1.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:24:0x00b2, code lost:
+        r16 = 0.0f;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:69:0x01f9, code lost:
-        if (r1 == 0) goto L73;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x01fb, code lost:
-        r6 = 0.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x01fd, code lost:
-        r6 = 1.0f;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0203, code lost:
         if (r1 == 0) goto L95;
      */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x03e0  */
-    /* JADX WARN: Removed duplicated region for block: B:95:0x03e9  */
+    /* JADX WARN: Code restructure failed: missing block: B:73:0x01ff, code lost:
+        if (r1 == 0) goto L73;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:74:0x0201, code lost:
+        r6 = 1.0f;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x0204, code lost:
+        r6 = 0.0f;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:95:0x03e8  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -423,7 +420,7 @@ public class Switch extends View {
                 int green2 = Color.green(processColor2);
                 int blue = Color.blue(processColor);
                 int blue2 = Color.blue(processColor2);
-                int alpha3 = ((((int) (red + ((red2 - red) * f2))) & 255) << 16) | ((((int) (Color.alpha(processColor) + ((Color.alpha(processColor2) - alpha2) * f2))) & 255) << 24) | ((((int) (green + ((green2 - green) * f2))) & 255) << 8) | (((int) (blue + ((blue2 - blue) * f2))) & 255);
+                int alpha3 = ((((int) (red + ((red2 - red) * f2))) & NotificationCenter.voipServiceCreated) << 16) | ((((int) (Color.alpha(processColor) + ((Color.alpha(processColor2) - alpha2) * f2))) & NotificationCenter.voipServiceCreated) << 24) | ((((int) (green + ((green2 - green) * f2))) & NotificationCenter.voipServiceCreated) << 8) | (((int) (blue + ((blue2 - blue) * f2))) & NotificationCenter.voipServiceCreated);
                 this.paint.setColor(alpha3);
                 this.paint2.setColor(alpha3);
                 this.rectF.set(measuredWidth, measuredHeight, measuredWidth + dp, AndroidUtilities.dpf2(14.0f) + measuredHeight);
@@ -468,7 +465,7 @@ public class Switch extends View {
                 int green4 = Color.green(processColor3);
                 int blue3 = Color.blue(color);
                 int blue4 = Color.blue(processColor3);
-                this.paint.setColor(((((int) (Color.alpha(color) + ((Color.alpha(processColor3) - alpha) * f))) & 255) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & 255) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & 255) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & 255));
+                this.paint.setColor(((((int) (Color.alpha(color) + ((Color.alpha(processColor3) - alpha) * f))) & NotificationCenter.voipServiceCreated) << 24) | ((((int) (red3 + ((red4 - red3) * f))) & NotificationCenter.voipServiceCreated) << 16) | ((((int) (green3 + ((green4 - green3) * f))) & NotificationCenter.voipServiceCreated) << 8) | (((int) (blue3 + ((blue4 - blue3) * f))) & NotificationCenter.voipServiceCreated));
                 float f3 = dp2;
                 float f4 = measuredHeight2;
                 canvas5.drawCircle(f3, f4, AndroidUtilities.dp(8.0f), this.paint);

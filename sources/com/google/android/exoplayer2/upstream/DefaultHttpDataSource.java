@@ -230,7 +230,7 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00b1, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00b1, code lost:
         return r0;
      */
     /*
@@ -247,40 +247,40 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
         if (!this.allowCrossProtocolRedirects && !this.keepPostFor302Redirects) {
             return makeConnection(url2, i, bArr, j, j2, isFlagSet, true, dataSpec.httpRequestHeaders);
         }
+        int i2 = 0;
         URL url3 = url2;
-        int i2 = i;
+        int i3 = i;
         byte[] bArr2 = bArr;
-        int i3 = 0;
         while (true) {
-            int i4 = i3 + 1;
-            if (i3 <= 20) {
+            int i4 = i2 + 1;
+            if (i2 <= 20) {
                 long j3 = j;
                 long j4 = j;
-                int i5 = i2;
+                int i5 = i3;
                 URL url4 = url3;
                 long j5 = j2;
-                HttpURLConnection makeConnection = makeConnection(url3, i2, bArr2, j3, j2, isFlagSet, false, dataSpec.httpRequestHeaders);
+                HttpURLConnection makeConnection = makeConnection(url3, i3, bArr2, j3, j2, isFlagSet, false, dataSpec.httpRequestHeaders);
                 int responseCode = makeConnection.getResponseCode();
                 String headerField = makeConnection.getHeaderField("Location");
                 if ((i5 == 1 || i5 == 3) && (responseCode == 300 || responseCode == 301 || responseCode == 302 || responseCode == 303 || responseCode == 307 || responseCode == 308)) {
                     makeConnection.disconnect();
                     url3 = handleRedirect(url4, headerField, dataSpec);
-                    i2 = i5;
+                    i3 = i5;
                 } else if (i5 != 2 || (responseCode != 300 && responseCode != 301 && responseCode != 302 && responseCode != 303)) {
                     break;
                 } else {
                     makeConnection.disconnect();
                     if (this.keepPostFor302Redirects && responseCode == 302) {
-                        i2 = i5;
+                        i3 = i5;
                         url = url4;
                     } else {
                         bArr2 = null;
                         url = url4;
-                        i2 = 1;
+                        i3 = 1;
                     }
                     url3 = handleRedirect(url, headerField, dataSpec);
                 }
-                i3 = i4;
+                i2 = i4;
                 j = j4;
                 j2 = j5;
             } else {
@@ -405,9 +405,9 @@ public class DefaultHttpDataSource extends BaseDataSource implements HttpDataSou
                 if (!"com.android.okhttp.internal.http.HttpTransport$ChunkedInputStream".equals(name) && !"com.android.okhttp.internal.http.HttpTransport$FixedLengthInputStream".equals(name)) {
                     return;
                 }
-                Method declaredMethod = ((Class) Assertions.checkNotNull(inputStream.getClass().getSuperclass())).getDeclaredMethod("unexpectedEndOfInput", new Class[0]);
+                Method declaredMethod = ((Class) Assertions.checkNotNull(inputStream.getClass().getSuperclass())).getDeclaredMethod("unexpectedEndOfInput", null);
                 declaredMethod.setAccessible(true);
-                declaredMethod.invoke(inputStream, new Object[0]);
+                declaredMethod.invoke(inputStream, null);
             } catch (Exception unused) {
             }
         }

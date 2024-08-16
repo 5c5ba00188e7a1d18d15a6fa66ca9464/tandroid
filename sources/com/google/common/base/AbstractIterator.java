@@ -1,11 +1,9 @@
 package com.google.common.base;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
-abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
+abstract class AbstractIterator<T> implements Iterator<T> {
     private T next;
     private State state = State.NOT_READY;
 
@@ -19,16 +17,6 @@ abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
     }
 
     protected abstract T computeNext();
-
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
 
     /* JADX INFO: Access modifiers changed from: protected */
     public final T endOfData() {
@@ -55,7 +43,7 @@ abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
         }
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final boolean hasNext() {
         Preconditions.checkState(this.state != State.FAILED);
         int i = 1.$SwitchMap$com$google$common$base$AbstractIterator$State[this.state.ordinal()];
@@ -78,7 +66,7 @@ abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
         return false;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final T next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
@@ -89,7 +77,7 @@ abstract class AbstractIterator<T> implements Iterator<T>, j$.util.Iterator {
         return t;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }

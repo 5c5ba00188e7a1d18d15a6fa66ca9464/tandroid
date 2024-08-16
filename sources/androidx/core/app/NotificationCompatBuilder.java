@@ -188,7 +188,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
             }
             this.mBuilder.setVibrate(null);
             this.mBuilder.setSound(null);
-            int i7 = notification.defaults & (-2) & (-3);
+            int i7 = notification.defaults & (-4);
             notification.defaults = i7;
             this.mBuilder.setDefaults(i7);
             if (i6 >= 26) {
@@ -391,7 +391,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     private void removeSoundAndVibration(Notification notification) {
         notification.sound = null;
         notification.vibrate = null;
-        notification.defaults = notification.defaults & (-2) & (-3);
+        notification.defaults &= -4;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -437,96 +437,66 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
 
         static Notification.Action.Builder addRemoteInput(Notification.Action.Builder builder, android.app.RemoteInput remoteInput) {
-            Notification.Action.Builder addRemoteInput;
-            addRemoteInput = builder.addRemoteInput(remoteInput);
-            return addRemoteInput;
+            return builder.addRemoteInput(remoteInput);
         }
 
         static Notification.Action.Builder addExtras(Notification.Action.Builder builder, Bundle bundle) {
-            Notification.Action.Builder addExtras;
-            addExtras = builder.addExtras(bundle);
-            return addExtras;
+            return builder.addExtras(bundle);
         }
 
         static Notification.Builder addAction(Notification.Builder builder, Notification.Action action) {
-            Notification.Builder addAction;
-            addAction = builder.addAction(action);
-            return addAction;
+            return builder.addAction(action);
         }
 
         static Notification.Action build(Notification.Action.Builder builder) {
-            Notification.Action build;
-            build = builder.build();
-            return build;
+            return builder.build();
         }
 
         static String getGroup(Notification notification) {
-            String group;
-            group = notification.getGroup();
-            return group;
+            return notification.getGroup();
         }
 
         static Notification.Builder setGroup(Notification.Builder builder, String str) {
-            Notification.Builder group;
-            group = builder.setGroup(str);
-            return group;
+            return builder.setGroup(str);
         }
 
         static Notification.Builder setGroupSummary(Notification.Builder builder, boolean z) {
-            Notification.Builder groupSummary;
-            groupSummary = builder.setGroupSummary(z);
-            return groupSummary;
+            return builder.setGroupSummary(z);
         }
 
         static Notification.Builder setLocalOnly(Notification.Builder builder, boolean z) {
-            Notification.Builder localOnly;
-            localOnly = builder.setLocalOnly(z);
-            return localOnly;
+            return builder.setLocalOnly(z);
         }
 
         static Notification.Builder setSortKey(Notification.Builder builder, String str) {
-            Notification.Builder sortKey;
-            sortKey = builder.setSortKey(str);
-            return sortKey;
+            return builder.setSortKey(str);
         }
     }
 
     /* loaded from: classes.dex */
     static class Api21Impl {
         static Notification.Builder addPerson(Notification.Builder builder, String str) {
-            Notification.Builder addPerson;
-            addPerson = builder.addPerson(str);
-            return addPerson;
+            return builder.addPerson(str);
         }
 
         static Notification.Builder setCategory(Notification.Builder builder, String str) {
-            Notification.Builder category;
-            category = builder.setCategory(str);
-            return category;
+            return builder.setCategory(str);
         }
 
         static Notification.Builder setColor(Notification.Builder builder, int i) {
-            Notification.Builder color;
-            color = builder.setColor(i);
-            return color;
+            return builder.setColor(i);
         }
 
         static Notification.Builder setVisibility(Notification.Builder builder, int i) {
-            Notification.Builder visibility;
-            visibility = builder.setVisibility(i);
-            return visibility;
+            return builder.setVisibility(i);
         }
 
         static Notification.Builder setPublicVersion(Notification.Builder builder, Notification notification) {
-            Notification.Builder publicVersion;
-            publicVersion = builder.setPublicVersion(notification);
-            return publicVersion;
+            return builder.setPublicVersion(notification);
         }
 
         static Notification.Builder setSound(Notification.Builder builder, Uri uri, Object obj) {
-            Notification.Builder sound;
-            sound = builder.setSound(uri, (AudioAttributes) obj);
-            return sound;
+            return builder.setSound(uri, (AudioAttributes) obj);
         }
     }
 
@@ -538,9 +508,7 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
 
         static Notification.Builder setSmallIcon(Notification.Builder builder, Object obj) {
-            Notification.Builder smallIcon;
-            smallIcon = builder.setSmallIcon((Icon) obj);
-            return smallIcon;
+            return builder.setSmallIcon((Icon) obj);
         }
     }
 
@@ -548,33 +516,23 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
-            Notification.Action.Builder allowGeneratedReplies;
-            allowGeneratedReplies = builder.setAllowGeneratedReplies(z);
-            return allowGeneratedReplies;
+            return builder.setAllowGeneratedReplies(z);
         }
 
         static Notification.Builder setRemoteInputHistory(Notification.Builder builder, CharSequence[] charSequenceArr) {
-            Notification.Builder remoteInputHistory;
-            remoteInputHistory = builder.setRemoteInputHistory(charSequenceArr);
-            return remoteInputHistory;
+            return builder.setRemoteInputHistory(charSequenceArr);
         }
 
         static Notification.Builder setCustomContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            Notification.Builder customContentView;
-            customContentView = builder.setCustomContentView(remoteViews);
-            return customContentView;
+            return builder.setCustomContentView(remoteViews);
         }
 
         static Notification.Builder setCustomBigContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            Notification.Builder customBigContentView;
-            customBigContentView = builder.setCustomBigContentView(remoteViews);
-            return customBigContentView;
+            return builder.setCustomBigContentView(remoteViews);
         }
 
         static Notification.Builder setCustomHeadsUpContentView(Notification.Builder builder, RemoteViews remoteViews) {
-            Notification.Builder customHeadsUpContentView;
-            customHeadsUpContentView = builder.setCustomHeadsUpContentView(remoteViews);
-            return customHeadsUpContentView;
+            return builder.setCustomHeadsUpContentView(remoteViews);
         }
     }
 
@@ -585,39 +543,27 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
         }
 
         static Notification.Builder setGroupAlertBehavior(Notification.Builder builder, int i) {
-            Notification.Builder groupAlertBehavior;
-            groupAlertBehavior = builder.setGroupAlertBehavior(i);
-            return groupAlertBehavior;
+            return builder.setGroupAlertBehavior(i);
         }
 
         static Notification.Builder setColorized(Notification.Builder builder, boolean z) {
-            Notification.Builder colorized;
-            colorized = builder.setColorized(z);
-            return colorized;
+            return builder.setColorized(z);
         }
 
         static Notification.Builder setBadgeIconType(Notification.Builder builder, int i) {
-            Notification.Builder badgeIconType;
-            badgeIconType = builder.setBadgeIconType(i);
-            return badgeIconType;
+            return builder.setBadgeIconType(i);
         }
 
         static Notification.Builder setSettingsText(Notification.Builder builder, CharSequence charSequence) {
-            Notification.Builder settingsText;
-            settingsText = builder.setSettingsText(charSequence);
-            return settingsText;
+            return builder.setSettingsText(charSequence);
         }
 
         static Notification.Builder setShortcutId(Notification.Builder builder, String str) {
-            Notification.Builder shortcutId;
-            shortcutId = builder.setShortcutId(str);
-            return shortcutId;
+            return builder.setShortcutId(str);
         }
 
         static Notification.Builder setTimeoutAfter(Notification.Builder builder, long j) {
-            Notification.Builder timeoutAfter;
-            timeoutAfter = builder.setTimeoutAfter(j);
-            return timeoutAfter;
+            return builder.setTimeoutAfter(j);
         }
     }
 
@@ -625,15 +571,11 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static Notification.Action.Builder setSemanticAction(Notification.Action.Builder builder, int i) {
-            Notification.Action.Builder semanticAction;
-            semanticAction = builder.setSemanticAction(i);
-            return semanticAction;
+            return builder.setSemanticAction(i);
         }
 
         static Notification.Builder addPerson(Notification.Builder builder, android.app.Person person) {
-            Notification.Builder addPerson;
-            addPerson = builder.addPerson(person);
-            return addPerson;
+            return builder.addPerson(person);
         }
     }
 
@@ -641,27 +583,19 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static Notification.Action.Builder setContextual(Notification.Action.Builder builder, boolean z) {
-            Notification.Action.Builder contextual;
-            contextual = builder.setContextual(z);
-            return contextual;
+            return builder.setContextual(z);
         }
 
         static Notification.Builder setLocusId(Notification.Builder builder, Object obj) {
-            Notification.Builder locusId;
-            locusId = builder.setLocusId((LocusId) obj);
-            return locusId;
+            return builder.setLocusId((LocusId) obj);
         }
 
         static Notification.Builder setBubbleMetadata(Notification.Builder builder, Notification.BubbleMetadata bubbleMetadata) {
-            Notification.Builder bubbleMetadata2;
-            bubbleMetadata2 = builder.setBubbleMetadata(bubbleMetadata);
-            return bubbleMetadata2;
+            return builder.setBubbleMetadata(bubbleMetadata);
         }
 
         static Notification.Builder setAllowSystemGeneratedContextualActions(Notification.Builder builder, boolean z) {
-            Notification.Builder allowSystemGeneratedContextualActions;
-            allowSystemGeneratedContextualActions = builder.setAllowSystemGeneratedContextualActions(z);
-            return allowSystemGeneratedContextualActions;
+            return builder.setAllowSystemGeneratedContextualActions(z);
         }
     }
 
@@ -669,15 +603,11 @@ public class NotificationCompatBuilder implements NotificationBuilderWithBuilder
     /* loaded from: classes.dex */
     public static class Api31Impl {
         static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
-            Notification.Action.Builder authenticationRequired;
-            authenticationRequired = builder.setAuthenticationRequired(z);
-            return authenticationRequired;
+            return builder.setAuthenticationRequired(z);
         }
 
         static Notification.Builder setForegroundServiceBehavior(Notification.Builder builder, int i) {
-            Notification.Builder foregroundServiceBehavior;
-            foregroundServiceBehavior = builder.setForegroundServiceBehavior(i);
-            return foregroundServiceBehavior;
+            return builder.setForegroundServiceBehavior(i);
         }
     }
 }

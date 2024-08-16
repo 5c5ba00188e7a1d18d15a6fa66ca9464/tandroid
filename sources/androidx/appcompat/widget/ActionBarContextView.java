@@ -155,13 +155,9 @@ public class ActionBarContextView extends AbsActionBarView {
         this.mSubtitleView.setText(this.mSubtitle);
         boolean z = !TextUtils.isEmpty(this.mTitle);
         boolean z2 = !TextUtils.isEmpty(this.mSubtitle);
-        int i = 0;
+        int i = 8;
         this.mSubtitleView.setVisibility(z2 ? 0 : 8);
-        LinearLayout linearLayout2 = this.mTitleLayout;
-        if (!z && !z2) {
-            i = 8;
-        }
-        linearLayout2.setVisibility(i);
+        this.mTitleLayout.setVisibility((z || z2) ? 0 : 0);
         if (this.mTitleLayout.getParent() == null) {
             addView(this.mTitleLayout);
         }

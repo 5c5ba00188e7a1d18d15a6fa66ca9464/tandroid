@@ -16,10 +16,13 @@ public class zzio {
         zzio zzioVar = zzc;
         if (zzioVar == null) {
             synchronized (zzio.class) {
-                zzioVar = zzc;
-                if (zzioVar == null) {
-                    zzioVar = zze;
-                    zzc = zzioVar;
+                try {
+                    zzioVar = zzc;
+                    if (zzioVar == null) {
+                        zzioVar = zze;
+                        zzc = zzioVar;
+                    }
+                } finally {
                 }
             }
         }
@@ -56,13 +59,17 @@ public class zzio {
             return zzioVar;
         }
         synchronized (zzio.class) {
-            zzio zzioVar2 = zzd;
-            if (zzioVar2 != null) {
-                return zzioVar2;
+            try {
+                zzio zzioVar2 = zzd;
+                if (zzioVar2 != null) {
+                    return zzioVar2;
+                }
+                zzio zza2 = zziz.zza(zzio.class);
+                zzd = zza2;
+                return zza2;
+            } catch (Throwable th) {
+                throw th;
             }
-            zzio zza2 = zziz.zza(zzio.class);
-            zzd = zza2;
-            return zza2;
         }
     }
 

@@ -147,7 +147,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     public static /* synthetic */ void lambda$set$2(final BaseFragment baseFragment, int i, ArrayList arrayList, View view) {
         String string = LocaleController.getString(R.string.UnconfirmedAuthConfirmedMessage);
         int i2 = Theme.key_undo_cancelColor;
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(string, i2, 0, new Runnable() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda3
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(string, i2, 0, new Runnable() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 UnconfirmedAuthHintCell.lambda$set$0(BaseFragment.this);
@@ -161,7 +161,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
         spannableString.setSpan(coloredImageSpan, 0, spannableString.length(), 33);
         AndroidUtilities.replaceCharSequence(">", replaceSingleTag, spannableString);
         BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.contact_check, LocaleController.getString(R.string.UnconfirmedAuthConfirmed), replaceSingleTag).show();
-        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda4
+        MessagesController.getInstance(i).getUnconfirmedAuthController().confirm(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UnconfirmedAuthHintCell.lambda$set$1((ArrayList) obj);
@@ -179,7 +179,7 @@ public class UnconfirmedAuthHintCell extends BlurredFrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$set$4(final int i, ArrayList arrayList, View view) {
         this.noButton.setLoading(true);
-        MessagesController.getInstance(i).getUnconfirmedAuthController().deny(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda2
+        MessagesController.getInstance(i).getUnconfirmedAuthController().deny(arrayList, new Utilities.Callback() { // from class: org.telegram.ui.Cells.UnconfirmedAuthHintCell$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 UnconfirmedAuthHintCell.this.lambda$set$3(i, (ArrayList) obj);

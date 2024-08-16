@@ -1,6 +1,5 @@
 package org.telegram.ui.Components;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -47,6 +46,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
@@ -54,6 +54,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.FloatingActionMode;
 import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticApiModelOutline4;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.QuoteSpan;
 /* loaded from: classes3.dex */
@@ -212,8 +213,8 @@ public class EditTextBoldCursor extends EditTextEffects {
         @Override // android.view.ActionMode.Callback2
         public void onGetContentRect(ActionMode actionMode, View view, android.graphics.Rect rect) {
             ActionMode.Callback callback = this.mWrapped;
-            if (callback instanceof ActionMode.Callback2) {
-                ((ActionMode.Callback2) callback).onGetContentRect(actionMode, view, rect);
+            if (EditTextBoldCursor$ActionModeCallback2Wrapper$$ExternalSyntheticApiModelOutline0.m(callback)) {
+                TextSelectionHelper$$ExternalSyntheticApiModelOutline4.m(callback).onGetContentRect(actionMode, view, rect);
             } else {
                 super.onGetContentRect(actionMode, view, rect);
             }
@@ -404,7 +405,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 } catch (Exception unused2) {
                 }
                 try {
-                    Method declaredMethod = editorClass.getDeclaredMethod("invalidateTextDisplayList", new Class[0]);
+                    Method declaredMethod = editorClass.getDeclaredMethod("invalidateTextDisplayList", null);
                     mEditorInvalidateDisplayList = declaredMethod;
                     declaredMethod.setAccessible(true);
                 } catch (Exception unused3) {
@@ -457,13 +458,13 @@ public class EditTextBoldCursor extends EditTextEffects {
                     this.editor = mEditor.get(this);
                 }
                 if (this.listenerFixer == null) {
-                    Method declaredMethod = editorClass.getDeclaredMethod("getPositionListener", new Class[0]);
+                    Method declaredMethod = editorClass.getDeclaredMethod("getPositionListener", null);
                     declaredMethod.setAccessible(true);
-                    this.listenerFixer = (ViewTreeObserver.OnPreDrawListener) declaredMethod.invoke(this.editor, new Object[0]);
+                    this.listenerFixer = (ViewTreeObserver.OnPreDrawListener) declaredMethod.invoke(this.editor, null);
                 }
                 final ViewTreeObserver.OnPreDrawListener onPreDrawListener = this.listenerFixer;
                 Objects.requireNonNull(onPreDrawListener);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         onPreDrawListener.onPreDraw();
@@ -725,11 +726,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             if (z) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.headerTransformAnimation = animatorSet2;
-                Animator[] animatorArr = new Animator[1];
-                float[] fArr = new float[1];
-                fArr[0] = z2 ? 1.0f : 0.0f;
-                animatorArr[0] = ObjectAnimator.ofFloat(this, "headerAnimationProgress", fArr);
-                animatorSet2.playTogether(animatorArr);
+                animatorSet2.playTogether(ObjectAnimator.ofFloat(this, "headerAnimationProgress", z2 ? 1.0f : 0.0f));
                 this.headerTransformAnimation.setDuration(200L);
                 this.headerTransformAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
                 this.headerTransformAnimation.start();
@@ -799,7 +796,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     }
                     Object obj = this.editor;
                     if (obj != null) {
-                        mEditorInvalidateDisplayList.invoke(obj, new Object[0]);
+                        mEditorInvalidateDisplayList.invoke(obj, null);
                     }
                 }
             } catch (Exception unused) {
@@ -899,7 +896,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     } else {
                         Utilities.Callback2<Canvas, Runnable> callback2 = this.drawHint;
                         if (callback2 != null) {
-                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda0
+                            callback2.run(canvas, new Runnable() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda9
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     EditTextBoldCursor.this.lambda$drawHint$0(canvas);
@@ -922,29 +919,29 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0148 A[Catch: all -> 0x0171, TryCatch #0 {all -> 0x0171, blocks: (B:34:0x009d, B:36:0x00a1, B:38:0x00a5, B:40:0x00b7, B:45:0x00c5, B:48:0x00cb, B:50:0x00d2, B:52:0x00da, B:57:0x0100, B:59:0x0148, B:61:0x014b, B:62:0x0150, B:53:0x00ed, B:55:0x00f5, B:44:0x00c1), top: B:154:0x009d }] */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01ff A[Catch: all -> 0x0229, TryCatch #3 {all -> 0x0229, blocks: (B:72:0x0182, B:74:0x0189, B:76:0x0191, B:81:0x01b7, B:83:0x01ff, B:85:0x0202, B:86:0x0207, B:77:0x01a4, B:79:0x01ac), top: B:161:0x0182 }] */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x014c A[Catch: all -> 0x00c0, TryCatch #0 {all -> 0x00c0, blocks: (B:35:0x009e, B:37:0x00a2, B:39:0x00a6, B:41:0x00b8, B:48:0x00c9, B:51:0x00cf, B:53:0x00d6, B:55:0x00de, B:60:0x0104, B:62:0x014c, B:64:0x014f, B:65:0x0154, B:56:0x00f1, B:58:0x00f9, B:47:0x00c5), top: B:157:0x009e }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x0205 A[Catch: all -> 0x01a7, TryCatch #1 {all -> 0x01a7, blocks: (B:74:0x0185, B:76:0x018c, B:78:0x0194, B:85:0x01bd, B:87:0x0205, B:89:0x0208, B:90:0x020d, B:81:0x01aa, B:83:0x01b2), top: B:159:0x0185 }] */
     @Override // org.telegram.ui.Components.EditTextEffects, android.widget.TextView, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onDraw(Canvas canvas) {
         boolean z;
+        boolean z2;
         int totalPaddingTop;
         android.graphics.Rect rect;
         int i;
         float f;
         Object obj;
-        boolean z2;
+        boolean z3;
         int totalPaddingTop2;
         android.graphics.Rect rect2;
         int i2;
         float f2;
         int i3;
-        boolean z3;
         drawHint(canvas);
         if (this.ellipsizeByGradient) {
-            canvas.saveLayerAlpha((getScrollX() + getPaddingLeft()) - this.ellipsizeWidth, 0.0f, ((getScrollX() + getWidth()) - getPaddingRight()) + this.ellipsizeWidth, getHeight(), 255, 31);
+            canvas.saveLayerAlpha((getScrollX() + getPaddingLeft()) - this.ellipsizeWidth, 0.0f, ((getScrollX() + getWidth()) - getPaddingRight()) + this.ellipsizeWidth, getHeight(), NotificationCenter.voipServiceCreated, 31);
         }
         int extendedPaddingTop = getExtendedPaddingTop();
         this.scrollY = ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -956,9 +953,9 @@ public class EditTextBoldCursor extends EditTextEffects {
             } else {
                 this.scrollY = getScrollX();
             }
-        } catch (Exception e) {
-            if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                throw new RuntimeException(e);
+        } catch (Exception th) {
+            if (z) {
+                throw new RuntimeException(th);
             }
         }
         this.ignoreTopCount = 1;
@@ -969,18 +966,18 @@ public class EditTextBoldCursor extends EditTextEffects {
             this.drawInMaim = true;
             super.onDraw(canvas);
             this.drawInMaim = false;
-        } catch (Exception e2) {
+        } catch (Exception e) {
             if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                throw new RuntimeException(e2);
+                throw new RuntimeException(e);
             }
         }
         Field field2 = mScrollYField;
         if (field2 != null && (i3 = this.scrollY) != Integer.MAX_VALUE) {
             try {
                 field2.set(this, Integer.valueOf(i3));
-            } catch (Exception e3) {
-                if (z3) {
-                    throw new RuntimeException(e3);
+            } catch (Exception e2) {
+                if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                    throw new RuntimeException(e2);
                 }
             }
         }
@@ -989,15 +986,15 @@ public class EditTextBoldCursor extends EditTextEffects {
             try {
                 Field field3 = mShowCursorField;
                 if (field3 != null && (obj = this.editor) != null) {
-                    z = (SystemClock.uptimeMillis() - field3.getLong(obj)) % 1000 < 500 && isFocused();
+                    z2 = (SystemClock.uptimeMillis() - field3.getLong(obj)) % 1000 < 500 && isFocused();
                 } else {
-                    z = this.cursorDrawn;
+                    z2 = this.cursorDrawn;
                     this.cursorDrawn = false;
                 }
-                if (this.allowDrawCursor && z) {
+                if (this.allowDrawCursor && z2) {
                     canvas.save();
                     if (getVerticalOffsetMethod != null) {
-                        if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
+                        if ((getGravity() & 112) != 48) {
                             totalPaddingTop = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout = getLayout();
@@ -1052,7 +1049,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                         this.gradientDrawable.draw(canvas);
                         canvas.restore();
                     } else {
-                        if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
+                        if ((getGravity() & 112) != 48) {
                             totalPaddingTop = getTotalPaddingTop() - getExtendedPaddingTop();
                             canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop);
                             Layout layout22 = getLayout();
@@ -1115,7 +1112,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             try {
                 canvas.save();
                 if (getVerticalOffsetMethod != null) {
-                    if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
+                    if ((getGravity() & 112) != 48) {
                         totalPaddingTop2 = ((Integer) getVerticalOffsetMethod.invoke(this, Boolean.TRUE)).intValue();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout3 = getLayout();
@@ -1172,7 +1169,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                     canvas.restore();
                     this.cursorDrawn = false;
                 } else {
-                    if ((getGravity() & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) != 48) {
+                    if ((getGravity() & 112) != 48) {
                         totalPaddingTop2 = getTotalPaddingTop() - getExtendedPaddingTop();
                         canvas.translate(getPaddingLeft(), getExtendedPaddingTop() + totalPaddingTop2);
                         Layout layout322 = getLayout();
@@ -1229,7 +1226,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             } finally {
                 if (BuildVars.DEBUG_PRIVATE_VERSION) {
-                    RuntimeException runtimeException2 = new RuntimeException(e3);
+                    RuntimeException runtimeException2 = new RuntimeException(th);
                 }
             }
         }
@@ -1251,7 +1248,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 this.lastLineActiveness = this.lineActiveness;
             }
             float elapsedRealtime = ((float) (SystemClock.elapsedRealtime() - this.lineLastUpdateTime)) / 150.0f;
-            if (elapsedRealtime < 1.0f || (((z2 = this.lineActive) && this.lineActiveness != 1.0f) || (!z2 && this.lineActiveness != 0.0f))) {
+            if (elapsedRealtime < 1.0f || (((z3 = this.lineActive) && this.lineActiveness != 1.0f) || (!z3 && this.lineActiveness != 0.0f))) {
                 this.lineActiveness = AndroidUtilities.lerp(this.lastLineActiveness, this.lineActive ? 1.0f : 0.0f, Math.max(0.0f, Math.min(1.0f, elapsedRealtime)));
                 if (elapsedRealtime < 1.0f) {
                     invalidate();
@@ -1399,7 +1396,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             FloatingToolbar floatingToolbar = new FloatingToolbar(context, view, getActionModeStyle(), getResourcesProvider());
             this.floatingToolbar = floatingToolbar;
             floatingToolbar.setOnPremiumLockClick(this.onPremiumMenuLockClickListener);
-            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda2
+            this.floatingToolbar.setQuoteShowVisible(new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda10
                 @Override // org.telegram.messenger.Utilities.Callback0Return
                 public final Object run() {
                     boolean shouldShowQuoteButton;
@@ -1408,7 +1405,7 @@ public class EditTextBoldCursor extends EditTextEffects {
                 }
             });
             this.floatingActionMode = new FloatingActionMode(getContext(), new ActionModeCallback2Wrapper(callback), this, this.floatingToolbar);
-            this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda3
+            this.floatingToolbarPreDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.EditTextBoldCursor$$ExternalSyntheticLambda11
                 @Override // android.view.ViewTreeObserver.OnPreDrawListener
                 public final boolean onPreDraw() {
                     boolean lambda$startActionMode$1;
@@ -1492,16 +1489,20 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     public void setHandlesColor(int i) {
+        Drawable textSelectHandleLeft;
+        Drawable textSelectHandle;
+        Drawable textSelectHandleRight;
         if (Build.VERSION.SDK_INT >= 29 && !XiaomiUtilities.isMIUI()) {
             try {
-                Drawable textSelectHandleLeft = getTextSelectHandleLeft();
-                textSelectHandleLeft.setColorFilter(i, PorterDuff.Mode.SRC_IN);
+                textSelectHandleLeft = getTextSelectHandleLeft();
+                PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+                textSelectHandleLeft.setColorFilter(i, mode);
                 setTextSelectHandleLeft(textSelectHandleLeft);
-                Drawable textSelectHandle = getTextSelectHandle();
-                textSelectHandle.setColorFilter(i, PorterDuff.Mode.SRC_IN);
+                textSelectHandle = getTextSelectHandle();
+                textSelectHandle.setColorFilter(i, mode);
                 setTextSelectHandle(textSelectHandle);
-                Drawable textSelectHandleRight = getTextSelectHandleRight();
-                textSelectHandleRight.setColorFilter(i, PorterDuff.Mode.SRC_IN);
+                textSelectHandleRight = getTextSelectHandleRight();
+                textSelectHandleRight.setColorFilter(i, mode);
                 setTextSelectHandleRight(textSelectHandleRight);
             } catch (Exception unused) {
             }

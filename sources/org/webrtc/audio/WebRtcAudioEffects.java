@@ -61,7 +61,7 @@ class WebRtcAudioEffects {
 
     public void enable(int i) {
         Logging.d(TAG, "enable(audioSession=" + i + ")");
-        boolean z = true;
+        boolean z = false;
         assertTrue(this.aec == null);
         assertTrue(this.ns == null);
         if (isAcousticEchoCancelerSupported()) {
@@ -90,7 +90,9 @@ class WebRtcAudioEffects {
             this.ns = create2;
             if (create2 != null) {
                 boolean enabled2 = create2.getEnabled();
-                z = (this.shouldEnableNs && isNoiseSuppressorSupported()) ? false : false;
+                if (this.shouldEnableNs && isNoiseSuppressorSupported()) {
+                    z = true;
+                }
                 if (this.ns.setEnabled(z) != 0) {
                     Logging.e(TAG, "Failed to set the NoiseSuppressor state");
                 }

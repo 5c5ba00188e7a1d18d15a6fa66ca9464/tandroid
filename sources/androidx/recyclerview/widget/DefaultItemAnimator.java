@@ -231,7 +231,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             view.bringToFront();
         }
         animate.setDuration(getRemoveDuration()).setStartDelay(getRemoveDelay()).setInterpolator(getRemoveInterpolator()).alpha(0.0f).scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view));
-        animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda1
+        animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 DefaultItemAnimator.this.lambda$animateRemoveImpl$0(viewHolder, valueAnimator);
@@ -361,7 +361,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
         }
         final ViewPropertyAnimator animate = view.animate();
         this.mMoveAnimations.add(viewHolder);
-        animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
+        animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 DefaultItemAnimator.this.lambda$animateMoveImpl$2(viewHolder, valueAnimator);
@@ -452,7 +452,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             if (animateByScale(view) > 0.0f) {
                 startDelay.scaleX(1.0f - animateByScale(view)).scaleY(1.0f - animateByScale(view));
             }
-            startDelay.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda2
+            startDelay.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     DefaultItemAnimator.this.lambda$animateChangeImpl$3(changeInfo, valueAnimator);
@@ -487,7 +487,7 @@ public class DefaultItemAnimator extends SimpleItemAnimator {
             if (animateByScale(view2) > 0.0f) {
                 animate.scaleX(1.0f).scaleY(1.0f);
             }
-            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda3
+            animate.setUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: androidx.recyclerview.widget.DefaultItemAnimator$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     DefaultItemAnimator.this.lambda$animateChangeImpl$4(changeInfo, valueAnimator);

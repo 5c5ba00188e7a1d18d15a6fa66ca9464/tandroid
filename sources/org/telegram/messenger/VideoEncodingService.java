@@ -81,7 +81,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         } else if (i == NotificationCenter.fileUploaded || i == NotificationCenter.fileUploadFailed) {
             String str4 = (String) objArr[0];
             if (i2 == this.currentAccount && (str = this.currentPath) != null && str.equals(str4)) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.VideoEncodingService$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.VideoEncodingService$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         VideoEncodingService.this.lambda$didReceivedNotification$0();
@@ -135,7 +135,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
         } catch (Throwable th) {
             FileLog.e(th);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.VideoEncodingService$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.VideoEncodingService$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VideoEncodingService.this.updateNotification();

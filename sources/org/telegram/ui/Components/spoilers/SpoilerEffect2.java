@@ -526,7 +526,7 @@ public class SpoilerEffect2 {
                     GLES31.glUniform2f(this.sizeHandle, this.width, this.height);
                     GLES31.glUniform1f(this.resetHandle, this.reset ? 1.0f : 0.0f);
                     GLES31.glUniform1f(this.radiusHandle, this.radius);
-                    GLES31.glUniform1f(this.seedHandle, Utilities.fastRandom.nextInt(LiteMode.FLAG_CHAT_BLUR) / 256.0f);
+                    GLES31.glUniform1f(this.seedHandle, Utilities.fastRandom.nextInt(256) / 256.0f);
                 }
             }
         }
@@ -627,16 +627,20 @@ public class SpoilerEffect2 {
 
         private void checkResize() {
             synchronized (this.resizeLock) {
-                if (this.resize) {
-                    GLES31.glUniform2f(this.sizeHandle, this.width, this.height);
-                    GLES31.glViewport(0, 0, this.width, this.height);
-                    int particlesCount = particlesCount();
-                    if (particlesCount > this.particlesCount) {
-                        this.reset = true;
-                        genParticlesData();
+                try {
+                    if (this.resize) {
+                        GLES31.glUniform2f(this.sizeHandle, this.width, this.height);
+                        GLES31.glViewport(0, 0, this.width, this.height);
+                        int particlesCount = particlesCount();
+                        if (particlesCount > this.particlesCount) {
+                            this.reset = true;
+                            genParticlesData();
+                        }
+                        this.particlesCount = particlesCount;
+                        this.resize = false;
                     }
-                    this.particlesCount = particlesCount;
-                    this.resize = false;
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -651,7 +655,7 @@ public class SpoilerEffect2 {
             GLES31.glGenBuffers(2, iArr2, 0);
             for (int i = 0; i < 2; i++) {
                 GLES31.glBindBuffer(34962, this.particlesData[i]);
-                GLES31.glBufferData(34962, this.particlesCount * 6 * 4, null, 35048);
+                GLES31.glBufferData(34962, this.particlesCount * 24, null, 35048);
             }
             checkGlErrors();
         }

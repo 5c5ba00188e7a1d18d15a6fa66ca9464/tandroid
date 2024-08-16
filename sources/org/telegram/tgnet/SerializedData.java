@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class SerializedData extends AbstractSerializedData {
     private DataInputStream in;
@@ -246,7 +247,7 @@ public class SerializedData extends AbstractSerializedData {
             } else if (this.justCalc) {
                 this.len += 4;
             } else {
-                this.out.write(254);
+                this.out.write(NotificationCenter.didClearDatabase);
                 this.out.write(bArr.length);
                 this.out.write(bArr.length >> 8);
                 this.out.write(bArr.length >> 16);
@@ -295,7 +296,7 @@ public class SerializedData extends AbstractSerializedData {
             } else if (this.justCalc) {
                 this.len += 4;
             } else {
-                this.out.write(254);
+                this.out.write(NotificationCenter.didClearDatabase);
                 this.out.write(i2);
                 this.out.write(i2 >> 8);
                 this.out.write(i2 >> 16);

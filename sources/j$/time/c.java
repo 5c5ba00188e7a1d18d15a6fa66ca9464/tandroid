@@ -1,7 +1,11 @@
 package j$.time;
 /* loaded from: classes2.dex */
-public abstract class c {
-    public static c a() {
-        return new b(ZoneOffset.f);
+public class c extends RuntimeException {
+    public c(String str) {
+        super(str);
+    }
+
+    public c(String str, Exception exc) {
+        super(str, exc);
     }
 }

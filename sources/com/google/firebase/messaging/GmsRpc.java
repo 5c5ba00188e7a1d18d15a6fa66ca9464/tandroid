@@ -72,12 +72,45 @@ public class GmsRpc {
         }
     }
 
+    private String handleResponse(Bundle bundle) throws IOException {
+        if (bundle == null) {
+            throw new IOException("SERVICE_NOT_AVAILABLE");
+        }
+        String string = bundle.getString("registration_id");
+        if (string != null) {
+            return string;
+        }
+        String string2 = bundle.getString("unregistered");
+        if (string2 != null) {
+            return string2;
+        }
+        String string3 = bundle.getString("error");
+        if ("RST".equals(string3)) {
+            throw new IOException("INSTANCE_ID_RESET");
+        }
+        if (string3 != null) {
+            throw new IOException(string3);
+        }
+        String valueOf = String.valueOf(bundle);
+        StringBuilder sb = new StringBuilder(valueOf.length() + 21);
+        sb.append("Unexpected response: ");
+        sb.append(valueOf);
+        Log.w("FirebaseMessaging", sb.toString(), new Throwable());
+        throw new IOException("SERVICE_NOT_AVAILABLE");
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean isErrorMessageForRetryableError(String str) {
         return "SERVICE_NOT_AVAILABLE".equals(str) || "INTERNAL_SERVER_ERROR".equals(str) || "InternalServerError".equals(str);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:15:0x00a3 A[ADDED_TO_REGION] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private Bundle setDefaultAttributesToBundle(String str, String str2, String str3, Bundle bundle) {
+        HeartBeatInfo heartBeatInfo;
+        UserAgentPublisher userAgentPublisher;
         HeartBeatInfo.HeartBeat heartBeatCode;
         bundle.putString("scope", str3);
         bundle.putString("sender", str2);
@@ -96,12 +129,30 @@ public class GmsRpc {
             } else {
                 Log.w("FirebaseMessaging", "FIS auth token is empty");
             }
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException e) {
+            e = e;
             Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
+            bundle.putString("cliv", "fcm-22.0.0");
+            heartBeatInfo = this.heartbeatInfo.get();
+            userAgentPublisher = this.userAgentPublisher.get();
+            if (heartBeatInfo != null) {
+                bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
+                bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
+            }
+            return bundle;
+        } catch (ExecutionException e2) {
+            e = e2;
+            Log.e("FirebaseMessaging", "Failed to get FIS auth token", e);
+            bundle.putString("cliv", "fcm-22.0.0");
+            heartBeatInfo = this.heartbeatInfo.get();
+            userAgentPublisher = this.userAgentPublisher.get();
+            if (heartBeatInfo != null) {
+            }
+            return bundle;
         }
         bundle.putString("cliv", "fcm-22.0.0");
-        HeartBeatInfo heartBeatInfo = this.heartbeatInfo.get();
-        UserAgentPublisher userAgentPublisher = this.userAgentPublisher.get();
+        heartBeatInfo = this.heartbeatInfo.get();
+        userAgentPublisher = this.userAgentPublisher.get();
         if (heartBeatInfo != null && userAgentPublisher != null && (heartBeatCode = heartBeatInfo.getHeartBeatCode("fire-iid")) != HeartBeatInfo.HeartBeat.NONE) {
             bundle.putString("Firebase-Client-Log-Type", Integer.toString(heartBeatCode.getCode()));
             bundle.putString("Firebase-Client", userAgentPublisher.getUserAgent());
@@ -141,32 +192,5 @@ public class GmsRpc {
         bundle.putString("delete", "1");
         String valueOf2 = String.valueOf(str3);
         return extractResponseWhenComplete(startRpc(str, str2, valueOf2.length() != 0 ? "/topics/".concat(valueOf2) : new String("/topics/"), bundle));
-    }
-
-    private String handleResponse(Bundle bundle) throws IOException {
-        if (bundle == null) {
-            throw new IOException("SERVICE_NOT_AVAILABLE");
-        }
-        String string = bundle.getString("registration_id");
-        if (string != null) {
-            return string;
-        }
-        String string2 = bundle.getString("unregistered");
-        if (string2 != null) {
-            return string2;
-        }
-        String string3 = bundle.getString("error");
-        if ("RST".equals(string3)) {
-            throw new IOException("INSTANCE_ID_RESET");
-        }
-        if (string3 != null) {
-            throw new IOException(string3);
-        }
-        String valueOf = String.valueOf(bundle);
-        StringBuilder sb = new StringBuilder(valueOf.length() + 21);
-        sb.append("Unexpected response: ");
-        sb.append(valueOf);
-        Log.w("FirebaseMessaging", sb.toString(), new Throwable());
-        throw new IOException("SERVICE_NOT_AVAILABLE");
     }
 }

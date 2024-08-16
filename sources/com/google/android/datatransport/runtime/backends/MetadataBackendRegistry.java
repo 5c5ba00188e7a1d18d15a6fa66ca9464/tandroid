@@ -56,7 +56,7 @@ class MetadataBackendRegistry implements BackendRegistry {
                 return null;
             }
             try {
-                return (BackendFactory) Class.forName(str2).asSubclass(BackendFactory.class).getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+                return (BackendFactory) Class.forName(str2).asSubclass(BackendFactory.class).getDeclaredConstructor(null).newInstance(null);
             } catch (ClassNotFoundException e) {
                 Log.w("BackendRegistry", String.format("Class %s is not found.", str2), e);
                 return null;

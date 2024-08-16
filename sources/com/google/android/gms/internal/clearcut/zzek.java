@@ -1,12 +1,10 @@
 package com.google.android.gms.internal.clearcut;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* loaded from: classes.dex */
-final class zzek implements Iterator, j$.util.Iterator {
+final class zzek implements Iterator {
     private int pos;
     private Iterator zzor;
     private final /* synthetic */ zzei zzos;
@@ -32,17 +30,7 @@ final class zzek implements Iterator, j$.util.Iterator {
         return this.zzor;
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         List list;
         int i = this.pos;
@@ -55,7 +43,7 @@ final class zzek implements Iterator, j$.util.Iterator {
         return zzdw().hasNext();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final /* synthetic */ Object next() {
         List list;
         Object obj;
@@ -70,7 +58,7 @@ final class zzek implements Iterator, j$.util.Iterator {
         return (Map.Entry) obj;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }

@@ -14,7 +14,7 @@ final class zzar extends zzat {
         this.zzc = zzbaVar.zzd();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final boolean hasNext() {
         return this.zzb < this.zzc;
     }

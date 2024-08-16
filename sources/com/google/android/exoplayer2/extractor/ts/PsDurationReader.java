@@ -142,8 +142,9 @@ final class PsDurationReader {
     }
 
     private static long readScrValueFromPackHeader(byte[] bArr) {
-        byte b = bArr[0];
-        byte b2 = bArr[2];
-        return (((b & 56) >> 3) << 30) | ((b & 3) << 28) | ((bArr[1] & 255) << 20) | (((b2 & 248) >> 3) << 15) | ((b2 & 3) << 13) | ((bArr[3] & 255) << 5) | ((bArr[4] & 248) >> 3);
+        long j = bArr[0];
+        long j2 = ((j & 3) << 28) | (((56 & j) >> 3) << 30) | ((bArr[1] & 255) << 20);
+        long j3 = bArr[2];
+        return j2 | (((j3 & 248) >> 3) << 15) | ((j3 & 3) << 13) | ((bArr[3] & 255) << 5) | ((bArr[4] & 248) >> 3);
     }
 }

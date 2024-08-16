@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
 /* loaded from: classes3.dex */
@@ -121,7 +122,7 @@ public class TLRPC$Message extends TLObject {
                         this.pinned = (16777216 & readInt32) != 0;
                         this.noforwards = (readInt32 & ConnectionsManager.FileTypeFile) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -231,7 +232,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i11;
                         abstractSerializedData2.writeInt32(i11);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -308,7 +309,7 @@ public class TLRPC$Message extends TLObject {
                         this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
                         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -384,7 +385,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i6;
                         abstractSerializedData2.writeInt32(i6);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -444,7 +445,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -549,7 +550,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -619,7 +620,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -654,7 +655,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -678,7 +679,7 @@ public class TLRPC$Message extends TLObject {
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.out = abstractSerializedData2.readBool(z2);
                         this.unread = abstractSerializedData2.readBool(z2);
-                        this.flags |= LiteMode.FLAG_CHAT_BLUR;
+                        this.flags |= 256;
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                     }
@@ -721,7 +722,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags2 = readInt322;
                         this.offline = (readInt322 & 2) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -851,7 +852,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags2 = i13;
                         abstractSerializedData2.writeInt32(i13);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -946,7 +947,7 @@ public class TLRPC$Message extends TLObject {
                         this.noforwards = (67108864 & readInt32) != 0;
                         this.invert_media = (readInt32 & 134217728) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1070,7 +1071,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i12;
                         abstractSerializedData2.writeInt32(i12);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1148,7 +1149,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message() { // from class: org.telegram.tgnet.TLRPC$TL_message_old3
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 768;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -1229,7 +1230,7 @@ public class TLRPC$Message extends TLObject {
                         this.edit_hide = (2097152 & readInt32) != 0;
                         this.pinned = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -1337,7 +1338,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i10;
                         abstractSerializedData2.writeInt32(i10);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1420,7 +1421,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags2 = readInt322;
                         this.offline = (readInt322 & 2) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1553,7 +1554,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags2 = i13;
                         abstractSerializedData2.writeInt32(i13);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -1646,7 +1647,7 @@ public class TLRPC$Message extends TLObject {
                         this.silent = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM) != 0;
                         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1677,7 +1678,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1700,7 +1701,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.with_my_score = (readInt32 & 1073741824) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1780,7 +1781,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -1823,7 +1824,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message() { // from class: org.telegram.tgnet.TLRPC$TL_message_old4
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 768;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -1904,7 +1905,7 @@ public class TLRPC$Message extends TLObject {
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -1982,7 +1983,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i5;
                         abstractSerializedData2.writeInt32(i5);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -2026,7 +2027,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message() { // from class: org.telegram.tgnet.TLRPC$TL_message_old5
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 768;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -2136,7 +2137,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -2241,7 +2242,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -2358,7 +2359,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -2449,7 +2450,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -2517,7 +2518,7 @@ public class TLRPC$Message extends TLObject {
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.action = TLRPC$MessageAction.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
-                        this.flags |= LiteMode.FLAG_CHAT_BLUR;
+                        this.flags |= 256;
                     }
 
                     @Override // org.telegram.tgnet.TLRPC$TL_messageService, org.telegram.tgnet.TLObject
@@ -2558,7 +2559,7 @@ public class TLRPC$Message extends TLObject {
                         this.noforwards = (67108864 & readInt32) != 0;
                         this.invert_media = (readInt32 & 134217728) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -2679,7 +2680,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i12;
                         abstractSerializedData2.writeInt32(i12);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 536870912) != 0) {
@@ -2800,7 +2801,7 @@ public class TLRPC$Message extends TLObject {
                         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -2828,7 +2829,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i7;
                         abstractSerializedData2.writeInt32(i7);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -2848,7 +2849,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message() { // from class: org.telegram.tgnet.TLRPC$TL_message_old6
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 256;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -2967,7 +2968,7 @@ public class TLRPC$Message extends TLObject {
                         this.noforwards = (67108864 & readInt32) != 0;
                         this.invert_media = (readInt32 & 134217728) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -3082,7 +3083,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i12;
                         abstractSerializedData2.writeInt32(i12);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -3161,7 +3162,7 @@ public class TLRPC$Message extends TLObject {
                         this.from_scheduled = (262144 & readInt32) != 0;
                         this.legacy = (readInt32 & 524288) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -3244,7 +3245,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i8;
                         abstractSerializedData2.writeInt32(i8);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -3304,7 +3305,7 @@ public class TLRPC$Message extends TLObject {
                         this.legacy = (524288 & readInt32) != 0;
                         this.edit_hide = (readInt32 & 2097152) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -3406,7 +3407,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i9;
                         abstractSerializedData2.writeInt32(i9);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -3463,7 +3464,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message_secret() { // from class: org.telegram.tgnet.TLRPC$TL_message_secret_old
                     @Override // org.telegram.tgnet.TLRPC$TL_message_secret, org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 768;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -3598,7 +3599,7 @@ public class TLRPC$Message extends TLObject {
                 tLRPC$Message = new TLRPC$TL_message() { // from class: org.telegram.tgnet.TLRPC$TL_message_old2
                     @Override // org.telegram.tgnet.TLRPC$TL_message, org.telegram.tgnet.TLObject
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
-                        int readInt32 = abstractSerializedData2.readInt32(z2) | LiteMode.FLAG_CHAT_BLUR | LiteMode.FLAG_CALLS_ANIMATIONS;
+                        int readInt32 = abstractSerializedData2.readInt32(z2) | 768;
                         this.flags = readInt32;
                         this.unread = (readInt32 & 1) != 0;
                         this.out = (readInt32 & 2) != 0;
@@ -3657,7 +3658,7 @@ public class TLRPC$Message extends TLObject {
                         this.edit_hide = (2097152 & readInt32) != 0;
                         this.pinned = (readInt32 & ConnectionsManager.FileTypePhoto) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -3762,7 +3763,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i10;
                         abstractSerializedData2.writeInt32(i10);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -3832,7 +3833,7 @@ public class TLRPC$Message extends TLObject {
                         this.mentioned = (readInt32 & 16) != 0;
                         this.media_unread = (readInt32 & 32) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
                             this.from_id = tLRPC$TL_peerUser;
                             tLRPC$TL_peerUser.user_id = abstractSerializedData2.readInt32(z2);
@@ -3907,7 +3908,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i5;
                         abstractSerializedData2.writeInt32(i5);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt32((int) this.from_id.user_id);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -3962,7 +3963,7 @@ public class TLRPC$Message extends TLObject {
                         this.noforwards = (67108864 & readInt32) != 0;
                         this.invert_media = (readInt32 & 134217728) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
@@ -4080,7 +4081,7 @@ public class TLRPC$Message extends TLObject {
                         this.flags = i12;
                         abstractSerializedData2.writeInt32(i12);
                         abstractSerializedData2.writeInt32(this.id);
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.from_id.serializeToStream(abstractSerializedData2);
                         }
                         this.peer_id.serializeToStream(abstractSerializedData2);
@@ -4289,7 +4290,7 @@ public class TLRPC$Message extends TLObject {
             if (this.params == null) {
                 this.params = new HashMap<>();
             }
-            this.layer = 186;
+            this.layer = NotificationCenter.didUpdatePremiumGiftFieldIcon;
             this.params.put("legacy_layer", "186");
         }
         if ((this.id < 0 || this.send_state == 3 || this.legacy) && (hashMap2 = this.params) != null && hashMap2.size() > 0) {

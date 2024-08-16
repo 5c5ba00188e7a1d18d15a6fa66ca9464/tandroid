@@ -76,11 +76,6 @@ public class HardwareVideoEncoder implements VideoEncoder {
     }
 
     @Override // org.webrtc.VideoEncoder
-    public String getImplementationName() {
-        return "HWEncoder";
-    }
-
-    @Override // org.webrtc.VideoEncoder
     public /* synthetic */ VideoEncoder.ResolutionBitrateLimits[] getResolutionBitrateLimits() {
         return VideoEncoder.-CC.$default$getResolutionBitrateLimits(this);
     }
@@ -115,10 +110,14 @@ public class HardwareVideoEncoder implements VideoEncoder {
 
         public void decrement() {
             synchronized (this.countLock) {
-                int i = this.count - 1;
-                this.count = i;
-                if (i == 0) {
-                    this.countLock.notifyAll();
+                try {
+                    int i = this.count - 1;
+                    this.count = i;
+                    if (i == 0) {
+                        this.countLock.notifyAll();
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -179,8 +178,8 @@ public class HardwareVideoEncoder implements VideoEncoder {
         return initEncodeInternal();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a5 A[Catch: IllegalStateException -> 0x010d, TryCatch #0 {IllegalStateException -> 0x010d, blocks: (B:9:0x0022, B:11:0x005b, B:15:0x006a, B:29:0x0090, B:30:0x00a5, B:20:0x0079, B:23:0x0083, B:31:0x00b3, B:33:0x00d1, B:34:0x00ed), top: B:42:0x0022 }] */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00a8 A[Catch: IllegalStateException -> 0x0083, TryCatch #1 {IllegalStateException -> 0x0083, blocks: (B:9:0x0022, B:11:0x005b, B:15:0x006a, B:31:0x0093, B:32:0x00a8, B:20:0x0079, B:25:0x0086, B:33:0x00b6, B:35:0x00d4, B:36:0x00f0), top: B:45:0x0022 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -400,6 +399,11 @@ public class HardwareVideoEncoder implements VideoEncoder {
             }
         }
         return VideoEncoder.ScalingSettings.OFF;
+    }
+
+    @Override // org.webrtc.VideoEncoder
+    public String getImplementationName() {
+        return "HWEncoder";
     }
 
     private VideoCodecStatus resetCodec(int i, int i2, boolean z) {

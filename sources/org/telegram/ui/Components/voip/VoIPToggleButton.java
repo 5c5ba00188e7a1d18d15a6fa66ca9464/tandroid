@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -85,7 +86,7 @@ public class VoIPToggleButton extends FrameLayout {
             textView.setTextSize(1, 11.0f);
             textView.setTextColor(-1);
             textView.setImportantForAccessibility(2);
-            this.textLayoutContainer.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, 6.0f + f, 0.0f, 0.0f));
+            this.textLayoutContainer.addView(textView, LayoutHelper.createFrame(-1, -2.0f, 0, 0.0f, f + 6.0f, 0.0f, 0.0f));
             this.textView[i] = textView;
         }
         this.textView[1].setVisibility(8);
@@ -112,12 +113,9 @@ public class VoIPToggleButton extends FrameLayout {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.pressedScale;
-        fArr[1] = z ? 0.8f : 1.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.pressedScale, z ? 0.8f : 1.0f);
         this.pressedScaleAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIPToggleButton.this.lambda$setPressedBtn$0(valueAnimator2);
@@ -193,7 +191,7 @@ public class VoIPToggleButton extends FrameLayout {
                                     this.icon[i].setColorFilter(new PorterDuffColorFilter(blendARGB, PorterDuff.Mode.MULTIPLY));
                                     this.crossPaint.setColor(blendARGB);
                                 }
-                                this.icon[i].setAlpha(255);
+                                this.icon[i].setAlpha(NotificationCenter.voipServiceCreated);
                                 Drawable drawable2 = this.icon[i];
                                 drawable2.setBounds((int) (width - (drawable2.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[i].getIntrinsicHeight() / 2)), (int) ((this.icon[i].getIntrinsicWidth() / 2) + width), (int) ((this.icon[i].getIntrinsicHeight() / 2) + dp));
                                 this.icon[i].draw(canvas);
@@ -207,14 +205,14 @@ public class VoIPToggleButton extends FrameLayout {
                             this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB2, PorterDuff.Mode.MULTIPLY));
                             this.crossPaint.setColor(blendARGB2);
                         }
-                        this.icon[0].setAlpha(255);
+                        this.icon[0].setAlpha(NotificationCenter.voipServiceCreated);
                         float f4 = this.replaceProgress;
                         if (f4 != 0.0f && this.iconChangeColor) {
                             int blendARGB3 = ColorUtils.blendARGB(this.replaceColorFrom, this.currentIconColor, f4);
                             this.icon[0].setColorFilter(new PorterDuffColorFilter(blendARGB3, PorterDuff.Mode.MULTIPLY));
                             this.crossPaint.setColor(blendARGB3);
                         }
-                        this.icon[0].setAlpha(255);
+                        this.icon[0].setAlpha(NotificationCenter.voipServiceCreated);
                         boolean z = this.drawCross;
                         if (z) {
                             float f5 = this.crossProgress;
@@ -232,7 +230,7 @@ public class VoIPToggleButton extends FrameLayout {
                                     CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
                                     float dp3 = (intrinsicWidth - AndroidUtilities.dp(1.0f)) + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
                                     float dp4 = intrinsicHeight + (AndroidUtilities.dp(17.0f) * cubicBezierInterpolator.getInterpolation(this.crossProgress));
-                                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
+                                    canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.voipServiceCreated, 31);
                                     Drawable drawable3 = this.icon[0];
                                     drawable3.setBounds((int) (width - (drawable3.getIntrinsicWidth() / 2.0f)), (int) (dp - (this.icon[0].getIntrinsicHeight() / 2)), (int) (width + (this.icon[0].getIntrinsicWidth() / 2)), (int) (dp + (this.icon[0].getIntrinsicHeight() / 2)));
                                     this.icon[0].draw(canvas);
@@ -368,7 +366,7 @@ public class VoIPToggleButton extends FrameLayout {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.replaceAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 VoIPToggleButton.this.lambda$setData$1(z5, valueAnimator2);
@@ -467,10 +465,7 @@ public class VoIPToggleButton extends FrameLayout {
                     valueAnimator.removeAllListeners();
                     this.checkAnimator.cancel();
                 }
-                float[] fArr = new float[2];
-                fArr[0] = this.checkedProgress;
-                fArr[1] = this.checked ? 1.0f : 0.0f;
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.checkedProgress, this.checked ? 1.0f : 0.0f);
                 this.checkAnimator = ofFloat;
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPToggleButton$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener

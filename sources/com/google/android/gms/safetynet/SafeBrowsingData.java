@@ -54,7 +54,15 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
         return this.zzf;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0041  */
+    public SafeBrowsingData(String str, DataHolder dataHolder, ParcelFileDescriptor parcelFileDescriptor, long j, byte[] bArr) {
+        this.zzb = str;
+        this.zzc = dataHolder;
+        this.zzd = parcelFileDescriptor;
+        this.zze = j;
+        this.zzf = bArr;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0044  */
     @Override // android.os.Parcelable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -118,13 +126,5 @@ public class SafeBrowsingData extends AbstractSafeParcelable {
         }
         zzj.zza(this, parcel, i);
         this.zzd = null;
-    }
-
-    public SafeBrowsingData(String str, DataHolder dataHolder, ParcelFileDescriptor parcelFileDescriptor, long j, byte[] bArr) {
-        this.zzb = str;
-        this.zzc = dataHolder;
-        this.zzd = parcelFileDescriptor;
-        this.zze = j;
-        this.zzf = bArr;
     }
 }

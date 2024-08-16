@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class RtpH265Reader implements RtpPayloadReader {
     private int bufferFlags;
@@ -94,7 +95,7 @@ final class RtpH265Reader implements RtpPayloadReader {
         boolean z2 = (b & 64) > 0;
         if (z) {
             this.fragmentedSampleSizeBytes += writeStartCode();
-            parsableByteArray.getData()[1] = (byte) ((i3 << 1) & 127);
+            parsableByteArray.getData()[1] = (byte) ((i3 << 1) & NotificationCenter.dialogTranslate);
             parsableByteArray.getData()[2] = (byte) i2;
             this.fuScratchBuffer.reset(parsableByteArray.getData());
             this.fuScratchBuffer.setPosition(1);

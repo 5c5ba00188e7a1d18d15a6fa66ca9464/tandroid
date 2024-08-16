@@ -165,8 +165,10 @@ public class Card {
                 str = "Diners Club";
             } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_VISA)) {
                 str = "Visa";
+            } else if (StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_MASTERCARD)) {
+                str = "MasterCard";
             } else {
-                str = StripeTextUtils.hasAnyPrefix(this.number, PREFIXES_MASTERCARD) ? "MasterCard" : "Unknown";
+                str = "Unknown";
             }
             this.brand = str;
         }

@@ -234,8 +234,9 @@ public abstract class FourierTransform {
             if (i != 0) {
                 int i2 = this.timeSize;
                 if (i != i2 / 2) {
-                    fArr[i2 - i] = fArr[i];
-                    fArr2[i2 - i] = -fArr2[i];
+                    int i3 = i2 - i;
+                    fArr[i3] = fArr[i];
+                    fArr2[i3] = -fArr2[i];
                 }
             }
         }
@@ -262,9 +263,10 @@ public abstract class FourierTransform {
             if (i != 0) {
                 int i2 = this.timeSize;
                 if (i != i2 / 2) {
-                    fArr[i2 - i] = fArr[i];
+                    int i3 = i2 - i;
+                    fArr[i3] = fArr[i];
                     float[] fArr4 = this.imag;
-                    fArr4[i2 - i] = -fArr4[i];
+                    fArr4[i3] = -fArr4[i];
                 }
             }
         }

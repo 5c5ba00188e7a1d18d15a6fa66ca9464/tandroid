@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public abstract class zzbn extends zzba {
     private static final Logger logger = Logger.getLogger(zzbn.class.getName());
@@ -163,12 +164,12 @@ public abstract class zzbn extends zzba {
                     byte[] bArr = this.buffer;
                     int i = this.position;
                     this.position = i + 1;
-                    zzfd.zza(bArr, i, (byte) ((((int) j) & 127) | 128));
+                    zzfd.zza(bArr, i, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                     j >>>= 7;
                 }
                 byte[] bArr2 = this.buffer;
                 int i2 = this.position;
-                this.position = i2 + 1;
+                this.position = 1 + i2;
                 zzfd.zza(bArr2, i2, (byte) j);
                 return;
             }
@@ -177,7 +178,7 @@ public abstract class zzbn extends zzba {
                     byte[] bArr3 = this.buffer;
                     int i3 = this.position;
                     this.position = i3 + 1;
-                    bArr3[i3] = (byte) ((((int) j) & 127) | 128);
+                    bArr3[i3] = (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128);
                     j >>>= 7;
                 } catch (IndexOutOfBoundsException e) {
                     throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.position), Integer.valueOf(this.limit), 1), e);
@@ -218,22 +219,15 @@ public abstract class zzbn extends zzba {
             try {
                 byte[] bArr = this.buffer;
                 int i = this.position;
-                int i2 = i + 1;
                 bArr[i] = (byte) j;
-                int i3 = i2 + 1;
-                bArr[i2] = (byte) (j >> 8);
-                int i4 = i3 + 1;
-                bArr[i3] = (byte) (j >> 16);
-                int i5 = i4 + 1;
-                bArr[i4] = (byte) (j >> 24);
-                int i6 = i5 + 1;
-                bArr[i5] = (byte) (j >> 32);
-                int i7 = i6 + 1;
-                bArr[i6] = (byte) (j >> 40);
-                int i8 = i7 + 1;
-                bArr[i7] = (byte) (j >> 48);
-                this.position = i8 + 1;
-                bArr[i8] = (byte) (j >> 56);
+                bArr[i + 1] = (byte) (j >> 8);
+                bArr[i + 2] = (byte) (j >> 16);
+                bArr[i + 3] = (byte) (j >> 24);
+                bArr[i + 4] = (byte) (j >> 32);
+                bArr[i + 5] = (byte) (j >> 40);
+                bArr[i + 6] = (byte) (j >> 48);
+                this.position = i + 8;
+                bArr[i + 7] = (byte) (j >> 56);
             } catch (IndexOutOfBoundsException e) {
                 throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.position), Integer.valueOf(this.limit), 1), e);
             }
@@ -286,12 +280,12 @@ public abstract class zzbn extends zzba {
                     byte[] bArr = this.buffer;
                     int i2 = this.position;
                     this.position = i2 + 1;
-                    zzfd.zza(bArr, i2, (byte) ((i & 127) | 128));
+                    zzfd.zza(bArr, i2, (byte) ((i & NotificationCenter.dialogTranslate) | 128));
                     i >>>= 7;
                 }
                 byte[] bArr2 = this.buffer;
                 int i3 = this.position;
-                this.position = i3 + 1;
+                this.position = 1 + i3;
                 zzfd.zza(bArr2, i3, (byte) i);
                 return;
             }
@@ -300,7 +294,7 @@ public abstract class zzbn extends zzba {
                     byte[] bArr3 = this.buffer;
                     int i4 = this.position;
                     this.position = i4 + 1;
-                    bArr3[i4] = (byte) ((i & 127) | 128);
+                    bArr3[i4] = (byte) ((i & NotificationCenter.dialogTranslate) | 128);
                     i >>>= 7;
                 } catch (IndexOutOfBoundsException e) {
                     throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.position), Integer.valueOf(this.limit), 1), e);
@@ -317,14 +311,11 @@ public abstract class zzbn extends zzba {
             try {
                 byte[] bArr = this.buffer;
                 int i2 = this.position;
-                int i3 = i2 + 1;
                 bArr[i2] = (byte) i;
-                int i4 = i3 + 1;
-                bArr[i3] = (byte) (i >> 8);
-                int i5 = i4 + 1;
-                bArr[i4] = (byte) (i >> 16);
-                this.position = i5 + 1;
-                bArr[i5] = i >> 24;
+                bArr[i2 + 1] = (byte) (i >> 8);
+                bArr[i2 + 2] = (byte) (i >> 16);
+                this.position = i2 + 4;
+                bArr[i2 + 3] = i >> 24;
             } catch (IndexOutOfBoundsException e) {
                 throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.position), Integer.valueOf(this.limit), 1), e);
             }
@@ -510,7 +501,7 @@ public abstract class zzbn extends zzba {
         public final void zzb(long j) throws IOException {
             while (((-128) & j) != 0) {
                 try {
-                    this.zzgd.put((byte) ((((int) j) & 127) | 128));
+                    this.zzgd.put((byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                     j >>>= 7;
                 } catch (BufferOverflowException e) {
                     throw new zzc(e);
@@ -597,7 +588,7 @@ public abstract class zzbn extends zzba {
         public final void zzo(int i) throws IOException {
             while ((i & (-128)) != 0) {
                 try {
-                    this.zzgd.put((byte) ((i & 127) | 128));
+                    this.zzgd.put((byte) ((i & NotificationCenter.dialogTranslate) | 128));
                     i >>>= 7;
                 } catch (BufferOverflowException e) {
                     throw new zzc(e);
@@ -764,34 +755,35 @@ public abstract class zzbn extends zzba {
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
         public final void zzb(long j) throws IOException {
-            long j2;
             if (this.zzgi <= this.zzgh) {
                 while (true) {
                     int i = ((j & (-128)) > 0L ? 1 : ((j & (-128)) == 0L ? 0 : -1));
-                    j2 = this.zzgi;
+                    long j2 = this.zzgi;
                     if (i == 0) {
-                        break;
+                        this.zzgi = 1 + j2;
+                        zzfd.zza(j2, (byte) j);
+                        return;
                     }
                     this.zzgi = j2 + 1;
-                    zzfd.zza(j2, (byte) ((((int) j) & 127) | 128));
+                    zzfd.zza(j2, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                     j >>>= 7;
                 }
             } else {
                 while (true) {
-                    j2 = this.zzgi;
-                    if (j2 >= this.zzgg) {
+                    long j3 = this.zzgi;
+                    if (j3 >= this.zzgg) {
                         throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
                     }
                     if ((j & (-128)) == 0) {
-                        break;
+                        this.zzgi = 1 + j3;
+                        zzfd.zza(j3, (byte) j);
+                        return;
                     }
-                    this.zzgi = j2 + 1;
-                    zzfd.zza(j2, (byte) ((((int) j) & 127) | 128));
+                    this.zzgi = j3 + 1;
+                    zzfd.zza(j3, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                     j >>>= 7;
                 }
             }
-            this.zzgi = 1 + j2;
-            zzfd.zza(j2, (byte) j);
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
@@ -872,31 +864,32 @@ public abstract class zzbn extends zzba {
 
         @Override // com.google.android.gms.internal.clearcut.zzbn
         public final void zzo(int i) throws IOException {
-            long j;
             if (this.zzgi <= this.zzgh) {
                 while ((i & (-128)) != 0) {
-                    long j2 = this.zzgi;
-                    this.zzgi = j2 + 1;
-                    zzfd.zza(j2, (byte) ((i & 127) | 128));
-                    i >>>= 7;
-                }
-                j = this.zzgi;
-            } else {
-                while (true) {
-                    j = this.zzgi;
-                    if (j >= this.zzgg) {
-                        throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
-                    }
-                    if ((i & (-128)) == 0) {
-                        break;
-                    }
+                    long j = this.zzgi;
                     this.zzgi = j + 1;
-                    zzfd.zza(j, (byte) ((i & 127) | 128));
+                    zzfd.zza(j, (byte) ((i & NotificationCenter.dialogTranslate) | 128));
                     i >>>= 7;
                 }
+                long j2 = this.zzgi;
+                this.zzgi = 1 + j2;
+                zzfd.zza(j2, (byte) i);
+                return;
             }
-            this.zzgi = 1 + j;
-            zzfd.zza(j, (byte) i);
+            while (true) {
+                long j3 = this.zzgi;
+                if (j3 >= this.zzgg) {
+                    throw new zzc(String.format("Pos: %d, limit: %d, len: %d", Long.valueOf(this.zzgi), Long.valueOf(this.zzgg), 1));
+                }
+                if ((i & (-128)) == 0) {
+                    this.zzgi = 1 + j3;
+                    zzfd.zza(j3, (byte) i);
+                    return;
+                }
+                this.zzgi = j3 + 1;
+                zzfd.zza(j3, (byte) ((i & NotificationCenter.dialogTranslate) | 128));
+                i >>>= 7;
+            }
         }
 
         @Override // com.google.android.gms.internal.clearcut.zzbn

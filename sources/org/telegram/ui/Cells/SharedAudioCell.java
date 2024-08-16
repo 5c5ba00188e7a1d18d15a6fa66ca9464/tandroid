@@ -148,13 +148,45 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         }
     }
 
+    /* JADX WARN: Can't wrap try/catch for region: R(40:1|(1:3)(1:101)|4|(2:5|6)|(31:97|14|(1:16)|17|(1:96)|19|20|(1:22)(1:95)|23|(1:25)(1:94)|26|27|(3:29|(5:31|(1:33)(1:39)|34|(1:36)(1:38)|37)|40)|41|42|(19:78|(1:80)|81|(1:83)|84|(1:86)(1:89)|87|88|54|(1:56)(1:76)|57|(1:59)|60|61|(1:63)|64|(1:66)(1:74)|67|(2:69|70)(2:72|73))|49|(1:51)(1:77)|52|53|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0))|13|14|(0)|17|(0)|19|20|(0)(0)|23|(0)(0)|26|27|(0)|41|42|(2:44|46)|78|(0)|81|(0)|84|(0)(0)|87|88|54|(0)(0)|57|(0)|60|61|(0)|64|(0)(0)|67|(0)(0)) */
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x01ad, code lost:
+        r0 = move-exception;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:86:0x0275, code lost:
+        org.telegram.messenger.FileLog.e(r0);
+     */
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x009d  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00a4 A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:102:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x00cd A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:102:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00df A[Catch: Exception -> 0x007d, TryCatch #1 {Exception -> 0x007d, blocks: (B:7:0x0068, B:9:0x006c, B:11:0x0074, B:16:0x0080, B:18:0x0091, B:21:0x009e, B:25:0x00a7, B:27:0x00cd, B:29:0x00d5, B:31:0x00df, B:33:0x00e7, B:24:0x00a4, B:17:0x0087), top: B:102:0x0068 }] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x00e6  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0103  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x01fa  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x01ff A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0244, B:79:0x024c, B:81:0x0254, B:83:0x025e, B:84:0x0264, B:63:0x01c3, B:65:0x01e4, B:68:0x01fb, B:70:0x01ff, B:71:0x021c, B:73:0x0220, B:76:0x0227, B:75:0x0224), top: B:100:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0220 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0244, B:79:0x024c, B:81:0x0254, B:83:0x025e, B:84:0x0264, B:63:0x01c3, B:65:0x01e4, B:68:0x01fb, B:70:0x01ff, B:71:0x021c, B:73:0x0220, B:76:0x0227, B:75:0x0224), top: B:100:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0224 A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0244, B:79:0x024c, B:81:0x0254, B:83:0x025e, B:84:0x0264, B:63:0x01c3, B:65:0x01e4, B:68:0x01fb, B:70:0x01ff, B:71:0x021c, B:73:0x0220, B:76:0x0227, B:75:0x0224), top: B:100:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x024c A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0244, B:79:0x024c, B:81:0x0254, B:83:0x025e, B:84:0x0264, B:63:0x01c3, B:65:0x01e4, B:68:0x01fb, B:70:0x01ff, B:71:0x021c, B:73:0x0220, B:76:0x0227, B:75:0x0224), top: B:100:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0253  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x025e A[Catch: Exception -> 0x01ad, TryCatch #0 {Exception -> 0x01ad, blocks: (B:50:0x0198, B:52:0x019c, B:54:0x01a4, B:59:0x01b0, B:61:0x01bf, B:64:0x01c6, B:77:0x0244, B:79:0x024c, B:81:0x0254, B:83:0x025e, B:84:0x0264, B:63:0x01c3, B:65:0x01e4, B:68:0x01fb, B:70:0x01ff, B:71:0x021c, B:73:0x0220, B:76:0x0227, B:75:0x0224), top: B:100:0x0198 }] */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0289  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x029e  */
+    /* JADX WARN: Removed duplicated region for block: B:94:0x02a9  */
+    /* JADX WARN: Removed duplicated region for block: B:97:0x02e1  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x02f3  */
     /* JADX WARN: Type inference failed for: r2v9, types: [java.lang.CharSequence] */
     @Override // android.widget.FrameLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected void onMeasure(int i, int i2) {
         int i3;
+        ?? highlightText;
         CharSequence replace;
+        CharSequence highlightText2;
+        TextPaint textPaint;
         this.descriptionLayout = null;
         this.titleLayout = null;
         this.captionLayout = null;
@@ -169,78 +201,129 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
             i3 = 0;
         }
         try {
-            if (this.viewType == 1 && (this.currentMessageObject.isVoice() || this.currentMessageObject.isRoundVideo())) {
-                replace = FilteredSearchView.createFromInfoString(this.currentMessageObject, 1);
-            } else {
-                replace = this.currentMessageObject.getMusicTitle().replace('\n', ' ');
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (this.viewType != 1 || (!this.currentMessageObject.isVoice() && !this.currentMessageObject.isRoundVideo())) {
+            replace = this.currentMessageObject.getMusicTitle().replace('\n', ' ');
+            highlightText2 = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+            if (highlightText2 != null) {
+                replace = highlightText2;
             }
-            CharSequence highlightText = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-            if (highlightText != null) {
-                replace = highlightText;
-            }
-            TextPaint textPaint = this.titlePaint;
+            textPaint = this.titlePaint;
             if (textPaint == null) {
                 textPaint = Theme.chat_contextResult_titleTextPaint;
             }
             TextPaint textPaint2 = textPaint;
             StaticLayout staticLayout = new StaticLayout(TextUtils.ellipsize(replace, textPaint2, size - i3, TextUtils.TruncateAt.END), textPaint2, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.titleLayout = staticLayout;
-            this.titleLayoutLeft = staticLayout.getLineCount() > 0 ? this.titleLayout.getLineLeft(0) : 0.0f;
-            this.titleLayoutWidth = this.titleLayout.getLineCount() > 0 ? this.titleLayout.getLineWidth(0) : 0.0f;
+            this.titleLayoutLeft = staticLayout.getLineCount() <= 0 ? this.titleLayout.getLineLeft(0) : 0.0f;
+            this.titleLayoutWidth = this.titleLayout.getLineCount() <= 0 ? this.titleLayout.getLineWidth(0) : 0.0f;
             this.titleLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.titleLayoutEmojis, this.titleLayout);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        if (this.currentMessageObject.hasHighlightedWords()) {
-            CharSequence highlightText2 = AndroidUtilities.highlightText(Emoji.replaceEmoji((CharSequence) this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.currentMessageObject.highlightedWords, this.resourcesProvider);
-            if (highlightText2 != null) {
-                StaticLayout staticLayout2 = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText2, this.currentMessageObject.highlightedWords.get(0), size, this.captionTextPaint, 130), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                this.captionLayout = staticLayout2;
-                this.captionLayoutLeft = staticLayout2.getLineCount() > 0 ? this.captionLayout.getLineLeft(0) : 0.0f;
-                this.captionLayoutWidth = this.captionLayout.getLineCount() > 0 ? this.captionLayout.getLineWidth(0) : 0.0f;
-            }
-            this.captionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.captionLayoutEmojis, this.captionLayout);
-        }
-        try {
-            if (this.viewType == 1 && (this.currentMessageObject.isVoice() || this.currentMessageObject.isRoundVideo())) {
-                String formatDuration = AndroidUtilities.formatDuration((int) this.currentMessageObject.getDuration(), false);
-                TextPaint textPaint3 = this.viewType == 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
-                this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(formatDuration, textPaint3, size, TextUtils.TruncateAt.END), textPaint3, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-            } else {
-                String replace2 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
-                ?? highlightText3 = AndroidUtilities.highlightText(replace2, this.currentMessageObject.highlightedWords, this.resourcesProvider);
-                String str = replace2;
+            if (this.currentMessageObject.hasHighlightedWords()) {
+                CharSequence highlightText3 = AndroidUtilities.highlightText(Emoji.replaceEmoji((CharSequence) this.currentMessageObject.messageOwner.message.replace("\n", " ").replaceAll(" +", " ").trim(), Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20.0f), false), this.currentMessageObject.highlightedWords, this.resourcesProvider);
                 if (highlightText3 != null) {
-                    str = highlightText3;
+                    StaticLayout staticLayout2 = new StaticLayout(TextUtils.ellipsize(AndroidUtilities.ellipsizeCenterEnd(highlightText3, this.currentMessageObject.highlightedWords.get(0), size, this.captionTextPaint, NotificationCenter.walletSyncProgressChanged), this.captionTextPaint, size, TextUtils.TruncateAt.END), this.captionTextPaint, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                    this.captionLayout = staticLayout2;
+                    this.captionLayoutLeft = staticLayout2.getLineCount() > 0 ? this.captionLayout.getLineLeft(0) : 0.0f;
+                    this.captionLayoutWidth = this.captionLayout.getLineCount() > 0 ? this.captionLayout.getLineWidth(0) : 0.0f;
+                }
+                this.captionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.captionLayoutEmojis, this.captionLayout);
+            }
+            if (this.viewType == 1 || (!this.currentMessageObject.isVoice() && !this.currentMessageObject.isRoundVideo())) {
+                String replace2 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
+                highlightText = AndroidUtilities.highlightText(replace2, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+                String str = replace2;
+                if (highlightText != null) {
+                    str = highlightText;
                 }
                 SpannableStringBuilder spannableStringBuilder = str;
                 if (this.viewType == 1) {
                     spannableStringBuilder = new SpannableStringBuilder(str).append(' ').append((CharSequence) this.dotSpan).append(' ').append(FilteredSearchView.createFromInfoString(this.currentMessageObject, 1));
                 }
-                TextPaint textPaint4 = this.viewType == 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
-                this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder, textPaint4, size, TextUtils.TruncateAt.END), textPaint4, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                TextPaint textPaint3 = this.viewType != 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
+                this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder, textPaint3, size, TextUtils.TruncateAt.END), textPaint3, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                this.descriptionLayoutLeft = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineLeft(0) : 0.0f;
+                this.descriptionLayoutWidth = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineWidth(0) : 0.0f;
+                this.descriptionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.descriptionLayoutEmojis, this.descriptionLayout);
+                setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(56.0f) + (this.captionLayout != null ? AndroidUtilities.dp(18.0f) : 0) + (this.needDivider ? 1 : 0));
+                int size2 = LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - AndroidUtilities.dp(52.0f) : AndroidUtilities.dp(8.0f);
+                RadialProgress2 radialProgress2 = this.radialProgress;
+                int dp = AndroidUtilities.dp(4.0f) + size2;
+                this.buttonX = dp;
+                int dp2 = AndroidUtilities.dp(6.0f);
+                this.buttonY = dp2;
+                radialProgress2.setProgressRect(dp, dp2, size2 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
+                measureChildWithMargins(this.checkBox, i, 0, i2, 0);
+                if (this.captionLayout != null) {
+                    this.captionY = AndroidUtilities.dp(29.0f);
+                    this.descriptionY = AndroidUtilities.dp(29.0f) + AndroidUtilities.dp(18.0f);
+                    return;
+                }
+                this.descriptionY = AndroidUtilities.dp(29.0f);
+                return;
             }
+            String formatDuration = AndroidUtilities.formatDuration((int) this.currentMessageObject.getDuration(), false);
+            TextPaint textPaint4 = this.viewType == 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
+            this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(formatDuration, textPaint4, size, TextUtils.TruncateAt.END), textPaint4, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.descriptionLayoutLeft = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineLeft(0) : 0.0f;
             this.descriptionLayoutWidth = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineWidth(0) : 0.0f;
             this.descriptionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.descriptionLayoutEmojis, this.descriptionLayout);
-        } catch (Exception e2) {
-            FileLog.e(e2);
+            setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(56.0f) + (this.captionLayout != null ? AndroidUtilities.dp(18.0f) : 0) + (this.needDivider ? 1 : 0));
+            if (LocaleController.isRTL) {
+            }
+            RadialProgress2 radialProgress22 = this.radialProgress;
+            int dp3 = AndroidUtilities.dp(4.0f) + size2;
+            this.buttonX = dp3;
+            int dp22 = AndroidUtilities.dp(6.0f);
+            this.buttonY = dp22;
+            radialProgress22.setProgressRect(dp3, dp22, size2 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
+            measureChildWithMargins(this.checkBox, i, 0, i2, 0);
+            if (this.captionLayout != null) {
+            }
         }
+        replace = FilteredSearchView.createFromInfoString(this.currentMessageObject, 1);
+        highlightText2 = AndroidUtilities.highlightText(replace, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+        if (highlightText2 != null) {
+        }
+        textPaint = this.titlePaint;
+        if (textPaint == null) {
+        }
+        TextPaint textPaint22 = textPaint;
+        StaticLayout staticLayout3 = new StaticLayout(TextUtils.ellipsize(replace, textPaint22, size - i3, TextUtils.TruncateAt.END), textPaint22, (AndroidUtilities.dp(4.0f) + size) - i3, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        this.titleLayout = staticLayout3;
+        this.titleLayoutLeft = staticLayout3.getLineCount() <= 0 ? this.titleLayout.getLineLeft(0) : 0.0f;
+        this.titleLayoutWidth = this.titleLayout.getLineCount() <= 0 ? this.titleLayout.getLineWidth(0) : 0.0f;
+        this.titleLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.titleLayoutEmojis, this.titleLayout);
+        if (this.currentMessageObject.hasHighlightedWords()) {
+        }
+        if (this.viewType == 1) {
+        }
+        String replace22 = this.currentMessageObject.getMusicAuthor().replace('\n', ' ');
+        highlightText = AndroidUtilities.highlightText(replace22, this.currentMessageObject.highlightedWords, this.resourcesProvider);
+        String str2 = replace22;
+        if (highlightText != null) {
+        }
+        SpannableStringBuilder spannableStringBuilder2 = str2;
+        if (this.viewType == 1) {
+        }
+        TextPaint textPaint32 = this.viewType != 1 ? this.description2TextPaint : Theme.chat_contextResult_descriptionTextPaint;
+        this.descriptionLayout = new StaticLayout(TextUtils.ellipsize(spannableStringBuilder2, textPaint32, size, TextUtils.TruncateAt.END), textPaint32, size + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        this.descriptionLayoutLeft = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineLeft(0) : 0.0f;
+        this.descriptionLayoutWidth = this.descriptionLayout.getLineCount() > 0 ? this.descriptionLayout.getLineWidth(0) : 0.0f;
+        this.descriptionLayoutEmojis = AnimatedEmojiSpan.update(0, this, this.descriptionLayoutEmojis, this.descriptionLayout);
         setMeasuredDimension(View.MeasureSpec.getSize(i), AndroidUtilities.dp(56.0f) + (this.captionLayout != null ? AndroidUtilities.dp(18.0f) : 0) + (this.needDivider ? 1 : 0));
-        int size2 = LocaleController.isRTL ? (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - AndroidUtilities.dp(52.0f) : AndroidUtilities.dp(8.0f);
-        RadialProgress2 radialProgress2 = this.radialProgress;
-        int dp = AndroidUtilities.dp(4.0f) + size2;
-        this.buttonX = dp;
-        int dp2 = AndroidUtilities.dp(6.0f);
-        this.buttonY = dp2;
-        radialProgress2.setProgressRect(dp, dp2, size2 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
+        if (LocaleController.isRTL) {
+        }
+        RadialProgress2 radialProgress222 = this.radialProgress;
+        int dp32 = AndroidUtilities.dp(4.0f) + size2;
+        this.buttonX = dp32;
+        int dp222 = AndroidUtilities.dp(6.0f);
+        this.buttonY = dp222;
+        radialProgress222.setProgressRect(dp32, dp222, size2 + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(50.0f));
         measureChildWithMargins(this.checkBox, i, 0, i2, 0);
         if (this.captionLayout != null) {
-            this.captionY = AndroidUtilities.dp(29.0f);
-            this.descriptionY = AndroidUtilities.dp(29.0f) + AndroidUtilities.dp(18.0f);
-            return;
         }
-        this.descriptionY = AndroidUtilities.dp(29.0f);
     }
 
     public void setMessageObject(MessageObject messageObject, boolean z) {
@@ -312,78 +395,57 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
         return onTouchEvent(motionEvent);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0068  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00bf  */
-    /* JADX WARN: Removed duplicated region for block: B:50:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private boolean checkAudioMotionEvent(MotionEvent motionEvent) {
         boolean z;
-        boolean z2;
+        int dp;
+        int dp2;
+        int i;
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
-        int dp = AndroidUtilities.dp(36.0f);
-        if (this.miniButtonState >= 0) {
-            int dp2 = AndroidUtilities.dp(27.0f);
-            int i = this.buttonX;
-            if (x >= i + dp2 && x <= i + dp2 + dp) {
-                int i2 = this.buttonY;
-                if (y >= i2 + dp2 && y <= i2 + dp2 + dp) {
-                    z = true;
-                    if (motionEvent.getAction() == 0) {
-                        if (motionEvent.getAction() == 1) {
-                            if (this.miniButtonPressed) {
-                                this.miniButtonPressed = false;
-                                playSoundEffect(0);
-                                didPressedMiniButton(true);
-                                invalidate();
-                            } else if (this.buttonPressed) {
-                                this.buttonPressed = false;
-                                playSoundEffect(0);
-                                didPressedButton();
-                                invalidate();
-                            }
-                            requestDisallowInterceptTouchEvent(false);
-                        } else if (motionEvent.getAction() == 3) {
-                            requestDisallowInterceptTouchEvent(false);
-                            this.miniButtonPressed = false;
-                            this.buttonPressed = false;
-                            invalidate();
-                        } else if (motionEvent.getAction() == 2 && !z && this.miniButtonPressed) {
-                            this.miniButtonPressed = false;
-                            invalidate();
-                        }
-                    } else {
-                        if (z) {
-                            this.miniButtonPressed = true;
-                            this.radialProgress.setPressed(true, true);
-                            invalidate();
-                        } else if (this.checkForButtonPress && this.radialProgress.getProgressRect().contains(x, y)) {
-                            requestDisallowInterceptTouchEvent(true);
-                            this.buttonPressed = true;
-                            this.radialProgress.setPressed(true, false);
-                            invalidate();
-                        }
-                        z2 = true;
-                        this.radialProgress.setPressed(this.miniButtonPressed, true);
-                        return !z2 || this.buttonPressed;
-                    }
-                    z2 = false;
-                    this.radialProgress.setPressed(this.miniButtonPressed, true);
-                    if (z2) {
-                        return true;
-                    }
+        int dp3 = AndroidUtilities.dp(36.0f);
+        boolean z2 = this.miniButtonState >= 0 && x >= (dp2 = this.buttonX + (dp = AndroidUtilities.dp(27.0f))) && x <= dp2 + dp3 && y >= (i = this.buttonY + dp) && y <= i + dp3;
+        if (motionEvent.getAction() != 0) {
+            if (motionEvent.getAction() == 1) {
+                if (this.miniButtonPressed) {
+                    this.miniButtonPressed = false;
+                    playSoundEffect(0);
+                    didPressedMiniButton(true);
+                    invalidate();
+                } else if (this.buttonPressed) {
+                    this.buttonPressed = false;
+                    playSoundEffect(0);
+                    didPressedButton();
+                    invalidate();
                 }
+                requestDisallowInterceptTouchEvent(false);
+            } else if (motionEvent.getAction() == 3) {
+                requestDisallowInterceptTouchEvent(false);
+                this.miniButtonPressed = false;
+                this.buttonPressed = false;
+                invalidate();
+            } else if (motionEvent.getAction() == 2 && !z2 && this.miniButtonPressed) {
+                this.miniButtonPressed = false;
+                invalidate();
             }
+        } else {
+            if (z2) {
+                this.miniButtonPressed = true;
+                this.radialProgress.setPressed(true, true);
+                invalidate();
+            } else if (this.checkForButtonPress && this.radialProgress.getProgressRect().contains(x, y)) {
+                requestDisallowInterceptTouchEvent(true);
+                this.buttonPressed = true;
+                this.radialProgress.setPressed(true, false);
+                invalidate();
+            }
+            z = true;
+            this.radialProgress.setPressed(this.miniButtonPressed, true);
+            return z || this.buttonPressed;
         }
         z = false;
-        if (motionEvent.getAction() == 0) {
-        }
-        z2 = false;
         this.radialProgress.setPressed(this.miniButtonPressed, true);
-        if (z2) {
+        if (z) {
+            return true;
         }
     }
 

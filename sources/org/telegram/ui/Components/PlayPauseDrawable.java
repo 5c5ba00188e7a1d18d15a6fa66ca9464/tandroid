@@ -7,10 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PlayPauseDrawable extends Drawable {
-    private int alpha = 255;
+    private int alpha = NotificationCenter.voipServiceCreated;
     float duration = 300.0f;
     private long lastUpdateTime;
     private final Paint paint;

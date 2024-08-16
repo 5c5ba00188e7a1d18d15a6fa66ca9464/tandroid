@@ -177,7 +177,7 @@ public abstract class TLRPC$MessageReplyHeader extends TLObject {
                         if ((this.flags & 32) != 0) {
                             this.reply_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.reply_media = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags & 2) != 0) {
@@ -224,7 +224,7 @@ public abstract class TLRPC$MessageReplyHeader extends TLObject {
                         if ((this.flags & 32) != 0) {
                             this.reply_from.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.reply_media.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags & 2) != 0) {

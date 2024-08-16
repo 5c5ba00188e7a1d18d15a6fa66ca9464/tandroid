@@ -353,21 +353,21 @@ public final class RtspMessageUtil {
                                 if (i != 400) {
                                     if (i != 401) {
                                         if (i != 404) {
-                                            if (i != 405) {
-                                                switch (i) {
-                                                    case 454:
-                                                        return "Session Not Found";
-                                                    case 455:
-                                                        return "Method Not Valid In This State";
-                                                    case 456:
-                                                        return "Header Field Not Valid";
-                                                    case 457:
-                                                        return "Invalid Range";
-                                                    default:
-                                                        throw new IllegalArgumentException();
-                                                }
+                                            if (i == 405) {
+                                                return "Method Not Allowed";
                                             }
-                                            return "Method Not Allowed";
+                                            switch (i) {
+                                                case 454:
+                                                    return "Session Not Found";
+                                                case 455:
+                                                    return "Method Not Valid In This State";
+                                                case 456:
+                                                    return "Header Field Not Valid";
+                                                case 457:
+                                                    return "Invalid Range";
+                                                default:
+                                                    throw new IllegalArgumentException();
+                                            }
                                         }
                                         return "Not Found";
                                     }

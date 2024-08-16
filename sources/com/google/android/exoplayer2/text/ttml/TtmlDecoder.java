@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.R;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -88,17 +87,19 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                                     }
                                 } catch (SubtitleDecoderException e) {
                                     Log.w("TtmlDecoder", "Suppressing parser error", e);
-                                    i2++;
                                 }
                             }
                             frameAndTickRate2 = frameAndTickRate;
+                            ttsExtent = ttsExtent2;
+                            cellResolution = cellResolution2;
                         } else {
                             Log.i("TtmlDecoder", "Ignoring unsupported tag: " + newPullParser.getName());
-                            i2++;
-                            frameAndTickRate2 = frameAndTickRate3;
+                            frameAndTickRate = frameAndTickRate3;
                         }
+                        frameAndTickRate2 = frameAndTickRate;
                         ttsExtent = ttsExtent2;
                         cellResolution = cellResolution2;
+                        i2++;
                     } else if (eventType == 4) {
                         ((TtmlNode) Assertions.checkNotNull(ttmlNode)).addChild(TtmlNode.buildTextNode(newPullParser.getText()));
                     } else if (eventType == 3) {
@@ -107,12 +108,17 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
                         }
                         arrayDeque.pop();
                     }
-                } else if (eventType == 2) {
+                    newPullParser.next();
+                } else {
+                    if (eventType != 2) {
+                        if (eventType == 3) {
+                            i2--;
+                        }
+                        newPullParser.next();
+                    }
                     i2++;
-                } else if (eventType == 3) {
-                    i2--;
+                    newPullParser.next();
                 }
-                newPullParser.next();
             }
             if (ttmlSubtitle != null) {
                 return ttmlSubtitle;
@@ -232,7 +238,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:59:0x01ad, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:59:0x01aa, code lost:
         if (r0.equals("tb") == false) goto L40;
      */
     /* JADX WARN: Removed duplicated region for block: B:47:0x017d  */
@@ -392,7 +398,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:102:0x01e0, code lost:
         if (r3.equals("text") == false) goto L49;
      */
     /*
@@ -904,7 +910,7 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             str2.hashCode();
             char c = 65535;
             switch (str2.hashCode()) {
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case 37:
                     if (str2.equals("%")) {
                         c = 0;
                         break;
@@ -998,21 +1004,21 @@ public final class TtmlDecoder extends SimpleSubtitleDecoder {
             String str2 = (String) Assertions.checkNotNull(matcher2.group(2));
             str2.hashCode();
             switch (str2.hashCode()) {
-                case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+                case 102:
                     if (str2.equals("f")) {
                         c = 0;
                         break;
                     }
                     c = 65535;
                     break;
-                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                case 104:
                     if (str2.equals("h")) {
                         c = 1;
                         break;
                     }
                     c = 65535;
                     break;
-                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                case 109:
                     if (str2.equals("m")) {
                         c = 2;
                         break;

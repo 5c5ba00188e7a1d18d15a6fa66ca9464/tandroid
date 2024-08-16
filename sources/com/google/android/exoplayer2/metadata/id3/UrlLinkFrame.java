@@ -43,7 +43,7 @@ public final class UrlLinkFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        int hashCode = (527 + this.id.hashCode()) * 31;
+        int hashCode = (this.id.hashCode() + 527) * 31;
         String str = this.description;
         int hashCode2 = (hashCode + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.url;

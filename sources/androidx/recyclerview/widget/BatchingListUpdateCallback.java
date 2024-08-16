@@ -67,14 +67,12 @@ public class BatchingListUpdateCallback implements ListUpdateCallback {
     @Override // androidx.recyclerview.widget.ListUpdateCallback
     public void onChanged(int i, int i2, Object obj) {
         int i3;
-        if (this.mLastEventType == 3) {
-            int i4 = this.mLastEventPosition;
-            int i5 = this.mLastEventCount;
-            if (i <= i4 + i5 && (i3 = i + i2) >= i4 && this.mLastEventPayload == obj) {
-                this.mLastEventPosition = Math.min(i, i4);
-                this.mLastEventCount = Math.max(i5 + i4, i3) - this.mLastEventPosition;
-                return;
-            }
+        int i4;
+        int i5;
+        if (this.mLastEventType == 3 && i <= (i4 = this.mLastEventCount + (i3 = this.mLastEventPosition)) && (i5 = i + i2) >= i3 && this.mLastEventPayload == obj) {
+            this.mLastEventPosition = Math.min(i, i3);
+            this.mLastEventCount = Math.max(i4, i5) - this.mLastEventPosition;
+            return;
         }
         dispatchLastEvent();
         this.mLastEventPosition = i;

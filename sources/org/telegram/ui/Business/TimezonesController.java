@@ -39,12 +39,15 @@ public class TimezonesController {
         TimezonesController timezonesController = Instance[i];
         if (timezonesController == null) {
             synchronized (lockObjects[i]) {
-                timezonesController = Instance[i];
-                if (timezonesController == null) {
-                    TimezonesController[] timezonesControllerArr = Instance;
-                    TimezonesController timezonesController2 = new TimezonesController(i);
-                    timezonesControllerArr[i] = timezonesController2;
-                    timezonesController = timezonesController2;
+                try {
+                    timezonesController = Instance[i];
+                    if (timezonesController == null) {
+                        TimezonesController[] timezonesControllerArr = Instance;
+                        TimezonesController timezonesController2 = new TimezonesController(i);
+                        timezonesControllerArr[i] = timezonesController2;
+                        timezonesController = timezonesController2;
+                    }
+                } finally {
                 }
             }
         }
@@ -172,7 +175,7 @@ public class TimezonesController {
             sb3.append(i);
             StringBuilder sb4 = new StringBuilder();
             sb4.append(sb3.toString() + ":");
-            sb4.append(i2 >= 10 ? "" : "0");
+            sb4.append(i2 < 10 ? "0" : "");
             sb4.append(i2);
             return sb4.toString();
         }

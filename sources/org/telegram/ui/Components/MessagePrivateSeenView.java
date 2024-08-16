@@ -22,6 +22,7 @@ import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.ConnectionsManager;
@@ -156,7 +157,7 @@ public class MessagePrivateSeenView extends FrameLayout {
         this.loadingView.animate().alpha(0.0f).setInterpolator(cubicBezierInterpolator).setDuration(320L).start();
         if (this.isPremiumLocked) {
             setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, this.resourcesProvider), 6, 0));
-            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda7
+            setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     MessagePrivateSeenView.this.lambda$request$0(view);
@@ -179,6 +180,7 @@ public class MessagePrivateSeenView extends FrameLayout {
     }
 
     public static void showSheet(final Context context, final int i, long j, final boolean z, final Runnable runnable, final Runnable runnable2, final Theme.ResourcesProvider resourcesProvider) {
+        String str;
         int i2;
         final BottomSheet bottomSheet;
         final BottomSheet bottomSheet2 = new BottomSheet(context, false, resourcesProvider);
@@ -206,13 +208,18 @@ public class MessagePrivateSeenView extends FrameLayout {
         textView2.setGravity(17);
         textView2.setTextColor(Theme.getColor(i3, resourcesProvider));
         textView2.setTextSize(1, 14.0f);
-        String firstName = j > 0 ? UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(j))) : "";
+        if (j <= 0) {
+            str = "";
+        } else {
+            str = UserObject.getFirstName(MessagesController.getInstance(i).getUser(Long.valueOf(j)));
+        }
+        String str2 = str;
         if (z) {
             i2 = premiumFeaturesBlocked ? R.string.PremiumLastSeenText1Locked : R.string.PremiumLastSeenText1;
         } else {
             i2 = premiumFeaturesBlocked ? R.string.PremiumReadText1Locked : R.string.PremiumReadText1;
         }
-        textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString(i2, firstName)));
+        textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString(i2, str2)));
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 1, 32, 9, 32, 19));
         final ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(z ? R.string.PremiumLastSeenButton1 : R.string.PremiumReadButton1), false);
@@ -245,7 +252,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             simpleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
             simpleTextView.setText(" " + LocaleController.getString(R.string.PremiumOr) + " ");
             simpleTextView.setTextSize(14);
-            linearLayout.addView(simpleTextView, LayoutHelper.createLinear(270, -2, 1, 12, 17, 12, 17));
+            linearLayout.addView(simpleTextView, LayoutHelper.createLinear((int) NotificationCenter.onRequestPermissionResultReceived, -2, 1, 12, 17, 12, 17));
             TextView textView3 = new TextView(context);
             textView3.setTypeface(AndroidUtilities.bold());
             textView3.setGravity(17);
@@ -257,7 +264,7 @@ public class MessagePrivateSeenView extends FrameLayout {
             textView4.setGravity(17);
             textView4.setTextColor(Theme.getColor(i3, resourcesProvider));
             textView4.setTextSize(1, 14.0f);
-            textView4.setText(AndroidUtilities.replaceTags(LocaleController.formatString(z ? R.string.PremiumLastSeenText2 : R.string.PremiumReadText2, firstName)));
+            textView4.setText(AndroidUtilities.replaceTags(LocaleController.formatString(z ? R.string.PremiumLastSeenText2 : R.string.PremiumReadText2, str2)));
             linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 1, 32, 9, 32, 19));
             PremiumButtonView premiumButtonView = new PremiumButtonView(context, true, resourcesProvider);
             bottomSheet = bottomSheet2;
@@ -306,7 +313,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showSheet$4(final ButtonWithCounterView buttonWithCounterView, final BottomSheet bottomSheet, final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.lambda$showSheet$3(TLRPC$TL_error.this, buttonWithCounterView, bottomSheet, runnable);
@@ -330,7 +337,7 @@ public class MessagePrivateSeenView extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showSheet$6(final Context context, final Theme.ResourcesProvider resourcesProvider, final ButtonWithCounterView buttonWithCounterView, final BottomSheet bottomSheet, final Runnable runnable, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.MessagePrivateSeenView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 MessagePrivateSeenView.lambda$showSheet$5(TLRPC$TL_error.this, context, resourcesProvider, buttonWithCounterView, bottomSheet, runnable);

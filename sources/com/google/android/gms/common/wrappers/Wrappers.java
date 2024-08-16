@@ -12,11 +12,15 @@ public class Wrappers {
     }
 
     public final synchronized PackageManagerWrapper zza(Context context) {
-        if (this.zzb == null) {
-            if (context.getApplicationContext() != null) {
-                context = context.getApplicationContext();
+        try {
+            if (this.zzb == null) {
+                if (context.getApplicationContext() != null) {
+                    context = context.getApplicationContext();
+                }
+                this.zzb = new PackageManagerWrapper(context);
             }
-            this.zzb = new PackageManagerWrapper(context);
+        } catch (Throwable th) {
+            throw th;
         }
         return this.zzb;
     }

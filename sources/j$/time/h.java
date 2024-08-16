@@ -1,167 +1,101 @@
 package j$.time;
-
-import j$.time.temporal.q;
-import java.io.Serializable;
 /* loaded from: classes2.dex */
-public final class h implements j$.time.temporal.k, j$.time.chrono.c, Serializable {
-    private final LocalDate a;
-    private final j b;
+abstract /* synthetic */ class h {
+    static final /* synthetic */ int[] a;
+    static final /* synthetic */ int[] b;
 
     static {
-        LocalDate localDate = LocalDate.d;
-        j jVar = j.e;
-        if (localDate == null) {
-            throw new NullPointerException("date");
+        int[] iArr = new int[j$.time.temporal.b.values().length];
+        b = iArr;
+        try {
+            iArr[j$.time.temporal.b.NANOS.ordinal()] = 1;
+        } catch (NoSuchFieldError unused) {
         }
-        if (jVar == null) {
-            throw new NullPointerException("time");
+        try {
+            b[j$.time.temporal.b.MICROS.ordinal()] = 2;
+        } catch (NoSuchFieldError unused2) {
         }
-        LocalDate localDate2 = LocalDate.e;
-        j jVar2 = j.f;
-        if (localDate2 == null) {
-            throw new NullPointerException("date");
+        try {
+            b[j$.time.temporal.b.MILLIS.ordinal()] = 3;
+        } catch (NoSuchFieldError unused3) {
         }
-        if (jVar2 == null) {
-            throw new NullPointerException("time");
+        try {
+            b[j$.time.temporal.b.SECONDS.ordinal()] = 4;
+        } catch (NoSuchFieldError unused4) {
         }
-    }
-
-    private h(LocalDate localDate, j jVar) {
-        this.a = localDate;
-        this.b = jVar;
-    }
-
-    public static h i(int i) {
-        return new h(LocalDate.of(i, 12, 31), j.j());
-    }
-
-    public static h j(long j, int i, ZoneOffset zoneOffset) {
-        long totalSeconds;
-        if (zoneOffset != null) {
-            long j2 = i;
-            j$.time.temporal.a.NANO_OF_SECOND.f(j2);
-            return new h(LocalDate.o(a.f(j + zoneOffset.getTotalSeconds(), 86400L)), j.k((((int) a.d(totalSeconds, 86400L)) * 1000000000) + j2));
+        try {
+            b[j$.time.temporal.b.MINUTES.ordinal()] = 5;
+        } catch (NoSuchFieldError unused5) {
         }
-        throw new NullPointerException("offset");
-    }
-
-    @Override // j$.time.temporal.k
-    public final q a(j$.time.temporal.l lVar) {
-        if (lVar instanceof j$.time.temporal.a) {
-            if (((j$.time.temporal.a) lVar).isTimeBased()) {
-                j jVar = this.b;
-                jVar.getClass();
-                return j$.time.temporal.j.c(jVar, lVar);
-            }
-            return this.a.a(lVar);
+        try {
+            b[j$.time.temporal.b.HOURS.ordinal()] = 6;
+        } catch (NoSuchFieldError unused6) {
         }
-        return lVar.b(this);
-    }
-
-    @Override // j$.time.temporal.k
-    public final boolean b(j$.time.temporal.l lVar) {
-        if (!(lVar instanceof j$.time.temporal.a)) {
-            return lVar != null && lVar.a(this);
+        try {
+            b[j$.time.temporal.b.HALF_DAYS.ordinal()] = 7;
+        } catch (NoSuchFieldError unused7) {
         }
-        j$.time.temporal.a aVar = (j$.time.temporal.a) lVar;
-        return aVar.isDateBased() || aVar.isTimeBased();
-    }
-
-    @Override // j$.time.temporal.k
-    public final long c(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? ((j$.time.temporal.a) lVar).isTimeBased() ? this.b.c(lVar) : this.a.c(lVar) : lVar.d(this);
-    }
-
-    @Override // j$.time.temporal.k
-    public final Object d(j$.time.temporal.n nVar) {
-        if (nVar == j$.time.temporal.j.e()) {
-            return this.a;
+        int[] iArr2 = new int[j$.time.temporal.a.values().length];
+        a = iArr2;
+        try {
+            iArr2[j$.time.temporal.a.NANO_OF_SECOND.ordinal()] = 1;
+        } catch (NoSuchFieldError unused8) {
         }
-        if (nVar == j$.time.temporal.j.j() || nVar == j$.time.temporal.j.i() || nVar == j$.time.temporal.j.g()) {
-            return null;
+        try {
+            a[j$.time.temporal.a.NANO_OF_DAY.ordinal()] = 2;
+        } catch (NoSuchFieldError unused9) {
         }
-        if (nVar == j$.time.temporal.j.f()) {
-            return this.b;
+        try {
+            a[j$.time.temporal.a.MICRO_OF_SECOND.ordinal()] = 3;
+        } catch (NoSuchFieldError unused10) {
         }
-        if (nVar != j$.time.temporal.j.d()) {
-            return nVar == j$.time.temporal.j.h() ? j$.time.temporal.b.NANOS : nVar.a(this);
+        try {
+            a[j$.time.temporal.a.MICRO_OF_DAY.ordinal()] = 4;
+        } catch (NoSuchFieldError unused11) {
         }
-        ((LocalDate) l()).getClass();
-        return j$.time.chrono.e.a;
-    }
-
-    @Override // j$.time.temporal.k
-    public final int e(j$.time.temporal.a aVar) {
-        return aVar instanceof j$.time.temporal.a ? aVar.isTimeBased() ? this.b.e(aVar) : this.a.e(aVar) : j$.time.temporal.j.a(this, aVar);
-    }
-
-    public final boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        try {
+            a[j$.time.temporal.a.MILLI_OF_SECOND.ordinal()] = 5;
+        } catch (NoSuchFieldError unused12) {
         }
-        if (obj instanceof h) {
-            h hVar = (h) obj;
-            return this.a.equals(hVar.a) && this.b.equals(hVar.b);
+        try {
+            a[j$.time.temporal.a.MILLI_OF_DAY.ordinal()] = 6;
+        } catch (NoSuchFieldError unused13) {
         }
-        return false;
-    }
-
-    @Override // java.lang.Comparable
-    /* renamed from: f */
-    public final int compareTo(j$.time.chrono.c cVar) {
-        boolean z = cVar instanceof h;
-        j jVar = this.b;
-        LocalDate localDate = this.a;
-        if (z) {
-            h hVar = (h) cVar;
-            int g = localDate.g(hVar.a);
-            return g == 0 ? jVar.compareTo(hVar.b) : g;
+        try {
+            a[j$.time.temporal.a.SECOND_OF_MINUTE.ordinal()] = 7;
+        } catch (NoSuchFieldError unused14) {
         }
-        h hVar2 = (h) cVar;
-        int compareTo = localDate.compareTo(hVar2.a);
-        if (compareTo == 0) {
-            int compareTo2 = jVar.compareTo(hVar2.b);
-            if (compareTo2 == 0) {
-                ((LocalDate) l()).getClass();
-                j$.time.chrono.e eVar = j$.time.chrono.e.a;
-                ((LocalDate) hVar2.l()).getClass();
-                eVar.getClass();
-                eVar.getClass();
-                return 0;
-            }
-            return compareTo2;
+        try {
+            a[j$.time.temporal.a.SECOND_OF_DAY.ordinal()] = 8;
+        } catch (NoSuchFieldError unused15) {
         }
-        return compareTo;
-    }
-
-    public final int g() {
-        return this.b.i();
-    }
-
-    public final int h() {
-        return this.a.l();
-    }
-
-    public final int hashCode() {
-        return this.a.hashCode() ^ this.b.hashCode();
-    }
-
-    public final long k(ZoneOffset zoneOffset) {
-        if (zoneOffset != null) {
-            return ((((LocalDate) l()).r() * 86400) + m().m()) - zoneOffset.getTotalSeconds();
+        try {
+            a[j$.time.temporal.a.MINUTE_OF_HOUR.ordinal()] = 9;
+        } catch (NoSuchFieldError unused16) {
         }
-        throw new NullPointerException("offset");
-    }
-
-    public final j$.time.chrono.b l() {
-        return this.a;
-    }
-
-    public final j m() {
-        return this.b;
-    }
-
-    public final String toString() {
-        return this.a.toString() + 'T' + this.b.toString();
+        try {
+            a[j$.time.temporal.a.MINUTE_OF_DAY.ordinal()] = 10;
+        } catch (NoSuchFieldError unused17) {
+        }
+        try {
+            a[j$.time.temporal.a.HOUR_OF_AMPM.ordinal()] = 11;
+        } catch (NoSuchFieldError unused18) {
+        }
+        try {
+            a[j$.time.temporal.a.CLOCK_HOUR_OF_AMPM.ordinal()] = 12;
+        } catch (NoSuchFieldError unused19) {
+        }
+        try {
+            a[j$.time.temporal.a.HOUR_OF_DAY.ordinal()] = 13;
+        } catch (NoSuchFieldError unused20) {
+        }
+        try {
+            a[j$.time.temporal.a.CLOCK_HOUR_OF_DAY.ordinal()] = 14;
+        } catch (NoSuchFieldError unused21) {
+        }
+        try {
+            a[j$.time.temporal.a.AMPM_OF_DAY.ordinal()] = 15;
+        } catch (NoSuchFieldError unused22) {
+        }
     }
 }

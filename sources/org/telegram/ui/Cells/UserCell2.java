@@ -180,7 +180,7 @@ public class UserCell2 extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:55:0x0087, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:55:0x0088, code lost:
         if (r13.equals(r12.lastName) == false) goto L37;
      */
     /* JADX WARN: Multi-variable type inference failed */

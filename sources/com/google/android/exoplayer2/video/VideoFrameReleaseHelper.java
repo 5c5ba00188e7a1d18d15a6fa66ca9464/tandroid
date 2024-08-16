@@ -167,18 +167,6 @@ public final class VideoFrameReleaseHelper {
         return Math.abs(j - j2) <= 20000000;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x005c, code lost:
-        if (java.lang.Math.abs(r0 - r8.surfaceMediaFrameRate) >= (r8.frameRateEstimator.isSynced() && (r8.frameRateEstimator.getMatchingFrameDurationSumNs() > 5000000000L ? 1 : (r8.frameRateEstimator.getMatchingFrameDurationSumNs() == 5000000000L ? 0 : -1)) >= 0 ? 0.02f : 1.0f)) goto L26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x005f, code lost:
-        r5 = false;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x006c, code lost:
-        if (r8.frameRateEstimator.getFramesWithoutSyncCount() >= 30) goto L26;
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private void updateSurfaceMediaFrameRate() {
         if (Util.SDK_INT < 30 || this.surface == null) {
             return;
@@ -188,15 +176,15 @@ public final class VideoFrameReleaseHelper {
         if (frameRate == f) {
             return;
         }
-        boolean z = true;
-        if (frameRate == -1.0f || f == -1.0f) {
-            if (frameRate == -1.0f) {
+        if (frameRate != -1.0f && f != -1.0f) {
+            if (Math.abs(frameRate - this.surfaceMediaFrameRate) < ((!this.frameRateEstimator.isSynced() || this.frameRateEstimator.getMatchingFrameDurationSumNs() < 5000000000L) ? 1.0f : 0.02f)) {
+                return;
             }
-            if (z) {
-                this.surfaceMediaFrameRate = frameRate;
-                updateSurfacePlaybackFrameRate(false);
-            }
+        } else if (frameRate == -1.0f && this.frameRateEstimator.getFramesWithoutSyncCount() < 30) {
+            return;
         }
+        this.surfaceMediaFrameRate = frameRate;
+        updateSurfacePlaybackFrameRate(false);
     }
 
     private void updateSurfacePlaybackFrameRate(boolean z) {

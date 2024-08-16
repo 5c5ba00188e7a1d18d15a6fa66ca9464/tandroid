@@ -1,37 +1,23 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class V implements j$.util.function.K {
-    public final /* synthetic */ int a;
-    public final /* synthetic */ f2 b;
+final class V extends Y1 {
+    public final /* synthetic */ int b;
 
-    public /* synthetic */ V(int i, f2 f2Var) {
-        this.a = i;
-        this.b = f2Var;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ V(int i, e2 e2Var) {
+        super(e2Var);
+        this.b = i;
     }
 
-    @Override // j$.util.function.K
+    @Override // j$.util.stream.e2
     public final void accept(int i) {
-        int i2 = this.a;
-        f2 f2Var = this.b;
-        switch (i2) {
+        switch (this.b) {
             case 0:
-                f2Var.accept(i);
+                this.a.accept(i);
                 return;
             default:
-                ((X) f2Var).a.accept(i);
+                this.a.accept(i);
                 return;
-        }
-    }
-
-    @Override // j$.util.function.K
-    public final j$.util.function.K n(j$.util.function.K k) {
-        switch (this.a) {
-            case 0:
-                k.getClass();
-                return new j$.util.function.H(this, k);
-            default:
-                k.getClass();
-                return new j$.util.function.H(this, k);
         }
     }
 }

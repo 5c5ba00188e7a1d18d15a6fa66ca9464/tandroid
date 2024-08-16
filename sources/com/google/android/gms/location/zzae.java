@@ -1,7 +1,6 @@
 package com.google.android.gms.location;
 
 import com.google.android.gms.common.internal.Preconditions;
-import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
 public final class zzae {
@@ -13,7 +12,7 @@ public final class zzae {
                 Preconditions.checkArgument(z, "priority %d must be a Priority.PRIORITY_* constant", Integer.valueOf(i));
                 return i;
             }
-            i = R.styleable.AppCompatTheme_textAppearanceListItemSmall;
+            i = 105;
         }
         z = true;
         Preconditions.checkArgument(z, "priority %d must be a Priority.PRIORITY_* constant", Integer.valueOf(i));

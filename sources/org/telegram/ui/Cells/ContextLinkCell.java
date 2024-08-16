@@ -33,6 +33,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
@@ -184,42 +185,37 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:80:0x01e2, code lost:
-        if (r0 == r39.currentPhotoObject) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:79:0x01ea, code lost:
+        if (r0 == r43.currentPhotoObject) goto L38;
      */
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0240  */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x026f  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x028d  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x02a9  */
-    /* JADX WARN: Removed duplicated region for block: B:125:0x02ae  */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02b1  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x02b7  */
-    /* JADX WARN: Removed duplicated region for block: B:141:0x02e1 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:144:0x02e7  */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x02f1  */
-    /* JADX WARN: Removed duplicated region for block: B:152:0x0306 A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:156:0x0311  */
-    /* JADX WARN: Removed duplicated region for block: B:162:0x031f  */
-    /* JADX WARN: Removed duplicated region for block: B:172:0x03a3  */
-    /* JADX WARN: Removed duplicated region for block: B:175:0x03b1  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x03b3  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x03bb  */
-    /* JADX WARN: Removed duplicated region for block: B:203:0x0491  */
-    /* JADX WARN: Removed duplicated region for block: B:221:0x059a  */
-    /* JADX WARN: Removed duplicated region for block: B:229:0x05be  */
-    /* JADX WARN: Removed duplicated region for block: B:233:0x05fd  */
-    /* JADX WARN: Removed duplicated region for block: B:259:0x06cd  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x0130 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:274:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0172  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x0180  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x01ca  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01ec  */
-    /* JADX WARN: Type inference failed for: r3v2, types: [int, boolean] */
-    /* JADX WARN: Type inference failed for: r3v30 */
-    /* JADX WARN: Type inference failed for: r3v31 */
-    /* JADX WARN: Type inference failed for: r3v32 */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0247  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0276  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x0294  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x02b1  */
+    /* JADX WARN: Removed duplicated region for block: B:124:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:127:0x02bf  */
+    /* JADX WARN: Removed duplicated region for block: B:139:0x02e8 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x02ee  */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x02f8  */
+    /* JADX WARN: Removed duplicated region for block: B:150:0x030d A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:154:0x0318  */
+    /* JADX WARN: Removed duplicated region for block: B:160:0x0326  */
+    /* JADX WARN: Removed duplicated region for block: B:170:0x03aa  */
+    /* JADX WARN: Removed duplicated region for block: B:173:0x03b8  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x03c2  */
+    /* JADX WARN: Removed duplicated region for block: B:201:0x0498  */
+    /* JADX WARN: Removed duplicated region for block: B:219:0x05a3  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x05c7  */
+    /* JADX WARN: Removed duplicated region for block: B:231:0x0604  */
+    /* JADX WARN: Removed duplicated region for block: B:256:0x06d2  */
+    /* JADX WARN: Removed duplicated region for block: B:258:0x0143 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:260:0x00e0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:271:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0135  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0188  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:84:0x01f3  */
     @Override // android.widget.FrameLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -229,36 +225,31 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         ArrayList arrayList;
         ArrayList arrayList2;
         ArrayList arrayList3;
-        boolean z;
-        float f;
-        ?? r3;
         TLRPC$Document tLRPC$Document;
         TLRPC$PhotoSize closestPhotoSizeWithSize;
         String str;
         TLRPC$BotInlineResult tLRPC$BotInlineResult;
-        WebFile webFile;
         String str2;
+        WebFile webFile;
         int i3;
         int i4;
         TLRPC$PhotoSize tLRPC$PhotoSize;
         String str3;
         String str4;
         String str5;
-        float f2;
+        float f;
         int dp;
         CheckBox2 checkBox2;
         TLRPC$TL_webDocument tLRPC$TL_webDocument;
-        WebFile webFile2;
         TLRPC$BotInlineMessage tLRPC$BotInlineMessage;
         String str6;
         TLRPC$BotInlineResult tLRPC$BotInlineResult2;
         String str7;
-        char c;
-        boolean z2;
-        char c2;
-        boolean z3;
+        ArrayList arrayList4;
         String str8;
-        CharSequence ellipsize;
+        char c;
+        char c2;
+        String str9;
         int i5 = 0;
         this.drawLinkImageView = false;
         this.descriptionLayout = null;
@@ -282,67 +273,25 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 arrayList = null;
                 if (!this.mediaWebpage || (tLRPC$BotInlineResult2 = this.inlineResult) == null) {
                     arrayList3 = arrayList;
-                    z = true;
                 } else {
                     if (tLRPC$BotInlineResult2.title != null) {
                         try {
-                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                            arrayList4 = arrayList;
                         } catch (Exception e) {
-                            FileLog.e(e);
+                            e = e;
+                            arrayList4 = arrayList;
                         }
-                        this.letterDrawable.setTitle(this.inlineResult.title);
-                    }
-                    String str9 = this.inlineResult.description;
-                    if (str9 != null) {
                         try {
-                            c = '\n';
-                            c2 = ' ';
-                            z2 = true;
-                            z3 = true;
-                            z3 = true;
+                            this.titleLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) this.inlineResult.title.replace('\n', ' '), Theme.chat_contextResult_titleTextPaint.getFontMetricsInt(), AndroidUtilities.dp(15.0f), false), Theme.chat_contextResult_titleTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_titleTextPaint.measureText(str7)), dp2), TextUtils.TruncateAt.END), Theme.chat_contextResult_titleTextPaint, dp2 + AndroidUtilities.dp(4.0f), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                         } catch (Exception e2) {
                             e = e2;
-                            c = '\n';
-                            z2 = true;
-                            c2 = ' ';
-                        }
-                        try {
-                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji((CharSequence) str9, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
-                            this.descriptionLayout = generateStaticLayout;
-                            if (generateStaticLayout.getLineCount() > 0) {
-                                int i6 = this.descriptionY;
-                                StaticLayout staticLayout = this.descriptionLayout;
-                                this.linkY = i6 + staticLayout.getLineBottom(staticLayout.getLineCount() - 1) + AndroidUtilities.dp(1.0f);
-                            }
-                        } catch (Exception e3) {
-                            e = e3;
                             FileLog.e(e);
-                            z3 = z2;
-                            if (this.inlineResult.url == null) {
+                            this.letterDrawable.setTitle(this.inlineResult.title);
+                            str8 = this.inlineResult.description;
+                            if (str8 == null) {
                             }
-                        }
-                    } else {
-                        c = '\n';
-                        z3 = true;
-                        c2 = ' ';
-                    }
-                    if (this.inlineResult.url == null) {
-                        try {
-                            ellipsize = TextUtils.ellipsize(this.inlineResult.url.replace(c, c2), Theme.chat_contextResult_descriptionTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_descriptionTextPaint.measureText(str8)), dp2), TextUtils.TruncateAt.MIDDLE);
-                            f = 1.0f;
-                            arrayList3 = arrayList;
-                        } catch (Exception e4) {
-                            e = e4;
-                            arrayList3 = arrayList;
-                            f = 1.0f;
-                        }
-                        try {
-                            this.linkLayout = new StaticLayout(ellipsize, Theme.chat_contextResult_descriptionTextPaint, dp2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-                            r3 = z3;
-                        } catch (Exception e5) {
-                            e = e5;
-                            FileLog.e(e);
-                            r3 = z3;
+                            if (this.inlineResult.url != null) {
+                            }
                             tLRPC$Document = this.documentAttach;
                             if (tLRPC$Document == null) {
                             }
@@ -374,323 +323,353 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                             }
                             if (!SharedConfig.isAutoplayGifs()) {
                             }
-                            this.linkImageView.setAllowStartAnimation(r3);
+                            this.linkImageView.setAllowStartAnimation(true);
                             this.linkImageView.startAnimation();
-                            this.drawLinkImageView = r3;
+                            this.drawLinkImageView = true;
                             if (this.mediaWebpage) {
                             }
                             checkBox2 = this.checkBox;
                             if (checkBox2 != null) {
                             }
                         }
-                        tLRPC$Document = this.documentAttach;
-                        if (tLRPC$Document == null) {
-                            if (this.isForceGif || MessageObject.isGifDocument(tLRPC$Document)) {
-                                this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
-                            } else if (MessageObject.isStickerDocument(this.documentAttach) || MessageObject.isAnimatedStickerDocument(this.documentAttach, r3)) {
-                                this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
-                                str = "webp";
-                                closestPhotoSizeWithSize = null;
-                                tLRPC$BotInlineResult = this.inlineResult;
-                                if (tLRPC$BotInlineResult != null) {
-                                    if ((tLRPC$BotInlineResult.content instanceof TLRPC$TL_webDocument) && (str6 = tLRPC$BotInlineResult.type) != null) {
-                                        if (str6.startsWith("gif")) {
-                                            TLRPC$WebDocument tLRPC$WebDocument = this.inlineResult.thumb;
-                                            if ((tLRPC$WebDocument instanceof TLRPC$TL_webDocument) && "video/mp4".equals(tLRPC$WebDocument.mime_type)) {
-                                                tLRPC$TL_webDocument = (TLRPC$TL_webDocument) this.inlineResult.thumb;
-                                            } else {
-                                                tLRPC$TL_webDocument = (TLRPC$TL_webDocument) this.inlineResult.content;
-                                            }
-                                            this.documentAttachType = 2;
-                                        } else if (this.inlineResult.type.equals("photo")) {
-                                            TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
-                                            TLRPC$WebDocument tLRPC$WebDocument2 = tLRPC$BotInlineResult4.thumb;
-                                            if (tLRPC$WebDocument2 instanceof TLRPC$TL_webDocument) {
-                                                tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument2;
-                                            } else {
-                                                tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$BotInlineResult4.content;
-                                            }
-                                        }
-                                        if (tLRPC$TL_webDocument == null) {
-                                            TLRPC$WebDocument tLRPC$WebDocument3 = this.inlineResult.thumb;
-                                            if (tLRPC$WebDocument3 instanceof TLRPC$TL_webDocument) {
-                                                tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument3;
-                                            }
-                                        }
-                                        if (tLRPC$TL_webDocument == null && this.currentPhotoObject == null && closestPhotoSizeWithSize == null) {
-                                            tLRPC$BotInlineMessage = this.inlineResult.send_message;
-                                            if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue) || (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaGeo)) {
-                                                TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$BotInlineMessage.geo;
-                                                double d = tLRPC$GeoPoint.lat;
-                                                double d2 = tLRPC$GeoPoint._long;
-                                                if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
-                                                    webFile2 = WebFile.createWithGeoPoint(this.inlineResult.send_message.geo, 72, 72, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
-                                                    str2 = null;
-                                                    webFile = tLRPC$TL_webDocument == null ? WebFile.createWithWebDocument(tLRPC$TL_webDocument) : webFile2;
-                                                } else {
-                                                    str2 = AndroidUtilities.formapMapUrl(this.currentAccount, d, d2, 72, 72, true, 15, -1);
-                                                    webFile2 = null;
-                                                    if (tLRPC$TL_webDocument == null) {
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        str2 = null;
-                                        webFile2 = null;
-                                        if (tLRPC$TL_webDocument == null) {
-                                        }
-                                    }
-                                    tLRPC$TL_webDocument = null;
-                                    if (tLRPC$TL_webDocument == null) {
-                                    }
-                                    if (tLRPC$TL_webDocument == null) {
-                                        tLRPC$BotInlineMessage = this.inlineResult.send_message;
-                                        if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue)) {
-                                        }
-                                        TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$BotInlineMessage.geo;
-                                        double d3 = tLRPC$GeoPoint2.lat;
-                                        double d22 = tLRPC$GeoPoint2._long;
-                                        if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
-                                        }
-                                    }
-                                    str2 = null;
-                                    webFile2 = null;
-                                    if (tLRPC$TL_webDocument == null) {
-                                    }
-                                } else {
-                                    webFile = null;
-                                    str2 = null;
-                                }
-                                if (this.documentAttach != null) {
-                                    for (int i7 = 0; i7 < this.documentAttach.attributes.size(); i7++) {
-                                        TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.documentAttach.attributes.get(i7);
-                                        if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
-                                            i3 = tLRPC$DocumentAttribute.w;
-                                            i4 = tLRPC$DocumentAttribute.h;
-                                            break;
-                                        }
-                                    }
-                                }
-                                i3 = 0;
-                                i4 = 0;
-                                if (i3 != 0 || i4 == 0) {
-                                    tLRPC$PhotoSize = this.currentPhotoObject;
-                                    if (tLRPC$PhotoSize != null) {
-                                        if (closestPhotoSizeWithSize != null) {
-                                            closestPhotoSizeWithSize.size = -1;
-                                        }
-                                        i3 = tLRPC$PhotoSize.w;
-                                        i4 = tLRPC$PhotoSize.h;
-                                    } else {
-                                        TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
-                                        if (tLRPC$BotInlineResult5 != null) {
-                                            int[] inlineResultWidthAndHeight = MessageObject.getInlineResultWidthAndHeight(tLRPC$BotInlineResult5);
-                                            int i8 = inlineResultWidthAndHeight[0];
-                                            i4 = inlineResultWidthAndHeight[r3];
-                                            i3 = i8;
-                                        }
-                                    }
-                                }
-                                if (i3 != 0 || i4 == 0) {
-                                    i3 = AndroidUtilities.dp(80.0f);
-                                    i4 = i3;
-                                }
-                                if (this.documentAttach == null || this.currentPhotoObject != null || webFile != null || str2 != null) {
-                                    String str102 = "_firstframe";
-                                    if (this.mediaWebpage) {
-                                        int dp3 = (int) (i3 / (i4 / AndroidUtilities.dp(80.0f)));
-                                        if (this.documentAttachType == 2) {
-                                            Locale locale = Locale.US;
-                                            Object[] objArr = new Object[2];
-                                            objArr[0] = Integer.valueOf((int) (dp3 / AndroidUtilities.density));
-                                            objArr[r3] = 80;
-                                            str4 = String.format(locale, "%d_%d_b", objArr);
-                                            if (SharedConfig.isAutoplayGifs() || this.isKeyboard) {
-                                                str3 = str4;
-                                            } else {
-                                                str5 = str4 + "_firstframe";
-                                                str4 = str4 + "_firstframe";
-                                            }
-                                        } else {
-                                            Locale locale2 = Locale.US;
-                                            Object[] objArr2 = new Object[2];
-                                            objArr2[0] = Integer.valueOf((int) (dp3 / AndroidUtilities.density));
-                                            objArr2[r3] = 80;
-                                            str4 = String.format(locale2, "%d_%d", objArr2);
-                                            str5 = str4 + "_b";
-                                        }
-                                        str3 = str5;
-                                    } else {
-                                        str3 = "52_52_b";
-                                        str4 = "52_52";
-                                    }
-                                    this.linkImageView.setAspectFit(this.documentAttachType == 6);
-                                    if (this.documentAttachType == 2) {
-                                        TLRPC$Document tLRPC$Document2 = this.documentAttach;
-                                        if (tLRPC$Document2 != null) {
-                                            TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(tLRPC$Document2);
-                                            if (documentVideoThumb != null) {
-                                                ImageReceiver imageReceiver = this.linkImageView;
-                                                ImageLocation forDocument = ImageLocation.getForDocument(documentVideoThumb, this.documentAttach);
-                                                StringBuilder sb = new StringBuilder();
-                                                sb.append("100_100");
-                                                sb.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
-                                                imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, -1L, str, this.parentObject, 1);
-                                            } else {
-                                                ImageLocation forDocument2 = ImageLocation.getForDocument(this.documentAttach);
-                                                if (this.isForceGif) {
-                                                    forDocument2.imageType = 2;
-                                                }
-                                                ImageReceiver imageReceiver2 = this.linkImageView;
-                                                StringBuilder sb2 = new StringBuilder();
-                                                sb2.append("100_100");
-                                                sb2.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
-                                                imageReceiver2.setImage(forDocument2, sb2.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, this.documentAttach.size, str, this.parentObject, 0);
-                                            }
-                                        } else if (webFile != null) {
-                                            this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
-                                        } else {
-                                            this.linkImageView.setImage(ImageLocation.getForPath(str2), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
-                                        }
-                                    } else if (this.currentPhotoObject != null) {
-                                        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.documentAttach, Theme.key_windowBackgroundGray, f);
-                                        if (!MessageObject.canAutoplayAnimatedSticker(this.documentAttach)) {
-                                            TLRPC$Document tLRPC$Document3 = this.documentAttach;
-                                            if (tLRPC$Document3 == null) {
-                                                this.linkImageView.setImage(ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
-                                            } else if (svgThumb != null) {
-                                                this.linkImageView.setImage(ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3), str4, svgThumb, this.currentPhotoObject.size, str, this.parentObject, 0);
-                                            } else {
-                                                this.linkImageView.setImage(ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
-                                            }
-                                        } else if (svgThumb != null) {
-                                            this.linkImageView.setImage(ImageLocation.getForDocument(this.documentAttach), "80_80", svgThumb, this.currentPhotoObject.size, str, this.parentObject, 0);
-                                        } else {
-                                            this.linkImageView.setImage(ImageLocation.getForDocument(this.documentAttach), "80_80", ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
-                                        }
-                                    } else if (webFile != null) {
-                                        this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
-                                    } else {
-                                        this.linkImageView.setImage(ImageLocation.getForPath(str2), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
-                                    }
-                                    if (!SharedConfig.isAutoplayGifs() || this.isKeyboard) {
-                                        this.linkImageView.setAllowStartAnimation(r3);
-                                        this.linkImageView.startAnimation();
-                                    } else {
-                                        this.linkImageView.setAllowStartAnimation(false);
-                                        this.linkImageView.stopAnimation();
-                                    }
-                                    this.drawLinkImageView = r3;
-                                }
-                                if (this.mediaWebpage) {
-                                    int size2 = View.MeasureSpec.getSize(i2);
-                                    if (size2 == 0) {
-                                        size2 = AndroidUtilities.dp(100.0f);
-                                    }
-                                    setMeasuredDimension(size, size2);
-                                    int dp4 = (size - AndroidUtilities.dp(24.0f)) / 2;
-                                    int dp5 = (size2 - AndroidUtilities.dp(24.0f)) / 2;
-                                    this.radialProgress.setProgressRect(dp4, dp5, AndroidUtilities.dp(24.0f) + dp4, AndroidUtilities.dp(24.0f) + dp5);
-                                    this.radialProgress.setCircleRadius(AndroidUtilities.dp(12.0f));
-                                    this.linkImageView.setImageCoords(0.0f, 0.0f, size, size2);
-                                } else {
-                                    StaticLayout staticLayout2 = this.titleLayout;
-                                    if (staticLayout2 != null && staticLayout2.getLineCount() != 0) {
-                                        StaticLayout staticLayout3 = this.titleLayout;
-                                        i5 = 0 + staticLayout3.getLineBottom(staticLayout3.getLineCount() - r3);
-                                    }
-                                    StaticLayout staticLayout4 = this.descriptionLayout;
-                                    if (staticLayout4 != null && staticLayout4.getLineCount() != 0) {
-                                        StaticLayout staticLayout5 = this.descriptionLayout;
-                                        i5 += staticLayout5.getLineBottom(staticLayout5.getLineCount() - r3);
-                                    }
-                                    StaticLayout staticLayout6 = this.linkLayout;
-                                    if (staticLayout6 != null && staticLayout6.getLineCount() > 0) {
-                                        StaticLayout staticLayout7 = this.linkLayout;
-                                        i5 += staticLayout7.getLineBottom(staticLayout7.getLineCount() - r3);
-                                    }
-                                    setMeasuredDimension(View.MeasureSpec.getSize(i), Math.max(AndroidUtilities.dp(68.0f), Math.max(AndroidUtilities.dp(52.0f), i5) + AndroidUtilities.dp(16.0f)) + (this.needDivider ? 1 : 0));
-                                    int dp6 = AndroidUtilities.dp(52.0f);
-                                    if (LocaleController.isRTL) {
-                                        f2 = 8.0f;
-                                        dp = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - dp6;
-                                    } else {
-                                        f2 = 8.0f;
-                                        dp = AndroidUtilities.dp(8.0f);
-                                    }
-                                    this.letterDrawable.setBounds(dp, AndroidUtilities.dp(f2), dp + dp6, AndroidUtilities.dp(60.0f));
-                                    float f3 = dp6;
-                                    this.linkImageView.setImageCoords(dp, AndroidUtilities.dp(f2), f3, f3);
-                                    int i9 = this.documentAttachType;
-                                    if (i9 == 3 || i9 == 5) {
-                                        this.radialProgress.setCircleRadius(AndroidUtilities.dp(24.0f));
-                                        this.radialProgress.setProgressRect(AndroidUtilities.dp(4.0f) + dp, AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(56.0f));
-                                    }
-                                }
-                                checkBox2 = this.checkBox;
-                                if (checkBox2 != null) {
-                                    measureChildWithMargins(checkBox2, i, 0, i2, 0);
-                                    return;
-                                }
-                                return;
-                            } else {
-                                int i10 = this.documentAttachType;
-                                if (i10 != 5 && i10 != 3) {
-                                    this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
-                                }
+                        this.letterDrawable.setTitle(this.inlineResult.title);
+                    } else {
+                        arrayList4 = arrayList;
+                    }
+                    str8 = this.inlineResult.description;
+                    if (str8 == null) {
+                        try {
+                            c = ' ';
+                            c2 = '\n';
+                            arrayList3 = arrayList4;
+                        } catch (Exception e3) {
+                            e = e3;
+                            arrayList3 = arrayList4;
+                            c = ' ';
+                            c2 = '\n';
+                        }
+                        try {
+                            StaticLayout generateStaticLayout = ChatMessageCell.generateStaticLayout(Emoji.replaceEmoji((CharSequence) str8, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), AndroidUtilities.dp(13.0f), false), Theme.chat_contextResult_descriptionTextPaint, dp2, dp2, 0, 3);
+                            this.descriptionLayout = generateStaticLayout;
+                            if (generateStaticLayout.getLineCount() > 0) {
+                                int i6 = this.descriptionY;
+                                StaticLayout staticLayout = this.descriptionLayout;
+                                this.linkY = i6 + staticLayout.getLineBottom(staticLayout.getLineCount() - 1) + AndroidUtilities.dp(1.0f);
                             }
-                        } else {
-                            TLRPC$BotInlineResult tLRPC$BotInlineResult6 = this.inlineResult;
-                            if (tLRPC$BotInlineResult6 != null && tLRPC$BotInlineResult6.photo != null) {
-                                this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(arrayList3, AndroidUtilities.getPhotoSize(), r3);
-                                closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList3, 80);
+                        } catch (Exception e4) {
+                            e = e4;
+                            FileLog.e(e);
+                            if (this.inlineResult.url != null) {
+                            }
+                            tLRPC$Document = this.documentAttach;
+                            if (tLRPC$Document == null) {
+                            }
+                            closestPhotoSizeWithSize = null;
+                            str = null;
+                            tLRPC$BotInlineResult = this.inlineResult;
+                            if (tLRPC$BotInlineResult != null) {
+                            }
+                            if (this.documentAttach != null) {
+                            }
+                            i3 = 0;
+                            i4 = 0;
+                            if (i3 != 0) {
+                            }
+                            tLRPC$PhotoSize = this.currentPhotoObject;
+                            if (tLRPC$PhotoSize != null) {
+                            }
+                            if (i3 != 0) {
+                            }
+                            i3 = AndroidUtilities.dp(80.0f);
+                            i4 = i3;
+                            if (this.documentAttach == null) {
+                            }
+                            String str102 = "_firstframe";
+                            if (this.mediaWebpage) {
+                            }
+                            this.linkImageView.setAspectFit(this.documentAttachType == 6);
+                            if (this.documentAttachType == 2) {
+                            }
+                            if (!SharedConfig.isAutoplayGifs()) {
+                            }
+                            this.linkImageView.setAllowStartAnimation(true);
+                            this.linkImageView.startAnimation();
+                            this.drawLinkImageView = true;
+                            if (this.mediaWebpage) {
+                            }
+                            checkBox2 = this.checkBox;
+                            if (checkBox2 != null) {
                             }
                         }
+                    } else {
+                        arrayList3 = arrayList4;
+                        c = ' ';
+                        c2 = '\n';
+                    }
+                    if (this.inlineResult.url != null) {
+                        try {
+                            this.linkLayout = new StaticLayout(TextUtils.ellipsize(this.inlineResult.url.replace(c2, c), Theme.chat_contextResult_descriptionTextPaint, Math.min((int) Math.ceil(Theme.chat_contextResult_descriptionTextPaint.measureText(str9)), dp2), TextUtils.TruncateAt.MIDDLE), Theme.chat_contextResult_descriptionTextPaint, dp2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                        } catch (Exception e5) {
+                            FileLog.e(e5);
+                        }
+                    }
+                }
+                tLRPC$Document = this.documentAttach;
+                if (tLRPC$Document == null) {
+                    if (this.isForceGif || MessageObject.isGifDocument(tLRPC$Document)) {
+                        this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
+                    } else if (MessageObject.isStickerDocument(this.documentAttach) || MessageObject.isAnimatedStickerDocument(this.documentAttach, true)) {
+                        this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
+                        str = "webp";
                         closestPhotoSizeWithSize = null;
-                        str = null;
                         tLRPC$BotInlineResult = this.inlineResult;
                         if (tLRPC$BotInlineResult != null) {
+                            if ((tLRPC$BotInlineResult.content instanceof TLRPC$TL_webDocument) && (str6 = tLRPC$BotInlineResult.type) != null) {
+                                if (str6.startsWith("gif")) {
+                                    TLRPC$WebDocument tLRPC$WebDocument = this.inlineResult.thumb;
+                                    if ((tLRPC$WebDocument instanceof TLRPC$TL_webDocument) && "video/mp4".equals(tLRPC$WebDocument.mime_type)) {
+                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) this.inlineResult.thumb;
+                                    } else {
+                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) this.inlineResult.content;
+                                    }
+                                    this.documentAttachType = 2;
+                                } else if (this.inlineResult.type.equals("photo")) {
+                                    TLRPC$BotInlineResult tLRPC$BotInlineResult4 = this.inlineResult;
+                                    TLRPC$WebDocument tLRPC$WebDocument2 = tLRPC$BotInlineResult4.thumb;
+                                    if (tLRPC$WebDocument2 instanceof TLRPC$TL_webDocument) {
+                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument2;
+                                    } else {
+                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$BotInlineResult4.content;
+                                    }
+                                }
+                                if (tLRPC$TL_webDocument == null) {
+                                    TLRPC$WebDocument tLRPC$WebDocument3 = this.inlineResult.thumb;
+                                    if (tLRPC$WebDocument3 instanceof TLRPC$TL_webDocument) {
+                                        tLRPC$TL_webDocument = (TLRPC$TL_webDocument) tLRPC$WebDocument3;
+                                    }
+                                }
+                                if (tLRPC$TL_webDocument == null && this.currentPhotoObject == null && closestPhotoSizeWithSize == null) {
+                                    tLRPC$BotInlineMessage = this.inlineResult.send_message;
+                                    if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue) || (tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaGeo)) {
+                                        TLRPC$GeoPoint tLRPC$GeoPoint = tLRPC$BotInlineMessage.geo;
+                                        double d = tLRPC$GeoPoint.lat;
+                                        double d2 = tLRPC$GeoPoint._long;
+                                        if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
+                                            webFile = WebFile.createWithGeoPoint(this.inlineResult.send_message.geo, 72, 72, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
+                                            str2 = null;
+                                            if (tLRPC$TL_webDocument != null) {
+                                                webFile = WebFile.createWithWebDocument(tLRPC$TL_webDocument);
+                                            }
+                                        } else {
+                                            str2 = AndroidUtilities.formapMapUrl(this.currentAccount, d, d2, 72, 72, true, 15, -1);
+                                            webFile = null;
+                                            if (tLRPC$TL_webDocument != null) {
+                                            }
+                                        }
+                                    }
+                                }
+                                str2 = null;
+                                webFile = null;
+                                if (tLRPC$TL_webDocument != null) {
+                                }
+                            }
+                            tLRPC$TL_webDocument = null;
+                            if (tLRPC$TL_webDocument == null) {
+                            }
+                            if (tLRPC$TL_webDocument == null) {
+                                tLRPC$BotInlineMessage = this.inlineResult.send_message;
+                                if (!(tLRPC$BotInlineMessage instanceof TLRPC$TL_botInlineMessageMediaVenue)) {
+                                }
+                                TLRPC$GeoPoint tLRPC$GeoPoint2 = tLRPC$BotInlineMessage.geo;
+                                double d3 = tLRPC$GeoPoint2.lat;
+                                double d22 = tLRPC$GeoPoint2._long;
+                                if (MessagesController.getInstance(this.currentAccount).mapProvider != 2) {
+                                }
+                            }
+                            str2 = null;
+                            webFile = null;
+                            if (tLRPC$TL_webDocument != null) {
+                            }
+                        } else {
+                            str2 = null;
+                            webFile = null;
                         }
                         if (this.documentAttach != null) {
+                            for (int i7 = 0; i7 < this.documentAttach.attributes.size(); i7++) {
+                                TLRPC$DocumentAttribute tLRPC$DocumentAttribute = this.documentAttach.attributes.get(i7);
+                                if ((tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeImageSize) || (tLRPC$DocumentAttribute instanceof TLRPC$TL_documentAttributeVideo)) {
+                                    i3 = tLRPC$DocumentAttribute.w;
+                                    i4 = tLRPC$DocumentAttribute.h;
+                                    break;
+                                }
+                            }
                         }
                         i3 = 0;
                         i4 = 0;
-                        if (i3 != 0) {
+                        if (i3 != 0 || i4 == 0) {
+                            tLRPC$PhotoSize = this.currentPhotoObject;
+                            if (tLRPC$PhotoSize != null) {
+                                if (closestPhotoSizeWithSize != null) {
+                                    closestPhotoSizeWithSize.size = -1;
+                                }
+                                i3 = tLRPC$PhotoSize.w;
+                                i4 = tLRPC$PhotoSize.h;
+                            } else {
+                                TLRPC$BotInlineResult tLRPC$BotInlineResult5 = this.inlineResult;
+                                if (tLRPC$BotInlineResult5 != null) {
+                                    int[] inlineResultWidthAndHeight = MessageObject.getInlineResultWidthAndHeight(tLRPC$BotInlineResult5);
+                                    int i8 = inlineResultWidthAndHeight[0];
+                                    i4 = inlineResultWidthAndHeight[1];
+                                    i3 = i8;
+                                }
+                            }
                         }
-                        tLRPC$PhotoSize = this.currentPhotoObject;
-                        if (tLRPC$PhotoSize != null) {
+                        if (i3 != 0 || i4 == 0) {
+                            i3 = AndroidUtilities.dp(80.0f);
+                            i4 = i3;
                         }
-                        if (i3 != 0) {
+                        if (this.documentAttach == null || this.currentPhotoObject != null || webFile != null || str2 != null) {
+                            String str1022 = "_firstframe";
+                            if (this.mediaWebpage) {
+                                int dp3 = (int) (i3 / (i4 / AndroidUtilities.dp(80.0f)));
+                                if (this.documentAttachType == 2) {
+                                    str4 = String.format(Locale.US, "%d_%d_b", Integer.valueOf((int) (dp3 / AndroidUtilities.density)), 80);
+                                    if (SharedConfig.isAutoplayGifs() || this.isKeyboard) {
+                                        str3 = str4;
+                                    } else {
+                                        str5 = str4 + "_firstframe";
+                                        str4 = str4 + "_firstframe";
+                                    }
+                                } else {
+                                    str4 = String.format(Locale.US, "%d_%d", Integer.valueOf((int) (dp3 / AndroidUtilities.density)), 80);
+                                    str5 = str4 + "_b";
+                                }
+                                str3 = str5;
+                            } else {
+                                str3 = "52_52_b";
+                                str4 = "52_52";
+                            }
+                            this.linkImageView.setAspectFit(this.documentAttachType == 6);
+                            if (this.documentAttachType == 2) {
+                                TLRPC$Document tLRPC$Document2 = this.documentAttach;
+                                if (tLRPC$Document2 != null) {
+                                    TLRPC$VideoSize documentVideoThumb = MessageObject.getDocumentVideoThumb(tLRPC$Document2);
+                                    if (documentVideoThumb != null) {
+                                        ImageReceiver imageReceiver = this.linkImageView;
+                                        ImageLocation forDocument = ImageLocation.getForDocument(documentVideoThumb, this.documentAttach);
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append("100_100");
+                                        sb.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
+                                        imageReceiver.setImage(forDocument, sb.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, -1L, str, this.parentObject, 1);
+                                    } else {
+                                        ImageLocation forDocument2 = ImageLocation.getForDocument(this.documentAttach);
+                                        if (this.isForceGif) {
+                                            forDocument2.imageType = 2;
+                                        }
+                                        ImageReceiver imageReceiver2 = this.linkImageView;
+                                        StringBuilder sb2 = new StringBuilder();
+                                        sb2.append("100_100");
+                                        sb2.append((SharedConfig.isAutoplayGifs() || this.isKeyboard) ? "" : "");
+                                        imageReceiver2.setImage(forDocument2, sb2.toString(), ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str4, this.documentAttach.size, str, this.parentObject, 0);
+                                    }
+                                } else if (webFile != null) {
+                                    this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
+                                } else {
+                                    this.linkImageView.setImage(ImageLocation.getForPath(str2), "100_100", ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, -1L, str, this.parentObject, 1);
+                                }
+                            } else if (this.currentPhotoObject != null) {
+                                SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(this.documentAttach, Theme.key_windowBackgroundGray, 1.0f);
+                                if (!MessageObject.canAutoplayAnimatedSticker(this.documentAttach)) {
+                                    TLRPC$Document tLRPC$Document3 = this.documentAttach;
+                                    if (tLRPC$Document3 == null) {
+                                        this.linkImageView.setImage(ImageLocation.getForPhoto(this.currentPhotoObject, this.photoAttach), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
+                                    } else if (svgThumb != null) {
+                                        this.linkImageView.setImage(ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3), str4, svgThumb, this.currentPhotoObject.size, str, this.parentObject, 0);
+                                    } else {
+                                        this.linkImageView.setImage(ImageLocation.getForDocument(this.currentPhotoObject, tLRPC$Document3), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
+                                    }
+                                } else if (svgThumb != null) {
+                                    this.linkImageView.setImage(ImageLocation.getForDocument(this.documentAttach), "80_80", svgThumb, this.currentPhotoObject.size, str, this.parentObject, 0);
+                                } else {
+                                    this.linkImageView.setImage(ImageLocation.getForDocument(this.documentAttach), "80_80", ImageLocation.getForDocument(this.currentPhotoObject, this.documentAttach), str3, this.currentPhotoObject.size, str, this.parentObject, 0);
+                                }
+                            } else if (webFile != null) {
+                                this.linkImageView.setImage(ImageLocation.getForWebFile(webFile), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
+                            } else {
+                                this.linkImageView.setImage(ImageLocation.getForPath(str2), str4, ImageLocation.getForPhoto(closestPhotoSizeWithSize, this.photoAttach), str3, -1L, str, this.parentObject, 1);
+                            }
+                            if (!SharedConfig.isAutoplayGifs() || this.isKeyboard) {
+                                this.linkImageView.setAllowStartAnimation(true);
+                                this.linkImageView.startAnimation();
+                            } else {
+                                this.linkImageView.setAllowStartAnimation(false);
+                                this.linkImageView.stopAnimation();
+                            }
+                            this.drawLinkImageView = true;
                         }
-                        i3 = AndroidUtilities.dp(80.0f);
-                        i4 = i3;
-                        if (this.documentAttach == null) {
-                        }
-                        String str1022 = "_firstframe";
                         if (this.mediaWebpage) {
-                        }
-                        this.linkImageView.setAspectFit(this.documentAttachType == 6);
-                        if (this.documentAttachType == 2) {
-                        }
-                        if (!SharedConfig.isAutoplayGifs()) {
-                        }
-                        this.linkImageView.setAllowStartAnimation(r3);
-                        this.linkImageView.startAnimation();
-                        this.drawLinkImageView = r3;
-                        if (this.mediaWebpage) {
+                            int size2 = View.MeasureSpec.getSize(i2);
+                            if (size2 == 0) {
+                                size2 = AndroidUtilities.dp(100.0f);
+                            }
+                            setMeasuredDimension(size, size2);
+                            int dp4 = (size - AndroidUtilities.dp(24.0f)) / 2;
+                            int dp5 = (size2 - AndroidUtilities.dp(24.0f)) / 2;
+                            this.radialProgress.setProgressRect(dp4, dp5, AndroidUtilities.dp(24.0f) + dp4, AndroidUtilities.dp(24.0f) + dp5);
+                            this.radialProgress.setCircleRadius(AndroidUtilities.dp(12.0f));
+                            this.linkImageView.setImageCoords(0.0f, 0.0f, size, size2);
+                        } else {
+                            StaticLayout staticLayout2 = this.titleLayout;
+                            if (staticLayout2 != null && staticLayout2.getLineCount() != 0) {
+                                StaticLayout staticLayout3 = this.titleLayout;
+                                i5 = staticLayout3.getLineBottom(staticLayout3.getLineCount() - 1);
+                            }
+                            StaticLayout staticLayout4 = this.descriptionLayout;
+                            if (staticLayout4 != null && staticLayout4.getLineCount() != 0) {
+                                StaticLayout staticLayout5 = this.descriptionLayout;
+                                i5 += staticLayout5.getLineBottom(staticLayout5.getLineCount() - 1);
+                            }
+                            StaticLayout staticLayout6 = this.linkLayout;
+                            if (staticLayout6 != null && staticLayout6.getLineCount() > 0) {
+                                StaticLayout staticLayout7 = this.linkLayout;
+                                i5 += staticLayout7.getLineBottom(staticLayout7.getLineCount() - 1);
+                            }
+                            setMeasuredDimension(View.MeasureSpec.getSize(i), Math.max(AndroidUtilities.dp(68.0f), Math.max(AndroidUtilities.dp(52.0f), i5) + AndroidUtilities.dp(16.0f)) + (this.needDivider ? 1 : 0));
+                            int dp6 = AndroidUtilities.dp(52.0f);
+                            if (LocaleController.isRTL) {
+                                f = 8.0f;
+                                dp = (View.MeasureSpec.getSize(i) - AndroidUtilities.dp(8.0f)) - dp6;
+                            } else {
+                                f = 8.0f;
+                                dp = AndroidUtilities.dp(8.0f);
+                            }
+                            this.letterDrawable.setBounds(dp, AndroidUtilities.dp(f), dp + dp6, AndroidUtilities.dp(60.0f));
+                            float f2 = dp6;
+                            this.linkImageView.setImageCoords(dp, AndroidUtilities.dp(f), f2, f2);
+                            int i9 = this.documentAttachType;
+                            if (i9 == 3 || i9 == 5) {
+                                this.radialProgress.setCircleRadius(AndroidUtilities.dp(24.0f));
+                                this.radialProgress.setProgressRect(AndroidUtilities.dp(4.0f) + dp, AndroidUtilities.dp(12.0f), dp + AndroidUtilities.dp(48.0f), AndroidUtilities.dp(56.0f));
+                            }
                         }
                         checkBox2 = this.checkBox;
                         if (checkBox2 != null) {
+                            measureChildWithMargins(checkBox2, i, 0, i2, 0);
+                            return;
                         }
+                        return;
                     } else {
-                        arrayList3 = arrayList;
-                        z = z3;
+                        int i10 = this.documentAttachType;
+                        if (i10 != 5 && i10 != 3) {
+                            this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(this.documentAttach.thumbs, 90);
+                        }
                     }
-                }
-                f = 1.0f;
-                r3 = z;
-                tLRPC$Document = this.documentAttach;
-                if (tLRPC$Document == null) {
+                } else {
+                    TLRPC$BotInlineResult tLRPC$BotInlineResult6 = this.inlineResult;
+                    if (tLRPC$BotInlineResult6 != null && tLRPC$BotInlineResult6.photo != null) {
+                        this.currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(arrayList3, AndroidUtilities.getPhotoSize(), true);
+                        closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(arrayList3, 80);
+                    }
                 }
                 closestPhotoSizeWithSize = null;
                 str = null;
@@ -720,9 +699,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 }
                 if (!SharedConfig.isAutoplayGifs()) {
                 }
-                this.linkImageView.setAllowStartAnimation(r3);
+                this.linkImageView.setAllowStartAnimation(true);
                 this.linkImageView.startAnimation();
-                this.drawLinkImageView = r3;
+                this.drawLinkImageView = true;
                 if (this.mediaWebpage) {
                 }
                 checkBox2 = this.checkBox;
@@ -734,9 +713,6 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (this.mediaWebpage) {
         }
         arrayList3 = arrayList;
-        z = true;
-        f = 1.0f;
-        r3 = z;
         tLRPC$Document = this.documentAttach;
         if (tLRPC$Document == null) {
         }
@@ -768,9 +744,9 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         }
         if (!SharedConfig.isAutoplayGifs()) {
         }
-        this.linkImageView.setAllowStartAnimation(r3);
+        this.linkImageView.setAllowStartAnimation(true);
         this.linkImageView.startAnimation();
-        this.drawLinkImageView = r3;
+        this.drawLinkImageView = true;
         if (this.mediaWebpage) {
         }
         checkBox2 = this.checkBox;
@@ -865,7 +841,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(Utilities.MD5(this.inlineResult.content.url));
                 sb2.append(".");
-                sb2.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType != 5 ? "ogg" : "mp3"));
+                sb2.append(ImageLoader.getHttpUrlExtension(this.inlineResult.content.url, this.documentAttachType == 5 ? "mp3" : "ogg"));
                 tLRPC$TL_message.attachPath = new File(directory, sb2.toString()).getAbsolutePath();
             }
             this.currentMessageObject = new MessageObject(this.currentAccount, tLRPC$TL_message, false, true);
@@ -1125,7 +1101,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
             if (this.drawLinkImageView && !PhotoViewer.isShowingImage(this.inlineResult)) {
                 this.letterDrawable.setAlpha((int) ((1.0f - this.linkImageView.getCurrentAlpha()) * 255.0f));
             } else {
-                this.letterDrawable.setAlpha(255);
+                this.letterDrawable.setAlpha(NotificationCenter.voipServiceCreated);
             }
             int i2 = this.documentAttachType;
             if (i2 == 3 || i2 == 5) {
@@ -1526,12 +1502,7 @@ public class ContextLinkCell extends FrameLayout implements DownloadController.F
         if (z2) {
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.animator = animatorSet2;
-            Animator[] animatorArr = new Animator[1];
-            Property<ContextLinkCell, Float> property = this.IMAGE_SCALE;
-            float[] fArr = new float[1];
-            fArr[0] = z ? 0.81f : 1.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
-            animatorSet2.playTogether(animatorArr);
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this, this.IMAGE_SCALE, z ? 0.81f : 1.0f));
             this.animator.setDuration(200L);
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.ContextLinkCell.3
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

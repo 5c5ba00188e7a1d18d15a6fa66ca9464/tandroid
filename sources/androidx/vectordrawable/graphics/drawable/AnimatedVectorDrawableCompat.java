@@ -13,7 +13,6 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Animatable;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -571,7 +570,7 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
         boolean isRunning;
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
-            isRunning = ((AnimatedVectorDrawable) drawable).isRunning();
+            isRunning = AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).isRunning();
             return isRunning;
         }
         return this.mAnimatedVectorState.mAnimatorSet.isRunning();
@@ -581,7 +580,7 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
     public void start() {
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
-            ((AnimatedVectorDrawable) drawable).start();
+            AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).start();
         } else if (this.mAnimatedVectorState.mAnimatorSet.isStarted()) {
         } else {
             this.mAnimatedVectorState.mAnimatorSet.start();
@@ -593,7 +592,7 @@ public class AnimatedVectorDrawableCompat extends VectorDrawableCommon implement
     public void stop() {
         Drawable drawable = this.mDelegateDrawable;
         if (drawable != null) {
-            ((AnimatedVectorDrawable) drawable).stop();
+            AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable).stop();
         } else {
             this.mAnimatedVectorState.mAnimatorSet.end();
         }

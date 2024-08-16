@@ -47,7 +47,7 @@ public final class ConstructorConstructor {
         if (Modifier.isInterface(modifiers)) {
             return "Interfaces can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Interface name: " + cls.getName();
         } else if (Modifier.isAbstract(modifiers)) {
-            return "Abstract classes can't be instantiated! Register an InstanceCreator or a TypeAdapter for this type. Class name: " + cls.getName();
+            return "Abstract classes can't be instantiated! Adjust the R8 configuration or register an InstanceCreator or a TypeAdapter for this type. Class name: " + cls.getName() + "\nSee " + TroubleshootingGuide.createUrl("r8-abstract-class");
         } else {
             return null;
         }
@@ -149,14 +149,10 @@ public final class ConstructorConstructor {
         if (Modifier.isAbstract(cls.getModifiers())) {
             return null;
         }
-        boolean z = false;
         try {
-            final Constructor<? super T> declaredConstructor = cls.getDeclaredConstructor(new Class[0]);
+            final Constructor<? super T> declaredConstructor = cls.getDeclaredConstructor(null);
             ReflectionAccessFilter.FilterResult filterResult2 = ReflectionAccessFilter.FilterResult.ALLOW;
             if (filterResult == filterResult2 || (ReflectionAccessFilterHelper.canAccess(declaredConstructor, null) && (filterResult != ReflectionAccessFilter.FilterResult.BLOCK_ALL || Modifier.isPublic(declaredConstructor.getModifiers())))) {
-                z = true;
-            }
-            if (z) {
                 if (filterResult == filterResult2 && (tryMakeAccessible = ReflectionHelper.tryMakeAccessible(declaredConstructor)) != null) {
                     return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.8
                         @Override // com.google.gson.internal.ObjectConstructor
@@ -169,7 +165,7 @@ public final class ConstructorConstructor {
                     @Override // com.google.gson.internal.ObjectConstructor
                     public T construct() {
                         try {
-                            return (T) declaredConstructor.newInstance(new Object[0]);
+                            return (T) declaredConstructor.newInstance(null);
                         } catch (IllegalAccessException e) {
                             throw ReflectionHelper.createExceptionForUnexpectedIllegalAccess(e);
                         } catch (InstantiationException e2) {
@@ -282,6 +278,9 @@ public final class ConstructorConstructor {
             };
         }
         final String str = "Unable to create instance of " + cls + "; usage of JDK Unsafe is disabled. Registering an InstanceCreator or a TypeAdapter for this type, adding a no-args constructor, or enabling usage of JDK Unsafe may fix this problem.";
+        if (cls.getDeclaredConstructors().length == 0) {
+            str = str + " Or adjust your R8 configuration to keep the no-args constructor of the class.";
+        }
         return new ObjectConstructor<T>() { // from class: com.google.gson.internal.ConstructorConstructor.20
             @Override // com.google.gson.internal.ObjectConstructor
             public T construct() {

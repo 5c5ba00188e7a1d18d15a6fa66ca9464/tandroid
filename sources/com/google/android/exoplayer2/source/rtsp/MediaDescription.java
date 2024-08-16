@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class MediaDescription {
@@ -55,7 +56,7 @@ public final class MediaDescription {
         }
 
         public int hashCode() {
-            return ((((((217 + this.payloadType) * 31) + this.mediaEncoding.hashCode()) * 31) + this.clockRate) * 31) + this.encodingParameters;
+            return ((((((this.payloadType + NotificationCenter.channelStarsUpdated) * 31) + this.mediaEncoding.hashCode()) * 31) + this.clockRate) * 31) + this.encodingParameters;
         }
     }
 
@@ -164,7 +165,7 @@ public final class MediaDescription {
     }
 
     public int hashCode() {
-        int hashCode = (((((((((((((217 + this.mediaType.hashCode()) * 31) + this.port) * 31) + this.transportProtocol.hashCode()) * 31) + this.payloadType) * 31) + this.bitrate) * 31) + this.attributes.hashCode()) * 31) + this.rtpMapAttribute.hashCode()) * 31;
+        int hashCode = (((((((((((((this.mediaType.hashCode() + NotificationCenter.channelStarsUpdated) * 31) + this.port) * 31) + this.transportProtocol.hashCode()) * 31) + this.payloadType) * 31) + this.bitrate) * 31) + this.attributes.hashCode()) * 31) + this.rtpMapAttribute.hashCode()) * 31;
         String str = this.mediaTitle;
         int hashCode2 = (hashCode + (str == null ? 0 : str.hashCode())) * 31;
         String str2 = this.connection;

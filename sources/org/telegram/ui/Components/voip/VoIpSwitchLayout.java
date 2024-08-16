@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieDrawable;
@@ -109,8 +110,10 @@ public class VoIpSwitchLayout extends FrameLayout {
             } else if (i != 3) {
                 if (i == 4) {
                     string = LocaleController.getString("VoipAudioRoutingBluetooth", R.string.VoipAudioRoutingBluetooth);
+                } else if (i == 5) {
+                    string = LocaleController.getString("VoipSpeaker", R.string.VoipSpeaker);
                 } else {
-                    string = i != 5 ? "" : LocaleController.getString("VoipSpeaker", R.string.VoipSpeaker);
+                    string = "";
                 }
             } else if (z) {
                 string = LocaleController.getString("VoipStartVideo", R.string.VoipStartVideo);
@@ -179,7 +182,7 @@ public class VoIpSwitchLayout extends FrameLayout {
         setType(type, z, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01db  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x01df  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -231,8 +234,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         }
                     } else {
                         z3 = z == this.voIpButtonView.isSelectedState;
-                        VoIpButtonView voIpButtonView4 = this.voIpButtonView;
-                        RLottieDrawable rLottieDrawable = z ? voIpButtonView4.selectedIcon : voIpButtonView4.unSelectedIcon;
+                        RLottieDrawable rLottieDrawable = z ? this.voIpButtonView.selectedIcon : this.voIpButtonView.unSelectedIcon;
                         rLottieDrawable.setMasterParent(this.voIpButtonView);
                         rLottieDrawable.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
@@ -253,8 +255,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         }
                     } else {
                         z3 = z == this.voIpButtonView.isSelectedState;
-                        VoIpButtonView voIpButtonView5 = this.voIpButtonView;
-                        RLottieDrawable rLottieDrawable2 = z ? voIpButtonView5.selectedIcon : voIpButtonView5.unSelectedIcon;
+                        RLottieDrawable rLottieDrawable2 = z ? this.voIpButtonView.selectedIcon : this.voIpButtonView.unSelectedIcon;
                         rLottieDrawable2.setMasterParent(this.voIpButtonView);
                         rLottieDrawable2.setOnAnimationEndListener(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
@@ -266,11 +267,11 @@ public class VoIpSwitchLayout extends FrameLayout {
                     }
                 }
             } else if (this.type != Type.VIDEO) {
-                VoIpButtonView voIpButtonView6 = this.voIpButtonView;
+                VoIpButtonView voIpButtonView4 = this.voIpButtonView;
                 int i4 = R.raw.video_stop;
-                voIpButtonView6.unSelectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
-                VoIpButtonView voIpButtonView7 = this.voIpButtonView;
-                voIpButtonView7.selectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
+                voIpButtonView4.unSelectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
+                VoIpButtonView voIpButtonView5 = this.voIpButtonView;
+                voIpButtonView5.selectedIcon = new RLottieDrawable(i4, "" + i4, dp, dp, true, null);
                 this.voIpButtonView.selectedIcon.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
                 this.voIpButtonView.selectedIcon.setMasterParent(this.voIpButtonView);
             }
@@ -289,7 +290,7 @@ public class VoIpSwitchLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setType$1(final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VoIpSwitchLayout.this.lambda$setType$0(i);
@@ -299,7 +300,7 @@ public class VoIpSwitchLayout extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setType$3(final int i) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 VoIpSwitchLayout.this.lambda$setType$2(i);
@@ -357,7 +358,6 @@ public class VoIpSwitchLayout extends FrameLayout {
         }
 
         public void setSelectedState(boolean z, boolean z2, Type type) {
-            ValueAnimator ofInt;
             ValueAnimator valueAnimator = this.animator;
             if (valueAnimator != null && valueAnimator.isRunning()) {
                 this.animator.removeAllUpdateListeners();
@@ -371,15 +371,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                         valueAnimator2.removeAllUpdateListeners();
                         this.animator.cancel();
                     }
-                    int[] iArr = {100, 20};
-                    if (z) {
-                        // fill-array-data instruction
-                        iArr[0] = 20;
-                        iArr[1] = 100;
-                        ofInt = ValueAnimator.ofInt(iArr);
-                    } else {
-                        ofInt = ValueAnimator.ofInt(iArr);
-                    }
+                    ValueAnimator ofInt = z ? ValueAnimator.ofInt(20, 100) : ValueAnimator.ofInt(100, 20);
                     this.animator = ofInt;
                     ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda1
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -510,10 +502,7 @@ public class VoIpSwitchLayout extends FrameLayout {
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.pressedScale;
-            fArr[1] = z ? 0.8f : 1.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.pressedScale, z ? 0.8f : 1.0f);
             this.pressedScaleAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIpSwitchLayout$VoIpButtonView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -543,7 +532,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                 int i = this.singleIconBackgroundAlphaPercent;
                 if (i > 20) {
                     this.darkPaint.setAlpha((int) ((i * 35) / 100.0f));
-                    this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * 255) / 100.0f));
+                    this.whiteCirclePaint.setAlpha((int) ((this.singleIconBackgroundAlphaPercent * NotificationCenter.voipServiceCreated) / 100.0f));
                     canvas.drawCircle(width, height, this.maxRadius, this.whiteCirclePaint);
                     this.singleIcon.draw(canvas, this.maskPaint);
                     this.singleIcon.draw(canvas, this.darkPaint);
@@ -558,14 +547,16 @@ public class VoIpSwitchLayout extends FrameLayout {
             } else {
                 int i2 = this.unselectedRadius;
                 int i3 = this.maxRadius;
-                boolean z = true;
+                boolean z = false;
                 boolean z2 = i2 == i3 && this.selectedRadius == 0;
                 int i4 = this.selectedRadius;
-                z = (i4 == i3 && i2 == 0) ? false : false;
+                if (i4 == i3 && i2 == 0) {
+                    z = true;
+                }
                 if (i4 == i3 && i2 > 0 && i2 != i3) {
                     canvas.drawCircle(width, height, i4, this.whiteCirclePaint);
                     canvas.drawCircle(width, height, this.unselectedRadius, this.maskPaint);
-                    this.selectedIcon.setAlpha(255);
+                    this.selectedIcon.setAlpha(NotificationCenter.voipServiceCreated);
                     this.selectedIcon.draw(canvas, this.maskPaint);
                     this.selectedIcon.setAlpha(35);
                     this.selectedIcon.draw(canvas);
@@ -586,7 +577,7 @@ public class VoIpSwitchLayout extends FrameLayout {
                     this.clipPath.addCircle(width, height, this.selectedRadius, Path.Direction.CW);
                     canvas.clipPath(this.clipPath);
                     canvas.drawCircle(width, height, this.selectedRadius, this.whiteCirclePaint);
-                    this.selectedIcon.setAlpha(255);
+                    this.selectedIcon.setAlpha(NotificationCenter.voipServiceCreated);
                     this.selectedIcon.draw(canvas, this.maskPaint);
                     this.selectedIcon.setAlpha(35);
                     this.selectedIcon.draw(canvas);

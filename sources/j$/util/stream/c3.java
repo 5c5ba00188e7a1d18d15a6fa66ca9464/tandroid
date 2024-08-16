@@ -1,94 +1,125 @@
 package j$.util.stream;
 
-import j$.util.concurrent.ConcurrentHashMap;
 import j$.util.function.Consumer;
-import java.util.Comparator;
 /* loaded from: classes2.dex */
-final class c3 implements j$.util.Q, Consumer {
-    private static final Object d = new Object();
-    private final j$.util.Q a;
-    private final ConcurrentHashMap b;
-    private Object c;
+public final /* synthetic */ class c3 implements b2 {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ j$.util.function.n b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public c3(j$.util.Q q) {
-        this(q, new ConcurrentHashMap());
+    public /* synthetic */ c3(j$.util.function.n nVar, int i) {
+        this.a = i;
+        this.b = nVar;
     }
 
-    private c3(j$.util.Q q, ConcurrentHashMap concurrentHashMap) {
-        this.a = q;
-        this.b = concurrentHashMap;
+    private final /* synthetic */ void a(long j) {
     }
 
-    @Override // j$.util.Q
-    public final boolean a(Consumer consumer) {
-        while (this.a.a(this)) {
-            Object obj = this.c;
-            if (obj == null) {
-                obj = d;
-            }
-            if (this.b.putIfAbsent(obj, Boolean.TRUE) == null) {
-                consumer.accept(this.c);
-                this.c = null;
-                return true;
-            }
+    private final /* synthetic */ void c(long j) {
+    }
+
+    private final /* synthetic */ void d() {
+    }
+
+    private final /* synthetic */ void e() {
+    }
+
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final void accept(double d) {
+        switch (this.a) {
+            case 0:
+                ((H2) this.b).accept(d);
+                return;
+            default:
+                this.b.accept(d);
+                return;
         }
-        return false;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(int i) {
+        switch (this.a) {
+            case 0:
+                t0.k();
+                throw null;
+            default:
+                t0.k();
+                throw null;
+        }
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(long j) {
+        switch (this.a) {
+            case 0:
+                t0.l();
+                throw null;
+            default:
+                t0.l();
+                throw null;
+        }
     }
 
     @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
-        this.c = obj;
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        switch (this.a) {
+            case 0:
+                r((Double) obj);
+                return;
+            default:
+                r((Double) obj);
+                return;
+        }
     }
 
     @Override // j$.util.function.Consumer
     public final /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.Q
-    public final int characteristics() {
-        return (this.a.characteristics() & (-16469)) | 1;
-    }
-
-    @Override // j$.util.Q
-    public final long estimateSize() {
-        return this.a.estimateSize();
-    }
-
-    @Override // j$.util.Q
-    public final void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(new n(6, this, consumer));
-    }
-
-    @Override // j$.util.Q
-    public final Comparator getComparator() {
-        return this.a.getComparator();
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.i(this);
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.k(this, i);
-    }
-
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void i(Consumer consumer, Object obj) {
-        if (this.b.putIfAbsent(obj != null ? obj : d, Boolean.TRUE) == null) {
-            consumer.accept(obj);
+        switch (this.a) {
+            case 0:
+                return Consumer.-CC.$default$andThen(this, consumer);
+            default:
+                return Consumer.-CC.$default$andThen(this, consumer);
         }
     }
 
-    @Override // j$.util.Q
-    public final j$.util.Q trySplit() {
-        j$.util.Q trySplit = this.a.trySplit();
-        if (trySplit != null) {
-            return new c3(trySplit, this.b);
+    @Override // j$.util.function.n
+    public final /* synthetic */ j$.util.function.n k(j$.util.function.n nVar) {
+        switch (this.a) {
+            case 0:
+                return j$.com.android.tools.r8.a.b(this, nVar);
+            default:
+                return j$.com.android.tools.r8.a.b(this, nVar);
         }
-        return null;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void m() {
+        int i = this.a;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void n(long j) {
+        int i = this.a;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ boolean q() {
+        switch (this.a) {
+            case 0:
+                return false;
+            default:
+                return false;
+        }
+    }
+
+    @Override // j$.util.stream.b2
+    public final /* synthetic */ void r(Double d) {
+        switch (this.a) {
+            case 0:
+                t0.e(this, d);
+                return;
+            default:
+                t0.e(this, d);
+                return;
+        }
     }
 }

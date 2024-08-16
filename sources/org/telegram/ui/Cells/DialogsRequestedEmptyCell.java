@@ -80,7 +80,7 @@ public class DialogsRequestedEmptyCell extends LinearLayout implements Notificat
             }
         });
         updateSticker();
-        linearLayout.addView(this.stickerView, LayoutHelper.createLinear(130, 130, 49));
+        linearLayout.addView(this.stickerView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49));
         TextView textView = new TextView(context);
         this.titleView = textView;
         textView.setGravity(17);

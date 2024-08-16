@@ -12,6 +12,7 @@ import java.util.List;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class CameraSession {
     public static final int ORIENTATION_HYSTERESIS = 5;
@@ -98,14 +99,13 @@ public class CameraSession {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int roundOrientation(int i, int i2) {
-        boolean z = true;
         if (i2 != -1) {
             int abs = Math.abs(i - i2);
             if (Math.min(abs, 360 - abs) < 50) {
-                z = false;
+                return i2;
             }
         }
-        return z ? (((i + 45) / 90) * 90) % 360 : i2;
+        return (((i + 45) / 90) * 90) % 360;
     }
 
     public void setOptimizeForBarcode(boolean z) {
@@ -268,7 +268,7 @@ public class CameraSession {
 
     /* JADX WARN: Removed duplicated region for block: B:28:0x0051  */
     /* JADX WARN: Removed duplicated region for block: B:31:0x0057  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0062  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0061  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -289,9 +289,9 @@ public class CameraSession {
                     if (i3 == 1) {
                         i = 90;
                     } else if (i3 == 2) {
-                        i = 180;
+                        i = NotificationCenter.updateBotMenuButton;
                     } else if (i3 == 3) {
-                        i = 270;
+                        i = NotificationCenter.onRequestPermissionResultReceived;
                     }
                     cameraInfo = this.info;
                     if (cameraInfo.orientation % 90 != 0) {
@@ -500,15 +500,15 @@ public class CameraSession {
             if (rotation == 1) {
                 i = 90;
             } else if (rotation == 2) {
-                i = 180;
+                i = NotificationCenter.updateBotMenuButton;
             } else if (rotation == 3) {
-                i = 270;
+                i = NotificationCenter.onRequestPermissionResultReceived;
             }
         }
         if (cameraInfo.facing == 1) {
             int i2 = (360 - ((cameraInfo.orientation + i) % 360)) % 360;
             if (!z && i2 == 90) {
-                i2 = 270;
+                i2 = NotificationCenter.onRequestPermissionResultReceived;
             }
             if (!z && "Huawei".equals(Build.MANUFACTURER) && "angler".equals(Build.PRODUCT) && i2 == 270) {
                 return 90;

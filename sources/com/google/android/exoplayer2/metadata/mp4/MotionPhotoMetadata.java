@@ -73,7 +73,7 @@ public final class MotionPhotoMetadata implements Metadata.Entry {
     }
 
     public int hashCode() {
-        return ((((((((527 + Longs.hashCode(this.photoStartPosition)) * 31) + Longs.hashCode(this.photoSize)) * 31) + Longs.hashCode(this.photoPresentationTimestampUs)) * 31) + Longs.hashCode(this.videoStartPosition)) * 31) + Longs.hashCode(this.videoSize);
+        return ((((((((Longs.hashCode(this.photoStartPosition) + 527) * 31) + Longs.hashCode(this.photoSize)) * 31) + Longs.hashCode(this.photoPresentationTimestampUs)) * 31) + Longs.hashCode(this.videoStartPosition)) * 31) + Longs.hashCode(this.videoSize);
     }
 
     public String toString() {

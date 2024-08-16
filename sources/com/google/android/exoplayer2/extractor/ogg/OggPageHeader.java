@@ -6,6 +6,7 @@ import com.google.android.exoplayer2.extractor.ExtractorUtil;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class OggPageHeader {
     public int bodySize;
@@ -17,8 +18,8 @@ final class OggPageHeader {
     public int revision;
     public long streamSerialNumber;
     public int type;
-    public final int[] laces = new int[255];
-    private final ParsableByteArray scratch = new ParsableByteArray(255);
+    public final int[] laces = new int[NotificationCenter.voipServiceCreated];
+    private final ParsableByteArray scratch = new ParsableByteArray((int) NotificationCenter.voipServiceCreated);
 
     public void reset() {
         this.revision = 0;

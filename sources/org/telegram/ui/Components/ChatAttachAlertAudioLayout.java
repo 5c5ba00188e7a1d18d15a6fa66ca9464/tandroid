@@ -14,7 +14,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.LongSparseArray;
-import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -429,13 +428,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        View view = this.shadow;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertAudioLayout.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -499,7 +492,7 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void onItemClick(View view) {
-        boolean z;
+        boolean z = false;
         if (view instanceof SharedAudioCell) {
             SharedAudioCell sharedAudioCell = (SharedAudioCell) view;
             MediaController.AudioEntry audioEntry = (MediaController.AudioEntry) sharedAudioCell.getTag();
@@ -508,14 +501,12 @@ public class ChatAttachAlertAudioLayout extends ChatAttachAlert.AttachAlertLayou
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(audioEntry.messageObject);
                 this.delegate.didSelectAudio(arrayList, this.parentAlert.commentTextView.getText(), false, 0, 0L, false);
+            } else if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
+                this.selectedAudios.remove(audioEntry.id);
+                this.selectedAudiosOrder.remove(audioEntry);
+                sharedAudioCell.setChecked(false, true);
+                this.parentAlert.updateCountButton(z ? 1 : 2);
             } else {
-                z = false;
-                if (this.selectedAudios.indexOfKey(audioEntry.id) >= 0) {
-                    this.selectedAudios.remove(audioEntry.id);
-                    this.selectedAudiosOrder.remove(audioEntry);
-                    sharedAudioCell.setChecked(false, true);
-                    this.parentAlert.updateCountButton(z ? 1 : 2);
-                }
                 if (this.maxSelectedFiles >= 0) {
                     int size = this.selectedAudios.size();
                     int i = this.maxSelectedFiles;

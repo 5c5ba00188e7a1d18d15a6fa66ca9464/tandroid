@@ -115,7 +115,7 @@ public class YuvConverter {
             } catch (Exception e2) {
                 e = e2;
                 FileLog.e(e);
-                int i6 = (i2 * height) + i;
+                int i6 = i2 * height;
                 int i7 = i2 / 2;
                 int i8 = i6 + i7;
                 final ByteBuffer byteBuffer2 = byteBuffer;
@@ -141,7 +141,7 @@ public class YuvConverter {
             e = e3;
             i = 0;
             FileLog.e(e);
-            int i62 = (i2 * height) + i;
+            int i62 = i2 * height;
             int i72 = i2 / 2;
             int i82 = i62 + i72;
             final ByteBuffer byteBuffer22 = byteBuffer;
@@ -163,7 +163,7 @@ public class YuvConverter {
                 }
             });
         }
-        int i622 = (i2 * height) + i;
+        int i622 = i2 * height;
         int i722 = i2 / 2;
         int i822 = i622 + i722;
         final ByteBuffer byteBuffer222 = byteBuffer;

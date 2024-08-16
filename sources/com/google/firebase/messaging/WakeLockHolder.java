@@ -23,9 +23,13 @@ final class WakeLockHolder {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void completeWakefulIntent(Intent intent) {
         synchronized (syncObject) {
-            if (wakeLock != null && isWakefulIntent(intent)) {
-                setAsWakefulIntent(intent, false);
-                wakeLock.release();
+            try {
+                if (wakeLock != null && isWakefulIntent(intent)) {
+                    setAsWakefulIntent(intent, false);
+                    wakeLock.release();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -41,17 +45,21 @@ final class WakeLockHolder {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static ComponentName startWakefulService(Context context, Intent intent) {
         synchronized (syncObject) {
-            checkAndInitWakeLock(context);
-            boolean isWakefulIntent = isWakefulIntent(intent);
-            setAsWakefulIntent(intent, true);
-            ComponentName startService = context.startService(intent);
-            if (startService == null) {
-                return null;
+            try {
+                checkAndInitWakeLock(context);
+                boolean isWakefulIntent = isWakefulIntent(intent);
+                setAsWakefulIntent(intent, true);
+                ComponentName startService = context.startService(intent);
+                if (startService == null) {
+                    return null;
+                }
+                if (!isWakefulIntent) {
+                    wakeLock.acquire(WAKE_LOCK_ACQUIRE_TIMEOUT_MILLIS);
+                }
+                return startService;
+            } catch (Throwable th) {
+                throw th;
             }
-            if (!isWakefulIntent) {
-                wakeLock.acquire(WAKE_LOCK_ACQUIRE_TIMEOUT_MILLIS);
-            }
-            return startService;
         }
     }
 }

@@ -71,7 +71,7 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
         if ((this.flags & 128) != 0) {
             this.sponsor_info = abstractSerializedData.readString(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.additional_info = abstractSerializedData.readString(z);
         }
     }
@@ -109,7 +109,7 @@ public class TLRPC$TL_sponsoredMessage extends TLObject {
         if ((this.flags & 128) != 0) {
             abstractSerializedData.writeString(this.sponsor_info);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeString(this.additional_info);
         }
     }

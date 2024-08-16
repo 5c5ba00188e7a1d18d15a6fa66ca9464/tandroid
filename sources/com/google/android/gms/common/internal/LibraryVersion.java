@@ -21,15 +21,15 @@ public class LibraryVersion {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x009a  */
-    /* JADX WARN: Type inference failed for: r4v11 */
-    /* JADX WARN: Type inference failed for: r4v14 */
-    /* JADX WARN: Type inference failed for: r4v15 */
-    /* JADX WARN: Type inference failed for: r4v16 */
-    /* JADX WARN: Type inference failed for: r4v5 */
-    /* JADX WARN: Type inference failed for: r4v6, types: [java.lang.Object, java.lang.String] */
-    /* JADX WARN: Type inference failed for: r4v7, types: [java.lang.String] */
-    /* JADX WARN: Type inference failed for: r4v9 */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x009c  */
+    /* JADX WARN: Type inference failed for: r3v11 */
+    /* JADX WARN: Type inference failed for: r3v14 */
+    /* JADX WARN: Type inference failed for: r3v15 */
+    /* JADX WARN: Type inference failed for: r3v16 */
+    /* JADX WARN: Type inference failed for: r3v5 */
+    /* JADX WARN: Type inference failed for: r3v6, types: [java.lang.Object, java.lang.String] */
+    /* JADX WARN: Type inference failed for: r3v7, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r3v9 */
     @Deprecated
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -70,9 +70,8 @@ public class LibraryVersion {
             }
         } catch (IOException e2) {
             e = e2;
-            Object obj3 = obj2;
+            obj = obj2;
             inputStream = resourceAsStream;
-            obj = obj3;
             zza.e("LibraryVersion", "Failed to get app version for libraryName: " + str, e);
             if (inputStream != null) {
                 IOUtils.closeQuietly(inputStream);

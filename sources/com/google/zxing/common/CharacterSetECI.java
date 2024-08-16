@@ -3,6 +3,7 @@ package com.google.zxing.common;
 import com.google.zxing.FormatException;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public enum CharacterSetECI {
     Cp437(new int[]{0, 2}, new String[0]),
@@ -28,7 +29,7 @@ public enum CharacterSetECI {
     Cp1256(24, "windows-1256"),
     UnicodeBigUnmarked(25, "UTF-16BE", "UnicodeBig"),
     UTF8(26, "UTF-8"),
-    ASCII(new int[]{27, 170}, "US-ASCII"),
+    ASCII(new int[]{27, NotificationCenter.groupCallVisibilityChanged}, "US-ASCII"),
     Big5(28),
     GB18030(29, "GB2312", "EUC_CN", "GBK"),
     EUC_KR(30, "EUC-KR");

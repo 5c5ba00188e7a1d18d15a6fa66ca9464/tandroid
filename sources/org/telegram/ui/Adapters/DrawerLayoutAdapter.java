@@ -54,8 +54,8 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     private int getAccountRowsCount() {
-        int size = this.accountNumbers.size() + 1;
-        return this.accountNumbers.size() < 4 ? size + 1 : size;
+        int size = this.accountNumbers.size();
+        return this.accountNumbers.size() < 4 ? size + 2 : size + 1;
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter

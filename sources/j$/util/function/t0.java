@@ -1,50 +1,33 @@
 package j$.util.function;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class t0 implements w0 {
-    public final /* synthetic */ int a;
-    public final /* synthetic */ w0 b;
-    public final /* synthetic */ w0 c;
+public final /* synthetic */ class t0 implements Supplier {
+    public final /* synthetic */ java.util.function.Supplier a;
 
-    public /* synthetic */ t0(w0 w0Var, w0 w0Var2, int i) {
-        this.a = i;
-        this.b = w0Var;
-        this.c = w0Var2;
+    private /* synthetic */ t0(java.util.function.Supplier supplier) {
+        this.a = supplier;
     }
 
-    @Override // j$.util.function.w0
-    public final w0 a(w0 w0Var) {
-        switch (this.a) {
-            case 0:
-                w0Var.getClass();
-                return new t0(this, w0Var, 1);
-            default:
-                w0Var.getClass();
-                return new t0(this, w0Var, 1);
+    public static /* synthetic */ Supplier a(java.util.function.Supplier supplier) {
+        if (supplier == null) {
+            return null;
         }
+        return supplier instanceof u0 ? ((u0) supplier).a : new t0(supplier);
     }
 
-    @Override // j$.util.function.w0
-    public final long applyAsLong(long j) {
-        int i = this.a;
-        w0 w0Var = this.c;
-        w0 w0Var2 = this.b;
-        switch (i) {
-            case 0:
-                return w0Var.applyAsLong(w0Var2.applyAsLong(j));
-            default:
-                return w0Var2.applyAsLong(w0Var.applyAsLong(j));
+    public final /* synthetic */ boolean equals(Object obj) {
+        java.util.function.Supplier supplier = this.a;
+        if (obj instanceof t0) {
+            obj = ((t0) obj).a;
         }
+        return supplier.equals(obj);
     }
 
-    @Override // j$.util.function.w0
-    public final w0 b(w0 w0Var) {
-        switch (this.a) {
-            case 0:
-                w0Var.getClass();
-                return new t0(this, w0Var, 0);
-            default:
-                w0Var.getClass();
-                return new t0(this, w0Var, 0);
-        }
+    @Override // j$.util.function.Supplier
+    public final /* synthetic */ Object get() {
+        return this.a.get();
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
     }
 }

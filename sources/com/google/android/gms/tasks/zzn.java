@@ -25,10 +25,14 @@ public final class zzn implements zzq {
     public final void zzd(Task task) {
         if (task.isSuccessful()) {
             synchronized (this.zzb) {
-                if (this.zzc == null) {
-                    return;
+                try {
+                    if (this.zzc == null) {
+                        return;
+                    }
+                    this.zza.execute(new zzm(this, task));
+                } catch (Throwable th) {
+                    throw th;
                 }
-                this.zza.execute(new zzm(this, task));
             }
         }
     }

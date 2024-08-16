@@ -246,6 +246,6 @@ public final class AmrExtractor implements Extractor {
     }
 
     private static int getBitrateFromFrameSize(int i, long j) {
-        return (int) (((i * 8) * 1000000) / j);
+        return (int) ((i * 8000000) / j);
     }
 }

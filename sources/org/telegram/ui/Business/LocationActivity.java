@@ -283,12 +283,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         frameLayout4.addView(this.mapPreview, LayoutHelper.createFrame(-1, -1.0f));
         this.mapPreviewContainer.addView(this.mapMarker, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, -31.0f, 0.0f, 0.0f));
         updateMapPreview();
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda2
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 LocationActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda3
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 LocationActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -370,8 +370,8 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             int min = Math.min(2, (int) Math.ceil(f));
             BackupImageView backupImageView2 = this.mapPreview;
             TLRPC$GeoPoint tLRPC$GeoPoint = this.geo;
-            ImageLocation forWebFile = ImageLocation.getForWebFile(WebFile.createWithGeoPoint(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long, 0L, min * i, min * 240, 15, min));
-            backupImageView2.setImage(forWebFile, i + "_240", this.mapLoadingDrawable, 0, (Object) null);
+            ImageLocation forWebFile = ImageLocation.getForWebFile(WebFile.createWithGeoPoint(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long, 0L, min * i, min * NotificationCenter.reloadInterface, 15, min));
+            backupImageView2.setImage(forWebFile, i + "_" + NotificationCenter.reloadInterface, this.mapLoadingDrawable, 0, (Object) null);
             return;
         }
         backupImageView.setImageBitmap(null);
@@ -476,7 +476,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             userFull.flags2 &= -3;
             userFull.business_location = null;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessLocation, new RequestDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda5
+        getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessLocation, new RequestDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LocationActivity.this.lambda$processDone$1(tLObject, tLRPC$TL_error);
@@ -515,13 +515,13 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString(R.string.BusinessLocationUnsavedChanges));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda0
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     LocationActivity.this.lambda$onBackPressed$2(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda1
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     LocationActivity.this.lambda$onBackPressed$3(dialogInterface, i);
@@ -584,7 +584,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString(R.string.BusinessLocationClearTitle));
             builder.setMessage(LocaleController.getString(R.string.BusinessLocationClearMessage));
-            builder.setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda4
+            builder.setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda5
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i3) {
                     LocationActivity.this.lambda$onClick$6(dialogInterface, i3);
@@ -604,7 +604,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             userFull.business_location = null;
             userFull.flags2 &= -3;
         }
-        getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessLocation, new RequestDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda8
+        getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessLocation, new RequestDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 LocationActivity.this.lambda$onClick$5(tLObject, tLRPC$TL_error);
@@ -642,7 +642,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             tLRPC$TL_channelLocation.geo_point = this.geo;
             locationActivity.setInitialLocation(tLRPC$TL_channelLocation);
         }
-        locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda6
+        locationActivity.setDelegate(new LocationActivity.LocationActivityDelegate() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.LocationActivity.LocationActivityDelegate
             public final void didSelectLocation(TLRPC$MessageMedia tLRPC$MessageMedia, int i, boolean z, int i2) {
                 LocationActivity.this.lambda$showLocationAlert$7(locationActivity, tLRPC$MessageMedia, i, z, i2);
@@ -652,7 +652,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             final AlertDialog alertDialog = new AlertDialog(getContext(), 3);
             alertDialog.setCanCancel(false);
             alertDialog.showDelayed(200L);
-            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda7
+            Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Business.LocationActivity$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     LocationActivity.this.lambda$showLocationAlert$9(locationActivity, alertDialog);

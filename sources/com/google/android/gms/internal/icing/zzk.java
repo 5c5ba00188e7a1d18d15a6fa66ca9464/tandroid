@@ -39,13 +39,13 @@ public final class zzk extends AbstractSafeParcelable {
         this.zzc = zzsVar;
         this.zzd = i;
         this.zze = bArr;
-        if (i == i2 || zzq.zza(i) != null) {
-            str2 = (str == null || bArr == null) ? null : "Both content and blobContent set";
-        } else {
+        if (i != i2 && zzq.zza(i) == null) {
             StringBuilder sb2 = new StringBuilder(32);
             sb2.append("Invalid section type ");
             sb2.append(i);
             str2 = sb2.toString();
+        } else {
+            str2 = (str == null || bArr == null) ? null : "Both content and blobContent set";
         }
         if (str2 != null) {
             throw new IllegalArgumentException(str2);

@@ -53,7 +53,7 @@ public final class ComponentDiscovery<T> {
             if (!ComponentRegistrar.class.isAssignableFrom(cls)) {
                 throw new InvalidRegistrarException(String.format("Class %s is not an instance of %s", str, "com.google.firebase.components.ComponentRegistrar"));
             }
-            return (ComponentRegistrar) cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            return (ComponentRegistrar) cls.getDeclaredConstructor(null).newInstance(null);
         } catch (ClassNotFoundException unused) {
             Log.w("ComponentDiscovery", String.format("Class %s is not an found.", str));
             return null;

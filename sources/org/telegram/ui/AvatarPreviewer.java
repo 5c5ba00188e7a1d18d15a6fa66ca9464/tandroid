@@ -417,7 +417,7 @@ public class AvatarPreviewer {
             setWillNotDraw(false);
             View view = new View(context);
             this.blurView = view;
-            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
+            view.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     AvatarPreviewer.Layout.this.lambda$new$0(view2);
@@ -522,7 +522,7 @@ public class AvatarPreviewer {
                 return;
             }
             this.blurView.setBackground(null);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     AvatarPreviewer.Layout.this.prepareBlurBitmap();
@@ -536,7 +536,7 @@ public class AvatarPreviewer {
                 return;
             }
             this.preparingBlur = true;
-            AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda6
+            AndroidUtilities.makeGlobalBlurBitmap(new Utilities.Callback() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     AvatarPreviewer.Layout.this.lambda$prepareBlurBitmap$1((Bitmap) obj);
@@ -558,7 +558,7 @@ public class AvatarPreviewer {
             if (data.infoLoadTask != null) {
                 InfoLoadTask<?, ?> infoLoadTask = data.infoLoadTask;
                 this.infoLoadTask = infoLoadTask;
-                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
+                infoLoadTask.load(new Consumer() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         AvatarPreviewer.Layout.this.lambda$setData$2(data, obj);
@@ -574,7 +574,7 @@ public class AvatarPreviewer {
                     final MenuItem menuItem = menuItemArr[i];
                     ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(i == 0, i == this.menuItems.length - 1, this.menu, menuItem.iconResId, LocaleController.getString(menuItem.labelKey, menuItem.labelResId), false, this.resourcesProvider);
                     addItem.setTag(Integer.valueOf(i));
-                    addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda4
+                    addItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             AvatarPreviewer.Layout.this.lambda$setData$3(menuItem, view);
@@ -614,14 +614,14 @@ public class AvatarPreviewer {
             this.showing = z;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             ofFloat.setInterpolator(z ? this.openInterpolator : CubicBezierInterpolator.EASE_OUT_QUINT);
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     AvatarPreviewer.Layout.this.lambda$setShowing$4(z, valueAnimator);
                 }
             });
             ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda1
+            ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$Layout$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     AvatarPreviewer.Layout.this.lambda$setShowing$5(z, valueAnimator);
@@ -770,7 +770,7 @@ public class AvatarPreviewer {
                                 AvatarView.this.invalidate();
                             }
                         });
-                        this.progressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda0
+                        this.progressHideAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                                 AvatarPreviewer.AvatarView.this.lambda$dispatchDraw$0(valueAnimator2);
@@ -784,7 +784,7 @@ public class AvatarPreviewer {
                 } else if (this.progressShowAnimator == null) {
                     ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
                     this.progressShowAnimator = ofFloat2;
-                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda1
+                    ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.AvatarPreviewer$AvatarView$$ExternalSyntheticLambda2
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                             AvatarPreviewer.AvatarView.this.lambda$dispatchDraw$1(valueAnimator2);

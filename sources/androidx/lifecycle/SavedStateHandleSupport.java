@@ -38,7 +38,7 @@ public final class SavedStateHandleSupport {
         Intrinsics.checkNotNullParameter(t, "<this>");
         Lifecycle.State currentState = t.getLifecycle().getCurrentState();
         Intrinsics.checkNotNullExpressionValue(currentState, "lifecycle.currentState");
-        if (!(currentState == Lifecycle.State.INITIALIZED || currentState == Lifecycle.State.CREATED)) {
+        if (currentState != Lifecycle.State.INITIALIZED && currentState != Lifecycle.State.CREATED) {
             throw new IllegalArgumentException("Failed requirement.".toString());
         }
         if (t.getSavedStateRegistry().getSavedStateProvider("androidx.lifecycle.internal.SavedStateHandlesProvider") == null) {

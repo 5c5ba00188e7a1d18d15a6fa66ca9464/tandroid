@@ -66,18 +66,30 @@ public final class BidiFormatter {
 
     private String markAfter(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat) {
         boolean isRtl = textDirectionHeuristicCompat.isRtl(charSequence, 0, charSequence.length());
-        if (this.mIsRtlContext || !(isRtl || getExitDir(charSequence) == 1)) {
-            return this.mIsRtlContext ? (!isRtl || getExitDir(charSequence) == -1) ? RLM_STRING : "" : "";
+        if (!this.mIsRtlContext && (isRtl || getExitDir(charSequence) == 1)) {
+            return LRM_STRING;
         }
-        return LRM_STRING;
+        if (this.mIsRtlContext) {
+            if (!isRtl || getExitDir(charSequence) == -1) {
+                return RLM_STRING;
+            }
+            return "";
+        }
+        return "";
     }
 
     private String markBefore(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat) {
         boolean isRtl = textDirectionHeuristicCompat.isRtl(charSequence, 0, charSequence.length());
-        if (this.mIsRtlContext || !(isRtl || getEntryDir(charSequence) == 1)) {
-            return this.mIsRtlContext ? (!isRtl || getEntryDir(charSequence) == -1) ? RLM_STRING : "" : "";
+        if (!this.mIsRtlContext && (isRtl || getEntryDir(charSequence) == 1)) {
+            return LRM_STRING;
         }
-        return LRM_STRING;
+        if (this.mIsRtlContext) {
+            if (!isRtl || getEntryDir(charSequence) == -1) {
+                return RLM_STRING;
+            }
+            return "";
+        }
+        return "";
     }
 
     public CharSequence unicodeWrap(CharSequence charSequence, TextDirectionHeuristicCompat textDirectionHeuristicCompat, boolean z) {

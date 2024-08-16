@@ -61,7 +61,7 @@ public class AlertDialogDecor extends AlertDialog {
         super(context, i, resourcesProvider);
         this.isDismissed = false;
         this.openDelay = 0L;
-        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda2
+        this.showRunnable = new Runnable() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 AlertDialogDecor.this.lambda$new$0();
@@ -93,7 +93,7 @@ public class AlertDialogDecor extends AlertDialog {
         this.contentView.setFitsSystemWindows(false);
         WindowManager.LayoutParams attributes = getWindow().getAttributes();
         FrameLayout frameLayout = new FrameLayout(getContext());
-        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda0
+        frameLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 AlertDialogDecor.this.lambda$show$1(view);
@@ -109,7 +109,7 @@ public class AlertDialogDecor extends AlertDialog {
         this.rootView = frameLayout;
         getDecorView().addView(this.rootView);
         ViewCompat.requestApplyInsets(this.rootView);
-        ViewCompat.setOnApplyWindowInsetsListener(this.rootView, new OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda1
+        ViewCompat.setOnApplyWindowInsetsListener(this.rootView, new OnApplyWindowInsetsListener() { // from class: org.telegram.ui.ActionBar.AlertDialogDecor$$ExternalSyntheticLambda2
             @Override // androidx.core.view.OnApplyWindowInsetsListener
             public final WindowInsetsCompat onApplyWindowInsets(View view2, WindowInsetsCompat windowInsetsCompat) {
                 WindowInsetsCompat lambda$show$2;

@@ -33,10 +33,14 @@ public class FcmBroadcastProcessor {
     private static WithinAppServiceConnection getServiceConnection(Context context, String str) {
         WithinAppServiceConnection withinAppServiceConnection;
         synchronized (lock) {
-            if (fcmServiceConn == null) {
-                fcmServiceConn = new WithinAppServiceConnection(context, "com.google.firebase.MESSAGING_EVENT");
+            try {
+                if (fcmServiceConn == null) {
+                    fcmServiceConn = new WithinAppServiceConnection(context, "com.google.firebase.MESSAGING_EVENT");
+                }
+                withinAppServiceConnection = fcmServiceConn;
+            } catch (Throwable th) {
+                throw th;
             }
-            withinAppServiceConnection = fcmServiceConn;
         }
         return withinAppServiceConnection;
     }

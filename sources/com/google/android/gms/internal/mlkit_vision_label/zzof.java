@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzof extends zza {
+public final class zzof extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzof(IBinder iBinder) {
         super(iBinder, "com.google.mlkit.vision.label.aidls.IImageLabeler");

@@ -1,31 +1,30 @@
 package j$.util.function;
-
-import java.util.function.ObjIntConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class A0 implements C0 {
-    public final /* synthetic */ ObjIntConsumer a;
+public final /* synthetic */ class A0 implements java.util.function.ToLongFunction {
+    public final /* synthetic */ ToLongFunction a;
 
-    private /* synthetic */ A0(ObjIntConsumer objIntConsumer) {
-        this.a = objIntConsumer;
+    private /* synthetic */ A0(ToLongFunction toLongFunction) {
+        this.a = toLongFunction;
     }
 
-    public static /* synthetic */ C0 a(ObjIntConsumer objIntConsumer) {
-        if (objIntConsumer == null) {
+    public static /* synthetic */ java.util.function.ToLongFunction a(ToLongFunction toLongFunction) {
+        if (toLongFunction == null) {
             return null;
         }
-        return objIntConsumer instanceof B0 ? ((B0) objIntConsumer).a : new A0(objIntConsumer);
+        return toLongFunction instanceof z0 ? ((z0) toLongFunction).a : new A0(toLongFunction);
     }
 
-    @Override // j$.util.function.C0
-    public final /* synthetic */ void accept(Object obj, int i) {
-        this.a.accept(obj, i);
+    @Override // java.util.function.ToLongFunction
+    public final /* synthetic */ long applyAsLong(Object obj) {
+        return this.a.applyAsLong(obj);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        ToLongFunction toLongFunction = this.a;
         if (obj instanceof A0) {
             obj = ((A0) obj).a;
         }
-        return this.a.equals(obj);
+        return toLongFunction.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

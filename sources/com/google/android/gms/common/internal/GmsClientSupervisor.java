@@ -21,14 +21,18 @@ public abstract class GmsClientSupervisor {
     public static GmsClientSupervisor getInstance(Context context) {
         Looper mainLooper;
         synchronized (zzc) {
-            if (zzd == null) {
-                Context applicationContext = context.getApplicationContext();
-                if (zze) {
-                    mainLooper = getOrStartHandlerThread().getLooper();
-                } else {
-                    mainLooper = context.getMainLooper();
+            try {
+                if (zzd == null) {
+                    Context applicationContext = context.getApplicationContext();
+                    if (zze) {
+                        mainLooper = getOrStartHandlerThread().getLooper();
+                    } else {
+                        mainLooper = context.getMainLooper();
+                    }
+                    zzd = new zzr(applicationContext, mainLooper);
                 }
-                zzd = new zzr(applicationContext, mainLooper);
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return zzd;
@@ -36,14 +40,18 @@ public abstract class GmsClientSupervisor {
 
     public static HandlerThread getOrStartHandlerThread() {
         synchronized (zzc) {
-            HandlerThread handlerThread = zza;
-            if (handlerThread != null) {
-                return handlerThread;
+            try {
+                HandlerThread handlerThread = zza;
+                if (handlerThread != null) {
+                    return handlerThread;
+                }
+                HandlerThread handlerThread2 = new HandlerThread("GoogleApiHandler", 9);
+                zza = handlerThread2;
+                handlerThread2.start();
+                return zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            HandlerThread handlerThread2 = new HandlerThread("GoogleApiHandler", 9);
-            zza = handlerThread2;
-            handlerThread2.start();
-            return zza;
         }
     }
 

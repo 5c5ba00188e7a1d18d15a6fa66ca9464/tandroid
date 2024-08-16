@@ -54,8 +54,10 @@ public abstract class DataChunk extends Chunk {
             if (!this.loadCanceled) {
                 consume(this.data, i2);
             }
-        } finally {
             DataSourceUtil.closeQuietly(this.dataSource);
+        } catch (Throwable th) {
+            DataSourceUtil.closeQuietly(this.dataSource);
+            throw th;
         }
     }
 

@@ -19,7 +19,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Property;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -133,8 +132,8 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
                             }
                             if (PipRoundVideoView.this.windowLayoutParams.y < 0) {
                                 PipRoundVideoView.this.windowLayoutParams.y = 0;
-                            } else if (PipRoundVideoView.this.windowLayoutParams.y > (AndroidUtilities.displaySize.y - PipRoundVideoView.this.windowLayoutParams.height) + 0) {
-                                PipRoundVideoView.this.windowLayoutParams.y = (AndroidUtilities.displaySize.y - PipRoundVideoView.this.windowLayoutParams.height) + 0;
+                            } else if (PipRoundVideoView.this.windowLayoutParams.y > AndroidUtilities.displaySize.y - PipRoundVideoView.this.windowLayoutParams.height) {
+                                PipRoundVideoView.this.windowLayoutParams.y = AndroidUtilities.displaySize.y - PipRoundVideoView.this.windowLayoutParams.height;
                             }
                             PipRoundVideoView.this.windowManager.updateViewLayout(PipRoundVideoView.this.windowView, PipRoundVideoView.this.windowLayoutParams);
                             this.startX = rawX;
@@ -371,23 +370,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.hideShowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[3];
-        FrameLayout frameLayout = this.windowView;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
-        FrameLayout frameLayout2 = this.windowView;
-        Property property2 = View.SCALE_X;
-        float[] fArr2 = new float[1];
-        fArr2[0] = z ? 1.0f : 0.8f;
-        animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
-        FrameLayout frameLayout3 = this.windowView;
-        Property property3 = View.SCALE_Y;
-        float[] fArr3 = new float[1];
-        fArr3[0] = z ? 1.0f : 0.8f;
-        animatorArr[2] = ObjectAnimator.ofFloat(frameLayout3, property3, fArr3);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_X, z ? 1.0f : 0.8f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_Y, z ? 1.0f : 0.8f));
         this.hideShowAnimation.setDuration(150L);
         if (this.decelerateInterpolator == null) {
             this.decelerateInterpolator = new DecelerateInterpolator();
@@ -411,23 +394,7 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.hideShowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[3];
-        FrameLayout frameLayout = this.windowView;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(frameLayout, property, fArr);
-        FrameLayout frameLayout2 = this.windowView;
-        Property property2 = View.SCALE_X;
-        float[] fArr2 = new float[1];
-        fArr2[0] = z ? 1.0f : 0.8f;
-        animatorArr[1] = ObjectAnimator.ofFloat(frameLayout2, property2, fArr2);
-        FrameLayout frameLayout3 = this.windowView;
-        Property property3 = View.SCALE_Y;
-        float[] fArr3 = new float[1];
-        fArr3[0] = z ? 1.0f : 0.8f;
-        animatorArr[2] = ObjectAnimator.ofFloat(frameLayout3, property3, fArr3);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.windowView, View.ALPHA, z ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_X, z ? 1.0f : 0.8f), ObjectAnimator.ofFloat(this.windowView, View.SCALE_Y, z ? 1.0f : 0.8f));
         this.hideShowAnimation.setDuration(150L);
         if (this.decelerateInterpolator == null) {
             this.decelerateInterpolator = new DecelerateInterpolator();
@@ -455,8 +422,8 @@ public class PipRoundVideoView implements NotificationCenter.NotificationCenterD
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0110  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x017f  */
     /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

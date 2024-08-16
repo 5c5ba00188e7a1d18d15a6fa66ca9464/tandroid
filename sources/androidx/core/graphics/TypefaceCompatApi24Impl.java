@@ -23,21 +23,21 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
     private static final Constructor<?> sFontFamilyCtor;
 
     static {
-        Class<?> cls;
         Method method;
-        Constructor<?> constructor;
+        Class<?> cls;
         Method method2;
+        Constructor<?> constructor = null;
         try {
             cls = Class.forName("android.graphics.FontFamily");
-            constructor = cls.getConstructor(new Class[0]);
+            Constructor<?> constructor2 = cls.getConstructor(null);
             Class<?> cls2 = Integer.TYPE;
             method2 = cls.getMethod("addFontWeightStyle", ByteBuffer.class, cls2, List.class, cls2, Boolean.TYPE);
             method = Typeface.class.getMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass());
+            constructor = constructor2;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             Log.e("TypefaceCompatApi24Impl", e.getClass().getName(), e);
-            cls = null;
             method = null;
-            constructor = null;
+            cls = null;
             method2 = null;
         }
         sFontFamilyCtor = constructor;
@@ -56,7 +56,7 @@ class TypefaceCompatApi24Impl extends TypefaceCompatBaseImpl {
 
     private static Object newFamily() {
         try {
-            return sFontFamilyCtor.newInstance(new Object[0]);
+            return sFontFamilyCtor.newInstance(null);
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException unused) {
             return null;
         }

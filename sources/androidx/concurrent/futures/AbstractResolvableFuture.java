@@ -553,7 +553,10 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
     }
 
     private String userObjectToString(Object obj) {
-        return obj == this ? "this future" : String.valueOf(obj);
+        if (obj == this) {
+            return "this future";
+        }
+        return String.valueOf(obj);
     }
 
     private static void executeListener(Runnable runnable, Executor executor) {
@@ -645,33 +648,45 @@ public abstract class AbstractResolvableFuture<V> implements ListenableFuture<V>
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casWaiters(AbstractResolvableFuture<?> abstractResolvableFuture, Waiter waiter, Waiter waiter2) {
             synchronized (abstractResolvableFuture) {
-                if (abstractResolvableFuture.waiters == waiter) {
-                    abstractResolvableFuture.waiters = waiter2;
-                    return true;
+                try {
+                    if (abstractResolvableFuture.waiters == waiter) {
+                        abstractResolvableFuture.waiters = waiter2;
+                        return true;
+                    }
+                    return false;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                return false;
             }
         }
 
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casListeners(AbstractResolvableFuture<?> abstractResolvableFuture, Listener listener, Listener listener2) {
             synchronized (abstractResolvableFuture) {
-                if (abstractResolvableFuture.listeners == listener) {
-                    abstractResolvableFuture.listeners = listener2;
-                    return true;
+                try {
+                    if (abstractResolvableFuture.listeners == listener) {
+                        abstractResolvableFuture.listeners = listener2;
+                        return true;
+                    }
+                    return false;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                return false;
             }
         }
 
         @Override // androidx.concurrent.futures.AbstractResolvableFuture.AtomicHelper
         boolean casValue(AbstractResolvableFuture<?> abstractResolvableFuture, Object obj, Object obj2) {
             synchronized (abstractResolvableFuture) {
-                if (abstractResolvableFuture.value == obj) {
-                    abstractResolvableFuture.value = obj2;
-                    return true;
+                try {
+                    if (abstractResolvableFuture.value == obj) {
+                        abstractResolvableFuture.value = obj2;
+                        return true;
+                    }
+                    return false;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                return false;
             }
         }
     }

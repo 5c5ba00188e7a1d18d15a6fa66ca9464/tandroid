@@ -445,9 +445,9 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             } else {
                 loadErrorAction = Loader.DONT_RETRY;
             }
-            boolean isRetry = true ^ loadErrorAction.isRetry();
-            DefaultHlsPlaylistTracker.this.eventDispatcher.loadError(loadEventInfo, parsingLoadable.type, iOException, isRetry);
-            if (isRetry) {
+            boolean z2 = !loadErrorAction.isRetry();
+            DefaultHlsPlaylistTracker.this.eventDispatcher.loadError(loadEventInfo, parsingLoadable.type, iOException, z2);
+            if (z2) {
                 DefaultHlsPlaylistTracker.this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
             }
             return loadErrorAction;
@@ -486,7 +486,6 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
 
         /* JADX INFO: Access modifiers changed from: private */
         public void processLoadedPlaylist(HlsMediaPlaylist hlsMediaPlaylist, LoadEventInfo loadEventInfo) {
-            IOException playlistStuckException;
             boolean z;
             long j;
             HlsMediaPlaylist hlsMediaPlaylist2 = this.playlistSnapshot;
@@ -494,7 +493,7 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             this.lastSnapshotLoadMs = elapsedRealtime;
             HlsMediaPlaylist latestPlaylistSnapshot = DefaultHlsPlaylistTracker.this.getLatestPlaylistSnapshot(hlsMediaPlaylist2, hlsMediaPlaylist);
             this.playlistSnapshot = latestPlaylistSnapshot;
-            boolean z2 = false;
+            IOException iOException = null;
             if (latestPlaylistSnapshot != hlsMediaPlaylist2) {
                 this.playlistError = null;
                 this.lastSnapshotChangeMs = elapsedRealtime;
@@ -502,18 +501,20 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
             } else if (!latestPlaylistSnapshot.hasEndTag) {
                 HlsMediaPlaylist hlsMediaPlaylist3 = this.playlistSnapshot;
                 if (hlsMediaPlaylist.mediaSequence + hlsMediaPlaylist.segments.size() < hlsMediaPlaylist3.mediaSequence) {
-                    playlistStuckException = new HlsPlaylistTracker.PlaylistResetException(this.playlistUrl);
+                    iOException = new HlsPlaylistTracker.PlaylistResetException(this.playlistUrl);
                     z = true;
                 } else {
                     double usToMs = Util.usToMs(hlsMediaPlaylist3.targetDurationUs);
                     double d = DefaultHlsPlaylistTracker.this.playlistStuckTargetDurationCoefficient;
                     Double.isNaN(usToMs);
-                    playlistStuckException = ((double) (elapsedRealtime - this.lastSnapshotChangeMs)) > usToMs * d ? new HlsPlaylistTracker.PlaylistStuckException(this.playlistUrl) : null;
                     z = false;
+                    if (elapsedRealtime - this.lastSnapshotChangeMs > usToMs * d) {
+                        iOException = new HlsPlaylistTracker.PlaylistStuckException(this.playlistUrl);
+                    }
                 }
-                if (playlistStuckException != null) {
-                    this.playlistError = playlistStuckException;
-                    DefaultHlsPlaylistTracker.this.notifyPlaylistError(this.playlistUrl, new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(4), playlistStuckException, 1), z);
+                if (iOException != null) {
+                    this.playlistError = iOException;
+                    DefaultHlsPlaylistTracker.this.notifyPlaylistError(this.playlistUrl, new LoadErrorHandlingPolicy.LoadErrorInfo(loadEventInfo, new MediaLoadData(4), iOException, 1), z);
                 }
             }
             HlsMediaPlaylist hlsMediaPlaylist4 = this.playlistSnapshot;
@@ -525,10 +526,9 @@ public final class DefaultHlsPlaylistTracker implements HlsPlaylistTracker, Load
                 j = hlsMediaPlaylist4.targetDurationUs / 2;
             }
             this.earliestNextLoadTimeMs = elapsedRealtime + Util.usToMs(j);
-            if (!((this.playlistSnapshot.partTargetDurationUs != -9223372036854775807L || this.playlistUrl.equals(DefaultHlsPlaylistTracker.this.primaryMediaPlaylistUrl)) ? true : true) || this.playlistSnapshot.hasEndTag) {
-                return;
+            if ((this.playlistSnapshot.partTargetDurationUs != -9223372036854775807L || this.playlistUrl.equals(DefaultHlsPlaylistTracker.this.primaryMediaPlaylistUrl)) && !this.playlistSnapshot.hasEndTag) {
+                loadPlaylistInternal(getMediaPlaylistUriForReload());
             }
-            loadPlaylistInternal(getMediaPlaylistUriForReload());
         }
 
         private Uri getMediaPlaylistUriForReload() {

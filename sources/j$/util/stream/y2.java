@@ -2,25 +2,25 @@ package j$.util.stream;
 
 import java.util.Arrays;
 /* loaded from: classes2.dex */
-final class y2 extends b0 {
+final class y2 extends g0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public y2(c cVar) {
-        super(cVar, T2.q | T2.o);
+    public y2(b bVar) {
+        super(bVar, S2.q | S2.o, 0);
     }
 
-    @Override // j$.util.stream.c
-    public final D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
-        if (T2.SORTED.d(cVar.K0())) {
-            return cVar.Z0(q, false, n);
+    @Override // j$.util.stream.b
+    public final F0 w0(j$.util.Q q, j$.util.function.I i, b bVar) {
+        if (S2.SORTED.d(bVar.s0())) {
+            return bVar.k0(q, false, i);
         }
-        int[] iArr = (int[]) ((A0) cVar.Z0(q, true, n)).b();
-        Arrays.sort(iArr);
-        return new Z0(iArr);
+        long[] jArr = (long[]) ((D0) bVar.k0(q, true, i)).e();
+        Arrays.sort(jArr);
+        return new j1(jArr);
     }
 
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        f2Var.getClass();
-        return T2.SORTED.d(i) ? f2Var : T2.SIZED.d(i) ? new D2(f2Var) : new v2(f2Var);
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        e2Var.getClass();
+        return S2.SORTED.d(i) ? e2Var : S2.SIZED.d(i) ? new D2(e2Var) : new v2(e2Var);
     }
 }

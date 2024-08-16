@@ -9,7 +9,7 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 import android.view.View;
 import java.util.ArrayList;
-import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.Reactions.HwEmojis;
 /* loaded from: classes3.dex */
 public class EllipsizeSpanAnimator {
@@ -24,7 +24,7 @@ public class EllipsizeSpanAnimator {
         this.ellipsizedViews = new ArrayList<>();
         AnimatorSet animatorSet = new AnimatorSet();
         this.ellAnimator = animatorSet;
-        animatorSet.playTogether(createEllipsizeAnimator(textAlphaSpanArr[0], 0, 255, 0, 300), createEllipsizeAnimator(textAlphaSpanArr[1], 0, 255, ImageReceiver.DEFAULT_CROSSFADE_DURATION, 300), createEllipsizeAnimator(textAlphaSpanArr[2], 0, 255, 300, 300), createEllipsizeAnimator(textAlphaSpanArr[0], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[1], 255, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[2], 255, 0, 1000, 400));
+        animatorSet.playTogether(createEllipsizeAnimator(textAlphaSpanArr[0], 0, NotificationCenter.voipServiceCreated, 0, 300), createEllipsizeAnimator(textAlphaSpanArr[1], 0, NotificationCenter.voipServiceCreated, 150, 300), createEllipsizeAnimator(textAlphaSpanArr[2], 0, NotificationCenter.voipServiceCreated, 300, 300), createEllipsizeAnimator(textAlphaSpanArr[0], NotificationCenter.voipServiceCreated, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[1], NotificationCenter.voipServiceCreated, 0, 1000, 400), createEllipsizeAnimator(textAlphaSpanArr[2], NotificationCenter.voipServiceCreated, 0, 1000, 400));
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.EllipsizeSpanAnimator.1
             private Runnable restarter = new Runnable() { // from class: org.telegram.ui.Components.EllipsizeSpanAnimator.1.1
                 @Override // java.lang.Runnable

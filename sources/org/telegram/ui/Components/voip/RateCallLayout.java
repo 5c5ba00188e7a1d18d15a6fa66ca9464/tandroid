@@ -1,6 +1,5 @@
 package org.telegram.ui.Components.voip;
 
-import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -65,7 +65,7 @@ public class RateCallLayout extends FrameLayout {
             this.starsContainer.addView(this.startsViews[i], LayoutHelper.createFrame(-2, -2.0f, 51, i * 41, 0.0f, 0.0f, 0.0f));
         }
         addView(this.rateCallContainer, LayoutHelper.createFrame(300, 152.0f, 49, 0.0f, 0.0f, 0.0f, 0.0f));
-        addView(this.starsContainer, LayoutHelper.createFrame(201, 100.0f, 49, 0.0f, 90.0f, 0.0f, 0.0f));
+        addView(this.starsContainer, LayoutHelper.createFrame(NotificationCenter.openBoostForUsersDialog, 100.0f, 49, 0.0f, 90.0f, 0.0f, 0.0f));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -78,12 +78,12 @@ public class RateCallLayout extends FrameLayout {
         if (i >= 4) {
             final RLottieImageView rLottieImageView = new RLottieImageView(context);
             int dp = AndroidUtilities.dp(133.0f);
-            rLottieImageView.setAnimation(R.raw.rate, 133, 133);
+            rLottieImageView.setAnimation(R.raw.rate, NotificationCenter.didUpdateConnectionState, NotificationCenter.didUpdateConnectionState);
             int[] iArr = new int[2];
             getLocationOnScreen(iArr);
             int i2 = iArr[0];
             int i3 = iArr[1];
-            addView(rLottieImageView, LayoutHelper.createFrame(133, 133.0f));
+            addView(rLottieImageView, LayoutHelper.createFrame(NotificationCenter.didUpdateConnectionState, 133.0f));
             float f3 = dp / 2.0f;
             rLottieImageView.setTranslationX((f - i2) - f3);
             rLottieImageView.setTranslationY((f2 - i3) - f3);
@@ -121,25 +121,16 @@ public class RateCallLayout extends FrameLayout {
         this.rateCallContainer.setVisibility(0);
         this.starsContainer.setVisibility(0);
         AnimatorSet animatorSet = new AnimatorSet();
-        int i = 4;
         animatorSet.playTogether(ObjectAnimator.ofFloat(this.rateCallContainer, View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_X, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.SCALE_Y, 0.7f, 1.0f), ObjectAnimator.ofFloat(this.rateCallContainer, View.TRANSLATION_Y, AndroidUtilities.dp(24.0f), 0.0f));
         animatorSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
         animatorSet.setDuration(250L);
-        int i2 = 0;
-        while (i2 < this.startsViews.length) {
+        for (int i = 0; i < this.startsViews.length; i++) {
             AnimatorSet animatorSet2 = new AnimatorSet();
-            this.startsViews[i2].setAlpha(0.0f);
-            Animator[] animatorArr = new Animator[i];
-            animatorArr[0] = ObjectAnimator.ofFloat(this.startsViews[i2], View.ALPHA, 0.0f, 1.0f);
-            animatorArr[1] = ObjectAnimator.ofFloat(this.startsViews[i2], View.SCALE_X, 0.3f, 1.0f);
-            animatorArr[2] = ObjectAnimator.ofFloat(this.startsViews[i2], View.SCALE_Y, 0.3f, 1.0f);
-            animatorArr[3] = ObjectAnimator.ofFloat(this.startsViews[i2], View.TRANSLATION_Y, AndroidUtilities.dp(30.0f), 0.0f);
-            animatorSet2.playTogether(animatorArr);
+            this.startsViews[i].setAlpha(0.0f);
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.startsViews[i], View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_X, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.SCALE_Y, 0.3f, 1.0f), ObjectAnimator.ofFloat(this.startsViews[i], View.TRANSLATION_Y, AndroidUtilities.dp(30.0f), 0.0f));
             animatorSet2.setDuration(250L);
-            animatorSet2.setStartDelay(i2 * 16);
+            animatorSet2.setStartDelay(i * 16);
             animatorSet2.start();
-            i2++;
-            i = 4;
         }
         animatorSet.start();
     }

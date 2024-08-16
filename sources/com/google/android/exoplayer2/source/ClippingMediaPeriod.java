@@ -155,13 +155,10 @@ public final class ClippingMediaPeriod implements MediaPeriod, MediaPeriod.Callb
         if (readDiscontinuity2 == -9223372036854775807L) {
             return -9223372036854775807L;
         }
-        boolean z = true;
+        boolean z = false;
         Assertions.checkState(readDiscontinuity2 >= this.startUs);
         long j2 = this.endUs;
-        if (j2 != Long.MIN_VALUE && readDiscontinuity2 > j2) {
-            z = false;
-        }
-        Assertions.checkState(z);
+        Assertions.checkState((j2 == Long.MIN_VALUE || readDiscontinuity2 <= j2) ? true : true);
         return readDiscontinuity2;
     }
 

@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class ConfigFetchHandler {
     private final Provider<AnalyticsConnector> analyticsConnector;
@@ -35,7 +34,7 @@ public class ConfigFetchHandler {
     private final ConfigMetadataClient frcMetadata;
     private final Random randomGenerator;
     public static final long DEFAULT_MINIMUM_FETCH_INTERVAL_IN_SECONDS = TimeUnit.HOURS.toSeconds(12);
-    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, 128, LiteMode.FLAG_CHAT_BLUR};
+    static final int[] BACKOFF_TIME_DURATIONS_IN_MINUTES = {2, 4, 8, 16, 32, 64, 128, 256};
 
     private boolean isThrottleableServerError(int i) {
         return i == 429 || i == 502 || i == 503 || i == 504;
@@ -181,7 +180,9 @@ public class ConfigFetchHandler {
         } else if (httpStatusCode == 429) {
             throw new FirebaseRemoteConfigClientException("The throttled response from the server was not handled correctly by the FRC SDK.");
         } else {
-            if (httpStatusCode != 500) {
+            if (httpStatusCode == 500) {
+                str = "There was an internal server error.";
+            } else {
                 switch (httpStatusCode) {
                     case 502:
                     case 503:
@@ -192,8 +193,6 @@ public class ConfigFetchHandler {
                         str = "The server returned an unexpected error.";
                         break;
                 }
-            } else {
-                str = "There was an internal server error.";
             }
         }
         int httpStatusCode2 = firebaseRemoteConfigServerException.getHttpStatusCode();

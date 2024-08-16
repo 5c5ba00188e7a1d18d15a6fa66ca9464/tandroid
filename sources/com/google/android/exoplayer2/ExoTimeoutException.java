@@ -3,12 +3,21 @@ package com.google.android.exoplayer2;
 public final class ExoTimeoutException extends RuntimeException {
     public final int timeoutOperation;
 
-    private static String getErrorMessage(int i) {
-        return i != 1 ? i != 2 ? i != 3 ? "Undefined timeout." : "Detaching surface timed out." : "Setting foreground mode timed out." : "Player release timed out.";
-    }
-
     public ExoTimeoutException(int i) {
         super(getErrorMessage(i));
         this.timeoutOperation = i;
+    }
+
+    private static String getErrorMessage(int i) {
+        if (i != 1) {
+            if (i != 2) {
+                if (i == 3) {
+                    return "Detaching surface timed out.";
+                }
+                return "Undefined timeout.";
+            }
+            return "Setting foreground mode timed out.";
+        }
+        return "Player release timed out.";
     }
 }

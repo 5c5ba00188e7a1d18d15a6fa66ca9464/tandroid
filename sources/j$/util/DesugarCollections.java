@@ -91,7 +91,7 @@ public class DesugarCollections {
         Field field = c;
         if (field == null) {
             try {
-                a.s((List) d.get(list), comparator);
+                a.C((List) d.get(list), comparator);
                 return;
             } catch (IllegalAccessException e2) {
                 throw new Error("Runtime illegal access in synchronized collection sort fall-back.", e2);
@@ -99,7 +99,7 @@ public class DesugarCollections {
         }
         try {
             synchronized (field.get(list)) {
-                a.s((List) d.get(list), comparator);
+                a.C((List) d.get(list), comparator);
             }
         } catch (IllegalAccessException e3) {
             throw new Error("Runtime illegal access in synchronized list sort.", e3);

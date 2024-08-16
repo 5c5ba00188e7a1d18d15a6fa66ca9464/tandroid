@@ -8,6 +8,7 @@ import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
@@ -143,7 +144,7 @@ public class BlurBehindDrawable {
                             this.blurCanvas[i] = new Canvas(this.blurredBitmapTmp[i]);
                         } catch (Exception e) {
                             FileLog.e(e);
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda1
+                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda0
                                 @Override // java.lang.Runnable
                                 public final void run() {
                                     BlurBehindDrawable.this.lambda$draw$0();
@@ -203,7 +204,7 @@ public class BlurBehindDrawable {
 
     /* JADX INFO: Access modifiers changed from: private */
     public int getBlurRadius() {
-        return Math.max(7, Math.max(this.lastH, this.lastW) / 180);
+        return Math.max(7, Math.max(this.lastH, this.lastW) / NotificationCenter.updateBotMenuButton);
     }
 
     public void clear() {
@@ -216,7 +217,7 @@ public class BlurBehindDrawable {
         DispatchQueue dispatchQueue = this.queue;
         if (dispatchQueue != null) {
             dispatchQueue.cleanupQueue();
-            this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda0
+            this.queue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.BlurBehindDrawable$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     BlurBehindDrawable.this.lambda$clear$2();
@@ -318,8 +319,10 @@ public class BlurBehindDrawable {
                 if (dispatchQueue != null) {
                     dispatchQueue.cleanupQueue();
                 }
+                Bitmap[] bitmapArr2 = this.blurredBitmapTmp;
                 int i2 = (int) (measuredWidth / 6.0f);
-                this.blurredBitmapTmp[i] = Bitmap.createBitmap(i2, (int) (dp / 6.0f), Bitmap.Config.ARGB_8888);
+                Bitmap.Config config = Bitmap.Config.ARGB_8888;
+                bitmapArr2[i] = Bitmap.createBitmap(i2, (int) (dp / 6.0f), config);
                 if (i == 1) {
                     this.blurredBitmapTmp[i].eraseColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 }
@@ -327,7 +330,7 @@ public class BlurBehindDrawable {
                 if (i == 0) {
                     measuredHeight = this.toolbarH;
                 }
-                this.renderingBitmap[i] = Bitmap.createBitmap(i2, (int) (measuredHeight / 6.0f), Bitmap.Config.ARGB_8888);
+                this.renderingBitmap[i] = Bitmap.createBitmap(i2, (int) (measuredHeight / 6.0f), config);
                 this.renderingBitmapCanvas[i] = new Canvas(this.renderingBitmap[i]);
                 this.renderingBitmapCanvas[i].scale(this.renderingBitmap[i].getWidth() / this.blurredBitmapTmp[i].getWidth(), this.renderingBitmap[i].getHeight() / this.blurredBitmapTmp[i].getHeight());
                 this.blurCanvas[i].save();
@@ -351,7 +354,7 @@ public class BlurBehindDrawable {
                 this.behindView.setTag(67108867, null);
                 this.blurCanvas[i].restore();
                 Utilities.stackBlurBitmap(this.blurredBitmapTmp[i], getBlurRadius());
-                this.emptyPaint.setAlpha(255);
+                this.emptyPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 if (i == 1) {
                     this.renderingBitmap[i].eraseColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 }
@@ -411,7 +414,7 @@ public class BlurBehindDrawable {
                 } else {
                     BlurBehindDrawable.this.backgroundBitmap[i2].eraseColor(0);
                 }
-                BlurBehindDrawable.this.emptyPaint.setAlpha(255);
+                BlurBehindDrawable.this.emptyPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 Utilities.stackBlurBitmap(BlurBehindDrawable.this.blurredBitmapTmp[i2], BlurBehindDrawable.this.getBlurRadius());
                 if (BlurBehindDrawable.this.backgroundBitmapCanvas[i2] != null) {
                     BlurBehindDrawable.this.backgroundBitmapCanvas[i2].drawBitmap(BlurBehindDrawable.this.blurredBitmapTmp[i2], 0.0f, 0.0f, BlurBehindDrawable.this.emptyPaint);

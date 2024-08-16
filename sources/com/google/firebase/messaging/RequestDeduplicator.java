@@ -28,36 +28,40 @@ public class RequestDeduplicator {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: Multi-variable type inference failed */
     public synchronized Task<String> getOrStartGetTokenRequest(final String str, GetTokenRequest getTokenRequest) {
-        Task<String> task = this.getTokenRequests.get(str);
-        if (task != null) {
+        try {
+            Task<String> task = this.getTokenRequests.get(str);
+            if (task != null) {
+                if (Log.isLoggable("FirebaseMessaging", 3)) {
+                    String valueOf = String.valueOf(str);
+                    Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Joining ongoing request for: ".concat(valueOf) : new String("Joining ongoing request for: "));
+                }
+                return task;
+            }
             if (Log.isLoggable("FirebaseMessaging", 3)) {
-                String valueOf = String.valueOf(str);
-                Log.d("FirebaseMessaging", valueOf.length() != 0 ? "Joining ongoing request for: ".concat(valueOf) : new String("Joining ongoing request for: "));
+                String valueOf2 = String.valueOf(str);
+                Log.d("FirebaseMessaging", valueOf2.length() != 0 ? "Making new request for: ".concat(valueOf2) : new String("Making new request for: "));
             }
-            return task;
-        }
-        if (Log.isLoggable("FirebaseMessaging", 3)) {
-            String valueOf2 = String.valueOf(str);
-            Log.d("FirebaseMessaging", valueOf2.length() != 0 ? "Making new request for: ".concat(valueOf2) : new String("Making new request for: "));
-        }
-        Task continueWithTask = getTokenRequest.start().continueWithTask(this.executor, new Continuation(this, str) { // from class: com.google.firebase.messaging.RequestDeduplicator$$Lambda$0
-            private final RequestDeduplicator arg$1;
-            private final String arg$2;
+            Task continueWithTask = getTokenRequest.start().continueWithTask(this.executor, new Continuation(this, str) { // from class: com.google.firebase.messaging.RequestDeduplicator$$Lambda$0
+                private final RequestDeduplicator arg$1;
+                private final String arg$2;
 
-            /* JADX INFO: Access modifiers changed from: package-private */
-            {
-                this.arg$1 = this;
-                this.arg$2 = str;
-            }
+                /* JADX INFO: Access modifiers changed from: package-private */
+                {
+                    this.arg$1 = this;
+                    this.arg$2 = str;
+                }
 
-            @Override // com.google.android.gms.tasks.Continuation
-            public Object then(Task task2) {
-                this.arg$1.lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(this.arg$2, task2);
-                return task2;
-            }
-        });
-        this.getTokenRequests.put(str, continueWithTask);
-        return continueWithTask;
+                @Override // com.google.android.gms.tasks.Continuation
+                public Object then(Task task2) {
+                    this.arg$1.lambda$getOrStartGetTokenRequest$0$RequestDeduplicator(this.arg$2, task2);
+                    return task2;
+                }
+            });
+            this.getTokenRequests.put(str, continueWithTask);
+            return continueWithTask;
+        } catch (Throwable th) {
+            throw th;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

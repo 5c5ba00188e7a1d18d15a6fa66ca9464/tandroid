@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class RadialProgress {
@@ -72,13 +73,16 @@ public class RadialProgress {
         }
         Paint paint = new Paint(1);
         this.progressPaint = paint;
-        paint.setStyle(Paint.Style.STROKE);
-        this.progressPaint.setStrokeCap(Paint.Cap.ROUND);
+        Paint.Style style = Paint.Style.STROKE;
+        paint.setStyle(style);
+        Paint paint2 = this.progressPaint;
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint2.setStrokeCap(cap);
         this.progressPaint.setStrokeWidth(AndroidUtilities.dp(3.0f));
-        Paint paint2 = new Paint(1);
-        this.miniProgressPaint = paint2;
-        paint2.setStyle(Paint.Style.STROKE);
-        this.miniProgressPaint.setStrokeCap(Paint.Cap.ROUND);
+        Paint paint3 = new Paint(1);
+        this.miniProgressPaint = paint3;
+        paint3.setStyle(style);
+        this.miniProgressPaint.setStrokeCap(cap);
         this.miniProgressPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         this.miniProgressBackgroundPaint = new Paint(1);
         this.parent = view;
@@ -270,7 +274,7 @@ public class RadialProgress {
                 if (this.previousMiniDrawable != null && this.currentMiniDrawable == null) {
                     this.miniProgressBackgroundPaint.setAlpha((int) (this.animatedAlphaValue * 255.0f * this.overrideAlpha));
                 } else {
-                    this.miniProgressBackgroundPaint.setAlpha(255);
+                    this.miniProgressBackgroundPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 }
                 canvas.drawCircle(centerX, centerY, AndroidUtilities.dp(12.0f), this.miniProgressBackgroundPaint);
             }
@@ -354,8 +358,8 @@ public class RadialProgress {
             RectF rectF5 = this.cicleRect;
             RectF rectF6 = this.progressRect;
             float f7 = rectF6.left;
-            int i4 = this.diff;
-            rectF5.set(f7 + i4, rectF6.top + i4, rectF6.right - i4, rectF6.bottom - i4);
+            float f8 = this.diff;
+            rectF5.set(f7 + f8, rectF6.top + f8, rectF6.right - f8, rectF6.bottom - f8);
             drawArc(canvas, this.cicleRect, this.radOffset - 90.0f, Math.max(4.0f, this.animatedProgressValue * 360.0f), false, paint2);
             updateAnimation(true);
             return;

@@ -106,7 +106,7 @@ public final class zzhp {
 
     static {
         zzho zzhrVar;
-        if ((zzhn.zza() && zzhn.zzb()) && !zzdl.zza()) {
+        if (zzhn.zza() && zzhn.zzb() && !zzdl.zza()) {
             zzhrVar = new zzht();
         } else {
             zzhrVar = new zzhr();

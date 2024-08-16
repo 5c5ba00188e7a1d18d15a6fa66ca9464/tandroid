@@ -436,13 +436,7 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:14:0x004e, code lost:
-            if (r7 == (r5.this$0.searchResult.size() - 1)) goto L16;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0050, code lost:
-            r7 = true;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:25:0x008a, code lost:
-            if (r7 == (r5.this$0.allLanguages.size() - 1)) goto L16;
+            if (r7 == (r5.this$0.searchResult.size() - 1)) goto L24;
          */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
@@ -469,7 +463,13 @@ public class RestrictedLanguagesSelectActivity extends BaseFragment implements N
                     i--;
                 }
                 if (i >= 0 && i < RestrictedLanguagesSelectActivity.this.allLanguages.size()) {
-                    language = (TranslateController.Language) RestrictedLanguagesSelectActivity.this.allLanguages.get(i);
+                    TranslateController.Language language2 = (TranslateController.Language) RestrictedLanguagesSelectActivity.this.allLanguages.get(i);
+                    if (i == RestrictedLanguagesSelectActivity.this.allLanguages.size() - 1) {
+                        language = language2;
+                        z = true;
+                    } else {
+                        language = language2;
+                    }
                 }
                 z = false;
             }

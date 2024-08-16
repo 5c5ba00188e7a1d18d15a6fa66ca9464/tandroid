@@ -53,7 +53,7 @@ public final class PlaybackParameters implements Bundleable {
     }
 
     public int hashCode() {
-        return ((527 + Float.floatToRawIntBits(this.speed)) * 31) + Float.floatToRawIntBits(this.pitch);
+        return ((Float.floatToRawIntBits(this.speed) + 527) * 31) + Float.floatToRawIntBits(this.pitch);
     }
 
     public String toString() {

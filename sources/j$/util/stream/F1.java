@@ -4,33 +4,33 @@ import j$.util.function.BiConsumer;
 import j$.util.function.Consumer;
 import j$.util.function.Supplier;
 /* loaded from: classes2.dex */
-final class F1 extends P1 implements O1 {
+final class F1 extends O1 implements N1 {
     final /* synthetic */ Supplier b;
     final /* synthetic */ BiConsumer c;
-    final /* synthetic */ j$.util.function.f d;
+    final /* synthetic */ BiConsumer d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public F1(Supplier supplier, BiConsumer biConsumer, j$.util.function.f fVar) {
+    public F1(Supplier supplier, BiConsumer biConsumer, BiConsumer biConsumer2) {
         this.b = supplier;
         this.c = biConsumer;
-        this.d = fVar;
+        this.d = biConsumer2;
     }
 
-    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
+    @Override // j$.util.stream.e2, j$.util.function.n
     public final /* synthetic */ void accept(double d) {
-        u0.i0();
+        t0.b();
         throw null;
     }
 
-    @Override // j$.util.stream.f2
+    @Override // j$.util.stream.e2
     public final /* synthetic */ void accept(int i) {
-        u0.p0();
+        t0.k();
         throw null;
     }
 
-    @Override // j$.util.stream.f2
+    @Override // j$.util.stream.e2
     public final /* synthetic */ void accept(long j) {
-        u0.q0();
+        t0.l();
         throw null;
     }
 
@@ -44,22 +44,22 @@ final class F1 extends P1 implements O1 {
         return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void end() {
+    @Override // j$.util.stream.N1
+    public final void h(N1 n1) {
+        this.d.accept(this.a, ((F1) n1).a);
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.e2
+    public final void n(long j) {
         this.a = this.b.get();
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ boolean h() {
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ boolean q() {
         return false;
-    }
-
-    @Override // j$.util.stream.O1
-    public final void k(O1 o1) {
-        this.a = this.d.apply(this.a, ((F1) o1).a);
     }
 }

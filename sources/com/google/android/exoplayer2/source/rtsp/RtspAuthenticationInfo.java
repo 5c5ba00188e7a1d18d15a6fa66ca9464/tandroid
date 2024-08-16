@@ -48,7 +48,10 @@ public final class RtspAuthenticationInfo {
             sb.append(uri);
             String hexString2 = Util.toHexString(messageDigest.digest(RtspMessageUtil.getStringBytes(sb.toString())));
             String hexString3 = Util.toHexString(messageDigest.digest(RtspMessageUtil.getStringBytes(hexString + ":" + this.nonce + ":" + hexString2)));
-            return this.opaque.isEmpty() ? Util.formatInvariant("Digest username=\"%s\", realm=\"%s\", nonce=\"%s\", uri=\"%s\", response=\"%s\"", rtspAuthUserInfo.username, this.realm, this.nonce, uri, hexString3) : Util.formatInvariant("Digest username=\"%s\", realm=\"%s\", nonce=\"%s\", uri=\"%s\", response=\"%s\", opaque=\"%s\"", rtspAuthUserInfo.username, this.realm, this.nonce, uri, hexString3, this.opaque);
+            if (this.opaque.isEmpty()) {
+                return Util.formatInvariant("Digest username=\"%s\", realm=\"%s\", nonce=\"%s\", uri=\"%s\", response=\"%s\"", rtspAuthUserInfo.username, this.realm, this.nonce, uri, hexString3);
+            }
+            return Util.formatInvariant("Digest username=\"%s\", realm=\"%s\", nonce=\"%s\", uri=\"%s\", response=\"%s\", opaque=\"%s\"", rtspAuthUserInfo.username, this.realm, this.nonce, uri, hexString3, this.opaque);
         } catch (NoSuchAlgorithmException e) {
             throw ParserException.createForManifestWithUnsupportedFeature(null, e);
         }

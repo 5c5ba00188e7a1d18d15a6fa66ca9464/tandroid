@@ -34,14 +34,18 @@ final class zzo implements ServiceConnection, zzs {
         Handler handler;
         hashMap = this.zza.zzb;
         synchronized (hashMap) {
-            handler = this.zza.zzd;
-            handler.removeMessages(1, this.zzf);
-            this.zze = iBinder;
-            this.zzg = componentName;
-            for (ServiceConnection serviceConnection : this.zzb.values()) {
-                serviceConnection.onServiceConnected(componentName, iBinder);
+            try {
+                handler = this.zza.zzd;
+                handler.removeMessages(1, this.zzf);
+                this.zze = iBinder;
+                this.zzg = componentName;
+                for (ServiceConnection serviceConnection : this.zzb.values()) {
+                    serviceConnection.onServiceConnected(componentName, iBinder);
+                }
+                this.zzc = 1;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = 1;
         }
     }
 
@@ -51,14 +55,18 @@ final class zzo implements ServiceConnection, zzs {
         Handler handler;
         hashMap = this.zza.zzb;
         synchronized (hashMap) {
-            handler = this.zza.zzd;
-            handler.removeMessages(1, this.zzf);
-            this.zze = null;
-            this.zzg = componentName;
-            for (ServiceConnection serviceConnection : this.zzb.values()) {
-                serviceConnection.onServiceDisconnected(componentName);
+            try {
+                handler = this.zza.zzd;
+                handler.removeMessages(1, this.zzf);
+                this.zze = null;
+                this.zzg = componentName;
+                for (ServiceConnection serviceConnection : this.zzb.values()) {
+                    serviceConnection.onServiceDisconnected(componentName);
+                }
+                this.zzc = 2;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = 2;
         }
     }
 
@@ -118,8 +126,10 @@ final class zzo implements ServiceConnection, zzs {
                 } catch (IllegalArgumentException unused) {
                 }
             }
-        } finally {
             StrictMode.setVmPolicy(vmPolicy);
+        } catch (Throwable th) {
+            StrictMode.setVmPolicy(vmPolicy);
+            throw th;
         }
     }
 

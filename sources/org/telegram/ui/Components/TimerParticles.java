@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.os.SystemClock;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
 public class TimerParticles {
@@ -116,7 +117,7 @@ public class TimerParticles {
                 particle.x = f3;
                 particle.y = f4;
             }
-            double nextInt = Utilities.random.nextInt(140) - 70;
+            double nextInt = Utilities.random.nextInt(NotificationCenter.filePreparingStarted) - 70;
             Double.isNaN(nextInt);
             double d5 = nextInt * d2;
             if (d5 < 0.0d) {
@@ -127,7 +128,7 @@ public class TimerParticles {
             particle.alpha = 1.0f;
             particle.currentTime = 0.0f;
             if (this.big) {
-                particle.lifeTime = Utilities.random.nextInt(200) + 600;
+                particle.lifeTime = Utilities.random.nextInt(NotificationCenter.storyQualityUpdate) + 600;
                 particle.velocity = (Utilities.random.nextFloat() * 20.0f) + 30.0f;
             } else {
                 particle.lifeTime = Utilities.random.nextInt(100) + 400;

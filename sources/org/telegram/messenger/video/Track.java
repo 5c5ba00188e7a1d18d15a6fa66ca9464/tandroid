@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.video.Track;
 /* loaded from: classes3.dex */
 public class Track {
@@ -79,6 +79,7 @@ public class Track {
     }
 
     public Track(int i, MediaFormat mediaFormat, boolean z) {
+        String str;
         this.syncSamples = null;
         this.volume = 0.0f;
         this.trackId = i;
@@ -169,11 +170,11 @@ public class Track {
                     } else if (integer2 == 8) {
                         avcConfigurationBox.setAvcProfileIndication(100);
                     } else if (integer2 == 16) {
-                        avcConfigurationBox.setAvcProfileIndication(R.styleable.AppCompatTheme_textColorAlertDialogListItem);
+                        avcConfigurationBox.setAvcProfileIndication(110);
                     } else if (integer2 == 32) {
                         avcConfigurationBox.setAvcProfileIndication(122);
                     } else if (integer2 == 64) {
-                        avcConfigurationBox.setAvcProfileIndication(244);
+                        avcConfigurationBox.setAvcProfileIndication(NotificationCenter.proxyCheckDone);
                     }
                 } else {
                     avcConfigurationBox.setAvcProfileIndication(100);
@@ -210,30 +211,30 @@ public class Track {
                     if (i2 == 3 && array[i6] == 1) {
                         if (i5 == -1) {
                             i5 = i6 - 3;
-                        } else if (i3 == -1) {
-                            i3 = i6 - 3;
                         } else if (i4 == -1) {
                             i4 = i6 - 3;
+                        } else if (i3 == -1) {
+                            i3 = i6 - 3;
                         }
                     }
                     i2 = array[i6] == 0 ? i2 + 1 : 0;
                 }
-                byte[] bArr3 = new byte[i3 - 4];
-                byte[] bArr4 = new byte[(i4 - i3) - 4];
-                byte[] bArr5 = new byte[(array.length - i4) - 4];
+                byte[] bArr3 = new byte[i4 - 4];
+                byte[] bArr4 = new byte[(i3 - i4) - 4];
+                byte[] bArr5 = new byte[(array.length - i3) - 4];
                 for (int i7 = 0; i7 < array.length; i7++) {
-                    if (i7 < i3) {
+                    if (i7 < i4) {
                         int i8 = i7 - 4;
                         if (i8 >= 0) {
                             bArr3[i8] = array[i7];
                         }
-                    } else if (i7 < i4) {
-                        int i9 = (i7 - i3) - 4;
+                    } else if (i7 < i3) {
+                        int i9 = (i7 - i4) - 4;
                         if (i9 >= 0) {
                             bArr4[i9] = array[i7];
                         }
                     } else {
-                        int i10 = (i7 - i4) - 4;
+                        int i10 = (i7 - i3) - 4;
                         if (i10 >= 0) {
                             bArr5[i10] = array[i7];
                         }
@@ -267,10 +268,14 @@ public class Track {
         SLConfigDescriptor sLConfigDescriptor = new SLConfigDescriptor();
         sLConfigDescriptor.setPredefined(2);
         eSDescriptor.setSlConfigDescriptor(sLConfigDescriptor);
-        String string2 = mediaFormat.containsKey("mime") ? mediaFormat.getString("mime") : "audio/mp4-latm";
+        if (mediaFormat.containsKey("mime")) {
+            str = mediaFormat.getString("mime");
+        } else {
+            str = "audio/mp4-latm";
+        }
         DecoderConfigDescriptor decoderConfigDescriptor = new DecoderConfigDescriptor();
-        if ("audio/mpeg".equals(string2)) {
-            decoderConfigDescriptor.setObjectTypeIndication(R.styleable.AppCompatTheme_textAppearanceListItemSmall);
+        if ("audio/mpeg".equals(str)) {
+            decoderConfigDescriptor.setObjectTypeIndication(105);
         } else {
             decoderConfigDescriptor.setObjectTypeIndication(64);
         }

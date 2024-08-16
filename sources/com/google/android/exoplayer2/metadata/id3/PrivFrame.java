@@ -45,7 +45,7 @@ public final class PrivFrame extends Id3Frame {
 
     public int hashCode() {
         String str = this.owner;
-        return ((527 + (str != null ? str.hashCode() : 0)) * 31) + Arrays.hashCode(this.privateData);
+        return (((str != null ? str.hashCode() : 0) + 527) * 31) + Arrays.hashCode(this.privateData);
     }
 
     @Override // com.google.android.exoplayer2.metadata.id3.Id3Frame

@@ -168,19 +168,23 @@ public abstract class AppCompatDelegate {
                 return;
             }
             synchronized (sAppLocalesStorageSyncLock) {
-                LocaleListCompat localeListCompat = sRequestedAppLocales;
-                if (localeListCompat == null) {
-                    if (sStoredAppLocales == null) {
-                        sStoredAppLocales = LocaleListCompat.forLanguageTags(AppLocalesStorageHelper.readLocales(context));
+                try {
+                    LocaleListCompat localeListCompat = sRequestedAppLocales;
+                    if (localeListCompat == null) {
+                        if (sStoredAppLocales == null) {
+                            sStoredAppLocales = LocaleListCompat.forLanguageTags(AppLocalesStorageHelper.readLocales(context));
+                        }
+                        if (sStoredAppLocales.isEmpty()) {
+                            return;
+                        }
+                        sRequestedAppLocales = sStoredAppLocales;
+                    } else if (!localeListCompat.equals(sStoredAppLocales)) {
+                        LocaleListCompat localeListCompat2 = sRequestedAppLocales;
+                        sStoredAppLocales = localeListCompat2;
+                        AppLocalesStorageHelper.persistLocales(context, localeListCompat2.toLanguageTags());
                     }
-                    if (sStoredAppLocales.isEmpty()) {
-                        return;
-                    }
-                    sRequestedAppLocales = sStoredAppLocales;
-                } else if (!localeListCompat.equals(sStoredAppLocales)) {
-                    LocaleListCompat localeListCompat2 = sRequestedAppLocales;
-                    sStoredAppLocales = localeListCompat2;
-                    AppLocalesStorageHelper.persistLocales(context, localeListCompat2.toLanguageTags());
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -209,12 +213,16 @@ public abstract class AppCompatDelegate {
 
     private static void removeDelegateFromActives(AppCompatDelegate appCompatDelegate) {
         synchronized (sActivityDelegatesLock) {
-            Iterator<WeakReference<AppCompatDelegate>> it = sActivityDelegates.iterator();
-            while (it.hasNext()) {
-                AppCompatDelegate appCompatDelegate2 = it.next().get();
-                if (appCompatDelegate2 == appCompatDelegate || appCompatDelegate2 == null) {
-                    it.remove();
+            try {
+                Iterator<WeakReference<AppCompatDelegate>> it = sActivityDelegates.iterator();
+                while (it.hasNext()) {
+                    AppCompatDelegate appCompatDelegate2 = it.next().get();
+                    if (appCompatDelegate2 == appCompatDelegate || appCompatDelegate2 == null) {
+                        it.remove();
+                    }
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -224,9 +232,7 @@ public abstract class AppCompatDelegate {
     public static class Api24Impl {
         /* JADX INFO: Access modifiers changed from: package-private */
         public static LocaleList localeListForLanguageTags(String str) {
-            LocaleList forLanguageTags;
-            forLanguageTags = LocaleList.forLanguageTags(str);
-            return forLanguageTags;
+            return LocaleList.forLanguageTags(str);
         }
     }
 

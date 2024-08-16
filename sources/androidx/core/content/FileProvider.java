@@ -129,18 +129,22 @@ public class FileProvider extends ContentProvider {
         PathStrategy pathStrategy;
         HashMap<String, PathStrategy> hashMap = sCache;
         synchronized (hashMap) {
-            pathStrategy = hashMap.get(str);
-            if (pathStrategy == null) {
-                try {
+            try {
+                pathStrategy = hashMap.get(str);
+                if (pathStrategy == null) {
                     try {
-                        pathStrategy = parsePathStrategy(context, str, i);
-                        hashMap.put(str, pathStrategy);
-                    } catch (XmlPullParserException e) {
-                        throw new IllegalArgumentException("Failed to parse android.support.FILE_PROVIDER_PATHS meta-data", e);
+                        try {
+                            pathStrategy = parsePathStrategy(context, str, i);
+                            hashMap.put(str, pathStrategy);
+                        } catch (IOException e) {
+                            throw new IllegalArgumentException("Failed to parse android.support.FILE_PROVIDER_PATHS meta-data", e);
+                        }
+                    } catch (XmlPullParserException e2) {
+                        throw new IllegalArgumentException("Failed to parse android.support.FILE_PROVIDER_PATHS meta-data", e2);
                     }
-                } catch (IOException e2) {
-                    throw new IllegalArgumentException("Failed to parse android.support.FILE_PROVIDER_PATHS meta-data", e2);
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return pathStrategy;
@@ -321,9 +325,7 @@ public class FileProvider extends ContentProvider {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static File[] getExternalMediaDirs(Context context) {
-            File[] externalMediaDirs;
-            externalMediaDirs = context.getExternalMediaDirs();
-            return externalMediaDirs;
+            return context.getExternalMediaDirs();
         }
     }
 }

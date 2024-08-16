@@ -1,42 +1,42 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public abstract class O0 extends F0 implements C0 {
+public final class O0 extends P0 implements D0 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public O0(C0 c0, C0 c02) {
-        super(c0, c02);
+    public O0(D0 d0, D0 d02) {
+        super(d0, d02);
     }
 
-    @Override // j$.util.stream.C0
-    public final Object b() {
-        long count = count();
-        if (count < 2147483639) {
-            Object newArray = newArray((int) count);
-            c(newArray, 0);
-            return newArray;
-        }
-        throw new IllegalArgumentException("Stream size exceeds max array size");
+    @Override // j$.util.stream.F0
+    /* renamed from: b */
+    public final /* synthetic */ void i(Long[] lArr, int i) {
+        t0.p(this, lArr, i);
     }
 
-    @Override // j$.util.stream.C0
-    public final void c(Object obj, int i) {
-        D0 d0 = this.a;
-        ((C0) d0).c(obj, i);
-        ((C0) this.b).c(obj, i + ((int) ((C0) d0).count()));
+    @Override // j$.util.stream.E0
+    public final Object c(int i) {
+        return new long[i];
     }
 
-    @Override // j$.util.stream.C0
-    public final void d(Object obj) {
-        ((C0) this.a).d(obj);
-        ((C0) this.b).d(obj);
+    @Override // j$.util.stream.F0
+    public final /* synthetic */ void forEach(Consumer consumer) {
+        t0.s(this, consumer);
     }
 
-    @Override // j$.util.stream.D0
-    public final /* synthetic */ Object[] o(j$.util.function.N n) {
-        return u0.r0(this, n);
+    @Override // j$.util.stream.F0
+    public final j$.util.N spliterator() {
+        return new f1(this);
     }
 
-    public final String toString() {
-        return count() < 32 ? String.format("%s[%s.%s]", getClass().getName(), this.a, this.b) : String.format("%s[size=%d]", getClass().getName(), Long.valueOf(count()));
+    @Override // j$.util.stream.F0
+    public final j$.util.Q spliterator() {
+        return new f1(this);
+    }
+
+    @Override // j$.util.stream.F0
+    public final /* synthetic */ F0 t(long j, long j2, j$.util.function.I i) {
+        return t0.v(this, j, j2);
     }
 }

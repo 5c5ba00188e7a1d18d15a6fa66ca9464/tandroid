@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.RandomAccess;
 import org.telegram.messenger.CharacterCompat;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -334,10 +334,10 @@ public final class zzdi<T> implements zzdp<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:123:0x024e  */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x0251  */
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0269  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x026c  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:125:0x0255  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x026b  */
+    /* JADX WARN: Removed duplicated region for block: B:129:0x026e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -650,7 +650,7 @@ public final class zzdi<T> implements zzdp<T> {
                     iArr[i63] = i64;
                     i63++;
                 }
-                int i73 = charAt25 & 255;
+                int i73 = charAt25 & NotificationCenter.voipServiceCreated;
                 if (i73 >= 51) {
                     int i74 = i16 + 1;
                     int charAt26 = zzd.charAt(i16);
@@ -704,11 +704,13 @@ public final class zzdi<T> implements zzdp<T> {
                             zzF3 = zzF(cls2, (String) obj2);
                             zze[i83] = zzF3;
                         }
-                        i19 = i82;
-                        i20 = (int) unsafe.objectFieldOffset(zzF3);
-                        i22 = i78;
-                        i23 = 0;
+                        int objectFieldOffset = (int) unsafe.objectFieldOffset(zzF3);
                         str = zzd;
+                        i19 = i82;
+                        i21 = i2;
+                        i22 = i78;
+                        i20 = objectFieldOffset;
+                        i23 = 0;
                     }
                     i2 = i26;
                     int i812 = charAt26 + charAt26;
@@ -722,11 +724,13 @@ public final class zzdi<T> implements zzdp<T> {
                     obj2 = zze[i832];
                     if (!(obj2 instanceof Field)) {
                     }
-                    i19 = i822;
-                    i20 = (int) unsafe.objectFieldOffset(zzF3);
-                    i22 = i78;
-                    i23 = 0;
+                    int objectFieldOffset2 = (int) unsafe.objectFieldOffset(zzF3);
                     str = zzd;
+                    i19 = i822;
+                    i21 = i2;
+                    i22 = i78;
+                    i20 = objectFieldOffset2;
+                    i23 = 0;
                 } else {
                     i17 = length;
                     int i84 = i3;
@@ -741,13 +745,13 @@ public final class zzdi<T> implements zzdp<T> {
                         if (i73 == 27 || i73 == 49) {
                             i19 = i84;
                             int i87 = i64 / 3;
-                            i25 = i85 + 1;
+                            i25 = i2 + 2;
                             objArr[i87 + i87 + 1] = zze[i85];
                         } else if (i73 == 12 || i73 == 30 || i73 == 44) {
                             i19 = i84;
                             if (zzdoVar.zzc() == 1 || (charAt25 & 2048) != 0) {
                                 int i88 = i64 / 3;
-                                i25 = i85 + 1;
+                                i25 = i2 + 2;
                                 objArr[i88 + i88 + 1] = zze[i85];
                             }
                         } else {
@@ -755,11 +759,11 @@ public final class zzdi<T> implements zzdp<T> {
                                 int i89 = i61 + 1;
                                 iArr[i61] = i64;
                                 int i90 = i64 / 3;
-                                int i91 = i85 + 1;
+                                int i91 = i2 + 2;
                                 int i92 = i90 + i90;
                                 objArr[i92] = zze[i85];
                                 if ((charAt25 & 2048) != 0) {
-                                    i85 = i91 + 1;
+                                    i85 = i2 + 3;
                                     objArr[i92 + 1] = zze[i91];
                                     i19 = i84;
                                     i61 = i89;
@@ -772,7 +776,7 @@ public final class zzdi<T> implements zzdp<T> {
                         }
                         i85 = i25;
                     }
-                    int objectFieldOffset = (int) unsafe.objectFieldOffset(zzF4);
+                    int objectFieldOffset3 = (int) unsafe.objectFieldOffset(zzF4);
                     i20 = 1048575;
                     if ((charAt25 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 || i73 > 17) {
                         str = zzd;
@@ -813,18 +817,18 @@ public final class zzdi<T> implements zzdp<T> {
                         i20 = (int) unsafe.objectFieldOffset(zzF);
                     }
                     if (i73 >= 18 && i73 <= 49) {
-                        iArr[i62] = objectFieldOffset;
+                        iArr[i62] = objectFieldOffset3;
                         i62++;
                     }
-                    i2 = i21;
-                    i24 = objectFieldOffset;
+                    i24 = objectFieldOffset3;
                 }
                 int i97 = i64 + 1;
                 iArr2[i64] = charAt24;
-                int i98 = i97 + 1;
-                iArr2[i97] = i24 | ((charAt25 & LiteMode.FLAG_CHAT_BLUR) != 0 ? 268435456 : 0) | ((charAt25 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i73 << 20);
-                i64 = i98 + 1;
+                int i98 = i64 + 2;
+                iArr2[i97] = i24 | ((charAt25 & 256) != 0 ? 268435456 : 0) | ((charAt25 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0 ? 536870912 : 0) | (i73 << 20);
+                i64 += 3;
                 iArr2[i98] = (i23 << 20) | i20;
+                i2 = i21;
                 i32 = i22;
                 length = i17;
                 i3 = i19;
@@ -1115,7 +1119,7 @@ public final class zzdi<T> implements zzdp<T> {
                     zzt = zzdr.zzc(i8, (List) unsafe.getObject(obj, j), false);
                     i5 += zzt;
                     break;
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                case 31:
                     zzt = zzdr.zze(i8, (List) unsafe.getObject(obj, j), false);
                     i5 += zzt;
                     break;
@@ -1123,15 +1127,15 @@ public final class zzdi<T> implements zzdp<T> {
                     zzt = zzdr.zzg(i8, (List) unsafe.getObject(obj, j), false);
                     i5 += zzt;
                     break;
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case 33:
                     zzt = zzdr.zzp(i8, (List) unsafe.getObject(obj, j), false);
                     i5 += zzt;
                     break;
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case 34:
                     zzt = zzdr.zzr(i8, (List) unsafe.getObject(obj, j), false);
                     i5 += zzt;
                     break;
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                case 35:
                     zzh = zzdr.zzh((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1140,7 +1144,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                case 36:
                     zzh = zzdr.zzf((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1149,7 +1153,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case 37:
                     zzh = zzdr.zzm((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1158,7 +1162,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case 38:
                     zzh = zzdr.zzx((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1167,7 +1171,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case 39:
                     zzh = zzdr.zzk((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1176,7 +1180,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                case 40:
                     zzh = zzdr.zzh((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1185,7 +1189,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                case 41:
                     zzh = zzdr.zzf((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1194,7 +1198,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case 42:
                     int i15 = zzdr.$r8$clinit;
                     zzh = ((List) unsafe.getObject(obj, j)).size();
                     if (zzh > 0) {
@@ -1204,7 +1208,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                case 43:
                     zzh = zzdr.zzv((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1213,7 +1217,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                case 44:
                     zzh = zzdr.zzd((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1222,7 +1226,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                case 45:
                     zzh = zzdr.zzf((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1231,7 +1235,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                case 46:
                     zzh = zzdr.zzh((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1240,7 +1244,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                case 47:
                     zzh = zzdr.zzq((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1249,7 +1253,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                case 48:
                     zzh = zzdr.zzs((List) unsafe.getObject(obj, j));
                     if (zzh > 0) {
                         zzx7 = zzbi.zzx(zzh);
@@ -1258,69 +1262,69 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case 49:
                     zzt = zzdr.zzi(i8, (List) unsafe.getObject(obj, j), zzB(i4));
                     i5 += zzt;
                     break;
-                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                case 50:
                     zzda.zza(i8, unsafe.getObject(obj, j), zzC(i4));
                     break;
-                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                case 51:
                     if (zzT(obj, i8, i4)) {
                         zzx9 = zzbi.zzx(i8 << 3);
                         zzt = zzx9 + 8;
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                case 52:
                     if (zzT(obj, i8, i4)) {
                         zzx10 = zzbi.zzx(i8 << 3);
                         zzt = zzx10 + 4;
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                case 53:
                     if (zzT(obj, i8, i4)) {
                         zzh = zzbi.zzy(zzz(obj, j));
                         i2 = zzbi.zzx(i8 << 3);
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                case 54:
                     if (zzT(obj, i8, i4)) {
                         zzh = zzbi.zzy(zzz(obj, j));
                         i2 = zzbi.zzx(i8 << 3);
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                case 55:
                     if (zzT(obj, i8, i4)) {
                         zzh = zzbi.zzu(zzp(obj, j));
                         i2 = zzbi.zzx(i8 << 3);
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                case 56:
                     if (zzT(obj, i8, i4)) {
                         zzx9 = zzbi.zzx(i8 << 3);
                         zzt = zzx9 + 8;
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                case 57:
                     if (zzT(obj, i8, i4)) {
                         zzx10 = zzbi.zzx(i8 << 3);
                         zzt = zzx10 + 4;
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                case 58:
                     if (zzT(obj, i8, i4)) {
                         zzt = zzbi.zzx(i8 << 3) + 1;
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                case 59:
                     if (zzT(obj, i8, i4)) {
                         Object object2 = unsafe.getObject(obj, j);
                         if (object2 instanceof zzba) {
@@ -1337,13 +1341,13 @@ public final class zzdi<T> implements zzdp<T> {
                         }
                     }
                     break;
-                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                case 60:
                     if (zzT(obj, i8, i4)) {
                         zzt = zzdr.zzn(i8, unsafe.getObject(obj, j), zzB(i4));
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                case 61:
                     if (zzT(obj, i8, i4)) {
                         int i17 = zzbi.$r8$clinit;
                         int zzd4 = ((zzba) unsafe.getObject(obj, j)).zzd();
@@ -1353,14 +1357,14 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                case 62:
                     if (zzT(obj, i8, i4)) {
                         zzh = zzbi.zzx(zzp(obj, j));
                         i2 = zzbi.zzx(i8 << 3);
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                case 63:
                     if (zzT(obj, i8, i4)) {
                         zzh = zzbi.zzu(zzp(obj, j));
                         i2 = zzbi.zzx(i8 << 3);
@@ -1381,7 +1385,7 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += zzt;
                     }
                     break;
-                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                case 66:
                     if (zzT(obj, i8, i4)) {
                         int zzp = zzp(obj, j);
                         i2 = zzbi.zzx(i8 << 3);
@@ -1389,13 +1393,13 @@ public final class zzdi<T> implements zzdp<T> {
                         i5 += i2 + zzh;
                     }
                     break;
-                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                case 67:
                     if (zzT(obj, i8, i4)) {
                         long zzz = zzz(obj, j);
                         i5 += zzbi.zzx(i8 << 3) + zzbi.zzy((zzz >> 63) ^ (zzz + zzz));
                     }
                     break;
-                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                case 68:
                     if (zzT(obj, i8, i4)) {
                         zzt = zzbi.zzt(i8, (zzdf) unsafe.getObject(obj, j), zzB(i4));
                         i5 += zzt;
@@ -1435,7 +1439,7 @@ public final class zzdi<T> implements zzdp<T> {
         Unsafe unsafe = zzb;
         long j2 = this.zzc[i8 + 2] & 1048575;
         switch (i7) {
-            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+            case 51:
                 if (i5 == 1) {
                     unsafe.putObject(obj, j, Double.valueOf(Double.longBitsToDouble(zzao.zzp(bArr, i))));
                     int i9 = i + 8;
@@ -1443,7 +1447,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return i9;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+            case 52:
                 if (i5 == 5) {
                     unsafe.putObject(obj, j, Float.valueOf(Float.intBitsToFloat(zzao.zzb(bArr, i))));
                     int i10 = i + 4;
@@ -1451,8 +1455,8 @@ public final class zzdi<T> implements zzdp<T> {
                     return i10;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+            case 53:
+            case 54:
                 if (i5 == 0) {
                     int zzm = zzao.zzm(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, Long.valueOf(zzanVar.zzb));
@@ -1460,8 +1464,8 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzm;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+            case 55:
+            case 62:
                 if (i5 == 0) {
                     int zzj = zzao.zzj(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, Integer.valueOf(zzanVar.zza));
@@ -1469,7 +1473,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzj;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorError /* 56 */:
+            case 56:
             case 65:
                 if (i5 == 1) {
                     unsafe.putObject(obj, j, Long.valueOf(zzao.zzp(bArr, i)));
@@ -1478,7 +1482,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return i11;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+            case 57:
             case 64:
                 if (i5 == 5) {
                     unsafe.putObject(obj, j, Integer.valueOf(zzao.zzb(bArr, i)));
@@ -1487,7 +1491,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return i12;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+            case 58:
                 if (i5 == 0) {
                     int zzm2 = zzao.zzm(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, Boolean.valueOf(zzanVar.zzb != 0));
@@ -1495,7 +1499,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzm2;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+            case 59:
                 if (i5 == 2) {
                     int zzj2 = zzao.zzj(bArr, i, zzanVar);
                     int i13 = zzanVar.zza;
@@ -1511,7 +1515,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzj2;
                 }
                 break;
-            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+            case 60:
                 if (i5 == 2) {
                     Object zzE = zzE(obj, i4, i8);
                     int zzo = zzao.zzo(zzE, zzB(i8), bArr, i, i2, zzanVar);
@@ -1519,7 +1523,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzo;
                 }
                 break;
-            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+            case 61:
                 if (i5 == 2) {
                     int zza2 = zzao.zza(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, zzanVar.zzc);
@@ -1527,7 +1531,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zza2;
                 }
                 break;
-            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+            case 63:
                 if (i5 == 0) {
                     int zzj3 = zzao.zzj(bArr, i, zzanVar);
                     int i14 = zzanVar.zza;
@@ -1541,7 +1545,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzj3;
                 }
                 break;
-            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+            case 66:
                 if (i5 == 0) {
                     int zzj4 = zzao.zzj(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, Integer.valueOf(zzbe.zzb(zzanVar.zza)));
@@ -1549,7 +1553,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzj4;
                 }
                 break;
-            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+            case 67:
                 if (i5 == 0) {
                     int zzm3 = zzao.zzm(bArr, i, zzanVar);
                     unsafe.putObject(obj, j, Long.valueOf(zzbe.zzc(zzanVar.zzb)));
@@ -1557,7 +1561,7 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzm3;
                 }
                 break;
-            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+            case 68:
                 if (i5 == 3) {
                     Object zzE2 = zzE(obj, i4, i8);
                     int zzn = zzao.zzn(zzE2, zzB(i8), bArr, i, i2, (i3 & (-8)) | 4, zzanVar);
@@ -1569,12 +1573,12 @@ public final class zzdi<T> implements zzdp<T> {
         return i;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:115:0x0219  */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x019e  */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:113:0x0216 -> B:114:0x0217). Please submit an issue!!! */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:133:0x0264 -> B:134:0x0265). Please submit an issue!!! */
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:81:0x019b -> B:82:0x019c). Please submit an issue!!! */
+    /* JADX WARN: Removed duplicated region for block: B:121:0x0233  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x0284  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01b8  */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:119:0x0230 -> B:120:0x0231). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:140:0x0281 -> B:141:0x0282). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:87:0x01b5 -> B:88:0x01b6). Please submit an issue!!! */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1583,9 +1587,8 @@ public final class zzdi<T> implements zzdp<T> {
         int i9;
         int i10;
         int i11;
-        int i12;
         int zzl;
-        int i13 = i;
+        int i12 = i;
         Unsafe unsafe = zzb;
         zzcf zzcfVar = (zzcf) unsafe.getObject(obj, j2);
         if (!zzcfVar.zzc()) {
@@ -1595,16 +1598,16 @@ public final class zzdi<T> implements zzdp<T> {
         }
         switch (i7) {
             case 18:
-            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+            case 35:
                 if (i5 == 2) {
                     zzbk zzbkVar = (zzbk) zzcfVar;
-                    int zzj = zzao.zzj(bArr, i13, zzanVar);
-                    int i14 = zzanVar.zza + zzj;
-                    while (zzj < i14) {
+                    int zzj = zzao.zzj(bArr, i12, zzanVar);
+                    int i13 = zzanVar.zza + zzj;
+                    while (zzj < i13) {
                         zzbkVar.zze(Double.longBitsToDouble(zzao.zzp(bArr, zzj)));
                         zzj += 8;
                     }
-                    if (zzj == i14) {
+                    if (zzj == i13) {
                         return zzj;
                     }
                     throw zzci.zzg();
@@ -1612,22 +1615,23 @@ public final class zzdi<T> implements zzdp<T> {
                     zzbk zzbkVar2 = (zzbk) zzcfVar;
                     zzbkVar2.zze(Double.longBitsToDouble(zzao.zzp(bArr, i)));
                     while (true) {
-                        i8 = i13 + 8;
-                        if (i8 < i2) {
-                            i13 = zzao.zzj(bArr, i8, zzanVar);
-                            if (i3 == zzanVar.zza) {
-                                zzbkVar2.zze(Double.longBitsToDouble(zzao.zzp(bArr, i13)));
-                            }
+                        int i14 = i12 + 8;
+                        if (i14 >= i2) {
+                            return i14;
                         }
+                        i12 = zzao.zzj(bArr, i14, zzanVar);
+                        if (i3 != zzanVar.zza) {
+                            return i14;
+                        }
+                        zzbkVar2.zze(Double.longBitsToDouble(zzao.zzp(bArr, i12)));
                     }
-                    return i8;
                 }
                 break;
             case 19:
-            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+            case 36:
                 if (i5 == 2) {
                     zzbu zzbuVar = (zzbu) zzcfVar;
-                    int zzj2 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj2 = zzao.zzj(bArr, i12, zzanVar);
                     int i15 = zzanVar.zza + zzj2;
                     while (zzj2 < i15) {
                         zzbuVar.zze(Float.intBitsToFloat(zzao.zzb(bArr, zzj2)));
@@ -1641,24 +1645,24 @@ public final class zzdi<T> implements zzdp<T> {
                     zzbu zzbuVar2 = (zzbu) zzcfVar;
                     zzbuVar2.zze(Float.intBitsToFloat(zzao.zzb(bArr, i)));
                     while (true) {
-                        i9 = i13 + 4;
-                        if (i9 < i2) {
-                            i13 = zzao.zzj(bArr, i9, zzanVar);
+                        i8 = i12 + 4;
+                        if (i8 < i2) {
+                            i12 = zzao.zzj(bArr, i8, zzanVar);
                             if (i3 == zzanVar.zza) {
-                                zzbuVar2.zze(Float.intBitsToFloat(zzao.zzb(bArr, i13)));
+                                zzbuVar2.zze(Float.intBitsToFloat(zzao.zzb(bArr, i12)));
                             }
                         }
                     }
-                    return i9;
+                    return i8;
                 }
                 break;
             case 20:
             case 21:
-            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+            case 37:
+            case 38:
                 if (i5 == 2) {
                     zzcu zzcuVar = (zzcu) zzcfVar;
-                    int zzj3 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj3 = zzao.zzj(bArr, i12, zzanVar);
                     int i16 = zzanVar.zza + zzj3;
                     while (zzj3 < i16) {
                         zzj3 = zzao.zzm(bArr, zzj3, zzanVar);
@@ -1670,7 +1674,7 @@ public final class zzdi<T> implements zzdp<T> {
                     throw zzci.zzg();
                 } else if (i5 == 0) {
                     zzcu zzcuVar2 = (zzcu) zzcfVar;
-                    int zzm = zzao.zzm(bArr, i13, zzanVar);
+                    int zzm = zzao.zzm(bArr, i12, zzanVar);
                     zzcuVar2.zzf(zzanVar.zzb);
                     while (zzm < i2) {
                         int zzj4 = zzao.zzj(bArr, zzm, zzanVar);
@@ -1685,10 +1689,10 @@ public final class zzdi<T> implements zzdp<T> {
                 break;
             case 22:
             case 29:
-            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+            case 39:
+            case 43:
                 if (i5 == 2) {
-                    return zzao.zzf(bArr, i13, zzcfVar, zzanVar);
+                    return zzao.zzf(bArr, i12, zzcfVar, zzanVar);
                 }
                 if (i5 == 0) {
                     return zzao.zzl(i3, bArr, i, i2, zzcfVar, zzanVar);
@@ -1696,11 +1700,11 @@ public final class zzdi<T> implements zzdp<T> {
                 break;
             case 23:
             case 32:
-            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+            case 40:
+            case 46:
                 if (i5 == 2) {
                     zzcu zzcuVar3 = (zzcu) zzcfVar;
-                    int zzj5 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj5 = zzao.zzj(bArr, i12, zzanVar);
                     int i17 = zzanVar.zza + zzj5;
                     while (zzj5 < i17) {
                         zzcuVar3.zzf(zzao.zzp(bArr, zzj5));
@@ -1714,24 +1718,24 @@ public final class zzdi<T> implements zzdp<T> {
                     zzcu zzcuVar4 = (zzcu) zzcfVar;
                     zzcuVar4.zzf(zzao.zzp(bArr, i));
                     while (true) {
-                        i10 = i13 + 8;
-                        if (i10 < i2) {
-                            i13 = zzao.zzj(bArr, i10, zzanVar);
+                        i9 = i12 + 8;
+                        if (i9 < i2) {
+                            i12 = zzao.zzj(bArr, i9, zzanVar);
                             if (i3 == zzanVar.zza) {
-                                zzcuVar4.zzf(zzao.zzp(bArr, i13));
+                                zzcuVar4.zzf(zzao.zzp(bArr, i12));
                             }
                         }
                     }
-                    return i10;
+                    return i9;
                 }
                 break;
             case 24:
-            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
-            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+            case 31:
+            case 41:
+            case 45:
                 if (i5 == 2) {
                     zzcc zzccVar = (zzcc) zzcfVar;
-                    int zzj6 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj6 = zzao.zzj(bArr, i12, zzanVar);
                     int i18 = zzanVar.zza + zzj6;
                     while (zzj6 < i18) {
                         zzccVar.zzf(zzao.zzb(bArr, zzj6));
@@ -1745,22 +1749,22 @@ public final class zzdi<T> implements zzdp<T> {
                     zzcc zzccVar2 = (zzcc) zzcfVar;
                     zzccVar2.zzf(zzao.zzb(bArr, i));
                     while (true) {
-                        i11 = i13 + 4;
-                        if (i11 < i2) {
-                            i13 = zzao.zzj(bArr, i11, zzanVar);
+                        i10 = i12 + 4;
+                        if (i10 < i2) {
+                            i12 = zzao.zzj(bArr, i10, zzanVar);
                             if (i3 == zzanVar.zza) {
-                                zzccVar2.zzf(zzao.zzb(bArr, i13));
+                                zzccVar2.zzf(zzao.zzb(bArr, i12));
                             }
                         }
                     }
-                    return i11;
+                    return i10;
                 }
                 break;
             case 25:
-            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+            case 42:
                 if (i5 == 2) {
                     zzap zzapVar = (zzap) zzcfVar;
-                    int zzj7 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj7 = zzao.zzj(bArr, i12, zzanVar);
                     int i19 = zzanVar.zza + zzj7;
                     while (zzj7 < i19) {
                         zzj7 = zzao.zzm(bArr, zzj7, zzanVar);
@@ -1772,7 +1776,7 @@ public final class zzdi<T> implements zzdp<T> {
                     throw zzci.zzg();
                 } else if (i5 == 0) {
                     zzap zzapVar2 = (zzap) zzcfVar;
-                    int zzm2 = zzao.zzm(bArr, i13, zzanVar);
+                    int zzm2 = zzao.zzm(bArr, i12, zzanVar);
                     zzapVar2.zze(zzanVar.zzb != 0);
                     while (zzm2 < i2) {
                         int zzj8 = zzao.zzj(bArr, zzm2, zzanVar);
@@ -1788,19 +1792,19 @@ public final class zzdi<T> implements zzdp<T> {
             case 26:
                 if (i5 == 2) {
                     if ((j & 536870912) != 0) {
-                        i13 = zzao.zzj(bArr, i13, zzanVar);
+                        i12 = zzao.zzj(bArr, i12, zzanVar);
                         int i20 = zzanVar.zza;
                         if (i20 < 0) {
                             throw zzci.zzd();
                         }
                         if (i20 == 0) {
                             zzcfVar.add("");
-                            while (i13 < i2) {
-                                int zzj9 = zzao.zzj(bArr, i13, zzanVar);
+                            while (i12 < i2) {
+                                int zzj9 = zzao.zzj(bArr, i12, zzanVar);
                                 if (i3 != zzanVar.zza) {
                                     break;
                                 } else {
-                                    i13 = zzao.zzj(bArr, zzj9, zzanVar);
+                                    i12 = zzao.zzj(bArr, zzj9, zzanVar);
                                     int i21 = zzanVar.zza;
                                     if (i21 < 0) {
                                         throw zzci.zzd();
@@ -1808,11 +1812,11 @@ public final class zzdi<T> implements zzdp<T> {
                                     if (i21 == 0) {
                                         zzcfVar.add("");
                                     } else {
-                                        i12 = i13 + i21;
-                                        if (zzev.zze(bArr, i13, i12)) {
-                                            zzcfVar.add(new String(bArr, i13, i21, zzcg.zzb));
-                                            i13 = i12;
-                                            while (i13 < i2) {
+                                        i11 = i12 + i21;
+                                        if (zzev.zze(bArr, i12, i11)) {
+                                            zzcfVar.add(new String(bArr, i12, i21, zzcg.zzb));
+                                            i12 = i11;
+                                            while (i12 < i2) {
                                             }
                                         } else {
                                             throw zzci.zzc();
@@ -1822,29 +1826,29 @@ public final class zzdi<T> implements zzdp<T> {
                             }
                             break;
                         } else {
-                            i12 = i13 + i20;
-                            if (!zzev.zze(bArr, i13, i12)) {
+                            i11 = i12 + i20;
+                            if (!zzev.zze(bArr, i12, i11)) {
                                 throw zzci.zzc();
                             }
-                            zzcfVar.add(new String(bArr, i13, i20, zzcg.zzb));
-                            i13 = i12;
-                            while (i13 < i2) {
+                            zzcfVar.add(new String(bArr, i12, i20, zzcg.zzb));
+                            i12 = i11;
+                            while (i12 < i2) {
                             }
                         }
                     } else {
-                        i13 = zzao.zzj(bArr, i13, zzanVar);
+                        i12 = zzao.zzj(bArr, i12, zzanVar);
                         int i22 = zzanVar.zza;
                         if (i22 < 0) {
                             throw zzci.zzd();
                         }
                         if (i22 == 0) {
                             zzcfVar.add("");
-                            while (i13 < i2) {
-                                int zzj10 = zzao.zzj(bArr, i13, zzanVar);
+                            while (i12 < i2) {
+                                int zzj10 = zzao.zzj(bArr, i12, zzanVar);
                                 if (i3 != zzanVar.zza) {
                                     break;
                                 } else {
-                                    i13 = zzao.zzj(bArr, zzj10, zzanVar);
+                                    i12 = zzao.zzj(bArr, zzj10, zzanVar);
                                     i22 = zzanVar.zza;
                                     if (i22 < 0) {
                                         throw zzci.zzd();
@@ -1852,18 +1856,18 @@ public final class zzdi<T> implements zzdp<T> {
                                     if (i22 == 0) {
                                         zzcfVar.add("");
                                     } else {
-                                        zzcfVar.add(new String(bArr, i13, i22, zzcg.zzb));
-                                        i13 += i22;
-                                        while (i13 < i2) {
+                                        zzcfVar.add(new String(bArr, i12, i22, zzcg.zzb));
+                                        i12 += i22;
+                                        while (i12 < i2) {
                                         }
                                     }
                                 }
                             }
                             break;
                         } else {
-                            zzcfVar.add(new String(bArr, i13, i22, zzcg.zzb));
-                            i13 += i22;
-                            while (i13 < i2) {
+                            zzcfVar.add(new String(bArr, i12, i22, zzcg.zzb));
+                            i12 += i22;
+                            while (i12 < i2) {
                             }
                         }
                     }
@@ -1876,7 +1880,7 @@ public final class zzdi<T> implements zzdp<T> {
                 break;
             case 28:
                 if (i5 == 2) {
-                    int zzj11 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj11 = zzao.zzj(bArr, i12, zzanVar);
                     int i23 = zzanVar.zza;
                     if (i23 < 0) {
                         throw zzci.zzd();
@@ -1919,9 +1923,9 @@ public final class zzdi<T> implements zzdp<T> {
                 }
                 break;
             case 30:
-            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+            case 44:
                 if (i5 == 2) {
-                    zzl = zzao.zzf(bArr, i13, zzcfVar, zzanVar);
+                    zzl = zzao.zzf(bArr, i12, zzcfVar, zzanVar);
                 } else if (i5 == 0) {
                     zzl = zzao.zzl(i3, bArr, i, i2, zzcfVar, zzanVar);
                 }
@@ -1934,10 +1938,11 @@ public final class zzdi<T> implements zzdp<T> {
                         int size2 = zzcfVar.size();
                         int i25 = 0;
                         for (int i26 = 0; i26 < size2; i26++) {
-                            int intValue = ((Integer) zzcfVar.get(i26)).intValue();
+                            Integer num = (Integer) zzcfVar.get(i26);
+                            int intValue = num.intValue();
                             if (zzA.zza(intValue)) {
                                 if (i26 != i25) {
-                                    zzcfVar.set(i25, Integer.valueOf(intValue));
+                                    zzcfVar.set(i25, num);
                                 }
                                 i25++;
                             } else {
@@ -1960,11 +1965,11 @@ public final class zzdi<T> implements zzdp<T> {
                     }
                 }
                 return zzl;
-            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+            case 33:
+            case 47:
                 if (i5 == 2) {
                     zzcc zzccVar3 = (zzcc) zzcfVar;
-                    int zzj13 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj13 = zzao.zzj(bArr, i12, zzanVar);
                     int i27 = zzanVar.zza + zzj13;
                     while (zzj13 < i27) {
                         zzj13 = zzao.zzj(bArr, zzj13, zzanVar);
@@ -1976,7 +1981,7 @@ public final class zzdi<T> implements zzdp<T> {
                     throw zzci.zzg();
                 } else if (i5 == 0) {
                     zzcc zzccVar4 = (zzcc) zzcfVar;
-                    int zzj14 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj14 = zzao.zzj(bArr, i12, zzanVar);
                     zzccVar4.zzf(zzbe.zzb(zzanVar.zza));
                     while (zzj14 < i2) {
                         int zzj15 = zzao.zzj(bArr, zzj14, zzanVar);
@@ -1989,11 +1994,11 @@ public final class zzdi<T> implements zzdp<T> {
                     return zzj14;
                 }
                 break;
-            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+            case 34:
+            case 48:
                 if (i5 == 2) {
                     zzcu zzcuVar5 = (zzcu) zzcfVar;
-                    int zzj16 = zzao.zzj(bArr, i13, zzanVar);
+                    int zzj16 = zzao.zzj(bArr, i12, zzanVar);
                     int i28 = zzanVar.zza + zzj16;
                     while (zzj16 < i28) {
                         zzj16 = zzao.zzm(bArr, zzj16, zzanVar);
@@ -2005,7 +2010,7 @@ public final class zzdi<T> implements zzdp<T> {
                     throw zzci.zzg();
                 } else if (i5 == 0) {
                     zzcu zzcuVar6 = (zzcu) zzcfVar;
-                    int zzm3 = zzao.zzm(bArr, i13, zzanVar);
+                    int zzm3 = zzao.zzm(bArr, i12, zzanVar);
                     zzcuVar6.zzf(zzbe.zzc(zzanVar.zzb));
                     while (zzm3 < i2) {
                         int zzj17 = zzao.zzj(bArr, zzm3, zzanVar);
@@ -2036,7 +2041,7 @@ public final class zzdi<T> implements zzdp<T> {
                 }
                 break;
         }
-        return i13;
+        return i12;
     }
 
     private final int zzt(int i) {
@@ -2076,7 +2081,7 @@ public final class zzdi<T> implements zzdp<T> {
     }
 
     private static int zzx(int i) {
-        return (i >>> 20) & 255;
+        return (i >>> 20) & NotificationCenter.voipServiceCreated;
     }
 
     private final int zzy(int i) {
@@ -2346,7 +2351,7 @@ public final class zzdi<T> implements zzdp<T> {
                         zzn = zzdr.zzc(i3, (List) zzeq.zzf(obj, j), false);
                         i += zzn;
                         break;
-                    case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                    case 31:
                         zzn = zzdr.zze(i3, (List) zzeq.zzf(obj, j), false);
                         i += zzn;
                         break;
@@ -2354,15 +2359,15 @@ public final class zzdi<T> implements zzdp<T> {
                         zzn = zzdr.zzg(i3, (List) zzeq.zzf(obj, j), false);
                         i += zzn;
                         break;
-                    case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                    case 33:
                         zzn = zzdr.zzp(i3, (List) zzeq.zzf(obj, j), false);
                         i += zzn;
                         break;
-                    case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                    case 34:
                         zzn = zzdr.zzr(i3, (List) zzeq.zzf(obj, j), false);
                         i += zzn;
                         break;
-                    case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                    case 35:
                         zzy = zzdr.zzh((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i10 = i3 << 3;
@@ -2374,7 +2379,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                    case 36:
                         zzy = zzdr.zzf((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i11 = i3 << 3;
@@ -2386,7 +2391,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                    case 37:
                         zzy = zzdr.zzm((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i12 = i3 << 3;
@@ -2398,7 +2403,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                    case 38:
                         zzy = zzdr.zzx((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i13 = i3 << 3;
@@ -2410,7 +2415,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                    case 39:
                         zzy = zzdr.zzk((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i14 = i3 << 3;
@@ -2422,7 +2427,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                    case 40:
                         zzy = zzdr.zzh((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i15 = i3 << 3;
@@ -2434,7 +2439,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                    case 41:
                         zzy = zzdr.zzf((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i16 = i3 << 3;
@@ -2446,7 +2451,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                    case 42:
                         int i17 = zzdr.$r8$clinit;
                         zzy = ((List) unsafe.getObject(obj, j)).size();
                         if (zzy > 0) {
@@ -2459,7 +2464,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                    case 43:
                         zzy = zzdr.zzv((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i19 = i3 << 3;
@@ -2471,7 +2476,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                    case 44:
                         zzy = zzdr.zzd((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i20 = i3 << 3;
@@ -2483,7 +2488,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                    case 45:
                         zzy = zzdr.zzf((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i21 = i3 << 3;
@@ -2495,7 +2500,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                    case 46:
                         zzy = zzdr.zzh((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i22 = i3 << 3;
@@ -2507,7 +2512,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                    case 47:
                         zzy = zzdr.zzq((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i23 = i3 << 3;
@@ -2519,7 +2524,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                    case 48:
                         zzy = zzdr.zzs((List) unsafe.getObject(obj, j));
                         if (zzy > 0) {
                             int i24 = i3 << 3;
@@ -2531,14 +2536,14 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                    case 49:
                         zzn = zzdr.zzi(i3, (List) zzeq.zzf(obj, j), zzB(i2));
                         i += zzn;
                         break;
-                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                    case 50:
                         zzda.zza(i3, zzeq.zzf(obj, j), zzC(i2));
                         break;
-                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                    case 51:
                         if (zzT(obj, i3, i2)) {
                             zzx = zzbi.zzx(i3 << 3);
                             zzn = zzx + 8;
@@ -2547,7 +2552,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                    case 52:
                         if (zzT(obj, i3, i2)) {
                             zzx2 = zzbi.zzx(i3 << 3);
                             zzn = zzx2 + 4;
@@ -2556,7 +2561,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                    case 53:
                         if (zzT(obj, i3, i2)) {
                             zzy = zzbi.zzy(zzz(obj, j));
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2565,7 +2570,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                    case 54:
                         if (zzT(obj, i3, i2)) {
                             zzy = zzbi.zzy(zzz(obj, j));
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2574,7 +2579,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                    case 55:
                         if (zzT(obj, i3, i2)) {
                             zzy = zzbi.zzu(zzp(obj, j));
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2583,7 +2588,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorError /* 56 */:
+                    case 56:
                         if (zzT(obj, i3, i2)) {
                             zzx = zzbi.zzx(i3 << 3);
                             zzn = zzx + 8;
@@ -2592,7 +2597,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                    case 57:
                         if (zzT(obj, i3, i2)) {
                             zzx2 = zzbi.zzx(i3 << 3);
                             zzn = zzx2 + 4;
@@ -2601,7 +2606,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                    case 58:
                         if (zzT(obj, i3, i2)) {
                             zzx4 = zzbi.zzx(i3 << 3);
                             zzn = zzx4 + 1;
@@ -2610,7 +2615,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                    case 59:
                         if (zzT(obj, i3, i2)) {
                             Object zzf2 = zzeq.zzf(obj, j);
                             if (zzf2 instanceof zzba) {
@@ -2631,7 +2636,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                    case 60:
                         if (zzT(obj, i3, i2)) {
                             zzn = zzdr.zzn(i3, zzeq.zzf(obj, j), zzB(i2));
                             i += zzn;
@@ -2639,7 +2644,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                    case 61:
                         if (zzT(obj, i3, i2)) {
                             int i27 = i3 << 3;
                             int i28 = zzbi.$r8$clinit;
@@ -2652,7 +2657,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                    case 62:
                         if (zzT(obj, i3, i2)) {
                             zzy = zzbi.zzx(zzp(obj, j));
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2661,7 +2666,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                    case 63:
                         if (zzT(obj, i3, i2)) {
                             zzy = zzbi.zzu(zzp(obj, j));
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2688,7 +2693,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                    case 66:
                         if (zzT(obj, i3, i2)) {
                             int zzp = zzp(obj, j);
                             zzx3 = zzbi.zzx(i3 << 3);
@@ -2698,7 +2703,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                    case 67:
                         if (zzT(obj, i3, i2)) {
                             long zzz = zzz(obj, j);
                             zzx7 = zzbi.zzx(i3 << 3);
@@ -2709,7 +2714,7 @@ public final class zzdi<T> implements zzdp<T> {
                         } else {
                             break;
                         }
-                    case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                    case 68:
                         if (zzT(obj, i3, i2)) {
                             zzn = zzbi.zzt(i3, (zzdf) zzeq.zzf(obj, j), zzB(i2));
                             i += zzn;
@@ -2852,35 +2857,35 @@ public final class zzdi<T> implements zzdp<T> {
                 case 28:
                 case 29:
                 case 30:
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                case 31:
                 case 32:
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49:
                     i2 = i3 * 53;
                     floatToIntBits = zzeq.zzf(obj, j).hashCode();
                     i3 = i2 + floatToIntBits;
                     break;
-                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                case 50:
                     i2 = i3 * 53;
                     floatToIntBits = zzeq.zzf(obj, j).hashCode();
                     i3 = i2 + floatToIntBits;
                     break;
-                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                case 51:
                     if (zzT(obj, i5, i4)) {
                         i = i3 * 53;
                         doubleToLongBits = Double.doubleToLongBits(zzm(obj, j));
@@ -2890,7 +2895,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                case 52:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = Float.floatToIntBits(zzn(obj, j));
@@ -2899,7 +2904,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                case 53:
                     if (zzT(obj, i5, i4)) {
                         i = i3 * 53;
                         doubleToLongBits = zzz(obj, j);
@@ -2909,7 +2914,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                case 54:
                     if (zzT(obj, i5, i4)) {
                         i = i3 * 53;
                         doubleToLongBits = zzz(obj, j);
@@ -2919,7 +2924,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                case 55:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzp(obj, j);
@@ -2928,7 +2933,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorError /* 56 */:
+                case 56:
                     if (zzT(obj, i5, i4)) {
                         i = i3 * 53;
                         doubleToLongBits = zzz(obj, j);
@@ -2938,7 +2943,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                case 57:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzp(obj, j);
@@ -2947,7 +2952,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                case 58:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzcg.zza(zzU(obj, j));
@@ -2956,7 +2961,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                case 59:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = ((String) zzeq.zzf(obj, j)).hashCode();
@@ -2965,7 +2970,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                case 60:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzeq.zzf(obj, j).hashCode();
@@ -2974,7 +2979,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                case 61:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzeq.zzf(obj, j).hashCode();
@@ -2983,7 +2988,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                case 62:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzp(obj, j);
@@ -2992,7 +2997,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                case 63:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzp(obj, j);
@@ -3020,7 +3025,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                case 66:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzp(obj, j);
@@ -3029,7 +3034,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                case 67:
                     if (zzT(obj, i5, i4)) {
                         i = i3 * 53;
                         doubleToLongBits = zzz(obj, j);
@@ -3039,7 +3044,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                case 68:
                     if (zzT(obj, i5, i4)) {
                         i2 = i3 * 53;
                         floatToIntBits = zzeq.zzf(obj, j).hashCode();
@@ -3059,63 +3064,6 @@ public final class zzdi<T> implements zzdp<T> {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:141:0x0401, code lost:
-        if (r6 == 1048575) goto L35;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:142:0x0403, code lost:
-        r27.putInt(r12, r6, r5);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:143:0x0409, code lost:
-        r2 = r8.zzj;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:145:0x040d, code lost:
-        if (r2 >= r8.zzk) goto L49;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x040f, code lost:
-        r4 = r8.zzi[r2];
-        r5 = r8.zzc[r4];
-        r5 = com.google.android.gms.internal.play_billing.zzeq.zzf(r12, r8.zzy(r4) & 1048575);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:147:0x0421, code lost:
-        if (r5 != null) goto L40;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:150:0x0428, code lost:
-        if (r8.zzA(r4) != null) goto L42;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:151:0x042a, code lost:
-        r2 = r2 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:152:0x042d, code lost:
-        r5 = (com.google.android.gms.internal.play_billing.zzcz) r5;
-        r0 = (com.google.android.gms.internal.play_billing.zzcy) r8.zzC(r4);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:153:0x0435, code lost:
-        throw null;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:154:0x0436, code lost:
-        if (r9 != 0) goto L56;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:156:0x043a, code lost:
-        if (r0 != r32) goto L53;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:159:0x0441, code lost:
-        throw com.google.android.gms.internal.play_billing.zzci.zze();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:161:0x0444, code lost:
-        if (r0 > r32) goto L59;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x0446, code lost:
-        if (r3 != r9) goto L59;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:163:0x0448, code lost:
-        return r0;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:165:0x044e, code lost:
-        throw com.google.android.gms.internal.play_billing.zzci.zze();
-     */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public final int zzc(Object obj, byte[] bArr, int i, int i2, int i3, zzan zzanVar) throws IOException {
         Unsafe unsafe;
         int i4;
@@ -3130,10 +3078,11 @@ public final class zzdi<T> implements zzdp<T> {
         int i9;
         int i10;
         Object obj3;
-        int i11;
         zzan zzanVar2;
+        int i11;
         int i12;
         int i13;
+        byte[] bArr2;
         int i14;
         int i15;
         int i16;
@@ -3141,644 +3090,680 @@ public final class zzdi<T> implements zzdp<T> {
         int i18;
         int i19;
         int i20;
+        byte[] bArr3;
         int i21;
         int i22;
-        int i23;
         zzdi<T> zzdiVar2 = this;
         Object obj4 = obj;
-        byte[] bArr2 = bArr;
-        int i24 = i2;
-        int i25 = i3;
+        byte[] bArr4 = bArr;
+        int i23 = i2;
+        int i24 = i3;
         zzan zzanVar3 = zzanVar;
         zzG(obj);
         Unsafe unsafe2 = zzb;
-        int i26 = -1;
-        int i27 = i;
-        int i28 = -1;
+        int i25 = -1;
+        int i26 = i;
+        int i27 = -1;
+        int i28 = 0;
         int i29 = 0;
         int i30 = 0;
-        int i31 = 0;
-        int i32 = 1048575;
+        int i31 = 1048575;
         while (true) {
-            if (i27 < i24) {
-                int i33 = i27 + 1;
-                byte b2 = bArr2[i27];
+            if (i26 < i23) {
+                int i32 = i26 + 1;
+                byte b2 = bArr4[i26];
                 if (b2 < 0) {
-                    int zzk = zzao.zzk(b2, bArr2, i33, zzanVar3);
+                    int zzk = zzao.zzk(b2, bArr4, i32, zzanVar3);
                     b = zzanVar3.zza;
-                    i33 = zzk;
+                    i32 = zzk;
                 } else {
                     b = b2;
                 }
-                int i34 = b >>> 3;
-                if (i34 > i28) {
-                    zzt = zzdiVar2.zzu(i34, i29 / 3);
+                int i33 = b >>> 3;
+                if (i33 > i27) {
+                    zzt = zzdiVar2.zzu(i33, i28 / 3);
                 } else {
-                    zzt = zzdiVar2.zzt(i34);
+                    zzt = zzdiVar2.zzt(i33);
                 }
-                int i35 = zzt;
-                if (i35 == i26) {
-                    i5 = i34;
-                    i6 = i33;
+                int i34 = zzt;
+                if (i34 == i25) {
+                    i5 = i33;
+                    i6 = i32;
                     i7 = b;
-                    i8 = i31;
+                    i8 = i30;
                     unsafe = unsafe2;
-                    i9 = i25;
+                    i9 = i24;
                     i10 = 0;
                 } else {
-                    int i36 = b & 7;
+                    int i35 = b & 7;
                     int[] iArr = zzdiVar2.zzc;
-                    int i37 = iArr[i35 + 1];
-                    int zzx = zzx(i37);
-                    int i38 = i33;
-                    int i39 = b;
-                    long j = i37 & 1048575;
+                    int i36 = iArr[i34 + 1];
+                    int zzx = zzx(i36);
+                    int i37 = b;
+                    long j = i36 & 1048575;
                     if (zzx <= 17) {
-                        int i40 = iArr[i35 + 2];
-                        int i41 = 1 << (i40 >>> 20);
-                        int i42 = i40 & 1048575;
-                        if (i42 != i32) {
-                            if (i32 != 1048575) {
-                                unsafe2.putInt(obj4, i32, i31);
+                        int i38 = iArr[i34 + 2];
+                        int i39 = 1 << (i38 >>> 20);
+                        int i40 = i38 & 1048575;
+                        if (i40 != i31) {
+                            if (i31 != 1048575) {
+                                unsafe2.putInt(obj4, i31, i30);
                             }
-                            i13 = i42;
-                            i12 = unsafe2.getInt(obj4, i42);
+                            i13 = i40;
+                            i12 = unsafe2.getInt(obj4, i40);
                         } else {
-                            i12 = i31;
-                            i13 = i32;
+                            i12 = i30;
+                            i13 = i31;
                         }
                         switch (zzx) {
                             case 0:
-                                i14 = i35;
+                                bArr2 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i16 = i38;
-                                if (i36 != 1) {
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i17 = i32;
+                                i18 = i39;
+                                i19 = i37;
+                                if (i35 == 1) {
+                                    zzeq.zzo(obj4, j, Double.longBitsToDouble(zzao.zzp(bArr2, i17)));
+                                    i26 = i17 + 8;
+                                    i30 = i12 | i18;
+                                    i23 = i2;
+                                    bArr4 = bArr2;
+                                    i28 = i15;
+                                    i27 = i14;
+                                    i29 = i19;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    zzeq.zzo(obj4, j, Double.longBitsToDouble(zzao.zzp(bArr2, i16)));
-                                    i27 = i16 + 8;
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 1:
-                                i14 = i35;
+                                bArr2 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i16 = i38;
-                                if (i36 != 5) {
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i17 = i32;
+                                i18 = i39;
+                                i19 = i37;
+                                if (i35 == 5) {
+                                    zzeq.zzp(obj4, j, Float.intBitsToFloat(zzao.zzb(bArr2, i17)));
+                                    i26 = i17 + 4;
+                                    i30 = i12 | i18;
+                                    i23 = i2;
+                                    bArr4 = bArr2;
+                                    i28 = i15;
+                                    i27 = i14;
+                                    i29 = i19;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    zzeq.zzp(obj4, j, Float.intBitsToFloat(zzao.zzb(bArr2, i16)));
-                                    i27 = i16 + 4;
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 2:
                             case 3:
-                                i14 = i35;
+                                i14 = i33;
                                 i15 = i34;
-                                i16 = i38;
-                                if (i36 != 0) {
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i17 = i32;
+                                i19 = i37;
+                                if (i35 == 0) {
+                                    int zzm = zzao.zzm(bArr, i17, zzanVar3);
+                                    unsafe2.putLong(obj, j, zzanVar3.zzb);
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr;
+                                    i28 = i15;
+                                    i26 = zzm;
+                                    i27 = i14;
+                                    i29 = i19;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    int zzm = zzao.zzm(bArr2, i16, zzanVar3);
-                                    unsafe2.putLong(obj, j, zzanVar3.zzb);
-                                    i31 = i12 | i41;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i27 = zzm;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i24 = i2;
-                                    i25 = i3;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 4:
                             case 11:
-                                i14 = i35;
+                                bArr2 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i16 = i38;
-                                if (i36 != 0) {
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i17 = i32;
+                                i18 = i39;
+                                i19 = i37;
+                                if (i35 == 0) {
+                                    i26 = zzao.zzj(bArr2, i17, zzanVar3);
+                                    unsafe2.putInt(obj4, j, zzanVar3.zza);
+                                    i30 = i12 | i18;
+                                    i23 = i2;
+                                    bArr4 = bArr2;
+                                    i28 = i15;
+                                    i27 = i14;
+                                    i29 = i19;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    i27 = zzao.zzj(bArr2, i16, zzanVar3);
-                                    unsafe2.putInt(obj4, j, zzanVar3.zza);
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 5:
                             case 14:
-                                i14 = i35;
+                                bArr2 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i17 = i38;
-                                if (i36 != 1) {
-                                    i16 = i17;
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                i18 = i39;
+                                if (i35 == 1) {
+                                    i19 = i20;
+                                    i17 = i32;
+                                    unsafe2.putLong(obj, j, zzao.zzp(bArr2, i32));
+                                    i26 = i17 + 8;
+                                    i30 = i12 | i18;
+                                    i23 = i2;
+                                    bArr4 = bArr2;
+                                    i28 = i15;
+                                    i27 = i14;
+                                    i29 = i19;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    i16 = i17;
-                                    unsafe2.putLong(obj, j, zzao.zzp(bArr2, i17));
-                                    i27 = i16 + 8;
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 6:
                             case 13:
-                                i14 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i17 = i38;
-                                if (i36 != 5) {
-                                    i16 = i17;
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 5) {
+                                    unsafe2.putInt(obj4, j, zzao.zzb(bArr3, i32));
+                                    i26 = i32 + 4;
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    unsafe2.putInt(obj4, j, zzao.zzb(bArr2, i17));
-                                    i27 = i17 + 4;
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 7:
-                                i14 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i17 = i38;
-                                if (i36 != 0) {
-                                    i16 = i17;
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 0) {
+                                    i26 = zzao.zzm(bArr3, i32, zzanVar3);
+                                    zzeq.zzm(obj4, j, zzanVar3.zzb != 0);
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    i27 = zzao.zzm(bArr2, i17, zzanVar3);
-                                    zzeq.zzm(obj4, j, zzanVar3.zzb != 0);
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 8:
-                                i14 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i17 = i38;
-                                if (i36 != 2) {
-                                    i16 = i17;
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
-                                    break;
-                                } else {
-                                    if ((i37 & 536870912) == 0) {
-                                        i27 = zzao.zzg(bArr2, i17, zzanVar3);
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 2) {
+                                    if ((536870912 & i36) == 0) {
+                                        i26 = zzao.zzg(bArr3, i32, zzanVar3);
                                     } else {
-                                        i27 = zzao.zzh(bArr2, i17, zzanVar3);
+                                        i26 = zzao.zzh(bArr3, i32, zzanVar3);
                                     }
                                     unsafe2.putObject(obj4, j, zzanVar3.zzc);
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
                                     i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
+                                    break;
+                                } else {
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 9:
-                                i14 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i17 = i38;
-                                if (i36 != 2) {
-                                    i39 = i39;
-                                    i16 = i17;
-                                    i21 = i14;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 2) {
+                                    Object zzD = zzdiVar2.zzD(obj4, i15);
+                                    i26 = zzao.zzo(zzD, zzdiVar2.zzB(i15), bArr, i32, i2, zzanVar);
+                                    zzdiVar2.zzL(obj4, i15, zzD);
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    Object zzD = zzdiVar2.zzD(obj4, i14);
-                                    i39 = i39;
-                                    i27 = zzao.zzo(zzD, zzdiVar2.zzB(i14), bArr, i17, i2, zzanVar);
-                                    zzdiVar2.zzL(obj4, i14, zzD);
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i29 = i14;
-                                    i28 = i15;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 10:
-                                i18 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i19 = i39;
-                                i20 = i38;
-                                if (i36 != 2) {
-                                    i21 = i18;
-                                    i39 = i19;
-                                    i16 = i20;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 2) {
+                                    i26 = zzao.zza(bArr3, i32, zzanVar3);
+                                    unsafe2.putObject(obj4, j, zzanVar3.zzc);
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    i27 = zzao.zza(bArr2, i20, zzanVar3);
-                                    unsafe2.putObject(obj4, j, zzanVar3.zzc);
-                                    i31 = i12 | i41;
-                                    i29 = i18;
-                                    i28 = i15;
-                                    i30 = i19;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i24 = i2;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 12:
-                                i18 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i19 = i39;
-                                i20 = i38;
-                                if (i36 != 0) {
-                                    i21 = i18;
-                                    i39 = i19;
-                                    i16 = i20;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
-                                    break;
-                                } else {
-                                    i27 = zzao.zzj(bArr2, i20, zzanVar3);
-                                    int i43 = zzanVar3.zza;
-                                    zzce zzA = zzdiVar2.zzA(i18);
-                                    if (zzA == null || zzA.zza(i43)) {
-                                        unsafe2.putInt(obj4, j, i43);
-                                        i31 = i12 | i41;
-                                        i29 = i18;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 0) {
+                                    i26 = zzao.zzj(bArr3, i32, zzanVar3);
+                                    int i41 = zzanVar3.zza;
+                                    zzce zzA = zzdiVar2.zzA(i15);
+                                    if (zzA == null || zzA.zza(i41)) {
+                                        unsafe2.putInt(obj4, j, i41);
+                                        i30 = i12 | i39;
+                                        bArr4 = bArr3;
                                         i28 = i15;
-                                        i30 = i19;
-                                        i32 = i13;
-                                        i26 = -1;
-                                        i24 = i2;
-                                        i25 = i3;
+                                        i29 = i20;
+                                        i27 = i14;
+                                        i25 = -1;
+                                        i31 = i16;
+                                        i23 = i2;
+                                        i24 = i3;
                                         break;
                                     } else {
-                                        zzd(obj).zzj(i19, Long.valueOf(i43));
-                                        i29 = i18;
-                                        i31 = i12;
+                                        zzd(obj).zzj(i20, Long.valueOf(i41));
                                         i28 = i15;
-                                        i30 = i19;
-                                        i32 = i13;
-                                        i26 = -1;
-                                        i24 = i2;
-                                        i25 = i3;
+                                        i30 = i12;
+                                        i29 = i20;
+                                        i27 = i14;
+                                        i25 = -1;
+                                        i23 = i2;
+                                        i24 = i3;
+                                        bArr4 = bArr3;
+                                        i31 = i16;
+                                        break;
                                     }
+                                } else {
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
+                                    break;
                                 }
                                 break;
                             case 15:
-                                i18 = i35;
+                                bArr3 = bArr;
+                                i14 = i33;
                                 i15 = i34;
-                                i19 = i39;
-                                i20 = i38;
-                                if (i36 != 0) {
-                                    i21 = i18;
-                                    i39 = i19;
-                                    i16 = i20;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 0) {
+                                    i26 = zzao.zzj(bArr3, i32, zzanVar3);
+                                    unsafe2.putInt(obj4, j, zzbe.zzb(zzanVar3.zza));
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr3;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    i27 = zzao.zzj(bArr2, i20, zzanVar3);
-                                    unsafe2.putInt(obj4, j, zzbe.zzb(zzanVar3.zza));
-                                    i31 = i12 | i41;
-                                    i29 = i18;
-                                    i28 = i15;
-                                    i30 = i19;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i24 = i2;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             case 16:
-                                if (i36 != 0) {
-                                    i15 = i34;
-                                    i21 = i35;
-                                    i16 = i38;
-                                    i9 = i3;
-                                    i8 = i12;
-                                    unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
+                                i14 = i33;
+                                i15 = i34;
+                                i16 = i13;
+                                i20 = i37;
+                                if (i35 == 0) {
+                                    int zzm2 = zzao.zzm(bArr, i32, zzanVar3);
+                                    unsafe2.putLong(obj, j, zzbe.zzc(zzanVar3.zzb));
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr;
+                                    i26 = zzm2;
+                                    i28 = i15;
+                                    i29 = i20;
+                                    i27 = i14;
+                                    i25 = -1;
+                                    i31 = i16;
+                                    i23 = i2;
+                                    i24 = i3;
                                     break;
                                 } else {
-                                    int zzm2 = zzao.zzm(bArr2, i38, zzanVar3);
-                                    unsafe2.putLong(obj, j, zzbe.zzc(zzanVar3.zzb));
-                                    i31 = i12 | i41;
-                                    i29 = i35;
-                                    i28 = i34;
-                                    i30 = i39;
-                                    i27 = zzm2;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    i24 = i2;
-                                    i25 = i3;
+                                    i19 = i20;
+                                    i17 = i32;
+                                    i31 = i16;
+                                    i9 = i3;
+                                    unsafe = unsafe2;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                             default:
-                                i14 = i35;
-                                i15 = i34;
-                                i16 = i38;
-                                if (i36 != 3) {
-                                    i21 = i14;
+                                if (i35 == 3) {
+                                    Object zzD2 = zzdiVar2.zzD(obj4, i34);
+                                    i26 = zzao.zzn(zzD2, zzdiVar2.zzB(i34), bArr, i32, i2, (i33 << 3) | 4, zzanVar);
+                                    zzdiVar2.zzL(obj4, i34, zzD2);
+                                    i30 = i12 | i39;
+                                    bArr4 = bArr;
+                                    i31 = i13;
+                                    i28 = i34;
+                                    i29 = i37;
+                                    i27 = i33;
+                                    i25 = -1;
+                                    i23 = i2;
+                                    i24 = i3;
+                                    break;
+                                } else {
+                                    i14 = i33;
+                                    i15 = i34;
+                                    i16 = i13;
+                                    i17 = i32;
+                                    i19 = i37;
+                                    i31 = i16;
                                     i9 = i3;
-                                    i8 = i12;
                                     unsafe = unsafe2;
-                                    i5 = i15;
-                                    i10 = i21;
-                                    i6 = i16;
-                                    i7 = i39;
-                                    i32 = i13;
-                                    break;
-                                } else {
-                                    Object zzD2 = zzdiVar2.zzD(obj4, i14);
-                                    i27 = zzao.zzn(zzD2, zzdiVar2.zzB(i14), bArr, i16, i2, (i15 << 3) | 4, zzanVar);
-                                    zzdiVar2.zzL(obj4, i14, zzD2);
-                                    i31 = i12 | i41;
-                                    i24 = i2;
-                                    i28 = i15;
-                                    i29 = i14;
-                                    i30 = i39;
-                                    i32 = i13;
-                                    i26 = -1;
-                                    bArr2 = bArr;
-                                    i25 = i3;
+                                    i10 = i15;
+                                    i8 = i12;
+                                    i6 = i17;
+                                    i5 = i14;
+                                    i7 = i19;
                                     break;
                                 }
                         }
-                    } else if (zzx != 27) {
-                        i8 = i31;
-                        i22 = i32;
-                        if (zzx <= 49) {
-                            i5 = i34;
-                            unsafe = unsafe2;
-                            i10 = i35;
-                            i27 = zzs(obj, bArr, i38, i2, i39, i34, i36, i35, i37, zzx, j, zzanVar);
-                            if (i27 != i38) {
-                                zzdiVar2 = this;
-                                obj4 = obj;
-                                bArr2 = bArr;
-                                i28 = i5;
-                                i24 = i2;
-                                i25 = i3;
-                                zzanVar3 = zzanVar;
-                                i31 = i8;
-                                i30 = i39;
-                                i29 = i10;
-                                i32 = i22;
-                                unsafe2 = unsafe;
-                                i26 = -1;
-                            } else {
-                                i6 = i27;
-                                i7 = i39;
-                                i32 = i22;
-                                i9 = i3;
-                            }
-                        } else {
-                            i5 = i34;
-                            unsafe = unsafe2;
-                            i10 = i35;
-                            i23 = i38;
-                            if (zzx != 50) {
-                                i27 = zzr(obj, bArr, i23, i2, i39, i5, i36, i37, zzx, j, i10, zzanVar);
-                                if (i27 != i23) {
-                                    zzdiVar2 = this;
-                                    obj4 = obj;
-                                    bArr2 = bArr;
-                                    i28 = i5;
-                                    i24 = i2;
-                                    i25 = i3;
-                                    zzanVar3 = zzanVar;
-                                    i31 = i8;
-                                    i30 = i39;
-                                    i29 = i10;
-                                    i32 = i22;
-                                    unsafe2 = unsafe;
-                                    i26 = -1;
-                                } else {
-                                    i6 = i27;
-                                    i7 = i39;
-                                    i32 = i22;
-                                    i9 = i3;
-                                }
-                            } else if (i36 == 2) {
-                                i27 = zzq(obj, bArr, i23, i2, i10, j, zzanVar);
-                                if (i27 != i23) {
-                                    zzdiVar2 = this;
-                                    obj4 = obj;
-                                    bArr2 = bArr;
-                                    i28 = i5;
-                                    i24 = i2;
-                                    i25 = i3;
-                                    zzanVar3 = zzanVar;
-                                    i31 = i8;
-                                    i30 = i39;
-                                    i29 = i10;
-                                    i32 = i22;
-                                    unsafe2 = unsafe;
-                                    i26 = -1;
-                                } else {
-                                    i6 = i27;
-                                    i7 = i39;
-                                    i32 = i22;
-                                    i9 = i3;
-                                }
-                            } else {
-                                i9 = i3;
-                                i6 = i23;
-                                i7 = i39;
-                                i32 = i22;
-                            }
-                        }
-                    } else if (i36 == 2) {
-                        zzcf zzcfVar = (zzcf) unsafe2.getObject(obj4, j);
-                        if (!zzcfVar.zzc()) {
-                            int size = zzcfVar.size();
-                            zzcfVar = zzcfVar.zzd(size == 0 ? 10 : size + size);
-                            unsafe2.putObject(obj4, j, zzcfVar);
-                        }
-                        i27 = zzao.zze(zzdiVar2.zzB(i35), i39, bArr, i38, i2, zzcfVar, zzanVar);
-                        i24 = i2;
-                        i25 = i3;
-                        i28 = i34;
-                        i29 = i35;
-                        i31 = i31;
-                        i30 = i39;
-                        i32 = i32;
-                        i26 = -1;
-                        bArr2 = bArr;
                     } else {
-                        i8 = i31;
-                        i22 = i32;
-                        i5 = i34;
-                        unsafe = unsafe2;
-                        i10 = i35;
-                        i23 = i38;
+                        int i42 = i32;
+                        if (zzx != 27) {
+                            i8 = i30;
+                            i21 = i31;
+                            if (zzx <= 49) {
+                                unsafe = unsafe2;
+                                i10 = i34;
+                                i5 = i33;
+                                i26 = zzs(obj, bArr, i42, i2, i37, i33, i35, i34, i36, zzx, j, zzanVar);
+                                if (i26 != i42) {
+                                    zzdiVar2 = this;
+                                    obj4 = obj;
+                                    bArr4 = bArr;
+                                    i23 = i2;
+                                    i24 = i3;
+                                    zzanVar3 = zzanVar;
+                                    i30 = i8;
+                                    i29 = i37;
+                                    i31 = i21;
+                                    i28 = i10;
+                                    i27 = i5;
+                                    unsafe2 = unsafe;
+                                    i25 = -1;
+                                } else {
+                                    i6 = i26;
+                                    i7 = i37;
+                                    i31 = i21;
+                                    i9 = i3;
+                                }
+                            } else {
+                                unsafe = unsafe2;
+                                i10 = i34;
+                                i5 = i33;
+                                i22 = i42;
+                                if (zzx != 50) {
+                                    i26 = zzr(obj, bArr, i22, i2, i37, i5, i35, i36, zzx, j, i10, zzanVar);
+                                    if (i26 != i22) {
+                                        zzdiVar2 = this;
+                                        obj4 = obj;
+                                        bArr4 = bArr;
+                                        i23 = i2;
+                                        i24 = i3;
+                                        zzanVar3 = zzanVar;
+                                        i30 = i8;
+                                        i29 = i37;
+                                        i31 = i21;
+                                        i28 = i10;
+                                        i27 = i5;
+                                        unsafe2 = unsafe;
+                                        i25 = -1;
+                                    } else {
+                                        i6 = i26;
+                                        i7 = i37;
+                                        i31 = i21;
+                                        i9 = i3;
+                                    }
+                                } else if (i35 == 2) {
+                                    i26 = zzq(obj, bArr, i22, i2, i10, j, zzanVar);
+                                    if (i26 != i22) {
+                                        zzdiVar2 = this;
+                                        obj4 = obj;
+                                        bArr4 = bArr;
+                                        i23 = i2;
+                                        i24 = i3;
+                                        zzanVar3 = zzanVar;
+                                        i30 = i8;
+                                        i29 = i37;
+                                        i31 = i21;
+                                        i28 = i10;
+                                        i27 = i5;
+                                        unsafe2 = unsafe;
+                                        i25 = -1;
+                                    } else {
+                                        i6 = i26;
+                                        i7 = i37;
+                                        i31 = i21;
+                                        i9 = i3;
+                                    }
+                                }
+                            }
+                        } else if (i35 == 2) {
+                            zzcf zzcfVar = (zzcf) unsafe2.getObject(obj4, j);
+                            if (!zzcfVar.zzc()) {
+                                int size = zzcfVar.size();
+                                zzcfVar = zzcfVar.zzd(size == 0 ? 10 : size + size);
+                                unsafe2.putObject(obj4, j, zzcfVar);
+                            }
+                            i26 = zzao.zze(zzdiVar2.zzB(i34), i37, bArr, i42, i2, zzcfVar, zzanVar);
+                            i23 = i2;
+                            i28 = i34;
+                            i27 = i33;
+                            i30 = i30;
+                            i29 = i37;
+                            i31 = i31;
+                            i25 = -1;
+                            bArr4 = bArr;
+                            i24 = i3;
+                        } else {
+                            i8 = i30;
+                            i21 = i31;
+                            unsafe = unsafe2;
+                            i10 = i34;
+                            i5 = i33;
+                            i22 = i42;
+                        }
                         i9 = i3;
-                        i6 = i23;
-                        i7 = i39;
-                        i32 = i22;
+                        i6 = i22;
+                        i7 = i37;
+                        i31 = i21;
                     }
                 }
                 if (i7 != i9 || i9 == 0) {
-                    int i44 = i9;
+                    int i43 = i9;
                     if (this.zzh) {
                         zzanVar2 = zzanVar;
                         zzbn zzbnVar = zzanVar2.zzd;
                         if (zzbnVar != zzbn.zza) {
                             i11 = i5;
                             if (zzbnVar.zzb(this.zzg, i11) == null) {
-                                i27 = zzao.zzi(i7, bArr, i6, i2, zzd(obj), zzanVar);
+                                i26 = zzao.zzi(i7, bArr, i6, i2, zzd(obj), zzanVar);
                                 obj3 = obj;
-                                i24 = i2;
-                                i30 = i7;
+                                i23 = i2;
+                                i29 = i7;
                                 zzdiVar2 = this;
-                                i28 = i11;
+                                i27 = i11;
                                 obj4 = obj3;
-                                i31 = i8;
-                                i29 = i10;
-                                i26 = -1;
-                                bArr2 = bArr;
-                                i25 = i44;
+                                i30 = i8;
+                                i28 = i10;
+                                i25 = -1;
+                                bArr4 = bArr;
+                                i24 = i43;
                                 zzanVar3 = zzanVar2;
                                 unsafe2 = unsafe;
                             } else {
@@ -3787,41 +3772,61 @@ public final class zzdi<T> implements zzdp<T> {
                             }
                         } else {
                             obj3 = obj;
-                            i11 = i5;
                         }
                     } else {
                         obj3 = obj;
-                        i11 = i5;
                         zzanVar2 = zzanVar;
                     }
-                    i27 = zzao.zzi(i7, bArr, i6, i2, zzd(obj), zzanVar);
-                    i24 = i2;
-                    i30 = i7;
+                    i11 = i5;
+                    i26 = zzao.zzi(i7, bArr, i6, i2, zzd(obj), zzanVar);
+                    i23 = i2;
+                    i29 = i7;
                     zzdiVar2 = this;
-                    i28 = i11;
+                    i27 = i11;
                     obj4 = obj3;
-                    i31 = i8;
-                    i29 = i10;
-                    i26 = -1;
-                    bArr2 = bArr;
-                    i25 = i44;
+                    i30 = i8;
+                    i28 = i10;
+                    i25 = -1;
+                    bArr4 = bArr;
+                    i24 = i43;
                     zzanVar3 = zzanVar2;
                     unsafe2 = unsafe;
                 } else {
                     zzdiVar = this;
                     obj2 = obj;
                     i4 = i9;
-                    i27 = i6;
-                    i30 = i7;
-                    i31 = i8;
+                    i26 = i6;
+                    i29 = i7;
+                    i30 = i8;
                 }
             } else {
                 unsafe = unsafe2;
-                i4 = i25;
+                i4 = i24;
                 obj2 = obj4;
                 zzdiVar = zzdiVar2;
             }
         }
+        if (i31 != 1048575) {
+            unsafe.putInt(obj2, i31, i30);
+        }
+        for (int i44 = zzdiVar.zzj; i44 < zzdiVar.zzk; i44++) {
+            int i45 = zzdiVar.zzi[i44];
+            int i46 = zzdiVar.zzc[i45];
+            Object zzf = zzeq.zzf(obj2, zzdiVar.zzy(i45) & 1048575);
+            if (zzf != null && zzdiVar.zzA(i45) != null) {
+                zzcz zzczVar = (zzcz) zzf;
+                zzcy zzcyVar = (zzcy) zzdiVar.zzC(i45);
+                throw null;
+            }
+        }
+        if (i4 == 0) {
+            if (i26 != i2) {
+                throw zzci.zze();
+            }
+        } else if (i26 > i2 || i29 != i4) {
+            throw zzci.zze();
+        }
+        return i26;
     }
 
     @Override // com.google.android.gms.internal.play_billing.zzdp
@@ -3864,28 +3869,28 @@ public final class zzdi<T> implements zzdp<T> {
                             case 28:
                             case 29:
                             case 30:
-                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                            case 31:
                             case 32:
-                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                            case 33:
+                            case 34:
+                            case 35:
+                            case 36:
+                            case 37:
+                            case 38:
+                            case 39:
+                            case 40:
+                            case 41:
+                            case 42:
+                            case 43:
+                            case 44:
+                            case 45:
+                            case 46:
+                            case 47:
+                            case 48:
+                            case 49:
                                 this.zzl.zza(obj, j);
                                 break;
-                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                            case 50:
                                 Unsafe unsafe = zzb;
                                 Object object = unsafe.getObject(obj, j);
                                 if (object != null) {
@@ -4065,40 +4070,40 @@ public final class zzdi<T> implements zzdp<T> {
                 case 28:
                 case 29:
                 case 30:
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                case 31:
                 case 32:
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49:
                     this.zzl.zzb(obj, obj2, j);
                     break;
-                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                case 50:
                     int i3 = zzdr.$r8$clinit;
                     zzeq.zzs(obj, j, zzda.zzb(zzeq.zzf(obj, j), zzeq.zzf(obj2, j)));
                     break;
-                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
-                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
-                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
                     if (zzT(obj2, i2, i)) {
                         zzeq.zzs(obj, j, zzeq.zzf(obj2, j));
                         zzK(obj, i2, i);
@@ -4106,16 +4111,16 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                case 60:
                     zzI(obj, obj2, i);
                     break;
-                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
-                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                case 61:
+                case 62:
+                case 63:
                 case 64:
                 case 65:
-                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
-                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                case 66:
+                case 67:
                     if (zzT(obj2, i2, i)) {
                         zzeq.zzs(obj, j, zzeq.zzf(obj2, j));
                         zzK(obj, i2, i);
@@ -4123,7 +4128,7 @@ public final class zzdi<T> implements zzdp<T> {
                     } else {
                         break;
                     }
-                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                case 68:
                     zzI(obj, obj2, i);
                     break;
             }
@@ -4135,406 +4140,467 @@ public final class zzdi<T> implements zzdp<T> {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:104:0x02e6, code lost:
-        if (r0 != r15) goto L129;
+    /* JADX WARN: Code restructure failed: missing block: B:112:0x02f8, code lost:
+        if (r0 != r15) goto L42;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:109:0x030a, code lost:
-        if (r0 != r15) goto L129;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:96:0x02a3, code lost:
-        if (r0 != r5) goto L129;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:97:0x02a5, code lost:
-        r15 = r28;
-        r14 = r29;
-        r12 = r30;
-        r13 = r32;
-        r11 = r33;
-        r1 = r19;
-        r2 = r22;
-        r6 = r25;
-        r7 = r26;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:98:0x02b9, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x02fb, code lost:
+        r6 = r32;
         r2 = r0;
      */
+    /* JADX WARN: Code restructure failed: missing block: B:117:0x031c, code lost:
+        if (r0 != r15) goto L42;
+     */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r3v12, types: [int] */
+    /* JADX WARN: Type inference failed for: r3v15, types: [int] */
     @Override // com.google.android.gms.internal.play_billing.zzdp
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public final void zzh(Object obj, byte[] bArr, int i, int i2, zzan zzanVar) throws IOException {
         byte b;
-        int i3;
         int zzt;
+        int i3;
         int i4;
         int i5;
-        Unsafe unsafe;
         int i6;
+        Unsafe unsafe;
         int i7;
         int i8;
         int i9;
         int i10;
         int i11;
+        int i12;
+        int i13;
         zzdi<T> zzdiVar = this;
         Object obj2 = obj;
         byte[] bArr2 = bArr;
-        int i12 = i2;
+        int i14 = i2;
         zzan zzanVar2 = zzanVar;
         zzew zzewVar = zzew.zza;
-        int i13 = -1;
+        int i15 = -1;
         if (zzdiVar.zzo - 1 != 0) {
             zzG(obj);
             Unsafe unsafe2 = zzb;
-            int i14 = 1048575;
-            int i15 = i;
-            int i16 = -1;
-            int i17 = 0;
-            int i18 = 0;
-            int i19 = 1048575;
-            while (i15 < i12) {
-                int i20 = i15 + 1;
-                byte b2 = bArr2[i15];
+            int i16 = 1048575;
+            int i17 = i;
+            int i18 = -1;
+            int i19 = 0;
+            int i20 = 0;
+            int i21 = 1048575;
+            while (i17 < i14) {
+                int i22 = i17 + 1;
+                byte b2 = bArr2[i17];
                 if (b2 < 0) {
-                    i3 = zzao.zzk(b2, bArr2, i20, zzanVar2);
+                    int zzk = zzao.zzk(b2, bArr2, i22, zzanVar2);
                     b = zzanVar2.zza;
+                    i22 = zzk;
                 } else {
                     b = b2;
-                    i3 = i20;
                 }
-                int i21 = b >>> 3;
-                if (i21 > i16) {
-                    zzt = zzdiVar.zzu(i21, i17 / 3);
+                int i23 = b >>> 3;
+                if (i23 > i18) {
+                    zzt = zzdiVar.zzu(i23, i19 / 3);
                 } else {
-                    zzt = zzdiVar.zzt(i21);
+                    zzt = zzdiVar.zzt(i23);
                 }
-                int i22 = zzt;
-                if (i22 == i13) {
-                    i4 = i3;
-                    i5 = i21;
+                int i24 = zzt;
+                if (i24 == i15) {
+                    i3 = i23;
+                    i4 = i22;
+                    i5 = i20;
+                    i6 = i21;
                     unsafe = unsafe2;
-                    i6 = 0;
+                    i7 = 0;
                 } else {
-                    int i23 = b & 7;
+                    int i25 = b & 7;
                     int[] iArr = zzdiVar.zzc;
-                    int i24 = iArr[i22 + 1];
-                    int zzx = zzx(i24);
-                    long j = i24 & i14;
+                    int i26 = iArr[i24 + 1];
+                    int zzx = zzx(i26);
+                    Unsafe unsafe3 = unsafe2;
+                    long j = i26 & i16;
                     if (zzx <= 17) {
-                        int i25 = iArr[i22 + 2];
-                        int i26 = 1 << (i25 >>> 20);
-                        int i27 = i25 & 1048575;
-                        if (i27 != i19) {
-                            if (i19 != 1048575) {
-                                unsafe2.putInt(obj2, i19, i18);
+                        int i27 = iArr[i24 + 2];
+                        int i28 = 1 << (i27 >>> 20);
+                        int i29 = i27 & 1048575;
+                        if (i29 != i21) {
+                            if (i21 != 1048575) {
+                                unsafe2 = unsafe3;
+                                unsafe2.putInt(obj2, i21, i20);
+                            } else {
+                                unsafe2 = unsafe3;
                             }
-                            if (i27 != 1048575) {
-                                i18 = unsafe2.getInt(obj2, i27);
+                            if (i29 != 1048575) {
+                                i20 = unsafe2.getInt(obj2, i29);
                             }
-                            i19 = i27;
+                            i8 = i29;
+                            i5 = i20;
+                        } else {
+                            unsafe2 = unsafe3;
+                            i5 = i20;
+                            i8 = i21;
                         }
                         switch (zzx) {
                             case 0:
-                                i10 = i3;
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 1) {
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
+                                i3 = i23;
+                                i9 = i24;
+                                i10 = i22;
+                                if (i25 == 1) {
                                     zzeq.zzo(obj2, j, Double.longBitsToDouble(zzao.zzp(bArr2, i10)));
-                                    i15 = i10 + 8;
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i17 = i10 + 8;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 1:
-                                i10 = i3;
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 5) {
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
+                                i3 = i23;
+                                i9 = i24;
+                                i10 = i22;
+                                if (i25 == 5) {
                                     zzeq.zzp(obj2, j, Float.intBitsToFloat(zzao.zzb(bArr2, i10)));
-                                    i15 = i10 + 4;
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i17 = i10 + 4;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 2:
                             case 3:
-                                i10 = i3;
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 0) {
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
+                                i3 = i23;
+                                i9 = i24;
+                                i10 = i22;
+                                if (i25 == 0) {
                                     int zzm = zzao.zzm(bArr2, i10, zzanVar2);
                                     unsafe2.putLong(obj, j, zzanVar2.zzb);
-                                    i18 |= i26;
-                                    i17 = i11;
-                                    i15 = zzm;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i17 = zzm;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 4:
                             case 11:
-                                i10 = i3;
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 0) {
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    i15 = zzao.zzj(bArr2, i10, zzanVar2);
+                                i3 = i23;
+                                i9 = i24;
+                                i10 = i22;
+                                if (i25 == 0) {
+                                    i17 = zzao.zzj(bArr2, i10, zzanVar2);
                                     unsafe2.putInt(obj2, j, zzanVar2.zza);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 5:
                             case 14:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 1) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    unsafe2.putLong(obj, j, zzao.zzp(bArr2, i3));
-                                    i15 = i3 + 8;
-                                    i18 |= i26;
-                                    i17 = i11;
+                                i3 = i23;
+                                i9 = i24;
+                                if (i25 == 1) {
+                                    i10 = i22;
+                                    unsafe2.putLong(obj, j, zzao.zzp(bArr2, i22));
+                                    i17 = i10 + 8;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 6:
                             case 13:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 5) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    unsafe2.putInt(obj2, j, zzao.zzb(bArr2, i3));
-                                    i15 = i3 + 4;
-                                    i18 |= i26;
-                                    i17 = i11;
+                                i3 = i23;
+                                i9 = i24;
+                                if (i25 == 5) {
+                                    unsafe2.putInt(obj2, j, zzao.zzb(bArr2, i22));
+                                    i17 = i22 + 4;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 7:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 0) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    i15 = zzao.zzm(bArr2, i3, zzanVar2);
+                                i3 = i23;
+                                i9 = i24;
+                                if (i25 == 0) {
+                                    i17 = zzao.zzm(bArr2, i22, zzanVar2);
                                     zzeq.zzm(obj2, j, zzanVar2.zzb != 0);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 8:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 2) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    if ((i24 & 536870912) == 0) {
-                                        i15 = zzao.zzg(bArr2, i3, zzanVar2);
+                                i3 = i23;
+                                i9 = i24;
+                                if (i25 == 2) {
+                                    if ((536870912 & i26) == 0) {
+                                        i17 = zzao.zzg(bArr2, i22, zzanVar2);
                                     } else {
-                                        i15 = zzao.zzh(bArr2, i3, zzanVar2);
+                                        i17 = zzao.zzh(bArr2, i22, zzanVar2);
                                     }
                                     unsafe2.putObject(obj2, j, zzanVar2.zzc);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i9;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 9:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 2) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
+                                i3 = i23;
+                                i11 = i24;
+                                if (i25 == 2) {
                                     Object zzD = zzdiVar.zzD(obj2, i11);
-                                    i15 = zzao.zzo(zzD, zzdiVar.zzB(i11), bArr, i3, i2, zzanVar);
+                                    i17 = zzao.zzo(zzD, zzdiVar.zzB(i11), bArr, i22, i2, zzanVar);
                                     zzdiVar.zzL(obj2, i11, zzD);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i11;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i9 = i11;
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 10:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 2) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    i15 = zzao.zza(bArr2, i3, zzanVar2);
+                                i3 = i23;
+                                i11 = i24;
+                                if (i25 == 2) {
+                                    int zza2 = zzao.zza(bArr2, i22, zzanVar2);
                                     unsafe2.putObject(obj2, j, zzanVar2.zzc);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i17 = zza2;
+                                    i19 = i11;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i9 = i11;
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 12:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 0) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    i15 = zzao.zzj(bArr2, i3, zzanVar2);
+                                i3 = i23;
+                                i11 = i24;
+                                if (i25 == 0) {
+                                    i17 = zzao.zzj(bArr2, i22, zzanVar2);
                                     unsafe2.putInt(obj2, j, zzanVar2.zza);
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i11;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i9 = i11;
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 15:
-                                i11 = i22;
-                                i5 = i21;
-                                if (i23 != 0) {
-                                    i10 = i3;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    i15 = zzao.zzj(bArr2, i3, zzanVar2);
+                                i3 = i23;
+                                i11 = i24;
+                                if (i25 == 0) {
+                                    i17 = zzao.zzj(bArr2, i22, zzanVar2);
                                     unsafe2.putInt(obj2, j, zzbe.zzb(zzanVar2.zza));
-                                    i18 |= i26;
-                                    i17 = i11;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i19 = i11;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
+                                i9 = i11;
+                                i10 = i22;
+                                unsafe = unsafe2;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
+                                break;
                             case 16:
-                                if (i23 != 0) {
-                                    i5 = i21;
-                                    i10 = i3;
-                                    i11 = i22;
-                                    i4 = i10;
-                                    unsafe = unsafe2;
-                                    i6 = i11;
-                                    break;
-                                } else {
-                                    int zzm2 = zzao.zzm(bArr2, i3, zzanVar2);
-                                    i5 = i21;
+                                if (i25 == 0) {
+                                    int zzm2 = zzao.zzm(bArr2, i22, zzanVar2);
+                                    i3 = i23;
+                                    i11 = i24;
                                     unsafe2.putLong(obj, j, zzbe.zzc(zzanVar2.zzb));
-                                    i18 |= i26;
-                                    i17 = i22;
-                                    i15 = zzm2;
+                                    i20 = i5 | i28;
+                                    i14 = i2;
+                                    i17 = zzm2;
+                                    i19 = i11;
+                                    i21 = i8;
+                                    i18 = i3;
                                     break;
                                 }
                             default:
-                                i10 = i3;
-                                i11 = i22;
-                                i5 = i21;
-                                i4 = i10;
+                                i3 = i23;
+                                i9 = i24;
+                                i10 = i22;
                                 unsafe = unsafe2;
-                                i6 = i11;
+                                i4 = i10;
+                                i6 = i8;
+                                i7 = i9;
                                 break;
                         }
-                        i16 = i5;
-                        i14 = 1048575;
-                        i13 = -1;
-                        i12 = i2;
+                        i16 = 1048575;
+                        i15 = -1;
                     } else {
-                        i5 = i21;
-                        int i28 = i3;
+                        i3 = i23;
+                        int i30 = i22;
+                        unsafe2 = unsafe3;
                         if (zzx != 27) {
-                            i6 = i22;
+                            i7 = i24;
+                            int i31 = i21;
+                            int i32 = i20;
                             if (zzx <= 49) {
-                                i8 = i18;
-                                i9 = i19;
+                                i12 = i32;
                                 unsafe = unsafe2;
-                                i15 = zzs(obj, bArr, i28, i2, b, i5, i23, i6, i24, zzx, j, zzanVar);
-                            } else {
-                                i7 = i28;
-                                i8 = i18;
-                                i9 = i19;
-                                unsafe = unsafe2;
-                                if (zzx != 50) {
-                                    i15 = zzr(obj, bArr, i7, i2, b, i5, i23, i24, zzx, j, i6, zzanVar);
-                                } else if (i23 == 2) {
-                                    i15 = zzq(obj, bArr, i7, i2, i6, j, zzanVar);
+                                i6 = i31;
+                                i17 = zzs(obj, bArr, i30, i2, b, i3, i25, i7, i26, zzx, j, zzanVar);
+                                if (i17 == i30) {
+                                    i5 = i12;
+                                    i4 = i17;
                                 }
+                                zzdiVar = this;
+                                obj2 = obj;
+                                bArr2 = bArr;
+                                i20 = i12;
+                                i14 = i2;
+                                zzanVar2 = zzanVar;
+                            } else {
+                                i12 = i32;
+                                i6 = i31;
+                                unsafe = unsafe2;
+                                i13 = i30;
+                                if (zzx != 50) {
+                                    i17 = zzr(obj, bArr, i13, i2, b, i3, i25, i26, zzx, j, i7, zzanVar);
+                                } else if (i25 == 2) {
+                                    i17 = zzq(obj, bArr, i13, i2, i7, j, zzanVar);
+                                }
+                                i16 = 1048575;
+                                i15 = -1;
                             }
-                            i14 = 1048575;
-                            i13 = -1;
-                        } else if (i23 == 2) {
+                            i19 = i7;
+                            i18 = i3;
+                            unsafe2 = unsafe;
+                            i21 = i6;
+                            i16 = 1048575;
+                            i15 = -1;
+                        } else if (i25 == 2) {
                             zzcf zzcfVar = (zzcf) unsafe2.getObject(obj2, j);
                             if (!zzcfVar.zzc()) {
                                 int size = zzcfVar.size();
                                 zzcfVar = zzcfVar.zzd(size == 0 ? 10 : size + size);
                                 unsafe2.putObject(obj2, j, zzcfVar);
                             }
-                            i15 = zzao.zze(zzdiVar.zzB(i22), b, bArr, i28, i2, zzcfVar, zzanVar);
-                            i12 = i2;
-                            i18 = i18;
-                            i16 = i5;
-                            i17 = i22;
-                            i14 = 1048575;
-                            i13 = -1;
+                            i17 = zzao.zze(zzdiVar.zzB(i24), b, bArr, i30, i2, zzcfVar, zzanVar);
+                            bArr2 = bArr;
+                            i14 = i2;
+                            i20 = i20;
+                            i21 = i21;
+                            i19 = i24;
+                            i18 = i3;
+                            i16 = 1048575;
+                            i15 = -1;
+                            zzanVar2 = zzanVar;
                         } else {
-                            i6 = i22;
-                            i7 = i28;
-                            i8 = i18;
-                            i9 = i19;
+                            i7 = i24;
+                            i12 = i20;
+                            i6 = i21;
                             unsafe = unsafe2;
+                            i13 = i30;
                         }
-                        i4 = i7;
-                        i18 = i8;
-                        i19 = i9;
+                        i5 = i12;
+                        i4 = i13;
                     }
                 }
-                i15 = zzao.zzi(b, bArr, i4, i2, zzd(obj), zzanVar);
+                i17 = zzao.zzi(b, bArr, i4, i2, zzd(obj), zzanVar);
                 zzdiVar = this;
                 obj2 = obj;
                 bArr2 = bArr;
-                i12 = i2;
+                i14 = i2;
                 zzanVar2 = zzanVar;
-                i16 = i5;
-                i17 = i6;
+                i20 = i5;
+                i19 = i7;
+                i18 = i3;
                 unsafe2 = unsafe;
-                i14 = 1048575;
-                i13 = -1;
+                i21 = i6;
+                i16 = 1048575;
+                i15 = -1;
             }
-            int i29 = i18;
-            Unsafe unsafe3 = unsafe2;
-            if (i19 != 1048575) {
-                unsafe3.putInt(obj, i19, i29);
+            int i33 = i20;
+            int i34 = i21;
+            Unsafe unsafe4 = unsafe2;
+            if (i34 != 1048575) {
+                unsafe4.putInt(obj, i34, i33);
             }
-            if (i15 != i2) {
+            if (i17 != i2) {
                 throw zzci.zze();
             }
             return;
@@ -4773,139 +4839,139 @@ public final class zzdi<T> implements zzdp<T> {
                         case 30:
                             zzdr.zzG(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                        case 31:
                             zzdr.zzO(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, false);
                             break;
                         case 32:
                             zzdr.zzP(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                        case 33:
                             zzdr.zzQ(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                        case 34:
                             zzdr.zzR(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                        case 35:
                             zzdr.zzF(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                        case 36:
                             zzdr.zzJ(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                        case 37:
                             zzdr.zzM(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                        case 38:
                             zzdr.zzU(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                        case 39:
                             zzdr.zzL(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                        case 40:
                             zzdr.zzI(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                        case 41:
                             zzdr.zzH(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                        case 42:
                             zzdr.zzD(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                        case 43:
                             zzdr.zzT(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                        case 44:
                             zzdr.zzG(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                        case 45:
                             zzdr.zzO(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                        case 46:
                             zzdr.zzP(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                        case 47:
                             zzdr.zzQ(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                        case 48:
                             zzdr.zzR(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                        case 49:
                             zzdr.zzK(this.zzc[i3], (List) unsafe.getObject(obj, j), zzeyVar, zzB(i3));
                             break;
-                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                        case 50:
                             zzN(zzeyVar, i6, unsafe.getObject(obj, j), i3);
                             break;
-                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                        case 51:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzf(i6, zzm(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                        case 52:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzo(i6, zzn(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                        case 53:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzt(i6, zzz(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                        case 54:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzJ(i6, zzz(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                        case 55:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzr(i6, zzp(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorError /* 56 */:
+                        case 56:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzm(i6, zzz(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                        case 57:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzk(i6, zzp(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                        case 58:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzb(i6, zzU(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                        case 59:
                             if (zzT(obj, i6, i3)) {
                                 zzV(i6, unsafe.getObject(obj, j), zzeyVar);
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                        case 60:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzv(i6, unsafe.getObject(obj, j), zzB(i3));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                        case 61:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzd(i6, (zzba) unsafe.getObject(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                        case 62:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzH(i6, zzp(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                        case 63:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzi(i6, zzp(obj, j));
                                 break;
@@ -4923,19 +4989,19 @@ public final class zzdi<T> implements zzdp<T> {
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                        case 66:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzA(i6, zzp(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                        case 67:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzC(i6, zzz(obj, j));
                                 break;
                             }
                             break;
-                        case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                        case 68:
                             if (zzT(obj, i6, i3)) {
                                 zzeyVar.zzq(i6, unsafe.getObject(obj, j), zzB(i3));
                                 break;
@@ -5120,151 +5186,151 @@ public final class zzdi<T> implements zzdp<T> {
                         case 30:
                             zzdr.zzG(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                        case 31:
                             zzdr.zzO(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, false);
                             break;
                         case 32:
                             zzdr.zzP(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                        case 33:
                             zzdr.zzQ(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                        case 34:
                             zzdr.zzR(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, false);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+                        case 35:
                             zzdr.zzF(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+                        case 36:
                             zzdr.zzJ(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                        case 37:
                             zzdr.zzM(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                        case 38:
                             zzdr.zzU(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                        case 39:
                             zzdr.zzL(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                        case 40:
                             zzdr.zzI(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                        case 41:
                             zzdr.zzH(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                        case 42:
                             zzdr.zzD(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                        case 43:
                             zzdr.zzT(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                        case 44:
                             zzdr.zzG(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                        case 45:
                             zzdr.zzO(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                        case 46:
                             zzdr.zzP(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                        case 47:
                             zzdr.zzQ(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                        case 48:
                             zzdr.zzR(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, true);
                             break;
-                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                        case 49:
                             zzdr.zzK(i10, (List) zzeq.zzf(obj, zzy2 & 1048575), zzeyVar, zzB(i9));
                             break;
-                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                        case 50:
                             zzN(zzeyVar, i10, zzeq.zzf(obj, zzy2 & 1048575), i9);
                             break;
-                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                        case 51:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzf(i10, zzm(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                        case 52:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzo(i10, zzn(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                        case 53:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzt(i10, zzz(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+                        case 54:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzJ(i10, zzz(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
+                        case 55:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzr(i10, zzp(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorError /* 56 */:
+                        case 56:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzm(i10, zzz(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                        case 57:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzk(i10, zzp(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+                        case 58:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzb(i10, zzU(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+                        case 59:
                             if (zzT(obj, i10, i9)) {
                                 zzV(i10, zzeq.zzf(obj, zzy2 & 1048575), zzeyVar);
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                        case 60:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzv(i10, zzeq.zzf(obj, zzy2 & 1048575), zzB(i9));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                        case 61:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzd(i10, (zzba) zzeq.zzf(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                        case 62:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzH(i10, zzp(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                        case 63:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzi(i10, zzp(obj, zzy2 & 1048575));
                                 break;
@@ -5285,21 +5351,21 @@ public final class zzdi<T> implements zzdp<T> {
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+                        case 66:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzA(i10, zzp(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+                        case 67:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzC(i10, zzz(obj, zzy2 & 1048575));
                                 break;
                             } else {
                                 break;
                             }
-                        case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                        case 68:
                             if (zzT(obj, i10, i9)) {
                                 zzeyVar.zzq(i10, zzeq.zzf(obj, zzy2 & 1048575), zzB(i9));
                                 break;
@@ -5428,48 +5494,48 @@ public final class zzdi<T> implements zzdp<T> {
                 case 28:
                 case 29:
                 case 30:
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                case 31:
                 case 32:
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49:
                     zzV = zzdr.zzV(zzeq.zzf(obj, j), zzeq.zzf(obj2, j));
                     break;
-                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                case 50:
                     zzV = zzdr.zzV(zzeq.zzf(obj, j), zzeq.zzf(obj2, j));
                     break;
-                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
-                case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
-                case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
-                case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-                case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
-                case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-                case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                case 55:
+                case 56:
+                case 57:
+                case 58:
+                case 59:
+                case 60:
+                case 61:
+                case 62:
+                case 63:
                 case 64:
                 case 65:
-                case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
-                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                case 66:
+                case 67:
+                case 68:
                     long zzv = zzv(i) & 1048575;
                     if (zzeq.zzc(obj, zzv) == zzeq.zzc(obj2, zzv) && zzdr.zzV(zzeq.zzf(obj, j), zzeq.zzf(obj2, j))) {
                         continue;

@@ -1,6 +1,7 @@
 package j$.time.format;
 
 import j$.util.concurrent.ConcurrentHashMap;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes2.dex */
 public final class w {
     public static final w a = new w();
@@ -24,7 +25,7 @@ public final class w {
     }
 
     public final int hashCode() {
-        return 182;
+        return NotificationCenter.didStartedMultiGiftsSelector;
     }
 
     public final String toString() {

@@ -161,7 +161,7 @@ public class StickersDialogs {
         }
         final AlertDialog alertDialog = new AlertDialog(context, 3, z ? null : new DarkThemeResourceProvider());
         alertDialog.showDelayed(250L);
-        callback2.run(trim, new Utilities.Callback() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda5
+        callback2.run(trim, new Utilities.Callback() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StickersDialogs.lambda$showNameEditorDialog$1(AlertDialog.this, dialogInterface, editTextBoldCursor, (Boolean) obj);
@@ -201,7 +201,7 @@ public class StickersDialogs {
         if (tLRPC$StickerSet == null) {
             return;
         }
-        AlertDialog create = new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.StickersDeleteStickerSetTitle)).setMessage(LocaleController.getString(R.string.StickersDeleteStickerSetDescription)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda6
+        AlertDialog create = new AlertDialog.Builder(context, resourcesProvider).setTitle(LocaleController.getString(R.string.StickersDeleteStickerSetTitle)).setMessage(LocaleController.getString(R.string.StickersDeleteStickerSetDescription)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 StickersDialogs.lambda$showDeleteForEveryOneDialog$7(runnable, tLRPC$StickerSet, dialogInterface, i);
@@ -229,7 +229,7 @@ public class StickersDialogs {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showDeleteForEveryOneDialog$6(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StickersDialogs.lambda$showDeleteForEveryOneDialog$5();
@@ -264,7 +264,7 @@ public class StickersDialogs {
         final TLRPC$TL_stickers_addStickerToSet tLRPC$TL_stickers_addStickerToSet = new TLRPC$TL_stickers_addStickerToSet();
         tLRPC$TL_stickers_addStickerToSet.stickerset = MediaDataController.getInputStickerSet(tLRPC$TL_messages_stickerSet.set);
         tLRPC$TL_stickers_addStickerToSet.sticker = MediaDataController.getInputStickerSetItem(tLRPC$Document, str);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda10
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.StickersDialogs$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StickersDialogs.lambda$openStickerPickerDialog$10(AlertDialog.this, i, tLRPC$Document, obj, tLRPC$TL_stickers_addStickerToSet, tLObject, tLRPC$TL_error);

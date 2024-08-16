@@ -348,8 +348,10 @@ public class NotificationBadge {
                         contentResolver.insert(parse, getContentValues(NotificationBadge.componentName, i, true));
                     }
                 }
-            } finally {
                 NotificationBadge.close(cursor);
+            } catch (Throwable th) {
+                NotificationBadge.close(cursor);
+                throw th;
             }
         }
 

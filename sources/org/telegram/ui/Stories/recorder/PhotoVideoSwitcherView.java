@@ -60,13 +60,15 @@ public class PhotoVideoSwitcherView extends View implements FlashViews.Invertabl
         this.textPaint.setTextSize(AndroidUtilities.dpf2(14.0f));
         this.textPaint.setShadowLayer(AndroidUtilities.dpf2(1.0f), 0.0f, AndroidUtilities.dpf2(0.4f), AndroidUtilities.DARK_STATUS_BAR_OVERLAY);
         String string = LocaleController.getString("StoryPhoto");
-        StaticLayout staticLayout = new StaticLayout(string == null ? "Photo" : string, this.textPaint, AndroidUtilities.displaySize.x / 2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        string = string == null ? "Photo" : string;
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+        StaticLayout staticLayout = new StaticLayout(string, this.textPaint, AndroidUtilities.displaySize.x / 2, alignment, 1.0f, 0.0f, false);
         this.photoText = staticLayout;
         this.photoTextLeft = staticLayout.getLineCount() > 0 ? this.photoText.getLineLeft(0) : 0.0f;
         this.photoTextWidth = this.photoText.getLineCount() > 0 ? this.photoText.getLineWidth(0) : 0.0f;
         this.photoTextHeight = this.photoText.getHeight();
         String string2 = LocaleController.getString("StoryVideo");
-        StaticLayout staticLayout2 = new StaticLayout(string2 == null ? "Video" : string2, this.textPaint, AndroidUtilities.displaySize.x / 2, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        StaticLayout staticLayout2 = new StaticLayout(string2 == null ? "Video" : string2, this.textPaint, AndroidUtilities.displaySize.x / 2, alignment, 1.0f, 0.0f, false);
         this.videoText = staticLayout2;
         this.videoTextLeft = staticLayout2.getLineCount() > 0 ? this.videoText.getLineLeft(0) : 0.0f;
         this.videoTextWidth = this.videoText.getLineCount() > 0 ? this.videoText.getLineWidth(0) : 0.0f;
@@ -88,10 +90,7 @@ public class PhotoVideoSwitcherView extends View implements FlashViews.Invertabl
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.mode;
-        fArr[1] = z ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.mode, z ? 1.0f : 0.0f);
         this.animator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.PhotoVideoSwitcherView$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener

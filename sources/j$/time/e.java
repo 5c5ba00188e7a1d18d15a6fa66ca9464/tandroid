@@ -1,107 +1,61 @@
 package j$.time;
-
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.regex.Pattern;
 /* loaded from: classes2.dex */
-public final class e implements Comparable, Serializable {
-    public static final e c = new e(0, 0);
-    private final long a;
-    private final int b;
+abstract /* synthetic */ class e {
+    static final /* synthetic */ int[] a;
+    static final /* synthetic */ int[] b;
 
     static {
-        BigInteger.valueOf(1000000000L);
-        Pattern.compile("([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?", 2);
-    }
-
-    private e(long j, int i) {
-        this.a = j;
-        this.b = i;
-    }
-
-    private static e a(long j, int i) {
-        return (((long) i) | j) == 0 ? c : new e(j, i);
-    }
-
-    public static e b(long j) {
-        long j2 = j / 1000000000;
-        int i = (int) (j % 1000000000);
-        if (i < 0) {
-            i = (int) (i + 1000000000);
-            j2--;
+        int[] iArr = new int[j$.time.temporal.b.values().length];
+        b = iArr;
+        try {
+            iArr[j$.time.temporal.b.NANOS.ordinal()] = 1;
+        } catch (NoSuchFieldError unused) {
         }
-        return a(j2, i);
-    }
-
-    public static e c() {
-        return a(a.c(Long.MAX_VALUE, a.f(999999999L, 1000000000L)), (int) a.d(999999999L, 1000000000L));
-    }
-
-    @Override // java.lang.Comparable
-    public final int compareTo(Object obj) {
-        e eVar = (e) obj;
-        int compare = Long.compare(this.a, eVar.a);
-        return compare != 0 ? compare : this.b - eVar.b;
-    }
-
-    public final boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        try {
+            b[j$.time.temporal.b.MICROS.ordinal()] = 2;
+        } catch (NoSuchFieldError unused2) {
         }
-        if (obj instanceof e) {
-            e eVar = (e) obj;
-            return this.a == eVar.a && this.b == eVar.b;
+        try {
+            b[j$.time.temporal.b.MILLIS.ordinal()] = 3;
+        } catch (NoSuchFieldError unused3) {
         }
-        return false;
-    }
-
-    public final int hashCode() {
-        long j = this.a;
-        return (this.b * 51) + ((int) (j ^ (j >>> 32)));
-    }
-
-    public final String toString() {
-        if (this == c) {
-            return "PT0S";
+        try {
+            b[j$.time.temporal.b.SECONDS.ordinal()] = 4;
+        } catch (NoSuchFieldError unused4) {
         }
-        long j = this.a;
-        long j2 = j / 3600;
-        int i = (int) ((j % 3600) / 60);
-        int i2 = (int) (j % 60);
-        StringBuilder sb = new StringBuilder(24);
-        sb.append("PT");
-        if (j2 != 0) {
-            sb.append(j2);
-            sb.append('H');
+        try {
+            b[j$.time.temporal.b.MINUTES.ordinal()] = 5;
+        } catch (NoSuchFieldError unused5) {
         }
-        if (i != 0) {
-            sb.append(i);
-            sb.append('M');
+        try {
+            b[j$.time.temporal.b.HOURS.ordinal()] = 6;
+        } catch (NoSuchFieldError unused6) {
         }
-        int i3 = this.b;
-        if (i2 == 0 && i3 == 0 && sb.length() > 2) {
-            return sb.toString();
+        try {
+            b[j$.time.temporal.b.HALF_DAYS.ordinal()] = 7;
+        } catch (NoSuchFieldError unused7) {
         }
-        if (i2 >= 0 || i3 <= 0) {
-            sb.append(i2);
-        } else if (i2 == -1) {
-            sb.append("-0");
-        } else {
-            sb.append(i2 + 1);
+        try {
+            b[j$.time.temporal.b.DAYS.ordinal()] = 8;
+        } catch (NoSuchFieldError unused8) {
         }
-        if (i3 > 0) {
-            int length = sb.length();
-            if (i2 < 0) {
-                sb.append(2000000000 - i3);
-            } else {
-                sb.append(i3 + 1000000000);
-            }
-            while (sb.charAt(sb.length() - 1) == '0') {
-                sb.setLength(sb.length() - 1);
-            }
-            sb.setCharAt(length, '.');
+        int[] iArr2 = new int[j$.time.temporal.a.values().length];
+        a = iArr2;
+        try {
+            iArr2[j$.time.temporal.a.NANO_OF_SECOND.ordinal()] = 1;
+        } catch (NoSuchFieldError unused9) {
         }
-        sb.append('S');
-        return sb.toString();
+        try {
+            a[j$.time.temporal.a.MICRO_OF_SECOND.ordinal()] = 2;
+        } catch (NoSuchFieldError unused10) {
+        }
+        try {
+            a[j$.time.temporal.a.MILLI_OF_SECOND.ordinal()] = 3;
+        } catch (NoSuchFieldError unused11) {
+        }
+        try {
+            a[j$.time.temporal.a.INSTANT_SECONDS.ordinal()] = 4;
+        } catch (NoSuchFieldError unused12) {
+        }
     }
 }

@@ -18,8 +18,12 @@ public interface HttpDataSource extends DataSource {
         private Map<String, String> requestPropertiesSnapshot;
 
         public synchronized Map<String, String> getSnapshot() {
-            if (this.requestPropertiesSnapshot == null) {
-                this.requestPropertiesSnapshot = Collections.unmodifiableMap(new HashMap(this.requestProperties));
+            try {
+                if (this.requestPropertiesSnapshot == null) {
+                    this.requestPropertiesSnapshot = Collections.unmodifiableMap(new HashMap(this.requestProperties));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
             return this.requestPropertiesSnapshot;
         }

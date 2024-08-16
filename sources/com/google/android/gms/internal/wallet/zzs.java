@@ -2,13 +2,14 @@ package com.google.android.gms.internal.wallet;
 
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.wallet.IsReadyToPayRequest;
 import com.google.android.gms.wallet.PaymentDataRequest;
 /* compiled from: com.google.android.gms:play-services-wallet@@19.1.0 */
 /* loaded from: classes.dex */
-public final class zzs extends zza {
+public final class zzs extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzs(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.wallet.internal.IOwService");

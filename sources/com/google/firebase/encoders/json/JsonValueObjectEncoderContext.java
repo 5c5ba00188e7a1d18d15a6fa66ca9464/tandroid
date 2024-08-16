@@ -107,9 +107,7 @@ final class JsonValueObjectEncoderContext implements ObjectEncoderContext, Value
         int[] iArr;
         int i = 0;
         if (z && cannotBeInline(obj)) {
-            Object[] objArr = new Object[1];
-            objArr[0] = obj == null ? null : obj.getClass();
-            throw new EncodingException(String.format("%s cannot be encoded inline", objArr));
+            throw new EncodingException(String.format("%s cannot be encoded inline", obj == null ? null : obj.getClass()));
         } else if (obj == null) {
             this.jsonWriter.nullValue();
             return this;

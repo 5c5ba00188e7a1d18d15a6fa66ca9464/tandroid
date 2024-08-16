@@ -1,33 +1,32 @@
 package j$.util.stream;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class O extends S implements d2 {
-    final j$.util.function.K b;
+public final class O extends Q implements d2 {
+    final j$.util.function.W b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public O(j$.util.function.K k, boolean z) {
+    public O(j$.util.function.W w, boolean z) {
         super(z);
-        this.b = k;
+        this.b = w;
     }
 
-    @Override // j$.util.stream.S, j$.util.stream.f2
-    public final void accept(int i) {
-        this.b.accept(i);
+    @Override // j$.util.stream.Q, j$.util.stream.e2
+    public final void accept(long j) {
+        this.b.accept(j);
     }
 
     @Override // j$.util.function.Consumer
     public final /* bridge */ /* synthetic */ void accept(Object obj) {
-        g((Integer) obj);
+        j((Long) obj);
+    }
+
+    @Override // j$.util.function.W
+    public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
+        return j$.com.android.tools.r8.a.d(this, w);
     }
 
     @Override // j$.util.stream.d2
-    public final /* synthetic */ void g(Integer num) {
-        u0.l0(this, num);
-    }
-
-    @Override // j$.util.function.K
-    public final j$.util.function.K n(j$.util.function.K k) {
-        k.getClass();
-        return new j$.util.function.H(this, k);
+    public final /* synthetic */ void j(Long l) {
+        t0.i(this, l);
     }
 }

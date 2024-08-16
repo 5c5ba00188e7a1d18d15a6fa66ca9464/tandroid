@@ -38,7 +38,7 @@ public final class zzp<E> extends zzk<E> {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzk, com.google.android.gms.internal.mlkit_language_id.zzl
     final int zza(Object[] objArr, int i) {
         System.arraycopy(this.zzb, 0, objArr, 0, this.zzc);
-        return this.zzc + 0;
+        return this.zzc;
     }
 
     @Override // java.util.List

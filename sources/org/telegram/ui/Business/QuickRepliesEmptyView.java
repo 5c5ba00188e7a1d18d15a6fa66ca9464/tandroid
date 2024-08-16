@@ -39,8 +39,8 @@ public class QuickRepliesEmptyView extends LinearLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x01b6  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x01bb  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x01b1  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x01b6  */
     /* JADX WARN: Removed duplicated region for block: B:23:0x01cb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -18,10 +18,14 @@ public final class zze {
     public static synchronized zze zza(Context context) {
         zze zzeVar;
         synchronized (zze.class) {
-            if (zza == null) {
-                zza = new zze(context, com.google.android.gms.internal.cloudmessaging.zza.zza().zza(1, new NamedThreadFactory("MessengerIpcClient"), com.google.android.gms.internal.cloudmessaging.zzf.zzb));
+            try {
+                if (zza == null) {
+                    zza = new zze(context, com.google.android.gms.internal.cloudmessaging.zza.zza().zza(1, new NamedThreadFactory("MessengerIpcClient"), com.google.android.gms.internal.cloudmessaging.zzf.zzb));
+                }
+                zzeVar = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            zzeVar = zza;
         }
         return zzeVar;
     }
@@ -40,17 +44,21 @@ public final class zze {
     }
 
     private final synchronized <T> Task<T> zza(zzq<T> zzqVar) {
-        if (Log.isLoggable("MessengerIpcClient", 3)) {
-            String valueOf = String.valueOf(zzqVar);
-            StringBuilder sb = new StringBuilder(valueOf.length() + 9);
-            sb.append("Queueing ");
-            sb.append(valueOf);
-            Log.d("MessengerIpcClient", sb.toString());
-        }
-        if (!this.zzd.zza((zzq<?>) zzqVar)) {
-            zzf zzfVar = new zzf(this);
-            this.zzd = zzfVar;
-            zzfVar.zza((zzq<?>) zzqVar);
+        try {
+            if (Log.isLoggable("MessengerIpcClient", 3)) {
+                String valueOf = String.valueOf(zzqVar);
+                StringBuilder sb = new StringBuilder(valueOf.length() + 9);
+                sb.append("Queueing ");
+                sb.append(valueOf);
+                Log.d("MessengerIpcClient", sb.toString());
+            }
+            if (!this.zzd.zza((zzq<?>) zzqVar)) {
+                zzf zzfVar = new zzf(this);
+                this.zzd = zzfVar;
+                zzfVar.zza((zzq<?>) zzqVar);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return zzqVar.zzb.getTask();
     }

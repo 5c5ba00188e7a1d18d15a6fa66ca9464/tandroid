@@ -14,11 +14,6 @@ public final class DefaultIoScheduler extends ExecutorCoroutineDispatcher implem
     public static final DefaultIoScheduler INSTANCE = new DefaultIoScheduler();
     private static final CoroutineDispatcher default;
 
-    @Override // kotlinx.coroutines.CoroutineDispatcher
-    public String toString() {
-        return "Dispatchers.IO";
-    }
-
     private DefaultIoScheduler() {
     }
 
@@ -44,5 +39,10 @@ public final class DefaultIoScheduler extends ExecutorCoroutineDispatcher implem
     @Override // java.io.Closeable, java.lang.AutoCloseable
     public void close() {
         throw new IllegalStateException("Cannot be invoked on Dispatchers.IO".toString());
+    }
+
+    @Override // kotlinx.coroutines.CoroutineDispatcher
+    public String toString() {
+        return "Dispatchers.IO";
     }
 }

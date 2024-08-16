@@ -232,14 +232,15 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
         this.sampleQueuesEnabledStates[i2] = false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:72:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x012d  */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0119, code lost:
+        if (r11.getSelectedIndexInTrackGroup() != r19.chunkSource.getTrackGroup().indexOf(r1.trackFormat)) goto L75;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0125  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean selectTracks(ExoTrackSelection[] exoTrackSelectionArr, boolean[] zArr, SampleStream[] sampleStreamArr, boolean[] zArr2, long j, boolean z) {
         boolean z2;
-        boolean z3;
         assertIsPrepared();
         int i = this.enabledTrackGroupCount;
         int i2 = 0;
@@ -251,9 +252,9 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
                 sampleStreamArr[i3] = null;
             }
         }
-        boolean z4 = z || (!this.seenFirstTrackSelection ? j == this.lastSeekPositionUs : i != 0);
+        boolean z3 = z || (!this.seenFirstTrackSelection ? j == this.lastSeekPositionUs : i != 0);
         ExoTrackSelection trackSelection = this.chunkSource.getTrackSelection();
-        boolean z5 = z4;
+        boolean z4 = z3;
         ExoTrackSelection exoTrackSelection = trackSelection;
         for (int i4 = 0; i4 < exoTrackSelectionArr.length; i4++) {
             ExoTrackSelection exoTrackSelection2 = exoTrackSelectionArr[i4];
@@ -270,9 +271,9 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
                     zArr2[i4] = true;
                     if (this.trackGroupToSampleQueueIndex != null) {
                         hlsSampleStream2.bindSampleQueue();
-                        if (!z5) {
+                        if (!z4) {
                             HlsSampleQueue hlsSampleQueue = this.sampleQueues[this.trackGroupToSampleQueueIndex[indexOf]];
-                            z5 = (hlsSampleQueue.seekTo(j, true) || hlsSampleQueue.getReadIndex() == 0) ? false : true;
+                            z4 = (hlsSampleQueue.seekTo(j, true) || hlsSampleQueue.getReadIndex() == 0) ? false : true;
                         }
                     }
                 }
@@ -302,35 +303,27 @@ public final class HlsSampleStreamWrapper implements Loader.Callback<Chunk>, Loa
                     long j2 = j < 0 ? -j : 0L;
                     HlsMediaChunk lastMediaChunk = getLastMediaChunk();
                     exoTrackSelection.updateSelectedTrack(j, j2, -9223372036854775807L, this.readOnlyMediaChunks, this.chunkSource.createMediaChunkIterators(lastMediaChunk, j));
-                    if (exoTrackSelection.getSelectedIndexInTrackGroup() == this.chunkSource.getTrackGroup().indexOf(lastMediaChunk.trackFormat)) {
-                        z3 = false;
-                        if (z3) {
-                            this.pendingResetUpstreamFormats = true;
-                            z2 = true;
-                            z5 = true;
-                            if (z5) {
-                                seekToUs(j, z2);
-                                while (i2 < sampleStreamArr.length) {
-                                    if (sampleStreamArr[i2] != null) {
-                                        zArr2[i2] = true;
-                                    }
-                                    i2++;
-                                }
-                            }
-                        }
-                    }
                 }
-                z3 = true;
-                if (z3) {
+                this.pendingResetUpstreamFormats = true;
+                z2 = true;
+                z4 = true;
+                if (z4) {
+                    seekToUs(j, z2);
+                    while (i2 < sampleStreamArr.length) {
+                        if (sampleStreamArr[i2] != null) {
+                            zArr2[i2] = true;
+                        }
+                        i2++;
+                    }
                 }
             }
             z2 = z;
-            if (z5) {
+            if (z4) {
             }
         }
         updateSampleStreams(sampleStreamArr);
         this.seenFirstTrackSelection = true;
-        return z5;
+        return z4;
     }
 
     public void discardBuffer(long j, boolean z) {

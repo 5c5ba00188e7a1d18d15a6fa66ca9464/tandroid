@@ -19,21 +19,25 @@ public class GoogleSignInClient extends GoogleApi<GoogleSignInOptions> {
 
     private final synchronized int zba() {
         int i;
-        i = zba;
-        if (i == 1) {
-            Context applicationContext = getApplicationContext();
-            GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-            int isGooglePlayServicesAvailable = googleApiAvailability.isGooglePlayServicesAvailable(applicationContext, GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE);
-            if (isGooglePlayServicesAvailable == 0) {
-                i = 4;
-                zba = 4;
-            } else if (googleApiAvailability.getErrorResolutionIntent(applicationContext, isGooglePlayServicesAvailable, null) != null || DynamiteModule.getLocalVersion(applicationContext, "com.google.android.gms.auth.api.fallback") == 0) {
-                i = 2;
-                zba = 2;
-            } else {
-                i = 3;
-                zba = 3;
+        try {
+            i = zba;
+            if (i == 1) {
+                Context applicationContext = getApplicationContext();
+                GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+                int isGooglePlayServicesAvailable = googleApiAvailability.isGooglePlayServicesAvailable(applicationContext, GooglePlayServicesUtilLight.GOOGLE_PLAY_SERVICES_VERSION_CODE);
+                if (isGooglePlayServicesAvailable == 0) {
+                    i = 4;
+                    zba = 4;
+                } else if (googleApiAvailability.getErrorResolutionIntent(applicationContext, isGooglePlayServicesAvailable, null) != null || DynamiteModule.getLocalVersion(applicationContext, "com.google.android.gms.auth.api.fallback") == 0) {
+                    i = 2;
+                    zba = 2;
+                } else {
+                    i = 3;
+                    zba = 3;
+                }
             }
+        } catch (Throwable th) {
+            throw th;
         }
         return i;
     }

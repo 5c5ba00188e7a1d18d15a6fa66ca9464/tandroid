@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.concurrent.CountDownLatch;
+import org.telegram.messenger.NotificationCenter;
 import org.webrtc.EglBase;
 import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
@@ -68,7 +69,7 @@ public class VideoFileRenderer implements VideoSink {
     @Override // org.webrtc.VideoSink
     public void onFrame(final VideoFrame videoFrame) {
         videoFrame.retain();
-        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda2
+        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$onFrame$0(videoFrame);
@@ -80,8 +81,8 @@ public class VideoFileRenderer implements VideoSink {
     /* renamed from: renderFrameOnRenderThread */
     public void lambda$onFrame$0(final VideoFrame videoFrame) {
         VideoFrame.Buffer buffer = videoFrame.getBuffer();
-        int i = videoFrame.getRotation() % 180 == 0 ? this.outputFileWidth : this.outputFileHeight;
-        int i2 = videoFrame.getRotation() % 180 == 0 ? this.outputFileHeight : this.outputFileWidth;
+        int i = videoFrame.getRotation() % NotificationCenter.updateBotMenuButton == 0 ? this.outputFileWidth : this.outputFileHeight;
+        int i2 = videoFrame.getRotation() % NotificationCenter.updateBotMenuButton == 0 ? this.outputFileHeight : this.outputFileWidth;
         float width = buffer.getWidth() / buffer.getHeight();
         float f = i / i2;
         int width2 = buffer.getWidth();
@@ -118,14 +119,14 @@ public class VideoFileRenderer implements VideoSink {
 
     public void release() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda0
+        this.renderThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$release$2(countDownLatch);
             }
         });
         ThreadUtils.awaitUninterruptibly(countDownLatch);
-        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda1
+        this.fileThreadHandler.post(new Runnable() { // from class: org.webrtc.VideoFileRenderer$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VideoFileRenderer.this.lambda$release$3();

@@ -813,9 +813,8 @@ public class DatabaseMigrationHelper {
                                     nativeByteBuffer = byteBufferValue7;
                                 }
                                 byteBufferValue6.reuse();
-                                NativeByteBuffer nativeByteBuffer5 = new NativeByteBuffer(TLdeserialize2.getObjectSize());
-                                TLdeserialize2.serializeToStream(nativeByteBuffer5);
-                                byteBufferValue6 = nativeByteBuffer5;
+                                byteBufferValue6 = new NativeByteBuffer(TLdeserialize2.getObjectSize());
+                                TLdeserialize2.serializeToStream(byteBufferValue6);
                             } else {
                                 i2 = intValue28;
                                 nativeByteBuffer = byteBufferValue7;
@@ -958,7 +957,7 @@ public class DatabaseMigrationHelper {
                     long makeFolderDialogId = DialogObject.makeFolderDialogId(intValue31);
                     executeFast16.requery();
                     executeFast16.bindLong(1, makeFolderDialogId);
-                    executeFast16.bindLong(2, 8589934592L | intValue31);
+                    executeFast16.bindLong(2, intValue31 | 8589934592L);
                     executeFast16.step();
                 }
                 executeFast16.dispose();
@@ -1096,7 +1095,7 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("ALTER TABLE dialogs ADD COLUMN last_mid_group INTEGER default NULL").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS uid_mid_groupid_messages_v2 ON messages_v2(uid, mid, group_id);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 102").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+            i7 = 102;
         }
         if (i7 == 102) {
             sQLiteDatabase.executeFast("CREATE TABLE messages_holes_topics(uid INTEGER, topic_id INTEGER, start INTEGER, end INTEGER, PRIMARY KEY(uid, topic_id, start));").stepThis().dispose();
@@ -1119,24 +1118,24 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("CREATE TABLE topics(did INTEGER, topic_id INTEGER, data BLOB, top_message INTEGER, topic_message BLOB, unread_count INTEGER, max_read_id INTEGER, unread_mentions INTEGER, unread_reactions INTEGER, PRIMARY KEY(did, topic_id));").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS did_top_message_topics ON topics(did, top_message);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 103").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceListItem;
+            i7 = 103;
         }
         if (i7 == 103) {
             sQLiteDatabase.executeFast("CREATE TABLE IF NOT EXISTS media_counts_topics(uid INTEGER, topic_id INTEGER, type INTEGER, count INTEGER, old INTEGER, PRIMARY KEY(uid, topic_id, type))").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE TABLE IF NOT EXISTS reaction_mentions_topics(message_id INTEGER, state INTEGER, dialog_id INTEGER, topic_id INTEGER, PRIMARY KEY(message_id, dialog_id, topic_id))").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS reaction_mentions_topics_did ON reaction_mentions_topics(dialog_id, topic_id);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 104").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceListItemSecondary;
+            i7 = 104;
         }
         if (i7 == 104) {
             sQLiteDatabase.executeFast("ALTER TABLE topics ADD COLUMN read_outbox INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 105").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceListItemSmall;
+            i7 = 105;
         }
         if (i7 == 105) {
             sQLiteDatabase.executeFast("ALTER TABLE topics ADD COLUMN pinned INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 106").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+            i7 = 106;
         }
         if (i7 == 106) {
             sQLiteDatabase.executeFast("DROP INDEX IF EXISTS uid_mid_read_out_idx_messages_topics").stepThis().dispose();
@@ -1148,48 +1147,48 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS uid_topic_id_mid_messages_topics ON messages_topics(uid, topic_id, mid);").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS did_topics ON topics(did);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 107").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+            i7 = 107;
         }
         if (i7 == 107) {
             sQLiteDatabase.executeFast("ALTER TABLE topics ADD COLUMN total_messages_count INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 108").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+            i7 = 108;
         }
         if (i7 == 108) {
             sQLiteDatabase.executeFast("ALTER TABLE topics ADD COLUMN hidden INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 109").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+            i7 = 109;
         }
         if (i7 == 109) {
             sQLiteDatabase.executeFast("ALTER TABLE dialogs ADD COLUMN ttl_period INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 110").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textColorAlertDialogListItem;
+            i7 = 110;
         }
         if (i7 == 110) {
             sQLiteDatabase.executeFast("CREATE TABLE stickersets(id INTEGER PRIMATE KEY, data BLOB, hash INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 111").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_textColorSearchUrl;
+            i7 = 111;
         }
         if (i7 == 111) {
             sQLiteDatabase.executeFast("CREATE TABLE emoji_groups(type INTEGER PRIMARY KEY, data BLOB)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 112").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+            i7 = 112;
         }
         if (i7 == 112) {
             sQLiteDatabase.executeFast("CREATE TABLE app_config(data BLOB)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 113").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_toolbarStyle;
+            i7 = 113;
         }
         if (i7 == 113) {
             messagesStorage.reset();
             sQLiteDatabase.executeFast("PRAGMA user_version = 114").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_tooltipForegroundColor;
+            i7 = 114;
         }
         if (i7 == 114) {
             sQLiteDatabase.executeFast("CREATE TABLE bot_keyboard_topics(uid INTEGER, tid INTEGER, mid INTEGER, info BLOB, PRIMARY KEY(uid, tid))").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS bot_keyboard_topics_idx_mid_v2 ON bot_keyboard_topics(mid, uid, tid);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 115").stepThis().dispose();
-            i7 = R.styleable.AppCompatTheme_tooltipFrameBackground;
+            i7 = 115;
         }
         if (i7 == 115) {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS idx_to_reply_messages_v2 ON messages_v2(reply_to_message_id, mid);").stepThis().dispose();
@@ -1248,7 +1247,7 @@ public class DatabaseMigrationHelper {
         if (i7 == 126) {
             sQLiteDatabase.executeFast("ALTER TABLE story_pushes ADD COLUMN expire_date INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 127").stepThis().dispose();
-            i7 = 127;
+            i7 = NotificationCenter.dialogTranslate;
         }
         if (i7 == 127) {
             sQLiteDatabase.executeFast("ALTER TABLE stories ADD COLUMN custom_params BLOB default NULL").stepThis().dispose();
@@ -1258,47 +1257,47 @@ public class DatabaseMigrationHelper {
         if (i7 == 128) {
             sQLiteDatabase.executeFast("ALTER TABLE story_drafts ADD COLUMN type INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 129").stepThis().dispose();
-            i7 = 129;
+            i7 = NotificationCenter.walletPendingTransactionsChanged;
         }
         if (i7 == 129) {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS stickers_featured_emoji_index ON stickers_featured(emoji);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 130").stepThis().dispose();
-            i7 = 130;
+            i7 = NotificationCenter.walletSyncProgressChanged;
         }
         if (i7 == 130) {
             sQLiteDatabase.executeFast("DROP TABLE archived_stories").stepThis().dispose();
             sQLiteDatabase.executeFast("ALTER TABLE profile_stories ADD COLUMN type INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 131").stepThis().dispose();
-            i7 = 131;
+            i7 = NotificationCenter.httpFileDidLoad;
         }
         if (i7 == 131) {
             sQLiteDatabase.executeFast("ALTER TABLE stories DROP COLUMN local_path").stepThis().dispose();
             sQLiteDatabase.executeFast("ALTER TABLE stories DROP COLUMN local_thumb_path").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 132").stepThis().dispose();
-            i7 = 132;
+            i7 = NotificationCenter.httpFileDidFailedLoad;
         }
         if (i7 == 132) {
             sQLiteDatabase.executeFast("CREATE TABLE unconfirmed_auth (data BLOB);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 133").stepThis().dispose();
-            i7 = 133;
+            i7 = NotificationCenter.didUpdateConnectionState;
         }
         if (i7 == 133) {
             sQLiteDatabase.executeFast("ALTER TABLE unread_push_messages ADD COLUMN topicId INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 134").stepThis().dispose();
-            i7 = 134;
+            i7 = NotificationCenter.fileUploaded;
         }
         if (i7 == 134) {
             sQLiteDatabase.executeFast("DROP TABLE user_photos").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE TABLE dialog_photos(uid INTEGER, id INTEGER, num INTEGER, data BLOB, PRIMARY KEY (uid, id))").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE TABLE dialog_photos_count(uid INTEGER PRIMARY KEY, count INTEGER)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 135").stepThis().dispose();
-            i7 = 135;
+            i7 = NotificationCenter.fileUploadFailed;
         }
         if (i7 == 135) {
             sQLiteDatabase.executeFast("CREATE TABLE stickersets2(id INTEGER PRIMATE KEY, data BLOB, hash INTEGER, date INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS stickersets2_id_index ON stickersets2(id);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 136").stepThis().dispose();
-            i7 = 136;
+            i7 = NotificationCenter.fileUploadProgressChanged;
         }
         if (i7 == 136) {
             sQLiteDatabase.executeFast("CREATE TABLE saved_dialogs(did INTEGER PRIMARY KEY, date INTEGER, last_mid INTEGER, pinned INTEGER, flags INTEGER, folder_id INTEGER, last_mid_group INTEGER, count INTEGER)").stepThis().dispose();
@@ -1307,12 +1306,12 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS folder_id_idx_dialogs ON saved_dialogs(folder_id);").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS flags_idx_dialogs ON saved_dialogs(flags);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 137").stepThis().dispose();
-            i7 = 137;
+            i7 = NotificationCenter.fileLoadProgressChanged;
         }
         if (i7 == 137) {
             sQLiteDatabase.executeFast("ALTER TABLE unread_push_messages ADD COLUMN is_reaction INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 138").stepThis().dispose();
-            i7 = 138;
+            i7 = NotificationCenter.fileLoaded;
         }
         if (i7 == 138 || i7 == 139 || i7 == 140 || i7 == 141) {
             sQLiteDatabase.executeFast("DROP TABLE IF EXISTS tag_message_id;").stepThis().dispose();
@@ -1322,27 +1321,27 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS tag_topic_idx_tag_message_id ON tag_message_id(topic_id, tag);").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS tag_topic_text_idx_tag_message_id ON tag_message_id(topic_id, tag, text);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 142").stepThis().dispose();
-            i7 = 142;
+            i7 = NotificationCenter.filePreparingFailed;
         }
         if (i7 == 142) {
             sQLiteDatabase.executeFast("DROP TABLE IF EXISTS saved_reaction_tags;").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE TABLE saved_reaction_tags (topic_id INTEGER PRIMARY KEY, data BLOB);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 143").stepThis().dispose();
-            i7 = 143;
+            i7 = NotificationCenter.dialogsUnreadCounterChanged;
         }
         if (i7 == 143) {
             sQLiteDatabase.executeFast("ALTER TABLE dialog_filter ADD COLUMN color INTEGER default -1").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 144").stepThis().dispose();
-            i7 = 144;
+            i7 = NotificationCenter.messagePlayingProgressDidChanged;
         }
         if (i7 == 144) {
             sQLiteDatabase.executeFast("PRAGMA user_version = 145").stepThis().dispose();
-            i7 = 145;
+            i7 = NotificationCenter.messagePlayingDidReset;
         }
         if (i7 == 145) {
             sQLiteDatabase.executeFast("CREATE TABLE business_replies(topic_id INTEGER PRIMARY KEY, name TEXT, order_value INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 146").stepThis().dispose();
-            i7 = 146;
+            i7 = NotificationCenter.messagePlayingPlayStateChanged;
         }
         if (i7 == 146) {
             sQLiteDatabase.executeFast("CREATE TABLE quick_replies_messages(mid INTEGER, topic_id INTEGER, send_state INTEGER, date INTEGER, data BLOB, ttl INTEGER, replydata BLOB, reply_to_message_id INTEGER, PRIMARY KEY(mid, topic_id))").stepThis().dispose();
@@ -1351,54 +1350,54 @@ public class DatabaseMigrationHelper {
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS reply_to_idx_quick_replies_messages ON quick_replies_messages(mid, reply_to_message_id);").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS idx_to_reply_quick_replies_messages ON quick_replies_messages(reply_to_message_id, mid);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 147").stepThis().dispose();
-            i7 = 147;
+            i7 = NotificationCenter.messagePlayingDidStart;
         }
         if (i7 == 147) {
             sQLiteDatabase.executeFast("ALTER TABLE business_replies ADD COLUMN count INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 148").stepThis().dispose();
-            i7 = 148;
+            i7 = NotificationCenter.messagePlayingDidSeek;
         }
         if (i7 == 148) {
             sQLiteDatabase.executeFast("ALTER TABLE topics ADD COLUMN edit_date INTEGER default 0").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 149").stepThis().dispose();
-            i7 = 149;
+            i7 = NotificationCenter.messagePlayingGoingToStop;
         }
         if (i7 == 149) {
             sQLiteDatabase.executeFast("ALTER TABLE stickersets2 ADD COLUMN short_name TEXT;").stepThis().dispose();
             sQLiteDatabase.executeFast("CREATE INDEX IF NOT EXISTS stickersets2_id_short_name ON stickersets2(id, short_name);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 150").stepThis().dispose();
-            i7 = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+            i7 = 150;
         }
         if (i7 == 150) {
             sQLiteDatabase.executeFast("CREATE TABLE business_links(data BLOB, order_value INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 151").stepThis().dispose();
-            i7 = 151;
+            i7 = NotificationCenter.recordStarted;
         }
         if (i7 == 151) {
             sQLiteDatabase.executeFast("ALTER TABLE profile_stories ADD COLUMN seen INTEGER default 0;").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 152").stepThis().dispose();
-            i7 = 152;
+            i7 = NotificationCenter.recordStartError;
         }
         if (i7 == 152) {
             sQLiteDatabase.executeFast("ALTER TABLE profile_stories ADD COLUMN pin INTEGER default 0;").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 153").stepThis().dispose();
-            i7 = 153;
+            i7 = NotificationCenter.recordStopped;
         }
         if (i7 == 153) {
             sQLiteDatabase.executeFast("CREATE TABLE effects(data BLOB)").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 154").stepThis().dispose();
-            i7 = 154;
+            i7 = NotificationCenter.recordPaused;
         }
         if (i7 == 154) {
             sQLiteDatabase.executeFast("CREATE TABLE fact_checks(hash INTEGER PRIMARY KEY, data BLOB, expires INTEGER);").stepThis().dispose();
             sQLiteDatabase.executeFast("PRAGMA user_version = 155").stepThis().dispose();
-            return MessagesStorage.LAST_DB_VERSION;
+            return 155;
         }
         return i7;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x02d0 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x02d2 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x02be A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x02c0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1410,6 +1409,7 @@ public class DatabaseMigrationHelper {
         long j2;
         SQLiteCursor sQLiteCursor;
         int i2;
+        int i3 = 0;
         File filesDirFixed = ApplicationLoader.getFilesDirFixed();
         File file4 = new File(filesDirFixed, "recover_database_" + i + "/");
         file4.mkdirs();
@@ -1426,7 +1426,6 @@ public class DatabaseMigrationHelper {
         ArrayList arrayList = new ArrayList();
         ArrayList arrayList2 = new ArrayList();
         FileLog.d("start recover database");
-        int i3 = 0;
         try {
             j = System.currentTimeMillis();
             try {
@@ -1493,29 +1492,29 @@ public class DatabaseMigrationHelper {
         }
         queryFinalized.dispose();
         for (int i5 = 0; i5 < arrayList.size(); i5++) {
-            long longValue2 = ((Long) arrayList.get(i5)).longValue();
+            Long l = (Long) arrayList.get(i5);
+            l.longValue();
             Locale locale = Locale.US;
-            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_holes SELECT * FROM old.messages_holes WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_holes_v2 SELECT * FROM old.media_holes_v2 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
-            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_v4 SELECT * FROM old.media_v4 WHERE uid = %d;", Long.valueOf(longValue2))).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = %d;", l)).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO messages_holes SELECT * FROM old.messages_holes WHERE uid = %d;", l)).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_holes_v2 SELECT * FROM old.media_holes_v2 WHERE uid = %d;", l)).stepThis().dispose();
+            sQLiteDatabase.executeFast(String.format(locale, "INSERT OR IGNORE INTO media_v4 SELECT * FROM old.media_v4 WHERE uid = %d;", l)).stepThis().dispose();
         }
         SQLitePreparedStatement executeFast = sQLiteDatabase.executeFast("REPLACE INTO messages_holes VALUES(?, ?, ?)");
         SQLitePreparedStatement executeFast2 = sQLiteDatabase.executeFast("REPLACE INTO media_holes_v2 VALUES(?, ?, ?, ?)");
         int i6 = 0;
         while (i6 < arrayList2.size()) {
-            Long l = (Long) arrayList2.get(i6);
-            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l, new Object[i3]);
+            Long l2 = (Long) arrayList2.get(i6);
+            SQLiteCursor queryFinalized2 = sQLiteDatabase.queryFinalized("SELECT last_mid_i, last_mid FROM old.dialogs WHERE did = " + l2, new Object[i3]);
             if (queryFinalized2.next()) {
-                long longValue3 = queryFinalized2.longValue(i3);
+                long longValue2 = queryFinalized2.longValue(i3);
                 j2 = j;
                 try {
-                    long longValue4 = queryFinalized2.longValue(1);
-                    sQLiteDatabase.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l + " AND mid IN (" + longValue3 + "," + longValue4 + ")").stepThis().dispose();
-                    int i7 = (int) longValue4;
+                    long longValue3 = queryFinalized2.longValue(1);
+                    sQLiteDatabase.executeFast("INSERT OR IGNORE INTO messages_v2 SELECT * FROM old.messages_v2 WHERE uid = " + l2 + " AND mid IN (" + longValue2 + "," + longValue3 + ")").stepThis().dispose();
                     sQLiteCursor = queryFinalized2;
                     i2 = i6;
-                    MessagesStorage.createFirstHoles(l.longValue(), executeFast, executeFast2, i7, 0L);
+                    MessagesStorage.createFirstHoles(l2.longValue(), executeFast, executeFast2, (int) longValue3, 0L);
                 } catch (Exception e5) {
                     e = e5;
                     j = j2;

@@ -50,14 +50,14 @@ class OpReorderer {
         int i4 = updateOp.itemCount;
         boolean z2 = false;
         if (i3 < i4) {
-            if (updateOp2.positionStart == i3 && updateOp2.itemCount == i4 - i3) {
-                z = false;
-                z2 = true;
-            } else {
+            if (updateOp2.positionStart != i3 || updateOp2.itemCount != i4 - i3) {
                 z = false;
             }
+            z = z2;
+            z2 = true;
         } else if (updateOp2.positionStart == i4 + 1 && updateOp2.itemCount == i3 - i4) {
-            z = true;
+            z2 = true;
+            z = z2;
             z2 = true;
         } else {
             z = true;
@@ -85,9 +85,9 @@ class OpReorderer {
         if (i7 <= i8) {
             updateOp2.positionStart = i8 + 1;
         } else {
-            int i9 = updateOp2.itemCount;
-            if (i7 < i8 + i9) {
-                updateOp3 = this.mCallback.obtainUpdateOp(2, i7 + 1, (i8 + i9) - i7, null);
+            int i9 = i8 + updateOp2.itemCount;
+            if (i7 < i9) {
+                updateOp3 = this.mCallback.obtainUpdateOp(2, i7 + 1, i9 - i7, null);
                 updateOp2.itemCount = updateOp.positionStart - updateOp2.positionStart;
             }
         }
@@ -169,10 +169,10 @@ class OpReorderer {
 
     /* JADX WARN: Removed duplicated region for block: B:11:0x0027  */
     /* JADX WARN: Removed duplicated region for block: B:12:0x002b  */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0048  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x004c  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0056  */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x005b  */
+    /* JADX WARN: Removed duplicated region for block: B:17:0x0046  */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0054  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0059  */
     /* JADX WARN: Removed duplicated region for block: B:24:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -196,9 +196,9 @@ class OpReorderer {
                 if (i3 > i4) {
                     updateOp2.positionStart = i4 + 1;
                 } else {
-                    int i8 = updateOp2.itemCount;
-                    if (i3 < i4 + i8) {
-                        int i9 = (i4 + i8) - i3;
+                    int i8 = i4 + updateOp2.itemCount;
+                    if (i3 < i8) {
+                        int i9 = i8 - i3;
                         updateOp3 = this.mCallback.obtainUpdateOp(4, i3 + 1, i9, updateOp2.payload);
                         updateOp2.itemCount -= i9;
                     }

@@ -64,13 +64,13 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
         this.searchRecommendedChannels = new ArrayList<>();
         this.searchChannels = new ArrayList<>();
         this.myChannels = new ArrayList<>();
-        this.searchMessagesRunnable = new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda0
+        this.searchMessagesRunnable = new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsChannelsAdapter.this.lambda$new$5();
             }
         };
-        this.fillItems = new Utilities.Callback2() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda1
+        this.fillItems = new Utilities.Callback2() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 DialogsChannelsAdapter.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
@@ -105,7 +105,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
             ArrayList<TLRPC$Chat> arrayList2 = this.myChannels;
             if (arrayList2 != null && !arrayList2.isEmpty()) {
                 if (this.myChannels.size() > 5) {
-                    arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.SearchMyChannels), LocaleController.getString(this.expandedMyChannels ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda6
+                    arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.SearchMyChannels), LocaleController.getString(this.expandedMyChannels ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda5
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             DialogsChannelsAdapter.this.toggleExpandedMyChannels(view);
@@ -179,7 +179,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
             if (arrayList4.size() <= 5 || this.messages.isEmpty()) {
                 arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.SearchChannels)));
             } else {
-                arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.SearchChannels), LocaleController.getString(this.expandedSearchChannels ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda7
+                arrayList.add(UItem.asGraySection(LocaleController.getString(R.string.SearchChannels), LocaleController.getString(this.expandedSearchChannels ? R.string.ShowLess : R.string.ShowMore), new View.OnClickListener() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda6
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         DialogsChannelsAdapter.this.toggleExpandedSearchChannels(view);
@@ -272,7 +272,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
             tLRPC$TL_messages_searchGlobal.offset_id = 0;
             tLRPC$TL_messages_searchGlobal.offset_peer = new TLRPC$TL_inputPeerEmpty();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsChannelsAdapter.this.lambda$searchMessages$2(i, tLRPC$TL_messages_searchGlobal, z);
@@ -285,7 +285,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
         final TLRPC$TL_contacts_search tLRPC$TL_contacts_search = new TLRPC$TL_contacts_search();
         tLRPC$TL_contacts_search.limit = 20;
         tLRPC$TL_contacts_search.q = this.query;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda3
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_search, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 DialogsChannelsAdapter.this.lambda$searchMessages$4(tLRPC$TL_contacts_search, tLObject, tLRPC$TL_error);
@@ -296,7 +296,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessages$2(final int i, final TLRPC$TL_messages_searchGlobal tLRPC$TL_messages_searchGlobal, final boolean z) {
         if (i == this.searchChannelsId && TextUtils.equals(tLRPC$TL_messages_searchGlobal.q, this.query)) {
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda4
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_searchGlobal, new RequestDelegate() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda7
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     DialogsChannelsAdapter.this.lambda$searchMessages$1(i, tLRPC$TL_messages_searchGlobal, z, tLObject, tLRPC$TL_error);
@@ -343,7 +343,7 @@ public class DialogsChannelsAdapter extends UniversalAdapter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchMessages$4(final TLRPC$TL_contacts_search tLRPC$TL_contacts_search, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.DialogsChannelsAdapter$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsChannelsAdapter.this.lambda$searchMessages$3(tLRPC$TL_contacts_search, tLObject);

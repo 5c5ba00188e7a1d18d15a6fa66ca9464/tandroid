@@ -68,15 +68,12 @@ public class DefaultSsChunkSource implements SsChunkSource {
         this.dataSource = dataSource;
         SsManifest.StreamElement streamElement = ssManifest.streamElements[i];
         this.chunkExtractors = new ChunkExtractor[exoTrackSelection.length()];
-        int i2 = 0;
-        while (i2 < this.chunkExtractors.length) {
+        for (int i2 = 0; i2 < this.chunkExtractors.length; i2++) {
             int indexInTrackGroup = exoTrackSelection.getIndexInTrackGroup(i2);
             Format format = streamElement.formats[indexInTrackGroup];
             TrackEncryptionBox[] trackEncryptionBoxArr = format.drmInitData != null ? ((SsManifest.ProtectionElement) Assertions.checkNotNull(ssManifest.protectionElement)).trackEncryptionBoxes : null;
             int i3 = streamElement.type;
-            int i4 = i2;
-            this.chunkExtractors[i4] = new BundledChunkExtractor(new FragmentedMp4Extractor(3, null, new Track(indexInTrackGroup, i3, streamElement.timescale, -9223372036854775807L, ssManifest.durationUs, format, 0, trackEncryptionBoxArr, i3 == 2 ? 4 : 0, null, null)), streamElement.type, format);
-            i2 = i4 + 1;
+            this.chunkExtractors[i2] = new BundledChunkExtractor(new FragmentedMp4Extractor(3, null, new Track(indexInTrackGroup, i3, streamElement.timescale, -9223372036854775807L, ssManifest.durationUs, format, 0, trackEncryptionBoxArr, i3 == 2 ? 4 : 0, null, null)), streamElement.type, format);
         }
     }
 

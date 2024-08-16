@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import java.util.List;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, SimpleDecoderOutputBuffer, FfmpegDecoderException> {
@@ -204,12 +205,12 @@ public final class FfmpegAudioDecoder extends SimpleDecoder<DecoderInputBuffer, 
         byte[] bArr2 = list.get(1);
         byte[] bArr3 = new byte[bArr.length + bArr2.length + 6];
         bArr3[0] = (byte) (bArr.length >> 8);
-        bArr3[1] = (byte) (bArr.length & 255);
+        bArr3[1] = (byte) (bArr.length & NotificationCenter.voipServiceCreated);
         System.arraycopy(bArr, 0, bArr3, 2, bArr.length);
         bArr3[bArr.length + 2] = 0;
         bArr3[bArr.length + 3] = 0;
         bArr3[bArr.length + 4] = (byte) (bArr2.length >> 8);
-        bArr3[bArr.length + 5] = (byte) (bArr2.length & 255);
+        bArr3[bArr.length + 5] = (byte) (bArr2.length & NotificationCenter.voipServiceCreated);
         System.arraycopy(bArr2, 0, bArr3, bArr.length + 6, bArr2.length);
         return bArr3;
     }

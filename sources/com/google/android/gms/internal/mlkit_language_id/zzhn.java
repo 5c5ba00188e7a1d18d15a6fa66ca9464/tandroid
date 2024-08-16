@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import java.security.AccessController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.NotificationCenter;
 import sun.misc.Unsafe;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
@@ -500,14 +501,14 @@ public final class zzhn {
     public static void zzc(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = ((((int) j) ^ (-1)) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((255 << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void zzd(Object obj, long j, byte b) {
         long j2 = (-4) & j;
         int i = (((int) j) & 3) << 3;
-        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((255 << i) ^ (-1))));
+        zza(obj, j2, ((255 & b) << i) | (zza(obj, j2) & ((NotificationCenter.voipServiceCreated << i) ^ (-1))));
     }
 
     /* JADX INFO: Access modifiers changed from: private */

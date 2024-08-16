@@ -16,12 +16,12 @@ abstract class zzi<E> extends zzr<E> {
 
     protected abstract E zza(int i);
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator, java.util.ListIterator
     public final boolean hasNext() {
         return this.zzb < this.zza;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator, java.util.ListIterator
     public final E next() {
         if (!hasNext()) {
             throw new NoSuchElementException();

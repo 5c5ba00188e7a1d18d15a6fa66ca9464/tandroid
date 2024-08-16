@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC$Document;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -16,7 +17,7 @@ public class StickerSetLinkIcon extends Drawable {
     private final int count;
     private final AnimatedEmojiDrawable[] drawables;
     public final boolean out;
-    public int alpha = 255;
+    public int alpha = NotificationCenter.voipServiceCreated;
     private final RectF rect = new RectF();
     private boolean hit = false;
 

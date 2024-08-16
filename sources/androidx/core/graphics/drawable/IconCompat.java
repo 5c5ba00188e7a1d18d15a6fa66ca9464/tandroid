@@ -50,25 +50,6 @@ public class IconCompat extends CustomVersionedParcelable {
     public String mTintModeStr;
     public int mType;
 
-    private static String typeToString(int i) {
-        switch (i) {
-            case 1:
-                return "BITMAP";
-            case 2:
-                return "RESOURCE";
-            case 3:
-                return "DATA";
-            case 4:
-                return "URI";
-            case 5:
-                return "BITMAP_MASKABLE";
-            case 6:
-                return "URI_MASKABLE";
-            default:
-                return "UNKNOWN";
-        }
-    }
-
     public static IconCompat createWithResource(Context context, int i) {
         ObjectsCompat.requireNonNull(context);
         return createWithResource(context.getResources(), context.getPackageName(), i);
@@ -490,6 +471,25 @@ public class IconCompat extends CustomVersionedParcelable {
         }
     }
 
+    private static String typeToString(int i) {
+        switch (i) {
+            case 1:
+                return "BITMAP";
+            case 2:
+                return "RESOURCE";
+            case 3:
+                return "DATA";
+            case 4:
+                return "URI";
+            case 5:
+                return "BITMAP_MASKABLE";
+            case 6:
+                return "URI_MASKABLE";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
     public static IconCompat createFromIcon(Icon icon) {
         return Api23Impl.createFromIconInner(icon);
     }
@@ -534,27 +534,19 @@ public class IconCompat extends CustomVersionedParcelable {
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static String getResPackage(Object obj) {
-            String resPackage;
-            resPackage = ((Icon) obj).getResPackage();
-            return resPackage;
+            return ((Icon) obj).getResPackage();
         }
 
         static int getType(Object obj) {
-            int type;
-            type = ((Icon) obj).getType();
-            return type;
+            return ((Icon) obj).getType();
         }
 
         static int getResId(Object obj) {
-            int resId;
-            resId = ((Icon) obj).getResId();
-            return resId;
+            return ((Icon) obj).getResId();
         }
 
         static Uri getUri(Object obj) {
-            Uri uri;
-            uri = ((Icon) obj).getUri();
-            return uri;
+            return ((Icon) obj).getUri();
         }
     }
 
@@ -566,9 +558,7 @@ public class IconCompat extends CustomVersionedParcelable {
         }
 
         static Icon createWithAdaptiveBitmap(Bitmap bitmap) {
-            Icon createWithAdaptiveBitmap;
-            createWithAdaptiveBitmap = Icon.createWithAdaptiveBitmap(bitmap);
-            return createWithAdaptiveBitmap;
+            return Icon.createWithAdaptiveBitmap(bitmap);
         }
     }
 
@@ -576,9 +566,7 @@ public class IconCompat extends CustomVersionedParcelable {
     /* loaded from: classes.dex */
     public static class Api30Impl {
         static Icon createWithAdaptiveBitmapContentUri(Uri uri) {
-            Icon createWithAdaptiveBitmapContentUri;
-            createWithAdaptiveBitmapContentUri = Icon.createWithAdaptiveBitmapContentUri(uri);
-            return createWithAdaptiveBitmapContentUri;
+            return Icon.createWithAdaptiveBitmapContentUri(uri);
         }
     }
 
@@ -590,7 +578,7 @@ public class IconCompat extends CustomVersionedParcelable {
                 return Api28Impl.getType(obj);
             }
             try {
-                return ((Integer) obj.getClass().getMethod("getType", new Class[0]).invoke(obj, new Object[0])).intValue();
+                return ((Integer) obj.getClass().getMethod("getType", null).invoke(obj, null)).intValue();
             } catch (IllegalAccessException e) {
                 Log.e("IconCompat", "Unable to get icon type " + obj, e);
                 return -1;
@@ -608,7 +596,7 @@ public class IconCompat extends CustomVersionedParcelable {
                 return Api28Impl.getResPackage(obj);
             }
             try {
-                return (String) obj.getClass().getMethod("getResPackage", new Class[0]).invoke(obj, new Object[0]);
+                return (String) obj.getClass().getMethod("getResPackage", null).invoke(obj, null);
             } catch (IllegalAccessException e) {
                 Log.e("IconCompat", "Unable to get icon package", e);
                 return null;
@@ -643,7 +631,7 @@ public class IconCompat extends CustomVersionedParcelable {
                 return Api28Impl.getResId(obj);
             }
             try {
-                return ((Integer) obj.getClass().getMethod("getResId", new Class[0]).invoke(obj, new Object[0])).intValue();
+                return ((Integer) obj.getClass().getMethod("getResId", null).invoke(obj, null)).intValue();
             } catch (IllegalAccessException e) {
                 Log.e("IconCompat", "Unable to get icon resource", e);
                 return 0;
@@ -661,7 +649,7 @@ public class IconCompat extends CustomVersionedParcelable {
                 return Api28Impl.getUri(obj);
             }
             try {
-                return (Uri) obj.getClass().getMethod("getUri", new Class[0]).invoke(obj, new Object[0]);
+                return (Uri) obj.getClass().getMethod("getUri", null).invoke(obj, null);
             } catch (IllegalAccessException e) {
                 Log.e("IconCompat", "Unable to get icon uri", e);
                 return null;
@@ -734,9 +722,7 @@ public class IconCompat extends CustomVersionedParcelable {
         }
 
         static Drawable loadDrawable(Icon icon, Context context) {
-            Drawable loadDrawable;
-            loadDrawable = icon.loadDrawable(context);
-            return loadDrawable;
+            return icon.loadDrawable(context);
         }
     }
 }

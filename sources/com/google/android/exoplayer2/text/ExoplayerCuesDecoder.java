@@ -14,11 +14,6 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
     private final SubtitleInputBuffer inputBuffer = new SubtitleInputBuffer();
     private final Deque<SubtitleOutputBuffer> availableOutputBuffers = new ArrayDeque();
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "ExoplayerCuesDecoder";
-    }
-
     @Override // com.google.android.exoplayer2.text.SubtitleDecoder
     public void setPositionUs(long j) {
     }
@@ -33,6 +28,11 @@ public final class ExoplayerCuesDecoder implements SubtitleDecoder {
             });
         }
         this.inputBufferState = 0;
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "ExoplayerCuesDecoder";
     }
 
     @Override // com.google.android.exoplayer2.decoder.Decoder

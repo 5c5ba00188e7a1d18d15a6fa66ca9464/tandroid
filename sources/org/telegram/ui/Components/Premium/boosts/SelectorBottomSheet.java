@@ -264,7 +264,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
                 showMaximumUsersToast();
                 return;
             }
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda7
+            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     SelectorBottomSheet.this.lambda$new$1();
@@ -272,12 +272,12 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             }, null);
             updateList(true, false);
             if (chat != null && !ChatObject.isPublic(chat) && this.selectedIds.contains(Long.valueOf(j))) {
-                BoostDialogs.showPrivateChannelAlert(chat, getBaseFragment().getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda8
+                BoostDialogs.showPrivateChannelAlert(chat, getBaseFragment().getContext(), this.resourcesProvider, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda11
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelectorBottomSheet.this.lambda$new$3(j);
                     }
-                }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda9
+                }, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda12
                     @Override // java.lang.Runnable
                     public final void run() {
                         SelectorBottomSheet.this.clearSearchAfterSelectChannel();
@@ -299,7 +299,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
                 showMaximumUsersToast();
                 return;
             }
-            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda10
+            this.searchField.updateSpans(true, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda13
                 @Override // java.lang.Runnable
                 public final void run() {
                     SelectorBottomSheet.this.lambda$new$4();
@@ -442,14 +442,14 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public void loadData(int i, final boolean z, String str) {
         if (i == 1) {
-            BoostRepository.loadChatParticipants(this.currentChat.id, 0, str, 0, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda12
+            BoostRepository.loadChatParticipants(this.currentChat.id, 0, str, 0, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda9
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$7(z, (List) obj);
                 }
             });
         } else if (i == 2) {
-            BoostRepository.searchChats(this.currentChat.id, 0, str, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda11
+            BoostRepository.searchChats(this.currentChat.id, 0, str, 50, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda8
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$6((List) obj);
@@ -457,7 +457,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
             });
         } else if (i != 3) {
         } else {
-            BoostRepository.loadCountries(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda13
+            BoostRepository.loadCountries(new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda7
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     SelectorBottomSheet.this.lambda$loadData$9(z, (Pair) obj);
@@ -471,7 +471,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         if (z) {
             this.countriesMap.putAll((Map) pair.first);
             this.countriesLetters.addAll((Collection) pair.second);
-            Map.-EL.forEach(this.countriesMap, new BiConsumer() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda14
+            Map.-EL.forEach(this.countriesMap, new BiConsumer() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda16
                 @Override // j$.util.function.BiConsumer
                 public final void accept(Object obj, Object obj2) {
                     SelectorBottomSheet.this.lambda$loadData$8((String) obj, (List) obj2);
@@ -584,7 +584,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         this.openedIds.addAll(this.selectedIds);
         this.searchField.setText("");
         this.searchField.spansContainer.removeAllSpans(false);
-        this.searchField.updateSpans(false, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda16
+        this.searchField.updateSpans(false, this.selectedIds, new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.SelectorBottomSheet$$ExternalSyntheticLambda14
             @Override // java.lang.Runnable
             public final void run() {
                 SelectorBottomSheet.this.lambda$prepare$12();
@@ -611,11 +611,11 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         } else if (i == 2) {
             formatPluralStringComma = LocaleController.formatPluralString("BoostingSelectUpToGroupChannelPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]);
             this.sectionCell.setLayerHeight(32);
-        } else if (i != 3) {
-            formatPluralStringComma = "";
-        } else {
+        } else if (i == 3) {
             formatPluralStringComma = LocaleController.formatPluralString("BoostingSelectUpToCountriesPlural", (int) BoostRepository.giveawayCountriesMax(), new Object[0]);
             this.sectionCell.setLayerHeight(1);
+        } else {
+            formatPluralStringComma = "";
         }
         this.sectionCell.setText(formatPluralStringComma);
     }
@@ -690,10 +690,12 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         String string;
         this.actionButton.setShowZero(false);
         int i = this.type;
-        if (i != 1) {
-            string = (i == 2 || i == 3) ? LocaleController.getString("Save", R.string.Save) : "";
-        } else {
+        if (i == 1) {
             string = LocaleController.getString("BoostingSaveRecipients", R.string.BoostingSaveRecipients);
+        } else if (i == 2 || i == 3) {
+            string = LocaleController.getString("Save", R.string.Save);
+        } else {
+            string = "";
         }
         this.actionButton.setText(string, z);
         this.actionButton.setCount(this.selectedIds.size(), z);
@@ -832,7 +834,10 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         int i = this.type;
         if (i != 1) {
             if (i != 2) {
-                return i != 3 ? "" : LocaleController.getString("BoostingSelectCountry", R.string.BoostingSelectCountry);
+                if (i == 3) {
+                    return LocaleController.getString("BoostingSelectCountry", R.string.BoostingSelectCountry);
+                }
+                return "";
             }
             return LocaleController.getString("BoostingAddChannelOrGroup", R.string.BoostingAddChannelOrGroup);
         }

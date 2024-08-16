@@ -91,8 +91,10 @@ public class Uploader {
             } catch (SynchronizationException unused) {
                 this.workScheduler.schedule(transportContext, i + 1);
             }
-        } finally {
             runnable.run();
+        } catch (Throwable th) {
+            runnable.run();
+            throw th;
         }
     }
 

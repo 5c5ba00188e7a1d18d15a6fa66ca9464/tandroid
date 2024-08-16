@@ -72,11 +72,9 @@ public class MessageBackgroundDrawable extends Drawable {
 
     private void calcRadius() {
         android.graphics.Rect bounds = getBounds();
-        float centerX = bounds.centerX();
-        float centerY = bounds.centerY();
-        int i = bounds.left;
-        int i2 = bounds.top;
-        this.finalRadius = (float) Math.ceil(Math.sqrt(((i - centerX) * (i - centerX)) + ((i2 - centerY) * (i2 - centerY))));
+        float centerX = bounds.left - bounds.centerX();
+        float centerY = bounds.top - bounds.centerY();
+        this.finalRadius = (float) Math.ceil(Math.sqrt((centerX * centerX) + (centerY * centerY)));
     }
 
     public void setTouchCoords(float f, float f2) {
@@ -129,10 +127,10 @@ public class MessageBackgroundDrawable extends Drawable {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:18:0x0049, code lost:
-        if (r6 >= 0.0f) goto L36;
+        if (r6 >= 0.0f) goto L34;
      */
     /* JADX WARN: Code restructure failed: missing block: B:23:0x0056, code lost:
-        if (r6 >= 0.0f) goto L36;
+        if (r6 >= 0.0f) goto L34;
      */
     @Override // android.graphics.drawable.Drawable
     /*
@@ -185,23 +183,23 @@ public class MessageBackgroundDrawable extends Drawable {
                 j = 17;
             }
             this.lastAnimationTime = elapsedRealtime;
-            boolean z = true;
             if (this.isSelected) {
                 float f8 = this.currentAnimationProgress + (((float) j) / 240.0f);
                 this.currentAnimationProgress = f8;
                 if (f8 >= 1.0f) {
                     this.currentAnimationProgress = 1.0f;
+                    this.touchX = -1.0f;
+                    this.touchY = -1.0f;
+                    this.touchOverrideX = -1.0f;
+                    this.touchOverrideY = -1.0f;
+                    this.animationInProgress = false;
                 }
-                z = false;
-            } else {
-                float f9 = this.currentAnimationProgress - (((float) j) / 240.0f);
-                this.currentAnimationProgress = f9;
-                if (f9 <= 0.0f) {
-                    this.currentAnimationProgress = 0.0f;
-                }
-                z = false;
+                invalidate();
             }
-            if (z) {
+            float f9 = this.currentAnimationProgress - (((float) j) / 240.0f);
+            this.currentAnimationProgress = f9;
+            if (f9 <= 0.0f) {
+                this.currentAnimationProgress = 0.0f;
                 this.touchX = -1.0f;
                 this.touchY = -1.0f;
                 this.touchOverrideX = -1.0f;

@@ -87,21 +87,6 @@ public class Distribute extends AbstractAppCenterService {
     private int mUpdateTrack = 1;
     private WeakReference<Activity> mLastActivityWithDialog = new WeakReference<>(null);
 
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getGroupName() {
-        return "group_distribute";
-    }
-
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getLoggerTag() {
-        return "AppCenterDistribute";
-    }
-
-    @Override // com.microsoft.appcenter.AppCenterService
-    public String getServiceName() {
-        return "Distribute";
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     public int getTriggerCount() {
@@ -117,10 +102,14 @@ public class Distribute extends AbstractAppCenterService {
     public static synchronized Distribute getInstance() {
         Distribute distribute;
         synchronized (Distribute.class) {
-            if (sInstance == null) {
-                sInstance = new Distribute();
+            try {
+                if (sInstance == null) {
+                    sInstance = new Distribute();
+                }
+                distribute = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            distribute = sInstance;
         }
         return distribute;
     }
@@ -131,6 +120,21 @@ public class Distribute extends AbstractAppCenterService {
 
     public static void checkForUpdate() {
         getInstance().instanceCheckForUpdate();
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getGroupName() {
+        return "group_distribute";
+    }
+
+    @Override // com.microsoft.appcenter.AppCenterService
+    public String getServiceName() {
+        return "Distribute";
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getLoggerTag() {
+        return "AppCenterDistribute";
     }
 
     @Override // com.microsoft.appcenter.AppCenterService
@@ -196,24 +200,28 @@ public class Distribute extends AbstractAppCenterService {
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     protected synchronized void applyEnabledState(boolean z) {
-        if (z) {
-            changeDistributionGroupIdAfterAppUpdateIfNeeded();
-            DistributeInfoTracker distributeInfoTracker = new DistributeInfoTracker(SharedPreferencesManager.getString("Distribute.distribution_group_id"));
-            this.mDistributeInfoTracker = distributeInfoTracker;
-            this.mChannel.addListener(distributeInfoTracker);
-            resumeWorkflowIfForeground();
-        } else {
-            this.mTesterAppOpenedOrAborted = false;
-            this.mBrowserOpenedOrAborted = false;
-            this.mWorkflowCompleted = false;
-            cancelPreviousTasks();
-            SharedPreferencesManager.remove("Distribute.request_id");
-            SharedPreferencesManager.remove("Distribute.postpone_time");
-            SharedPreferencesManager.remove("Distribute.update_setup_failed_package_hash");
-            SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
-            SharedPreferencesManager.remove("Distribute.tester_app_update_setup_failed_message");
-            this.mChannel.removeListener(this.mDistributeInfoTracker);
-            this.mDistributeInfoTracker = null;
+        try {
+            if (z) {
+                changeDistributionGroupIdAfterAppUpdateIfNeeded();
+                DistributeInfoTracker distributeInfoTracker = new DistributeInfoTracker(SharedPreferencesManager.getString("Distribute.distribution_group_id"));
+                this.mDistributeInfoTracker = distributeInfoTracker;
+                this.mChannel.addListener(distributeInfoTracker);
+                resumeWorkflowIfForeground();
+            } else {
+                this.mTesterAppOpenedOrAborted = false;
+                this.mBrowserOpenedOrAborted = false;
+                this.mWorkflowCompleted = false;
+                cancelPreviousTasks();
+                SharedPreferencesManager.remove("Distribute.request_id");
+                SharedPreferencesManager.remove("Distribute.postpone_time");
+                SharedPreferencesManager.remove("Distribute.update_setup_failed_package_hash");
+                SharedPreferencesManager.remove("Distribute.update_setup_failed_message");
+                SharedPreferencesManager.remove("Distribute.tester_app_update_setup_failed_message");
+                this.mChannel.removeListener(this.mDistributeInfoTracker);
+                this.mDistributeInfoTracker = null;
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -245,33 +253,41 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleCheckForUpdate() {
-        this.mManualCheckForUpdateRequested = true;
-        if (tryResetWorkflow()) {
-            resumeWorkflowIfForeground();
-        } else {
-            AppCenterLog.info("AppCenterDistribute", "A check for update is already ongoing.");
+        try {
+            this.mManualCheckForUpdateRequested = true;
+            if (tryResetWorkflow()) {
+                resumeWorkflowIfForeground();
+            } else {
+                AppCenterLog.info("AppCenterDistribute", "A check for update is already ongoing.");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     private synchronized void cancelPreviousTasks() {
-        ServiceCall serviceCall = this.mCheckReleaseApiCall;
-        if (serviceCall != null) {
-            serviceCall.cancel();
-            this.mCheckReleaseApiCall = null;
+        try {
+            ServiceCall serviceCall = this.mCheckReleaseApiCall;
+            if (serviceCall != null) {
+                serviceCall.cancel();
+                this.mCheckReleaseApiCall = null;
+            }
+            this.mCheckReleaseCallId = null;
+            this.mUpdateDialog = null;
+            this.mUnknownSourcesDialog = null;
+            this.mCompletedDownloadDialog = null;
+            this.mUpdateSetupFailedDialog = null;
+            this.mLastActivityWithDialog.clear();
+            this.mUsingDefaultUpdateDialog = null;
+            this.mCheckedDownload = false;
+            this.mManualCheckForUpdateRequested = false;
+            updateReleaseDetails(null);
+            SharedPreferencesManager.remove("Distribute.release_details");
+            SharedPreferencesManager.remove("Distribute.download_state");
+            SharedPreferencesManager.remove("Distribute.download_time");
+        } catch (Throwable th) {
+            throw th;
         }
-        this.mCheckReleaseCallId = null;
-        this.mUpdateDialog = null;
-        this.mUnknownSourcesDialog = null;
-        this.mCompletedDownloadDialog = null;
-        this.mUpdateSetupFailedDialog = null;
-        this.mLastActivityWithDialog.clear();
-        this.mUsingDefaultUpdateDialog = null;
-        this.mCheckedDownload = false;
-        this.mManualCheckForUpdateRequested = false;
-        updateReleaseDetails(null);
-        SharedPreferencesManager.remove("Distribute.release_details");
-        SharedPreferencesManager.remove("Distribute.download_state");
-        SharedPreferencesManager.remove("Distribute.download_time");
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -279,7 +295,6 @@ public class Distribute extends AbstractAppCenterService {
         String string;
         AppCenterLog.debug("AppCenterDistribute", "Resume distribute workflow...");
         if (this.mPackageInfo != null && this.mForegroundActivity != null && !this.mWorkflowCompleted && isInstanceEnabled()) {
-            boolean z = false;
             if ((this.mContext.getApplicationInfo().flags & 2) == 2 && !this.mEnabledForDebuggableBuild) {
                 AppCenterLog.info("AppCenterDistribute", "Not checking for in-app updates in debuggable build.");
                 this.mWorkflowCompleted = true;
@@ -289,8 +304,8 @@ public class Distribute extends AbstractAppCenterService {
                 this.mWorkflowCompleted = true;
                 this.mManualCheckForUpdateRequested = false;
             } else {
-                boolean z2 = this.mUpdateTrack == 1;
-                if (!z2 && (string = SharedPreferencesManager.getString("Distribute.update_setup_failed_package_hash")) != null) {
+                boolean z = this.mUpdateTrack == 1;
+                if (!z && (string = SharedPreferencesManager.getString("Distribute.update_setup_failed_package_hash")) != null) {
                     if (DistributeUtils.computeReleaseHash(this.mPackageInfo).equals(string)) {
                         AppCenterLog.info("AppCenterDistribute", "Skipping in-app updates setup, because it already failed on this release before.");
                         return;
@@ -373,12 +388,9 @@ public class Distribute extends AbstractAppCenterService {
                 } else {
                     String string2 = SharedPreferencesManager.getString("Distribute.update_token");
                     String string3 = SharedPreferencesManager.getString("Distribute.distribution_group_id");
-                    if (!z2 && string2 == null) {
+                    if (!z && string2 == null) {
                         String string4 = SharedPreferencesManager.getString("Distribute.tester_app_update_setup_failed_message");
-                        if (isAppCenterTesterAppInstalled() && TextUtils.isEmpty(string4) && !this.mContext.getPackageName().equals("com.microsoft.hockeyapp.testerapp")) {
-                            z = true;
-                        }
-                        if (z && !this.mTesterAppOpenedOrAborted) {
+                        if (isAppCenterTesterAppInstalled() && TextUtils.isEmpty(string4) && !this.mContext.getPackageName().equals("com.microsoft.hockeyapp.testerapp") && !this.mTesterAppOpenedOrAborted) {
                             DistributeUtils.updateSetupUsingTesterApp(this.mForegroundActivity, this.mPackageInfo);
                             this.mTesterAppOpenedOrAborted = true;
                         } else if (!this.mBrowserOpenedOrAborted) {
@@ -430,72 +442,88 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void completeWorkflow() {
-        cancelNotification();
-        SharedPreferencesManager.remove("Distribute.release_details");
-        SharedPreferencesManager.remove("Distribute.download_state");
-        this.mCheckReleaseApiCall = null;
-        this.mCheckReleaseCallId = null;
-        this.mUpdateDialog = null;
-        this.mUpdateSetupFailedDialog = null;
-        this.mUnknownSourcesDialog = null;
-        this.mLastActivityWithDialog.clear();
-        this.mReleaseDetails = null;
-        ReleaseDownloadListener releaseDownloadListener = this.mReleaseDownloaderListener;
-        if (releaseDownloadListener != null) {
-            releaseDownloadListener.hideProgressDialog();
+        try {
+            cancelNotification();
+            SharedPreferencesManager.remove("Distribute.release_details");
+            SharedPreferencesManager.remove("Distribute.download_state");
+            this.mCheckReleaseApiCall = null;
+            this.mCheckReleaseCallId = null;
+            this.mUpdateDialog = null;
+            this.mUpdateSetupFailedDialog = null;
+            this.mUnknownSourcesDialog = null;
+            this.mLastActivityWithDialog.clear();
+            this.mReleaseDetails = null;
+            ReleaseDownloadListener releaseDownloadListener = this.mReleaseDownloaderListener;
+            if (releaseDownloadListener != null) {
+                releaseDownloadListener.hideProgressDialog();
+            }
+            this.mWorkflowCompleted = true;
+            this.mManualCheckForUpdateRequested = false;
+        } catch (Throwable th) {
+            throw th;
         }
-        this.mWorkflowCompleted = true;
-        this.mManualCheckForUpdateRequested = false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeUpdateSetupFailedParameter(String str, String str2) {
-        if (this.mContext == null) {
-            AppCenterLog.debug("AppCenterDistribute", "Update setup failed parameter received before onStart, keep it in memory.");
-            this.mBeforeStartRequestId = str;
-            this.mBeforeStartUpdateSetupFailed = str2;
-        } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
-            AppCenterLog.debug("AppCenterDistribute", "Stored update setup failed parameter.");
-            SharedPreferencesManager.putString("Distribute.update_setup_failed_message", str2);
-        } else {
-            AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
+        try {
+            if (this.mContext == null) {
+                AppCenterLog.debug("AppCenterDistribute", "Update setup failed parameter received before onStart, keep it in memory.");
+                this.mBeforeStartRequestId = str;
+                this.mBeforeStartUpdateSetupFailed = str2;
+            } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
+                AppCenterLog.debug("AppCenterDistribute", "Stored update setup failed parameter.");
+                SharedPreferencesManager.putString("Distribute.update_setup_failed_message", str2);
+            } else {
+                AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeTesterAppUpdateSetupFailedParameter(String str, String str2) {
-        if (this.mContext == null) {
-            AppCenterLog.debug("AppCenterDistribute", "Tester app update setup failed parameter received before onStart, keep it in memory.");
-            this.mBeforeStartRequestId = str;
-            this.mBeforeStartTesterAppUpdateSetupFailed = str2;
-        } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
-            AppCenterLog.debug("AppCenterDistribute", "Stored tester app update setup failed parameter.");
-            SharedPreferencesManager.putString("Distribute.tester_app_update_setup_failed_message", str2);
-        } else {
-            AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
+        try {
+            if (this.mContext == null) {
+                AppCenterLog.debug("AppCenterDistribute", "Tester app update setup failed parameter received before onStart, keep it in memory.");
+                this.mBeforeStartRequestId = str;
+                this.mBeforeStartTesterAppUpdateSetupFailed = str2;
+            } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
+                AppCenterLog.debug("AppCenterDistribute", "Stored tester app update setup failed parameter.");
+                SharedPreferencesManager.putString("Distribute.tester_app_update_setup_failed_message", str2);
+            } else {
+                AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void storeRedirectionParameters(String str, String str2, String str3) {
-        if (this.mContext == null) {
-            AppCenterLog.debug("AppCenterDistribute", "Redirection parameters received before onStart, keep them in memory.");
-            this.mBeforeStartRequestId = str;
-            this.mBeforeStartUpdateToken = str3;
-            this.mBeforeStartDistributionGroupId = str2;
-        } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
-            if (str3 != null) {
-                SharedPreferencesManager.putString("Distribute.update_token", CryptoUtils.getInstance(this.mContext).encrypt(str3));
+        try {
+            if (this.mContext == null) {
+                AppCenterLog.debug("AppCenterDistribute", "Redirection parameters received before onStart, keep them in memory.");
+                this.mBeforeStartRequestId = str;
+                this.mBeforeStartUpdateToken = str3;
+                this.mBeforeStartDistributionGroupId = str2;
+            } else if (str.equals(SharedPreferencesManager.getString("Distribute.request_id"))) {
+                if (str3 != null) {
+                    SharedPreferencesManager.putString("Distribute.update_token", CryptoUtils.getInstance(this.mContext).encrypt(str3));
+                } else {
+                    SharedPreferencesManager.remove("Distribute.update_token");
+                }
+                SharedPreferencesManager.remove("Distribute.request_id");
+                processDistributionGroupId(str2);
+                AppCenterLog.debug("AppCenterDistribute", "Stored redirection parameters.");
+                cancelPreviousTasks();
+                getLatestReleaseDetails(str2, str3);
             } else {
-                SharedPreferencesManager.remove("Distribute.update_token");
+                AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
             }
-            SharedPreferencesManager.remove("Distribute.request_id");
-            processDistributionGroupId(str2);
-            AppCenterLog.debug("AppCenterDistribute", "Stored redirection parameters.");
-            cancelPreviousTasks();
-            getLatestReleaseDetails(str2, str3);
-        } else {
-            AppCenterLog.warn("AppCenterDistribute", "Ignoring redirection parameters as requestId is invalid.");
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -507,59 +535,64 @@ public class Distribute extends AbstractAppCenterService {
 
     synchronized void getLatestReleaseDetails(final String str, String str2) {
         String str3;
-        AppCenterLog.debug("AppCenterDistribute", "Get latest release details...");
-        HttpClient httpClient = DependencyConfiguration.getHttpClient();
-        if (httpClient == null) {
-            httpClient = HttpUtils.createHttpClient(this.mContext);
-        }
-        String computeReleaseHash = DistributeUtils.computeReleaseHash(this.mPackageInfo);
-        String str4 = this.mApiUrl;
-        if (str2 == null) {
-            str3 = str4 + String.format("/public/sdk/apps/%s/releases/latest?release_hash=%s%s", this.mAppSecret, computeReleaseHash, getReportingParametersForUpdatedRelease(true, str));
-        } else {
-            str3 = str4 + String.format("/sdk/apps/%s/releases/private/latest?release_hash=%s%s", this.mAppSecret, computeReleaseHash, getReportingParametersForUpdatedRelease(false, str));
-        }
-        HashMap hashMap = new HashMap();
-        if (str2 != null) {
-            hashMap.put("x-api-token", str2);
-        }
-        final Object obj = new Object();
-        this.mCheckReleaseCallId = obj;
-        this.mCheckReleaseApiCall = httpClient.callAsync(str3, "GET", hashMap, new HttpClient.CallTemplate() { // from class: com.microsoft.appcenter.distribute.Distribute.4
-            @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
-            public String buildRequestBody() {
-                return null;
+        try {
+            AppCenterLog.debug("AppCenterDistribute", "Get latest release details...");
+            HttpClient httpClient = DependencyConfiguration.getHttpClient();
+            if (httpClient == null) {
+                httpClient = HttpUtils.createHttpClient(this.mContext);
             }
+            String computeReleaseHash = DistributeUtils.computeReleaseHash(this.mPackageInfo);
+            String str4 = this.mApiUrl;
+            if (str2 == null) {
+                str3 = str4 + String.format("/public/sdk/apps/%s/releases/latest?release_hash=%s%s", this.mAppSecret, computeReleaseHash, getReportingParametersForUpdatedRelease(true, str));
+            } else {
+                str3 = str4 + String.format("/sdk/apps/%s/releases/private/latest?release_hash=%s%s", this.mAppSecret, computeReleaseHash, getReportingParametersForUpdatedRelease(false, str));
+            }
+            String str5 = str3;
+            HashMap hashMap = new HashMap();
+            if (str2 != null) {
+                hashMap.put("x-api-token", str2);
+            }
+            final Object obj = new Object();
+            this.mCheckReleaseCallId = obj;
+            this.mCheckReleaseApiCall = httpClient.callAsync(str5, "GET", hashMap, new HttpClient.CallTemplate() { // from class: com.microsoft.appcenter.distribute.Distribute.4
+                @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
+                public String buildRequestBody() {
+                    return null;
+                }
 
-            @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
-            public void onBeforeCalling(URL url, Map<String, String> map) {
-                if (AppCenterLog.getLogLevel() <= 2) {
-                    String replaceAll = url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret));
-                    AppCenterLog.verbose("AppCenterDistribute", "Calling " + replaceAll + "...");
-                    HashMap hashMap2 = new HashMap(map);
-                    String str5 = (String) hashMap2.get("x-api-token");
-                    if (str5 != null) {
-                        hashMap2.put("x-api-token", HttpUtils.hideSecret(str5));
+                @Override // com.microsoft.appcenter.http.HttpClient.CallTemplate
+                public void onBeforeCalling(URL url, Map<String, String> map) {
+                    if (AppCenterLog.getLogLevel() <= 2) {
+                        String replaceAll = url.toString().replaceAll(Distribute.this.mAppSecret, HttpUtils.hideSecret(Distribute.this.mAppSecret));
+                        AppCenterLog.verbose("AppCenterDistribute", "Calling " + replaceAll + "...");
+                        HashMap hashMap2 = new HashMap(map);
+                        String str6 = (String) hashMap2.get("x-api-token");
+                        if (str6 != null) {
+                            hashMap2.put("x-api-token", HttpUtils.hideSecret(str6));
+                        }
+                        AppCenterLog.verbose("AppCenterDistribute", "Headers: " + hashMap2);
                     }
-                    AppCenterLog.verbose("AppCenterDistribute", "Headers: " + hashMap2);
                 }
-            }
-        }, new ServiceCallback() { // from class: com.microsoft.appcenter.distribute.Distribute.5
-            @Override // com.microsoft.appcenter.http.ServiceCallback
-            public void onCallSucceeded(HttpResponse httpResponse) {
-                try {
-                    String payload = httpResponse.getPayload();
-                    Distribute.this.handleApiCallSuccess(obj, payload, ReleaseDetails.parse(payload), str);
-                } catch (JSONException e) {
-                    onCallFailed(e);
+            }, new ServiceCallback() { // from class: com.microsoft.appcenter.distribute.Distribute.5
+                @Override // com.microsoft.appcenter.http.ServiceCallback
+                public void onCallSucceeded(HttpResponse httpResponse) {
+                    try {
+                        String payload = httpResponse.getPayload();
+                        Distribute.this.handleApiCallSuccess(obj, payload, ReleaseDetails.parse(payload), str);
+                    } catch (JSONException e) {
+                        onCallFailed(e);
+                    }
                 }
-            }
 
-            @Override // com.microsoft.appcenter.http.ServiceCallback
-            public void onCallFailed(Exception exc) {
-                Distribute.this.handleApiCallFailure(obj, exc);
-            }
-        });
+                @Override // com.microsoft.appcenter.http.ServiceCallback
+                public void onCallFailed(Exception exc) {
+                    Distribute.this.handleApiCallFailure(obj, exc);
+                }
+            });
+        } catch (Throwable th) {
+            throw th;
+        }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -593,72 +626,83 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handleApiCallSuccess(Object obj, String str, ReleaseDetails releaseDetails, String str2) {
-        String string = SharedPreferencesManager.getString("Distribute.downloaded_release_hash");
-        if (!TextUtils.isEmpty(string)) {
-            if (isCurrentReleaseWasUpdated(string)) {
-                AppCenterLog.debug("AppCenterDistribute", "Successfully reported app update for downloaded release hash (" + string + "), removing from store..");
-                SharedPreferencesManager.remove("Distribute.downloaded_release_hash");
-                SharedPreferencesManager.remove("Distribute.downloaded_release_id");
-            } else {
-                AppCenterLog.debug("AppCenterDistribute", "Stored release hash doesn't match current installation, probably downloaded but not installed yet, keep in store");
+        try {
+            String string = SharedPreferencesManager.getString("Distribute.downloaded_release_hash");
+            if (!TextUtils.isEmpty(string)) {
+                if (isCurrentReleaseWasUpdated(string)) {
+                    AppCenterLog.debug("AppCenterDistribute", "Successfully reported app update for downloaded release hash (" + string + "), removing from store..");
+                    SharedPreferencesManager.remove("Distribute.downloaded_release_hash");
+                    SharedPreferencesManager.remove("Distribute.downloaded_release_id");
+                } else {
+                    AppCenterLog.debug("AppCenterDistribute", "Stored release hash doesn't match current installation, probably downloaded but not installed yet, keep in store");
+                }
             }
-        }
-        if (this.mCheckReleaseCallId == obj) {
-            this.mCheckReleaseApiCall = null;
-            if (str2 == null) {
-                processDistributionGroupId(releaseDetails.getDistributionGroupId());
-            }
-            if (Build.VERSION.SDK_INT >= releaseDetails.getMinApiLevel()) {
-                AppCenterLog.debug("AppCenterDistribute", "Check if latest release is more recent.");
-                if (isMoreRecent(releaseDetails) && canUpdateNow(releaseDetails)) {
-                    if (this.mReleaseDetails == null) {
-                        updateReleaseDetails(DistributeUtils.loadCachedReleaseDetails());
-                    }
-                    SharedPreferencesManager.putString("Distribute.release_details", str);
-                    ReleaseDetails releaseDetails2 = this.mReleaseDetails;
-                    if (releaseDetails2 != null && releaseDetails2.isMandatoryUpdate()) {
-                        if (this.mReleaseDetails.getId() != releaseDetails.getId()) {
-                            AppCenterLog.debug("AppCenterDistribute", "Latest release is more recent than the previous mandatory.");
-                            SharedPreferencesManager.putInt("Distribute.download_state", 1);
-                        } else {
-                            AppCenterLog.debug("AppCenterDistribute", "The latest release is mandatory and already being processed.");
+            if (this.mCheckReleaseCallId == obj) {
+                this.mCheckReleaseApiCall = null;
+                if (str2 == null) {
+                    processDistributionGroupId(releaseDetails.getDistributionGroupId());
+                }
+                if (Build.VERSION.SDK_INT >= releaseDetails.getMinApiLevel()) {
+                    AppCenterLog.debug("AppCenterDistribute", "Check if latest release is more recent.");
+                    if (isMoreRecent(releaseDetails) && canUpdateNow(releaseDetails)) {
+                        if (this.mReleaseDetails == null) {
+                            updateReleaseDetails(DistributeUtils.loadCachedReleaseDetails());
+                        }
+                        SharedPreferencesManager.putString("Distribute.release_details", str);
+                        ReleaseDetails releaseDetails2 = this.mReleaseDetails;
+                        if (releaseDetails2 != null && releaseDetails2.isMandatoryUpdate()) {
+                            if (this.mReleaseDetails.getId() != releaseDetails.getId()) {
+                                AppCenterLog.debug("AppCenterDistribute", "Latest release is more recent than the previous mandatory.");
+                                SharedPreferencesManager.putInt("Distribute.download_state", 1);
+                            } else {
+                                AppCenterLog.debug("AppCenterDistribute", "The latest release is mandatory and already being processed.");
+                            }
+                            return;
+                        }
+                        updateReleaseDetails(releaseDetails);
+                        AppCenterLog.debug("AppCenterDistribute", "Latest release is more recent.");
+                        SharedPreferencesManager.putInt("Distribute.download_state", 1);
+                        if (this.mForegroundActivity != null) {
+                            showUpdateDialog();
                         }
                         return;
                     }
-                    updateReleaseDetails(releaseDetails);
-                    AppCenterLog.debug("AppCenterDistribute", "Latest release is more recent.");
-                    SharedPreferencesManager.putInt("Distribute.download_state", 1);
-                    if (this.mForegroundActivity != null) {
-                        showUpdateDialog();
-                    }
-                    return;
+                } else {
+                    AppCenterLog.info("AppCenterDistribute", "This device is not compatible with the latest release.");
                 }
-            } else {
-                AppCenterLog.info("AppCenterDistribute", "This device is not compatible with the latest release.");
+                completeWorkflow();
             }
-            completeWorkflow();
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     private synchronized void updateReleaseDetails(ReleaseDetails releaseDetails) {
-        if (this.mReleaseDownloader != null) {
-            if (releaseDetails == null || releaseDetails.getId() != this.mReleaseDownloader.getReleaseDetails().getId()) {
+        try {
+            if (this.mReleaseDownloader != null) {
+                if (releaseDetails != null) {
+                    if (releaseDetails.getId() != this.mReleaseDownloader.getReleaseDetails().getId()) {
+                    }
+                    this.mReleaseDownloader = null;
+                }
                 this.mReleaseDownloader.cancel();
+                this.mReleaseDownloader = null;
+            } else if (releaseDetails == null) {
+                ReleaseDownloaderFactory.create(this.mContext, null, null).cancel();
             }
-            this.mReleaseDownloader = null;
-        } else if (releaseDetails == null) {
-            ReleaseDownloaderFactory.create(this.mContext, null, null).cancel();
-        }
-        ReleaseDownloadListener releaseDownloadListener = this.mReleaseDownloaderListener;
-        if (releaseDownloadListener != null) {
-            releaseDownloadListener.hideProgressDialog();
-            this.mReleaseDownloaderListener = null;
-        }
-        this.mReleaseDetails = releaseDetails;
-        if (releaseDetails != null) {
-            ReleaseDownloadListener releaseDownloadListener2 = new ReleaseDownloadListener(this.mContext, releaseDetails);
-            this.mReleaseDownloaderListener = releaseDownloadListener2;
-            this.mReleaseDownloader = ReleaseDownloaderFactory.create(this.mContext, this.mReleaseDetails, releaseDownloadListener2);
+            ReleaseDownloadListener releaseDownloadListener = this.mReleaseDownloaderListener;
+            if (releaseDownloadListener != null) {
+                releaseDownloadListener.hideProgressDialog();
+                this.mReleaseDownloaderListener = null;
+            }
+            this.mReleaseDetails = releaseDetails;
+            if (releaseDetails != null) {
+                ReleaseDownloadListener releaseDownloadListener2 = new ReleaseDownloadListener(this.mContext, releaseDetails);
+                this.mReleaseDownloaderListener = releaseDownloadListener2;
+                this.mReleaseDownloader = ReleaseDownloaderFactory.create(this.mContext, this.mReleaseDetails, releaseDownloadListener2);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -750,49 +794,53 @@ public class Distribute extends AbstractAppCenterService {
 
     private synchronized void showUpdateDialog() {
         String string;
-        if (this.mUsingDefaultUpdateDialog == null) {
-            this.mUsingDefaultUpdateDialog = Boolean.TRUE;
-        }
-        if (this.mUsingDefaultUpdateDialog.booleanValue()) {
-            if (!shouldRefreshDialog(this.mUpdateDialog)) {
-                return;
+        try {
+            if (this.mUsingDefaultUpdateDialog == null) {
+                this.mUsingDefaultUpdateDialog = Boolean.TRUE;
             }
-            AppCenterLog.debug("AppCenterDistribute", "Show default update dialog.");
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
-            builder.setTitle(R$string.appcenter_distribute_update_dialog_title);
-            final ReleaseDetails releaseDetails = this.mReleaseDetails;
-            if (releaseDetails.isMandatoryUpdate()) {
-                string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_mandatory);
-            } else {
-                string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_optional);
-            }
-            builder.setMessage(formatAppNameAndVersion(string));
-            builder.setPositiveButton(R$string.appcenter_distribute_update_dialog_download, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.6
-                @Override // android.content.DialogInterface.OnClickListener
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Distribute.this.enqueueDownloadOrShowUnknownSourcesDialog(releaseDetails);
+            if (this.mUsingDefaultUpdateDialog.booleanValue()) {
+                if (!shouldRefreshDialog(this.mUpdateDialog)) {
+                    return;
                 }
-            });
-            builder.setCancelable(false);
-            if (!releaseDetails.isMandatoryUpdate()) {
-                builder.setNegativeButton(R$string.appcenter_distribute_update_dialog_postpone, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.7
+                AppCenterLog.debug("AppCenterDistribute", "Show default update dialog.");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
+                builder.setTitle(R$string.appcenter_distribute_update_dialog_title);
+                final ReleaseDetails releaseDetails = this.mReleaseDetails;
+                if (releaseDetails.isMandatoryUpdate()) {
+                    string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_mandatory);
+                } else {
+                    string = this.mContext.getString(R$string.appcenter_distribute_update_dialog_message_optional);
+                }
+                builder.setMessage(formatAppNameAndVersion(string));
+                builder.setPositiveButton(R$string.appcenter_distribute_update_dialog_download, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.6
                     @Override // android.content.DialogInterface.OnClickListener
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Distribute.this.postponeRelease(releaseDetails);
+                        Distribute.this.enqueueDownloadOrShowUnknownSourcesDialog(releaseDetails);
                     }
                 });
+                builder.setCancelable(false);
+                if (!releaseDetails.isMandatoryUpdate()) {
+                    builder.setNegativeButton(R$string.appcenter_distribute_update_dialog_postpone, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.7
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Distribute.this.postponeRelease(releaseDetails);
+                        }
+                    });
+                }
+                if (!TextUtils.isEmpty(releaseDetails.getReleaseNotes()) && releaseDetails.getReleaseNotesUrl() != null) {
+                    builder.setNeutralButton(R$string.appcenter_distribute_update_dialog_view_release_notes, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.8
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Distribute.this.viewReleaseNotes(releaseDetails);
+                        }
+                    });
+                }
+                AlertDialog create = builder.create();
+                this.mUpdateDialog = create;
+                showAndRememberDialogActivity(create);
             }
-            if (!TextUtils.isEmpty(releaseDetails.getReleaseNotes()) && releaseDetails.getReleaseNotesUrl() != null) {
-                builder.setNeutralButton(R$string.appcenter_distribute_update_dialog_view_release_notes, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.8
-                    @Override // android.content.DialogInterface.OnClickListener
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Distribute.this.viewReleaseNotes(releaseDetails);
-                    }
-                });
-            }
-            AlertDialog create = builder.create();
-            this.mUpdateDialog = create;
-            showAndRememberDialogActivity(create);
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -807,10 +855,14 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void storeUpdateSetupFailedPackageHash(DialogInterface dialogInterface) {
-        if (this.mUpdateSetupFailedDialog == dialogInterface) {
-            SharedPreferencesManager.putString("Distribute.update_setup_failed_package_hash", DistributeUtils.computeReleaseHash(this.mPackageInfo));
-        } else {
-            showDisabledToast();
+        try {
+            if (this.mUpdateSetupFailedDialog == dialogInterface) {
+                SharedPreferencesManager.putString("Distribute.update_setup_failed_package_hash", DistributeUtils.computeReleaseHash(this.mPackageInfo));
+            } else {
+                showDisabledToast();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -832,36 +884,40 @@ public class Distribute extends AbstractAppCenterService {
     }
 
     private synchronized void showUnknownSourcesDialog() {
-        if (shouldRefreshDialog(this.mUnknownSourcesDialog)) {
-            AppCenterLog.debug("AppCenterDistribute", "Show new unknown sources dialog.");
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
-            builder.setMessage(R$string.appcenter_distribute_unknown_sources_dialog_message);
-            final ReleaseDetails releaseDetails = this.mReleaseDetails;
-            if (releaseDetails.isMandatoryUpdate()) {
-                builder.setCancelable(false);
-            } else {
-                builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+        try {
+            if (shouldRefreshDialog(this.mUnknownSourcesDialog)) {
+                AppCenterLog.debug("AppCenterDistribute", "Show new unknown sources dialog.");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.mForegroundActivity);
+                builder.setMessage(R$string.appcenter_distribute_unknown_sources_dialog_message);
+                final ReleaseDetails releaseDetails = this.mReleaseDetails;
+                if (releaseDetails.isMandatoryUpdate()) {
+                    builder.setCancelable(false);
+                } else {
+                    builder.setNegativeButton(17039360, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.9
+                        @Override // android.content.DialogInterface.OnClickListener
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Distribute.this.completeWorkflow(releaseDetails);
+                        }
+                    });
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: com.microsoft.appcenter.distribute.Distribute.10
+                        @Override // android.content.DialogInterface.OnCancelListener
+                        public void onCancel(DialogInterface dialogInterface) {
+                            Distribute.this.completeWorkflow(releaseDetails);
+                        }
+                    });
+                }
+                builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.11
                     @Override // android.content.DialogInterface.OnClickListener
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Distribute.this.completeWorkflow(releaseDetails);
+                        Distribute.this.goToUnknownAppsSettings(releaseDetails);
                     }
                 });
-                builder.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: com.microsoft.appcenter.distribute.Distribute.10
-                    @Override // android.content.DialogInterface.OnCancelListener
-                    public void onCancel(DialogInterface dialogInterface) {
-                        Distribute.this.completeWorkflow(releaseDetails);
-                    }
-                });
+                AlertDialog create = builder.create();
+                this.mUnknownSourcesDialog = create;
+                showAndRememberDialogActivity(create);
             }
-            builder.setPositiveButton(R$string.appcenter_distribute_unknown_sources_dialog_settings, new DialogInterface.OnClickListener() { // from class: com.microsoft.appcenter.distribute.Distribute.11
-                @Override // android.content.DialogInterface.OnClickListener
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Distribute.this.goToUnknownAppsSettings(releaseDetails);
-                }
-            });
-            AlertDialog create = builder.create();
-            this.mUnknownSourcesDialog = create;
-            showAndRememberDialogActivity(create);
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -894,48 +950,60 @@ public class Distribute extends AbstractAppCenterService {
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void goToUnknownAppsSettings(ReleaseDetails releaseDetails) {
         Intent intent;
-        if (Build.VERSION.SDK_INT >= 26) {
-            intent = new Intent("android.settings.MANAGE_UNKNOWN_APP_SOURCES");
-            intent.setData(Uri.parse("package:" + this.mForegroundActivity.getPackageName()));
-        } else {
-            intent = new Intent("android.settings.SECURITY_SETTINGS");
-        }
         try {
-            this.mForegroundActivity.startActivity(intent);
-        } catch (ActivityNotFoundException unused) {
-            AppCenterLog.warn("AppCenterDistribute", "No way to navigate to secure settings on this device automatically");
-            if (releaseDetails == this.mReleaseDetails) {
-                completeWorkflow();
+            if (Build.VERSION.SDK_INT >= 26) {
+                intent = new Intent("android.settings.MANAGE_UNKNOWN_APP_SOURCES");
+                intent.setData(Uri.parse("package:" + this.mForegroundActivity.getPackageName()));
+            } else {
+                intent = new Intent("android.settings.SECURITY_SETTINGS");
             }
+            try {
+                this.mForegroundActivity.startActivity(intent);
+            } catch (ActivityNotFoundException unused) {
+                AppCenterLog.warn("AppCenterDistribute", "No way to navigate to secure settings on this device automatically");
+                if (releaseDetails == this.mReleaseDetails) {
+                    completeWorkflow();
+                }
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void postponeRelease(ReleaseDetails releaseDetails) {
-        if (releaseDetails == this.mReleaseDetails) {
-            AppCenterLog.debug("AppCenterDistribute", "Postpone updates for a day.");
-            SharedPreferencesManager.putLong("Distribute.postpone_time", System.currentTimeMillis());
-            completeWorkflow();
-        } else {
-            showDisabledToast();
+        try {
+            if (releaseDetails == this.mReleaseDetails) {
+                AppCenterLog.debug("AppCenterDistribute", "Postpone updates for a day.");
+                SharedPreferencesManager.putLong("Distribute.postpone_time", System.currentTimeMillis());
+                completeWorkflow();
+            } else {
+                showDisabledToast();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     synchronized void enqueueDownloadOrShowUnknownSourcesDialog(ReleaseDetails releaseDetails) {
-        if (releaseDetails == this.mReleaseDetails) {
-            if (InstallerUtils.isUnknownSourcesEnabled(this.mContext)) {
-                AppCenterLog.debug("AppCenterDistribute", "Schedule download...");
-                resumeDownload();
-                showDownloadProgress();
-                ServiceCall serviceCall = this.mCheckReleaseApiCall;
-                if (serviceCall != null) {
-                    serviceCall.cancel();
+        try {
+            if (releaseDetails == this.mReleaseDetails) {
+                if (InstallerUtils.isUnknownSourcesEnabled(this.mContext)) {
+                    AppCenterLog.debug("AppCenterDistribute", "Schedule download...");
+                    resumeDownload();
+                    showDownloadProgress();
+                    ServiceCall serviceCall = this.mCheckReleaseApiCall;
+                    if (serviceCall != null) {
+                        serviceCall.cancel();
+                    }
+                } else {
+                    showUnknownSourcesDialog();
                 }
             } else {
-                showUnknownSourcesDialog();
+                showDisabledToast();
             }
-        } else {
-            showDisabledToast();
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -955,30 +1023,33 @@ public class Distribute extends AbstractAppCenterService {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized boolean notifyDownload(ReleaseDetails releaseDetails, Intent intent) {
         Notification.Builder oldNotificationBuilder;
-        if (releaseDetails != this.mReleaseDetails) {
-            return true;
-        }
-        if (this.mForegroundActivity == null && DistributeUtils.getStoredDownloadState() != 3) {
-            AppCenterLog.debug("AppCenterDistribute", "Post a notification as the download finished in background.");
-            NotificationManager notificationManager = (NotificationManager) this.mContext.getSystemService("notification");
-            if (Build.VERSION.SDK_INT >= 26) {
-                notificationManager.createNotificationChannel(new NotificationChannel("appcenter.distribute", this.mContext.getString(R$string.appcenter_distribute_notification_category), 3));
-                oldNotificationBuilder = new Notification.Builder(this.mContext, "appcenter.distribute");
-            } else {
-                oldNotificationBuilder = getOldNotificationBuilder();
+        try {
+            if (releaseDetails != this.mReleaseDetails) {
+                return true;
             }
-            Context context = this.mContext;
-            int i = R$string.appcenter_distribute_install_ready_title;
-            oldNotificationBuilder.setTicker(context.getString(i)).setContentTitle(this.mContext.getString(i)).setContentText(getInstallReadyMessage()).setSmallIcon(this.mContext.getApplicationInfo().icon).setContentIntent(PendingIntent.getActivities(this.mContext, 0, new Intent[]{intent}, 0));
-            oldNotificationBuilder.setStyle(new Notification.BigTextStyle().bigText(getInstallReadyMessage()));
-            Notification build = oldNotificationBuilder.build();
-            build.flags |= 16;
-            notificationManager.notify(DistributeUtils.getNotificationId(), build);
-            SharedPreferencesManager.putInt("Distribute.download_state", 3);
-            this.mCheckedDownload = false;
-            return true;
+            if (this.mForegroundActivity == null && DistributeUtils.getStoredDownloadState() != 3) {
+                AppCenterLog.debug("AppCenterDistribute", "Post a notification as the download finished in background.");
+                NotificationManager notificationManager = (NotificationManager) this.mContext.getSystemService("notification");
+                if (Build.VERSION.SDK_INT >= 26) {
+                    notificationManager.createNotificationChannel(new NotificationChannel("appcenter.distribute", this.mContext.getString(R$string.appcenter_distribute_notification_category), 3));
+                    oldNotificationBuilder = new Notification.Builder(this.mContext, "appcenter.distribute");
+                } else {
+                    oldNotificationBuilder = getOldNotificationBuilder();
+                }
+                Context context = this.mContext;
+                int i = R$string.appcenter_distribute_install_ready_title;
+                oldNotificationBuilder.setTicker(context.getString(i)).setContentTitle(this.mContext.getString(i)).setContentText(getInstallReadyMessage()).setSmallIcon(this.mContext.getApplicationInfo().icon).setContentIntent(PendingIntent.getActivities(this.mContext, 0, new Intent[]{intent}, 0));
+                oldNotificationBuilder.setStyle(new Notification.BigTextStyle().bigText(getInstallReadyMessage()));
+                Notification build = oldNotificationBuilder.build();
+                build.flags |= 16;
+                notificationManager.notify(DistributeUtils.getNotificationId(), build);
+                SharedPreferencesManager.putInt("Distribute.download_state", 3);
+                this.mCheckedDownload = false;
+                return true;
+            }
+            return false;
+        } finally {
         }
-        return false;
     }
 
     private Notification.Builder getOldNotificationBuilder() {
@@ -1030,10 +1101,14 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void installMandatoryUpdate(ReleaseDetails releaseDetails) {
-        if (releaseDetails == this.mReleaseDetails) {
-            resumeDownload();
-        } else {
-            showDisabledToast();
+        try {
+            if (releaseDetails == this.mReleaseDetails) {
+                resumeDownload();
+            } else {
+                showDisabledToast();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -1057,22 +1132,26 @@ public class Distribute extends AbstractAppCenterService {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setInstalling(ReleaseDetails releaseDetails) {
-        if (releaseDetails != this.mReleaseDetails) {
-            return;
+        try {
+            if (releaseDetails != this.mReleaseDetails) {
+                return;
+            }
+            if (releaseDetails.isMandatoryUpdate()) {
+                cancelNotification();
+                SharedPreferencesManager.putInt("Distribute.download_state", 4);
+            } else {
+                completeWorkflow(releaseDetails);
+            }
+            String distributionGroupId = releaseDetails.getDistributionGroupId();
+            String releaseHash = releaseDetails.getReleaseHash();
+            int id = releaseDetails.getId();
+            AppCenterLog.debug("AppCenterDistribute", "Stored release details: group id=" + distributionGroupId + " release hash=" + releaseHash + " release id=" + id);
+            SharedPreferencesManager.putString("Distribute.downloaded_distribution_group_id", distributionGroupId);
+            SharedPreferencesManager.putString("Distribute.downloaded_release_hash", releaseHash);
+            SharedPreferencesManager.putInt("Distribute.downloaded_release_id", id);
+        } catch (Throwable th) {
+            throw th;
         }
-        if (releaseDetails.isMandatoryUpdate()) {
-            cancelNotification();
-            SharedPreferencesManager.putInt("Distribute.download_state", 4);
-        } else {
-            completeWorkflow(releaseDetails);
-        }
-        String distributionGroupId = releaseDetails.getDistributionGroupId();
-        String releaseHash = releaseDetails.getReleaseHash();
-        int id = releaseDetails.getId();
-        AppCenterLog.debug("AppCenterDistribute", "Stored release details: group id=" + distributionGroupId + " release hash=" + releaseHash + " release id=" + id);
-        SharedPreferencesManager.putString("Distribute.downloaded_distribution_group_id", distributionGroupId);
-        SharedPreferencesManager.putString("Distribute.downloaded_release_hash", releaseHash);
-        SharedPreferencesManager.putInt("Distribute.downloaded_release_id", id);
     }
 
     private synchronized void enqueueDistributionStartSessionLog() {

@@ -38,18 +38,21 @@ final class SharedPreferencesQueue {
 
     private void initQueue() {
         synchronized (this.internalQueue) {
-            this.internalQueue.clear();
-            String string = this.sharedPreferences.getString(this.queueName, "");
-            if (!TextUtils.isEmpty(string) && string.contains(this.itemSeparator)) {
-                String[] split = string.split(this.itemSeparator, -1);
-                if (split.length == 0) {
-                    Log.e("FirebaseMessaging", "Corrupted queue. Please check the queue contents and item separator provided");
-                }
-                for (String str : split) {
-                    if (!TextUtils.isEmpty(str)) {
-                        this.internalQueue.add(str);
+            try {
+                this.internalQueue.clear();
+                String string = this.sharedPreferences.getString(this.queueName, "");
+                if (!TextUtils.isEmpty(string) && string.contains(this.itemSeparator)) {
+                    String[] split = string.split(this.itemSeparator, -1);
+                    if (split.length == 0) {
+                        Log.e("FirebaseMessaging", "Corrupted queue. Please check the queue contents and item separator provided");
+                    }
+                    for (String str : split) {
+                        if (!TextUtils.isEmpty(str)) {
+                            this.internalQueue.add(str);
+                        }
                     }
                 }
+            } finally {
             }
         }
     }

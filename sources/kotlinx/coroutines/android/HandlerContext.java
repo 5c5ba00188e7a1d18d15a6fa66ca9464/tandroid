@@ -6,11 +6,12 @@ import java.util.concurrent.CancellationException;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
+import kotlinx.coroutines.Delay;
 import kotlinx.coroutines.Dispatchers;
 import kotlinx.coroutines.JobKt;
 /* compiled from: HandlerDispatcher.kt */
 /* loaded from: classes.dex */
-public final class HandlerContext extends HandlerDispatcher {
+public final class HandlerContext extends HandlerDispatcher implements Delay {
     private volatile HandlerContext _immediate;
     private final Handler handler;
     private final HandlerContext immediate;

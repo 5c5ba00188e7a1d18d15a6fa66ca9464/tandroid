@@ -2,17 +2,17 @@ package j$.time.zone;
 
 import j$.time.Instant;
 import j$.time.ZoneOffset;
-import j$.time.h;
+import j$.time.g;
 import java.io.Serializable;
 /* loaded from: classes2.dex */
 public final class a implements Comparable, Serializable {
-    private final h a;
+    private final g a;
     private final ZoneOffset b;
     private final ZoneOffset c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public a(long j, ZoneOffset zoneOffset, ZoneOffset zoneOffset2) {
-        this.a = h.j(j, 0, zoneOffset);
+        this.a = g.j(j, 0, zoneOffset);
         this.b = zoneOffset;
         this.c = zoneOffset2;
     }
@@ -33,10 +33,10 @@ public final class a implements Comparable, Serializable {
     public final int compareTo(Object obj) {
         a aVar = (a) obj;
         ZoneOffset zoneOffset = this.b;
-        h hVar = this.a;
-        Instant k = Instant.k(hVar.k(zoneOffset), hVar.m().h());
-        h hVar2 = aVar.a;
-        return k.compareTo(Instant.k(hVar2.k(aVar.b), hVar2.m().h()));
+        g gVar = this.a;
+        Instant l = Instant.l(gVar.k(zoneOffset), gVar.m().h());
+        g gVar2 = aVar.a;
+        return l.compareTo(Instant.l(gVar2.k(aVar.b), gVar2.m().h()));
     }
 
     public final boolean equals(Object obj) {

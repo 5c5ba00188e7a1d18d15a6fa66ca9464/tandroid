@@ -304,8 +304,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
 
     /* JADX WARN: Removed duplicated region for block: B:37:0x0097  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x009a  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0135  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0141  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0142  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -472,18 +472,15 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
             this.mSelected = viewHolder;
             if (i == 2) {
                 try {
-                    try {
-                        viewHolder.itemView.performHapticFeedback(0, 2);
-                    } catch (Exception unused) {
-                        parent = this.mRecyclerView.getParent();
-                        if (parent != null) {
-                        }
-                        if (!z) {
-                        }
-                        this.mCallback.onSelectedChanged(this.mSelected, this.mActionState);
-                        this.mRecyclerView.invalidate();
+                    viewHolder.itemView.performHapticFeedback(0, 2);
+                } catch (Exception unused) {
+                    parent = this.mRecyclerView.getParent();
+                    if (parent != null) {
                     }
-                } catch (Exception unused2) {
+                    if (!z) {
+                    }
+                    this.mCallback.onSelectedChanged(this.mSelected, this.mActionState);
+                    this.mRecyclerView.invalidate();
                 }
                 parent = this.mRecyclerView.getParent();
                 if (parent != null) {
@@ -766,8 +763,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         int findPointerIndex = motionEvent.findPointerIndex(i);
         float abs = Math.abs(motionEvent.getX(findPointerIndex) - this.mInitialTouchX);
         float abs2 = Math.abs(motionEvent.getY(findPointerIndex) - this.mInitialTouchY);
-        int i2 = this.mSlop;
-        if (abs >= i2 || abs2 >= i2) {
+        float f = this.mSlop;
+        if (abs >= f || abs2 >= f) {
             if (abs <= abs2 || !layoutManager.canScrollHorizontally()) {
                 if ((abs2 <= abs || !layoutManager.canScrollVertically()) && (findChildView = findChildView(motionEvent)) != null) {
                     return this.mRecyclerView.getChildViewHolder(findChildView);
@@ -791,8 +788,8 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
         float f2 = y - this.mInitialTouchY;
         float abs = Math.abs(f);
         float abs2 = Math.abs(f2);
-        int i3 = this.mSlop;
-        if (abs >= i3 || abs2 >= i3) {
+        float f3 = this.mSlop;
+        if (abs >= f3 || abs2 >= f3) {
             if (abs > abs2) {
                 if (f < 0.0f && (absoluteMovementFlags & 4) == 0) {
                     return;
@@ -925,7 +922,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                 velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
                 float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
                 float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
-                int i3 = xVelocity <= 0.0f ? 4 : 8;
+                int i3 = xVelocity > 0.0f ? 8 : 4;
                 float abs = Math.abs(xVelocity);
                 if ((i3 & i) != 0 && i2 == i3 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(yVelocity)) {
                     return i3;
@@ -948,7 +945,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration implements Recy
                 velocityTracker.computeCurrentVelocity(1000, this.mCallback.getSwipeVelocityThreshold(this.mMaxSwipeVelocity));
                 float xVelocity = this.mVelocityTracker.getXVelocity(this.mActivePointerId);
                 float yVelocity = this.mVelocityTracker.getYVelocity(this.mActivePointerId);
-                int i3 = yVelocity <= 0.0f ? 1 : 2;
+                int i3 = yVelocity > 0.0f ? 2 : 1;
                 float abs = Math.abs(yVelocity);
                 if ((i3 & i) != 0 && i3 == i2 && abs >= this.mCallback.getSwipeEscapeVelocity(this.mSwipeEscapeVelocity) && abs > Math.abs(xVelocity)) {
                     return i3;

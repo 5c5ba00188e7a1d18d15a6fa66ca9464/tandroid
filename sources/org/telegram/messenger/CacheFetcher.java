@@ -165,7 +165,7 @@ public abstract class CacheFetcher<Args, R> {
         if (callback == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.CacheFetcher$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.CacheFetcher$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CacheFetcher.this.lambda$saveCallback$2(pair, callback);
@@ -189,7 +189,7 @@ public abstract class CacheFetcher<Args, R> {
     }
 
     private void callCallbacks(final Pair<Integer, Args> pair, final R r, final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.CacheFetcher$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.CacheFetcher$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 CacheFetcher.this.lambda$callCallbacks$3(pair, r, z);

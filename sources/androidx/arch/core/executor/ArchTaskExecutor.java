@@ -30,8 +30,12 @@ public class ArchTaskExecutor extends TaskExecutor {
             return sInstance;
         }
         synchronized (ArchTaskExecutor.class) {
-            if (sInstance == null) {
-                sInstance = new ArchTaskExecutor();
+            try {
+                if (sInstance == null) {
+                    sInstance = new ArchTaskExecutor();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return sInstance;

@@ -6,10 +6,6 @@ import java.io.Serializable;
 final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
     static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
-    public String toString() {
-        return "Ordering.natural()";
-    }
-
     @Override // com.google.common.collect.Ordering, java.util.Comparator
     public int compare(Comparable<?> comparable, Comparable<?> comparable2) {
         Preconditions.checkNotNull(comparable);
@@ -20,6 +16,10 @@ final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializa
     @Override // com.google.common.collect.Ordering
     public <S extends Comparable<?>> Ordering<S> reverse() {
         return ReverseNaturalOrdering.INSTANCE;
+    }
+
+    public String toString() {
+        return "Ordering.natural()";
     }
 
     private NaturalOrdering() {

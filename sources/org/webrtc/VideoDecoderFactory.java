@@ -12,14 +12,14 @@ public interface VideoDecoderFactory {
 
     /* loaded from: classes.dex */
     public final /* synthetic */ class -CC {
-        @CalledByNative
-        public static VideoCodecInfo[] $default$getSupportedCodecs(VideoDecoderFactory videoDecoderFactory) {
-            return new VideoCodecInfo[0];
-        }
-
         @Deprecated
         public static VideoDecoder $default$createDecoder(VideoDecoderFactory videoDecoderFactory, String str) {
             throw new UnsupportedOperationException("Deprecated and not implemented.");
+        }
+
+        @CalledByNative
+        public static VideoCodecInfo[] $default$getSupportedCodecs(VideoDecoderFactory videoDecoderFactory) {
+            return new VideoCodecInfo[0];
         }
     }
 }

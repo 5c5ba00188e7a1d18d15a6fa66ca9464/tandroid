@@ -432,7 +432,7 @@ public abstract class BaseFragment {
         ViewGroup viewGroup;
         if (this.parentLayout != iNavigationLayout) {
             this.parentLayout = iNavigationLayout;
-            boolean z = true;
+            boolean z = false;
             this.inBubbleMode = iNavigationLayout != null && iNavigationLayout.isInBubbleMode();
             View view = this.fragmentView;
             if (view != null) {
@@ -453,7 +453,9 @@ public abstract class BaseFragment {
             }
             if (this.actionBar != null) {
                 INavigationLayout iNavigationLayout3 = this.parentLayout;
-                z = (iNavigationLayout3 == null || iNavigationLayout3.getView().getContext() == this.actionBar.getContext()) ? false : false;
+                if (iNavigationLayout3 != null && iNavigationLayout3.getView().getContext() != this.actionBar.getContext()) {
+                    z = true;
+                }
                 if ((this.actionBar.shouldAddToContainer() || z) && (viewGroup = (ViewGroup) this.actionBar.getParent()) != null) {
                     try {
                         viewGroup.removeViewInLayout(this.actionBar);
@@ -944,19 +946,18 @@ public abstract class BaseFragment {
         if (getParentActivity() == null) {
             return null;
         }
-        INavigationLayout newLayout = INavigationLayout.-CC.newLayout(getParentActivity(), false, new Supplier() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda1
+        INavigationLayout[] iNavigationLayoutArr = {INavigationLayout.-CC.newLayout(getParentActivity(), false, new Supplier() { // from class: org.telegram.ui.ActionBar.BaseFragment$$ExternalSyntheticLambda1
             @Override // androidx.core.util.Supplier
             public final Object get() {
                 BottomSheet lambda$showAsSheet$1;
                 lambda$showAsSheet$1 = BaseFragment.lambda$showAsSheet$1(r1);
                 return lambda$showAsSheet$1;
             }
-        });
-        INavigationLayout[] iNavigationLayoutArr = {newLayout};
-        newLayout.setIsSheet(true);
+        })};
+        iNavigationLayoutArr[0].setIsSheet(true);
         LaunchActivity.instance.sheetFragmentsStack.add(iNavigationLayoutArr[0]);
         baseFragment.onTransitionAnimationStart(true, false);
-        1 r15 = new 1(getParentActivity(), true, baseFragment.getResourceProvider(), bottomSheetParams, iNavigationLayoutArr, baseFragment, r12);
+        1 r15 = new 1(getParentActivity(), true, baseFragment.getResourceProvider(), bottomSheetParams, iNavigationLayoutArr, baseFragment, r13);
         final BottomSheet[] bottomSheetArr = {r15};
         if (bottomSheetParams != null) {
             r15.setAllowNestedScroll(bottomSheetParams.allowNestedScroll);

@@ -19,6 +19,7 @@ import androidx.core.graphics.ColorUtils;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.tl.TL_stories$StoryItem;
@@ -135,7 +136,7 @@ public abstract class SelfStoriesPreviewView extends View {
             }
         });
         this.scroller = new Scroller(context, new OvershootInterpolator());
-        this.gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0, ColorUtils.setAlphaComponent(-16777216, 160)});
+        this.gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0, ColorUtils.setAlphaComponent(-16777216, NotificationCenter.audioRouteChanged)});
     }
 
     @Override // android.view.View
@@ -220,31 +221,31 @@ public abstract class SelfStoriesPreviewView extends View {
                 f5 = f7;
             } else {
                 ImageHolder findOrCreateImageReceiver = findOrCreateImageReceiver(i3, this.imageReceiversTmp);
-                int i6 = this.viewW;
-                float f10 = i6 * f2;
-                int i7 = this.viewH;
-                float f11 = i7 * f2;
-                float f12 = f3 - ((f10 - i6) / f6);
-                float f13 = this.topPadding - ((f11 - i7) / f6);
+                float f10 = this.viewW;
+                float f11 = f10 * f2;
+                float f12 = this.viewH;
+                float f13 = f2 * f12;
+                float f14 = f3 - ((f11 - f10) / f6);
+                float f15 = this.topPadding - ((f13 - f12) / f6);
                 if (this.progressToOpen == 0.0f || i3 == (i = this.lastClosestPosition)) {
                     f4 = measuredWidth;
                     f5 = f7;
-                    findOrCreateImageReceiver.receiver.setImageCoords(f12, f13, f10, f11);
+                    findOrCreateImageReceiver.receiver.setImageCoords(f14, f15, f11, f13);
                 } else {
                     f4 = measuredWidth;
                     f5 = f7;
-                    findOrCreateImageReceiver.receiver.setImageCoords(AndroidUtilities.lerp((i3 - i) * getMeasuredWidth(), f12, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromY, f13, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromW, f10, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromH, f11, this.progressToOpen));
+                    findOrCreateImageReceiver.receiver.setImageCoords(AndroidUtilities.lerp((i3 - i) * getMeasuredWidth(), f14, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromY, f15, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromW, f11, this.progressToOpen), AndroidUtilities.lerp(this.imagesFromH, f13, this.progressToOpen));
                 }
                 if (this.progressToOpen == 1.0f || i3 != this.lastClosestPosition) {
                     findOrCreateImageReceiver.receiver.draw(canvas);
                     if (findOrCreateImageReceiver.layout != null) {
-                        int i8 = (int) (((f * 0.3f) + 0.7f) * 255.0f);
-                        this.gradientDrawable.setAlpha(i8);
+                        int i6 = (int) (((f * 0.3f) + 0.7f) * 255.0f);
+                        this.gradientDrawable.setAlpha(i6);
                         this.gradientDrawable.setBounds((int) findOrCreateImageReceiver.receiver.getImageX(), (int) (findOrCreateImageReceiver.receiver.getImageY2() - AndroidUtilities.dp(24.0f)), (int) findOrCreateImageReceiver.receiver.getImageX2(), ((int) findOrCreateImageReceiver.receiver.getImageY2()) + 2);
                         this.gradientDrawable.draw(canvas);
                         canvas.save();
                         canvas.translate(findOrCreateImageReceiver.receiver.getCenterX() - (this.textWidth / 2.0f), (findOrCreateImageReceiver.receiver.getImageY2() - AndroidUtilities.dp(8.0f)) - findOrCreateImageReceiver.layout.getHeight());
-                        findOrCreateImageReceiver.paint.setAlpha(i8);
+                        findOrCreateImageReceiver.paint.setAlpha(i6);
                         findOrCreateImageReceiver.layout.draw(canvas);
                         canvas.restore();
                         this.lastDrawnImageReceivers.add(findOrCreateImageReceiver);
@@ -262,8 +263,8 @@ public abstract class SelfStoriesPreviewView extends View {
             this.lastClosestPosition = i4;
             onClosestPositionChanged(i4);
         }
-        for (int i9 = 0; i9 < this.imageReceiversTmp.size(); i9++) {
-            this.imageReceiversTmp.get(i9).onDetach();
+        for (int i7 = 0; i7 < this.imageReceiversTmp.size(); i7++) {
+            this.imageReceiversTmp.get(i7).onDetach();
         }
         this.imageReceiversTmp.clear();
     }
@@ -463,12 +464,13 @@ public abstract class SelfStoriesPreviewView extends View {
                 SelfStoriesPreviewView.this.formatCounterText(spannableStringBuilder, tL_stories$StoryItem.views, false);
             }
             if (spannableStringBuilder.length() != 0) {
-                StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, this.paint, (int) (SelfStoriesPreviewView.this.textWidth + 1.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 1);
+                Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+                StaticLayout createStaticLayout = StaticLayoutEx.createStaticLayout(spannableStringBuilder, this.paint, (int) (SelfStoriesPreviewView.this.textWidth + 1.0f), alignment, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 1);
                 this.layout = createStaticLayout;
                 if (createStaticLayout.getLineCount() > 1) {
                     SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder("");
                     SelfStoriesPreviewView.this.formatCounterText(spannableStringBuilder2, this.storyItem.storyItem.views, true);
-                    this.layout = StaticLayoutEx.createStaticLayout(spannableStringBuilder2, this.paint, (int) (SelfStoriesPreviewView.this.textWidth + 1.0f), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 2);
+                    this.layout = StaticLayoutEx.createStaticLayout(spannableStringBuilder2, this.paint, (int) (SelfStoriesPreviewView.this.textWidth + 1.0f), alignment, 1.0f, 0.0f, false, null, ConnectionsManager.DEFAULT_DATACENTER_ID, 2);
                     return;
                 }
                 return;

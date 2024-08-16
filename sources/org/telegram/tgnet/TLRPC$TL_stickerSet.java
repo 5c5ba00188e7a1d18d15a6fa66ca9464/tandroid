@@ -44,7 +44,7 @@ public class TLRPC$TL_stickerSet extends TLRPC$StickerSet {
         if ((this.flags & 16) != 0) {
             this.thumb_version = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.thumb_document_id = abstractSerializedData.readInt64(z);
         }
         this.count = abstractSerializedData.readInt32(z);
@@ -90,7 +90,7 @@ public class TLRPC$TL_stickerSet extends TLRPC$StickerSet {
         if ((this.flags & 16) != 0) {
             abstractSerializedData.writeInt32(this.thumb_version);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeInt64(this.thumb_document_id);
         }
         abstractSerializedData.writeInt32(this.count);

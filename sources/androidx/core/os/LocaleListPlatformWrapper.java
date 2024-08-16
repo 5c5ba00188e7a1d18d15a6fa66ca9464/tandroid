@@ -8,7 +8,7 @@ final class LocaleListPlatformWrapper implements LocaleListInterface {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public LocaleListPlatformWrapper(Object obj) {
-        this.mLocaleList = (LocaleList) obj;
+        this.mLocaleList = LocaleListPlatformWrapper$$ExternalSyntheticApiModelOutline5.m(obj);
     }
 
     @Override // androidx.core.os.LocaleListInterface

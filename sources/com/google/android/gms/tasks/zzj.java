@@ -23,10 +23,14 @@ final class zzj implements zzq {
     @Override // com.google.android.gms.tasks.zzq
     public final void zzd(Task task) {
         synchronized (this.zzb) {
-            if (this.zzc == null) {
-                return;
+            try {
+                if (this.zzc == null) {
+                    return;
+                }
+                this.zza.execute(new zzi(this, task));
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zza.execute(new zzi(this, task));
         }
     }
 }

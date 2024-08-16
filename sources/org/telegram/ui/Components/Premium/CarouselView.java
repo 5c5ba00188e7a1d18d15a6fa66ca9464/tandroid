@@ -18,7 +18,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.Premium.CarouselView;
 /* loaded from: classes3.dex */
 public class CarouselView extends View implements PagerHeaderView {
-    static final Interpolator sQuinticInterpolator = new Interpolator() { // from class: org.telegram.ui.Components.Premium.CarouselView$$ExternalSyntheticLambda1
+    static final Interpolator sQuinticInterpolator = new Interpolator() { // from class: org.telegram.ui.Components.Premium.CarouselView$$ExternalSyntheticLambda0
         @Override // android.animation.TimeInterpolator
         public final float getInterpolation(float f) {
             float lambda$static$0;
@@ -90,7 +90,7 @@ public class CarouselView extends View implements PagerHeaderView {
             final float f2 = this.offsetAngle;
             ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
             this.autoScrollAnimation = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.CarouselView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.CarouselView$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     CarouselView.this.lambda$scrollToInternal$2(f2, f, valueAnimator2);

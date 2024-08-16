@@ -121,9 +121,11 @@ public class CompoundEmoji {
                 i2 = -1;
             }
             this.emoji = i;
+            Integer valueOf = Integer.valueOf(i);
             this.skin = i2;
+            Integer valueOf2 = Integer.valueOf(i2);
             this.place = i3;
-            this.hash = Objects.hash(Integer.valueOf(i), Integer.valueOf(i2), Integer.valueOf(i3));
+            this.hash = Objects.hash(valueOf, valueOf2, Integer.valueOf(i3));
         }
 
         public DrawableInfo updateSkin(int i) {
@@ -318,7 +320,7 @@ public class CompoundEmoji {
                     i = paint2.getAlpha();
                     paint2.setAlpha((int) (i * f));
                 } else {
-                    i = 255;
+                    i = NotificationCenter.voipServiceCreated;
                 }
                 canvas.drawBitmap(bitmap, (Rect) null, rect2, paint2);
                 if (f < 1.0f) {

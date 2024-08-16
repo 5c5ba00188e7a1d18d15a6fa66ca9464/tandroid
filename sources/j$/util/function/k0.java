@@ -1,42 +1,32 @@
 package j$.util.function;
 
-import java.util.function.LongPredicate;
+import java.util.function.ObjIntConsumer;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class k0 implements m0 {
-    public final /* synthetic */ LongPredicate a;
+public final /* synthetic */ class k0 implements ObjIntConsumer {
+    public final /* synthetic */ l0 a;
 
-    private /* synthetic */ k0(LongPredicate longPredicate) {
-        this.a = longPredicate;
+    private /* synthetic */ k0(l0 l0Var) {
+        this.a = l0Var;
     }
 
-    public static /* synthetic */ m0 b(LongPredicate longPredicate) {
-        if (longPredicate == null) {
+    public static /* synthetic */ ObjIntConsumer a(l0 l0Var) {
+        if (l0Var == null) {
             return null;
         }
-        return longPredicate instanceof l0 ? ((l0) longPredicate).a : new k0(longPredicate);
+        return l0Var instanceof j0 ? ((j0) l0Var).a : new k0(l0Var);
     }
 
-    public final /* synthetic */ m0 a(m0 m0Var) {
-        return b(this.a.and(l0.a(m0Var)));
-    }
-
-    public final /* synthetic */ m0 c() {
-        return b(this.a.negate());
-    }
-
-    public final /* synthetic */ m0 d(m0 m0Var) {
-        return b(this.a.or(l0.a(m0Var)));
-    }
-
-    public final /* synthetic */ boolean e(long j) {
-        return this.a.test(j);
+    @Override // java.util.function.ObjIntConsumer
+    public final /* synthetic */ void accept(Object obj, int i) {
+        this.a.accept(obj, i);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        l0 l0Var = this.a;
         if (obj instanceof k0) {
             obj = ((k0) obj).a;
         }
-        return this.a.equals(obj);
+        return l0Var.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

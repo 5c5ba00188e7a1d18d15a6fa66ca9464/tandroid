@@ -6,11 +6,10 @@ final class zzdb {
     private static final zzda zzb;
 
     static {
-        zzda zzdaVar;
+        zzda zzdaVar = null;
         try {
-            zzdaVar = (zzda) Class.forName("com.google.protobuf.MapFieldSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            zzdaVar = (zzda) Class.forName("com.google.protobuf.MapFieldSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
-            zzdaVar = null;
         }
         zza = zzdaVar;
         zzb = new zzda();

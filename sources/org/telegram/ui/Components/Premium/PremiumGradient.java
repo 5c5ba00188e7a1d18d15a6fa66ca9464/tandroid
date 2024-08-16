@@ -265,19 +265,11 @@ public class PremiumGradient {
                 int[] iArr3 = this.colors;
                 this.shader = new LinearGradient(f5, f6, f7, f8, new int[]{iArr3[0], iArr3[1], iArr3[2]}, new float[]{0.0f, 0.5f, 1.0f}, Shader.TileMode.CLAMP);
             } else if (color5 == 0) {
-                float f9 = this.x1 * 100.0f;
-                float f10 = this.y1 * 100.0f;
-                float f11 = this.x2 * 100.0f;
-                float f12 = this.y2 * 100.0f;
                 int[] iArr4 = this.colors;
-                this.shader = new LinearGradient(f9, f10, f11, f12, new int[]{iArr4[0], iArr4[1], iArr4[2], iArr4[3]}, new float[]{0.0f, 0.5f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
+                this.shader = new LinearGradient(this.x1 * 100.0f, this.y1 * 100.0f, this.x2 * 100.0f, this.y2 * 100.0f, new int[]{iArr4[0], iArr4[1], iArr4[2], iArr4[3]}, new float[]{0.0f, 0.5f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
             } else {
-                float f13 = this.x1 * 100.0f;
-                float f14 = this.y1 * 100.0f;
-                float f15 = this.x2 * 100.0f;
-                float f16 = this.y2 * 100.0f;
                 int[] iArr5 = this.colors;
-                this.shader = new LinearGradient(f13, f14, f15, f16, new int[]{iArr5[0], iArr5[1], iArr5[2], iArr5[3], iArr5[4]}, new float[]{0.0f, 0.425f, 0.655f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
+                this.shader = new LinearGradient(this.x1 * 100.0f, this.y1 * 100.0f, this.x2 * 100.0f, this.y2 * 100.0f, new int[]{iArr5[0], iArr5[1], iArr5[2], iArr5[3], iArr5[4]}, new float[]{0.0f, 0.425f, 0.655f, 0.78f, 1.0f}, Shader.TileMode.CLAMP);
             }
             this.shader.setLocalMatrix(this.matrix);
             this.paint.setShader(this.shader);

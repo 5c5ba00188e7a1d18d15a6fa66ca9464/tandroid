@@ -154,9 +154,9 @@ public class FilePathDatabase {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:60:0x0166  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x016c  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0177  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0164  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x016c  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0177  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -165,6 +165,7 @@ public class FilePathDatabase {
         String str;
         SQLiteException sQLiteException;
         String str2;
+        SQLiteCursor sQLiteCursor2;
         String str3;
         DispatchQueue dispatchQueue;
         final long currentTimeMillis = System.currentTimeMillis();
@@ -181,7 +182,7 @@ public class FilePathDatabase {
             }
             final CountDownLatch countDownLatch = new CountDownLatch(1);
             final String[] strArr = new String[1];
-            postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda2
+            postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilePathDatabase.this.lambda$getPath$0(j, i, i2, strArr, currentTimeMillis, countDownLatch);
@@ -209,11 +210,11 @@ public class FilePathDatabase {
                     str = str4;
                 }
                 try {
-                    SQLiteCursor queryFinalized = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
+                    sQLiteCursor2 = sQLiteDatabase.queryFinalized("SELECT path FROM paths WHERE document_id = " + j + " AND dc_id = " + i + " AND type = " + i2, new Object[0]);
                     try {
                         try {
-                            if (queryFinalized.next()) {
-                                str3 = queryFinalized.stringValue(0);
+                            if (sQLiteCursor2.next()) {
+                                str3 = sQLiteCursor2.stringValue(0);
                                 try {
                                     if (BuildVars.DEBUG_VERSION) {
                                         FileLog.d("get file path id=" + j + " dc=" + i + " type=" + i2 + " path=" + str3 + " in " + (System.currentTimeMillis() - currentTimeMillis) + "ms");
@@ -221,20 +222,21 @@ public class FilePathDatabase {
                                 } catch (SQLiteException e2) {
                                     sQLiteException = e2;
                                     str2 = str3;
-                                    sQLiteCursor = queryFinalized;
+                                    sQLiteCursor = sQLiteCursor2;
                                     try {
                                         FileLog.e(sQLiteException);
                                         if (sQLiteCursor != null) {
-                                            sQLiteCursor.dispose();
+                                            sQLiteCursor2 = sQLiteCursor;
+                                            str3 = str2;
+                                            sQLiteCursor2.dispose();
+                                            str2 = str3;
                                         }
-                                        str3 = str2;
-                                        if (str3 != null) {
+                                        if (str2 != null) {
                                         }
-                                        return str3;
+                                        return str2;
                                     } catch (Throwable th) {
                                         th = th;
                                         if (sQLiteCursor != null) {
-                                            sQLiteCursor.dispose();
                                         }
                                         throw th;
                                     }
@@ -242,16 +244,16 @@ public class FilePathDatabase {
                             } else {
                                 str3 = null;
                             }
-                            queryFinalized.dispose();
                         } catch (SQLiteException e3) {
-                            sQLiteCursor = queryFinalized;
+                            sQLiteCursor = sQLiteCursor2;
                             sQLiteException = e3;
                             str2 = null;
                         }
                     } catch (Throwable th2) {
                         th = th2;
-                        sQLiteCursor = queryFinalized;
+                        sQLiteCursor = sQLiteCursor2;
                         if (sQLiteCursor != null) {
+                            sQLiteCursor.dispose();
                         }
                         throw th;
                     }
@@ -263,15 +265,16 @@ public class FilePathDatabase {
                     FileLog.e(sQLiteException);
                     if (sQLiteCursor != null) {
                     }
-                    str3 = str2;
-                    if (str3 != null) {
+                    if (str2 != null) {
                     }
-                    return str3;
+                    return str2;
                 }
-                if (str3 != null) {
-                    this.cache.put(str, str3);
+                sQLiteCursor2.dispose();
+                str2 = str3;
+                if (str2 != null) {
+                    this.cache.put(str, str2);
                 }
-                return str3;
+                return str2;
             } catch (Throwable th3) {
                 th = th3;
                 sQLiteCursor = null;
@@ -329,7 +332,7 @@ public class FilePathDatabase {
     }
 
     public void putPath(final long j, final int i, final int i2, final int i3, final String str) {
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$putPath$1(j, i, i2, str, i3);
@@ -338,8 +341,8 @@ public class FilePathDatabase {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0102  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0107  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0101  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0106  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -383,8 +386,8 @@ public class FilePathDatabase {
                             sQLitePreparedStatement3.dispose();
                         }
                         if (sQLitePreparedStatement != null) {
-                            sQLitePreparedStatement.dispose();
-                            return;
+                            sQLitePreparedStatement2 = sQLitePreparedStatement;
+                            sQLitePreparedStatement2.dispose();
                         }
                         return;
                     } catch (Throwable th) {
@@ -415,8 +418,8 @@ public class FilePathDatabase {
             if (sQLitePreparedStatement3 != null) {
                 sQLitePreparedStatement3.dispose();
             }
-            if (sQLitePreparedStatement2 != null) {
-                sQLitePreparedStatement2.dispose();
+            if (sQLitePreparedStatement2 == null) {
+                return;
             }
         } catch (SQLiteException e2) {
             e = e2;
@@ -425,6 +428,7 @@ public class FilePathDatabase {
             th = th3;
             sQLitePreparedStatement = sQLitePreparedStatement3;
         }
+        sQLitePreparedStatement2.dispose();
     }
 
     public void checkMediaExistance(ArrayList<MessageObject> arrayList) {
@@ -435,7 +439,7 @@ public class FilePathDatabase {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         long currentTimeMillis = System.currentTimeMillis();
         final long[] jArr = new long[1];
-        postToFrontRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
+        postToFrontRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$checkMediaExistance$2(arrayList2, jArr, countDownLatch);
@@ -470,7 +474,7 @@ public class FilePathDatabase {
 
     public void clear() {
         this.cache.clear();
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$clear$3();
@@ -492,7 +496,7 @@ public class FilePathDatabase {
     public boolean hasAnotherRefOnFile(final String str) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final boolean[] zArr = {false};
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda4
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$hasAnotherRefOnFile$4(str, zArr, countDownLatch);
@@ -527,7 +531,7 @@ public class FilePathDatabase {
         if (file == null || fileMeta == null) {
             return;
         }
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda3
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$saveFileDialogId$5(file, fileMeta);
@@ -579,39 +583,56 @@ public class FilePathDatabase {
             try {
                 SQLiteDatabase sQLiteDatabase = this.database;
                 sQLiteCursor = sQLiteDatabase.queryFinalized("SELECT dialog_id, message_id, message_type FROM paths_by_dialog_id WHERE path = '" + shield(file.getPath()) + "'", new Object[0]);
-                if (sQLiteCursor.next()) {
-                    j = sQLiteCursor.longValue(0);
-                    i = sQLiteCursor.intValue(1);
-                    try {
-                        i3 = i;
-                        i2 = sQLiteCursor.intValue(2);
-                    } catch (Exception e) {
-                        e = e;
-                        FileLog.e(e);
+            } catch (Exception e) {
+                e = e;
+                i = 0;
+            }
+            if (sQLiteCursor.next()) {
+                j = sQLiteCursor.longValue(0);
+                i = sQLiteCursor.intValue(1);
+                try {
+                    i3 = i;
+                    i2 = sQLiteCursor.intValue(2);
+                } catch (Exception e2) {
+                    e = e2;
+                    FileLog.e(e);
+                    if (sQLiteCursor != null) {
                         i3 = i;
                         i2 = 0;
-                        fileMeta.dialogId = j;
-                        fileMeta.messageId = i3;
-                        fileMeta.messageType = i2;
-                        return fileMeta;
+                        sQLiteCursor.dispose();
+                        int i4 = i3;
+                        i3 = i2;
+                        i = i4;
                     }
-                } else {
-                    i2 = 0;
+                    fileMeta.dialogId = j;
+                    fileMeta.messageId = i;
+                    fileMeta.messageType = i3;
+                    return fileMeta;
                 }
                 sQLiteCursor.dispose();
-            } finally {
-                if (0 != 0) {
-                    sQLiteCursor.dispose();
-                }
+                int i42 = i3;
+                i3 = i2;
+                i = i42;
+                fileMeta.dialogId = j;
+                fileMeta.messageId = i;
+                fileMeta.messageType = i3;
+                return fileMeta;
             }
-        } catch (Exception e2) {
-            e = e2;
-            i = 0;
+            i2 = 0;
+            sQLiteCursor.dispose();
+            int i422 = i3;
+            i3 = i2;
+            i = i422;
+            fileMeta.dialogId = j;
+            fileMeta.messageId = i;
+            fileMeta.messageType = i3;
+            return fileMeta;
+        } catch (Throwable th) {
+            if (sQLiteCursor != null) {
+                sQLiteCursor.dispose();
+            }
+            throw th;
         }
-        fileMeta.dialogId = j;
-        fileMeta.messageId = i3;
-        fileMeta.messageType = i2;
-        return fileMeta;
     }
 
     private String shield(String str) {
@@ -624,7 +645,7 @@ public class FilePathDatabase {
     }
 
     public void removeFiles(final List<CacheModel.FileInfo> list) {
-        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda8
+        postRunnable(new Runnable() { // from class: org.telegram.messenger.FilePathDatabase$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 FilePathDatabase.this.lambda$removeFiles$6(list);
@@ -705,10 +726,13 @@ public class FilePathDatabase {
     private void ensureQueueExist() {
         if (this.dispatchQueue == null) {
             synchronized (this) {
-                if (this.dispatchQueue == null) {
-                    DispatchQueue dispatchQueue = new DispatchQueue("files_database_queue_" + this.currentAccount);
-                    this.dispatchQueue = dispatchQueue;
-                    dispatchQueue.setPriority(10);
+                try {
+                    if (this.dispatchQueue == null) {
+                        DispatchQueue dispatchQueue = new DispatchQueue("files_database_queue_" + this.currentAccount);
+                        this.dispatchQueue = dispatchQueue;
+                        dispatchQueue.setPriority(10);
+                    }
+                } finally {
                 }
             }
         }

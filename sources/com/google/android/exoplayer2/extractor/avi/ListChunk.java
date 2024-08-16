@@ -56,17 +56,18 @@ final class ListChunk implements AviChunk {
     }
 
     private static AviChunk createBox(int i, int i2, ParsableByteArray parsableByteArray) {
-        switch (i) {
-            case 1718776947:
-                return StreamFormatChunk.parseFrom(i2, parsableByteArray);
-            case 1751742049:
-                return AviMainHeaderChunk.parseFrom(parsableByteArray);
-            case 1752331379:
+        if (i != 1718776947) {
+            if (i != 1751742049) {
+                if (i != 1752331379) {
+                    if (i != 1852994675) {
+                        return null;
+                    }
+                    return StreamNameChunk.parseFrom(parsableByteArray);
+                }
                 return AviStreamHeaderChunk.parseFrom(parsableByteArray);
-            case 1852994675:
-                return StreamNameChunk.parseFrom(parsableByteArray);
-            default:
-                return null;
+            }
+            return AviMainHeaderChunk.parseFrom(parsableByteArray);
         }
+        return StreamFormatChunk.parseFrom(i2, parsableByteArray);
     }
 }

@@ -56,7 +56,7 @@ public final class ApicFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        int i = (527 + this.pictureType) * 31;
+        int i = (this.pictureType + 527) * 31;
         String str = this.mimeType;
         int hashCode = (i + (str != null ? str.hashCode() : 0)) * 31;
         String str2 = this.description;

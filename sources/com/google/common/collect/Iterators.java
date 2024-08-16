@@ -3,8 +3,6 @@ package com.google.common.collect;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -20,41 +18,31 @@ public final class Iterators {
     }
 
     /* loaded from: classes.dex */
-    private enum EmptyModifiableIterator implements Iterator<Object>, j$.util.Iterator {
+    private enum EmptyModifiableIterator implements Iterator<Object> {
         INSTANCE;
 
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
         @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Object> consumer) {
-            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-        }
-
-        @Override // java.util.Iterator, j$.util.Iterator
         public boolean hasNext() {
             return false;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public Object next() {
             throw new NoSuchElementException();
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public void remove() {
             CollectPreconditions.checkRemove(false);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> java.util.Iterator<T> emptyModifiableIterator() {
+    public static <T> Iterator<T> emptyModifiableIterator() {
         return EmptyModifiableIterator.INSTANCE;
     }
 
-    public static boolean contains(java.util.Iterator<?> it, Object obj) {
+    public static boolean contains(Iterator<?> it, Object obj) {
         if (obj == null) {
             while (it.hasNext()) {
                 if (it.next() == null) {
@@ -71,7 +59,7 @@ public final class Iterators {
         return false;
     }
 
-    public static boolean removeAll(java.util.Iterator<?> it, Collection<?> collection) {
+    public static boolean removeAll(Iterator<?> it, Collection<?> collection) {
         Preconditions.checkNotNull(collection);
         boolean z = false;
         while (it.hasNext()) {
@@ -83,7 +71,7 @@ public final class Iterators {
         return z;
     }
 
-    public static <T> boolean removeIf(java.util.Iterator<T> it, Predicate<? super T> predicate) {
+    public static <T> boolean removeIf(Iterator<T> it, Predicate<? super T> predicate) {
         Preconditions.checkNotNull(predicate);
         boolean z = false;
         while (it.hasNext()) {
@@ -99,7 +87,7 @@ public final class Iterators {
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static boolean elementsEqual(java.util.Iterator<?> it, java.util.Iterator<?> it2) {
+    public static boolean elementsEqual(Iterator<?> it, Iterator<?> it2) {
         while (it.hasNext()) {
             if (!it2.hasNext() || !Objects.equal(it.next(), it2.next())) {
                 return false;
@@ -110,7 +98,7 @@ public final class Iterators {
         return !it2.hasNext();
     }
 
-    public static <T> boolean addAll(Collection<T> collection, java.util.Iterator<? extends T> it) {
+    public static <T> boolean addAll(Collection<T> collection, Iterator<? extends T> it) {
         Preconditions.checkNotNull(collection);
         Preconditions.checkNotNull(it);
         boolean z = false;
@@ -120,7 +108,7 @@ public final class Iterators {
         return z;
     }
 
-    public static <T> UnmodifiableIterator<T> filter(final java.util.Iterator<T> it, final Predicate<? super T> predicate) {
+    public static <T> UnmodifiableIterator<T> filter(final Iterator<T> it, final Predicate<? super T> predicate) {
         Preconditions.checkNotNull(it);
         Preconditions.checkNotNull(predicate);
         return new AbstractIterator<T>() { // from class: com.google.common.collect.Iterators.5
@@ -137,11 +125,11 @@ public final class Iterators {
         };
     }
 
-    public static <T> boolean any(java.util.Iterator<T> it, Predicate<? super T> predicate) {
+    public static <T> boolean any(Iterator<T> it, Predicate<? super T> predicate) {
         return indexOf(it, predicate) != -1;
     }
 
-    public static <T> T find(java.util.Iterator<T> it, Predicate<? super T> predicate) {
+    public static <T> T find(Iterator<T> it, Predicate<? super T> predicate) {
         Preconditions.checkNotNull(it);
         Preconditions.checkNotNull(predicate);
         while (it.hasNext()) {
@@ -153,7 +141,7 @@ public final class Iterators {
         throw new NoSuchElementException();
     }
 
-    public static <T> int indexOf(java.util.Iterator<T> it, Predicate<? super T> predicate) {
+    public static <T> int indexOf(Iterator<T> it, Predicate<? super T> predicate) {
         Preconditions.checkNotNull(predicate, "predicate");
         int i = 0;
         while (it.hasNext()) {
@@ -165,11 +153,11 @@ public final class Iterators {
         return -1;
     }
 
-    public static <T> T getNext(java.util.Iterator<? extends T> it, T t) {
+    public static <T> T getNext(Iterator<? extends T> it, T t) {
         return it.hasNext() ? it.next() : t;
     }
 
-    public static <T> T getLast(java.util.Iterator<T> it) {
+    public static <T> T getLast(Iterator<T> it) {
         T next;
         do {
             next = it.next();
@@ -177,12 +165,12 @@ public final class Iterators {
         return next;
     }
 
-    public static <T> T getLast(java.util.Iterator<? extends T> it, T t) {
+    public static <T> T getLast(Iterator<? extends T> it, T t) {
         return it.hasNext() ? (T) getLast(it) : t;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static <T> T pollNext(java.util.Iterator<T> it) {
+    public static <T> T pollNext(Iterator<T> it) {
         if (it.hasNext()) {
             T next = it.next();
             it.remove();
@@ -192,7 +180,7 @@ public final class Iterators {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public static void clear(java.util.Iterator<?> it) {
+    public static void clear(Iterator<?> it) {
         Preconditions.checkNotNull(it);
         while (it.hasNext()) {
             it.next();
@@ -223,12 +211,12 @@ public final class Iterators {
         return new UnmodifiableIterator<T>() { // from class: com.google.common.collect.Iterators.9
             boolean done;
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public boolean hasNext() {
                 return !this.done;
             }
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public T next() {
                 if (this.done) {
                     throw new NoSuchElementException();

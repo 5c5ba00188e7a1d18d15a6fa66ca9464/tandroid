@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
-final class zzce extends zzav<Float> implements RandomAccess {
+final class zzce extends zzav<Float> implements zzcn<Float>, RandomAccess {
     private static final zzce zzjm;
     private int size;
     private float[] zzjn;
@@ -193,7 +193,7 @@ final class zzce extends zzav<Float> implements RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcn
-    public final /* synthetic */ zzcn zzi(int i) {
+    public final /* synthetic */ zzcn<Float> zzi(int i) {
         if (i >= this.size) {
             return new zzce(Arrays.copyOf(this.zzjn, i), this.size);
         }

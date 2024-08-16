@@ -220,6 +220,7 @@ public class FragmentStateManager {
                         fragment3.mHiddenChanged = false;
                         fragment3.onHiddenChanged(fragment3.mHidden);
                     }
+                    this.mMovingToState = false;
                     return;
                 } else if (computeExpectedState > i) {
                     switch (i + 1) {
@@ -298,8 +299,9 @@ public class FragmentStateManager {
                     }
                 }
             }
-        } finally {
+        } catch (Throwable th) {
             this.mMovingToState = false;
+            throw th;
         }
     }
 
@@ -737,22 +739,19 @@ public class FragmentStateManager {
             Log.d("FragmentManager", "movefrom ATTACHED: " + this.mFragment);
         }
         this.mFragment.performDetach();
-        boolean z = false;
         this.mDispatcher.dispatchOnFragmentDetached(this.mFragment, false);
         Fragment fragment = this.mFragment;
         fragment.mState = -1;
         fragment.mHost = null;
         fragment.mParentFragment = null;
         fragment.mFragmentManager = null;
-        if (fragment.mRemoving && !fragment.isInBackStack()) {
-            z = true;
+        if ((!fragment.mRemoving || fragment.isInBackStack()) && !this.mFragmentStore.getNonConfig().shouldDestroy(this.mFragment)) {
+            return;
         }
-        if (z || this.mFragmentStore.getNonConfig().shouldDestroy(this.mFragment)) {
-            if (FragmentManager.isLoggingEnabled(3)) {
-                Log.d("FragmentManager", "initState called for fragment: " + this.mFragment);
-            }
-            this.mFragment.initState();
+        if (FragmentManager.isLoggingEnabled(3)) {
+            Log.d("FragmentManager", "initState called for fragment: " + this.mFragment);
         }
+        this.mFragment.initState();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

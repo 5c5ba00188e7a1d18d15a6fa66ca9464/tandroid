@@ -112,7 +112,7 @@ public class DownloadButton extends ImageView {
             if (checkSelfPermission != 0) {
                 Activity findActivity = AndroidUtilities.findActivity(getContext());
                 if (findActivity != null) {
-                    findActivity.requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, R.styleable.AppCompatTheme_toolbarStyle);
+                    findActivity.requestPermissions(new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"}, 113);
                     return;
                 }
                 return;
@@ -236,7 +236,7 @@ public class DownloadButton extends ImageView {
         if (!this.downloading || this.currentEntry == null) {
             return;
         }
-        MediaController.saveFile(file.getAbsolutePath(), getContext(), 1, null, null, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda8
+        MediaController.saveFile(file.getAbsolutePath(), getContext(), 1, null, null, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda9
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DownloadButton.this.lambda$onClickInternal$2((Uri) obj);
@@ -279,7 +279,7 @@ public class DownloadButton extends ImageView {
         if (!this.downloading || this.currentEntry == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DownloadButton$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadButton.this.lambda$onClickInternal$7(file);
@@ -316,7 +316,7 @@ public class DownloadButton extends ImageView {
     private void updateImage() {
         boolean z = this.wasImageDownloading;
         boolean z2 = this.downloading;
-        boolean z3 = true;
+        boolean z3 = false;
         if (z != (z2 && !this.downloadingVideo)) {
             boolean z4 = z2 && !this.downloadingVideo;
             this.wasImageDownloading = z4;
@@ -329,7 +329,9 @@ public class DownloadButton extends ImageView {
         if (this.wasVideoDownloading != (this.downloading && this.downloadingVideo)) {
             clearAnimation();
             ViewPropertyAnimator animate = animate();
-            z3 = (this.downloading && this.downloadingVideo) ? false : false;
+            if (this.downloading && this.downloadingVideo) {
+                z3 = true;
+            }
             this.wasVideoDownloading = z3;
             animate.alpha(z3 ? 0.4f : 1.0f).start();
         }
@@ -423,10 +425,11 @@ public class DownloadButton extends ImageView {
                     String str = (String) objArr[1];
                     ((Long) objArr[2]).longValue();
                     long longValue = ((Long) objArr[3]).longValue();
-                    float floatValue = ((Float) objArr[4]).floatValue();
+                    Float f = (Float) objArr[4];
+                    f.floatValue();
                     Utilities.Callback<Float> callback = this.onProgress;
                     if (callback != null) {
-                        callback.run(Float.valueOf(floatValue));
+                        callback.run(f);
                     }
                     if (longValue > 0) {
                         this.onDone.run();
@@ -515,11 +518,13 @@ public class DownloadButton extends ImageView {
             paint2.setColor(-869783512);
             paint3.setColor(-1);
             paint4.setColor(872415231);
-            paint3.setStyle(Paint.Style.STROKE);
-            paint3.setStrokeCap(Paint.Cap.ROUND);
+            Paint.Style style = Paint.Style.STROKE;
+            paint3.setStyle(style);
+            Paint.Cap cap = Paint.Cap.ROUND;
+            paint3.setStrokeCap(cap);
             paint3.setStrokeWidth(AndroidUtilities.dp(4.0f));
-            paint4.setStyle(Paint.Style.STROKE);
-            paint4.setStrokeCap(Paint.Cap.ROUND);
+            paint4.setStyle(style);
+            paint4.setStrokeCap(cap);
             paint4.setStrokeWidth(AndroidUtilities.dp(4.0f));
             textPaint.setTextSize(AndroidUtilities.dp(14.0f));
             textPaint2.setTextSize(AndroidUtilities.dpf2(14.66f));

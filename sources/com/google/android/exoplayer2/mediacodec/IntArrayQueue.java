@@ -3,17 +3,11 @@ package com.google.android.exoplayer2.mediacodec;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
 final class IntArrayQueue {
-    private int[] data;
-    private int wrapAroundMask;
     private int headIndex = 0;
     private int tailIndex = -1;
     private int size = 0;
-
-    public IntArrayQueue() {
-        int[] iArr = new int[16];
-        this.data = iArr;
-        this.wrapAroundMask = iArr.length - 1;
-    }
+    private int[] data = new int[16];
+    private int wrapAroundMask = 15;
 
     public void add(int i) {
         if (this.size == this.data.length) {
@@ -63,6 +57,6 @@ final class IntArrayQueue {
         this.headIndex = 0;
         this.tailIndex = this.size - 1;
         this.data = iArr2;
-        this.wrapAroundMask = iArr2.length - 1;
+        this.wrapAroundMask = length - 1;
     }
 }

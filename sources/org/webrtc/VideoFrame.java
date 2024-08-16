@@ -2,6 +2,7 @@ package org.webrtc;
 
 import android.graphics.Matrix;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class VideoFrame implements RefCounted {
     private final Buffer buffer;
@@ -127,14 +128,14 @@ public class VideoFrame implements RefCounted {
     }
 
     public int getRotatedWidth() {
-        if (this.rotation % 180 == 0) {
+        if (this.rotation % NotificationCenter.updateBotMenuButton == 0) {
             return this.buffer.getWidth();
         }
         return this.buffer.getHeight();
     }
 
     public int getRotatedHeight() {
-        if (this.rotation % 180 == 0) {
+        if (this.rotation % NotificationCenter.updateBotMenuButton == 0) {
             return this.buffer.getHeight();
         }
         return this.buffer.getWidth();

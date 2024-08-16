@@ -147,15 +147,15 @@ public final class ContentDataSource extends BaseDataSource {
                         if (assetFileDescriptor != null) {
                             assetFileDescriptor.close();
                         }
-                    } finally {
-                        this.assetFileDescriptor = null;
-                        if (this.opened) {
-                            this.opened = false;
-                            transferEnded();
-                        }
+                    } catch (IOException e) {
+                        throw new ContentDataSourceException(e, 2000);
                     }
-                } catch (IOException e) {
-                    throw new ContentDataSourceException(e, 2000);
+                } finally {
+                    this.assetFileDescriptor = null;
+                    if (this.opened) {
+                        this.opened = false;
+                        transferEnded();
+                    }
                 }
             } catch (IOException e2) {
                 throw new ContentDataSourceException(e2, 2000);

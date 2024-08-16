@@ -128,7 +128,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadSizes$2() {
         File databasePath = ApplicationLoader.applicationContext.getDatabasePath("webview.db");
-        long length = (databasePath == null || !databasePath.exists()) ? 0L : databasePath.length() + 0;
+        long length = (databasePath == null || !databasePath.exists()) ? 0L : databasePath.length();
         File databasePath2 = ApplicationLoader.applicationContext.getDatabasePath("webviewCache.db");
         if (databasePath2 != null && databasePath2.exists()) {
             length += databasePath2.length();
@@ -143,7 +143,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
         }
         final long j = length;
         File file3 = new File(ApplicationLoader.applicationContext.getApplicationInfo().dataDir, "app_webview");
-        final long directorySize = file3.exists() ? 0 + getDirectorySize(file3, Boolean.TRUE) : 0L;
+        final long directorySize = file3.exists() ? getDirectorySize(file3, Boolean.TRUE) : 0L;
         AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
@@ -167,8 +167,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
     public View createView(Context context) {
         Drawable mutate = context.getResources().getDrawable(R.drawable.poll_add_circle).mutate();
         Drawable mutate2 = context.getResources().getDrawable(R.drawable.poll_add_plus).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-        mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
+        int themedColor = getThemedColor(Theme.key_switchTrackChecked);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        mutate.setColorFilter(new PorterDuffColorFilter(themedColor, mode));
+        mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_checkboxCheck), mode));
         this.addIcon = new CombinedDrawable(mutate, mutate2) { // from class: org.telegram.ui.web.WebBrowserSettings.1
             @Override // org.telegram.ui.Components.CombinedDrawable, android.graphics.drawable.Drawable
             public void setColorFilter(ColorFilter colorFilter) {
@@ -284,12 +286,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             if (i2 == 2) {
                 AlertDialog.Builder title = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCacheClear));
                 int i3 = R.string.BrowserSettingsCacheClearText;
-                Object[] objArr = new Object[1];
                 if (this.cacheSize != 0) {
                     str = " (" + AndroidUtilities.formatFileSize(this.cacheSize) + ")";
                 }
-                objArr[0] = str;
-                title.setMessage(LocaleController.formatString(i3, objArr)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
+                title.setMessage(LocaleController.formatString(i3, str)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         WebBrowserSettings.this.lambda$onClick$3(dialogInterface, i4);
@@ -298,12 +298,10 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             } else if (i2 == 3) {
                 AlertDialog.Builder title2 = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(R.string.BrowserSettingsCookiesClear));
                 int i4 = R.string.BrowserSettingsCookiesClearText;
-                Object[] objArr2 = new Object[1];
                 if (this.cookiesSize != 0) {
                     str = " (" + AndroidUtilities.formatFileSize(this.cookiesSize) + ")";
                 }
-                objArr2[0] = str;
-                title2.setMessage(LocaleController.formatString(i4, objArr2)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
+                title2.setMessage(LocaleController.formatString(i4, str)).setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.WebBrowserSettings$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i5) {
                         WebBrowserSettings.this.lambda$onClick$4(dialogInterface, i5);
@@ -623,7 +621,8 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             textView.setTextSize(1, 16.0f);
             textView.setTypeface(AndroidUtilities.bold());
             textView.setMaxLines(1);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView.setEllipsize(truncateAt);
             addView(textView, LayoutHelper.createFrame(-1, -2.0f, 55, 68.0f, 7.0f, 54.0f, 0.0f));
             TextView textView2 = new TextView(context) { // from class: org.telegram.ui.web.WebBrowserSettings.WebsiteView.1
                 @Override // android.widget.TextView, android.view.View
@@ -636,7 +635,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             textView2.setTextSize(1, 13.0f);
             textView2.setMaxLines(1);
-            textView2.setEllipsize(TextUtils.TruncateAt.END);
+            textView2.setEllipsize(truncateAt);
             textView2.setPivotX(0.0f);
             addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 55, 68.0f, 30.0f, 54.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
@@ -765,7 +764,7 @@ public class WebBrowserSettings extends UniversalFragment implements Notificatio
             }
             return 0L;
         } else if (bool == null || bool.booleanValue() == file.getName().startsWith("Cookies")) {
-            return 0 + file.length();
+            return file.length();
         } else {
             return 0L;
         }

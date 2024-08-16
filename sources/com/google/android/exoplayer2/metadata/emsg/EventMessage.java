@@ -102,7 +102,7 @@ public final class EventMessage implements Metadata.Entry {
     public int hashCode() {
         if (this.hashCode == 0) {
             String str = this.schemeIdUri;
-            int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
+            int hashCode = ((str != null ? str.hashCode() : 0) + 527) * 31;
             String str2 = this.value;
             int hashCode2 = str2 != null ? str2.hashCode() : 0;
             long j = this.durationMs;

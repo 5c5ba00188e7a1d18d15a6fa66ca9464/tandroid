@@ -63,12 +63,16 @@ public final class ResourceManagerInternal {
     public static synchronized ResourceManagerInternal get() {
         ResourceManagerInternal resourceManagerInternal;
         synchronized (ResourceManagerInternal.class) {
-            if (INSTANCE == null) {
-                ResourceManagerInternal resourceManagerInternal2 = new ResourceManagerInternal();
-                INSTANCE = resourceManagerInternal2;
-                installDefaultInflateDelegates(resourceManagerInternal2);
+            try {
+                if (INSTANCE == null) {
+                    ResourceManagerInternal resourceManagerInternal2 = new ResourceManagerInternal();
+                    INSTANCE = resourceManagerInternal2;
+                    installDefaultInflateDelegates(resourceManagerInternal2);
+                }
+                resourceManagerInternal = INSTANCE;
+            } catch (Throwable th) {
+                throw th;
             }
-            resourceManagerInternal = INSTANCE;
         }
         return resourceManagerInternal;
     }
@@ -93,19 +97,23 @@ public final class ResourceManagerInternal {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized Drawable getDrawable(Context context, int i, boolean z) {
         Drawable loadDrawableFromDelegates;
-        checkVectorDrawableSetup(context);
-        loadDrawableFromDelegates = loadDrawableFromDelegates(context, i);
-        if (loadDrawableFromDelegates == null) {
-            loadDrawableFromDelegates = createDrawableIfNeeded(context, i);
-        }
-        if (loadDrawableFromDelegates == null) {
-            loadDrawableFromDelegates = ContextCompat.getDrawable(context, i);
-        }
-        if (loadDrawableFromDelegates != null) {
-            loadDrawableFromDelegates = tintDrawable(context, i, z, loadDrawableFromDelegates);
-        }
-        if (loadDrawableFromDelegates != null) {
-            DrawableUtils.fixDrawable(loadDrawableFromDelegates);
+        try {
+            checkVectorDrawableSetup(context);
+            loadDrawableFromDelegates = loadDrawableFromDelegates(context, i);
+            if (loadDrawableFromDelegates == null) {
+                loadDrawableFromDelegates = createDrawableIfNeeded(context, i);
+            }
+            if (loadDrawableFromDelegates == null) {
+                loadDrawableFromDelegates = ContextCompat.getDrawable(context, i);
+            }
+            if (loadDrawableFromDelegates != null) {
+                loadDrawableFromDelegates = tintDrawable(context, i, z, loadDrawableFromDelegates);
+            }
+            if (loadDrawableFromDelegates != null) {
+                DrawableUtils.fixDrawable(loadDrawableFromDelegates);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return loadDrawableFromDelegates;
     }
@@ -240,29 +248,37 @@ public final class ResourceManagerInternal {
     }
 
     private synchronized boolean addDrawableToCache(Context context, long j, Drawable drawable) {
-        Drawable.ConstantState constantState = drawable.getConstantState();
-        if (constantState != null) {
-            LongSparseArray<WeakReference<Drawable.ConstantState>> longSparseArray = this.mDrawableCaches.get(context);
-            if (longSparseArray == null) {
-                longSparseArray = new LongSparseArray<>();
-                this.mDrawableCaches.put(context, longSparseArray);
+        try {
+            Drawable.ConstantState constantState = drawable.getConstantState();
+            if (constantState != null) {
+                LongSparseArray<WeakReference<Drawable.ConstantState>> longSparseArray = this.mDrawableCaches.get(context);
+                if (longSparseArray == null) {
+                    longSparseArray = new LongSparseArray<>();
+                    this.mDrawableCaches.put(context, longSparseArray);
+                }
+                longSparseArray.put(j, new WeakReference<>(constantState));
+                return true;
             }
-            longSparseArray.put(j, new WeakReference<>(constantState));
-            return true;
+            return false;
+        } catch (Throwable th) {
+            throw th;
         }
-        return false;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized Drawable onDrawableLoadedFromResources(Context context, VectorEnabledTintResources vectorEnabledTintResources, int i) {
-        Drawable loadDrawableFromDelegates = loadDrawableFromDelegates(context, i);
-        if (loadDrawableFromDelegates == null) {
-            loadDrawableFromDelegates = vectorEnabledTintResources.getDrawableCanonical(i);
+        try {
+            Drawable loadDrawableFromDelegates = loadDrawableFromDelegates(context, i);
+            if (loadDrawableFromDelegates == null) {
+                loadDrawableFromDelegates = vectorEnabledTintResources.getDrawableCanonical(i);
+            }
+            if (loadDrawableFromDelegates != null) {
+                return tintDrawable(context, i, false, loadDrawableFromDelegates);
+            }
+            return null;
+        } catch (Throwable th) {
+            throw th;
         }
-        if (loadDrawableFromDelegates != null) {
-            return tintDrawable(context, i, false, loadDrawableFromDelegates);
-        }
-        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -344,11 +360,9 @@ public final class ResourceManagerInternal {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static void tintDrawable(Drawable drawable, TintInfo tintInfo, int[] iArr) {
         int[] state = drawable.getState();
-        if (DrawableUtils.canSafelyMutateDrawable(drawable)) {
-            if (!(drawable.mutate() == drawable)) {
-                Log.d("ResourceManagerInternal", "Mutated drawable is not the same instance as the input.");
-                return;
-            }
+        if (DrawableUtils.canSafelyMutateDrawable(drawable) && drawable.mutate() != drawable) {
+            Log.d("ResourceManagerInternal", "Mutated drawable is not the same instance as the input.");
+            return;
         }
         if ((drawable instanceof LayerDrawable) && drawable.isStateful()) {
             drawable.setState(new int[0]);
@@ -463,7 +477,7 @@ public final class ResourceManagerInternal {
             String classAttribute = attributeSet.getClassAttribute();
             if (classAttribute != null) {
                 try {
-                    Drawable drawable = (Drawable) DrawableDelegate.class.getClassLoader().loadClass(classAttribute).asSubclass(Drawable.class).getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+                    Drawable drawable = (Drawable) DrawableDelegate.class.getClassLoader().loadClass(classAttribute).asSubclass(Drawable.class).getDeclaredConstructor(null).newInstance(null);
                     if (Build.VERSION.SDK_INT >= 21) {
                         Compatibility$Api21Impl.inflate(drawable, context.getResources(), xmlPullParser, attributeSet, theme);
                     } else {

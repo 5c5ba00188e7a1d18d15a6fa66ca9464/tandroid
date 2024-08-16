@@ -28,9 +28,13 @@ public final class FaceDetector extends Detector<Face> {
     public final void release() {
         super.release();
         synchronized (this.zzc) {
-            if (this.zzd) {
-                this.zzb.zzc();
-                this.zzd = false;
+            try {
+                if (this.zzd) {
+                    this.zzb.zzc();
+                    this.zzd = false;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -118,10 +122,13 @@ public final class FaceDetector extends Detector<Face> {
         }
         if (frame.getPlanes() != null && ((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes())).length == 3) {
             synchronized (this.zzc) {
-                if (!this.zzd) {
-                    throw new IllegalStateException("Cannot use detector after release()");
+                try {
+                    if (!this.zzd) {
+                        throw new IllegalStateException("Cannot use detector after release()");
+                    }
+                    zza = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
+                } finally {
                 }
-                zza = this.zzb.zza((Image.Plane[]) Preconditions.checkNotNull(frame.getPlanes()), zzs.zza(frame));
             }
         } else {
             if (frame.getBitmap() != null) {

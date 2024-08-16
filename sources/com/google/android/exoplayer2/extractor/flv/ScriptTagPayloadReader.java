@@ -144,27 +144,27 @@ final class ScriptTagPayloadReader extends TagPayloadReader {
     }
 
     private static Object readAmfData(ParsableByteArray parsableByteArray, int i) {
-        if (i != 0) {
-            if (i != 1) {
-                if (i != 2) {
-                    if (i != 3) {
-                        if (i != 8) {
-                            if (i != 10) {
-                                if (i != 11) {
+        if (i != 8) {
+            if (i != 10) {
+                if (i != 11) {
+                    if (i != 0) {
+                        if (i != 1) {
+                            if (i != 2) {
+                                if (i != 3) {
                                     return null;
                                 }
-                                return readAmfDate(parsableByteArray);
+                                return readAmfObject(parsableByteArray);
                             }
-                            return readAmfStrictArray(parsableByteArray);
+                            return readAmfString(parsableByteArray);
                         }
-                        return readAmfEcmaArray(parsableByteArray);
+                        return readAmfBoolean(parsableByteArray);
                     }
-                    return readAmfObject(parsableByteArray);
+                    return readAmfDouble(parsableByteArray);
                 }
-                return readAmfString(parsableByteArray);
+                return readAmfDate(parsableByteArray);
             }
-            return readAmfBoolean(parsableByteArray);
+            return readAmfStrictArray(parsableByteArray);
         }
-        return readAmfDouble(parsableByteArray);
+        return readAmfEcmaArray(parsableByteArray);
     }
 }

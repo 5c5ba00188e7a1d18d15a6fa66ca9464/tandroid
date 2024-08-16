@@ -1,110 +1,83 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import j$.util.function.Supplier;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class f3 implements d2 {
-    public final /* synthetic */ int a;
-    public final /* synthetic */ j$.util.function.K b;
-
-    public /* synthetic */ f3(j$.util.function.K k, int i) {
-        this.a = i;
-        this.b = k;
+public final class f3 extends U2 implements j$.util.H {
+    f3(b bVar, j$.util.Q q, boolean z) {
+        super(bVar, q, z);
     }
 
-    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
-    public final /* synthetic */ void accept(double d) {
-        switch (this.a) {
-            case 0:
-                u0.i0();
-                throw null;
-            default:
-                u0.i0();
-                throw null;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public f3(b bVar, Supplier supplier, boolean z) {
+        super(bVar, supplier, z);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
+        j$.util.a.f(this, consumer);
+    }
+
+    @Override // j$.util.N
+    /* renamed from: c */
+    public final void forEachRemaining(j$.util.function.F f) {
+        if (this.h != null || this.i) {
+            do {
+            } while (tryAdvance(f));
+            return;
         }
+        f.getClass();
+        h();
+        e3 e3Var = new e3(f, 1);
+        this.b.D0(this.d, e3Var);
+        this.i = true;
     }
 
-    @Override // j$.util.stream.d2, j$.util.stream.f2
-    public final void accept(int i) {
-        int i2 = this.a;
-        j$.util.function.K k = this.b;
-        switch (i2) {
-            case 0:
-                ((K2) k).accept(i);
-                return;
-            default:
-                k.accept(i);
-                return;
+    @Override // j$.util.N
+    /* renamed from: g */
+    public final boolean tryAdvance(j$.util.function.F f) {
+        f.getClass();
+        boolean b = b();
+        if (b) {
+            J2 j2 = (J2) this.h;
+            long j = this.g;
+            int w = j2.w(j);
+            f.accept((j2.c == 0 && w == 0) ? ((int[]) j2.e)[(int) j] : ((int[][]) j2.f)[w][(int) (j - j2.d[w])]);
         }
+        return b;
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void accept(long j) {
-        switch (this.a) {
-            case 0:
-                u0.q0();
-                throw null;
-            default:
-                u0.q0();
-                throw null;
-        }
+    @Override // j$.util.stream.U2
+    final void j() {
+        J2 j2 = new J2();
+        this.h = j2;
+        this.e = this.b.E0(new e3(j2, 0));
+        this.f = new a(this, 4);
     }
 
-    @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
-        switch (this.a) {
-            case 0:
-                g((Integer) obj);
-                return;
-            default:
-                g((Integer) obj);
-                return;
-        }
+    @Override // j$.util.stream.U2
+    final U2 k(j$.util.Q q) {
+        return new f3(this.b, q, this.a);
     }
 
-    @Override // j$.util.function.Consumer
-    public final /* synthetic */ Consumer andThen(Consumer consumer) {
-        switch (this.a) {
-            case 0:
-                return Consumer.-CC.$default$andThen(this, consumer);
-            default:
-                return Consumer.-CC.$default$andThen(this, consumer);
-        }
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return j$.util.a.o(this, consumer);
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void end() {
+    @Override // j$.util.stream.U2, j$.util.Q
+    public final j$.util.H trySplit() {
+        return (j$.util.H) super.trySplit();
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void f(long j) {
+    @Override // j$.util.stream.U2, j$.util.Q
+    public final j$.util.N trySplit() {
+        return (j$.util.H) super.trySplit();
     }
 
-    @Override // j$.util.stream.d2
-    public final /* synthetic */ void g(Integer num) {
-        switch (this.a) {
-            case 0:
-                u0.l0(this, num);
-                return;
-            default:
-                u0.l0(this, num);
-                return;
-        }
-    }
-
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ boolean h() {
-        return false;
-    }
-
-    @Override // j$.util.function.K
-    public final j$.util.function.K n(j$.util.function.K k) {
-        switch (this.a) {
-            case 0:
-                k.getClass();
-                return new j$.util.function.H(this, k);
-            default:
-                k.getClass();
-                return new j$.util.function.H(this, k);
-        }
+    @Override // j$.util.stream.U2, j$.util.Q
+    public final j$.util.Q trySplit() {
+        return (j$.util.H) super.trySplit();
     }
 }

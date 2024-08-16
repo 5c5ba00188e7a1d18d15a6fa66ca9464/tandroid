@@ -44,16 +44,24 @@ public final class Log {
 
     public static void d(String str, String str2) {
         synchronized (lock) {
-            if (logLevel == 0) {
-                logger.d(str, str2);
+            try {
+                if (logLevel == 0) {
+                    logger.d(str, str2);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     public static void i(String str, String str2) {
         synchronized (lock) {
-            if (logLevel <= 1) {
-                logger.i(str, str2);
+            try {
+                if (logLevel <= 1) {
+                    logger.i(str, str2);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -64,8 +72,12 @@ public final class Log {
 
     public static void w(String str, String str2) {
         synchronized (lock) {
-            if (logLevel <= 2) {
-                logger.w(str, str2);
+            try {
+                if (logLevel <= 2) {
+                    logger.w(str, str2);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -76,8 +88,12 @@ public final class Log {
 
     public static void e(String str, String str2) {
         synchronized (lock) {
-            if (logLevel <= 3) {
-                logger.e(str, str2);
+            try {
+                if (logLevel <= 3) {
+                    logger.e(str, str2);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -88,16 +104,20 @@ public final class Log {
 
     public static String getThrowableString(Throwable th) {
         synchronized (lock) {
-            if (th == null) {
-                return null;
+            try {
+                if (th == null) {
+                    return null;
+                }
+                if (isCausedByUnknownHostException(th)) {
+                    return "UnknownHostException (no network)";
+                }
+                if (!logStackTraces) {
+                    return th.getMessage();
+                }
+                return android.util.Log.getStackTraceString(th).trim().replace("\t", "    ");
+            } catch (Throwable th2) {
+                throw th2;
             }
-            if (isCausedByUnknownHostException(th)) {
-                return "UnknownHostException (no network)";
-            }
-            if (!logStackTraces) {
-                return th.getMessage();
-            }
-            return android.util.Log.getStackTraceString(th).trim().replace("\t", "    ");
         }
     }
 

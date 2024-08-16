@@ -105,18 +105,22 @@ final class RtpExtractor implements Extractor {
             this.firstPacketRead = true;
         }
         synchronized (this.lock) {
-            if (!this.isSeekPending) {
-                do {
-                    this.rtpPacketDataBuffer.reset(poll.payloadData);
-                    this.payloadReader.consume(this.rtpPacketDataBuffer, poll.timestamp, poll.sequenceNumber, poll.marker);
-                    poll = this.reorderingQueue.poll(cutoffTimeMs);
-                } while (poll != null);
-            } else if (this.nextRtpTimestamp != -9223372036854775807L && this.playbackStartTimeUs != -9223372036854775807L) {
-                this.reorderingQueue.reset();
-                this.payloadReader.seek(this.nextRtpTimestamp, this.playbackStartTimeUs);
-                this.isSeekPending = false;
-                this.nextRtpTimestamp = -9223372036854775807L;
-                this.playbackStartTimeUs = -9223372036854775807L;
+            try {
+                if (!this.isSeekPending) {
+                    do {
+                        this.rtpPacketDataBuffer.reset(poll.payloadData);
+                        this.payloadReader.consume(this.rtpPacketDataBuffer, poll.timestamp, poll.sequenceNumber, poll.marker);
+                        poll = this.reorderingQueue.poll(cutoffTimeMs);
+                    } while (poll != null);
+                } else if (this.nextRtpTimestamp != -9223372036854775807L && this.playbackStartTimeUs != -9223372036854775807L) {
+                    this.reorderingQueue.reset();
+                    this.payloadReader.seek(this.nextRtpTimestamp, this.playbackStartTimeUs);
+                    this.isSeekPending = false;
+                    this.nextRtpTimestamp = -9223372036854775807L;
+                    this.playbackStartTimeUs = -9223372036854775807L;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return 0;
@@ -125,11 +129,15 @@ final class RtpExtractor implements Extractor {
     @Override // com.google.android.exoplayer2.extractor.Extractor
     public void seek(long j, long j2) {
         synchronized (this.lock) {
-            if (!this.isSeekPending) {
-                this.isSeekPending = true;
+            try {
+                if (!this.isSeekPending) {
+                    this.isSeekPending = true;
+                }
+                this.nextRtpTimestamp = j;
+                this.playbackStartTimeUs = j2;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.nextRtpTimestamp = j;
-            this.playbackStartTimeUs = j2;
         }
     }
 }

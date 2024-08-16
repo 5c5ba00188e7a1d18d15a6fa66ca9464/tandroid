@@ -6,10 +6,6 @@ import java.io.Serializable;
 final class ReverseNaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
     static final ReverseNaturalOrdering INSTANCE = new ReverseNaturalOrdering();
 
-    public String toString() {
-        return "Ordering.natural().reverse()";
-    }
-
     @Override // com.google.common.collect.Ordering, java.util.Comparator
     public int compare(Comparable<?> comparable, Comparable<?> comparable2) {
         Preconditions.checkNotNull(comparable);
@@ -22,6 +18,10 @@ final class ReverseNaturalOrdering extends Ordering<Comparable<?>> implements Se
     @Override // com.google.common.collect.Ordering
     public <S extends Comparable<?>> Ordering<S> reverse() {
         return Ordering.natural();
+    }
+
+    public String toString() {
+        return "Ordering.natural().reverse()";
     }
 
     private ReverseNaturalOrdering() {

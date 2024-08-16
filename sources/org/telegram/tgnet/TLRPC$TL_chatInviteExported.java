@@ -50,7 +50,7 @@ public class TLRPC$TL_chatInviteExported extends TLRPC$ExportedChatInvite {
         if ((this.flags & 1024) != 0) {
             this.subscription_expired = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.title = abstractSerializedData.readString(z);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -89,7 +89,7 @@ public class TLRPC$TL_chatInviteExported extends TLRPC$ExportedChatInvite {
         if ((this.flags & 1024) != 0) {
             abstractSerializedData.writeInt32(this.subscription_expired);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeString(this.title);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

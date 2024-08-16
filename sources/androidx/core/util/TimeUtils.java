@@ -37,9 +37,8 @@ public final class TimeUtils {
                 i -= i6 * 10;
             }
             cArr[i4] = (char) (i + 48);
-            int i7 = i4 + 1;
-            cArr[i7] = c;
-            return i7 + 1;
+            cArr[i4 + 1] = c;
+            return i4 + 2;
         }
         return i2;
     }

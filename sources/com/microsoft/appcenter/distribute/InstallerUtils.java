@@ -42,12 +42,16 @@ public class InstallerUtils {
     public static synchronized boolean isInstalledFromAppStore(String str, Context context) {
         boolean booleanValue;
         synchronized (InstallerUtils.class) {
-            if (sInstalledFromAppStore == null) {
-                String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
-                AppCenterLog.debug(str, "InstallerPackageName=" + installerPackageName);
-                sInstalledFromAppStore = Boolean.valueOf((installerPackageName == null || LOCAL_STORES.contains(installerPackageName)) ? false : true);
+            try {
+                if (sInstalledFromAppStore == null) {
+                    String installerPackageName = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+                    AppCenterLog.debug(str, "InstallerPackageName=" + installerPackageName);
+                    sInstalledFromAppStore = Boolean.valueOf((installerPackageName == null || LOCAL_STORES.contains(installerPackageName)) ? false : true);
+                }
+                booleanValue = sInstalledFromAppStore.booleanValue();
+            } catch (Throwable th) {
+                throw th;
             }
-            booleanValue = sInstalledFromAppStore.booleanValue();
         }
         return booleanValue;
     }
@@ -56,10 +60,7 @@ public class InstallerUtils {
         boolean canRequestPackageInstalls;
         int i = Build.VERSION.SDK_INT;
         if (i < 26) {
-            if (i < 21) {
-                return "1".equals(Settings.Global.getString(context.getContentResolver(), "install_non_market_apps"));
-            }
-            return "1".equals(Settings.Secure.getString(context.getContentResolver(), "install_non_market_apps"));
+            return i < 21 ? "1".equals(Settings.Global.getString(context.getContentResolver(), "install_non_market_apps")) : "1".equals(Settings.Secure.getString(context.getContentResolver(), "install_non_market_apps"));
         }
         if (context.getApplicationInfo().targetSdkVersion >= 26) {
             canRequestPackageInstalls = context.getPackageManager().canRequestPackageInstalls();

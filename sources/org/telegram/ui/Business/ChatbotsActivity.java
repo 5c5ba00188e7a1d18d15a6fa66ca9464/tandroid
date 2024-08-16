@@ -74,7 +74,7 @@ public class ChatbotsActivity extends BaseFragment {
     private boolean valueSet;
     private boolean wasLoading;
     private int searchId = 0;
-    private Runnable search = new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda0
+    private Runnable search = new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda8
         @Override // java.lang.Runnable
         public final void run() {
             ChatbotsActivity.this.lambda$new$3();
@@ -129,7 +129,7 @@ public class ChatbotsActivity extends BaseFragment {
         this.editText.setCursorColor(Theme.getColor(i2));
         this.editText.setCursorSize(AndroidUtilities.dp(19.0f));
         this.editText.setCursorWidth(1.5f);
-        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda4
+        this.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda3
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i3, KeyEvent keyEvent) {
                 boolean lambda$createView$0;
@@ -196,7 +196,7 @@ public class ChatbotsActivity extends BaseFragment {
         this.emptyView.addView(this.emptyViewLoading, LayoutHelper.createFrame(-2, -2, 17));
         this.emptyViewLoading.setAlpha(0.0f);
         this.emptyViewLoading.setTranslationY(AndroidUtilities.dp(8.0f));
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BusinessBotsInfo), new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda5
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.BusinessBotsInfo), new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 ChatbotsActivity.this.lambda$createView$1();
@@ -212,7 +212,7 @@ public class ChatbotsActivity extends BaseFragment {
         SearchAdapterHelper searchAdapterHelper = new SearchAdapterHelper(true);
         this.searchHelper = searchAdapterHelper;
         searchAdapterHelper.setDelegate(new 5());
-        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda6
+        BusinessRecipientsHelper businessRecipientsHelper = new BusinessRecipientsHelper(this, new Runnable() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 ChatbotsActivity.this.lambda$createView$2();
@@ -221,12 +221,12 @@ public class ChatbotsActivity extends BaseFragment {
         this.recipientsHelper = businessRecipientsHelper;
         TLRPC$TL_connectedBot tLRPC$TL_connectedBot = this.currentBot;
         businessRecipientsHelper.setValue(tLRPC$TL_connectedBot == null ? null : tLRPC$TL_connectedBot.recipients);
-        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda7
+        UniversalRecyclerView universalRecyclerView = new UniversalRecyclerView(this, new Utilities.Callback2() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 ChatbotsActivity.this.fillItems((ArrayList) obj, (UniversalAdapter) obj2);
             }
-        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda8
+        }, new Utilities.Callback5() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.messenger.Utilities.Callback5
             public final void run(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
                 ChatbotsActivity.this.onClick((UItem) obj, (View) obj2, ((Integer) obj3).intValue(), ((Float) obj4).floatValue(), ((Float) obj5).floatValue());
@@ -312,9 +312,11 @@ public class ChatbotsActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void updateSearchLoading() {
-        boolean z = false;
+        boolean z = true;
         if (this.wasLoading != (this.searchHelper.isSearchInProgress() || this.scheduledLoading || this.foundBots.size() > 0)) {
-            z = (this.searchHelper.isSearchInProgress() || this.scheduledLoading || this.foundBots.size() > 0) ? true : true;
+            if (!this.searchHelper.isSearchInProgress() && !this.scheduledLoading && this.foundBots.size() <= 0) {
+                z = false;
+            }
             this.wasLoading = z;
             ViewPropertyAnimator duration = this.emptyViewText.animate().alpha(z ? 0.0f : 1.0f).translationY(z ? -AndroidUtilities.dp(8.0f) : 0.0f).setDuration(320L);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
@@ -546,7 +548,7 @@ public class ChatbotsActivity extends BaseFragment {
             return;
         }
         this.loading = true;
-        BusinessChatbotController.getInstance(this.currentAccount).load(new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda3
+        BusinessChatbotController.getInstance(this.currentAccount).load(new Utilities.Callback() { // from class: org.telegram.ui.Business.ChatbotsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 ChatbotsActivity.this.lambda$setValue$6((TLRPC$TL_account_connectedBots) obj);

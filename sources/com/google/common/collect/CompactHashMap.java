@@ -3,8 +3,6 @@ package com.google.common.collect;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
@@ -309,19 +307,19 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         int[] requireEntries = requireEntries();
         Object[] requireKeys = requireKeys();
         Object[] requireValues = requireValues();
-        int size = size() - 1;
-        if (i < size) {
-            Object obj = requireKeys[size];
+        int size = size();
+        int i3 = size - 1;
+        if (i < i3) {
+            Object obj = requireKeys[i3];
             requireKeys[i] = obj;
-            requireValues[i] = requireValues[size];
-            requireKeys[size] = null;
-            requireValues[size] = null;
-            requireEntries[i] = requireEntries[size];
-            requireEntries[size] = 0;
+            requireValues[i] = requireValues[i3];
+            requireKeys[i3] = null;
+            requireValues[i3] = null;
+            requireEntries[i] = requireEntries[i3];
+            requireEntries[i3] = 0;
             int smearedHash = Hashing.smearedHash(obj) & i2;
             int tableGet = CompactHashing.tableGet(requireTable, smearedHash);
-            int i3 = size + 1;
-            if (tableGet == i3) {
+            if (tableGet == size) {
                 CompactHashing.tableSet(requireTable, smearedHash, i + 1);
                 return;
             }
@@ -329,7 +327,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
                 int i4 = tableGet - 1;
                 int i5 = requireEntries[i4];
                 int next = CompactHashing.getNext(i5, i2);
-                if (next == i3) {
+                if (next == size) {
                     requireEntries[i4] = CompactHashing.maskCombine(i5, i + 1, i2);
                     return;
                 }
@@ -355,20 +353,10 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
     }
 
     /* loaded from: classes.dex */
-    private abstract class Itr<T> implements Iterator<T>, j$.util.Iterator {
+    private abstract class Itr<T> implements Iterator<T> {
         int currentIndex;
         int expectedMetadata;
         int indexToRemove;
-
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
-        @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-        }
 
         abstract T getOutput(int i);
 
@@ -378,12 +366,12 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
             this.indexToRemove = -1;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public boolean hasNext() {
             return this.currentIndex >= 0;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public T next() {
             checkForConcurrentModification();
             if (!hasNext()) {
@@ -396,7 +384,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
             return output;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public void remove() {
             checkForConcurrentModification();
             CollectPreconditions.checkRemove(this.indexToRemove >= 0);
@@ -459,7 +447,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-        public java.util.Iterator<K> iterator() {
+        public Iterator<K> iterator() {
             return CompactHashMap.this.keySetIterator();
         }
 
@@ -469,7 +457,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         }
     }
 
-    java.util.Iterator<K> keySetIterator() {
+    Iterator<K> keySetIterator() {
         Map<K, V> delegateOrNull = delegateOrNull();
         if (delegateOrNull != null) {
             return delegateOrNull.keySet().iterator();
@@ -514,7 +502,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-        public java.util.Iterator<Map.Entry<K, V>> iterator() {
+        public Iterator<Map.Entry<K, V>> iterator() {
             return CompactHashMap.this.entrySetIterator();
         }
 
@@ -557,7 +545,7 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         }
     }
 
-    java.util.Iterator<Map.Entry<K, V>> entrySetIterator() {
+    Iterator<Map.Entry<K, V>> entrySetIterator() {
         Map<K, V> delegateOrNull = delegateOrNull();
         if (delegateOrNull != null) {
             return delegateOrNull.entrySet().iterator();
@@ -680,12 +668,12 @@ public class CompactHashMap<K, V> extends AbstractMap<K, V> implements Serializa
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable
-        public java.util.Iterator<V> iterator() {
+        public Iterator<V> iterator() {
             return CompactHashMap.this.valuesIterator();
         }
     }
 
-    java.util.Iterator<V> valuesIterator() {
+    Iterator<V> valuesIterator() {
         Map<K, V> delegateOrNull = delegateOrNull();
         if (delegateOrNull != null) {
             return delegateOrNull.values().iterator();

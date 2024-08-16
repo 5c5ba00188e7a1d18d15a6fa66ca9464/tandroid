@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class H262Reader implements ElementaryStreamReader {
     private static final double[] FRAME_RATE_VALUES = {23.976023976023978d, 24.0d, 25.0d, 29.97002997002997d, 30.0d, 50.0d, 59.94005994005994d, 60.0d};
@@ -45,7 +46,7 @@ public final class H262Reader implements ElementaryStreamReader {
         this.prefixFlags = new boolean[4];
         this.csdBuffer = new CsdBuffer(128);
         if (userDataReader != null) {
-            this.userData = new NalUnitTargetBuffer(178, 128);
+            this.userData = new NalUnitTargetBuffer(NotificationCenter.filterSettingsUpdated, 128);
             this.userDataParsable = new ParsableByteArray();
         } else {
             this.userData = null;
@@ -196,31 +197,31 @@ public final class H262Reader implements ElementaryStreamReader {
         int i2;
         long j;
         byte[] copyOf = Arrays.copyOf(csdBuffer.data, csdBuffer.length);
-        int i3 = copyOf[5] & 255;
-        int i4 = ((copyOf[4] & 255) << 4) | (i3 >> 4);
-        int i5 = ((i3 & 15) << 8) | (copyOf[6] & 255);
-        int i6 = (copyOf[7] & 240) >> 4;
-        if (i6 == 2) {
-            f = i5 * 4;
-            i = i4 * 3;
-        } else if (i6 == 3) {
-            f = i5 * 16;
-            i = i4 * 9;
-        } else if (i6 != 4) {
+        byte b = copyOf[5];
+        int i3 = ((copyOf[4] & 255) << 4) | ((b & 255) >> 4);
+        int i4 = ((b & 15) << 8) | (copyOf[6] & 255);
+        int i5 = (copyOf[7] & 240) >> 4;
+        if (i5 == 2) {
+            f = i4 * 4;
+            i = i3 * 3;
+        } else if (i5 == 3) {
+            f = i4 * 16;
+            i = i3 * 9;
+        } else if (i5 != 4) {
             f2 = 1.0f;
-            Format build = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
+            Format build = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i3).setHeight(i4).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
             i2 = (copyOf[7] & 15) - 1;
             if (i2 >= 0) {
                 double[] dArr = FRAME_RATE_VALUES;
                 if (i2 < dArr.length) {
                     double d = dArr[i2];
-                    byte b = copyOf[csdBuffer.sequenceExtensionPosition + 9];
-                    int i7 = (b & 96) >> 5;
-                    int i8 = b & 31;
-                    if (i7 != i8) {
-                        double d2 = i7;
+                    byte b2 = copyOf[csdBuffer.sequenceExtensionPosition + 9];
+                    int i6 = (b2 & 96) >> 5;
+                    int i7 = b2 & 31;
+                    if (i6 != i7) {
+                        double d2 = i6;
                         Double.isNaN(d2);
-                        double d3 = i8 + 1;
+                        double d3 = i7 + 1;
                         Double.isNaN(d3);
                         d *= (d2 + 1.0d) / d3;
                     }
@@ -231,11 +232,11 @@ public final class H262Reader implements ElementaryStreamReader {
             j = 0;
             return Pair.create(build, Long.valueOf(j));
         } else {
-            f = i5 * 121;
-            i = i4 * 100;
+            f = i4 * 121;
+            i = i3 * 100;
         }
         f2 = f / i;
-        Format build2 = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i4).setHeight(i5).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
+        Format build2 = new Format.Builder().setId(str).setSampleMimeType("video/mpeg2").setWidth(i3).setHeight(i4).setPixelWidthHeightRatio(f2).setInitializationData(Collections.singletonList(copyOf)).build();
         i2 = (copyOf[7] & 15) - 1;
         if (i2 >= 0) {
         }
@@ -285,9 +286,9 @@ public final class H262Reader implements ElementaryStreamReader {
                 int i3 = i2 - i;
                 byte[] bArr2 = this.data;
                 int length = bArr2.length;
-                int i4 = this.length;
-                if (length < i4 + i3) {
-                    this.data = Arrays.copyOf(bArr2, (i4 + i3) * 2);
+                int i4 = this.length + i3;
+                if (length < i4) {
+                    this.data = Arrays.copyOf(bArr2, i4 * 2);
                 }
                 System.arraycopy(bArr, i, this.data, this.length, i3);
                 this.length += i3;

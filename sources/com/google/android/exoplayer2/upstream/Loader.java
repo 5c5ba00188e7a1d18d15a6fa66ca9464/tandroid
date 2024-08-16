@@ -180,11 +180,15 @@ public final class Loader implements LoaderErrorThrower {
                 }
             } else {
                 synchronized (this) {
-                    this.canceled = true;
-                    this.loadable.cancelLoad();
-                    Thread thread = this.executorThread;
-                    if (thread != null) {
-                        thread.interrupt();
+                    try {
+                        this.canceled = true;
+                        this.loadable.cancelLoad();
+                        Thread thread = this.executorThread;
+                        if (thread != null) {
+                            thread.interrupt();
+                        }
+                    } catch (Throwable th) {
+                        throw th;
                     }
                 }
             }

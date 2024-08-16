@@ -15,7 +15,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -33,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatImageHelper$$ExternalSyntheticApiModelOutline0;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +42,6 @@ import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -116,7 +115,7 @@ public class FilterChatlistActivity extends BaseFragment {
     private int chatsStartRow = -1;
     private int chatsEndRow = -1;
     private int chatsSectionRow = -1;
-    private Runnable enableDoneLoading = new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda1
+    private Runnable enableDoneLoading = new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda3
         @Override // java.lang.Runnable
         public final void run() {
             FilterChatlistActivity.this.lambda$new$7();
@@ -239,18 +238,19 @@ public class FilterChatlistActivity extends BaseFragment {
         String string;
         String str;
         if (getParentActivity() != null && (view instanceof GroupCreateUserCell)) {
-            long longValue = this.peers.get(i - this.chatsStartRow).longValue();
-            if (this.selectedPeers.contains(Long.valueOf(longValue))) {
-                this.selectedPeers.remove(Long.valueOf(longValue));
+            Long l = this.peers.get(i - this.chatsStartRow);
+            long longValue = l.longValue();
+            if (this.selectedPeers.contains(l)) {
+                this.selectedPeers.remove(l);
                 this.peersChanged = true;
                 checkDoneButton();
                 ((GroupCreateUserCell) view).setChecked(false, true);
-            } else if (this.allowedPeers.contains(Long.valueOf(longValue))) {
+            } else if (this.allowedPeers.contains(l)) {
                 if (this.selectedPeers.size() + 1 > getMaxChats()) {
                     showDialog(new LimitReachedBottomSheet(this, getContext(), 4, this.currentAccount, null));
                     return;
                 }
-                this.selectedPeers.add(Long.valueOf(longValue));
+                this.selectedPeers.add(l);
                 this.peersChanged = true;
                 checkDoneButton();
                 ((GroupCreateUserCell) view).setChecked(true, true);
@@ -261,8 +261,8 @@ public class FilterChatlistActivity extends BaseFragment {
                 BotWebViewVibrationEffect.APP_ERROR.vibrate();
                 ArrayList arrayList = new ArrayList();
                 if (longValue >= 0) {
-                    arrayList.add(getMessagesController().getUser(Long.valueOf(longValue)));
-                    TLRPC$User user = getMessagesController().getUser(Long.valueOf(longValue));
+                    arrayList.add(getMessagesController().getUser(l));
+                    TLRPC$User user = getMessagesController().getUser(l);
                     if (user != null && user.bot) {
                         str = LocaleController.getString("FilterInviteBotToast", R.string.FilterInviteBotToast);
                     } else {
@@ -351,7 +351,7 @@ public class FilterChatlistActivity extends BaseFragment {
         for (int i2 = 0; i2 < this.selectedPeers.size(); i2++) {
             tL_chatlists$TL_chatlists_editExportedInvite.peers.add(getMessagesController().getInputPeer(this.selectedPeers.get(i2).longValue()));
         }
-        getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda5
+        getConnectionsManager().sendRequest(tL_chatlists$TL_chatlists_editExportedInvite, new RequestDelegate() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilterChatlistActivity.this.lambda$save$2(tLObject, tLRPC$TL_error);
@@ -365,7 +365,7 @@ public class FilterChatlistActivity extends BaseFragment {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$save$2(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 FilterChatlistActivity.this.lambda$save$1(tLRPC$TL_error);
@@ -464,7 +464,7 @@ public class FilterChatlistActivity extends BaseFragment {
         headerCell.setText(this.selectedPeers.size() <= 0 ? LocaleController.getString("FilterInviteHeaderChatsEmpty") : LocaleController.formatPluralString("FilterInviteHeaderChats", this.selectedPeers.size(), new Object[0]), z);
         if (this.allowedPeers.size() > 1) {
             final boolean z2 = this.selectedPeers.size() >= Math.min(getMaxChats(), this.allowedPeers.size());
-            this.headerCountCell.setAction(LocaleController.getString(!z2 ? R.string.SelectAll : R.string.DeselectAll), new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda7
+            this.headerCountCell.setAction(LocaleController.getString(!z2 ? R.string.SelectAll : R.string.DeselectAll), new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilterChatlistActivity.this.lambda$updateHeaderCell$5(z2);
@@ -484,17 +484,14 @@ public class FilterChatlistActivity extends BaseFragment {
     }
 
     public void updateRows() {
-        int i = 0 + 1;
-        this.rowsCount = i;
+        this.rowsCount = 1;
         this.hintRow = 0;
         TL_chatlists$TL_exportedChatlistInvite tL_chatlists$TL_exportedChatlistInvite = this.invite;
         if (tL_chatlists$TL_exportedChatlistInvite != null) {
-            int i2 = i + 1;
-            this.linkHeaderRow = i;
-            int i3 = i2 + 1;
-            this.linkRow = i2;
-            this.rowsCount = i3 + 1;
-            this.linkSectionRow = i3;
+            this.linkHeaderRow = 1;
+            this.linkRow = 2;
+            this.rowsCount = 4;
+            this.linkSectionRow = 3;
         } else {
             this.linkHeaderRow = -1;
             this.linkRow = -1;
@@ -506,13 +503,13 @@ public class FilterChatlistActivity extends BaseFragment {
             this.chatsEndRow = -1;
             this.chatsSectionRow = -1;
         } else {
-            int i4 = this.rowsCount;
-            int i5 = i4 + 1;
-            this.chatsHeaderRow = i4;
-            int i6 = i5 + 1;
-            this.rowsCount = i6;
-            this.chatsStartRow = i5;
-            int size = i6 + (this.peers.size() - 1);
+            int i = this.rowsCount;
+            int i2 = i + 1;
+            this.chatsHeaderRow = i;
+            int i3 = i + 2;
+            this.rowsCount = i3;
+            this.chatsStartRow = i2;
+            int size = i3 + (this.peers.size() - 1);
             this.chatsEndRow = size;
             this.rowsCount = size + 1;
             this.chatsSectionRow = size;
@@ -736,9 +733,9 @@ public class FilterChatlistActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-            String str;
-            String str2;
+            String string;
             TLRPC$User tLRPC$User;
+            TLRPC$User tLRPC$User2;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
                 FilterChatlistActivity.this.hintCountCell = (HintInnerCell) viewHolder.itemView;
@@ -785,61 +782,64 @@ public class FilterChatlistActivity extends BaseFragment {
                     }
                 } else {
                     GroupCreateUserCell groupCreateUserCell = (GroupCreateUserCell) viewHolder.itemView;
-                    long longValue = ((Long) FilterChatlistActivity.this.peers.get(i - FilterChatlistActivity.this.chatsStartRow)).longValue();
+                    Long l = (Long) FilterChatlistActivity.this.peers.get(i - FilterChatlistActivity.this.chatsStartRow);
+                    long longValue = l.longValue();
                     if (longValue >= 0) {
-                        TLRPC$User user = FilterChatlistActivity.this.getMessagesController().getUser(Long.valueOf(longValue));
+                        TLRPC$User user = FilterChatlistActivity.this.getMessagesController().getUser(l);
+                        tLRPC$User = user;
                         if (user != null) {
-                            str2 = UserObject.getUserName(user);
-                            tLRPC$User = user;
-                        } else {
-                            str2 = null;
-                            tLRPC$User = user;
+                            r3 = UserObject.getUserName(user);
+                            string = null;
+                            tLRPC$User2 = user;
                         }
+                        string = null;
+                        tLRPC$User2 = tLRPC$User;
                     } else {
                         TLRPC$Chat chat = FilterChatlistActivity.this.getMessagesController().getChat(Long.valueOf(-longValue));
+                        tLRPC$User = chat;
                         if (chat != null) {
                             r3 = chat.title;
                             if (chat.participants_count != 0) {
                                 if (ChatObject.isChannelAndNotMegaGroup(chat)) {
-                                    str = LocaleController.formatPluralStringComma("Subscribers", chat.participants_count);
+                                    string = LocaleController.formatPluralStringComma("Subscribers", chat.participants_count);
+                                    tLRPC$User2 = chat;
                                 } else {
-                                    str = LocaleController.formatPluralStringComma("Members", chat.participants_count);
+                                    string = LocaleController.formatPluralStringComma("Members", chat.participants_count);
+                                    tLRPC$User2 = chat;
                                 }
                             } else if (ChatObject.isChannelAndNotMegaGroup(chat)) {
-                                str = LocaleController.getString("ChannelPublic");
+                                string = LocaleController.getString("ChannelPublic");
+                                tLRPC$User2 = chat;
                             } else {
-                                str = LocaleController.getString("MegaPublic");
+                                string = LocaleController.getString("MegaPublic");
+                                tLRPC$User2 = chat;
                             }
-                        } else {
-                            str = null;
                         }
-                        String str3 = r3;
-                        r3 = str;
-                        str2 = str3;
-                        tLRPC$User = chat;
+                        string = null;
+                        tLRPC$User2 = tLRPC$User;
                     }
-                    if (FilterChatlistActivity.this.allowedPeers.contains(Long.valueOf(longValue))) {
+                    if (FilterChatlistActivity.this.allowedPeers.contains(l)) {
                         groupCreateUserCell.setForbiddenCheck(false);
-                        groupCreateUserCell.setChecked(FilterChatlistActivity.this.selectedPeers.contains(Long.valueOf(longValue)), false);
+                        groupCreateUserCell.setChecked(FilterChatlistActivity.this.selectedPeers.contains(l), false);
                     } else {
                         groupCreateUserCell.setForbiddenCheck(true);
                         groupCreateUserCell.setChecked(false, false);
-                        if (tLRPC$User instanceof TLRPC$User) {
-                            if (((TLRPC$User) tLRPC$User).bot) {
-                                r3 = LocaleController.getString("FilterInviteBot", R.string.FilterInviteBot);
+                        if (tLRPC$User2 instanceof TLRPC$User) {
+                            if (((TLRPC$User) tLRPC$User2).bot) {
+                                string = LocaleController.getString("FilterInviteBot", R.string.FilterInviteBot);
                             } else {
-                                r3 = LocaleController.getString("FilterInviteUser", R.string.FilterInviteUser);
+                                string = LocaleController.getString("FilterInviteUser", R.string.FilterInviteUser);
                             }
-                        } else if (tLRPC$User instanceof TLRPC$Chat) {
-                            if (ChatObject.isChannelAndNotMegaGroup(tLRPC$User)) {
-                                r3 = LocaleController.getString("FilterInviteChannel", R.string.FilterInviteChannel);
+                        } else if (tLRPC$User2 instanceof TLRPC$Chat) {
+                            if (ChatObject.isChannelAndNotMegaGroup(tLRPC$User2)) {
+                                string = LocaleController.getString("FilterInviteChannel", R.string.FilterInviteChannel);
                             } else {
-                                r3 = LocaleController.getString("FilterInviteGroup", R.string.FilterInviteGroup);
+                                string = LocaleController.getString("FilterInviteGroup", R.string.FilterInviteGroup);
                             }
                         }
                     }
-                    groupCreateUserCell.setTag(Long.valueOf(longValue));
-                    groupCreateUserCell.setObject(tLRPC$User, str2, r3);
+                    groupCreateUserCell.setTag(l);
+                    groupCreateUserCell.setObject(tLRPC$User2, r3, string);
                 }
             }
         }
@@ -881,7 +881,7 @@ public class FilterChatlistActivity extends BaseFragment {
         if (!z) {
             this.selectedPeers.addAll(this.allowedPeers.subList(0, Math.min(getMaxChats(), this.allowedPeers.size())));
         }
-        headerCell.setAction(LocaleController.getString(!(this.selectedPeers.size() >= Math.min(getMaxChats(), this.allowedPeers.size())) ? R.string.SelectAll : R.string.DeselectAll), new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda9
+        headerCell.setAction(LocaleController.getString(this.selectedPeers.size() >= Math.min(getMaxChats(), this.allowedPeers.size()) ? R.string.DeselectAll : R.string.SelectAll), new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 FilterChatlistActivity.this.lambda$deselectAll$6(headerCell, z);
@@ -897,7 +897,10 @@ public class FilterChatlistActivity extends BaseFragment {
             if (childAt instanceof GroupCreateUserCell) {
                 Object tag = childAt.getTag();
                 if (tag instanceof Long) {
-                    ((GroupCreateUserCell) childAt).setChecked(this.selectedPeers.contains(Long.valueOf(((Long) tag).longValue())), true);
+                    ArrayList<Long> arrayList = this.selectedPeers;
+                    Long l = (Long) tag;
+                    l.longValue();
+                    ((GroupCreateUserCell) childAt).setChecked(arrayList.contains(l), true);
                 }
             }
         }
@@ -960,10 +963,7 @@ public class FilterChatlistActivity extends BaseFragment {
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.doneButtonDrawable.getProgress();
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.doneButtonDrawable.getProgress(), z ? 1.0f : 0.0f);
             this.doneButtonDrawableAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda6
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1012,13 +1012,13 @@ public class FilterChatlistActivity extends BaseFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setTitle(LocaleController.getString("UnsavedChanges", R.string.UnsavedChanges));
             builder.setMessage(LocaleController.getString("UnsavedChangesMessage", R.string.UnsavedChangesMessage));
-            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda2
+            builder.setPositiveButton(LocaleController.getString("ApplyTheme", R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda1
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     FilterChatlistActivity.this.lambda$checkDiscard$9(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda3
+            builder.setNegativeButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.FilterChatlistActivity$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     FilterChatlistActivity.this.lambda$checkDiscard$10(dialogInterface, i);
@@ -1108,12 +1108,15 @@ public class FilterChatlistActivity extends BaseFragment {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, measuredWidth - AndroidUtilities.lerp(0, AndroidUtilities.dp(4.0f), this.t), getMeasuredHeight());
                 setRadii(AndroidUtilities.dp(8.0f), AndroidUtilities.lerp(0, AndroidUtilities.dp(8.0f), this.t));
-                this.path.addRoundRect(rectF, this.radii, Path.Direction.CW);
+                Path path = this.path;
+                float[] fArr = this.radii;
+                Path.Direction direction = Path.Direction.CW;
+                path.addRoundRect(rectF, fArr, direction);
                 canvas.drawPath(this.path, this.paint);
                 this.path.rewind();
                 rectF.set(measuredWidth + AndroidUtilities.lerp(0, AndroidUtilities.dp(4.0f), this.t), 0.0f, getMeasuredWidth(), getMeasuredHeight());
                 setRadii(AndroidUtilities.lerp(0, AndroidUtilities.dp(8.0f), this.t), AndroidUtilities.dp(8.0f));
-                this.path.addRoundRect(rectF, this.radii, Path.Direction.CW);
+                this.path.addRoundRect(rectF, this.radii, direction);
                 canvas.drawPath(this.path, this.paint);
             }
         }
@@ -1142,7 +1145,7 @@ public class FilterChatlistActivity extends BaseFragment {
             simpleTextView2.setTextColor(Theme.getColor(i2));
             SpannableString spannableString = new SpannableString("t.me/folder/N3k/dImA/bIo");
             TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-            textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
+            textStyleRun.flags |= 256;
             spannableString.setSpan(new TextStyleSpan(textStyleRun), 0, spannableString.length(), 33);
             this.spoilerTextView.setText(spannableString);
             this.spoilerTextView.setAlpha(1.0f);
@@ -1254,7 +1257,7 @@ public class FilterChatlistActivity extends BaseFragment {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$2(View view) {
-            if (Build.VERSION.SDK_INT >= 21 && (this.linkBox.getBackground() instanceof RippleDrawable)) {
+            if (Build.VERSION.SDK_INT >= 21 && AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(this.linkBox.getBackground())) {
                 this.linkBox.getBackground().setState(new int[]{16842919, 16842910});
                 postDelayed(new Runnable() { // from class: org.telegram.ui.FilterChatlistActivity$InviteLinkCell$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
@@ -1308,10 +1311,7 @@ public class FilterChatlistActivity extends BaseFragment {
                     this.optionsIcon.setVisibility(0);
                     this.copyButton.setVisibility(0);
                     this.shareButton.setVisibility(0);
-                    float[] fArr = new float[2];
-                    fArr[0] = this.changeAlpha;
-                    fArr[1] = str == null ? 0.0f : 1.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.changeAlpha, str != null ? 1.0f : 0.0f);
                     this.changeAnimator = ofFloat;
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.FilterChatlistActivity$InviteLinkCell$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1340,7 +1340,7 @@ public class FilterChatlistActivity extends BaseFragment {
                     this.changeAnimator.start();
                     return;
                 }
-                this.changeAlpha = str == null ? 0.0f : 1.0f;
+                this.changeAlpha = str != null ? 1.0f : 0.0f;
                 updateChangeAlpha();
                 if (str == null) {
                     this.generateButton.setVisibility(0);
@@ -1558,10 +1558,10 @@ public class FilterChatlistActivity extends BaseFragment {
             float f2 = 0.0f;
             FrameLayout frameLayout3 = frameLayout;
             while (frameLayout3 != frameLayout2) {
-                f += frameLayout3.getY();
-                f2 += frameLayout3.getX();
+                f2 += frameLayout3.getY();
+                f += frameLayout3.getX();
                 if (frameLayout3 instanceof ScrollView) {
-                    f -= frameLayout3.getScrollY();
+                    f2 -= frameLayout3.getScrollY();
                 }
                 if (!(frameLayout3.getParent() instanceof View)) {
                     break;
@@ -1573,8 +1573,8 @@ public class FilterChatlistActivity extends BaseFragment {
                     return;
                 }
             }
-            fArr[0] = f2 - frameLayout2.getPaddingLeft();
-            fArr[1] = f - frameLayout2.getPaddingTop();
+            fArr[0] = f - frameLayout2.getPaddingLeft();
+            fArr[1] = f2 - frameLayout2.getPaddingTop();
         }
     }
 }

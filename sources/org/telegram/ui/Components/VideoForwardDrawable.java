@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class VideoForwardDrawable extends Drawable {
     private static final int[] playPath = {10, 7, 26, 16, 10, 25};
@@ -128,8 +129,8 @@ public class VideoForwardDrawable extends Drawable {
         this.paint.setColorFilter(colorFilter);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x02a7  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x02aa  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x02a6  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x02a9  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -192,7 +193,7 @@ public class VideoForwardDrawable extends Drawable {
         canvas.translate(f4, f5);
         float f6 = this.animationProgress;
         if (f6 <= 0.6f) {
-            int min = f6 < 0.4f ? Math.min(255, (int) ((f6 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f6 - 0.4f) / 0.2f)) * 255.0f);
+            int min = f6 < 0.4f ? Math.min((int) NotificationCenter.voipServiceCreated, (int) ((f6 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f6 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min = (int) (min * this.enterAnimationProgress);
             }
@@ -203,7 +204,7 @@ public class VideoForwardDrawable extends Drawable {
         float f7 = this.animationProgress;
         if (f7 >= 0.2f && f7 <= 0.8f) {
             float f8 = f7 - 0.2f;
-            int min2 = f8 < 0.4f ? Math.min(255, (int) ((f8 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f8 - 0.4f) / 0.2f)) * 255.0f);
+            int min2 = f8 < 0.4f ? Math.min((int) NotificationCenter.voipServiceCreated, (int) ((f8 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f8 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min2 = (int) (min2 * this.enterAnimationProgress);
             }
@@ -214,7 +215,7 @@ public class VideoForwardDrawable extends Drawable {
         float f9 = this.animationProgress;
         if (f9 >= 0.4f && f9 <= 1.0f) {
             float f10 = f9 - 0.4f;
-            int min3 = f10 < 0.4f ? Math.min(255, (int) ((f10 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f10 - 0.4f) / 0.2f)) * 255.0f);
+            int min3 = f10 < 0.4f ? Math.min((int) NotificationCenter.voipServiceCreated, (int) ((f10 * 255.0f) / 0.2f)) : (int) ((1.0f - ((f10 - 0.4f) / 0.2f)) * 255.0f);
             if (!this.isOneShootAnimation) {
                 min3 = (int) (min3 * this.enterAnimationProgress);
             }

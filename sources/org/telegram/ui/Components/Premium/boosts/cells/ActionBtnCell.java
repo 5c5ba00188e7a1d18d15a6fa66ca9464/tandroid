@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.FrameLayout;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
@@ -69,7 +70,7 @@ public class ActionBtnCell extends FrameLayout {
         super.dispatchDraw(canvas);
         if (this.drawDivider) {
             this.dividerPaint.setColor(Theme.getColor(Theme.key_windowBackgroundGray, this.resourcesProvider));
-            this.dividerPaint.setAlpha(255);
+            this.dividerPaint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawRect(0.0f, 0.0f, getWidth(), 1.0f, this.dividerPaint);
         }
     }

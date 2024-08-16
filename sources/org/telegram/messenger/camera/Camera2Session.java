@@ -18,6 +18,7 @@ import android.os.HandlerThread;
 import android.util.Range;
 import android.view.Surface;
 import android.view.WindowManager;
+import androidx.core.os.BundleKt$$ExternalSyntheticApiModelOutline1;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.camera.Camera2Session;
 @TargetApi(21)
@@ -70,8 +71,8 @@ public class Camera2Session {
     }
 
     public static Camera2Session create(boolean z, int i, int i2) {
-        android.util.Size size;
         String str;
+        android.util.Size size;
         String[] cameraIdList;
         CameraCharacteristics cameraCharacteristics;
         CameraCharacteristics.Key key;
@@ -86,41 +87,47 @@ public class Camera2Session {
         CameraManager cameraManager;
         android.util.Size[] outputSizes;
         Context context = ApplicationLoader.applicationContext;
-        CameraManager cameraManager2 = (CameraManager) context.getSystemService("camera");
+        CameraManager m = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
         try {
-            cameraIdList = cameraManager2.getCameraIdList();
+            cameraIdList = m.getCameraIdList();
             int i3 = 0;
-            size = null;
             str = null;
+            size = null;
             float f2 = 0.0f;
             while (i3 < cameraIdList.length) {
                 try {
                     String str2 = cameraIdList[i3];
-                    cameraCharacteristics = cameraManager2.getCameraCharacteristics(str2);
+                    cameraCharacteristics = m.getCameraCharacteristics(str2);
                     if (cameraCharacteristics != null) {
                         key = CameraCharacteristics.LENS_FACING;
                         obj = cameraCharacteristics.get(key);
                         if (((Integer) obj).intValue() == (!z)) {
                             key2 = CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
                             obj2 = cameraCharacteristics.get(key2);
-                            StreamConfigurationMap streamConfigurationMap = (StreamConfigurationMap) obj2;
+                            StreamConfigurationMap m2 = Camera2Session$$ExternalSyntheticApiModelOutline19.m(obj2);
                             key3 = CameraCharacteristics.SENSOR_INFO_PIXEL_ARRAY_SIZE;
                             obj3 = cameraCharacteristics.get(key3);
-                            android.util.Size size2 = (android.util.Size) obj3;
-                            if (size2 == null) {
+                            android.util.Size m3 = BundleKt$$ExternalSyntheticApiModelOutline1.m(obj3);
+                            if (m3 == null) {
                                 f = 0.0f;
                             } else {
-                                width = size2.getWidth();
-                                height = size2.getHeight();
+                                width = m3.getWidth();
+                                height = m3.getHeight();
                                 f = width / height;
                             }
                             float f3 = i / i2;
-                            cameraManager = cameraManager2;
+                            cameraManager = m;
                             if ((f3 >= 1.0f) != (f >= 1.0f)) {
                                 f = 1.0f / f;
                             }
-                            if ((f2 <= 0.0f || Math.abs(f3 - f2) > Math.abs(f3 - f)) && streamConfigurationMap != null && Build.VERSION.SDK_INT >= 23) {
-                                outputSizes = streamConfigurationMap.getOutputSizes(SurfaceTexture.class);
+                            if (f2 > 0.0f) {
+                                if (Math.abs(f3 - f2) > Math.abs(f3 - f)) {
+                                }
+                                i3++;
+                                m = cameraManager;
+                            }
+                            if (m2 != null && Build.VERSION.SDK_INT >= 23) {
+                                outputSizes = m2.getOutputSizes(SurfaceTexture.class);
                                 android.util.Size chooseOptimalSize = chooseOptimalSize(outputSizes, i, i2, false);
                                 if (chooseOptimalSize != null) {
                                     size = chooseOptimalSize;
@@ -128,15 +135,15 @@ public class Camera2Session {
                                     f2 = f;
                                 }
                                 i3++;
-                                cameraManager2 = cameraManager;
+                                m = cameraManager;
                             }
                             i3++;
-                            cameraManager2 = cameraManager;
+                            m = cameraManager;
                         }
                     }
-                    cameraManager = cameraManager2;
+                    cameraManager = m;
                     i3++;
-                    cameraManager2 = cameraManager;
+                    m = cameraManager;
                 } catch (Exception e) {
                     e = e;
                     FileLog.e(e);
@@ -145,8 +152,8 @@ public class Camera2Session {
             }
         } catch (Exception e2) {
             e = e2;
-            size = null;
             str = null;
+            size = null;
         }
         if (str == null && size != null) {
             return new Camera2Session(context, z, str, size);
@@ -176,11 +183,11 @@ public class Camera2Session {
         this.lastTime = System.currentTimeMillis();
         width = size.getWidth();
         height = size.getHeight();
-        this.imageReader = ImageReader.newInstance(width, height, LiteMode.FLAG_CHAT_BLUR, 1);
-        CameraManager cameraManager = (CameraManager) context.getSystemService("camera");
-        this.cameraManager = cameraManager;
+        this.imageReader = ImageReader.newInstance(width, height, 256, 1);
+        CameraManager m = Camera2Session$$ExternalSyntheticApiModelOutline9.m(context.getSystemService("camera"));
+        this.cameraManager = m;
         try {
-            cameraCharacteristics = cameraManager.getCameraCharacteristics(str);
+            cameraCharacteristics = m.getCameraCharacteristics(str);
             this.cameraCharacteristics = cameraCharacteristics;
             key = CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE;
             obj = cameraCharacteristics.get(key);
@@ -193,10 +200,10 @@ public class Camera2Session {
                 f = f2.floatValue();
             }
             this.maxZoom = f;
-            cameraManager.openCamera(str, r1, this.handler);
+            m.openCamera(str, r1, this.handler);
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda29
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda30
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$new$0();
@@ -262,7 +269,7 @@ public class Camera2Session {
             Camera2Session.this.lastTime = System.currentTimeMillis();
             try {
                 Camera2Session.this.updateCaptureRequest();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         Camera2Session.2.this.lambda$onConfigured$0();
@@ -286,7 +293,7 @@ public class Camera2Session {
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
             Camera2Session.this.captureSession = cameraCaptureSession;
             FileLog.e("Camera2Session camera #" + this.val$cameraId + " capture session failed to configure");
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.2.this.lambda$onConfigureFailed$1();
@@ -346,7 +353,7 @@ public class Camera2Session {
             this.cameraDevice.createCaptureSession(arrayList, this.captureStateCallback, null);
         } catch (Exception e) {
             FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda32
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda33
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$checkOpen$2();
@@ -364,8 +371,8 @@ public class Camera2Session {
         return (this.isError || !this.isSuccess || this.isClosed) ? false : true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0052, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0048 A[Catch: Exception -> 0x0052, TRY_LEAVE, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0048, TryCatch #0 {Exception -> 0x0048, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:23:0x004a), top: B:27:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004a A[Catch: Exception -> 0x0048, TRY_LEAVE, TryCatch #0 {Exception -> 0x0048, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:23:0x004a), top: B:27:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -383,9 +390,9 @@ public class Camera2Session {
                 if (rotation == 1) {
                     i = 90;
                 } else if (rotation == 2) {
-                    i = 180;
+                    i = NotificationCenter.updateBotMenuButton;
                 } else if (rotation == 3) {
-                    i = 270;
+                    i = NotificationCenter.onRequestPermissionResultReceived;
                 }
                 CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
                 key = CameraCharacteristics.SENSOR_ORIENTATION;
@@ -409,8 +416,8 @@ public class Camera2Session {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0052, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0048 A[Catch: Exception -> 0x0052, TRY_LEAVE, TryCatch #0 {Exception -> 0x0052, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:21:0x0048), top: B:26:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x003c A[Catch: Exception -> 0x0048, TryCatch #0 {Exception -> 0x0048, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:23:0x004a), top: B:27:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004a A[Catch: Exception -> 0x0048, TRY_LEAVE, TryCatch #0 {Exception -> 0x0048, blocks: (B:3:0x0001, B:6:0x0006, B:18:0x002c, B:20:0x003c, B:23:0x004a), top: B:27:0x0001 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -428,9 +435,9 @@ public class Camera2Session {
                 if (rotation == 1) {
                     i = 90;
                 } else if (rotation == 2) {
-                    i = 180;
+                    i = NotificationCenter.updateBotMenuButton;
                 } else if (rotation == 3) {
-                    i = 270;
+                    i = NotificationCenter.onRequestPermissionResultReceived;
                 }
                 CameraCharacteristics cameraCharacteristics = this.cameraCharacteristics;
                 key = CameraCharacteristics.SENSOR_ORIENTATION;
@@ -517,7 +524,7 @@ public class Camera2Session {
     public void destroy(boolean z, final Runnable runnable) {
         this.isClosed = true;
         if (z) {
-            this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda30
+            this.handler.post(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda32
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera2Session.this.lambda$destroy$4(runnable);
@@ -569,7 +576,7 @@ public class Camera2Session {
             this.imageReader = null;
         }
         this.thread.quitSafely();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda28
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 Camera2Session.this.lambda$destroy$3(runnable);
@@ -718,11 +725,10 @@ public class Camera2Session {
             this.val$orientation = i;
         }
 
-        /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:33:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-        /* JADX WARN: Type inference failed for: r5v1, types: [android.media.Image] */
-        /* JADX WARN: Type inference failed for: r5v5 */
-        /* JADX WARN: Type inference failed for: r5v6, types: [org.telegram.messenger.Utilities$Callback] */
+        /* JADX WARN: Code restructure failed: missing block: B:20:0x003d, code lost:
+            if (r2 == null) goto L9;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0055 A[EXC_TOP_SPLITTER, SYNTHETIC] */
         @Override // android.media.ImageReader.OnImageAvailableListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -731,66 +737,55 @@ public class Camera2Session {
             FileOutputStream fileOutputStream;
             Throwable th;
             IOException e;
-            final Image acquireLatestImage = imageReader.acquireLatestImage();
+            Image acquireLatestImage = imageReader.acquireLatestImage();
             ByteBuffer buffer = acquireLatestImage.getPlanes()[0].getBuffer();
             byte[] bArr = new byte[buffer.remaining()];
             buffer.get(bArr);
             try {
                 try {
+                    fileOutputStream = new FileOutputStream(this.val$file);
                     try {
-                        fileOutputStream = new FileOutputStream(this.val$file);
-                        try {
-                            fileOutputStream.write(bArr);
-                            acquireLatestImage.close();
-                            fileOutputStream.close();
-                        } catch (IOException e2) {
-                            e = e2;
-                            e.printStackTrace();
-                            acquireLatestImage.close();
-                            if (fileOutputStream != null) {
-                                fileOutputStream.close();
-                            }
-                            acquireLatestImage = this.val$whenDone;
-                            final int i = this.val$orientation;
-                            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$3$$ExternalSyntheticLambda0
-                                @Override // java.lang.Runnable
-                                public final void run() {
-                                    Camera2Session.3.lambda$onImageAvailable$0(Utilities.Callback.this, i);
-                                }
-                            });
-                        }
-                    } catch (Throwable th2) {
-                        th = th2;
+                        fileOutputStream.write(bArr);
                         acquireLatestImage.close();
-                        if (fileOutputStream != null) {
-                            try {
-                                fileOutputStream.close();
-                            } catch (IOException e3) {
-                                e3.printStackTrace();
-                            }
-                        }
-                        throw th;
+                    } catch (IOException e2) {
+                        e = e2;
+                        e.printStackTrace();
+                        acquireLatestImage.close();
                     }
-                } catch (IOException e4) {
-                    fileOutputStream = null;
-                    e = e4;
-                } catch (Throwable th3) {
-                    fileOutputStream = null;
-                    th = th3;
+                } catch (Throwable th2) {
+                    th = th2;
                     acquireLatestImage.close();
                     if (fileOutputStream != null) {
+                        try {
+                            fileOutputStream.close();
+                        } catch (IOException e3) {
+                            e3.printStackTrace();
+                        }
                     }
                     throw th;
                 }
+            } catch (IOException e4) {
+                fileOutputStream = null;
+                e = e4;
+            } catch (Throwable th3) {
+                fileOutputStream = null;
+                th = th3;
+                acquireLatestImage.close();
+                if (fileOutputStream != null) {
+                }
+                throw th;
+            }
+            try {
+                fileOutputStream.close();
             } catch (IOException e5) {
                 e5.printStackTrace();
             }
-            acquireLatestImage = this.val$whenDone;
-            final int i2 = this.val$orientation;
+            final Utilities.Callback callback = this.val$whenDone;
+            final int i = this.val$orientation;
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.camera.Camera2Session$3$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    Camera2Session.3.lambda$onImageAvailable$0(Utilities.Callback.this, i2);
+                    Camera2Session.3.lambda$onImageAvailable$0(Utilities.Callback.this, i);
                 }
             });
         }
@@ -849,12 +844,12 @@ public class Camera2Session {
             }
         }
         if (arrayList.size() > 0) {
-            return (android.util.Size) Collections.min(arrayList, new CompareSizesByArea());
+            return BundleKt$$ExternalSyntheticApiModelOutline1.m(Collections.min(arrayList, new CompareSizesByArea()));
         }
         if (arrayList2.size() > 0) {
-            return (android.util.Size) Collections.min(arrayList2, new CompareSizesByArea());
+            return BundleKt$$ExternalSyntheticApiModelOutline1.m(Collections.min(arrayList2, new CompareSizesByArea()));
         }
-        return (android.util.Size) Collections.max(Arrays.asList(sizeArr), new CompareSizesByArea());
+        return BundleKt$$ExternalSyntheticApiModelOutline1.m(Collections.max(Arrays.asList(sizeArr), new CompareSizesByArea()));
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -864,6 +859,10 @@ public class Camera2Session {
         }
 
         @Override // java.util.Comparator
+        public /* bridge */ /* synthetic */ int compare(android.util.Size size, android.util.Size size2) {
+            return compare(BundleKt$$ExternalSyntheticApiModelOutline1.m(size), BundleKt$$ExternalSyntheticApiModelOutline1.m(size2));
+        }
+
         public int compare(android.util.Size size, android.util.Size size2) {
             int width;
             int height;

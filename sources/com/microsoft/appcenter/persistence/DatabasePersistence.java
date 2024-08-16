@@ -80,7 +80,7 @@ public class DatabasePersistence extends Persistence {
         return this.mDatabaseManager.setMaxSize(j);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x00aa, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00b0, code lost:
         r8 = null;
      */
     @Override // com.microsoft.appcenter.persistence.Persistence
@@ -133,11 +133,11 @@ public class DatabasePersistence extends Persistence {
                     }
                 }
                 return put;
-            } catch (JSONException e2) {
-                throw new Persistence.PersistenceException("Cannot convert to JSON string.", e2);
+            } catch (IOException e2) {
+                throw new Persistence.PersistenceException("Cannot save large payload in a file.", e2);
             }
-        } catch (IOException e3) {
-            throw new Persistence.PersistenceException("Cannot save large payload in a file.", e3);
+        } catch (JSONException e3) {
+            throw new Persistence.PersistenceException("Cannot convert to JSON string.", e3);
         }
     }
 

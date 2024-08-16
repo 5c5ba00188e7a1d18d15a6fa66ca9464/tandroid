@@ -179,7 +179,7 @@ public class SequenceParameterSetRbsp {
                 zArr4[i5] = cAVLCReader.readBool("sub_layer_tier_flag[" + i5 + "]");
                 iArr4[i5] = cAVLCReader.readU(5, "sub_layer_profile_idc[" + i5 + "]");
                 int i6 = 0;
-                while (i6 < 32) {
+                for (int i7 = 32; i6 < i7; i7 = 32) {
                     boolean[] zArr10 = zArr5[i5];
                     zArr10[i6] = cAVLCReader.readBool("sub_layer_profile_compatibility_flag[" + i5 + "][" + i6 + "]");
                     i6++;

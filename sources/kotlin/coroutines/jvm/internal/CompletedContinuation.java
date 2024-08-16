@@ -7,10 +7,6 @@ import kotlin.coroutines.CoroutineContext;
 public final class CompletedContinuation implements Continuation<Object> {
     public static final CompletedContinuation INSTANCE = new CompletedContinuation();
 
-    public String toString() {
-        return "This continuation is already complete";
-    }
-
     private CompletedContinuation() {
     }
 
@@ -22,5 +18,9 @@ public final class CompletedContinuation implements Continuation<Object> {
     @Override // kotlin.coroutines.Continuation
     public void resumeWith(Object obj) {
         throw new IllegalStateException("This continuation is already complete".toString());
+    }
+
+    public String toString() {
+        return "This continuation is already complete";
     }
 }

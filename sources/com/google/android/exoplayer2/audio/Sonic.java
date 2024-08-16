@@ -3,6 +3,7 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.util.Assertions;
 import java.nio.ShortBuffer;
 import java.util.Arrays;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class Sonic {
     private final int channelCount;
@@ -40,9 +41,10 @@ final class Sonic {
         int i5 = i4 * 2;
         this.maxRequiredFrameCount = i5;
         this.downSampleBuffer = new short[i5];
-        this.inputBuffer = new short[i5 * i2];
-        this.outputBuffer = new short[i5 * i2];
-        this.pitchBuffer = new short[i5 * i2];
+        int i6 = i5 * i2;
+        this.inputBuffer = new short[i6];
+        this.outputBuffer = new short[i6];
+        this.pitchBuffer = new short[i6];
     }
 
     public int getPendingInputBytes() {
@@ -79,15 +81,15 @@ final class Sonic {
         this.inputBuffer = ensureSpaceForAdditionalFrames(this.inputBuffer, i2, (this.maxRequiredFrameCount * 2) + i2);
         int i4 = 0;
         while (true) {
-            i = this.maxRequiredFrameCount;
+            i = this.maxRequiredFrameCount * 2;
             int i5 = this.channelCount;
-            if (i4 >= i * 2 * i5) {
+            if (i4 >= i * i5) {
                 break;
             }
             this.inputBuffer[(i5 * i2) + i4] = 0;
             i4++;
         }
-        this.inputFrameCount += i * 2;
+        this.inputFrameCount += i;
         processStreamInput();
         if (this.outputFrameCount > i3) {
             this.outputFrameCount = i3;
@@ -160,7 +162,7 @@ final class Sonic {
 
     private int findPitchPeriodInRange(short[] sArr, int i, int i2, int i3) {
         int i4 = i * this.channelCount;
-        int i5 = 255;
+        int i5 = NotificationCenter.voipServiceCreated;
         int i6 = 1;
         int i7 = 0;
         int i8 = 0;
@@ -277,11 +279,11 @@ final class Sonic {
         moveNewSamplesToPitchBuffer(i);
         int i6 = 0;
         while (true) {
-            int i7 = this.pitchFrameCount;
-            if (i6 < i7 - 1) {
+            int i7 = this.pitchFrameCount - 1;
+            if (i6 < i7) {
                 while (true) {
-                    i2 = this.oldRatePosition;
-                    int i8 = (i2 + 1) * i5;
+                    i2 = this.oldRatePosition + 1;
+                    int i8 = i2 * i5;
                     i3 = this.newRatePosition;
                     if (i8 <= i3 * i4) {
                         break;
@@ -298,16 +300,15 @@ final class Sonic {
                     this.newRatePosition++;
                     this.outputFrameCount++;
                 }
-                int i11 = i2 + 1;
-                this.oldRatePosition = i11;
-                if (i11 == i4) {
+                this.oldRatePosition = i2;
+                if (i2 == i4) {
                     this.oldRatePosition = 0;
                     Assertions.checkState(i3 == i5);
                     this.newRatePosition = 0;
                 }
                 i6++;
             } else {
-                removePitchFrames(i7 - 1);
+                removePitchFrames(i7);
                 return;
             }
         }

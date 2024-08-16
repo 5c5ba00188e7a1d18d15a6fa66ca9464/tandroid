@@ -1,8 +1,10 @@
 package org.telegram.ui.Charts.view_data;
+
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes4.dex */
 public class ChartBottomSignatureData {
     public int alpha;
-    public int fixedAlpha = 255;
+    public int fixedAlpha = NotificationCenter.voipServiceCreated;
     public final int step;
     public final int stepMax;
     public final int stepMin;

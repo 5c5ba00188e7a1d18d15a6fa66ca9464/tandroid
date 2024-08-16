@@ -30,24 +30,24 @@ public class ProcessUtils {
                     StrictMode.ThreadPolicy allowThreadDiskReads = StrictMode.allowThreadDiskReads();
                     try {
                         bufferedReader = new BufferedReader(new FileReader(str2));
-                        try {
-                            String readLine = bufferedReader.readLine();
-                            Preconditions.checkNotNull(readLine);
-                            str = readLine.trim();
-                        } catch (IOException unused) {
-                        } catch (Throwable th) {
-                            th = th;
-                            bufferedReader2 = bufferedReader;
-                            IOUtils.closeQuietly(bufferedReader2);
-                            throw th;
-                        }
                     } finally {
                         StrictMode.setThreadPolicy(allowThreadDiskReads);
                     }
-                } catch (IOException unused2) {
+                } catch (IOException unused) {
                     bufferedReader = null;
+                } catch (Throwable th) {
+                    th = th;
+                }
+                try {
+                    String readLine = bufferedReader.readLine();
+                    Preconditions.checkNotNull(readLine);
+                    str = readLine.trim();
+                } catch (IOException unused2) {
                 } catch (Throwable th2) {
                     th = th2;
+                    bufferedReader2 = bufferedReader;
+                    IOUtils.closeQuietly(bufferedReader2);
+                    throw th;
                 }
                 IOUtils.closeQuietly(bufferedReader);
             }

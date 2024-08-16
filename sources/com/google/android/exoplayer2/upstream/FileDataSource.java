@@ -1,9 +1,10 @@
 package com.google.android.exoplayer2.upstream;
 
 import android.net.Uri;
-import android.system.ErrnoException;
 import android.system.OsConstants;
 import android.text.TextUtils;
+import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyntheticApiModelOutline52;
+import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyntheticApiModelOutline53;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
 import java.io.FileNotFoundException;
@@ -125,8 +126,8 @@ public final class FileDataSource extends BaseDataSource {
         public static boolean isPermissionError(Throwable th) {
             int i;
             int i2;
-            if (th instanceof ErrnoException) {
-                i = ((ErrnoException) th).errno;
+            if (MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(th)) {
+                i = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(th).errno;
                 i2 = OsConstants.EACCES;
                 if (i == i2) {
                     return true;

@@ -302,7 +302,7 @@ public class LinkActionView extends LinearLayout {
             ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(context, true, false);
             actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("Edit", R.string.Edit), R.drawable.msg_edit);
             actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(-1, 48));
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda5
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     LinkActionView.this.lambda$new$5(view2);
@@ -312,7 +312,7 @@ public class LinkActionView extends LinearLayout {
         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(context, true, false);
         actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("GetQRCode", R.string.GetQRCode), R.drawable.msg_qrcode);
         actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
-        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda6
+        actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 LinkActionView.this.lambda$new$6(view2);
@@ -323,7 +323,7 @@ public class LinkActionView extends LinearLayout {
             actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("RevokeLink", R.string.RevokeLink), R.drawable.msg_delete);
             int i = Theme.key_text_RedRegular;
             actionBarMenuSubItem3.setColors(Theme.getColor(i), Theme.getColor(i));
-            actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda7
+            actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     LinkActionView.this.lambda$new$7(view2);
@@ -393,7 +393,7 @@ public class LinkActionView extends LinearLayout {
             this.actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
             this.actionBarPopupWindow.setInputMethodMode(2);
             this.actionBarPopupWindow.setSoftInputMode(0);
-            actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda8
+            actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda9
                 @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
                 public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                     LinkActionView.this.lambda$new$8(keyEvent);
@@ -451,10 +451,10 @@ public class LinkActionView extends LinearLayout {
         float f2 = 0.0f;
         FrameLayout frameLayout3 = frameLayout;
         while (frameLayout3 != frameLayout2) {
-            f += frameLayout3.getY();
-            f2 += frameLayout3.getX();
+            f2 += frameLayout3.getY();
+            f += frameLayout3.getX();
             if (frameLayout3 instanceof ScrollView) {
-                f -= frameLayout3.getScrollY();
+                f2 -= frameLayout3.getScrollY();
             }
             if (!(frameLayout3.getParent() instanceof View)) {
                 break;
@@ -466,8 +466,8 @@ public class LinkActionView extends LinearLayout {
                 return;
             }
         }
-        fArr[0] = f2 - frameLayout2.getPaddingLeft();
-        fArr[1] = f - frameLayout2.getPaddingTop();
+        fArr[0] = f - frameLayout2.getPaddingLeft();
+        fArr[1] = f2 - frameLayout2.getPaddingTop();
     }
 
     public void setQrText(String str) {
@@ -475,19 +475,19 @@ public class LinkActionView extends LinearLayout {
     }
 
     private void showQrCode() {
-        String str;
         int i;
+        String str;
         Context context = getContext();
         String string = LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode);
         String str2 = this.link;
         String str3 = this.qrText;
         if (str3 == null) {
             if (this.isChannel) {
-                str = "QRCodeLinkHelpChannel";
                 i = R.string.QRCodeLinkHelpChannel;
+                str = "QRCodeLinkHelpChannel";
             } else {
-                str = "QRCodeLinkHelpGroup";
                 i = R.string.QRCodeLinkHelpGroup;
+                str = "QRCodeLinkHelpGroup";
             }
             str3 = LocaleController.getString(str, i);
         }
@@ -589,7 +589,7 @@ public class LinkActionView extends LinearLayout {
                 @Override // org.telegram.ui.Components.AvatarsImageView, android.view.View
                 public void onMeasure(int i, int i2) {
                     int min = Math.min(3, LinkActionView.this.usersCount);
-                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(min == 0 ? 0 : ((min - 1) * 20) + 24 + 8), 1073741824), i2);
+                    super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(min == 0 ? 0 : ((min - 1) * 20) + 32), 1073741824), i2);
                 }
             };
             LinearLayout linearLayout = new LinearLayout(context);
@@ -613,7 +613,7 @@ public class LinkActionView extends LinearLayout {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.fragment.getParentActivity());
         builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
         builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda12
+        builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 LinkActionView.this.lambda$revokeLink$10(dialogInterface, i);
@@ -688,7 +688,7 @@ public class LinkActionView extends LinearLayout {
             tLRPC$TL_messages_getChatInviteImporters.offset_user = new TLRPC$TL_inputUserEmpty();
             tLRPC$TL_messages_getChatInviteImporters.limit = Math.min(tLRPC$TL_chatInviteExported.usage, 3);
             this.loadingImporters = true;
-            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda9
+            ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getChatInviteImporters, new RequestDelegate() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     LinkActionView.this.lambda$loadUsers$12(tLRPC$TL_chatInviteExported, tLObject, tLRPC$TL_error);
@@ -699,7 +699,7 @@ public class LinkActionView extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$12(final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkActionView$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 LinkActionView.this.lambda$loadUsers$11(tLRPC$TL_chatInviteExported, tLRPC$TL_error, tLObject);

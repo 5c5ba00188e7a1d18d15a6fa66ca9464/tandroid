@@ -66,40 +66,6 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
     private ArrayList<Runnable> setupListeners = new ArrayList<>();
     private int triesLeft = 0;
 
-    public static String getResponseCodeString(int i) {
-        if (i != 12) {
-            switch (i) {
-                case VoIPController.ERROR_LOCALIZED /* -3 */:
-                    return "SERVICE_TIMEOUT";
-                case VoIPController.ERROR_PRIVACY /* -2 */:
-                    return "FEATURE_NOT_SUPPORTED";
-                case -1:
-                    return "SERVICE_DISCONNECTED";
-                case 0:
-                    return "OK";
-                case 1:
-                    return "USER_CANCELED";
-                case 2:
-                    return "SERVICE_UNAVAILABLE";
-                case 3:
-                    return "BILLING_UNAVAILABLE";
-                case 4:
-                    return "ITEM_UNAVAILABLE";
-                case 5:
-                    return "DEVELOPER_ERROR";
-                case 6:
-                    return "ERROR";
-                case 7:
-                    return "ITEM_ALREADY_OWNED";
-                case 8:
-                    return "ITEM_NOT_OWNED";
-                default:
-                    return null;
-            }
-        }
-        return "NETWORK_ERROR";
-    }
-
     public static /* synthetic */ void lambda$consumeGiftPurchase$5(BillingResult billingResult, String str) {
     }
 
@@ -237,7 +203,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             return;
         }
         if (((tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentGiftPremium) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentStarsTopup) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentStarsGift)) && !z) {
-            queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda0
+            queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda9
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult, List list2) {
                     BillingController.this.lambda$launchBillingFlow$2(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams, billingResult, list2);
@@ -260,7 +226,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     public /* synthetic */ void lambda$launchBillingFlow$2(final Activity activity, final AccountInstance accountInstance, final TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose, final List list, final BillingFlowParams.SubscriptionUpdateParams subscriptionUpdateParams, BillingResult billingResult, List list2) {
         if (billingResult.getResponseCode() == 0) {
-            final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda4
+            final Runnable runnable = new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     BillingController.this.lambda$launchBillingFlow$0(activity, accountInstance, tLRPC$InputStorePaymentPurpose, list, subscriptionUpdateParams);
@@ -278,7 +244,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                             final String productId = ((BillingFlowParams.ProductDetailsParams) it2.next()).zza().getProductId();
                             if (purchase.getProducts().contains(productId)) {
                                 atomicInteger.incrementAndGet();
-                                this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), new ConsumeResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
+                                this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), new ConsumeResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda2
                                     @Override // com.android.billingclient.api.ConsumeResponseListener
                                     public final void onConsumeResponse(BillingResult billingResult2, String str) {
                                         BillingController.lambda$launchBillingFlow$1(arrayList, productId, atomicInteger, runnable, billingResult2, str);
@@ -341,14 +307,14 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
                         tLRPC$TL_dataJSON.data = purchase.getOriginalJson();
                         tLRPC$TL_payments_assignPlayMarketTransaction.purpose = extractDeveloperPayload.second;
                         final AlertDialog alertDialog = new AlertDialog(ApplicationLoader.applicationContext, 3);
-                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda1
+                        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
                             @Override // java.lang.Runnable
                             public final void run() {
                                 AlertDialog.this.showDelayed(500L);
                             }
                         });
                         final AccountInstance accountInstance = extractDeveloperPayload.first;
-                        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda2
+                        accountInstance.getConnectionsManager().sendRequest(tLRPC$TL_payments_assignPlayMarketTransaction, new RequestDelegate() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda8
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                 BillingController.this.lambda$onPurchasesUpdated$4(alertDialog, purchase, accountInstance, billingResult, tLRPC$TL_payments_assignPlayMarketTransaction, tLObject, tLRPC$TL_error);
@@ -364,7 +330,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     public /* synthetic */ void lambda$onPurchasesUpdated$4(AlertDialog alertDialog, Purchase purchase, AccountInstance accountInstance, BillingResult billingResult, TLRPC$TL_payments_assignPlayMarketTransaction tLRPC$TL_payments_assignPlayMarketTransaction, TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         Objects.requireNonNull(alertDialog);
-        AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda6(alertDialog));
+        AndroidUtilities.runOnUIThread(new BillingController$$ExternalSyntheticLambda10(alertDialog));
         this.requestingTokens.remove(purchase.getPurchaseToken());
         if (!(tLObject instanceof TLRPC$Updates)) {
             if (tLRPC$TL_error != null) {
@@ -391,7 +357,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     private void consumeGiftPurchase(Purchase purchase, TLRPC$InputStorePaymentPurpose tLRPC$InputStorePaymentPurpose) {
         if ((tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentGiftPremium) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentPremiumGiftCode) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentStarsTopup) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentStarsGift) || (tLRPC$InputStorePaymentPurpose instanceof TLRPC$TL_inputStorePaymentPremiumGiveaway)) {
-            this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), new ConsumeResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda3
+            this.billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), new ConsumeResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda0
                 @Override // com.android.billingclient.api.ConsumeResponseListener
                 public final void onConsumeResponse(BillingResult billingResult, String str) {
                     BillingController.lambda$consumeGiftPurchase$5(billingResult, str);
@@ -405,7 +371,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         FileLog.d("Billing: Service disconnected");
         int i = this.isDisconnected ? 15000 : 5000;
         this.isDisconnected = true;
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BillingController.this.lambda$onBillingServiceDisconnected$6();
@@ -424,17 +390,17 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
             this.isDisconnected = false;
             this.triesLeft = 3;
             try {
-                queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda8(this));
+                queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda3(this));
             } catch (Exception e) {
                 FileLog.e(e);
             }
-            queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda10
+            queryPurchases("inapp", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda4
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult2, List list) {
                     BillingController.this.onPurchasesUpdated(billingResult2, list);
                 }
             });
-            queryPurchases("subs", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda10
+            queryPurchases("subs", new PurchasesResponseListener() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda4
                 @Override // com.android.billingclient.api.PurchasesResponseListener
                 public final void onQueryPurchasesResponse(BillingResult billingResult2, List list) {
                     BillingController.this.onPurchasesUpdated(billingResult2, list);
@@ -472,7 +438,7 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
         int i = this.triesLeft - 1;
         this.triesLeft = i;
         if (i > 0) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda9
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.BillingController$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     BillingController.this.lambda$onQueriedPremiumProductDetails$7();
@@ -483,9 +449,43 @@ public class BillingController implements PurchasesUpdatedListener, BillingClien
 
     public /* synthetic */ void lambda$onQueriedPremiumProductDetails$7() {
         try {
-            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda8(this));
+            queryProductDetails(Collections.singletonList(PREMIUM_PRODUCT), new BillingController$$ExternalSyntheticLambda3(this));
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    public static String getResponseCodeString(int i) {
+        if (i != 12) {
+            switch (i) {
+                case VoIPController.ERROR_LOCALIZED /* -3 */:
+                    return "SERVICE_TIMEOUT";
+                case VoIPController.ERROR_PRIVACY /* -2 */:
+                    return "FEATURE_NOT_SUPPORTED";
+                case -1:
+                    return "SERVICE_DISCONNECTED";
+                case 0:
+                    return "OK";
+                case 1:
+                    return "USER_CANCELED";
+                case 2:
+                    return "SERVICE_UNAVAILABLE";
+                case 3:
+                    return "BILLING_UNAVAILABLE";
+                case 4:
+                    return "ITEM_UNAVAILABLE";
+                case 5:
+                    return "DEVELOPER_ERROR";
+                case 6:
+                    return "ERROR";
+                case 7:
+                    return "ITEM_ALREADY_OWNED";
+                case 8:
+                    return "ITEM_NOT_OWNED";
+                default:
+                    return null;
+            }
+        }
+        return "NETWORK_ERROR";
     }
 }

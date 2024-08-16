@@ -148,14 +148,14 @@ final class MaskUtil {
                     i3++;
                 } else {
                     if (i3 >= 5) {
-                        i += (i3 - 5) + 3;
+                        i += i3 - 2;
                     }
                     b = b2;
                     i3 = 1;
                 }
             }
             if (i3 >= 5) {
-                i += (i3 - 5) + 3;
+                i += i3 - 2;
             }
         }
         return i;

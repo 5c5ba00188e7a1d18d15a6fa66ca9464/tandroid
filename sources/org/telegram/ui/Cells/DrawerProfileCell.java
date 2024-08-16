@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -43,6 +42,7 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.Theme$$ExternalSyntheticApiModelOutline0;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
@@ -180,7 +180,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         addView(this.phoneTextView, LayoutHelper.createFrame(-1, -2.0f, 83, 16.0f, 0.0f, 52.0f, 9.0f));
         ImageView imageView2 = new ImageView(context);
         this.arrowView = imageView2;
-        imageView2.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView2.setScaleType(scaleType);
         this.arrowView.setImageResource(R.drawable.msg_expand);
         addView(this.arrowView, LayoutHelper.createFrame(59, 59, 85));
         setArrowState(false);
@@ -220,14 +221,14 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         sunDrawable.setLayerColor("Path.**", color);
         sunDrawable.setLayerColor("Path 5.**", color);
         sunDrawable.commitApplyLayerColors();
-        this.darkThemeView.setScaleType(ImageView.ScaleType.CENTER);
+        this.darkThemeView.setScaleType(scaleType);
         this.darkThemeView.setAnimation(sunDrawable);
         if (Build.VERSION.SDK_INT >= 21) {
             RLottieImageView rLottieImageView2 = this.darkThemeView;
             int color2 = Theme.getColor(Theme.key_listSelector);
             this.darkThemeBackgroundColor = color2;
             rLottieImageView2.setBackgroundDrawable(Theme.createSelectorDrawable(color2, 1, AndroidUtilities.dp(17.0f)));
-            Theme.setRippleDrawableForceSoftware((RippleDrawable) this.darkThemeView.getBackground());
+            Theme.setRippleDrawableForceSoftware(Theme$$ExternalSyntheticApiModelOutline0.m(this.darkThemeView.getBackground()));
         }
         if (!z && sunDrawable.getCustomEndFrame() != sunDrawable.getCurrentFrame()) {
             this.darkThemeView.playAnimation();
@@ -270,10 +271,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x006f  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x007b  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:38:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007e  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0091  */
+    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -572,12 +573,12 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00cf  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x016a  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0198  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x01a4  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x01b9  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0220  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x016b  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0199  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0221  */
     /* JADX WARN: Removed duplicated region for block: B:84:? A[RETURN, SYNTHETIC] */
     @Override // android.view.View
     /*
@@ -842,8 +843,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     private void setArrowState(boolean z) {
-        String str;
         int i;
+        String str;
         float f = this.accountsShown ? 180.0f : 0.0f;
         if (z) {
             this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
@@ -853,11 +854,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         }
         ImageView imageView = this.arrowView;
         if (this.accountsShown) {
-            str = "AccDescrHideAccounts";
             i = R.string.AccDescrHideAccounts;
+            str = "AccDescrHideAccounts";
         } else {
-            str = "AccDescrShowAccounts";
             i = R.string.AccDescrShowAccounts;
+            str = "AccDescrShowAccounts";
         }
         imageView.setContentDescription(LocaleController.getString(str, i));
     }

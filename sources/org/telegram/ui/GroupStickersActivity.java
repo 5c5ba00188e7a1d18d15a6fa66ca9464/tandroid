@@ -207,7 +207,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.listView.setEmptyView(this.emptyFrameView);
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 GroupStickersActivity.this.lambda$createView$0(view, i);
@@ -300,8 +300,6 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
         @Override // org.telegram.ui.Components.StickersAlert.StickersAlertCustomButtonDelegate
         public boolean onCustomButtonPressed() {
-            boolean z;
-            boolean z2;
             int findFirstVisibleItemPosition = GroupStickersActivity.this.layoutManager.findFirstVisibleItemPosition();
             RecyclerListView.Holder holder = (RecyclerListView.Holder) GroupStickersActivity.this.listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition);
             int top = holder != null ? holder.itemView.getTop() : ConnectionsManager.DEFAULT_DATACENTER_ID;
@@ -330,15 +328,11 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                         View childAt = GroupStickersActivity.this.listView.getChildAt(i2);
                         if (GroupStickersActivity.this.listView.getChildViewHolder(childAt).getAdapterPosition() == GroupStickersActivity.this.stickersStartRow + i) {
                             ((StickerSetCell) childAt).setChecked(false, true);
-                            z2 = true;
                             break;
                         }
                     }
                 }
-                z2 = false;
-                if (!z2) {
-                    GroupStickersActivity.this.listAdapter.notifyItemChanged(i);
-                }
+                GroupStickersActivity.this.listAdapter.notifyItemChanged(i);
             }
             if (GroupStickersActivity.this.selectedStickerSetIndex != -1) {
                 if (!GroupStickersActivity.this.searching) {
@@ -346,15 +340,11 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                         View childAt2 = GroupStickersActivity.this.listView.getChildAt(i3);
                         if (GroupStickersActivity.this.listView.getChildViewHolder(childAt2).getAdapterPosition() == GroupStickersActivity.this.stickersStartRow + GroupStickersActivity.this.selectedStickerSetIndex) {
                             ((StickerSetCell) childAt2).setChecked(true, true);
-                            z = true;
                             break;
                         }
                     }
                 }
-                z = false;
-                if (!z) {
-                    GroupStickersActivity.this.listAdapter.notifyItemChanged(GroupStickersActivity.this.selectedStickerSetIndex);
-                }
+                GroupStickersActivity.this.listAdapter.notifyItemChanged(GroupStickersActivity.this.selectedStickerSetIndex);
             }
             if (top != Integer.MAX_VALUE && !GroupStickersActivity.this.isEmoji) {
                 GroupStickersActivity.this.layoutManager.scrollToPositionWithOffset(findFirstVisibleItemPosition + 1, top);
@@ -463,7 +453,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                         tLRPC$TL_channels_setStickers = tLRPC$TL_channels_setStickers2;
                     }
                 }
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_setStickers, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda0
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_setStickers, new RequestDelegate() { // from class: org.telegram.ui.GroupStickersActivity$$ExternalSyntheticLambda1
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         GroupStickersActivity.this.lambda$saveStickerSet$2(tLObject, tLRPC$TL_error);
@@ -504,7 +494,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             } else {
                 TLRPC$ChatFull tLRPC$ChatFull2 = this.info;
                 if (tLRPC$ChatFull2.stickerset == null) {
-                    tLRPC$ChatFull2.flags |= LiteMode.FLAG_CHAT_BLUR;
+                    tLRPC$ChatFull2.flags |= 256;
                 } else {
                     tLRPC$ChatFull2.flags &= -257;
                 }
@@ -524,8 +514,8 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:13:0x0036  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0051 A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0037  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0052 A[ORIG_RETURN, RETURN] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -569,36 +559,34 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
         this.addEmojiPackHintRow = -1;
         this.rowCount = 0;
         if (this.isEmoji) {
-            int i = 0 + 1;
             this.addEmojiPackTitleRow = 0;
-            int i2 = i + 1;
-            this.rowCount = i2;
-            this.addEmojiPackRow = i;
+            this.rowCount = 2;
+            this.addEmojiPackRow = 1;
             if (this.selectedStickerSet != null) {
-                this.rowCount = i2 + 1;
-                this.currentEmojiPackRow = i2;
+                this.rowCount = 3;
+                this.currentEmojiPackRow = 2;
             }
-            int i3 = this.rowCount;
-            this.rowCount = i3 + 1;
-            this.addEmojiPackHintRow = i3;
+            int i = this.rowCount;
+            this.rowCount = i + 1;
+            this.addEmojiPackHintRow = i;
         }
         ArrayList<TLRPC$TL_messages_stickerSet> stickerSets = MediaDataController.getInstance(this.currentAccount).getStickerSets(getStickerSetType());
         if (!stickerSets.isEmpty()) {
-            int i4 = this.rowCount;
-            int i5 = i4 + 1;
-            this.rowCount = i5;
-            this.headerRow = i4;
-            this.stickersStartRow = i5;
-            this.stickersEndRow = i5 + stickerSets.size();
+            int i2 = this.rowCount;
+            int i3 = i2 + 1;
+            this.rowCount = i3;
+            this.headerRow = i2;
+            this.stickersStartRow = i3;
+            this.stickersEndRow = i3 + stickerSets.size();
             this.rowCount += stickerSets.size();
         } else {
             this.headerRow = -1;
             this.stickersStartRow = -1;
             this.stickersEndRow = -1;
         }
-        int i6 = this.rowCount;
-        this.rowCount = i6 + 1;
-        this.infoRow = i6;
+        int i4 = this.rowCount;
+        this.rowCount = i4 + 1;
+        this.infoRow = i4;
         updateSelectedStickerSetIndex();
         if (!z || (listAdapter = this.listAdapter) == null) {
             return;
@@ -980,9 +968,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public void selectSetAfterSearch(TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet) {
-        boolean z;
         int i = this.selectedStickerSetIndex;
-        boolean z2 = false;
         if (tLRPC$TL_messages_stickerSet == null) {
             if (this.selectedStickerSet != null) {
                 BulletinFactory.of(this).createSimpleBulletin(R.raw.done, LocaleController.getString(R.string.GroupsEmojiPackUpdated)).show();
@@ -1002,34 +988,21 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
                     View childAt = this.listView.getChildAt(i2);
                     if (this.listView.getChildViewHolder(childAt).getAdapterPosition() == this.stickersStartRow + i) {
                         ((StickerSetCell) childAt).setChecked(false, true);
-                        z = true;
                         break;
                     }
                 }
             }
-            z = false;
-            if (!z) {
-                this.listAdapter.notifyItemChanged(this.stickersStartRow + i);
-            }
+            this.listAdapter.notifyItemChanged(this.stickersStartRow + i);
         }
         if (this.selectedStickerSetIndex != -1) {
             if (!this.searching) {
-                int i3 = 0;
-                while (true) {
-                    if (i3 >= this.listView.getChildCount()) {
-                        break;
-                    }
+                for (int i3 = 0; i3 < this.listView.getChildCount(); i3++) {
                     View childAt2 = this.listView.getChildAt(i3);
                     if (this.listView.getChildViewHolder(childAt2).getAdapterPosition() == this.stickersStartRow + this.selectedStickerSetIndex) {
                         ((StickerSetCell) childAt2).setChecked(true, true);
-                        z2 = true;
-                        break;
+                        return;
                     }
-                    i3++;
                 }
-            }
-            if (z2) {
-                return;
             }
             this.listAdapter.notifyItemChanged(this.stickersStartRow + this.selectedStickerSetIndex);
         }

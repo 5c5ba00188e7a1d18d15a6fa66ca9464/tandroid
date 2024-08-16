@@ -133,11 +133,14 @@ public abstract class BaseGmsClient<T extends IInterface> {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* bridge */ /* synthetic */ boolean zzn(BaseGmsClient baseGmsClient, int i, int i2, IInterface iInterface) {
         synchronized (baseGmsClient.zzp) {
-            if (baseGmsClient.zzv != i) {
-                return false;
+            try {
+                if (baseGmsClient.zzv != i) {
+                    return false;
+                }
+                baseGmsClient.zzp(i2, iInterface);
+                return true;
+            } finally {
             }
-            baseGmsClient.zzp(i2, iInterface);
-            return true;
         }
     }
 
@@ -188,52 +191,55 @@ public abstract class BaseGmsClient<T extends IInterface> {
         zzu zzuVar2;
         Preconditions.checkArgument((i == 4) == (iInterface != 0));
         synchronized (this.zzp) {
-            this.zzv = i;
-            this.zzs = iInterface;
-            if (i == 1) {
-                zze zzeVar = this.zzu;
-                if (zzeVar != null) {
-                    GmsClientSupervisor gmsClientSupervisor = this.zzn;
-                    String zzc = this.zza.zzc();
-                    Preconditions.checkNotNull(zzc);
-                    gmsClientSupervisor.zzb(zzc, this.zza.zzb(), this.zza.zza(), zzeVar, zze(), this.zza.zzd());
-                    this.zzu = null;
+            try {
+                this.zzv = i;
+                this.zzs = iInterface;
+                if (i == 1) {
+                    zze zzeVar = this.zzu;
+                    if (zzeVar != null) {
+                        GmsClientSupervisor gmsClientSupervisor = this.zzn;
+                        String zzc = this.zza.zzc();
+                        Preconditions.checkNotNull(zzc);
+                        gmsClientSupervisor.zzb(zzc, this.zza.zzb(), this.zza.zza(), zzeVar, zze(), this.zza.zzd());
+                        this.zzu = null;
+                    }
+                } else if (i == 2 || i == 3) {
+                    zze zzeVar2 = this.zzu;
+                    if (zzeVar2 != null && (zzuVar2 = this.zza) != null) {
+                        String zzc2 = zzuVar2.zzc();
+                        String zzb = zzuVar2.zzb();
+                        Log.e("GmsClient", "Calling connect() while still connected, missing disconnect() for " + zzc2 + " on " + zzb);
+                        GmsClientSupervisor gmsClientSupervisor2 = this.zzn;
+                        String zzc3 = this.zza.zzc();
+                        Preconditions.checkNotNull(zzc3);
+                        gmsClientSupervisor2.zzb(zzc3, this.zza.zzb(), this.zza.zza(), zzeVar2, zze(), this.zza.zzd());
+                        this.zzd.incrementAndGet();
+                    }
+                    zze zzeVar3 = new zze(this, this.zzd.get());
+                    this.zzu = zzeVar3;
+                    if (this.zzv == 3 && getLocalStartServiceAction() != null) {
+                        zzuVar = new zzu(getContext().getPackageName(), getLocalStartServiceAction(), true, GmsClientSupervisor.getDefaultBindFlags(), false);
+                    } else {
+                        zzuVar = new zzu(getStartServicePackage(), getStartServiceAction(), false, GmsClientSupervisor.getDefaultBindFlags(), getUseDynamicLookup());
+                    }
+                    this.zza = zzuVar;
+                    if (zzuVar.zzd() && getMinApkVersion() < 17895000) {
+                        throw new IllegalStateException("Internal Error, the minimum apk version of this BaseGmsClient is too low to support dynamic lookup. Start service action: ".concat(String.valueOf(this.zza.zzc())));
+                    }
+                    GmsClientSupervisor gmsClientSupervisor3 = this.zzn;
+                    String zzc4 = this.zza.zzc();
+                    Preconditions.checkNotNull(zzc4);
+                    if (!gmsClientSupervisor3.zzc(new zzn(zzc4, this.zza.zzb(), this.zza.zza(), this.zza.zzd()), zzeVar3, zze(), getBindServiceExecutor())) {
+                        String zzc5 = this.zza.zzc();
+                        String zzb2 = this.zza.zzb();
+                        Log.w("GmsClient", "unable to connect to service: " + zzc5 + " on " + zzb2);
+                        zzl(16, null, this.zzd.get());
+                    }
+                } else if (i == 4) {
+                    Preconditions.checkNotNull(iInterface);
+                    onConnectedLocked(iInterface);
                 }
-            } else if (i == 2 || i == 3) {
-                zze zzeVar2 = this.zzu;
-                if (zzeVar2 != null && (zzuVar2 = this.zza) != null) {
-                    String zzc2 = zzuVar2.zzc();
-                    String zzb = zzuVar2.zzb();
-                    Log.e("GmsClient", "Calling connect() while still connected, missing disconnect() for " + zzc2 + " on " + zzb);
-                    GmsClientSupervisor gmsClientSupervisor2 = this.zzn;
-                    String zzc3 = this.zza.zzc();
-                    Preconditions.checkNotNull(zzc3);
-                    gmsClientSupervisor2.zzb(zzc3, this.zza.zzb(), this.zza.zza(), zzeVar2, zze(), this.zza.zzd());
-                    this.zzd.incrementAndGet();
-                }
-                zze zzeVar3 = new zze(this, this.zzd.get());
-                this.zzu = zzeVar3;
-                if (this.zzv == 3 && getLocalStartServiceAction() != null) {
-                    zzuVar = new zzu(getContext().getPackageName(), getLocalStartServiceAction(), true, GmsClientSupervisor.getDefaultBindFlags(), false);
-                } else {
-                    zzuVar = new zzu(getStartServicePackage(), getStartServiceAction(), false, GmsClientSupervisor.getDefaultBindFlags(), getUseDynamicLookup());
-                }
-                this.zza = zzuVar;
-                if (zzuVar.zzd() && getMinApkVersion() < 17895000) {
-                    throw new IllegalStateException("Internal Error, the minimum apk version of this BaseGmsClient is too low to support dynamic lookup. Start service action: ".concat(String.valueOf(this.zza.zzc())));
-                }
-                GmsClientSupervisor gmsClientSupervisor3 = this.zzn;
-                String zzc4 = this.zza.zzc();
-                Preconditions.checkNotNull(zzc4);
-                if (!gmsClientSupervisor3.zzc(new zzn(zzc4, this.zza.zzb(), this.zza.zza(), this.zza.zzd()), zzeVar3, zze(), getBindServiceExecutor())) {
-                    String zzc5 = this.zza.zzc();
-                    String zzb2 = this.zza.zzb();
-                    Log.w("GmsClient", "unable to connect to service: " + zzc5 + " on " + zzb2);
-                    zzl(16, null, this.zzd.get());
-                }
-            } else if (i == 4) {
-                Preconditions.checkNotNull(iInterface);
-                onConnectedLocked(iInterface);
+            } finally {
             }
         }
     }
@@ -256,11 +262,15 @@ public abstract class BaseGmsClient<T extends IInterface> {
     public void disconnect() {
         this.zzd.incrementAndGet();
         synchronized (this.zzt) {
-            int size = this.zzt.size();
-            for (int i = 0; i < size; i++) {
-                ((zzc) this.zzt.get(i)).zzf();
+            try {
+                int size = this.zzt.size();
+                for (int i = 0; i < size; i++) {
+                    ((zzc) this.zzt.get(i)).zzf();
+                }
+                this.zzt.clear();
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzt.clear();
         }
         synchronized (this.zzq) {
             this.zzr = null;
@@ -432,11 +442,14 @@ public abstract class BaseGmsClient<T extends IInterface> {
         }
         try {
             synchronized (this.zzq) {
-                IGmsServiceBroker iGmsServiceBroker = this.zzr;
-                if (iGmsServiceBroker != null) {
-                    iGmsServiceBroker.getService(new zzd(this, this.zzd.get()), getServiceRequest);
-                } else {
-                    Log.w("GmsClient", "mServiceBroker is null, client disconnected");
+                try {
+                    IGmsServiceBroker iGmsServiceBroker = this.zzr;
+                    if (iGmsServiceBroker != null) {
+                        iGmsServiceBroker.getService(new zzd(this, this.zzd.get()), getServiceRequest);
+                    } else {
+                        Log.w("GmsClient", "mServiceBroker is null, client disconnected");
+                    }
+                } finally {
                 }
             }
         } catch (DeadObjectException e) {
@@ -462,12 +475,16 @@ public abstract class BaseGmsClient<T extends IInterface> {
     public final T getService() throws DeadObjectException {
         T t;
         synchronized (this.zzp) {
-            if (this.zzv == 5) {
-                throw new DeadObjectException();
+            try {
+                if (this.zzv == 5) {
+                    throw new DeadObjectException();
+                }
+                checkConnected();
+                t = (T) this.zzs;
+                Preconditions.checkNotNull(t, "Client is connected but service is null");
+            } catch (Throwable th) {
+                throw th;
             }
-            checkConnected();
-            t = (T) this.zzs;
-            Preconditions.checkNotNull(t, "Client is connected but service is null");
         }
         return t;
     }

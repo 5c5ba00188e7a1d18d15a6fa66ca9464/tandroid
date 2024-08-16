@@ -3,50 +3,50 @@ package j$.util.stream;
 import java.util.Arrays;
 /* loaded from: classes2.dex */
 final class u2 extends q2 {
-    private I2 c;
+    private J2 c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public u2(f2 f2Var) {
-        super(f2Var);
+    public u2(e2 e2Var) {
+        super(e2Var);
     }
 
-    @Override // j$.util.stream.c2, j$.util.function.m
-    public final void accept(double d) {
-        this.c.accept(d);
+    @Override // j$.util.stream.e2
+    public final void accept(int i) {
+        this.c.accept(i);
     }
 
-    @Override // j$.util.stream.Y1, j$.util.stream.f2
-    public final void end() {
-        double[] dArr = (double[]) this.c.b();
-        Arrays.sort(dArr);
-        f2 f2Var = this.a;
-        f2Var.f(dArr.length);
+    @Override // j$.util.stream.Y1, j$.util.stream.e2
+    public final void m() {
+        int[] iArr = (int[]) this.c.e();
+        Arrays.sort(iArr);
+        e2 e2Var = this.a;
+        e2Var.n(iArr.length);
         int i = 0;
         if (this.b) {
-            int length = dArr.length;
+            int length = iArr.length;
             while (i < length) {
-                double d = dArr[i];
-                if (f2Var.h()) {
+                int i2 = iArr[i];
+                if (e2Var.q()) {
                     break;
                 }
-                f2Var.accept(d);
+                e2Var.accept(i2);
                 i++;
             }
         } else {
-            int length2 = dArr.length;
+            int length2 = iArr.length;
             while (i < length2) {
-                f2Var.accept(dArr[i]);
+                e2Var.accept(iArr[i]);
                 i++;
             }
         }
-        f2Var.end();
+        e2Var.m();
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
+    @Override // j$.util.stream.Y1, j$.util.stream.e2
+    public final void n(long j) {
         if (j >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        this.c = j > 0 ? new I2((int) j) : new I2();
+        this.c = j > 0 ? new J2((int) j) : new J2();
     }
 }

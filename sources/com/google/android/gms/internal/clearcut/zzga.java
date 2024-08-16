@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class zzga {
     public static <T extends zzfz> String zza(T t) {
@@ -34,7 +35,7 @@ public final class zzga {
                 if (obj instanceof String) {
                     String str2 = (String) obj;
                     if (!str2.startsWith("http") && str2.length() > 200) {
-                        str2 = String.valueOf(str2.substring(0, 200)).concat("[...]");
+                        str2 = String.valueOf(str2.substring(0, NotificationCenter.storyQualityUpdate)).concat("[...]");
                     }
                     int length = str2.length();
                     StringBuilder sb = new StringBuilder(length);
@@ -98,9 +99,9 @@ public final class zzga {
                     String substring = name2.substring(3);
                     try {
                         String valueOf = String.valueOf(substring);
-                        if (((Boolean) cls.getMethod(valueOf.length() != 0 ? "has".concat(valueOf) : new String("has"), new Class[0]).invoke(obj, new Object[0])).booleanValue()) {
+                        if (((Boolean) cls.getMethod(valueOf.length() != 0 ? "has".concat(valueOf) : new String("has"), null).invoke(obj, null)).booleanValue()) {
                             String valueOf2 = String.valueOf(substring);
-                            zza(substring, cls.getMethod(valueOf2.length() != 0 ? "get".concat(valueOf2) : new String("get"), new Class[0]).invoke(obj, new Object[0]), stringBuffer, stringBuffer2);
+                            zza(substring, cls.getMethod(valueOf2.length() != 0 ? "get".concat(valueOf2) : new String("get"), null).invoke(obj, null), stringBuffer, stringBuffer2);
                         }
                     } catch (NoSuchMethodException unused) {
                     }

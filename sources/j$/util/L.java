@@ -11,16 +11,16 @@ public final /* synthetic */ class L implements N {
         this.a = ofPrimitive;
     }
 
-    public static /* synthetic */ N f(Spliterator.OfPrimitive ofPrimitive) {
+    public static /* synthetic */ N b(Spliterator.OfPrimitive ofPrimitive) {
         if (ofPrimitive == null) {
             return null;
         }
-        return ofPrimitive instanceof M ? ((M) ofPrimitive).a : ofPrimitive instanceof Spliterator.OfDouble ? C.f((Spliterator.OfDouble) ofPrimitive) : ofPrimitive instanceof Spliterator.OfInt ? F.f((Spliterator.OfInt) ofPrimitive) : ofPrimitive instanceof Spliterator.OfLong ? I.f((Spliterator.OfLong) ofPrimitive) : new L(ofPrimitive);
+        return ofPrimitive instanceof M ? ((M) ofPrimitive).a : ofPrimitive instanceof Spliterator.OfDouble ? C.b((Spliterator.OfDouble) ofPrimitive) : ofPrimitive instanceof Spliterator.OfInt ? F.b((Spliterator.OfInt) ofPrimitive) : ofPrimitive instanceof Spliterator.OfLong ? I.b((Spliterator.OfLong) ofPrimitive) : new L(ofPrimitive);
     }
 
     @Override // j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    public final /* synthetic */ void a(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.Q
@@ -29,20 +29,16 @@ public final /* synthetic */ class L implements N {
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        Spliterator.OfPrimitive ofPrimitive = this.a;
         if (obj instanceof L) {
             obj = ((L) obj).a;
         }
-        return this.a.equals(obj);
+        return ofPrimitive.equals(obj);
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ long estimateSize() {
         return this.a.estimateSize();
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.N
@@ -69,6 +65,11 @@ public final /* synthetic */ class L implements N {
         return this.a.hashCode();
     }
 
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    }
+
     @Override // j$.util.N
     public final /* synthetic */ boolean tryAdvance(Object obj) {
         return this.a.tryAdvance((Spliterator.OfPrimitive) obj);
@@ -76,11 +77,11 @@ public final /* synthetic */ class L implements N {
 
     @Override // j$.util.N, j$.util.Q
     public final /* synthetic */ N trySplit() {
-        return f(this.a.trySplit());
+        return b(this.a.trySplit());
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ Q trySplit() {
-        return O.f(this.a.trySplit());
+        return O.b(this.a.trySplit());
     }
 }

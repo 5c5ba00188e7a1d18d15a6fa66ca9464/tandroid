@@ -29,6 +29,10 @@ public interface ICustomTabsCallback extends IInterface {
 
         @Override // android.os.Binder
         public boolean onTransact(int i, Parcel parcel, Parcel parcel2, int i2) throws RemoteException {
+            if (i == 1598968902) {
+                parcel2.writeString("android.support.customtabs.ICustomTabsCallback");
+                return true;
+            }
             if (i == 2) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
                 onNavigationEvent(parcel.readInt(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
@@ -44,17 +48,13 @@ public interface ICustomTabsCallback extends IInterface {
                 onMessageChannelReady(parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
-            } else if (i != 5) {
-                if (i == 1598968902) {
-                    parcel2.writeString("android.support.customtabs.ICustomTabsCallback");
-                    return true;
-                }
-                return super.onTransact(i, parcel, parcel2, i2);
-            } else {
+            } else if (i == 5) {
                 parcel.enforceInterface("android.support.customtabs.ICustomTabsCallback");
                 onPostMessage(parcel.readString(), parcel.readInt() != 0 ? (Bundle) Bundle.CREATOR.createFromParcel(parcel) : null);
                 parcel2.writeNoException();
                 return true;
+            } else {
+                return super.onTransact(i, parcel, parcel2, i2);
             }
         }
     }

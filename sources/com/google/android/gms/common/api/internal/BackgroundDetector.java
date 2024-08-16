@@ -36,19 +36,27 @@ public final class BackgroundDetector implements Application.ActivityLifecycleCa
     public static void initialize(Application application) {
         BackgroundDetector backgroundDetector = zza;
         synchronized (backgroundDetector) {
-            if (!backgroundDetector.zze) {
-                application.registerActivityLifecycleCallbacks(backgroundDetector);
-                application.registerComponentCallbacks(backgroundDetector);
-                backgroundDetector.zze = true;
+            try {
+                if (!backgroundDetector.zze) {
+                    application.registerActivityLifecycleCallbacks(backgroundDetector);
+                    application.registerComponentCallbacks(backgroundDetector);
+                    backgroundDetector.zze = true;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     private final void zza(boolean z) {
         synchronized (zza) {
-            Iterator it = this.zzd.iterator();
-            while (it.hasNext()) {
-                ((BackgroundStateChangeListener) it.next()).onBackgroundStateChanged(z);
+            try {
+                Iterator it = this.zzd.iterator();
+                while (it.hasNext()) {
+                    ((BackgroundStateChangeListener) it.next()).onBackgroundStateChanged(z);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

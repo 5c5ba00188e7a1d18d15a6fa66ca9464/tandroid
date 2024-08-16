@@ -28,16 +28,19 @@ public class zzaa {
             UserManager userManager = zzdc;
             if (userManager == null) {
                 synchronized (zzaa.class) {
-                    userManager = zzdc;
-                    if (userManager == null) {
-                        systemService = context.getSystemService(UserManager.class);
-                        UserManager userManager2 = (UserManager) systemService;
-                        zzdc = userManager2;
-                        if (userManager2 == null) {
-                            zzdd = true;
-                            return true;
+                    try {
+                        userManager = zzdc;
+                        if (userManager == null) {
+                            systemService = context.getSystemService(UserManager.class);
+                            UserManager userManager2 = (UserManager) systemService;
+                            zzdc = userManager2;
+                            if (userManager2 == null) {
+                                zzdd = true;
+                                return true;
+                            }
+                            userManager = userManager2;
                         }
-                        userManager = userManager2;
+                    } finally {
                     }
                 }
             }

@@ -1,35 +1,47 @@
 package j$.util.function;
-
-import java.util.function.LongBinaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class c0 implements LongBinaryOperator {
-    public final /* synthetic */ d0 a;
+public final /* synthetic */ class c0 implements f0 {
+    public final /* synthetic */ int a;
+    public final /* synthetic */ f0 b;
+    public final /* synthetic */ f0 c;
 
-    private /* synthetic */ c0(d0 d0Var) {
-        this.a = d0Var;
+    public /* synthetic */ c0(f0 f0Var, f0 f0Var2, int i) {
+        this.a = i;
+        this.b = f0Var;
+        this.c = f0Var2;
     }
 
-    public static /* synthetic */ LongBinaryOperator a(d0 d0Var) {
-        if (d0Var == null) {
-            return null;
+    @Override // j$.util.function.f0
+    public final f0 a(f0 f0Var) {
+        switch (this.a) {
+            case 0:
+                f0Var.getClass();
+                return new c0(this, f0Var, 0);
+            default:
+                f0Var.getClass();
+                return new c0(this, f0Var, 0);
         }
-        return d0Var instanceof b0 ? ((b0) d0Var).a : new c0(d0Var);
     }
 
-    @Override // java.util.function.LongBinaryOperator
-    public final /* synthetic */ long applyAsLong(long j, long j2) {
-        return this.a.applyAsLong(j, j2);
-    }
-
-    public final /* synthetic */ boolean equals(Object obj) {
-        d0 d0Var = this.a;
-        if (obj instanceof c0) {
-            obj = ((c0) obj).a;
+    @Override // j$.util.function.f0
+    public final long applyAsLong(long j) {
+        switch (this.a) {
+            case 0:
+                return this.c.applyAsLong(this.b.applyAsLong(j));
+            default:
+                return this.b.applyAsLong(this.c.applyAsLong(j));
         }
-        return d0Var.equals(obj);
     }
 
-    public final /* synthetic */ int hashCode() {
-        return this.a.hashCode();
+    @Override // j$.util.function.f0
+    public final f0 c(f0 f0Var) {
+        switch (this.a) {
+            case 0:
+                f0Var.getClass();
+                return new c0(this, f0Var, 1);
+            default:
+                f0Var.getClass();
+                return new c0(this, f0Var, 1);
+        }
     }
 }

@@ -7,10 +7,14 @@ public final class zzoa {
     public static synchronized zznp zza(zznh zznhVar) {
         zznp zznpVar;
         synchronized (zzoa.class) {
-            if (zza == null) {
-                zza = new zznz(null);
+            try {
+                if (zza == null) {
+                    zza = new zznz(null);
+                }
+                zznpVar = (zznp) zza.get(zznhVar);
+            } catch (Throwable th) {
+                throw th;
             }
-            zznpVar = (zznp) zza.get(zznhVar);
         }
         return zznpVar;
     }

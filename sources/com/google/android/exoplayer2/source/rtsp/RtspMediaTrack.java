@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NotificationCenter;
 import org.webrtc.MediaStreamTrack;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
@@ -40,7 +41,7 @@ public final class RtspMediaTrack {
     }
 
     public int hashCode() {
-        return ((217 + this.payloadFormat.hashCode()) * 31) + this.uri.hashCode();
+        return ((this.payloadFormat.hashCode() + NotificationCenter.channelStarsUpdated) * 31) + this.uri.hashCode();
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
@@ -199,7 +200,7 @@ public final class RtspMediaTrack {
                 processMPEG4FmtpAttribute(builder, fmtpParametersAsMap);
                 break;
             case 5:
-                builder.setWidth(352).setHeight(288);
+                builder.setWidth(352).setHeight(NotificationCenter.storiesUpdated);
                 break;
             case 6:
                 Assertions.checkArgument(!fmtpParametersAsMap.isEmpty());
@@ -210,10 +211,10 @@ public final class RtspMediaTrack {
                 processH265FmtpAttribute(builder, fmtpParametersAsMap);
                 break;
             case '\b':
-                builder.setWidth(320).setHeight(240);
+                builder.setWidth(320).setHeight(NotificationCenter.reloadInterface);
                 break;
             case '\t':
-                builder.setWidth(320).setHeight(240);
+                builder.setWidth(320).setHeight(NotificationCenter.reloadInterface);
                 break;
             case '\n':
                 builder.setPcmEncoding(RtpPayloadFormat.getRawPcmEncodingType(str));
@@ -255,7 +256,7 @@ public final class RtspMediaTrack {
             Pair<Integer, Integer> videoResolutionFromMpeg4VideoConfig = CodecSpecificDataUtil.getVideoResolutionFromMpeg4VideoConfig(bytesFromHexString);
             builder.setWidth(((Integer) videoResolutionFromMpeg4VideoConfig.first).intValue()).setHeight(((Integer) videoResolutionFromMpeg4VideoConfig.second).intValue());
         } else {
-            builder.setWidth(352).setHeight(288);
+            builder.setWidth(352).setHeight(NotificationCenter.storiesUpdated);
         }
         String str2 = immutableMap.get("profile-level-id");
         StringBuilder sb = new StringBuilder();

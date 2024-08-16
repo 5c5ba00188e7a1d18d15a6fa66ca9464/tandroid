@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.google.android.gms.common.internal.Preconditions;
 import com.google.android.gms.common.providers.PooledExecutorsProvider;
+import com.google.android.gms.common.stats.StatsUtils;
+import com.google.android.gms.common.stats.WakeLockTracker;
 import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.common.util.WorkSourceUtil;
 import java.util.Collections;
@@ -98,16 +100,11 @@ public class WakeLock {
         return WorkSourceUtil.getNames(this.zzc);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0054, code lost:
-        if (r2 == false) goto L24;
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0061, code lost:
+        if (r16.zzl == 0) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005c, code lost:
-        if (r13.zzl == 0) goto L14;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:22:0x005e, code lost:
-        com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r13.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r13.zzb, r6), 7, r13.zze, r6, null, r13.zzd, zza(), r14);
-        r13.zzl++;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0036 A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:14:0x0032, B:16:0x0036, B:18:0x0040, B:24:0x0063, B:25:0x0083, B:19:0x004e, B:20:0x005b, B:22:0x005f, B:11:0x0023, B:13:0x002b), top: B:32:0x0013 }] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x005f A[Catch: all -> 0x0020, TryCatch #0 {all -> 0x0020, blocks: (B:4:0x0013, B:6:0x001b, B:14:0x0032, B:16:0x0036, B:18:0x0040, B:24:0x0063, B:25:0x0083, B:19:0x004e, B:20:0x005b, B:22:0x005f, B:11:0x0023, B:13:0x002b), top: B:32:0x0013 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -115,21 +112,33 @@ public class WakeLock {
         this.zzm.incrementAndGet();
         String zza2 = zza((String) null);
         synchronized (this.zza) {
-            boolean z = false;
-            if ((!this.zzj.isEmpty() || this.zzl > 0) && !this.zzb.isHeld()) {
-                this.zzj.clear();
-                this.zzl = 0;
-            }
-            if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza2);
-                if (numArr == null) {
-                    this.zzj.put(zza2, new Integer[]{1});
-                    z = true;
-                } else {
-                    numArr[0] = Integer.valueOf(numArr[0].intValue() + 1);
+            try {
+                if (this.zzj.isEmpty()) {
+                    if (this.zzl > 0) {
+                    }
+                    if (this.zzi) {
+                        Integer[] numArr = this.zzj.get(zza2);
+                        if (numArr == null) {
+                            this.zzj.put(zza2, new Integer[]{1});
+                            WakeLockTracker.getInstance().registerEvent(this.zzh, StatsUtils.getEventKey(this.zzb, zza2), 7, this.zze, zza2, null, this.zzd, zza(), j);
+                            this.zzl++;
+                        } else {
+                            numArr[0] = Integer.valueOf(numArr[0].intValue() + 1);
+                        }
+                    }
+                    if (!this.zzi) {
+                    }
                 }
-            }
-            if (!this.zzi) {
+                if (!this.zzb.isHeld()) {
+                    this.zzj.clear();
+                    this.zzl = 0;
+                }
+                if (this.zzi) {
+                }
+                if (!this.zzi) {
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         this.zzb.acquire();
@@ -138,39 +147,33 @@ public class WakeLock {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0050, code lost:
-        if (r1 != false) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0058, code lost:
-        if (r12.zzl == 1) goto L13;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:21:0x005a, code lost:
-        com.google.android.gms.common.stats.WakeLockTracker.getInstance().registerEvent(r12.zzh, com.google.android.gms.common.stats.StatsUtils.getEventKey(r12.zzb, r6), 8, r12.zze, r6, null, r12.zzd, zza());
-        r12.zzl--;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0055, code lost:
+        if (r12.zzl == 1) goto L15;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void release() {
-        boolean z;
+        Integer[] numArr;
         if (this.zzm.decrementAndGet() < 0) {
             Log.e("WakeLock", String.valueOf(this.zze).concat(" release without a matched acquire!"));
         }
         String zza2 = zza((String) null);
         synchronized (this.zza) {
-            if (this.zzi) {
-                Integer[] numArr = this.zzj.get(zza2);
-                if (numArr != null) {
+            try {
+                if (this.zzi && (numArr = this.zzj.get(zza2)) != null) {
                     if (numArr[0].intValue() == 1) {
                         this.zzj.remove(zza2);
-                        z = true;
+                        WakeLockTracker.getInstance().registerEvent(this.zzh, StatsUtils.getEventKey(this.zzb, zza2), 8, this.zze, zza2, null, this.zzd, zza());
+                        this.zzl--;
                     } else {
                         numArr[0] = Integer.valueOf(numArr[0].intValue() - 1);
                     }
                 }
-                z = false;
-            }
-            if (!this.zzi) {
+                if (!this.zzi) {
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         zza(0);

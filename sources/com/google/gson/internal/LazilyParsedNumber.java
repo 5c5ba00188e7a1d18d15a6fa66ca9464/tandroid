@@ -9,6 +9,10 @@ public final class LazilyParsedNumber extends Number {
         this.value = str;
     }
 
+    private BigDecimal asBigDecimal() {
+        return NumberLimits.parseBigDecimal(this.value);
+    }
+
     @Override // java.lang.Number
     public int intValue() {
         try {
@@ -18,7 +22,7 @@ public final class LazilyParsedNumber extends Number {
                 return (int) Long.parseLong(this.value);
             }
         } catch (NumberFormatException unused2) {
-            return new BigDecimal(this.value).intValue();
+            return asBigDecimal().intValue();
         }
     }
 
@@ -27,7 +31,7 @@ public final class LazilyParsedNumber extends Number {
         try {
             return Long.parseLong(this.value);
         } catch (NumberFormatException unused) {
-            return new BigDecimal(this.value).longValue();
+            return asBigDecimal().longValue();
         }
     }
 
@@ -54,9 +58,7 @@ public final class LazilyParsedNumber extends Number {
             return true;
         }
         if (obj instanceof LazilyParsedNumber) {
-            String str = this.value;
-            String str2 = ((LazilyParsedNumber) obj).value;
-            return str == str2 || str.equals(str2);
+            return this.value.equals(((LazilyParsedNumber) obj).value);
         }
         return false;
     }

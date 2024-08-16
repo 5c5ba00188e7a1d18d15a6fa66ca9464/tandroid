@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.voip.VoIPService;
@@ -170,14 +172,19 @@ public class JoinCallAlert extends BottomSheet {
             AnimatorSet animatorSet = new AnimatorSet();
             animatorSet.setDuration(180L);
             animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-            animatorSet.playTogether(ObjectAnimator.ofFloat(this.textView[0], View.ALPHA, 1.0f, 0.0f), ObjectAnimator.ofFloat(this.textView[0], View.TRANSLATION_Y, 0.0f, -AndroidUtilities.dp(10.0f)), ObjectAnimator.ofFloat(this.textView[1], View.ALPHA, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.textView[1], View.TRANSLATION_Y, AndroidUtilities.dp(10.0f), 0.0f));
+            TextView textView = this.textView[0];
+            Property property = View.ALPHA;
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, property, 1.0f, 0.0f);
+            TextView textView2 = this.textView[0];
+            Property property2 = View.TRANSLATION_Y;
+            animatorSet.playTogether(ofFloat, ObjectAnimator.ofFloat(textView2, property2, 0.0f, -AndroidUtilities.dp(10.0f)), ObjectAnimator.ofFloat(this.textView[1], property, 0.0f, 1.0f), ObjectAnimator.ofFloat(this.textView[1], property2, AndroidUtilities.dp(10.0f), 0.0f));
             animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.JoinCallAlert.BottomSheetCell.1
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
                     JoinCallAlert.this.animationInProgress = false;
-                    TextView textView = BottomSheetCell.this.textView[0];
+                    TextView textView3 = BottomSheetCell.this.textView[0];
                     BottomSheetCell.this.textView[0] = BottomSheetCell.this.textView[1];
-                    BottomSheetCell.this.textView[1] = textView;
+                    BottomSheetCell.this.textView[1] = textView3;
                 }
             });
             animatorSet.start();
@@ -287,7 +294,7 @@ public class JoinCallAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$open$4(final AlertDialog alertDialog, final AccountInstance accountInstance, final JoinCallAlertDelegate joinCallAlertDelegate, final long j, final Context context, final BaseFragment baseFragment, final int i, final TLRPC$Peer tLRPC$Peer, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 JoinCallAlert.lambda$open$3(AlertDialog.this, tLObject, accountInstance, joinCallAlertDelegate, j, context, baseFragment, i, tLRPC$Peer);
@@ -526,7 +533,7 @@ public class JoinCallAlert extends BottomSheet {
                 JoinCallAlert.this.updateLayout();
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda6
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i5) {
                 JoinCallAlert.this.lambda$new$6(chat, view, i5);
@@ -543,7 +550,7 @@ public class JoinCallAlert extends BottomSheet {
             rLottieImageView.setAutoRepeat(true);
             rLottieImageView.setAnimation(R.raw.utyan_schedule, 120, 120);
             rLottieImageView.playAnimation();
-            frameLayout.addView(rLottieImageView, LayoutHelper.createLinear(160, 160, 49, 17, 8, 17, 0));
+            frameLayout.addView(rLottieImageView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 49, 17, 8, 17, 0));
         }
         TextView textView = new TextView(context);
         this.textView = textView;
@@ -625,7 +632,7 @@ public class JoinCallAlert extends BottomSheet {
         }
         BottomSheetCell bottomSheetCell = new BottomSheetCell(context, false);
         this.doneButton = bottomSheetCell;
-        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda7
+        bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 JoinCallAlert.this.lambda$new$7(joinCallAlertDelegate, view);
@@ -639,7 +646,7 @@ public class JoinCallAlert extends BottomSheet {
             } else {
                 bottomSheetCell2.setText(LocaleController.getString("VoipGroupScheduleVoiceChat", R.string.VoipGroupScheduleVoiceChat), false);
             }
-            bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda8
+            bottomSheetCell2.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.JoinCallAlert$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     JoinCallAlert.this.lambda$new$8(view);
@@ -717,11 +724,7 @@ public class JoinCallAlert extends BottomSheet {
             return;
         }
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-peerId));
-        BottomSheetCell bottomSheetCell = this.doneButton;
-        int i = R.string.VoipGroupContinueAs;
-        Object[] objArr = new Object[1];
-        objArr[0] = chat != null ? chat.title : "";
-        bottomSheetCell.setText(LocaleController.formatString("VoipGroupContinueAs", i, objArr), z);
+        this.doneButton.setText(LocaleController.formatString("VoipGroupContinueAs", R.string.VoipGroupContinueAs, chat != null ? chat.title : ""), z);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

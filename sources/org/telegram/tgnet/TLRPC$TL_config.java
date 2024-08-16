@@ -72,7 +72,7 @@ public class TLRPC$TL_config extends TLObject {
         this.default_p2p_contacts = (readInt32 & 8) != 0;
         this.preload_featured_stickers = (readInt32 & 16) != 0;
         this.revoke_pm_inbox = (readInt32 & 64) != 0;
-        this.blocked_mode = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.blocked_mode = (readInt32 & 256) != 0;
         this.force_try_ipv6 = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
         this.date = abstractSerializedData.readInt32(z);
         this.expires = abstractSerializedData.readInt32(z);
@@ -163,7 +163,7 @@ public class TLRPC$TL_config extends TLObject {
         this.flags = i2;
         int i3 = this.revoke_pm_inbox ? i2 | 64 : i2 & (-65);
         this.flags = i3;
-        int i4 = this.blocked_mode ? i3 | LiteMode.FLAG_CHAT_BLUR : i3 & (-257);
+        int i4 = this.blocked_mode ? i3 | 256 : i3 & (-257);
         this.flags = i4;
         int i5 = this.force_try_ipv6 ? i4 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i4 & (-16385);
         this.flags = i5;

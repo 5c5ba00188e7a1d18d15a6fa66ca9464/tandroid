@@ -147,7 +147,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     private boolean canCreatePublic = true;
     private ArrayList<AdminedChannelCell> adminedChannelCells = new ArrayList<>();
     HashMap<Long, TLRPC$User> usersMap = new HashMap<>();
-    private Runnable enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda9
+    private Runnable enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda3
         @Override // java.lang.Runnable
         public final void run() {
             ChatEditTypeActivity.this.lambda$new$6();
@@ -191,7 +191,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
             tLRPC$TL_channels_checkUsername.username = "1";
             tLRPC$TL_channels_checkUsername.channel = new TLRPC$TL_inputChannelEmpty();
-            getConnectionsManager().sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda4
+            getConnectionsManager().sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatEditTypeActivity.this.lambda$onFragmentCreate$1(tLObject, tLRPC$TL_error);
@@ -221,7 +221,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onFragmentCreate$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditTypeActivity.this.lambda$onFragmentCreate$0(tLRPC$TL_error);
@@ -362,7 +362,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             this.radioButtonCell2.setTextAndValue(LocaleController.getString("MegaPrivate", R.string.MegaPrivate), LocaleController.getString("MegaPrivateInfo", R.string.MegaPrivateInfo), false, this.isPrivate);
         }
         this.linearLayoutTypeContainer.addView(this.radioButtonCell2, LayoutHelper.createLinear(-1, -2));
-        this.radioButtonCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda5
+        this.radioButtonCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatEditTypeActivity.this.lambda$createView$2(view);
@@ -377,7 +377,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             this.radioButtonCell1.setTextAndValue(LocaleController.getString("MegaPublic", R.string.MegaPublic), LocaleController.getString("MegaPublicInfo", R.string.MegaPublicInfo), false, !this.isPrivate);
         }
         this.linearLayoutTypeContainer.addView(this.radioButtonCell1, LayoutHelper.createLinear(-1, -2));
-        this.radioButtonCell1.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda6
+        this.radioButtonCell1.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatEditTypeActivity.this.lambda$createView$3(view);
@@ -538,7 +538,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         this.manageLinksTextView = textCell;
         textCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
         this.manageLinksTextView.setTextAndIcon((CharSequence) LocaleController.getString("ManageInviteLinks", R.string.ManageInviteLinks), R.drawable.msg_link2, false);
-        this.manageLinksTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda7
+        this.manageLinksTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatEditTypeActivity.this.lambda$createView$4(view);
@@ -567,7 +567,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         this.saveRestrictCell = textCheckCell;
         textCheckCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
         this.saveRestrictCell.setTextAndCheck(LocaleController.getString("RestrictSavingContent", R.string.RestrictSavingContent), this.isSaveRestricted, false);
-        this.saveRestrictCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda8
+        this.saveRestrictCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ChatEditTypeActivity.this.lambda$createView$5(view);
@@ -733,12 +733,9 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.doneButtonDrawable.getProgress();
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.doneButtonDrawable.getProgress(), z ? 1.0f : 0.0f);
             this.doneButtonDrawableAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda11
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda13
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ChatEditTypeActivity.this.lambda$updateDoneProgress$7(valueAnimator2);
@@ -809,13 +806,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0029  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x003d  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private boolean tryUpdateJoinSettings() {
-        boolean z;
         if (!this.isChannel && this.joinContainer != null) {
             if (getParentActivity() == null) {
                 return false;
@@ -823,36 +814,30 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             if (!ChatObject.isChannel(this.currentChat)) {
                 JoinToSendSettingsView joinToSendSettingsView = this.joinContainer;
                 if (joinToSendSettingsView.isJoinToSend || joinToSendSettingsView.isJoinRequest) {
-                    z = true;
-                    if (!z) {
-                        getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda12
-                            @Override // org.telegram.messenger.MessagesStorage.LongCallback
-                            public final void run(long j) {
-                                ChatEditTypeActivity.this.lambda$tryUpdateJoinSettings$9(j);
-                            }
-                        });
-                        return false;
-                    }
-                    if (this.currentChat.join_to_send != this.joinContainer.isJoinToSend) {
-                        MessagesController messagesController = getMessagesController();
-                        long j = this.chatId;
-                        TLRPC$Chat tLRPC$Chat = this.currentChat;
-                        boolean z2 = this.joinContainer.isJoinToSend;
-                        tLRPC$Chat.join_to_send = z2;
-                        messagesController.toggleChatJoinToSend(j, z2, null, null);
-                    }
-                    if (this.currentChat.join_request != this.joinContainer.isJoinRequest) {
-                        MessagesController messagesController2 = getMessagesController();
-                        long j2 = this.chatId;
-                        TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-                        boolean z3 = this.joinContainer.isJoinRequest;
-                        tLRPC$Chat2.join_request = z3;
-                        messagesController2.toggleChatJoinRequest(j2, z3, null, null);
-                    }
+                    getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda12
+                        @Override // org.telegram.messenger.MessagesStorage.LongCallback
+                        public final void run(long j) {
+                            ChatEditTypeActivity.this.lambda$tryUpdateJoinSettings$9(j);
+                        }
+                    });
+                    return false;
                 }
             }
-            z = false;
-            if (!z) {
+            if (this.currentChat.join_to_send != this.joinContainer.isJoinToSend) {
+                MessagesController messagesController = getMessagesController();
+                long j = this.chatId;
+                TLRPC$Chat tLRPC$Chat = this.currentChat;
+                boolean z = this.joinContainer.isJoinToSend;
+                tLRPC$Chat.join_to_send = z;
+                messagesController.toggleChatJoinToSend(j, z, null, null);
+            }
+            if (this.currentChat.join_request != this.joinContainer.isJoinRequest) {
+                MessagesController messagesController2 = getMessagesController();
+                long j2 = this.chatId;
+                TLRPC$Chat tLRPC$Chat2 = this.currentChat;
+                boolean z2 = this.joinContainer.isJoinRequest;
+                tLRPC$Chat2.join_request = z2;
+                messagesController2.toggleChatJoinRequest(j2, z2, null, null);
             }
         }
         return true;
@@ -910,12 +895,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public void onItemClick(final View view, int i) {
                 final TLRPC$TL_username tLRPC$TL_username;
-                String str;
                 int i2;
-                String str2;
+                String str;
                 int i3;
-                String str3;
+                String str2;
                 int i4;
+                String str3;
                 if (!(view instanceof ChangeUsernameActivity.UsernameCell) || (tLRPC$TL_username = ((ChangeUsernameActivity.UsernameCell) view).currentUsername) == null) {
                     return;
                 }
@@ -931,27 +916,27 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(UsernamesListView.this.getContext(), ChatEditTypeActivity.this.getResourceProvider());
                 if (tLRPC$TL_username.active) {
-                    str = "UsernameDeactivateLink";
                     i2 = R.string.UsernameDeactivateLink;
+                    str = "UsernameDeactivateLink";
                 } else {
-                    str = "UsernameActivateLink";
                     i2 = R.string.UsernameActivateLink;
+                    str = "UsernameActivateLink";
                 }
                 AlertDialog.Builder title = builder.setTitle(LocaleController.getString(str, i2));
                 if (tLRPC$TL_username.active) {
-                    str2 = "UsernameDeactivateLinkChannelMessage";
                     i3 = R.string.UsernameDeactivateLinkChannelMessage;
+                    str2 = "UsernameDeactivateLinkChannelMessage";
                 } else {
-                    str2 = "UsernameActivateLinkChannelMessage";
                     i3 = R.string.UsernameActivateLinkChannelMessage;
+                    str2 = "UsernameActivateLinkChannelMessage";
                 }
                 AlertDialog.Builder message = title.setMessage(LocaleController.getString(str2, i3));
                 if (tLRPC$TL_username.active) {
-                    str3 = "Hide";
                     i4 = R.string.Hide;
+                    str3 = "Hide";
                 } else {
-                    str3 = "Show";
                     i4 = R.string.Show;
+                    str3 = "Show";
                 }
                 message.setPositiveButton(LocaleController.getString(str3, i4), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatEditTypeActivity$UsernamesListView$1$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
@@ -1063,8 +1048,8 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             if (i2 < 0 || i2 >= ChatEditTypeActivity.this.usernames.size() || (tLRPC$TL_username = (TLRPC$TL_username) ChatEditTypeActivity.this.usernames.get(i2)) == null) {
                 return;
             }
-            int i3 = 0;
-            int i4 = -1;
+            int i3 = -1;
+            int i4 = 0;
             if (tLRPC$TL_username.active != z) {
                 tLRPC$TL_username.active = z;
                 if (z) {
@@ -1081,7 +1066,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     }
                     if (i5 >= 0) {
                         min = Math.max(0, i5 - 1);
-                        i4 = min + 1;
+                        i3 = min + 1;
                     }
                 } else {
                     int i6 = -1;
@@ -1092,15 +1077,15 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                     }
                     if (i6 >= 0) {
                         min = Math.min(ChatEditTypeActivity.this.usernames.size() - 1, i6 + 1);
-                        i4 = min + 1;
+                        i3 = min + 1;
                     }
                 }
             }
             while (true) {
-                if (i3 >= getChildCount()) {
+                if (i4 >= getChildCount()) {
                     break;
                 }
-                View childAt = getChildAt(i3);
+                View childAt = getChildAt(i4);
                 if (getChildAdapterPosition(childAt) == i) {
                     if (z2) {
                         AndroidUtilities.shakeView(childAt);
@@ -1111,13 +1096,13 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                         usernameCell.update();
                     }
                 } else {
-                    i3++;
+                    i4++;
                 }
             }
-            if (i4 < 0 || i == i4) {
+            if (i3 < 0 || i == i3) {
                 return;
             }
-            this.adapter.moveElement(i, i4);
+            this.adapter.moveElement(i, i3);
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
@@ -1247,7 +1232,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
                 }
                 swapListElements(ChatEditTypeActivity.this.usernames, i3, i4);
                 notifyItemMoved(i, i2);
-                int size = (ChatEditTypeActivity.this.usernames.size() + 1) - 1;
+                int size = ChatEditTypeActivity.this.usernames.size();
                 if (i == size || i2 == size) {
                     notifyItemChanged(i, 3);
                     notifyItemChanged(i2, 3);
@@ -1346,7 +1331,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
         public void dispatchDraw(Canvas canvas) {
             int childAdapterPosition;
-            int size = (ChatEditTypeActivity.this.usernames.size() + 1) - 1;
+            int size = ChatEditTypeActivity.this.usernames.size();
             int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
             int i2 = Integer.MIN_VALUE;
             for (int i3 = 0; i3 < getChildCount(); i3++) {
@@ -1369,7 +1354,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         if (tLRPC$Chat.noforwards != this.isSaveRestricted) {
             if (!ChatObject.isChannel(tLRPC$Chat)) {
                 updateDoneProgress(true);
-                getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda15
+                getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda18
                     @Override // org.telegram.messenger.MessagesStorage.LongCallback
                     public final void run(long j) {
                         ChatEditTypeActivity.this.lambda$trySetRestrict$10(j);
@@ -1423,7 +1408,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         if (publicUsername.equals(obj)) {
             return tryDeactivateAllLinks();
         } else if (!ChatObject.isChannel(this.currentChat)) {
-            getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda17
+            getMessagesController().convertToMegaGroup(getParentActivity(), this.chatId, this, new MessagesStorage.LongCallback() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda15
                 @Override // org.telegram.messenger.MessagesStorage.LongCallback
                 public final void run(long j) {
                     ChatEditTypeActivity.this.lambda$trySetUsername$11(j);
@@ -1431,12 +1416,12 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             });
             return false;
         } else {
-            getMessagesController().updateChannelUserName(this, this.chatId, obj, new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda18
+            getMessagesController().updateChannelUserName(this, this.chatId, obj, new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda16
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatEditTypeActivity.this.lambda$trySetUsername$12();
                 }
-            }, new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda19
+            }, new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda17
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatEditTypeActivity.this.lambda$trySetUsername$13();
@@ -1532,7 +1517,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         }
         this.loadingAdminedChannels = true;
         updatePrivatePublic();
-        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getAdminedPublicChannels(), new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda22
+        getConnectionsManager().sendRequest(new TLRPC$TL_channels_getAdminedPublicChannels(), new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda21
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatEditTypeActivity.this.lambda$loadAdminedChannels$22(tLObject, tLRPC$TL_error);
@@ -1542,7 +1527,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$22(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda23
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditTypeActivity.this.lambda$loadAdminedChannels$21(tLObject);
@@ -1637,10 +1622,10 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     }
 
     private void updatePrivatePublic() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.sectionCell2 == null) {
             return;
         }
@@ -1693,22 +1678,22 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             if (this.isChannel) {
                 TextInfoPrivacyCell textInfoPrivacyCell5 = this.typeInfoCell;
                 if (this.isPrivate) {
-                    str2 = "ChannelPrivateLinkHelp";
                     i2 = R.string.ChannelPrivateLinkHelp;
+                    str2 = "ChannelPrivateLinkHelp";
                 } else {
-                    str2 = "ChannelUsernameHelp";
                     i2 = R.string.ChannelUsernameHelp;
+                    str2 = "ChannelUsernameHelp";
                 }
                 textInfoPrivacyCell5.setText(LocaleController.getString(str2, i2));
                 this.headerCell.setText(this.isPrivate ? LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle) : LocaleController.getString("ChannelLinkTitle", R.string.ChannelLinkTitle));
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell6 = this.typeInfoCell;
                 if (this.isPrivate) {
-                    str = "MegaPrivateLinkHelp";
                     i = R.string.MegaPrivateLinkHelp;
+                    str = "MegaPrivateLinkHelp";
                 } else {
-                    str = "MegaUsernameHelp";
                     i = R.string.MegaUsernameHelp;
+                    str = "MegaUsernameHelp";
                 }
                 textInfoPrivacyCell6.setText(LocaleController.getString(str, i));
                 this.headerCell.setText(this.isPrivate ? LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle) : LocaleController.getString("ChannelLinkTitle", R.string.ChannelLinkTitle));
@@ -1837,7 +1822,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
             this.checkTextView.setText(LocaleController.getString("LinkChecking", R.string.LinkChecking));
             this.checkTextView.setTextColorByKey(Theme.key_windowBackgroundWhiteGrayText8);
             this.lastCheckName = str;
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda13
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda10
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatEditTypeActivity.this.lambda$checkUserName$25(str);
@@ -1854,7 +1839,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         final TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
         tLRPC$TL_channels_checkUsername.username = str;
         tLRPC$TL_channels_checkUsername.channel = getMessagesController().getInputChannel(this.chatId);
-        this.checkReqId = getConnectionsManager().sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda21
+        this.checkReqId = getConnectionsManager().sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda22
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatEditTypeActivity.this.lambda$checkUserName$24(str, tLRPC$TL_channels_checkUsername, tLObject, tLRPC$TL_error);
@@ -1864,7 +1849,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$24(final String str, final TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda25
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda23
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditTypeActivity.this.lambda$checkUserName$23(str, tLRPC$TL_error, tLObject, tLRPC$TL_channels_checkUsername);
@@ -1911,7 +1896,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
         TLRPC$TL_messages_exportChatInvite tLRPC$TL_messages_exportChatInvite = new TLRPC$TL_messages_exportChatInvite();
         tLRPC$TL_messages_exportChatInvite.legacy_revoke_permanent = true;
         tLRPC$TL_messages_exportChatInvite.peer = getMessagesController().getInputPeer(-this.chatId);
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda2
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_messages_exportChatInvite, new RequestDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChatEditTypeActivity.this.lambda$generateLink$27(z, tLObject, tLRPC$TL_error);
@@ -1921,7 +1906,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$27(final boolean z, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ChatEditTypeActivity.this.lambda$generateLink$26(tLRPC$TL_error, tLObject, z);
@@ -1961,7 +1946,7 @@ public class ChatEditTypeActivity extends BaseFragment implements NotificationCe
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda3
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChatEditTypeActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChatEditTypeActivity.this.lambda$getThemeDescriptions$28();

@@ -72,10 +72,14 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     private static Handler getHandler() {
         InternalHandler internalHandler;
         synchronized (ModernAsyncTask.class) {
-            if (sHandler == null) {
-                sHandler = new InternalHandler();
+            try {
+                if (sHandler == null) {
+                    sHandler = new InternalHandler();
+                }
+                internalHandler = sHandler;
+            } catch (Throwable th) {
+                throw th;
             }
-            internalHandler = sHandler;
         }
         return internalHandler;
     }

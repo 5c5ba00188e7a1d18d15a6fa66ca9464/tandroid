@@ -14,7 +14,7 @@ public final class ViewConfigurationCompat {
     static {
         if (Build.VERSION.SDK_INT == 25) {
             try {
-                sGetScaledScrollFactorMethod = ViewConfiguration.class.getDeclaredMethod("getScaledScrollFactor", new Class[0]);
+                sGetScaledScrollFactorMethod = ViewConfiguration.class.getDeclaredMethod("getScaledScrollFactor", null);
             } catch (Exception unused) {
                 Log.i("ViewConfigCompat", "Could not find method getScaledScrollFactor() on ViewConfiguration");
             }
@@ -39,7 +39,7 @@ public final class ViewConfigurationCompat {
         Method method;
         if (Build.VERSION.SDK_INT >= 25 && (method = sGetScaledScrollFactorMethod) != null) {
             try {
-                return ((Integer) method.invoke(viewConfiguration, new Object[0])).intValue();
+                return ((Integer) method.invoke(viewConfiguration, null)).intValue();
             } catch (Exception unused) {
                 Log.i("ViewConfigCompat", "Could not find method getScaledScrollFactor() on ViewConfiguration");
             }
@@ -70,31 +70,22 @@ public final class ViewConfigurationCompat {
     /* loaded from: classes.dex */
     static class Api26Impl {
         static float getScaledHorizontalScrollFactor(ViewConfiguration viewConfiguration) {
-            float scaledHorizontalScrollFactor;
-            scaledHorizontalScrollFactor = viewConfiguration.getScaledHorizontalScrollFactor();
-            return scaledHorizontalScrollFactor;
+            return viewConfiguration.getScaledHorizontalScrollFactor();
         }
 
         static float getScaledVerticalScrollFactor(ViewConfiguration viewConfiguration) {
-            float scaledVerticalScrollFactor;
-            scaledVerticalScrollFactor = viewConfiguration.getScaledVerticalScrollFactor();
-            return scaledVerticalScrollFactor;
+            return viewConfiguration.getScaledVerticalScrollFactor();
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api28Impl {
+    static class Api28Impl {
         static int getScaledHoverSlop(ViewConfiguration viewConfiguration) {
-            int scaledHoverSlop;
-            scaledHoverSlop = viewConfiguration.getScaledHoverSlop();
-            return scaledHoverSlop;
+            return viewConfiguration.getScaledHoverSlop();
         }
 
         static boolean shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration viewConfiguration) {
-            boolean shouldShowMenuShortcutsWhenKeyboardPresent;
-            shouldShowMenuShortcutsWhenKeyboardPresent = viewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
-            return shouldShowMenuShortcutsWhenKeyboardPresent;
+            return viewConfiguration.shouldShowMenuShortcutsWhenKeyboardPresent();
         }
     }
 }

@@ -52,8 +52,11 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
         return getOrAddSession(timeline.getPeriodByUid(mediaPeriodId.periodUid, this.period).windowIndex, mediaPeriodId).sessionId;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00e1 A[Catch: all -> 0x0118, TryCatch #0 {, blocks: (B:4:0x0005, B:8:0x0014, B:11:0x0025, B:13:0x0030, B:16:0x003a, B:23:0x004b, B:25:0x0057, B:26:0x005d, B:28:0x0061, B:30:0x0067, B:32:0x0080, B:34:0x00db, B:36:0x00e1, B:38:0x00f7, B:40:0x0103, B:42:0x0109), top: B:50:0x0005 }] */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00f3  */
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0044, code lost:
+        if (r25.mediaPeriodId.windowSequenceNumber < r2.windowSequenceNumber) goto L17;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00df A[Catch: all -> 0x0037, TryCatch #0 {all -> 0x0037, blocks: (B:4:0x0005, B:8:0x0014, B:11:0x0024, B:13:0x002e, B:18:0x003a, B:23:0x0048, B:25:0x0054, B:26:0x005a, B:28:0x005f, B:30:0x0065, B:32:0x007e, B:34:0x00d9, B:36:0x00df, B:38:0x00f5, B:40:0x0101, B:42:0x0107), top: B:47:0x0005 }] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00f1  */
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -62,18 +65,19 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
         SessionDescriptor sessionDescriptor;
         AnalyticsListener.EventTime eventTime2;
         SessionDescriptor sessionDescriptor2;
-        Assertions.checkNotNull(this.listener);
+        try {
+            Assertions.checkNotNull(this.listener);
+        } finally {
+        }
         if (eventTime.timeline.isEmpty()) {
             return;
         }
         SessionDescriptor sessionDescriptor3 = this.sessions.get(this.currentSessionId);
         if (eventTime.mediaPeriodId != null && sessionDescriptor3 != null) {
-            boolean z = false;
-            if (sessionDescriptor3.windowSequenceNumber != -1 ? eventTime.mediaPeriodId.windowSequenceNumber < sessionDescriptor3.windowSequenceNumber : sessionDescriptor3.windowIndex != eventTime.windowIndex) {
-                z = true;
-            }
-            if (z) {
-                return;
+            if (sessionDescriptor3.windowSequenceNumber == -1) {
+                if (sessionDescriptor3.windowIndex != eventTime.windowIndex) {
+                    return;
+                }
             }
         }
         SessionDescriptor orAddSession = getOrAddSession(eventTime.windowIndex, eventTime.mediaPeriodId);
@@ -116,13 +120,15 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
 
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager
     public synchronized void updateSessionsWithTimelineChange(AnalyticsListener.EventTime eventTime) {
-        Assertions.checkNotNull(this.listener);
-        Timeline timeline = this.currentTimeline;
-        this.currentTimeline = eventTime.timeline;
-        Iterator<SessionDescriptor> it = this.sessions.values().iterator();
-        while (it.hasNext()) {
-            SessionDescriptor next = it.next();
-            if (!next.tryResolvingToNewTimeline(timeline, this.currentTimeline) || next.isFinishedAtEventTime(eventTime)) {
+        try {
+            Assertions.checkNotNull(this.listener);
+            Timeline timeline = this.currentTimeline;
+            this.currentTimeline = eventTime.timeline;
+            Iterator<SessionDescriptor> it = this.sessions.values().iterator();
+            while (it.hasNext()) {
+                SessionDescriptor next = it.next();
+                if (next.tryResolvingToNewTimeline(timeline, this.currentTimeline) && !next.isFinishedAtEventTime(eventTime)) {
+                }
                 it.remove();
                 if (next.isCreated) {
                     if (next.sessionId.equals(this.currentSessionId)) {
@@ -131,30 +137,36 @@ public final class DefaultPlaybackSessionManager implements PlaybackSessionManag
                     this.listener.onSessionFinished(eventTime, next.sessionId, false);
                 }
             }
+            updateCurrentSession(eventTime);
+        } catch (Throwable th) {
+            throw th;
         }
-        updateCurrentSession(eventTime);
     }
 
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager
     public synchronized void updateSessionsWithDiscontinuity(AnalyticsListener.EventTime eventTime, int i) {
-        Assertions.checkNotNull(this.listener);
-        boolean z = i == 0;
-        Iterator<SessionDescriptor> it = this.sessions.values().iterator();
-        while (it.hasNext()) {
-            SessionDescriptor next = it.next();
-            if (next.isFinishedAtEventTime(eventTime)) {
-                it.remove();
-                if (next.isCreated) {
-                    boolean equals = next.sessionId.equals(this.currentSessionId);
-                    boolean z2 = z && equals && next.isActive;
-                    if (equals) {
-                        this.currentSessionId = null;
+        try {
+            Assertions.checkNotNull(this.listener);
+            boolean z = i == 0;
+            Iterator<SessionDescriptor> it = this.sessions.values().iterator();
+            while (it.hasNext()) {
+                SessionDescriptor next = it.next();
+                if (next.isFinishedAtEventTime(eventTime)) {
+                    it.remove();
+                    if (next.isCreated) {
+                        boolean equals = next.sessionId.equals(this.currentSessionId);
+                        boolean z2 = z && equals && next.isActive;
+                        if (equals) {
+                            this.currentSessionId = null;
+                        }
+                        this.listener.onSessionFinished(eventTime, next.sessionId, z2);
                     }
-                    this.listener.onSessionFinished(eventTime, next.sessionId, z2);
                 }
             }
+            updateCurrentSession(eventTime);
+        } catch (Throwable th) {
+            throw th;
         }
-        updateCurrentSession(eventTime);
     }
 
     @Override // com.google.android.exoplayer2.analytics.PlaybackSessionManager

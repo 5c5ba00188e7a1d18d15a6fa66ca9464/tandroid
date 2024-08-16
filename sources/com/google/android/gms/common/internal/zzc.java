@@ -22,18 +22,18 @@ public abstract class zzc {
     public final void zze() {
         Object obj;
         synchronized (this) {
-            obj = this.zza;
-            if (this.zzb) {
-                String obj2 = toString();
-                Log.w("GmsClient", "Callback proxy " + obj2 + " being reused. This is not safe.");
+            try {
+                obj = this.zza;
+                if (this.zzb) {
+                    String obj2 = toString();
+                    Log.w("GmsClient", "Callback proxy " + obj2 + " being reused. This is not safe.");
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         if (obj != null) {
-            try {
-                zza(obj);
-            } catch (RuntimeException e) {
-                throw e;
-            }
+            zza(obj);
         }
         synchronized (this) {
             this.zzb = true;

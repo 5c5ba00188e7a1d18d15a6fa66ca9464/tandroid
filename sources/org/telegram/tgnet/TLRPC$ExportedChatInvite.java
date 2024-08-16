@@ -1,6 +1,4 @@
 package org.telegram.tgnet;
-
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$ExportedChatInvite extends TLObject {
     public static TLRPC$TL_chatInviteExported TLdeserialize(AbstractSerializedData abstractSerializedData, int i, boolean z) {
@@ -113,7 +111,7 @@ public abstract class TLRPC$ExportedChatInvite extends TLObject {
                         if ((this.flags & 128) != 0) {
                             this.requested = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.title = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -146,7 +144,7 @@ public abstract class TLRPC$ExportedChatInvite extends TLObject {
                         if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.requested);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeString(this.title);
                         }
                     }

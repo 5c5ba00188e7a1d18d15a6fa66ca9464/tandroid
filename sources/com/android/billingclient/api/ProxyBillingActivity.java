@@ -9,7 +9,6 @@ import android.os.ResultReceiver;
 import com.android.billingclient.api.BillingResult;
 import com.google.android.apps.common.proguard.UsedByReflection;
 import com.google.android.gms.internal.play_billing.zzb;
-import org.telegram.messenger.R;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 @UsedByReflection("PlatformActivityProxy")
 /* loaded from: classes.dex */
@@ -113,7 +112,7 @@ public class ProxyBillingActivity extends Activity {
                 pendingIntent = (PendingIntent) getIntent().getParcelableExtra("BUY_INTENT");
                 if (getIntent().hasExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT") && getIntent().getBooleanExtra("IS_FLOW_FROM_FIRST_PARTY_CLIENT", false)) {
                     this.isFlowFromFirstPartyClient = true;
-                    i = R.styleable.AppCompatTheme_textColorAlertDialogListItem;
+                    i = 110;
                 }
                 i = 100;
             } else {

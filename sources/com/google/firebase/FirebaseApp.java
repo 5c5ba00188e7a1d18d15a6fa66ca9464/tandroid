@@ -88,9 +88,13 @@ public class FirebaseApp {
     public static FirebaseApp getInstance() {
         FirebaseApp firebaseApp;
         synchronized (LOCK) {
-            firebaseApp = INSTANCES.get("[DEFAULT]");
-            if (firebaseApp == null) {
-                throw new IllegalStateException("Default FirebaseApp is not initialized in this process " + ProcessUtils.getMyProcessName() + ". Make sure to call FirebaseApp.initializeApp(Context) first.");
+            try {
+                firebaseApp = INSTANCES.get("[DEFAULT]");
+                if (firebaseApp == null) {
+                    throw new IllegalStateException("Default FirebaseApp is not initialized in this process " + ProcessUtils.getMyProcessName() + ". Make sure to call FirebaseApp.initializeApp(Context) first.");
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return firebaseApp;
@@ -98,15 +102,19 @@ public class FirebaseApp {
 
     public static FirebaseApp initializeApp(Context context) {
         synchronized (LOCK) {
-            if (INSTANCES.containsKey("[DEFAULT]")) {
-                return getInstance();
+            try {
+                if (INSTANCES.containsKey("[DEFAULT]")) {
+                    return getInstance();
+                }
+                FirebaseOptions fromResource = FirebaseOptions.fromResource(context);
+                if (fromResource == null) {
+                    Log.w("FirebaseApp", "Default FirebaseApp failed to initialize because no default options were found. This usually means that com.google.gms:google-services was not applied to your gradle project.");
+                    return null;
+                }
+                return initializeApp(context, fromResource);
+            } catch (Throwable th) {
+                throw th;
             }
-            FirebaseOptions fromResource = FirebaseOptions.fromResource(context);
-            if (fromResource == null) {
-                Log.w("FirebaseApp", "Default FirebaseApp failed to initialize because no default options were found. This usually means that com.google.gms:google-services was not applied to your gradle project.");
-                return null;
-            }
-            return initializeApp(context, fromResource);
         }
     }
 
@@ -123,8 +131,7 @@ public class FirebaseApp {
         }
         synchronized (LOCK) {
             Map<String, FirebaseApp> map = INSTANCES;
-            boolean z = !map.containsKey(normalize);
-            Preconditions.checkState(z, "FirebaseApp name " + normalize + " already exists!");
+            Preconditions.checkState(!map.containsKey(normalize), "FirebaseApp name " + normalize + " already exists!");
             Preconditions.checkNotNull(context, "Application context cannot be null.");
             firebaseApp = new FirebaseApp(context, normalize, firebaseOptions);
             map.put(normalize, firebaseApp);
@@ -222,8 +229,12 @@ public class FirebaseApp {
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
             synchronized (FirebaseApp.LOCK) {
-                for (FirebaseApp firebaseApp : FirebaseApp.INSTANCES.values()) {
-                    firebaseApp.initializeAllApis();
+                try {
+                    for (FirebaseApp firebaseApp : FirebaseApp.INSTANCES.values()) {
+                        firebaseApp.initializeAllApis();
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
             unregister();
@@ -260,12 +271,16 @@ public class FirebaseApp {
         @Override // com.google.android.gms.common.api.internal.BackgroundDetector.BackgroundStateChangeListener
         public void onBackgroundStateChanged(boolean z) {
             synchronized (FirebaseApp.LOCK) {
-                Iterator it = new ArrayList(FirebaseApp.INSTANCES.values()).iterator();
-                while (it.hasNext()) {
-                    FirebaseApp firebaseApp = (FirebaseApp) it.next();
-                    if (firebaseApp.automaticResourceManagementEnabled.get()) {
-                        firebaseApp.notifyBackgroundStateChangeListeners(z);
+                try {
+                    Iterator it = new ArrayList(FirebaseApp.INSTANCES.values()).iterator();
+                    while (it.hasNext()) {
+                        FirebaseApp firebaseApp = (FirebaseApp) it.next();
+                        if (firebaseApp.automaticResourceManagementEnabled.get()) {
+                            firebaseApp.notifyBackgroundStateChangeListeners(z);
+                        }
                     }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }

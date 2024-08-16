@@ -204,10 +204,14 @@ class EglBase14Impl implements EglBase14 {
             throw new RuntimeException("No EGLSurface - can't make current");
         }
         synchronized (EglBase.lock) {
-            EGLDisplay eGLDisplay = this.eglDisplay;
-            EGLSurface eGLSurface = this.eglSurface;
-            if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext)) {
-                throw new RuntimeException("eglMakeCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+            try {
+                EGLDisplay eGLDisplay = this.eglDisplay;
+                EGLSurface eGLSurface = this.eglSurface;
+                if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext)) {
+                    throw new RuntimeException("eglMakeCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -219,10 +223,14 @@ class EglBase14Impl implements EglBase14 {
             throw new RuntimeException("No EGLSurface - can't make current");
         }
         synchronized (EglBase.lock) {
-            EGLDisplay eGLDisplay = this.eglDisplay;
-            EGLSurface eGLSurface = this.eglSurfaceBackground;
-            if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext)) {
-                throw new RuntimeException("eglMakeCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+            try {
+                EGLDisplay eGLDisplay = this.eglDisplay;
+                EGLSurface eGLSurface = this.eglSurfaceBackground;
+                if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, this.eglContext)) {
+                    throw new RuntimeException("eglMakeCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -235,10 +243,14 @@ class EglBase14Impl implements EglBase14 {
     @Override // org.webrtc.EglBase
     public void detachCurrent() {
         synchronized (EglBase.lock) {
-            EGLDisplay eGLDisplay = this.eglDisplay;
-            EGLSurface eGLSurface = EGL14.EGL_NO_SURFACE;
-            if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, EGL14.EGL_NO_CONTEXT)) {
-                throw new RuntimeException("eglDetachCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+            try {
+                EGLDisplay eGLDisplay = this.eglDisplay;
+                EGLSurface eGLSurface = EGL14.EGL_NO_SURFACE;
+                if (!EGL14.eglMakeCurrent(eGLDisplay, eGLSurface, eGLSurface, EGL14.EGL_NO_CONTEXT)) {
+                    throw new RuntimeException("eglDetachCurrent failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -285,14 +297,14 @@ class EglBase14Impl implements EglBase14 {
         int[] iArr2 = new int[1];
         if (!EGL14.eglChooseConfig(eGLDisplay, iArr, 0, eGLConfigArr, 0, 1, iArr2, 0)) {
             throw new RuntimeException("eglChooseConfig failed: 0x" + Integer.toHexString(EGL14.eglGetError()));
-        } else if (iArr2[0] > 0) {
+        } else if (iArr2[0] <= 0) {
+            throw new RuntimeException("Unable to find any matching EGL config");
+        } else {
             EGLConfig eGLConfig = eGLConfigArr[0];
             if (eGLConfig != null) {
                 return eGLConfig;
             }
             throw new RuntimeException("eglChooseConfig returned null");
-        } else {
-            throw new RuntimeException("Unable to find any matching EGL config");
         }
     }
 

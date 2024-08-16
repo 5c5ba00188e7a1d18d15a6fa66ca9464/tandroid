@@ -43,7 +43,7 @@ public class WebmEncoder {
 
     private static native boolean writeFrame(long j, ByteBuffer byteBuffer, int i, int i2);
 
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0143  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0145  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -189,7 +189,9 @@ public class WebmEncoder {
             this.fps = convertVideoParams.framerate;
             Path path = new Path();
             this.clipPath = path;
-            path.addRoundRect(new RectF(0.0f, 0.0f, i, i2), i * 0.125f, i2 * 0.125f, Path.Direction.CW);
+            float f = i;
+            float f2 = i2;
+            path.addRoundRect(new RectF(0.0f, 0.0f, f, f2), f * 0.125f, f2 * 0.125f, Path.Direction.CW);
             this.photo = BitmapFactory.decodeFile(convertVideoParams.videoPath);
             arrayList.addAll(convertVideoParams.mediaEntities);
             int size = arrayList.size();
@@ -324,14 +326,14 @@ public class WebmEncoder {
                                 paddingLeft = f7;
                             }
                             VideoEditedInfo.MediaEntity mediaEntity5 = next.entity;
-                            int i7 = this.measuredSize;
+                            float f8 = this.measuredSize;
                             VideoEditedInfo.MediaEntity mediaEntity6 = mediaEntity;
-                            float f8 = (i7 / mediaEntity6.viewWidth) * mediaEntity6.width;
-                            mediaEntity5.width = f8;
-                            float f9 = (i7 / mediaEntity6.viewHeight) * mediaEntity6.height;
-                            mediaEntity5.height = f9;
-                            mediaEntity5.x = paddingLeft - (f8 / 2.0f);
-                            mediaEntity5.y = paddingTop - (f9 / 2.0f);
+                            float f9 = (f8 / mediaEntity6.viewWidth) * mediaEntity6.width;
+                            mediaEntity5.width = f9;
+                            float f10 = (f8 / mediaEntity6.viewHeight) * mediaEntity6.height;
+                            mediaEntity5.height = f10;
+                            mediaEntity5.x = paddingLeft - (f9 / 2.0f);
+                            mediaEntity5.y = paddingTop - (f10 / 2.0f);
                             mediaEntity5.rotation = mediaEntity6.rotation;
                             if (mediaEntity5.bitmap == null) {
                                 FrameDrawer.this.initStickerEntity(mediaEntity5);
@@ -370,12 +372,12 @@ public class WebmEncoder {
             byte b = mediaEntity.subType;
             if (b == 0) {
                 editTextOutline.setFrameColor(mediaEntity.color);
-                editTextOutline.setTextColor(AndroidUtilities.computePerceivedBrightness(mediaEntity.color) < 0.721f ? -1 : -16777216);
+                editTextOutline.setTextColor(AndroidUtilities.computePerceivedBrightness(mediaEntity.color) >= 0.721f ? -16777216 : -1);
             } else if (b == 1) {
                 editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity.color) >= 0.25f ? -1728053248 : -1711276033);
                 editTextOutline.setTextColor(mediaEntity.color);
             } else if (b == 2) {
-                editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity.color) < 0.25f ? -1 : -16777216);
+                editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(mediaEntity.color) >= 0.25f ? -16777216 : -1);
                 editTextOutline.setTextColor(mediaEntity.color);
             } else if (b == 3) {
                 editTextOutline.setFrameColor(0);
@@ -454,28 +456,28 @@ public class WebmEncoder {
                         float f4 = mediaEntity.y;
                         float f5 = mediaEntity.height;
                         float f6 = f4 + (f5 / 2.0f);
-                        int i6 = this.W;
-                        int i7 = this.H;
-                        float f7 = (f2 * i6) / i7;
-                        float f8 = (f5 * i7) / i6;
-                        mediaEntity.width = f8;
-                        mediaEntity.height = f7;
-                        mediaEntity.x = f3 - (f8 / 2.0f);
-                        mediaEntity.y = f6 - (f7 / 2.0f);
+                        float f7 = this.W;
+                        float f8 = this.H;
+                        float f9 = (f2 * f7) / f8;
+                        float f10 = (f5 * f8) / f7;
+                        mediaEntity.width = f10;
+                        mediaEntity.height = f9;
+                        mediaEntity.x = f3 - (f10 / 2.0f);
+                        mediaEntity.y = f6 - (f9 / 2.0f);
                     }
                     applyRoundRadius(mediaEntity, mediaEntity.bitmap, 0);
                 } else if (decodeFile != null) {
                     float width = decodeFile.getWidth() / mediaEntity.bitmap.getHeight();
                     if (width > 1.0f) {
-                        float f9 = mediaEntity.height;
-                        float f10 = f9 / width;
-                        mediaEntity.y += (f9 - f10) / 2.0f;
-                        mediaEntity.height = f10;
+                        float f11 = mediaEntity.height;
+                        float f12 = f11 / width;
+                        mediaEntity.y += (f11 - f12) / 2.0f;
+                        mediaEntity.height = f12;
                     } else if (width < 1.0f) {
-                        float f11 = mediaEntity.width;
-                        float f12 = width * f11;
-                        mediaEntity.x += (f11 - f12) / 2.0f;
-                        mediaEntity.width = f12;
+                        float f13 = mediaEntity.width;
+                        float f14 = width * f13;
+                        mediaEntity.x += (f13 - f14) / 2.0f;
+                        mediaEntity.width = f14;
                     }
                 }
             }

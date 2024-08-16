@@ -16,6 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
@@ -231,7 +232,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             callback2.run(this.items, this);
             RecyclerListView recyclerListView = this.listView;
             if (recyclerListView != null && recyclerListView.isComputingLayout()) {
-                this.listView.post(new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda0
+                this.listView.post(new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         UniversalAdapter.this.lambda$update$0(z);
@@ -292,15 +293,15 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 case 29:
                 case 30:
                 case 32:
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
                     return true;
                 case VoIPController.ERROR_PRIVACY /* -2 */:
                 case -1:
@@ -308,8 +309,8 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 case 7:
                 case 8:
                 case 26:
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case 31:
+                case 38:
                 default:
                     return false;
             }
@@ -456,36 +457,36 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 case 30:
                     checkBoxCell = new TextRightIconCell(this.context, this.resourcesProvider);
                     break;
-                case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                case 31:
                     checkBoxCell = new GraySectionCell(this.context, this.resourcesProvider);
                     break;
                 case 32:
                     checkBoxCell = new ProfileSearchCell(this.context);
                     break;
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case 33:
                     checkBoxCell = new DialogCell(null, this.context, false, true);
                     break;
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case 34:
                     FlickerLoadingView flickerLoadingView = new FlickerLoadingView(this.context, this.resourcesProvider);
                     flickerLoadingView.setIsSingleCell(true);
                     checkBoxCell = flickerLoadingView;
                     break;
-                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                case 35:
+                case 36:
+                case 37:
+                case 41:
                     CheckBoxCell checkBoxCell2 = new CheckBoxCell(this.context, i == 35 ? 4 : i == 36 ? 6 : i == 37 ? 7 : i == 41 ? 8 : 0, 21, true, this.resourcesProvider);
                     checkBoxCell2.getCheckBoxRound().setColor(Theme.key_switch2TrackChecked, Theme.key_radioBackground, Theme.key_checkboxCheck);
                     checkBoxCell = checkBoxCell2;
                     break;
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case 38:
                     checkBoxCell = new CollapseTextCell(this.context, this.resourcesProvider);
                     break;
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                case 39:
+                case 40:
                     checkBoxCell = new TextCheckCell2(this.context);
                     break;
-                case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                case 42:
                     checkBoxCell = new HeaderCell(this.context, Theme.key_windowBackgroundWhiteBlueHeader, 21, 15, 0, false, true, this.resourcesProvider);
                     break;
             }
@@ -662,11 +663,11 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 return;
             case 7:
             case 8:
-            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+            case 38:
                 if (itemViewType == 7 || itemViewType == 8) {
                     TextInfoPrivacyCell textInfoPrivacyCell2 = (TextInfoPrivacyCell) viewHolder.itemView;
                     if (TextUtils.isEmpty(item.text)) {
-                        textInfoPrivacyCell2.setFixedSize(itemViewType == 8 ? 220 : 12);
+                        textInfoPrivacyCell2.setFixedSize(itemViewType == 8 ? NotificationCenter.pushMessagesUpdated : 12);
                         textInfoPrivacyCell2.setText("");
                     } else {
                         textInfoPrivacyCell2.setFixedSize(0);
@@ -750,7 +751,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             case 14:
                 SlideChooseView slideChooseView = (SlideChooseView) viewHolder.itemView;
                 slideChooseView.setOptions(item.intValue, item.texts);
-                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda1
+                slideChooseView.setCallback(new SlideChooseView.Callback() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda2
                     @Override // org.telegram.ui.Components.SlideChooseView.Callback
                     public final void onOptionSelected(int i8) {
                         UniversalAdapter.lambda$onBindViewHolder$1(UItem.this, i8);
@@ -790,7 +791,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
             case 21:
             case 22:
             case 23:
-                ((StatisticActivity.UniversalChartCell) viewHolder.itemView).set(item.intValue, (StatisticActivity.ChartViewData) item.object, new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda2
+                ((StatisticActivity.UniversalChartCell) viewHolder.itemView).set(item.intValue, (StatisticActivity.ChartViewData) item.object, new Utilities.Callback0Return() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda1
                     @Override // org.telegram.messenger.Utilities.Callback0Return
                     public final Object run() {
                         StatisticActivity.BaseChartCell lambda$onBindViewHolder$2;
@@ -837,7 +838,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 textRightIconCell.setDivider(hasDivider);
                 textRightIconCell.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
                 return;
-            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+            case 31:
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (TextUtils.equals(graySectionCell.getText(), item.text)) {
                     graySectionCell.setRightText(item.subtext, true, item.clickCallback);
@@ -888,7 +889,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 profileSearchCell.setData(obj8, null, str, charSequence, false, false);
                 profileSearchCell.useSeparator = hasDivider;
                 return;
-            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+            case 33:
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
                 Object obj9 = item.object;
                 MessageObject messageObject = obj9 instanceof MessageObject ? (MessageObject) obj9 : null;
@@ -900,12 +901,12 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     dialogCell.setDialog(messageObject.getDialogId(), messageObject, messageObject.messageOwner.date, false, false);
                     return;
                 }
-            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+            case 34:
                 ((FlickerLoadingView) viewHolder.itemView).setViewType(item.intValue);
                 return;
-            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+            case 35:
+            case 36:
+            case 41:
                 CheckBoxCell checkBoxCell = (CheckBoxCell) viewHolder.itemView;
                 checkBoxCell.setPad(item.pad);
                 checkBoxCell.setText(item.text, "", item.checked, hasDivider, checkBoxCell.itemId == item.id);
@@ -916,7 +917,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     return;
                 }
                 return;
-            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+            case 37:
                 CheckBoxCell checkBoxCell2 = (CheckBoxCell) viewHolder.itemView;
                 checkBoxCell2.setPad(item.pad);
                 checkBoxCell2.setUserOrChat((TLObject) item.object);
@@ -924,14 +925,14 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                 checkBoxCell2.itemId = item.id;
                 checkBoxCell2.setNeedDivider(hasDivider);
                 return;
-            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+            case 39:
+            case 40:
                 final TextCheckCell2 textCheckCell2 = (TextCheckCell2) viewHolder.itemView;
                 textCheckCell2.setTextAndCheck(item.text.toString(), item.checked, hasDivider, textCheckCell2.id == item.id);
                 textCheckCell2.id = item.id;
                 textCheckCell2.setIcon(item.locked ? R.drawable.permission_locked : 0);
                 if (itemViewType == 40) {
-                    textCheckCell2.setCollapseArrow(item.animatedText.toString(), item.collapsed, new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda3
+                    textCheckCell2.setCollapseArrow(item.animatedText.toString(), item.collapsed, new Runnable() { // from class: org.telegram.ui.Components.UniversalAdapter$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             UniversalAdapter.lambda$onBindViewHolder$3(UItem.this, textCheckCell2);
@@ -940,7 +941,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     return;
                 }
                 return;
-            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+            case 42:
                 HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                 headerCell.setText(item.animatedText, headerCell.id == item.id);
                 headerCell.id = item.id;
@@ -1031,7 +1032,9 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         int itemViewType = viewHolder.getItemViewType();
         UItem item = getItem(viewHolder.getAdapterPosition());
         if (itemViewType < UItem.factoryViewTypeStartsWith ? itemViewType == 3 || itemViewType == 5 || itemViewType == 6 || itemViewType == 30 || itemViewType == 4 || itemViewType == 10 || itemViewType == 11 || itemViewType == 12 || itemViewType == 17 || itemViewType == 16 || itemViewType == 29 || itemViewType == 25 || itemViewType == 27 || itemViewType == 32 || itemViewType == 33 || itemViewType == 35 || itemViewType == 36 || itemViewType == 37 || itemViewType == 41 || itemViewType == 39 || itemViewType == 40 || itemViewType == 38 : (findFactory = UItem.findFactory(itemViewType)) != null && findFactory.isClickable()) {
-            return item == null || item.enabled;
+            if (item == null || item.enabled) {
+                return true;
+            }
         }
         return false;
     }

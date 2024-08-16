@@ -1,26 +1,17 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-abstract /* synthetic */ class E0 {
-    static final /* synthetic */ int[] a;
+public interface E0 extends F0 {
+    @Override // j$.util.stream.F0
+    E0 a(int i);
 
-    static {
-        int[] iArr = new int[U2.values().length];
-        a = iArr;
-        try {
-            iArr[U2.REFERENCE.ordinal()] = 1;
-        } catch (NoSuchFieldError unused) {
-        }
-        try {
-            a[U2.INT_VALUE.ordinal()] = 2;
-        } catch (NoSuchFieldError unused2) {
-        }
-        try {
-            a[U2.LONG_VALUE.ordinal()] = 3;
-        } catch (NoSuchFieldError unused3) {
-        }
-        try {
-            a[U2.DOUBLE_VALUE.ordinal()] = 4;
-        } catch (NoSuchFieldError unused4) {
-        }
-    }
+    Object c(int i);
+
+    void d(Object obj, int i);
+
+    Object e();
+
+    void g(Object obj);
+
+    @Override // j$.util.stream.F0
+    j$.util.N spliterator();
 }

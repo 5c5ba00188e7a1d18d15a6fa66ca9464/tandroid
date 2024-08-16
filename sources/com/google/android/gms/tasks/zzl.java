@@ -27,10 +27,14 @@ public final class zzl implements zzq {
             return;
         }
         synchronized (this.zzb) {
-            if (this.zzc == null) {
-                return;
+            try {
+                if (this.zzc == null) {
+                    return;
+                }
+                this.zza.execute(new zzk(this, task));
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zza.execute(new zzk(this, task));
         }
     }
 }

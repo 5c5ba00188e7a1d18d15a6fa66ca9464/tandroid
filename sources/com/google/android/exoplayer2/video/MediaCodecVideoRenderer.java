@@ -38,9 +38,8 @@ import com.google.common.collect.ImmutableList;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     private static final int[] STANDARD_LONG_EDGE_VIDEO_PX = {1920, 1600, 1440, 1280, 960, 854, 640, 540, 480};
@@ -90,11 +89,6 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         return j < -500000;
     }
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "MediaCodecVideoRenderer";
-    }
-
     public MediaCodecVideoRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, long j, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, int i) {
         this(context, factory, mediaCodecSelector, j, z, handler, videoRendererEventListener, i, 30.0f);
     }
@@ -115,6 +109,11 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         this.scalingMode = 1;
         this.tunnelingAudioSessionId = 0;
         clearReportedVideoSize();
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "MediaCodecVideoRenderer";
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
@@ -154,7 +153,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         int i5 = mediaCodecInfo.hardwareAccelerated ? 64 : 0;
         int i6 = z ? 128 : 0;
         if (Util.SDK_INT >= 26 && "video/dolby-vision".equals(format.sampleMimeType) && !Api26.doesDisplaySupportDolbyVision(this.context)) {
-            i6 = LiteMode.FLAG_CHAT_BLUR;
+            i6 = 256;
         }
         if (isFormatSupported) {
             List<MediaCodecInfo> decoderInfos2 = getDecoderInfos(this.context, mediaCodecSelector, format, z2, true);
@@ -437,7 +436,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
         int i2 = format2.width;
         CodecMaxValues codecMaxValues = this.codecMaxValues;
         if (i2 > codecMaxValues.width || format2.height > codecMaxValues.height) {
-            i |= LiteMode.FLAG_CHAT_BLUR;
+            i |= 256;
         }
         if (getMaxInputSize(mediaCodecInfo, format2) > this.codecMaxValues.inputSize) {
             i |= 64;
@@ -542,7 +541,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                 if ("BRAVIA 4K 2015".equals(str2) || ("Amazon".equals(Util.MANUFACTURER) && ("KFSOWI".equals(str2) || ("AFTS".equals(str2) && mediaCodecInfo.secure)))) {
                     return -1;
                 }
-                return getMaxSampleSize(Util.ceilDivide(i, 16) * Util.ceilDivide(i2, 16) * 16 * 16, 2);
+                return getMaxSampleSize(Util.ceilDivide(i, 16) * Util.ceilDivide(i2, 16) * 256, 2);
             case 6:
                 return getMaxSampleSize(i * i2, 4);
             default:
@@ -1136,9 +1135,13 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
             return false;
         }
         synchronized (MediaCodecVideoRenderer.class) {
-            if (!evaluatedDeviceNeedsSetOutputSurfaceWorkaround) {
-                deviceNeedsSetOutputSurfaceWorkaround = evaluateDeviceNeedsSetOutputSurfaceWorkaround();
-                evaluatedDeviceNeedsSetOutputSurfaceWorkaround = true;
+            try {
+                if (!evaluatedDeviceNeedsSetOutputSurfaceWorkaround) {
+                    deviceNeedsSetOutputSurfaceWorkaround = evaluateDeviceNeedsSetOutputSurfaceWorkaround();
+                    evaluatedDeviceNeedsSetOutputSurfaceWorkaround = true;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return deviceNeedsSetOutputSurfaceWorkaround;
@@ -1163,7 +1166,7 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:621:0x084f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:621:0x084d, code lost:
         if (r0.equals("PGN528") == false) goto L46;
      */
     /*
@@ -2348,91 +2351,91 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case 28:
                             case 29:
                             case 30:
-                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                            case 31:
                             case ' ':
-                            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-                            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-                            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-                            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
-                            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
-                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
-                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
-                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
-                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-                            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                            case R.styleable.AppCompatTheme_colorError /* 56 */:
-                            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
-                            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
-                            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
-                            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-                            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
-                            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-                            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
+                            case '!':
+                            case '\"':
+                            case '#':
+                            case '$':
+                            case '%':
+                            case '&':
+                            case '\'':
+                            case '(':
+                            case ')':
+                            case '*':
+                            case '+':
+                            case ',':
+                            case '-':
+                            case '.':
+                            case '/':
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                            case ':':
+                            case ';':
+                            case '<':
+                            case '=':
+                            case '>':
+                            case '?':
                             case '@':
                             case 'A':
-                            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
-                            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
-                            case R.styleable.AppCompatTheme_editTextColor /* 69 */:
-                            case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
-                            case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
-                            case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-                            case R.styleable.AppCompatTheme_listChoiceBackgroundIndicator /* 73 */:
-                            case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
-                            case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
-                            case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                            case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                            case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
-                            case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
+                            case 'B':
+                            case 'C':
+                            case 'D':
+                            case 'E':
+                            case 'F':
+                            case 'G':
+                            case 'H':
+                            case 'I':
+                            case 'J':
+                            case 'K':
+                            case 'L':
+                            case 'M':
+                            case 'N':
+                            case 'O':
                             case 'P':
-                            case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
-                            case R.styleable.AppCompatTheme_listPreferredItemPaddingEnd /* 82 */:
-                            case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                            case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
-                            case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
+                            case 'Q':
+                            case 'R':
+                            case 'S':
+                            case 'T':
+                            case 'U':
                             case 'V':
-                            case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
-                            case R.styleable.AppCompatTheme_panelMenuListWidth /* 88 */:
-                            case R.styleable.AppCompatTheme_popupMenuStyle /* 89 */:
-                            case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
-                            case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
-                            case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
-                            case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
-                            case R.styleable.AppCompatTheme_ratingBarStyleSmall /* 94 */:
-                            case R.styleable.AppCompatTheme_searchViewStyle /* 95 */:
-                            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
-                            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
-                            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
-                            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                            case 'W':
+                            case 'X':
+                            case 'Y':
+                            case 'Z':
+                            case '[':
+                            case '\\':
+                            case ']':
+                            case '^':
+                            case '_':
+                            case '`':
+                            case 'a':
+                            case 'b':
+                            case 'c':
                             case 'd':
                             case 'e':
-                            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
-                            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
-                            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
-                            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
-                            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
-                            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
-                            case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-                            case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
-                            case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
-                            case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
-                            case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
-                            case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
-                            case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
-                            case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                            case 'f':
+                            case 'g':
+                            case 'h':
+                            case 'i':
+                            case 'j':
+                            case 'k':
+                            case 'l':
+                            case 'm':
+                            case 'n':
+                            case 'o':
+                            case 'p':
+                            case 'q':
+                            case 'r':
+                            case 's':
                             case 't':
                             case 'u':
                             case 'v':
@@ -2444,22 +2447,21 @@ public class MediaCodecVideoRenderer extends MediaCodecRenderer {
                             case '|':
                             case '}':
                             case '~':
-                            case 127:
+                            case NotificationCenter.dialogTranslate /* 127 */:
                             case 128:
-                            case 129:
-                            case 130:
-                            case 131:
-                            case 132:
-                            case 133:
-                            case 134:
-                            case 135:
-                            case 136:
-                            case 137:
-                            case 138:
-                            case 139:
+                            case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
+                            case NotificationCenter.walletSyncProgressChanged /* 130 */:
+                            case NotificationCenter.httpFileDidLoad /* 131 */:
+                            case NotificationCenter.httpFileDidFailedLoad /* 132 */:
+                            case NotificationCenter.didUpdateConnectionState /* 133 */:
+                            case NotificationCenter.fileUploaded /* 134 */:
+                            case NotificationCenter.fileUploadFailed /* 135 */:
+                            case NotificationCenter.fileUploadProgressChanged /* 136 */:
+                            case NotificationCenter.fileLoadProgressChanged /* 137 */:
+                            case NotificationCenter.fileLoaded /* 138 */:
+                            case NotificationCenter.fileLoadFailed /* 139 */:
                                 break;
                             default:
-                                str2.hashCode();
                                 if (!str2.equals("JSN-L21")) {
                                 }
                                 break;

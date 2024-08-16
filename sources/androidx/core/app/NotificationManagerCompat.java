@@ -22,6 +22,7 @@ import android.provider.Settings;
 import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -89,7 +90,10 @@ public final class NotificationManagerCompat {
         try {
             Class<?> cls = Class.forName(AppOpsManager.class.getName());
             Class<?> cls2 = Integer.TYPE;
-            return ((Integer) cls.getMethod("checkOpNoThrow", cls2, cls2, String.class).invoke(appOpsManager, Integer.valueOf(((Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class)).intValue()), Integer.valueOf(i), packageName)).intValue() == 0;
+            Method method = cls.getMethod("checkOpNoThrow", cls2, cls2, String.class);
+            Integer num = (Integer) cls.getDeclaredField("OP_POST_NOTIFICATION").get(Integer.class);
+            num.intValue();
+            return ((Integer) method.invoke(appOpsManager, num, Integer.valueOf(i), packageName)).intValue() == 0;
         } catch (ClassNotFoundException | IllegalAccessException | NoSuchFieldException | NoSuchMethodException | RuntimeException | InvocationTargetException unused) {
             return true;
         }
@@ -100,17 +104,21 @@ public final class NotificationManagerCompat {
         String string = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
         synchronized (sEnabledNotificationListenersLock) {
             if (string != null) {
-                if (!string.equals(sEnabledNotificationListeners)) {
-                    String[] split = string.split(":", -1);
-                    HashSet hashSet = new HashSet(split.length);
-                    for (String str : split) {
-                        ComponentName unflattenFromString = ComponentName.unflattenFromString(str);
-                        if (unflattenFromString != null) {
-                            hashSet.add(unflattenFromString.getPackageName());
+                try {
+                    if (!string.equals(sEnabledNotificationListeners)) {
+                        String[] split = string.split(":", -1);
+                        HashSet hashSet = new HashSet(split.length);
+                        for (String str : split) {
+                            ComponentName unflattenFromString = ComponentName.unflattenFromString(str);
+                            if (unflattenFromString != null) {
+                                hashSet.add(unflattenFromString.getPackageName());
+                            }
                         }
+                        sEnabledNotificationListenerPackages = hashSet;
+                        sEnabledNotificationListeners = string;
                     }
-                    sEnabledNotificationListenerPackages = hashSet;
-                    sEnabledNotificationListeners = string;
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
             set = sEnabledNotificationListenerPackages;
@@ -125,10 +133,14 @@ public final class NotificationManagerCompat {
 
     private void pushSideChannelQueue(Task task) {
         synchronized (sLock) {
-            if (sSideChannelManager == null) {
-                sSideChannelManager = new SideChannelManager(this.mContext.getApplicationContext());
+            try {
+                if (sSideChannelManager == null) {
+                    sSideChannelManager = new SideChannelManager(this.mContext.getApplicationContext());
+                }
+                sSideChannelManager.queueTask(task);
+            } catch (Throwable th) {
+                throw th;
             }
-            sSideChannelManager.queueTask(task);
         }
     }
 
@@ -288,18 +300,19 @@ public final class NotificationManagerCompat {
             if (this.mHandler.hasMessages(3, listenerRecord.componentName)) {
                 return;
             }
-            int i = listenerRecord.retryCount + 1;
-            listenerRecord.retryCount = i;
-            if (i > 6) {
+            int i = listenerRecord.retryCount;
+            int i2 = i + 1;
+            listenerRecord.retryCount = i2;
+            if (i2 > 6) {
                 Log.w("NotifManCompat", "Giving up on delivering " + listenerRecord.taskQueue.size() + " tasks to " + listenerRecord.componentName + " after " + listenerRecord.retryCount + " retries");
                 listenerRecord.taskQueue.clear();
                 return;
             }
-            int i2 = (1 << (i - 1)) * 1000;
+            int i3 = (1 << i) * 1000;
             if (Log.isLoggable("NotifManCompat", 3)) {
-                Log.d("NotifManCompat", "Scheduling retry for " + i2 + " ms");
+                Log.d("NotifManCompat", "Scheduling retry for " + i3 + " ms");
             }
-            this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(3, listenerRecord.componentName), i2);
+            this.mHandler.sendMessageDelayed(this.mHandler.obtainMessage(3, listenerRecord.componentName), i3);
         }
 
         private void processListenerQueue(ListenerRecord listenerRecord) {
@@ -421,15 +434,11 @@ public final class NotificationManagerCompat {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static boolean areNotificationsEnabled(NotificationManager notificationManager) {
-            boolean areNotificationsEnabled;
-            areNotificationsEnabled = notificationManager.areNotificationsEnabled();
-            return areNotificationsEnabled;
+            return notificationManager.areNotificationsEnabled();
         }
 
         static int getImportance(NotificationManager notificationManager) {
-            int importance;
-            importance = notificationManager.getImportance();
-            return importance;
+            return notificationManager.getImportance();
         }
     }
 }

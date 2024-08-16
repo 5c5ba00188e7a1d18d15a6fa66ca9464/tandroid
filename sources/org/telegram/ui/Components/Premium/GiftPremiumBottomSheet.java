@@ -222,10 +222,9 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         this.tiersStartRow = i2;
         int size = i2 + this.giftTiers.size();
         this.tiersEndRow = size;
-        int i3 = size + 1;
         this.footerRow = size;
-        this.rowsCount = i3 + 1;
-        this.buttonRow = i3;
+        this.rowsCount = size + 2;
+        this.buttonRow = size + 1;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -251,7 +250,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
         for (GiftTier giftTier : this.giftTiers) {
             giftTier.setPricePerMonthRegular(j2);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 GiftPremiumBottomSheet.this.lambda$initData$2(j);
@@ -290,7 +289,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             z = false;
         }
         if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || this.giftTiers.get(this.selectedTierIndex).googlePlayProductDetails == null)) {
-            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda3
+            this.premiumButtonView.setButton(LocaleController.getString(R.string.Loading), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     GiftPremiumBottomSheet.lambda$updateButtonText$4(view);
@@ -299,7 +298,7 @@ public class GiftPremiumBottomSheet extends BottomSheetWithRecyclerListView impl
             this.premiumButtonView.setFlickerDisabled(true);
             return;
         }
-        this.premiumButtonView.setButton(LocaleController.formatString(R.string.GiftSubscriptionFor, this.giftTiers.get(this.selectedTierIndex).getFormattedPrice()), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda4
+        this.premiumButtonView.setButton(LocaleController.formatString(R.string.GiftSubscriptionFor, this.giftTiers.get(this.selectedTierIndex).getFormattedPrice()), new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.GiftPremiumBottomSheet$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 GiftPremiumBottomSheet.this.lambda$updateButtonText$5(view);

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -618,12 +619,12 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     return lambda$showActionMode$0;
                 }
             });
-            ActionBarMenuItem addItemWithWidth = this.actionMode.addItemWithWidth(203, R.drawable.avd_speed, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
+            ActionBarMenuItem addItemWithWidth = this.actionMode.addItemWithWidth(NotificationCenter.chatWasBoostedByUser, R.drawable.avd_speed, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
             this.speedItem = addItemWithWidth;
             addItemWithWidth.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
-            this.gotoItem = this.actionMode.addItemWithWidth(200, R.drawable.msg_message, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
-            this.forwardItem = this.actionMode.addItemWithWidth(201, R.drawable.msg_forward, AndroidUtilities.dp(54.0f), LocaleController.getString("Forward", R.string.Forward));
-            this.deleteItem = this.actionMode.addItemWithWidth(202, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete));
+            this.gotoItem = this.actionMode.addItemWithWidth(NotificationCenter.storyQualityUpdate, R.drawable.msg_message, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
+            this.forwardItem = this.actionMode.addItemWithWidth(NotificationCenter.openBoostForUsersDialog, R.drawable.msg_forward, AndroidUtilities.dp(54.0f), LocaleController.getString("Forward", R.string.Forward));
+            this.deleteItem = this.actionMode.addItemWithWidth(NotificationCenter.groupRestrictionsUnlockedByBoosts, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete));
         }
         if (this.selectedMessagesCountTextView != null) {
             DialogsSearchAdapter dialogsSearchAdapter = this.dialogsSearchAdapter;
@@ -842,14 +843,14 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     this.speedItem.setVisibility(i2);
                     int i3 = Build.VERSION.SDK_INT;
                     if (i3 >= 21) {
-                        AnimatedVectorDrawable animatedVectorDrawable = (AnimatedVectorDrawable) this.speedItem.getIconView().getDrawable();
-                        animatedVectorDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
+                        AnimatedVectorDrawable m = AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(this.speedItem.getIconView().getDrawable());
+                        m.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
                         if (isSpeedItemVisible) {
-                            animatedVectorDrawable.start();
+                            m.start();
                         } else if (i3 >= 23) {
-                            animatedVectorDrawable.reset();
+                            m.reset();
                         } else {
-                            animatedVectorDrawable.setVisible(false, true);
+                            m.setVisible(false, true);
                         }
                     }
                 }

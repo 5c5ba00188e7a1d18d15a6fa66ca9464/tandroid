@@ -189,56 +189,35 @@ public class WallpaperUpdater {
         this.currentPicturePath = str;
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0075 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r10v12, types: [org.telegram.ui.Components.WallpaperUpdater$WallpaperUpdaterDelegate] */
-    /* JADX WARN: Type inference failed for: r8v19, types: [android.graphics.Bitmap] */
-    /* JADX WARN: Type inference failed for: r9v1 */
-    /* JADX WARN: Type inference failed for: r9v10 */
-    /* JADX WARN: Type inference failed for: r9v11 */
-    /* JADX WARN: Type inference failed for: r9v12, types: [java.io.FileOutputStream] */
-    /* JADX WARN: Type inference failed for: r9v13 */
-    /* JADX WARN: Type inference failed for: r9v16, types: [java.io.OutputStream, java.io.FileOutputStream] */
-    /* JADX WARN: Type inference failed for: r9v17 */
-    /* JADX WARN: Type inference failed for: r9v18 */
-    /* JADX WARN: Type inference failed for: r9v19 */
-    /* JADX WARN: Type inference failed for: r9v7 */
-    /* JADX WARN: Type inference failed for: r9v9 */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0068, code lost:
+        if (r9 == null) goto L12;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0076 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void onActivityResult(int i, int i2, Intent intent) {
-        Throwable th;
+        FileOutputStream fileOutputStream;
         if (i2 == -1) {
-            ?? r9 = 10;
-            r9 = 10;
-            FileOutputStream fileOutputStream = null;
+            FileOutputStream fileOutputStream2 = null;
             if (i == 10) {
                 AndroidUtilities.addMediaToGallery(this.currentPicturePath);
                 try {
+                    this.currentWallpaperPath = new File(FileLoader.getDirectory(4), Utilities.random.nextInt() + ".jpg");
+                    android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
+                    Bitmap loadBitmap = ImageLoader.loadBitmap(this.currentPicturePath, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
+                    fileOutputStream = new FileOutputStream(this.currentWallpaperPath);
                     try {
+                        loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, fileOutputStream);
+                        this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap, false);
+                    } catch (Exception e) {
+                        e = e;
                         try {
-                            this.currentWallpaperPath = new File(FileLoader.getDirectory(4), Utilities.random.nextInt() + ".jpg");
-                            android.graphics.Point realScreenSize = AndroidUtilities.getRealScreenSize();
-                            ?? loadBitmap = ImageLoader.loadBitmap(this.currentPicturePath, null, (float) realScreenSize.x, (float) realScreenSize.y, true);
-                            r9 = new FileOutputStream(this.currentWallpaperPath);
-                            try {
-                                loadBitmap.compress(Bitmap.CompressFormat.JPEG, 87, r9);
-                                this.delegate.didSelectWallpaper(this.currentWallpaperPath, loadBitmap, false);
-                                r9.close();
-                                r9 = r9;
-                            } catch (Exception e) {
-                                e = e;
-                                FileLog.e(e);
-                                if (r9 != 0) {
-                                    r9.close();
-                                    r9 = r9;
-                                }
-                                this.currentPicturePath = null;
-                            }
-                        } catch (Throwable th2) {
-                            th = th2;
-                            fileOutputStream = r9;
+                            FileLog.e(e);
+                        } catch (Throwable th) {
+                            th = th;
+                            fileOutputStream2 = fileOutputStream;
+                            fileOutputStream = fileOutputStream2;
                             if (fileOutputStream != null) {
                                 try {
                                     fileOutputStream.close();
@@ -248,15 +227,24 @@ public class WallpaperUpdater {
                             }
                             throw th;
                         }
-                    } catch (Exception e3) {
-                        e = e3;
-                        r9 = 0;
-                    } catch (Throwable th3) {
-                        th = th3;
+                    } catch (Throwable th2) {
+                        th = th2;
                         if (fileOutputStream != null) {
                         }
                         throw th;
                     }
+                } catch (Exception e3) {
+                    e = e3;
+                    fileOutputStream = null;
+                } catch (Throwable th3) {
+                    th = th3;
+                    fileOutputStream = fileOutputStream2;
+                    if (fileOutputStream != null) {
+                    }
+                    throw th;
+                }
+                try {
+                    fileOutputStream.close();
                 } catch (Exception e4) {
                     FileLog.e(e4);
                 }

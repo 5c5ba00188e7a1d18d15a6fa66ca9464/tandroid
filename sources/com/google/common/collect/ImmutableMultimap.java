@@ -172,12 +172,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
                 this.asMapItr = ImmutableMultimap.this.map.entrySet().iterator();
             }
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.valueItr.hasNext() || this.asMapItr.hasNext();
             }
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public Map.Entry<K, V> next() {
                 if (!this.valueItr.hasNext()) {
                     Map.Entry<K, ? extends ImmutableCollection<V>> next = this.asMapItr.next();
@@ -213,12 +213,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
                 this.valueCollectionItr = ImmutableMultimap.this.map.values().iterator();
             }
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.valueItr.hasNext() || this.valueCollectionItr.hasNext();
             }
 
-            @Override // java.util.Iterator, j$.util.Iterator
+            @Override // java.util.Iterator
             public V next() {
                 if (!this.valueItr.hasNext()) {
                     this.valueItr = this.valueCollectionItr.next().iterator();
@@ -247,8 +247,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
             return this.multimap.valueIterator();
         }
 
+        /* JADX INFO: Access modifiers changed from: package-private */
         @Override // com.google.common.collect.ImmutableCollection
-        int copyIntoArray(Object[] objArr, int i) {
+        public int copyIntoArray(Object[] objArr, int i) {
             UnmodifiableIterator<? extends ImmutableCollection<V>> it = this.multimap.map.values().iterator();
             while (it.hasNext()) {
                 i = it.next().copyIntoArray(objArr, i);

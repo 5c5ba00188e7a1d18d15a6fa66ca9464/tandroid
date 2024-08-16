@@ -11,15 +11,19 @@ public final class zzc {
 
     public final int zza(int i) {
         synchronized (zza) {
-            int i2 = this.zzc.get(i, -1);
-            if (i2 != -1) {
-                return i2;
+            try {
+                int i2 = this.zzc.get(i, -1);
+                if (i2 != -1) {
+                    return i2;
+                }
+                int i3 = zzb;
+                zzb = i3 + 1;
+                this.zzc.append(i, i3);
+                this.zzd.append(i3, i);
+                return i3;
+            } catch (Throwable th) {
+                throw th;
             }
-            int i3 = zzb;
-            zzb = i3 + 1;
-            this.zzc.append(i, i3);
-            this.zzd.append(i3, i);
-            return i3;
         }
     }
 }

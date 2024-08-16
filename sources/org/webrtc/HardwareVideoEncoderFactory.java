@@ -79,23 +79,23 @@ public class HardwareVideoEncoderFactory implements VideoEncoderFactory {
 
     @Override // org.webrtc.VideoEncoderFactory
     public VideoCodecInfo[] getSupportedCodecs() {
-        if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().groupCall == null) {
-            ArrayList arrayList = new ArrayList();
-            VideoCodecMimeType[] videoCodecMimeTypeArr = {VideoCodecMimeType.VP8, VideoCodecMimeType.VP9, VideoCodecMimeType.H264, VideoCodecMimeType.H265};
-            for (int i = 0; i < 4; i++) {
-                VideoCodecMimeType videoCodecMimeType = videoCodecMimeTypeArr[i];
-                MediaCodecInfo findCodecForType = findCodecForType(videoCodecMimeType);
-                if (findCodecForType != null) {
-                    String name = videoCodecMimeType.name();
-                    if (videoCodecMimeType == VideoCodecMimeType.H264 && isH264HighProfileSupported(findCodecForType)) {
-                        arrayList.add(new VideoCodecInfo(name, MediaCodecUtils.getCodecProperties(videoCodecMimeType, true)));
-                    }
-                    arrayList.add(new VideoCodecInfo(name, MediaCodecUtils.getCodecProperties(videoCodecMimeType, false)));
-                }
-            }
-            return (VideoCodecInfo[]) arrayList.toArray(new VideoCodecInfo[arrayList.size()]);
+        if (VoIPService.getSharedInstance() != null && VoIPService.getSharedInstance().groupCall != null) {
+            return new VideoCodecInfo[0];
         }
-        return new VideoCodecInfo[0];
+        ArrayList arrayList = new ArrayList();
+        VideoCodecMimeType[] videoCodecMimeTypeArr = {VideoCodecMimeType.VP8, VideoCodecMimeType.VP9, VideoCodecMimeType.H264, VideoCodecMimeType.H265};
+        for (int i = 0; i < 4; i++) {
+            VideoCodecMimeType videoCodecMimeType = videoCodecMimeTypeArr[i];
+            MediaCodecInfo findCodecForType = findCodecForType(videoCodecMimeType);
+            if (findCodecForType != null) {
+                String name = videoCodecMimeType.name();
+                if (videoCodecMimeType == VideoCodecMimeType.H264 && isH264HighProfileSupported(findCodecForType)) {
+                    arrayList.add(new VideoCodecInfo(name, MediaCodecUtils.getCodecProperties(videoCodecMimeType, true)));
+                }
+                arrayList.add(new VideoCodecInfo(name, MediaCodecUtils.getCodecProperties(videoCodecMimeType, false)));
+            }
+        }
+        return (VideoCodecInfo[]) arrayList.toArray(new VideoCodecInfo[arrayList.size()]);
     }
 
     private MediaCodecInfo findCodecForType(VideoCodecMimeType videoCodecMimeType) {

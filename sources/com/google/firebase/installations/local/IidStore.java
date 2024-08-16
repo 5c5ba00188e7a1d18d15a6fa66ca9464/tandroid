@@ -12,7 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class IidStore {
     private static final String[] ALLOWABLE_SCOPES = {"*", "FCM", "GCM", ""};
@@ -50,16 +50,20 @@ public class IidStore {
 
     public String readToken() {
         synchronized (this.iidPrefs) {
-            for (String str : ALLOWABLE_SCOPES) {
-                String string = this.iidPrefs.getString(createTokenKey(this.defaultSenderId, str), null);
-                if (string != null && !string.isEmpty()) {
-                    if (string.startsWith("{")) {
-                        string = parseIidTokenFromJson(string);
+            try {
+                for (String str : ALLOWABLE_SCOPES) {
+                    String string = this.iidPrefs.getString(createTokenKey(this.defaultSenderId, str), null);
+                    if (string != null && !string.isEmpty()) {
+                        if (string.startsWith("{")) {
+                            string = parseIidTokenFromJson(string);
+                        }
+                        return string;
                     }
-                    return string;
                 }
+                return null;
+            } catch (Throwable th) {
+                throw th;
             }
-            return null;
         }
     }
 
@@ -73,11 +77,15 @@ public class IidStore {
 
     public String readIid() {
         synchronized (this.iidPrefs) {
-            String readInstanceIdFromLocalStorage = readInstanceIdFromLocalStorage();
-            if (readInstanceIdFromLocalStorage != null) {
-                return readInstanceIdFromLocalStorage;
+            try {
+                String readInstanceIdFromLocalStorage = readInstanceIdFromLocalStorage();
+                if (readInstanceIdFromLocalStorage != null) {
+                    return readInstanceIdFromLocalStorage;
+                }
+                return readPublicKeyFromLocalStorageAndCalculateInstanceId();
+            } catch (Throwable th) {
+                throw th;
             }
-            return readPublicKeyFromLocalStorageAndCalculateInstanceId();
         }
     }
 
@@ -91,22 +99,26 @@ public class IidStore {
 
     private String readPublicKeyFromLocalStorageAndCalculateInstanceId() {
         synchronized (this.iidPrefs) {
-            String string = this.iidPrefs.getString("|S||P|", null);
-            if (string == null) {
-                return null;
+            try {
+                String string = this.iidPrefs.getString("|S||P|", null);
+                if (string == null) {
+                    return null;
+                }
+                PublicKey parseKey = parseKey(string);
+                if (parseKey == null) {
+                    return null;
+                }
+                return getIdFromPublicKey(parseKey);
+            } catch (Throwable th) {
+                throw th;
             }
-            PublicKey parseKey = parseKey(string);
-            if (parseKey == null) {
-                return null;
-            }
-            return getIdFromPublicKey(parseKey);
         }
     }
 
     private static String getIdFromPublicKey(PublicKey publicKey) {
         try {
             byte[] digest = MessageDigest.getInstance("SHA1").digest(publicKey.getEncoded());
-            digest[0] = (byte) (((digest[0] & 15) + R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) & 255);
+            digest[0] = (byte) (((digest[0] & 15) + 112) & NotificationCenter.voipServiceCreated);
             return Base64.encodeToString(digest, 0, 8, 11);
         } catch (NoSuchAlgorithmException unused) {
             Log.w("ContentValues", "Unexpected error, device missing required algorithms");

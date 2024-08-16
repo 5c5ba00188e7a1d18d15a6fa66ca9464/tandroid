@@ -115,7 +115,7 @@ public class RadialProgressView extends View {
     }
 
     /* JADX WARN: Removed duplicated region for block: B:17:0x004a  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -156,30 +156,33 @@ public class RadialProgressView extends View {
                         float f5 = this.currentCircleLength;
                         float interpolation = (this.accelerateInterpolator.getInterpolation(this.currentProgressTime / 500.0f) * 266.0f) + 4.0f + (this.toCircleProgress * 360.0f);
                         this.currentCircleLength = interpolation;
-                        if (f5 - interpolation > 0.0f) {
-                            this.radOffset += f5 - interpolation;
+                        float f6 = f5 - interpolation;
+                        if (f6 > 0.0f) {
+                            this.radOffset += f6;
                         }
                     } else {
-                        float f6 = this.currentCircleLength;
+                        float f7 = this.currentCircleLength;
                         float interpolation2 = (4.0f - ((1.0f - this.decelerateInterpolator.getInterpolation(this.currentProgressTime / 500.0f)) * 270.0f)) - (this.toCircleProgress * 364.0f);
                         this.currentCircleLength = interpolation2;
-                        if (f6 - interpolation2 > 0.0f) {
-                            this.radOffset += f6 - interpolation2;
+                        float f8 = f7 - interpolation2;
+                        if (f8 > 0.0f) {
+                            this.radOffset += f8;
                         }
                     }
                 } else {
-                    float f7 = this.currentProgress;
-                    float f8 = this.progressAnimationStart;
-                    float f9 = f7 - f8;
-                    if (f9 > 0.0f) {
+                    float f9 = this.currentProgress;
+                    float f10 = this.progressAnimationStart;
+                    float f11 = f9 - f10;
+                    if (f11 > 0.0f) {
                         int i = (int) (this.progressTime + j);
                         this.progressTime = i;
-                        if (i >= 200.0f) {
-                            this.progressAnimationStart = f7;
-                            this.animatedProgress = f7;
+                        float f12 = i;
+                        if (f12 >= 200.0f) {
+                            this.progressAnimationStart = f9;
+                            this.animatedProgress = f9;
                             this.progressTime = 0;
                         } else {
-                            this.animatedProgress = f8 + (f9 * AndroidUtilities.decelerateInterpolator.getInterpolation(i / 200.0f));
+                            this.animatedProgress = f10 + (f11 * AndroidUtilities.decelerateInterpolator.getInterpolation(f12 / 200.0f));
                         }
                     }
                     this.currentCircleLength = Math.max(4.0f, this.animatedProgress * 360.0f);
@@ -188,11 +191,11 @@ public class RadialProgressView extends View {
             }
         }
         if (!z) {
-            float f10 = this.toCircleProgress;
-            if (f10 != 0.0f) {
-                float f11 = f10 - 0.04f;
-                this.toCircleProgress = f11;
-                if (f11 < 0.0f) {
+            float f13 = this.toCircleProgress;
+            if (f13 != 0.0f) {
+                float f14 = f13 - 0.04f;
+                this.toCircleProgress = f14;
+                if (f14 < 0.0f) {
                     this.toCircleProgress = 0.0f;
                 }
             }
@@ -242,13 +245,13 @@ public class RadialProgressView extends View {
 
     public void draw(Canvas canvas, float f, float f2) {
         RectF rectF = this.cicleRect;
-        int i = this.size;
-        rectF.set(f - (i / 2.0f), f2 - (i / 2.0f), f + (i / 2.0f), f2 + (i / 2.0f));
+        float f3 = this.size / 2.0f;
+        rectF.set(f - f3, f2 - f3, f + f3, f2 + f3);
         RectF rectF2 = this.cicleRect;
-        float f3 = this.radOffset;
-        float f4 = this.currentCircleLength;
-        this.drawingCircleLenght = f4;
-        canvas.drawArc(rectF2, f3, f4, false, this.progressPaint);
+        float f4 = this.radOffset;
+        float f5 = this.currentCircleLength;
+        this.drawingCircleLenght = f5;
+        canvas.drawArc(rectF2, f4, f5, false, this.progressPaint);
         updateAnimation();
     }
 

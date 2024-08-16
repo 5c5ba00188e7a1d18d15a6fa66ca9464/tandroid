@@ -151,51 +151,35 @@ public class AudioPlayerCell extends View implements DownloadController.FileDown
         return this.currentMessageObject;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0039  */
-    /* JADX WARN: Removed duplicated region for block: B:18:0x0046  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private boolean checkAudioMotionEvent(MotionEvent motionEvent) {
-        boolean z;
+        int dp;
+        int dp2;
+        int i;
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
-        int dp = AndroidUtilities.dp(36.0f);
-        if (this.miniButtonState >= 0) {
-            int dp2 = AndroidUtilities.dp(27.0f);
-            int i = this.buttonX;
-            if (x >= i + dp2 && x <= i + dp2 + dp) {
-                int i2 = this.buttonY;
-                if (y >= i2 + dp2 && y <= i2 + dp2 + dp) {
-                    z = true;
-                    if (motionEvent.getAction() != 0) {
-                        if (z) {
-                            this.miniButtonPressed = true;
-                            this.radialProgress.setPressed(true, true);
-                            invalidate();
-                            return true;
-                        }
-                    } else if (this.miniButtonPressed) {
-                        if (motionEvent.getAction() == 1) {
-                            this.miniButtonPressed = false;
-                            playSoundEffect(0);
-                            didPressedMiniButton(true);
-                            invalidate();
-                        } else if (motionEvent.getAction() == 3) {
-                            this.miniButtonPressed = false;
-                            invalidate();
-                        } else if (motionEvent.getAction() == 2 && !z) {
-                            this.miniButtonPressed = false;
-                            invalidate();
-                        }
-                        this.radialProgress.setPressed(this.miniButtonPressed, true);
-                    }
-                    return false;
-                }
+        int dp3 = AndroidUtilities.dp(36.0f);
+        boolean z = this.miniButtonState >= 0 && x >= (dp2 = this.buttonX + (dp = AndroidUtilities.dp(27.0f))) && x <= dp2 + dp3 && y >= (i = this.buttonY + dp) && y <= i + dp3;
+        if (motionEvent.getAction() == 0) {
+            if (z) {
+                this.miniButtonPressed = true;
+                this.radialProgress.setPressed(true, true);
+                invalidate();
+                return true;
             }
-        }
-        z = false;
-        if (motionEvent.getAction() != 0) {
+        } else if (this.miniButtonPressed) {
+            if (motionEvent.getAction() == 1) {
+                this.miniButtonPressed = false;
+                playSoundEffect(0);
+                didPressedMiniButton(true);
+                invalidate();
+            } else if (motionEvent.getAction() == 3) {
+                this.miniButtonPressed = false;
+                invalidate();
+            } else if (motionEvent.getAction() == 2 && !z) {
+                this.miniButtonPressed = false;
+                invalidate();
+            }
+            this.radialProgress.setPressed(this.miniButtonPressed, true);
         }
         return false;
     }

@@ -19,6 +19,7 @@ import androidx.core.view.GestureDetectorCompat;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBarMenuSlider;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -247,7 +248,7 @@ public class PopupSwipeBackLayout extends FrameLayout {
     }
 
     private boolean processTouchEvent(MotionEvent motionEvent) {
-        int action = motionEvent.getAction() & 255;
+        int action = motionEvent.getAction() & NotificationCenter.voipServiceCreated;
         if (this.isAnimationInProgress) {
             return true;
         }

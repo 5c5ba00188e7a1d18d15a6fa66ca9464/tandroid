@@ -23,12 +23,12 @@ public final class JsonTreeWriter extends JsonWriter {
         }
 
         @Override // java.io.Writer, java.io.Flushable
-        public void flush() throws IOException {
+        public void flush() {
             throw new AssertionError();
         }
 
         @Override // java.io.Writer, java.io.Closeable, java.lang.AutoCloseable
-        public void close() throws IOException {
+        public void close() {
             throw new AssertionError();
         }
     };
@@ -120,13 +120,13 @@ public final class JsonTreeWriter extends JsonWriter {
     public JsonWriter name(String str) throws IOException {
         Objects.requireNonNull(str, "name == null");
         if (this.stack.isEmpty() || this.pendingName != null) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Did not expect a name");
         }
         if (peek() instanceof JsonObject) {
             this.pendingName = str;
             return this;
         }
-        throw new IllegalStateException();
+        throw new IllegalStateException("Please begin an object before writing a name.");
     }
 
     @Override // com.google.gson.stream.JsonWriter
@@ -135,12 +135,6 @@ public final class JsonTreeWriter extends JsonWriter {
             return nullValue();
         }
         put(new JsonPrimitive(str));
-        return this;
-    }
-
-    @Override // com.google.gson.stream.JsonWriter
-    public JsonWriter nullValue() throws IOException {
-        put(JsonNull.INSTANCE);
         return this;
     }
 
@@ -186,6 +180,12 @@ public final class JsonTreeWriter extends JsonWriter {
             }
         }
         put(new JsonPrimitive(number));
+        return this;
+    }
+
+    @Override // com.google.gson.stream.JsonWriter
+    public JsonWriter nullValue() throws IOException {
+        put(JsonNull.INSTANCE);
         return this;
     }
 

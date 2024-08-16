@@ -317,30 +317,29 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
                 }
             }
             if (i10 >= i9) {
-                int i12 = i6 + 7;
-                int i13 = (i12 - 1) % 7;
-                if (!arrayListArr[i13].isEmpty()) {
-                    ArrayList<Period> arrayList2 = arrayListArr[i13];
+                int i12 = (i6 + 6) % 7;
+                if (!arrayListArr[i12].isEmpty()) {
+                    ArrayList<Period> arrayList2 = arrayListArr[i12];
                     if (arrayList2.get(arrayList2.size() - 1).end >= 1440) {
-                        ArrayList<Period> arrayList3 = arrayListArr[i13];
+                        ArrayList<Period> arrayList3 = arrayListArr[i12];
                         arrayList3.get(arrayList3.size() - 1).end = 1439;
                     }
                 }
                 int min = Math.min((i10 - i7) - 1, 2879);
-                ArrayList<Period> arrayList4 = arrayListArr[(i12 + 1) % 7];
+                ArrayList<Period> arrayList4 = arrayListArr[(i6 + 8) % 7];
                 if (min >= 1440 && !arrayList4.isEmpty() && arrayList4.get(0).start < min - 1440) {
-                    min = (arrayList4.get(0).start + 1440) - 1;
+                    min = arrayList4.get(0).start + 1439;
                 }
                 arrayListArr[i6].clear();
                 arrayListArr[i6].add(new Period(0, min));
             } else {
-                int i14 = i8 % 7;
-                if (!arrayListArr[i6].isEmpty() && !arrayListArr[i14].isEmpty()) {
+                int i13 = i8 % 7;
+                if (!arrayListArr[i6].isEmpty() && !arrayListArr[i13].isEmpty()) {
                     ArrayList<Period> arrayList5 = arrayListArr[i6];
                     Period period = arrayList5.get(arrayList5.size() - 1);
-                    Period period2 = arrayListArr[i14].get(0);
-                    int i15 = period.end;
-                    if (i15 > 1440 && (i15 - 1440) + 1 == period2.start) {
+                    Period period2 = arrayListArr[i13].get(0);
+                    int i14 = period.end;
+                    if (i14 > 1440 && i14 - 1439 == period2.start) {
                         period.end = 1439;
                         period2.start = 0;
                     }
@@ -447,7 +446,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processDone$2(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 OpeningHoursActivity.this.lambda$processDone$1(tLRPC$TL_error, tLObject);
@@ -596,14 +595,14 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
             this.listView.adapter.update(true);
             checkDone(true);
         } else if (i2 == -2) {
-            presentFragment(new TimezoneSelector().setValue(this.timezoneId).whenSelected(new Utilities.Callback() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda5
+            presentFragment(new TimezoneSelector().setValue(this.timezoneId).whenSelected(new Utilities.Callback() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda4
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     OpeningHoursActivity.this.lambda$onClick$3(view, (String) obj);
                 }
             }));
         } else if (uItem.viewType == 5 && i2 >= 0 && i2 < this.value.length) {
-            if (!LocaleController.isRTL ? f < ((float) (view.getMeasuredWidth() - AndroidUtilities.dp(76.0f))) : f > ((float) AndroidUtilities.dp(76.0f))) {
+            if (!LocaleController.isRTL ? f >= view.getMeasuredWidth() - AndroidUtilities.dp(76.0f) : f <= AndroidUtilities.dp(76.0f)) {
                 if (this.value[uItem.id].isEmpty()) {
                     ((NotificationsCheckCell) view).setChecked(true);
                     this.value[uItem.id].add(new Period(0, 1439));
@@ -616,14 +615,14 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
                 checkDone(true);
                 return;
             }
-            int i3 = ((uItem.id + 7) - 1) % 7;
+            int i3 = (uItem.id + 6) % 7;
             int i4 = 0;
             for (int i5 = 0; i5 < this.value[i3].size(); i5++) {
                 if (this.value[i3].get(i5).end > i4) {
                     i4 = this.value[i3].get(i5).end;
                 }
             }
-            int max = Math.max(0, (i4 + 1) - 1440);
+            int max = Math.max(0, i4 - 1439);
             int i6 = (uItem.id + 1) % 7;
             int i7 = 1440;
             for (int i8 = 0; i8 < this.value[i6].size(); i8++) {
@@ -631,16 +630,16 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
                     i7 = this.value[i6].get(i8).start;
                 }
             }
-            int i9 = (i7 + 1440) - 1;
+            int i9 = i7 + 1439;
             CharSequence charSequence = uItem.text;
             ArrayList<Period>[] arrayListArr = this.value;
             int i10 = uItem.id;
-            presentFragment(new OpeningHoursDayActivity(charSequence, arrayListArr[i10], max, i9, maxPeriodsFor(i10)).onApplied(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda6
+            presentFragment(new OpeningHoursDayActivity(charSequence, arrayListArr[i10], max, i9, maxPeriodsFor(i10)).onApplied(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     OpeningHoursActivity.this.lambda$onClick$4();
                 }
-            }).onDone(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda7
+            }).onDone(new Runnable() { // from class: org.telegram.ui.Business.OpeningHoursActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     OpeningHoursActivity.this.lambda$onClick$5(uItem);
@@ -680,7 +679,7 @@ public class OpeningHoursActivity extends BaseFragment implements NotificationCe
         if (period == null) {
             return;
         }
-        int i2 = ((i + 7) - 1) % 7;
+        int i2 = (i + 6) % 7;
         if (!this.value[i2].isEmpty()) {
             ArrayList<Period> arrayList2 = this.value[i2];
             period2 = arrayList2.get(arrayList2.size() - 1);

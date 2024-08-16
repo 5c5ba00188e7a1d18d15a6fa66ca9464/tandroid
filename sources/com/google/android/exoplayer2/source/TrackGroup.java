@@ -74,7 +74,7 @@ public final class TrackGroup implements Bundleable {
 
     public int hashCode() {
         if (this.hashCode == 0) {
-            this.hashCode = ((527 + this.id.hashCode()) * 31) + Arrays.hashCode(this.formats);
+            this.hashCode = ((this.id.hashCode() + 527) * 31) + Arrays.hashCode(this.formats);
         }
         return this.hashCode;
     }

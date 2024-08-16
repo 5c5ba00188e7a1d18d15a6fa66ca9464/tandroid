@@ -39,15 +39,6 @@ public final class Circle {
         }
     }
 
-    public void setCenter(LatLng latLng) {
-        try {
-            Preconditions.checkNotNull(latLng, "center must not be null.");
-            this.zza.zzo(latLng);
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
     public void remove() {
         try {
             this.zza.zzn();
@@ -75,6 +66,15 @@ public final class Circle {
     public void setStrokeColor(int i) {
         try {
             this.zza.zzs(i);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public void setCenter(LatLng latLng) {
+        try {
+            Preconditions.checkNotNull(latLng, "center must not be null.");
+            this.zza.zzo(latLng);
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

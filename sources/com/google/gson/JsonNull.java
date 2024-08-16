@@ -8,6 +8,6 @@ public final class JsonNull extends JsonElement {
     }
 
     public boolean equals(Object obj) {
-        return this == obj || (obj instanceof JsonNull);
+        return obj instanceof JsonNull;
     }
 }

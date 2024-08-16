@@ -1,209 +1,309 @@
 package j$.util.stream;
 
-import j$.util.function.BiConsumer;
-import j$.util.function.Function;
-import j$.util.function.LongFunction;
 import j$.util.function.Supplier;
-import j$.util.function.ToDoubleFunction;
-import j$.util.function.ToIntFunction;
-import j$.util.function.ToLongFunction;
-import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final /* synthetic */ class b implements j$.util.function.N, Function, j$.util.function.z0, BiConsumer, j$.util.function.y, Supplier, ToDoubleFunction, ToIntFunction, j$.util.function.X, j$.util.function.C0, j$.util.function.w0, ToLongFunction, j$.util.function.F0, LongFunction {
-    public final /* synthetic */ int a;
+public abstract class b implements BaseStream {
+    private final b a;
+    private final b b;
+    protected final int c;
+    private b d;
+    private int e;
+    private int f;
+    private j$.util.Q g;
+    private boolean h;
+    private boolean i;
+    private Runnable j;
+    private boolean k;
 
-    public /* synthetic */ b(int i) {
-        this.a = i;
+    b() {
     }
 
-    @Override // j$.util.function.w0
-    public final j$.util.function.w0 a(j$.util.function.w0 w0Var) {
-        w0Var.getClass();
-        return new j$.util.function.t0(this, w0Var, 1);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public b(j$.util.Q q, int i, boolean z) {
+        this();
+        this.b = null;
+        this.g = q;
+        this.a = this;
+        int i2 = S2.g & i;
+        this.c = i2;
+        this.f = ((i2 << 1) ^ (-1)) & S2.l;
+        this.e = 0;
+        this.k = z;
     }
 
-    @Override // j$.util.function.z0
-    public final void accept(Object obj, double d) {
-        switch (this.a) {
-            case 3:
-                double[] dArr = (double[]) obj;
-                Collectors.a(dArr, d);
-                dArr[2] = dArr[2] + d;
-                return;
-            default:
-                double[] dArr2 = (double[]) obj;
-                dArr2[2] = dArr2[2] + 1.0d;
-                Collectors.a(dArr2, d);
-                dArr2[3] = dArr2[3] + d;
-                return;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public b(b bVar, int i) {
+        this();
+        if (bVar.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        bVar.h = true;
+        bVar.d = this;
+        this.b = bVar;
+        this.c = S2.h & i;
+        this.f = S2.a(i, bVar.f);
+        b bVar2 = bVar.a;
+        this.a = bVar2;
+        if (y0()) {
+            bVar2.i = true;
+        }
+        this.e = bVar.e + 1;
+    }
+
+    private j$.util.Q A0(int i) {
+        int i2;
+        int i3;
+        b bVar = this.a;
+        j$.util.Q q = bVar.g;
+        if (q != null) {
+            bVar.g = null;
+            if (bVar.k && bVar.i) {
+                b bVar2 = bVar.d;
+                int i4 = 1;
+                while (bVar != this) {
+                    int i5 = bVar2.c;
+                    if (bVar2.y0()) {
+                        if (S2.SHORT_CIRCUIT.d(i5)) {
+                            i5 &= S2.u ^ (-1);
+                        }
+                        q = bVar2.x0(bVar, q);
+                        if (q.hasCharacteristics(64)) {
+                            i2 = (S2.t ^ (-1)) & i5;
+                            i3 = S2.s;
+                        } else {
+                            i2 = (S2.s ^ (-1)) & i5;
+                            i3 = S2.t;
+                        }
+                        i5 = i2 | i3;
+                        i4 = 0;
+                    }
+                    bVar2.e = i4;
+                    bVar2.f = S2.a(i5, bVar.f);
+                    i4++;
+                    b bVar3 = bVar2;
+                    bVar2 = bVar2.d;
+                    bVar = bVar3;
+                }
+            }
+            if (i != 0) {
+                this.f = S2.a(i, this.f);
+            }
+            return q;
+        }
+        throw new IllegalStateException("source already consumed or closed");
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final j$.util.Q B0() {
+        b bVar = this.a;
+        if (this == bVar) {
+            if (this.h) {
+                throw new IllegalStateException("stream has already been operated upon or closed");
+            }
+            this.h = true;
+            j$.util.Q q = bVar.g;
+            if (q != null) {
+                bVar.g = null;
+                return q;
+            }
+            throw new IllegalStateException("source already consumed or closed");
+        }
+        throw new IllegalStateException();
+    }
+
+    abstract j$.util.Q C0(b bVar, Supplier supplier, boolean z);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final e2 D0(j$.util.Q q, e2 e2Var) {
+        e2Var.getClass();
+        i0(q, E0(e2Var));
+        return e2Var;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final e2 E0(e2 e2Var) {
+        e2Var.getClass();
+        b bVar = this;
+        while (bVar.e > 0) {
+            b bVar2 = bVar.b;
+            e2Var = bVar.z0(bVar2.f, e2Var);
+            bVar = bVar2;
+        }
+        return e2Var;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final j$.util.Q F0(j$.util.Q q) {
+        return this.e == 0 ? q : C0(this, new a(q, 9), this.a.k);
+    }
+
+    @Override // j$.util.stream.BaseStream, java.lang.AutoCloseable
+    public final void close() {
+        this.h = true;
+        this.g = null;
+        b bVar = this.a;
+        Runnable runnable = bVar.j;
+        if (runnable != null) {
+            bVar.j = null;
+            runnable.run();
         }
     }
 
-    @Override // j$.util.function.C0
-    public final void accept(Object obj, int i) {
-        long[] jArr = (long[]) obj;
-        jArr[0] = jArr[0] + 1;
-        jArr[1] = jArr[1] + i;
-    }
-
-    @Override // j$.util.function.F0
-    public final void accept(Object obj, long j) {
-        long[] jArr = (long[]) obj;
-        jArr[0] = jArr[0] + 1;
-        jArr[1] = jArr[1] + j;
-    }
-
-    @Override // j$.util.function.BiConsumer
-    public final void accept(Object obj, Object obj2) {
-        switch (this.a) {
-            case 4:
-                double[] dArr = (double[]) obj;
-                double[] dArr2 = (double[]) obj2;
-                Collectors.a(dArr, dArr2[0]);
-                Collectors.a(dArr, dArr2[1]);
-                dArr[2] = dArr[2] + dArr2[2];
-                return;
-            case 8:
-                double[] dArr3 = (double[]) obj;
-                double[] dArr4 = (double[]) obj2;
-                Collectors.a(dArr3, dArr4[0]);
-                Collectors.a(dArr3, dArr4[1]);
-                dArr3[2] = dArr3[2] + dArr4[2];
-                dArr3[3] = dArr3[3] + dArr4[3];
-                return;
-            case 20:
-                long[] jArr = (long[]) obj;
-                long[] jArr2 = (long[]) obj2;
-                jArr[0] = jArr[0] + jArr2[0];
-                jArr[1] = jArr[1] + jArr2[1];
-                return;
-            default:
-                long[] jArr3 = (long[]) obj;
-                long[] jArr4 = (long[]) obj2;
-                jArr3[0] = jArr3[0] + jArr4[0];
-                jArr3[1] = jArr3[1] + jArr4[1];
-                return;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final void i0(j$.util.Q q, e2 e2Var) {
+        e2Var.getClass();
+        if (S2.SHORT_CIRCUIT.d(this.f)) {
+            j0(q, e2Var);
+            return;
         }
+        e2Var.n(q.getExactSizeIfKnown());
+        q.a(e2Var);
+        e2Var.m();
     }
 
-    @Override // j$.util.function.BiConsumer
-    public final /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-        switch (this.a) {
-            case 4:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            case 8:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            case 20:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
-            default:
-                return BiConsumer.-CC.$default$andThen(this, biConsumer);
+    @Override // j$.util.stream.BaseStream
+    public final boolean isParallel() {
+        return this.a.k;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final void j0(j$.util.Q q, e2 e2Var) {
+        b bVar = this;
+        while (bVar.e > 0) {
+            bVar = bVar.b;
         }
+        e2Var.n(q.getExactSizeIfKnown());
+        bVar.p0(q, e2Var);
+        e2Var.m();
     }
 
-    @Override // j$.util.function.Function
-    public final /* synthetic */ Function andThen(Function function) {
-        return Function.-CC.$default$andThen(this, function);
-    }
-
-    @Override // j$.util.function.N
-    public final Object apply(int i) {
-        switch (this.a) {
-            case 0:
-                return new Object[i];
-            case 2:
-                return new Double[i];
-            case 15:
-                int i2 = T.h;
-                return new Object[i];
-            case 21:
-                return new Integer[i];
-            default:
-                return new Long[i];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final F0 k0(j$.util.Q q, boolean z, j$.util.function.I i) {
+        if (this.a.k) {
+            return n0(this, q, z, i);
         }
+        x0 v0 = v0(o0(q), i);
+        D0(q, v0);
+        return v0.b();
     }
 
-    @Override // j$.util.function.LongFunction
-    public final Object apply(long j) {
-        switch (this.a) {
-            case 28:
-                return u1.m(j);
-            default:
-                return u1.s(j);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final Object l0(x3 x3Var) {
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
         }
+        this.h = true;
+        return this.a.k ? x3Var.c(this, A0(x3Var.d())) : x3Var.a(this, A0(x3Var.d()));
     }
 
-    @Override // j$.util.function.Function
-    public final Object apply(Object obj) {
-        Set set = Collectors.a;
-        return obj;
-    }
-
-    @Override // j$.util.function.ToDoubleFunction
-    public final double applyAsDouble(Object obj) {
-        return ((Double) obj).doubleValue();
-    }
-
-    @Override // j$.util.function.ToIntFunction
-    public final int applyAsInt(Object obj) {
-        return ((Integer) obj).intValue();
-    }
-
-    @Override // j$.util.function.y
-    public final long applyAsLong(double d) {
-        return 1L;
-    }
-
-    @Override // j$.util.function.X
-    public final long applyAsLong(int i) {
-        return 1L;
-    }
-
-    @Override // j$.util.function.w0
-    public final long applyAsLong(long j) {
-        return 1L;
-    }
-
-    @Override // j$.util.function.ToLongFunction
-    public final long applyAsLong(Object obj) {
-        return ((Long) obj).longValue();
-    }
-
-    @Override // j$.util.function.w0
-    public final j$.util.function.w0 b(j$.util.function.w0 w0Var) {
-        w0Var.getClass();
-        return new j$.util.function.t0(this, w0Var, 0);
-    }
-
-    @Override // j$.util.function.Function
-    public final /* synthetic */ Function compose(Function function) {
-        return Function.-CC.$default$compose(this, function);
-    }
-
-    @Override // j$.util.function.Supplier
-    public final Object get() {
-        switch (this.a) {
-            case 6:
-                return new double[4];
-            case 7:
-            case 8:
-            case 9:
-            case 15:
-            case 16:
-            case 17:
-            default:
-                return new long[2];
-            case 10:
-                return new double[3];
-            case 11:
-                return new H();
-            case 12:
-                return new J();
-            case 13:
-                return new K();
-            case 14:
-                return new I();
-            case 18:
-                return new long[2];
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final F0 m0(j$.util.function.I i) {
+        b bVar;
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
         }
+        this.h = true;
+        if (this.a.k && (bVar = this.b) != null && y0()) {
+            this.e = 0;
+            return w0(bVar.A0(0), i, bVar);
+        }
+        return k0(A0(0), true, i);
     }
+
+    abstract F0 n0(b bVar, j$.util.Q q, boolean z, j$.util.function.I i);
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final long o0(j$.util.Q q) {
+        if (S2.SIZED.d(this.f)) {
+            return q.getExactSizeIfKnown();
+        }
+        return -1L;
+    }
+
+    @Override // j$.util.stream.BaseStream
+    public final BaseStream onClose(Runnable runnable) {
+        b bVar = this.a;
+        Runnable runnable2 = bVar.j;
+        if (runnable2 != null) {
+            runnable = new w3(runnable2, runnable);
+        }
+        bVar.j = runnable;
+        return this;
+    }
+
+    abstract void p0(j$.util.Q q, e2 e2Var);
+
+    @Override // j$.util.stream.BaseStream
+    public final BaseStream parallel() {
+        this.a.k = true;
+        return this;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract T2 q0();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final T2 r0() {
+        b bVar = this;
+        while (bVar.e > 0) {
+            bVar = bVar.b;
+        }
+        return bVar.q0();
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final int s0() {
+        return this.f;
+    }
+
+    @Override // j$.util.stream.BaseStream
+    public final BaseStream sequential() {
+        this.a.k = false;
+        return this;
+    }
+
+    @Override // j$.util.stream.BaseStream, j$.util.stream.D
+    public j$.util.Q spliterator() {
+        if (this.h) {
+            throw new IllegalStateException("stream has already been operated upon or closed");
+        }
+        this.h = true;
+        b bVar = this.a;
+        if (this == bVar) {
+            j$.util.Q q = bVar.g;
+            if (q != null) {
+                bVar.g = null;
+                return q;
+            }
+            throw new IllegalStateException("source already consumed or closed");
+        }
+        return C0(this, new a(this, 0), bVar.k);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final boolean t0() {
+        return S2.ORDERED.d(this.f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final /* synthetic */ j$.util.Q u0() {
+        return A0(0);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract x0 v0(long j, j$.util.function.I i);
+
+    F0 w0(j$.util.Q q, j$.util.function.I i, b bVar) {
+        throw new UnsupportedOperationException("Parallel evaluation is not supported");
+    }
+
+    j$.util.Q x0(b bVar, j$.util.Q q) {
+        return w0(q, new l(12), bVar).spliterator();
+    }
+
+    abstract boolean y0();
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public abstract e2 z0(int i, e2 e2Var);
 }

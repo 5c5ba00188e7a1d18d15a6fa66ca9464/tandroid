@@ -106,6 +106,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
     private TranslateAlert2(Context context, String str, String str2, CharSequence charSequence, ArrayList<TLRPC$MessageEntity> arrayList, TLRPC$InputPeer tLRPC$InputPeer, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
+        Drawable textSelectHandleLeft;
+        Drawable textSelectHandleRight;
         this.firstTranslation = true;
         this.backgroundPaddingLeft = 0;
         fixNavigationBar();
@@ -144,11 +146,12 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         int themedColor = getThemedColor(Theme.key_chat_TextSelectionCursor);
         try {
             if (Build.VERSION.SDK_INT >= 29 && !XiaomiUtilities.isMIUI()) {
-                Drawable textSelectHandleLeft = this.textView.getTextSelectHandleLeft();
-                textSelectHandleLeft.setColorFilter(themedColor, PorterDuff.Mode.SRC_IN);
+                textSelectHandleLeft = this.textView.getTextSelectHandleLeft();
+                PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+                textSelectHandleLeft.setColorFilter(themedColor, mode);
                 this.textView.setTextSelectHandleLeft(textSelectHandleLeft);
-                Drawable textSelectHandleRight = this.textView.getTextSelectHandleRight();
-                textSelectHandleRight.setColorFilter(themedColor, PorterDuff.Mode.SRC_IN);
+                textSelectHandleRight = this.textView.getTextSelectHandleRight();
+                textSelectHandleRight.setColorFilter(themedColor, mode);
                 this.textView.setTextSelectHandleRight(textSelectHandleRight);
             }
         } catch (Exception unused) {
@@ -244,7 +247,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         this.buttonTextView.setTextSize(1, 14.0f);
         this.buttonTextView.setText(LocaleController.getString("CloseTranslation", R.string.CloseTranslation));
         this.buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(Theme.key_featuredStickers_addButton), 6.0f));
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda0
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 TranslateAlert2.this.lambda$new$0(view2);
@@ -302,7 +305,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             str = "no";
         }
         tLRPC$TL_messages_translateText.to_lang = str;
-        this.reqId = Integer.valueOf(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_translateText, new RequestDelegate() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda1
+        this.reqId = Integer.valueOf(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_translateText, new RequestDelegate() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 TranslateAlert2.this.lambda$translate$2(tLRPC$TL_textWithEntities, tLObject, tLRPC$TL_error);
@@ -312,7 +315,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$translate$2(final TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.TranslateAlert2$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 TranslateAlert2.this.lambda$translate$1(tLObject, tLRPC$TL_textWithEntities);
@@ -350,7 +353,6 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
     public static TLRPC$TL_textWithEntities preprocess(TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities, TLRPC$TL_textWithEntities tLRPC$TL_textWithEntities2) {
         Emoji.EmojiSpanRange emojiSpanRange;
-        boolean z;
         ArrayList<TLRPC$MessageEntity> arrayList;
         if (tLRPC$TL_textWithEntities2 == null || tLRPC$TL_textWithEntities2.text == null) {
             return null;
@@ -408,31 +410,28 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                             if (i5 >= 0 && i5 < arrayList3.size() && (emojiSpanRange = arrayList3.get(i5)) != null) {
                                 int i8 = 0;
                                 while (true) {
-                                    if (i8 >= tLRPC$TL_textWithEntities2.entities.size()) {
-                                        z = false;
+                                    if (i8 < tLRPC$TL_textWithEntities2.entities.size()) {
+                                        TLRPC$MessageEntity tLRPC$MessageEntity3 = tLRPC$TL_textWithEntities2.entities.get(i8);
+                                        if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityCustomEmoji) {
+                                            int i9 = emojiSpanRange.start;
+                                            int i10 = emojiSpanRange.end;
+                                            int i11 = tLRPC$MessageEntity3.offset;
+                                            if (AndroidUtilities.intersect1d(i9, i10, i11, tLRPC$MessageEntity3.length + i11)) {
+                                                break;
+                                            }
+                                        }
+                                        i8++;
+                                    } else {
+                                        TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = new TLRPC$TL_messageEntityCustomEmoji();
+                                        TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji2 = (TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity2;
+                                        tLRPC$TL_messageEntityCustomEmoji.document_id = tLRPC$TL_messageEntityCustomEmoji2.document_id;
+                                        tLRPC$TL_messageEntityCustomEmoji.document = tLRPC$TL_messageEntityCustomEmoji2.document;
+                                        int i12 = emojiSpanRange.start;
+                                        tLRPC$TL_messageEntityCustomEmoji.offset = i12;
+                                        tLRPC$TL_messageEntityCustomEmoji.length = emojiSpanRange.end - i12;
+                                        tLRPC$TL_textWithEntities2.entities.add(tLRPC$TL_messageEntityCustomEmoji);
                                         break;
                                     }
-                                    TLRPC$MessageEntity tLRPC$MessageEntity3 = tLRPC$TL_textWithEntities2.entities.get(i8);
-                                    if (tLRPC$MessageEntity3 instanceof TLRPC$TL_messageEntityCustomEmoji) {
-                                        int i9 = emojiSpanRange.start;
-                                        int i10 = emojiSpanRange.end;
-                                        int i11 = tLRPC$MessageEntity3.offset;
-                                        if (AndroidUtilities.intersect1d(i9, i10, i11, tLRPC$MessageEntity3.length + i11)) {
-                                            z = true;
-                                            break;
-                                        }
-                                    }
-                                    i8++;
-                                }
-                                if (!z) {
-                                    TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji = new TLRPC$TL_messageEntityCustomEmoji();
-                                    TLRPC$TL_messageEntityCustomEmoji tLRPC$TL_messageEntityCustomEmoji2 = (TLRPC$TL_messageEntityCustomEmoji) tLRPC$MessageEntity2;
-                                    tLRPC$TL_messageEntityCustomEmoji.document_id = tLRPC$TL_messageEntityCustomEmoji2.document_id;
-                                    tLRPC$TL_messageEntityCustomEmoji.document = tLRPC$TL_messageEntityCustomEmoji2.document;
-                                    int i12 = emojiSpanRange.start;
-                                    tLRPC$TL_messageEntityCustomEmoji.offset = i12;
-                                    tLRPC$TL_messageEntityCustomEmoji.length = emojiSpanRange.end - i12;
-                                    tLRPC$TL_textWithEntities2.entities.add(tLRPC$TL_messageEntityCustomEmoji);
                                 }
                             }
                         }
@@ -488,7 +487,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
                         @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                         public void updateDrawState(TextPaint textPaint) {
-                            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & 255);
+                            int min = Math.min(textPaint.getAlpha(), (textPaint.getColor() >> 24) & NotificationCenter.voipServiceCreated);
                             if (!(uRLSpan instanceof URLSpanNoUnderline)) {
                                 textPaint.setUnderlineText(true);
                             }
@@ -687,7 +686,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             this.backButton.setImageResource(R.drawable.ic_ab_back);
             ImageView imageView2 = this.backButton;
             int i = Theme.key_dialogTextBlack;
-            imageView2.setColorFilter(new PorterDuffColorFilter(TranslateAlert2.this.getThemedColor(i), PorterDuff.Mode.MULTIPLY));
+            int themedColor = TranslateAlert2.this.getThemedColor(i);
+            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+            imageView2.setColorFilter(new PorterDuffColorFilter(themedColor, mode));
             this.backButton.setBackground(Theme.createSelectorDrawable(TranslateAlert2.this.getThemedColor(Theme.key_listSelector)));
             this.backButton.setAlpha(0.0f);
             this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.TranslateAlert2$HeaderView$$ExternalSyntheticLambda0
@@ -743,7 +744,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             imageView3.setImageResource(R.drawable.search_arrow);
             ImageView imageView4 = this.arrowView;
             int i2 = Theme.key_player_actionBarSubtitle;
-            imageView4.setColorFilter(new PorterDuffColorFilter(TranslateAlert2.this.getThemedColor(i2), PorterDuff.Mode.MULTIPLY));
+            imageView4.setColorFilter(new PorterDuffColorFilter(TranslateAlert2.this.getThemedColor(i2), mode));
             if (LocaleController.isRTL) {
                 this.arrowView.setScaleX(-1.0f);
             }
@@ -880,7 +881,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                 }
             };
             actionBarPopupWindow.setPauseNotifications(true);
-            actionBarPopupWindow.setDismissAnimationDuration(220);
+            actionBarPopupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
             actionBarPopupWindow.setOutsideTouchable(true);
             actionBarPopupWindow.setClippingEnabled(true);
             actionBarPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
@@ -1067,16 +1068,15 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         if (str == null || str.equals(TranslateController.UNKNOWN_LANGUAGE) || str.equals("auto")) {
             return null;
         }
-        boolean z = false;
         String str2 = str.split("_")[0];
         if ("nb".equals(str2)) {
             str2 = "no";
         }
         if (zArr != null) {
             String string = LocaleController.getString("TranslateLanguage" + str2.toUpperCase());
-            boolean z2 = (string == null || string.startsWith("LOC_ERR")) ? false : true;
-            zArr[0] = z2;
-            if (z2) {
+            boolean z = (string == null || string.startsWith("LOC_ERR")) ? false : true;
+            zArr[0] = z;
+            if (z) {
                 return string;
             }
         }
@@ -1096,9 +1096,6 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             return null;
         }
         if (currentLocaleInfo != null && "en".equals(currentLocaleInfo.pluralLangCode)) {
-            z = true;
-        }
-        if (z) {
             return builtinLanguageByPlural.nameEnglish;
         }
         return builtinLanguageByPlural.name;

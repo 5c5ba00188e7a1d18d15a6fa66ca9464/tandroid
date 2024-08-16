@@ -28,7 +28,6 @@ import androidx.core.view.NestedScrollingParent3;
 import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import org.telegram.messenger.LiteMode;
 import org.telegram.tgnet.ConnectionsManager;
 @SuppressLint({"UnknownNullness"})
 /* loaded from: classes.dex */
@@ -208,7 +207,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         int i2 = this.mLastSystemUiVisibility ^ i;
         this.mLastSystemUiVisibility = i;
         boolean z = (i & 4) == 0;
-        boolean z2 = (i & LiteMode.FLAG_CHAT_BLUR) != 0;
+        boolean z2 = (i & 256) != 0;
         ActionBarVisibilityCallback actionBarVisibilityCallback = this.mActionBarVisibilityCallback;
         if (actionBarVisibilityCallback != null) {
             actionBarVisibilityCallback.enableContentAnimations(!z2);
@@ -218,7 +217,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
                 this.mActionBarVisibilityCallback.hideForSystem();
             }
         }
-        if ((i2 & LiteMode.FLAG_CHAT_BLUR) == 0 || this.mActionBarVisibilityCallback == null) {
+        if ((i2 & 256) == 0 || this.mActionBarVisibilityCallback == null) {
             return;
         }
         ViewCompat.requestApplyInsets(this);
@@ -364,7 +363,7 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         int max = Math.max(0, this.mActionBarTop.getMeasuredWidth() + ((ViewGroup.MarginLayoutParams) layoutParams).leftMargin + ((ViewGroup.MarginLayoutParams) layoutParams).rightMargin);
         int max2 = Math.max(0, this.mActionBarTop.getMeasuredHeight() + ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin);
         int combineMeasuredStates = View.combineMeasuredStates(0, this.mActionBarTop.getMeasuredState());
-        boolean z = (ViewCompat.getWindowSystemUiVisibility(this) & LiteMode.FLAG_CHAT_BLUR) != 0;
+        boolean z = (ViewCompat.getWindowSystemUiVisibility(this) & 256) != 0;
         if (z) {
             measuredHeight = this.mActionBarHeight;
             if (this.mHasNonEmbeddedTabs && this.mActionBarTop.getTabContainer() != null) {
@@ -383,16 +382,16 @@ public class ActionBarOverlayLayout extends ViewGroup implements DecorContentPar
         if (!this.mOverlayMode && !z) {
             Rect rect = this.mContentInsets;
             rect.top += measuredHeight;
-            rect.bottom += 0;
+            rect.bottom = rect.bottom;
             if (i3 >= 21) {
                 this.mInnerInsets = this.mInnerInsets.inset(0, measuredHeight, 0, 0);
             }
         } else if (i3 >= 21) {
-            this.mInnerInsets = new WindowInsetsCompat.Builder(this.mInnerInsets).setSystemWindowInsets(Insets.of(this.mInnerInsets.getSystemWindowInsetLeft(), this.mInnerInsets.getSystemWindowInsetTop() + measuredHeight, this.mInnerInsets.getSystemWindowInsetRight(), this.mInnerInsets.getSystemWindowInsetBottom() + 0)).build();
+            this.mInnerInsets = new WindowInsetsCompat.Builder(this.mInnerInsets).setSystemWindowInsets(Insets.of(this.mInnerInsets.getSystemWindowInsetLeft(), this.mInnerInsets.getSystemWindowInsetTop() + measuredHeight, this.mInnerInsets.getSystemWindowInsetRight(), this.mInnerInsets.getSystemWindowInsetBottom())).build();
         } else {
             Rect rect2 = this.mInnerInsetsRect;
             rect2.top += measuredHeight;
-            rect2.bottom += 0;
+            rect2.bottom = rect2.bottom;
         }
         applyInsets(this.mContent, this.mContentInsets, true, true, true, true);
         if (i3 >= 21 && !this.mLastInnerInsets.equals(this.mInnerInsets)) {

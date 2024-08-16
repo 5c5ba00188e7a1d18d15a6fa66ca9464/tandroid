@@ -82,12 +82,15 @@ public class UserConfig extends BaseController {
         UserConfig userConfig = Instance[i];
         if (userConfig == null) {
             synchronized (UserConfig.class) {
-                userConfig = Instance[i];
-                if (userConfig == null) {
-                    UserConfig[] userConfigArr = Instance;
-                    UserConfig userConfig2 = new UserConfig(i);
-                    userConfigArr[i] = userConfig2;
-                    userConfig = userConfig2;
+                try {
+                    userConfig = Instance[i];
+                    if (userConfig == null) {
+                        UserConfig[] userConfigArr = Instance;
+                        UserConfig userConfig2 = new UserConfig(i);
+                        userConfigArr[i] = userConfig2;
+                        userConfig = userConfig2;
+                    }
+                } finally {
                 }
             }
         }
@@ -145,7 +148,7 @@ public class UserConfig extends BaseController {
     }
 
     public void saveConfig(final boolean z) {
-        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
+        NotificationCenter.getInstance(this.currentAccount).doOnIdle(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$saveConfig$0(z);
@@ -158,77 +161,81 @@ public class UserConfig extends BaseController {
         if (this.configLoaded) {
             synchronized (this.sync) {
                 try {
-                    SharedPreferences.Editor edit = getPreferences().edit();
-                    if (this.currentAccount == 0) {
-                        edit.putInt("selectedAccount", selectedAccount);
-                    }
-                    edit.putBoolean("registeredForPush", this.registeredForPush);
-                    edit.putInt("lastSendMessageId", this.lastSendMessageId);
-                    edit.putInt("contactsSavedCount", this.contactsSavedCount);
-                    edit.putInt("lastBroadcastId", this.lastBroadcastId);
-                    edit.putInt("lastContactsSyncTime", this.lastContactsSyncTime);
-                    edit.putInt("lastHintsSyncTime", this.lastHintsSyncTime);
-                    edit.putBoolean("draftsLoaded", this.draftsLoaded);
-                    edit.putBoolean("unreadDialogsLoaded", this.unreadDialogsLoaded);
-                    edit.putInt("ratingLoadTime", this.ratingLoadTime);
-                    edit.putInt("botRatingLoadTime", this.botRatingLoadTime);
-                    edit.putInt("webappRatingLoadTime", this.webappRatingLoadTime);
-                    edit.putBoolean("contactsReimported", this.contactsReimported);
-                    edit.putInt("loginTime", this.loginTime);
-                    edit.putBoolean("syncContacts", this.syncContacts);
-                    edit.putBoolean("suggestContacts", this.suggestContacts);
-                    edit.putBoolean("hasSecureData", this.hasSecureData);
-                    edit.putBoolean("notificationsSettingsLoaded4", this.notificationsSettingsLoaded);
-                    edit.putBoolean("notificationsSignUpSettingsLoaded", this.notificationsSignUpSettingsLoaded);
-                    edit.putLong("autoDownloadConfigLoadTime", this.autoDownloadConfigLoadTime);
-                    edit.putBoolean("hasValidDialogLoadIds", this.hasValidDialogLoadIds);
-                    edit.putInt("sharingMyLocationUntil", this.sharingMyLocationUntil);
-                    edit.putInt("lastMyLocationShareTime", this.lastMyLocationShareTime);
-                    edit.putBoolean("filtersLoaded", this.filtersLoaded);
-                    edit.putString("premiumGiftsStickerPack", this.premiumGiftsStickerPack);
-                    edit.putLong("lastUpdatedPremiumGiftsStickerPack", this.lastUpdatedPremiumGiftsStickerPack);
-                    edit.putString("genericAnimationsStickerPack", this.genericAnimationsStickerPack);
-                    edit.putLong("lastUpdatedGenericAnimations", this.lastUpdatedGenericAnimations);
-                    edit.putInt("6migrateOffsetId", this.migrateOffsetId);
-                    if (this.migrateOffsetId != -1) {
-                        edit.putInt("6migrateOffsetDate", this.migrateOffsetDate);
-                        edit.putLong("6migrateOffsetUserId", this.migrateOffsetUserId);
-                        edit.putLong("6migrateOffsetChatId", this.migrateOffsetChatId);
-                        edit.putLong("6migrateOffsetChannelId", this.migrateOffsetChannelId);
-                        edit.putLong("6migrateOffsetAccess", this.migrateOffsetAccess);
-                    }
-                    TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService = this.unacceptedTermsOfService;
-                    if (tLRPC$TL_help_termsOfService != null) {
-                        try {
-                            SerializedData serializedData = new SerializedData(tLRPC$TL_help_termsOfService.getObjectSize());
-                            this.unacceptedTermsOfService.serializeToStream(serializedData);
-                            edit.putString("terms", Base64.encodeToString(serializedData.toByteArray(), 0));
-                            serializedData.cleanup();
-                        } catch (Exception unused) {
+                    try {
+                        SharedPreferences.Editor edit = getPreferences().edit();
+                        if (this.currentAccount == 0) {
+                            edit.putInt("selectedAccount", selectedAccount);
                         }
-                    } else {
-                        edit.remove("terms");
+                        edit.putBoolean("registeredForPush", this.registeredForPush);
+                        edit.putInt("lastSendMessageId", this.lastSendMessageId);
+                        edit.putInt("contactsSavedCount", this.contactsSavedCount);
+                        edit.putInt("lastBroadcastId", this.lastBroadcastId);
+                        edit.putInt("lastContactsSyncTime", this.lastContactsSyncTime);
+                        edit.putInt("lastHintsSyncTime", this.lastHintsSyncTime);
+                        edit.putBoolean("draftsLoaded", this.draftsLoaded);
+                        edit.putBoolean("unreadDialogsLoaded", this.unreadDialogsLoaded);
+                        edit.putInt("ratingLoadTime", this.ratingLoadTime);
+                        edit.putInt("botRatingLoadTime", this.botRatingLoadTime);
+                        edit.putInt("webappRatingLoadTime", this.webappRatingLoadTime);
+                        edit.putBoolean("contactsReimported", this.contactsReimported);
+                        edit.putInt("loginTime", this.loginTime);
+                        edit.putBoolean("syncContacts", this.syncContacts);
+                        edit.putBoolean("suggestContacts", this.suggestContacts);
+                        edit.putBoolean("hasSecureData", this.hasSecureData);
+                        edit.putBoolean("notificationsSettingsLoaded4", this.notificationsSettingsLoaded);
+                        edit.putBoolean("notificationsSignUpSettingsLoaded", this.notificationsSignUpSettingsLoaded);
+                        edit.putLong("autoDownloadConfigLoadTime", this.autoDownloadConfigLoadTime);
+                        edit.putBoolean("hasValidDialogLoadIds", this.hasValidDialogLoadIds);
+                        edit.putInt("sharingMyLocationUntil", this.sharingMyLocationUntil);
+                        edit.putInt("lastMyLocationShareTime", this.lastMyLocationShareTime);
+                        edit.putBoolean("filtersLoaded", this.filtersLoaded);
+                        edit.putString("premiumGiftsStickerPack", this.premiumGiftsStickerPack);
+                        edit.putLong("lastUpdatedPremiumGiftsStickerPack", this.lastUpdatedPremiumGiftsStickerPack);
+                        edit.putString("genericAnimationsStickerPack", this.genericAnimationsStickerPack);
+                        edit.putLong("lastUpdatedGenericAnimations", this.lastUpdatedGenericAnimations);
+                        edit.putInt("6migrateOffsetId", this.migrateOffsetId);
+                        if (this.migrateOffsetId != -1) {
+                            edit.putInt("6migrateOffsetDate", this.migrateOffsetDate);
+                            edit.putLong("6migrateOffsetUserId", this.migrateOffsetUserId);
+                            edit.putLong("6migrateOffsetChatId", this.migrateOffsetChatId);
+                            edit.putLong("6migrateOffsetChannelId", this.migrateOffsetChannelId);
+                            edit.putLong("6migrateOffsetAccess", this.migrateOffsetAccess);
+                        }
+                        TLRPC$TL_help_termsOfService tLRPC$TL_help_termsOfService = this.unacceptedTermsOfService;
+                        if (tLRPC$TL_help_termsOfService != null) {
+                            try {
+                                SerializedData serializedData = new SerializedData(tLRPC$TL_help_termsOfService.getObjectSize());
+                                this.unacceptedTermsOfService.serializeToStream(serializedData);
+                                edit.putString("terms", Base64.encodeToString(serializedData.toByteArray(), 0));
+                                serializedData.cleanup();
+                            } catch (Exception unused) {
+                            }
+                        } else {
+                            edit.remove("terms");
+                        }
+                        SharedConfig.saveConfig();
+                        if (this.tmpPassword != null) {
+                            SerializedData serializedData2 = new SerializedData();
+                            this.tmpPassword.serializeToStream(serializedData2);
+                            edit.putString("tmpPassword", Base64.encodeToString(serializedData2.toByteArray(), 0));
+                            serializedData2.cleanup();
+                        } else {
+                            edit.remove("tmpPassword");
+                        }
+                        if (this.currentUser == null) {
+                            edit.remove("user");
+                        } else if (z) {
+                            SerializedData serializedData3 = new SerializedData();
+                            this.currentUser.serializeToStream(serializedData3);
+                            edit.putString("user", Base64.encodeToString(serializedData3.toByteArray(), 0));
+                            serializedData3.cleanup();
+                        }
+                        edit.apply();
+                    } catch (Exception e) {
+                        FileLog.e(e);
                     }
-                    SharedConfig.saveConfig();
-                    if (this.tmpPassword != null) {
-                        SerializedData serializedData2 = new SerializedData();
-                        this.tmpPassword.serializeToStream(serializedData2);
-                        edit.putString("tmpPassword", Base64.encodeToString(serializedData2.toByteArray(), 0));
-                        serializedData2.cleanup();
-                    } else {
-                        edit.remove("tmpPassword");
-                    }
-                    if (this.currentUser == null) {
-                        edit.remove("user");
-                    } else if (z) {
-                        SerializedData serializedData3 = new SerializedData();
-                        this.currentUser.serializeToStream(serializedData3);
-                        edit.putString("user", Base64.encodeToString(serializedData3.toByteArray(), 0));
-                        serializedData3.cleanup();
-                    }
-                    edit.apply();
-                } catch (Exception e) {
-                    FileLog.e(e);
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -249,8 +256,12 @@ public class UserConfig extends BaseController {
     public long getClientUserId() {
         long j;
         synchronized (this.sync) {
-            TLRPC$User tLRPC$User = this.currentUser;
-            j = tLRPC$User != null ? tLRPC$User.id : 0L;
+            try {
+                TLRPC$User tLRPC$User = this.currentUser;
+                j = tLRPC$User != null ? tLRPC$User.id : 0L;
+            } catch (Throwable th) {
+                throw th;
+            }
         }
         return j;
     }
@@ -258,9 +269,12 @@ public class UserConfig extends BaseController {
     public String getClientPhone() {
         String str;
         synchronized (this.sync) {
-            TLRPC$User tLRPC$User = this.currentUser;
-            if (tLRPC$User == null || (str = tLRPC$User.phone) == null) {
-                str = "";
+            try {
+                TLRPC$User tLRPC$User = this.currentUser;
+                if (tLRPC$User == null || (str = tLRPC$User.phone) == null) {
+                    str = "";
+                }
+            } finally {
             }
         }
         return str;
@@ -285,7 +299,7 @@ public class UserConfig extends BaseController {
 
     private void checkPremiumSelf(TLRPC$User tLRPC$User, final TLRPC$User tLRPC$User2) {
         if (tLRPC$User == null || !(tLRPC$User2 == null || tLRPC$User.premium == tLRPC$User2.premium)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     UserConfig.this.lambda$checkPremiumSelf$1(tLRPC$User2);
@@ -305,14 +319,14 @@ public class UserConfig extends BaseController {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(20:9|(1:11)|12|(16:17|18|19|20|(1:24)|26|(1:28)|29|(1:33)|34|(1:38)|39|(1:41)|42|43|44)|47|18|19|20|(2:22|24)|26|(0)|29|(2:31|33)|34|(2:36|38)|39|(0)|42|43|44) */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x0144, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x0146, code lost:
         r2 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:26:0x0145, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0147, code lost:
         org.telegram.messenger.FileLog.e(r2);
      */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0152 A[Catch: all -> 0x01cd, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012b, B:23:0x0131, B:27:0x0148, B:29:0x0152, B:30:0x017a, B:32:0x0183, B:34:0x0189, B:35:0x019b, B:37:0x01a4, B:39:0x01aa, B:40:0x01bc, B:42:0x01c0, B:43:0x01c9, B:44:0x01cb, B:26:0x0145), top: B:51:0x0003, inners: #0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01c0 A[Catch: all -> 0x01cd, TryCatch #1 {, blocks: (B:4:0x0003, B:6:0x0007, B:8:0x0009, B:10:0x0012, B:11:0x001a, B:13:0x00db, B:18:0x00e7, B:19:0x0122, B:21:0x012b, B:23:0x0131, B:27:0x0148, B:29:0x0152, B:30:0x017a, B:32:0x0183, B:34:0x0189, B:35:0x019b, B:37:0x01a4, B:39:0x01aa, B:40:0x01bc, B:42:0x01c0, B:43:0x01c9, B:44:0x01cb, B:26:0x0145), top: B:51:0x0003, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0154 A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:10:0x000c, B:12:0x0015, B:13:0x001d, B:15:0x00de, B:20:0x00ea, B:21:0x0125, B:23:0x012d, B:25:0x0133, B:29:0x014a, B:31:0x0154, B:32:0x017c, B:34:0x0185, B:36:0x018b, B:37:0x019d, B:39:0x01a6, B:41:0x01ac, B:42:0x01be, B:44:0x01c2, B:45:0x01cb, B:46:0x01cd, B:28:0x0147), top: B:50:0x0003, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x01c2 A[Catch: all -> 0x0009, TryCatch #0 {all -> 0x0009, blocks: (B:4:0x0003, B:6:0x0007, B:10:0x000c, B:12:0x0015, B:13:0x001d, B:15:0x00de, B:20:0x00ea, B:21:0x0125, B:23:0x012d, B:25:0x0133, B:29:0x014a, B:31:0x0154, B:32:0x017c, B:34:0x0185, B:36:0x018b, B:37:0x019d, B:39:0x01a6, B:41:0x01ac, B:42:0x01be, B:44:0x01c2, B:45:0x01cb, B:46:0x01cd, B:28:0x0147), top: B:50:0x0003, inners: #1 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -327,34 +341,78 @@ public class UserConfig extends BaseController {
         String string3;
         byte[] decode3;
         synchronized (this.sync) {
-            if (this.configLoaded) {
-                return;
-            }
-            SharedPreferences preferences = getPreferences();
-            if (this.currentAccount == 0) {
-                selectedAccount = preferences.getInt("selectedAccount", 0);
-            }
-            this.registeredForPush = preferences.getBoolean("registeredForPush", false);
-            this.lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);
-            this.contactsSavedCount = preferences.getInt("contactsSavedCount", 0);
-            this.lastBroadcastId = preferences.getInt("lastBroadcastId", -1);
-            this.lastContactsSyncTime = preferences.getInt("lastContactsSyncTime", ((int) (System.currentTimeMillis() / 1000)) - 82800);
-            this.lastHintsSyncTime = preferences.getInt("lastHintsSyncTime", ((int) (System.currentTimeMillis() / 1000)) - 90000);
-            this.draftsLoaded = preferences.getBoolean("draftsLoaded", false);
-            this.unreadDialogsLoaded = preferences.getBoolean("unreadDialogsLoaded", false);
-            this.contactsReimported = preferences.getBoolean("contactsReimported", false);
-            this.ratingLoadTime = preferences.getInt("ratingLoadTime", 0);
-            this.botRatingLoadTime = preferences.getInt("botRatingLoadTime", 0);
-            this.webappRatingLoadTime = preferences.getInt("webappRatingLoadTime", 0);
-            this.loginTime = preferences.getInt("loginTime", this.currentAccount);
-            this.syncContacts = preferences.getBoolean("syncContacts", true);
-            this.suggestContacts = preferences.getBoolean("suggestContacts", true);
-            this.hasSecureData = preferences.getBoolean("hasSecureData", false);
-            this.notificationsSettingsLoaded = preferences.getBoolean("notificationsSettingsLoaded4", false);
-            this.notificationsSignUpSettingsLoaded = preferences.getBoolean("notificationsSignUpSettingsLoaded", false);
-            this.autoDownloadConfigLoadTime = preferences.getLong("autoDownloadConfigLoadTime", 0L);
-            if (!preferences.contains("2dialogsLoadOffsetId") && !preferences.getBoolean("hasValidDialogLoadIds", false)) {
-                z = false;
+            try {
+                if (this.configLoaded) {
+                    return;
+                }
+                SharedPreferences preferences = getPreferences();
+                if (this.currentAccount == 0) {
+                    selectedAccount = preferences.getInt("selectedAccount", 0);
+                }
+                this.registeredForPush = preferences.getBoolean("registeredForPush", false);
+                this.lastSendMessageId = preferences.getInt("lastSendMessageId", -210000);
+                this.contactsSavedCount = preferences.getInt("contactsSavedCount", 0);
+                this.lastBroadcastId = preferences.getInt("lastBroadcastId", -1);
+                this.lastContactsSyncTime = preferences.getInt("lastContactsSyncTime", ((int) (System.currentTimeMillis() / 1000)) - 82800);
+                this.lastHintsSyncTime = preferences.getInt("lastHintsSyncTime", ((int) (System.currentTimeMillis() / 1000)) - 90000);
+                this.draftsLoaded = preferences.getBoolean("draftsLoaded", false);
+                this.unreadDialogsLoaded = preferences.getBoolean("unreadDialogsLoaded", false);
+                this.contactsReimported = preferences.getBoolean("contactsReimported", false);
+                this.ratingLoadTime = preferences.getInt("ratingLoadTime", 0);
+                this.botRatingLoadTime = preferences.getInt("botRatingLoadTime", 0);
+                this.webappRatingLoadTime = preferences.getInt("webappRatingLoadTime", 0);
+                this.loginTime = preferences.getInt("loginTime", this.currentAccount);
+                this.syncContacts = preferences.getBoolean("syncContacts", true);
+                this.suggestContacts = preferences.getBoolean("suggestContacts", true);
+                this.hasSecureData = preferences.getBoolean("hasSecureData", false);
+                this.notificationsSettingsLoaded = preferences.getBoolean("notificationsSettingsLoaded4", false);
+                this.notificationsSignUpSettingsLoaded = preferences.getBoolean("notificationsSignUpSettingsLoaded", false);
+                this.autoDownloadConfigLoadTime = preferences.getLong("autoDownloadConfigLoadTime", 0L);
+                if (!preferences.contains("2dialogsLoadOffsetId") && !preferences.getBoolean("hasValidDialogLoadIds", false)) {
+                    z = false;
+                    this.hasValidDialogLoadIds = z;
+                    this.sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
+                    this.lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
+                    this.filtersLoaded = preferences.getBoolean("filtersLoaded", false);
+                    this.premiumGiftsStickerPack = preferences.getString("premiumGiftsStickerPack", null);
+                    this.lastUpdatedPremiumGiftsStickerPack = preferences.getLong("lastUpdatedPremiumGiftsStickerPack", 0L);
+                    this.genericAnimationsStickerPack = preferences.getString("genericAnimationsStickerPack", null);
+                    this.lastUpdatedGenericAnimations = preferences.getLong("lastUpdatedGenericAnimations", 0L);
+                    string3 = preferences.getString("terms", null);
+                    if (string3 != null && (decode3 = Base64.decode(string3, 0)) != null) {
+                        SerializedData serializedData = new SerializedData(decode3);
+                        this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData, serializedData.readInt32(false), false);
+                        serializedData.cleanup();
+                    }
+                    i = preferences.getInt("6migrateOffsetId", 0);
+                    this.migrateOffsetId = i;
+                    if (i != -1) {
+                        this.migrateOffsetDate = preferences.getInt("6migrateOffsetDate", 0);
+                        this.migrateOffsetUserId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetUserId", 0L);
+                        this.migrateOffsetChatId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChatId", 0L);
+                        this.migrateOffsetChannelId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChannelId", 0L);
+                        this.migrateOffsetAccess = preferences.getLong("6migrateOffsetAccess", 0L);
+                    }
+                    string = preferences.getString("tmpPassword", null);
+                    if (string != null && (decode2 = Base64.decode(string, 0)) != null) {
+                        SerializedData serializedData2 = new SerializedData(decode2);
+                        this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
+                        serializedData2.cleanup();
+                    }
+                    string2 = preferences.getString("user", null);
+                    if (string2 != null && (decode = Base64.decode(string2, 0)) != null) {
+                        SerializedData serializedData3 = new SerializedData(decode);
+                        this.currentUser = TLRPC$User.TLdeserialize(serializedData3, serializedData3.readInt32(false), false);
+                        serializedData3.cleanup();
+                    }
+                    tLRPC$User = this.currentUser;
+                    if (tLRPC$User != null) {
+                        checkPremiumSelf(null, tLRPC$User);
+                        this.clientUserId = this.currentUser.id;
+                    }
+                    this.configLoaded = true;
+                }
+                z = true;
                 this.hasValidDialogLoadIds = z;
                 this.sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
                 this.lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
@@ -364,74 +422,34 @@ public class UserConfig extends BaseController {
                 this.genericAnimationsStickerPack = preferences.getString("genericAnimationsStickerPack", null);
                 this.lastUpdatedGenericAnimations = preferences.getLong("lastUpdatedGenericAnimations", 0L);
                 string3 = preferences.getString("terms", null);
-                if (string3 != null && (decode3 = Base64.decode(string3, 0)) != null) {
-                    SerializedData serializedData = new SerializedData(decode3);
-                    this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData, serializedData.readInt32(false), false);
-                    serializedData.cleanup();
+                if (string3 != null) {
+                    SerializedData serializedData4 = new SerializedData(decode3);
+                    this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData4, serializedData4.readInt32(false), false);
+                    serializedData4.cleanup();
                 }
                 i = preferences.getInt("6migrateOffsetId", 0);
                 this.migrateOffsetId = i;
                 if (i != -1) {
-                    this.migrateOffsetDate = preferences.getInt("6migrateOffsetDate", 0);
-                    this.migrateOffsetUserId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetUserId", 0L);
-                    this.migrateOffsetChatId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChatId", 0L);
-                    this.migrateOffsetChannelId = AndroidUtilities.getPrefIntOrLong(preferences, "6migrateOffsetChannelId", 0L);
-                    this.migrateOffsetAccess = preferences.getLong("6migrateOffsetAccess", 0L);
                 }
                 string = preferences.getString("tmpPassword", null);
-                if (string != null && (decode2 = Base64.decode(string, 0)) != null) {
-                    SerializedData serializedData2 = new SerializedData(decode2);
-                    this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData2, serializedData2.readInt32(false), false);
-                    serializedData2.cleanup();
+                if (string != null) {
+                    SerializedData serializedData22 = new SerializedData(decode2);
+                    this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
+                    serializedData22.cleanup();
                 }
                 string2 = preferences.getString("user", null);
-                if (string2 != null && (decode = Base64.decode(string2, 0)) != null) {
-                    SerializedData serializedData3 = new SerializedData(decode);
-                    this.currentUser = TLRPC$User.TLdeserialize(serializedData3, serializedData3.readInt32(false), false);
-                    serializedData3.cleanup();
+                if (string2 != null) {
+                    SerializedData serializedData32 = new SerializedData(decode);
+                    this.currentUser = TLRPC$User.TLdeserialize(serializedData32, serializedData32.readInt32(false), false);
+                    serializedData32.cleanup();
                 }
                 tLRPC$User = this.currentUser;
                 if (tLRPC$User != null) {
-                    checkPremiumSelf(null, tLRPC$User);
-                    this.clientUserId = this.currentUser.id;
                 }
                 this.configLoaded = true;
+            } catch (Throwable th) {
+                throw th;
             }
-            z = true;
-            this.hasValidDialogLoadIds = z;
-            this.sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
-            this.lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
-            this.filtersLoaded = preferences.getBoolean("filtersLoaded", false);
-            this.premiumGiftsStickerPack = preferences.getString("premiumGiftsStickerPack", null);
-            this.lastUpdatedPremiumGiftsStickerPack = preferences.getLong("lastUpdatedPremiumGiftsStickerPack", 0L);
-            this.genericAnimationsStickerPack = preferences.getString("genericAnimationsStickerPack", null);
-            this.lastUpdatedGenericAnimations = preferences.getLong("lastUpdatedGenericAnimations", 0L);
-            string3 = preferences.getString("terms", null);
-            if (string3 != null) {
-                SerializedData serializedData4 = new SerializedData(decode3);
-                this.unacceptedTermsOfService = TLRPC$TL_help_termsOfService.TLdeserialize(serializedData4, serializedData4.readInt32(false), false);
-                serializedData4.cleanup();
-            }
-            i = preferences.getInt("6migrateOffsetId", 0);
-            this.migrateOffsetId = i;
-            if (i != -1) {
-            }
-            string = preferences.getString("tmpPassword", null);
-            if (string != null) {
-                SerializedData serializedData22 = new SerializedData(decode2);
-                this.tmpPassword = TLRPC$TL_account_tmpPassword.TLdeserialize(serializedData22, serializedData22.readInt32(false), false);
-                serializedData22.cleanup();
-            }
-            string2 = preferences.getString("user", null);
-            if (string2 != null) {
-                SerializedData serializedData32 = new SerializedData(decode);
-                this.currentUser = TLRPC$User.TLdeserialize(serializedData32, serializedData32.readInt32(false), false);
-                serializedData32.cleanup();
-            }
-            tLRPC$User = this.currentUser;
-            if (tLRPC$User != null) {
-            }
-            this.configLoaded = true;
         }
     }
 
@@ -513,7 +531,7 @@ public class UserConfig extends BaseController {
 
     public void clearConfig() {
         getPreferences().edit().clear().apply();
-        boolean z = false;
+        int i = 0;
         this.sharingMyLocationUntil = 0;
         this.lastMyLocationShareTime = 0;
         this.currentUser = null;
@@ -546,19 +564,16 @@ public class UserConfig extends BaseController {
         this.lastContactsSyncTime = ((int) (System.currentTimeMillis() / 1000)) - 82800;
         this.lastHintsSyncTime = ((int) (System.currentTimeMillis() / 1000)) - 90000;
         resetSavedPassword();
-        int i = 0;
         while (true) {
-            if (i >= 4) {
-                break;
-            } else if (AccountInstance.getInstance(i).getUserConfig().isClientActivated()) {
-                z = true;
-                break;
-            } else {
+            if (i < 4) {
+                if (AccountInstance.getInstance(i).getUserConfig().isClientActivated()) {
+                    break;
+                }
                 i++;
+            } else {
+                SharedConfig.clearConfig();
+                break;
             }
-        }
-        if (!z) {
-            SharedConfig.clearConfig();
         }
         saveConfig(true);
     }
@@ -688,7 +703,7 @@ public class UserConfig extends BaseController {
             public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                 abstractSerializedData.writeInt32(1703637384);
             }
-        }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
+        }, new RequestDelegate() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 UserConfig.this.lambda$loadGlobalTTl$3(tLObject, tLRPC$TL_error);
@@ -698,7 +713,7 @@ public class UserConfig extends BaseController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadGlobalTTl$3(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.UserConfig$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 UserConfig.this.lambda$loadGlobalTTl$2(tLObject);

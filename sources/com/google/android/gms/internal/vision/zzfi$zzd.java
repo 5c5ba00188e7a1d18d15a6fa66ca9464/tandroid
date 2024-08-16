@@ -15,7 +15,6 @@ public final class zzfi$zzd extends zzjb<zzfi$zzd, zza> implements zzkm {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzd>, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
-        zzkx<zzfi$zzd> zzkxVar;
         switch (zzfk.zza[i - 1]) {
             case 1:
                 return new zzfi$zzd();
@@ -26,21 +25,23 @@ public final class zzfi$zzd extends zzjb<zzfi$zzd, zza> implements zzkm {
             case 4:
                 return zzd;
             case 5:
-                zzkx<zzfi$zzd> zzkxVar2 = zze;
-                zzkx<zzfi$zzd> zzkxVar3 = zzkxVar2;
-                if (zzkxVar2 == null) {
+                zzkx<zzfi$zzd> zzkxVar = zze;
+                zzkx<zzfi$zzd> zzkxVar2 = zzkxVar;
+                if (zzkxVar == null) {
                     synchronized (zzfi$zzd.class) {
-                        zzkx<zzfi$zzd> zzkxVar4 = zze;
-                        zzkxVar = zzkxVar4;
-                        if (zzkxVar4 == null) {
-                            ?? zzaVar = new zzjb.zza(zzd);
-                            zze = zzaVar;
-                            zzkxVar = zzaVar;
+                        try {
+                            zzkx<zzfi$zzd> zzkxVar3 = zze;
+                            zzkx<zzfi$zzd> zzkxVar4 = zzkxVar3;
+                            if (zzkxVar3 == null) {
+                                ?? zzaVar = new zzjb.zza(zzd);
+                                zze = zzaVar;
+                                zzkxVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzkxVar3 = zzkxVar;
                 }
-                return zzkxVar3;
+                return zzkxVar2;
             case 6:
                 return (byte) 1;
             case 7:

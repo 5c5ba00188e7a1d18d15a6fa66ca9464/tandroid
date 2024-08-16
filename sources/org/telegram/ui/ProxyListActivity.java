@@ -114,24 +114,26 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.textView.setLines(1);
             this.textView.setMaxLines(1);
             this.textView.setSingleLine(true);
-            this.textView.setEllipsize(TextUtils.TruncateAt.END);
-            this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
             TextView textView2 = this.textView;
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView2.setEllipsize(truncateAt);
+            this.textView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
+            TextView textView3 = this.textView;
             boolean z = LocaleController.isRTL;
-            addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 56 : 21, 10.0f, z ? 21 : 56, 0.0f));
-            TextView textView3 = new TextView(context);
-            this.valueTextView = textView3;
-            textView3.setTextSize(1, 13.0f);
+            addView(textView3, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 56 : 21, 10.0f, z ? 21 : 56, 0.0f));
+            TextView textView4 = new TextView(context);
+            this.valueTextView = textView4;
+            textView4.setTextSize(1, 13.0f);
             this.valueTextView.setGravity(LocaleController.isRTL ? 5 : 3);
             this.valueTextView.setLines(1);
             this.valueTextView.setMaxLines(1);
             this.valueTextView.setSingleLine(true);
             this.valueTextView.setCompoundDrawablePadding(AndroidUtilities.dp(6.0f));
-            this.valueTextView.setEllipsize(TextUtils.TruncateAt.END);
+            this.valueTextView.setEllipsize(truncateAt);
             this.valueTextView.setPadding(0, 0, 0, 0);
-            TextView textView4 = this.valueTextView;
+            TextView textView5 = this.valueTextView;
             boolean z2 = LocaleController.isRTL;
-            addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 56 : 21, 35.0f, z2 ? 21 : 56, 0.0f));
+            addView(textView5, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 56 : 21, 35.0f, z2 ? 21 : 56, 0.0f));
             ImageView imageView = new ImageView(context);
             this.checkImageView = imageView;
             imageView.setImageResource(R.drawable.msg_info);
@@ -139,7 +141,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.checkImageView.setScaleType(ImageView.ScaleType.CENTER);
             this.checkImageView.setContentDescription(LocaleController.getString("Edit", R.string.Edit));
             addView(this.checkImageView, LayoutHelper.createFrame(48, 48.0f, (LocaleController.isRTL ? 3 : 5) | 48, 8.0f, 8.0f, 8.0f, 0.0f));
-            this.checkImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda0
+            this.checkImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ProxyListActivity.TextDetailProxyCell.this.lambda$new$0(view);
@@ -174,7 +176,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             int i;
             if (SharedConfig.currentProxy == this.currentInfo && ProxyListActivity.this.useProxySettings) {
                 if (ProxyListActivity.this.currentConnectionState == 3 || ProxyListActivity.this.currentConnectionState == 5) {
-                    i = Theme.key_windowBackgroundWhiteBlueText6;
+                    int i2 = Theme.key_windowBackgroundWhiteBlueText6;
                     if (this.currentInfo.ping != 0) {
                         TextView textView = this.valueTextView;
                         textView.setText(LocaleController.getString("Connected", R.string.Connected) + ", " + LocaleController.formatString("Ping", R.string.Ping, Long.valueOf(this.currentInfo.ping)));
@@ -185,6 +187,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     if (!proxyInfo.checking && !proxyInfo.available) {
                         proxyInfo.availableCheckTime = 0L;
                     }
+                    i = i2;
                 } else {
                     i = Theme.key_windowBackgroundWhiteGrayText2;
                     this.valueTextView.setText(LocaleController.getString("Connecting", R.string.Connecting));
@@ -246,12 +249,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 this.checkBox.setScaleY(1.0f);
                 return;
             }
-            float[] fArr = new float[2];
-            fArr[0] = z ? 0.0f : 1.0f;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(200L);
+            ValueAnimator duration = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f).setDuration(200L);
             duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda1
+            duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ProxyListActivity$TextDetailProxyCell$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     ProxyListActivity.TextDetailProxyCell.this.lambda$setSelectionEnabled$1(r2, dp, valueAnimator);
@@ -408,13 +408,13 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         recyclerListView2.setLayoutManager(linearLayoutManager);
         ((FrameLayout) this.fragmentView).addView(this.listView, LayoutHelper.createFrame(-1, -1, 51));
         this.listView.setAdapter(this.listAdapter);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ProxyListActivity.this.lambda$createView$1(view, i);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$createView$2;
@@ -429,7 +429,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         this.selectedCountTextView.setTypeface(AndroidUtilities.bold());
         this.selectedCountTextView.setTextColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
         createActionMode.addView(this.selectedCountTextView, LayoutHelper.createLinear(0, -1, 1.0f, 72, 0, 0, 0));
-        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
+        this.selectedCountTextView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$3;
@@ -683,7 +683,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0070  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x006e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -691,7 +691,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         boolean z2;
         ListAdapter listAdapter;
         final boolean z3;
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.useProxyRow = 0;
         if (this.useProxySettings && SharedConfig.currentProxy != null && SharedConfig.proxyList.size() > 1) {
             int i = this.rowCount;
@@ -699,10 +699,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.rowCount = i2;
             this.rotationRow = i;
             if (SharedConfig.proxyRotationEnabled) {
-                int i3 = i2 + 1;
                 this.rotationTimeoutRow = i2;
-                this.rowCount = i3 + 1;
-                this.rotationTimeoutInfoRow = i3;
+                this.rowCount = i + 3;
+                this.rotationTimeoutInfoRow = i + 2;
             } else {
                 this.rotationTimeoutRow = -1;
                 this.rotationTimeoutInfoRow = -1;
@@ -713,15 +712,15 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             this.rotationTimeoutInfoRow = -1;
         }
         if (this.rotationTimeoutInfoRow == -1) {
-            int i4 = this.rowCount;
-            this.rowCount = i4 + 1;
-            this.useProxyShadowRow = i4;
+            int i3 = this.rowCount;
+            this.rowCount = i3 + 1;
+            this.useProxyShadowRow = i3;
         } else {
             this.useProxyShadowRow = -1;
         }
-        int i5 = this.rowCount;
-        this.rowCount = i5 + 1;
-        this.connectionsHeaderRow = i5;
+        int i4 = this.rowCount;
+        this.rowCount = i4 + 1;
+        this.connectionsHeaderRow = i4;
         if (z) {
             this.proxyList.clear();
             this.proxyList.addAll(SharedConfig.proxyList);
@@ -741,7 +740,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     this.wasCheckedAllList = true;
                 }
             }
-            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda1
+            Collections.sort(this.proxyList, new Comparator() { // from class: org.telegram.ui.ProxyListActivity$$ExternalSyntheticLambda4
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$updateRows$4;
@@ -751,28 +750,26 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             });
         }
         if (!this.proxyList.isEmpty()) {
-            int i6 = this.rowCount;
-            this.proxyStartRow = i6;
-            int size = i6 + this.proxyList.size();
+            int i5 = this.rowCount;
+            this.proxyStartRow = i5;
+            int size = i5 + this.proxyList.size();
             this.rowCount = size;
             this.proxyEndRow = size;
         } else {
             this.proxyStartRow = -1;
             this.proxyEndRow = -1;
         }
-        int i7 = this.rowCount;
-        int i8 = i7 + 1;
-        this.proxyAddRow = i7;
-        this.rowCount = i8 + 1;
-        this.proxyShadowRow = i8;
+        int i6 = this.rowCount;
+        this.proxyAddRow = i6;
+        this.rowCount = i6 + 2;
+        this.proxyShadowRow = i6 + 1;
         SharedConfig.ProxyInfo proxyInfo2 = SharedConfig.currentProxy;
         if (proxyInfo2 == null || proxyInfo2.secret.isEmpty()) {
             z2 = this.callsRow == -1;
-            int i9 = this.rowCount;
-            int i10 = i9 + 1;
-            this.callsRow = i9;
-            this.rowCount = i10 + 1;
-            this.callsDetailRow = i10;
+            int i7 = this.rowCount;
+            this.callsRow = i7;
+            this.rowCount = i7 + 2;
+            this.callsDetailRow = i7 + 1;
             if (!z && z2) {
                 this.listAdapter.notifyItemChanged(this.proxyShadowRow);
                 this.listAdapter.notifyItemRangeInserted(this.proxyShadowRow + 1, 2);
@@ -787,9 +784,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             }
         }
         if (this.proxyList.size() >= 10) {
-            int i11 = this.rowCount;
-            this.rowCount = i11 + 1;
-            this.deleteAllRow = i11;
+            int i8 = this.rowCount;
+            this.rowCount = i8 + 1;
+            this.deleteAllRow = i8;
         } else {
             this.deleteAllRow = -1;
         }
@@ -807,7 +804,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         if (!proxyInfo.available) {
             j += 100000;
         }
-        long j2 = proxyInfo3 != proxyInfo2 ? 0L : -200000L;
+        long j2 = proxyInfo3 == proxyInfo2 ? -200000L : 0L;
         if (!proxyInfo2.available) {
             j2 += 100000;
         }

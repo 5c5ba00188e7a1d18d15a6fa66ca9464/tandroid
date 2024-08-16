@@ -18,11 +18,15 @@ final class zzm implements Runnable {
         OnSuccessListener onSuccessListener2;
         obj = this.zzb.zzb;
         synchronized (obj) {
-            zzn zznVar = this.zzb;
-            onSuccessListener = zznVar.zzc;
-            if (onSuccessListener != null) {
-                onSuccessListener2 = zznVar.zzc;
-                onSuccessListener2.onSuccess(this.zza.getResult());
+            try {
+                zzn zznVar = this.zzb;
+                onSuccessListener = zznVar.zzc;
+                if (onSuccessListener != null) {
+                    onSuccessListener2 = zznVar.zzc;
+                    onSuccessListener2.onSuccess(this.zza.getResult());
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

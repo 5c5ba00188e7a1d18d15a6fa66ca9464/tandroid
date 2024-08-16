@@ -55,13 +55,9 @@ final class EventSampleStream implements SampleStream {
     }
 
     public void seekToUs(long j) {
-        boolean z = true;
         int binarySearchCeil = Util.binarySearchCeil(this.eventTimesUs, j, true, false);
         this.currentIndex = binarySearchCeil;
-        if (!((this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? false : false)) {
-            j = -9223372036854775807L;
-        }
-        this.pendingSeekPositionUs = j;
+        this.pendingSeekPositionUs = (this.eventStreamAppendable && binarySearchCeil == this.eventTimesUs.length) ? -9223372036854775807L : -9223372036854775807L;
     }
 
     @Override // com.google.android.exoplayer2.source.SampleStream

@@ -14,6 +14,7 @@ import androidx.annotation.Keep;
 import java.util.ArrayList;
 import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class NumberTextView extends View {
     private boolean addNumber;
@@ -62,16 +63,16 @@ public class NumberTextView extends View {
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:12:0x004c, code lost:
-        if (r22 < r21.currentNumber) goto L13;
+        if (r22 < r21.currentNumber) goto L55;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x004e, code lost:
-        r7 = true;
+    /* JADX WARN: Code restructure failed: missing block: B:15:0x006f, code lost:
+        if (r22 > r21.currentNumber) goto L55;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x0050, code lost:
-        r7 = false;
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0071, code lost:
+        r6 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:16:0x0072, code lost:
-        if (r22 > r21.currentNumber) goto L13;
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x0073, code lost:
+        r6 = false;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -124,10 +125,7 @@ public class NumberTextView extends View {
             i2 = i3;
         }
         if (z && !this.oldLetters.isEmpty()) {
-            float[] fArr = new float[2];
-            fArr[0] = z2 ? -1.0f : 1.0f;
-            fArr[1] = 0.0f;
-            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", fArr);
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(this, "progress", z2 ? -1.0f : 1.0f, 0.0f);
             this.animator = ofFloat;
             ofFloat.setDuration(this.addNumber ? 180L : 150L);
             this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.NumberTextView.1
@@ -202,7 +200,7 @@ public class NumberTextView extends View {
                         canvas.translate(0.0f, this.progress * dp);
                     }
                 } else {
-                    this.textPaint.setAlpha(255);
+                    this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 }
             } else if (f3 < 0.0f) {
                 if (staticLayout != null) {
@@ -217,11 +215,11 @@ public class NumberTextView extends View {
                         this.textPaint.setAlpha((int) ((this.progress + 1.0f) * 255.0f));
                         canvas.translate(0.0f, this.progress * dp);
                     } else {
-                        this.textPaint.setAlpha(255);
+                        this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
                     }
                 }
             } else if (staticLayout2 != null) {
-                this.textPaint.setAlpha(255);
+                this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
             }
             if (staticLayout2 != null) {
                 staticLayout2.draw(canvas);

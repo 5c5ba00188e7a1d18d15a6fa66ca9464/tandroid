@@ -3,38 +3,38 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class U1 extends X1 {
+public final class U1 extends W1 {
     /* JADX INFO: Access modifiers changed from: package-private */
     public U1(j$.util.Q q, int i, boolean z) {
         super(q, i, z);
     }
 
-    @Override // j$.util.stream.X1, j$.util.stream.Stream
-    public final void F(Consumer consumer) {
+    @Override // j$.util.stream.W1, j$.util.stream.Stream
+    public final void f(Consumer consumer) {
         if (isParallel()) {
-            super.F(consumer);
+            super.f(consumer);
         } else {
-            n1().forEachRemaining(consumer);
+            B0().a(consumer);
         }
     }
 
-    @Override // j$.util.stream.X1, j$.util.stream.Stream
+    @Override // j$.util.stream.W1, j$.util.stream.Stream
     public final void forEach(Consumer consumer) {
         if (isParallel()) {
             super.forEach(consumer);
         } else {
-            n1().forEachRemaining(consumer);
+            B0().a(consumer);
         }
     }
 
-    @Override // j$.util.stream.c
-    final boolean k1() {
+    @Override // j$.util.stream.b
+    final boolean y0() {
         throw new UnsupportedOperationException();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
         throw new UnsupportedOperationException();
     }
 }

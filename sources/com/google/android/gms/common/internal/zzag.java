@@ -21,20 +21,24 @@ public final class zzag {
     private static void zzc(Context context) {
         Bundle bundle;
         synchronized (zza) {
-            if (zzb) {
-                return;
-            }
-            zzb = true;
             try {
-                bundle = Wrappers.packageManager(context).getApplicationInfo(context.getPackageName(), 128).metaData;
-            } catch (PackageManager.NameNotFoundException e) {
-                Log.wtf("MetadataValueReader", "This should never happen.", e);
+                if (zzb) {
+                    return;
+                }
+                zzb = true;
+                try {
+                    bundle = Wrappers.packageManager(context).getApplicationInfo(context.getPackageName(), 128).metaData;
+                } catch (PackageManager.NameNotFoundException e) {
+                    Log.wtf("MetadataValueReader", "This should never happen.", e);
+                }
+                if (bundle == null) {
+                    return;
+                }
+                zzc = bundle.getString("com.google.app.id");
+                zzd = bundle.getInt("com.google.android.gms.version");
+            } catch (Throwable th) {
+                throw th;
             }
-            if (bundle == null) {
-                return;
-            }
-            zzc = bundle.getString("com.google.app.id");
-            zzd = bundle.getInt("com.google.android.gms.version");
         }
     }
 }

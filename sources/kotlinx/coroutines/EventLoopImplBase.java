@@ -105,10 +105,14 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
             long nanoTime = System.nanoTime();
             do {
                 synchronized (delayedTaskQueue) {
-                    DelayedTask firstImpl = delayedTaskQueue.firstImpl();
-                    if (firstImpl != null) {
-                        DelayedTask delayedTask2 = firstImpl;
-                        delayedTask = delayedTask2.timeToExecute(nanoTime) ? enqueueImpl(delayedTask2) : false ? delayedTaskQueue.removeAtImpl(0) : null;
+                    try {
+                        DelayedTask firstImpl = delayedTaskQueue.firstImpl();
+                        if (firstImpl != null) {
+                            DelayedTask delayedTask2 = firstImpl;
+                            delayedTask = delayedTask2.timeToExecute(nanoTime) ? enqueueImpl(delayedTask2) : false ? delayedTaskQueue.removeAtImpl(0) : null;
+                        }
+                    } catch (Throwable th) {
+                        throw th;
                     }
                 }
             } while (delayedTask != null);
@@ -210,7 +214,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
             Symbol symbol;
             Object obj = this._heap;
             symbol = EventLoop_commonKt.DISPOSED_TASK;
-            if (!(obj != symbol)) {
+            if (obj == symbol) {
                 throw new IllegalArgumentException("Failed requirement.".toString());
             }
             this._heap = threadSafeHeap;
@@ -276,17 +280,21 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
         public final synchronized void dispose() {
             Symbol symbol;
             Symbol symbol2;
-            Object obj = this._heap;
-            symbol = EventLoop_commonKt.DISPOSED_TASK;
-            if (obj == symbol) {
-                return;
+            try {
+                Object obj = this._heap;
+                symbol = EventLoop_commonKt.DISPOSED_TASK;
+                if (obj == symbol) {
+                    return;
+                }
+                DelayedTaskQueue delayedTaskQueue = obj instanceof DelayedTaskQueue ? (DelayedTaskQueue) obj : null;
+                if (delayedTaskQueue != null) {
+                    delayedTaskQueue.remove(this);
+                }
+                symbol2 = EventLoop_commonKt.DISPOSED_TASK;
+                this._heap = symbol2;
+            } catch (Throwable th) {
+                throw th;
             }
-            DelayedTaskQueue delayedTaskQueue = obj instanceof DelayedTaskQueue ? (DelayedTaskQueue) obj : null;
-            if (delayedTaskQueue != null) {
-                delayedTaskQueue.remove(this);
-            }
-            symbol2 = EventLoop_commonKt.DISPOSED_TASK;
-            this._heap = symbol2;
         }
 
         public String toString() {

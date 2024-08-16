@@ -90,15 +90,6 @@ public class GoogleMap {
         }
     }
 
-    public final void animateCamera(CameraUpdate cameraUpdate) {
-        try {
-            Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
-            this.zza.animateCamera(cameraUpdate.zza());
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
     public final CameraPosition getCameraPosition() {
         try {
             return this.zza.getCameraPosition();
@@ -137,15 +128,6 @@ public class GoogleMap {
                 this.zzc = new UiSettings(this.zza.getUiSettings());
             }
             return this.zzc;
-        } catch (RemoteException e) {
-            throw new RuntimeRemoteException(e);
-        }
-    }
-
-    public final void moveCamera(CameraUpdate cameraUpdate) {
-        try {
-            Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
-            this.zza.moveCamera(cameraUpdate.zza());
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }
@@ -251,6 +233,24 @@ public class GoogleMap {
     public final void setPadding(int i, int i2, int i3, int i4) {
         try {
             this.zza.setPadding(i, i2, i3, i4);
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public final void animateCamera(CameraUpdate cameraUpdate) {
+        try {
+            Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
+            this.zza.animateCamera(cameraUpdate.zza());
+        } catch (RemoteException e) {
+            throw new RuntimeRemoteException(e);
+        }
+    }
+
+    public final void moveCamera(CameraUpdate cameraUpdate) {
+        try {
+            Preconditions.checkNotNull(cameraUpdate, "CameraUpdate must not be null.");
+            this.zza.moveCamera(cameraUpdate.zza());
         } catch (RemoteException e) {
             throw new RuntimeRemoteException(e);
         }

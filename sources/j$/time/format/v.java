@@ -9,7 +9,7 @@ import java.util.Locale;
 /* loaded from: classes2.dex */
 class v {
     private static final ConcurrentHashMap a = new ConcurrentHashMap(16, 0.75f, 2);
-    private static final Comparator b = new d();
+    private static final Comparator b = new t();
     public static final /* synthetic */ int c = 0;
 
     private static String b(String str) {

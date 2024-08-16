@@ -859,7 +859,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     int ceil = (int) Math.ceil(PhotoPickerActivity.this.textPaint.measureText(format));
                     int max = Math.max(AndroidUtilities.dp(16.0f) + ceil, AndroidUtilities.dp(24.0f));
                     int measuredWidth = getMeasuredWidth() / 2;
-                    int measuredHeight = getMeasuredHeight() / 2;
+                    getMeasuredHeight();
                     PhotoPickerActivity.this.textPaint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBoxCheck));
                     PhotoPickerActivity.this.paint.setColor(Theme.getColor(PhotoPickerActivity.this.dialogBackgroundKey));
                     int i6 = max / 2;
@@ -1040,11 +1040,11 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:109:0x00b9  */
-        /* JADX WARN: Removed duplicated region for block: B:116:0x00d3  */
-        /* JADX WARN: Removed duplicated region for block: B:120:0x00e6  */
-        /* JADX WARN: Removed duplicated region for block: B:124:0x00f2  */
-        /* JADX WARN: Removed duplicated region for block: B:125:0x00fb  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x00d3  */
+        /* JADX WARN: Removed duplicated region for block: B:120:0x00e5  */
+        /* JADX WARN: Removed duplicated region for block: B:124:0x00f1  */
+        /* JADX WARN: Removed duplicated region for block: B:126:0x00fb  */
         @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1083,24 +1083,23 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                     if (i13 == -1) {
                         i13 = 51;
                     }
-                    int i14 = i13 & 7;
-                    int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                    int i16 = i14 & 7;
-                    if (i16 == 1) {
+                    int i14 = i13 & 112;
+                    int i15 = i13 & 7;
+                    if (i15 == 1) {
                         i5 = ((i11 - measuredWidth) / 2) + layoutParams.leftMargin;
                         i6 = layoutParams.rightMargin;
-                    } else if (i16 == 5) {
+                    } else if (i15 == 5) {
                         i5 = (i11 - measuredWidth) - layoutParams.rightMargin;
                         i6 = getPaddingRight();
                     } else {
                         i7 = layoutParams.leftMargin + getPaddingLeft();
-                        if (i15 != 16) {
+                        if (i14 != 16) {
                             i8 = ((((i4 - emojiPadding) - i2) - measuredHeight3) / 2) + layoutParams.topMargin;
                             i9 = layoutParams.bottomMargin;
                         } else {
-                            if (i15 == 48) {
+                            if (i14 == 48) {
                                 i10 = layoutParams.topMargin + getPaddingTop();
-                            } else if (i15 == 80) {
+                            } else if (i14 == 80) {
                                 i8 = ((i4 - emojiPadding) - i2) - measuredHeight3;
                                 i9 = layoutParams.bottomMargin;
                             } else {
@@ -1112,7 +1111,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                                     measuredHeight = getMeasuredHeight();
                                     measuredHeight2 = childAt.getMeasuredHeight();
                                 } else {
-                                    measuredHeight = getMeasuredHeight() + 0;
+                                    measuredHeight = getMeasuredHeight();
                                     measuredHeight2 = childAt.getMeasuredHeight();
                                 }
                                 i10 = measuredHeight - measuredHeight2;
@@ -1129,7 +1128,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                         childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                     }
                     i7 = i5 - i6;
-                    if (i15 != 16) {
+                    if (i14 != 16) {
                     }
                     i10 = i8 - i9;
                     editTextEmoji = PhotoPickerActivity.this.commentTextView;
@@ -1169,7 +1168,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("ClearSearchAlertTitle", R.string.ClearSearchAlertTitle));
                 builder.setMessage(LocaleController.getString("ClearSearchAlert", R.string.ClearSearchAlert));
-                builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda6
+                builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda10
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         PhotoPickerActivity.this.lambda$createView$0(dialogInterface, i3);
@@ -1536,44 +1535,20 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             ArrayList arrayList = new ArrayList();
             FrameLayout frameLayout = this.writeButtonContainer;
             Property property = View.SCALE_X;
-            float[] fArr = new float[1];
-            fArr[0] = z ? 1.0f : 0.2f;
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout, property, fArr));
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout, property, z ? 1.0f : 0.2f));
             FrameLayout frameLayout2 = this.writeButtonContainer;
             Property property2 = View.SCALE_Y;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 1.0f : 0.2f;
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout2, property2, fArr2));
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout2, property2, z ? 1.0f : 0.2f));
             FrameLayout frameLayout3 = this.writeButtonContainer;
             Property property3 = View.ALPHA;
-            float[] fArr3 = new float[1];
-            fArr3[0] = z ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout3, property3, fArr3));
-            View view = this.selectedCountView;
-            Property property4 = View.SCALE_X;
-            float[] fArr4 = new float[1];
-            fArr4[0] = z ? 1.0f : 0.2f;
-            arrayList.add(ObjectAnimator.ofFloat(view, property4, fArr4));
-            View view2 = this.selectedCountView;
-            Property property5 = View.SCALE_Y;
-            float[] fArr5 = new float[1];
-            fArr5[0] = z ? 1.0f : 0.2f;
-            arrayList.add(ObjectAnimator.ofFloat(view2, property5, fArr5));
-            View view3 = this.selectedCountView;
-            Property property6 = View.ALPHA;
-            float[] fArr6 = new float[1];
-            fArr6[0] = z ? 1.0f : 0.0f;
-            arrayList.add(ObjectAnimator.ofFloat(view3, property6, fArr6));
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout3, property3, z ? 1.0f : 0.0f));
+            arrayList.add(ObjectAnimator.ofFloat(this.selectedCountView, property, z ? 1.0f : 0.2f));
+            arrayList.add(ObjectAnimator.ofFloat(this.selectedCountView, property2, z ? 1.0f : 0.2f));
+            arrayList.add(ObjectAnimator.ofFloat(this.selectedCountView, property3, z ? 1.0f : 0.0f));
             FrameLayout frameLayout4 = this.frameLayout2;
-            Property property7 = View.TRANSLATION_Y;
-            float[] fArr7 = new float[1];
-            fArr7[0] = z ? 0.0f : AndroidUtilities.dp(48.0f);
-            arrayList.add(ObjectAnimator.ofFloat(frameLayout4, property7, fArr7));
-            View view4 = this.shadow;
-            Property property8 = View.TRANSLATION_Y;
-            float[] fArr8 = new float[1];
-            fArr8[0] = z ? 0.0f : AndroidUtilities.dp(48.0f);
-            arrayList.add(ObjectAnimator.ofFloat(view4, property8, fArr8));
+            Property property4 = View.TRANSLATION_Y;
+            arrayList.add(ObjectAnimator.ofFloat(frameLayout4, property4, z ? 0.0f : AndroidUtilities.dp(48.0f)));
+            arrayList.add(ObjectAnimator.ofFloat(this.shadow, property4, z ? 0.0f : AndroidUtilities.dp(48.0f)));
             this.animatorSet.playTogether(arrayList);
             this.animatorSet.setInterpolator(new DecelerateInterpolator());
             this.animatorSet.setDuration(180L);
@@ -1732,20 +1707,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             this.selectedCountView.setPivotX(AndroidUtilities.dp(21.0f));
             this.selectedCountView.setPivotY(AndroidUtilities.dp(12.0f));
             AnimatorSet animatorSet = new AnimatorSet();
-            Animator[] animatorArr = new Animator[2];
-            View view = this.selectedCountView;
-            Property property = View.SCALE_X;
-            float[] fArr = new float[2];
-            fArr[0] = i == 1 ? 1.1f : 0.9f;
-            fArr[1] = 1.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-            View view2 = this.selectedCountView;
-            Property property2 = View.SCALE_Y;
-            float[] fArr2 = new float[2];
-            fArr2[0] = i != 1 ? 0.9f : 1.1f;
-            fArr2[1] = 1.0f;
-            animatorArr[1] = ObjectAnimator.ofFloat(view2, property2, fArr2);
-            animatorSet.playTogether(animatorArr);
+            animatorSet.playTogether(ObjectAnimator.ofFloat(this.selectedCountView, View.SCALE_X, i == 1 ? 1.1f : 0.9f, 1.0f), ObjectAnimator.ofFloat(this.selectedCountView, View.SCALE_Y, i == 1 ? 1.1f : 0.9f, 1.0f));
             animatorSet.setInterpolator(new OvershootInterpolator());
             animatorSet.setDuration(180L);
             animatorSet.start();
@@ -1774,8 +1736,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
         }
         this.searchingUser = true;
         TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
-        MessagesController messagesController = MessagesController.getInstance(this.currentAccount);
-        tLRPC$TL_contacts_resolveUsername.username = z ? messagesController.gifSearchBot : messagesController.imageSearchBot;
+        tLRPC$TL_contacts_resolveUsername.username = z ? MessagesController.getInstance(this.currentAccount).gifSearchBot : MessagesController.getInstance(this.currentAccount).imageSearchBot;
         ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
@@ -1853,7 +1814,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
     }
 
     public /* synthetic */ void lambda$searchImages$11(final String str, final int i, final boolean z, final TLRPC$User tLRPC$User, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.PhotoPickerActivity$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 PhotoPickerActivity.this.lambda$searchImages$10(str, i, tLObject, z, tLRPC$User);

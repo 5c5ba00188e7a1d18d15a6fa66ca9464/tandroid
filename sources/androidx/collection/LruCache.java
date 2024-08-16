@@ -39,31 +39,37 @@ public class LruCache<K, V> {
             throw new NullPointerException("key == null");
         }
         synchronized (this) {
-            V v = this.map.get(k);
-            if (v != null) {
-                this.hitCount++;
-                return v;
-            }
-            this.missCount++;
-            V create = create(k);
-            if (create == null) {
-                return null;
-            }
-            synchronized (this) {
-                this.createCount++;
-                put = this.map.put(k, create);
-                if (put != null) {
-                    this.map.put(k, put);
-                } else {
-                    this.size += safeSizeOf(k, create);
+            try {
+                V v = this.map.get(k);
+                if (v != null) {
+                    this.hitCount++;
+                    return v;
                 }
+                this.missCount++;
+                V create = create(k);
+                if (create == null) {
+                    return null;
+                }
+                synchronized (this) {
+                    try {
+                        this.createCount++;
+                        put = this.map.put(k, create);
+                        if (put != null) {
+                            this.map.put(k, put);
+                        } else {
+                            this.size += safeSizeOf(k, create);
+                        }
+                    } finally {
+                    }
+                }
+                if (put != null) {
+                    entryRemoved(false, k, create, put);
+                    return put;
+                }
+                trimToSize(this.maxSize);
+                return create;
+            } finally {
             }
-            if (put != null) {
-                entryRemoved(false, k, create, put);
-                return put;
-            }
-            trimToSize(this.maxSize);
-            return create;
         }
     }
 
@@ -73,11 +79,15 @@ public class LruCache<K, V> {
             throw new NullPointerException("key == null || value == null");
         }
         synchronized (this) {
-            this.putCount++;
-            this.size += safeSizeOf(k, v);
-            put = this.map.put(k, v);
-            if (put != null) {
-                this.size -= safeSizeOf(k, put);
+            try {
+                this.putCount++;
+                this.size += safeSizeOf(k, v);
+                put = this.map.put(k, v);
+                if (put != null) {
+                    this.size -= safeSizeOf(k, put);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         if (put != null) {
@@ -87,7 +97,7 @@ public class LruCache<K, V> {
         return put;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:20:0x0070, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0073, code lost:
         throw new java.lang.IllegalStateException(getClass().getName() + ".sizeOf() is reporting inconsistent results!");
      */
     /*
@@ -98,7 +108,10 @@ public class LruCache<K, V> {
         V value;
         while (true) {
             synchronized (this) {
-                if (this.size >= 0 && (!this.map.isEmpty() || this.size == 0)) {
+                try {
+                    if (this.size < 0 || (this.map.isEmpty() && this.size != 0)) {
+                        break;
+                    }
                     if (this.size <= i || this.map.isEmpty()) {
                         break;
                     }
@@ -108,8 +121,7 @@ public class LruCache<K, V> {
                     this.map.remove(key);
                     this.size -= safeSizeOf(key, value);
                     this.evictionCount++;
-                } else {
-                    break;
+                } finally {
                 }
             }
             entryRemoved(true, key, value, null);
@@ -127,8 +139,12 @@ public class LruCache<K, V> {
     public final synchronized String toString() {
         int i;
         int i2;
-        i = this.hitCount;
-        i2 = this.missCount + i;
+        try {
+            i = this.hitCount;
+            i2 = this.missCount + i;
+        } catch (Throwable th) {
+            throw th;
+        }
         return String.format(Locale.US, "LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]", Integer.valueOf(this.maxSize), Integer.valueOf(this.hitCount), Integer.valueOf(this.missCount), Integer.valueOf(i2 != 0 ? (i * 100) / i2 : 0));
     }
 }

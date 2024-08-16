@@ -702,17 +702,17 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.listAdapter.updateItems(z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:233:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:236:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:276:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:279:0x018a  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x01f8  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x027d  */
-    /* JADX WARN: Removed duplicated region for block: B:307:0x029b  */
-    /* JADX WARN: Removed duplicated region for block: B:413:0x050d  */
-    /* JADX WARN: Removed duplicated region for block: B:423:0x053c  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:268:0x00f4  */
+    /* JADX WARN: Removed duplicated region for block: B:278:0x0126  */
+    /* JADX WARN: Removed duplicated region for block: B:281:0x018b  */
+    /* JADX WARN: Removed duplicated region for block: B:284:0x01f9  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x027a  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x0299  */
+    /* JADX WARN: Removed duplicated region for block: B:415:0x050f  */
+    /* JADX WARN: Removed duplicated region for block: B:425:0x053e  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -736,12 +736,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         float f8;
         boolean showCustomEmojiReaction;
         int dp;
-        boolean z;
         float f9;
         long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
         this.lastUpdate = System.currentTimeMillis();
-        boolean z2 = this.isFlippedVertically;
-        if (z2) {
+        boolean z = this.isFlippedVertically;
+        if (z) {
             float f10 = this.flipVerticalProgress;
             if (f10 != 1.0f) {
                 this.flipVerticalProgress = Math.min(1.0f, f10 + (((float) min) / 220.0f));
@@ -830,7 +829,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         f7 = width2;
                         f6 = f12;
                         i = 5;
-                        this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), 255, false);
+                        this.delegate.drawRoundRect(canvas, this.rect, this.radius, getX(), getY(), NotificationCenter.voipServiceCreated, false);
                     } else {
                         RectF rectF = this.rect;
                         float f14 = this.radius;
@@ -844,18 +843,14 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         while (true) {
                             if (it.hasNext()) {
                                 if (it.next().isStar) {
-                                    z = true;
                                     break;
                                 }
                             } else {
-                                z = false;
+                                RectF rectF2 = this.rect;
+                                float f15 = this.radius;
+                                canvas.drawRoundRect(rectF2, f15, f15, getStarGradientPaint(rectF2, Utilities.clamp01(1.0f - getPullingLeftProgress())));
                                 break;
                             }
-                        }
-                        if (!z) {
-                            RectF rectF2 = this.rect;
-                            float f15 = this.radius;
-                            canvas.drawRoundRect(rectF2, f15, f15, getStarGradientPaint(rectF2, Utilities.clamp01(1.0f - getPullingLeftProgress())));
                         }
                     }
                     canvas.restoreToCount(save2);
@@ -987,11 +982,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     }
                 }
                 canvas.restoreToCount(save3);
-                drawBubbles(canvas, f, max, f2, 255);
+                drawBubbles(canvas, f, max, f2, NotificationCenter.voipServiceCreated);
                 invalidate();
             }
         }
-        if (!z2) {
+        if (!z) {
             float f18 = this.flipVerticalProgress;
             if (f18 != 0.0f) {
                 this.flipVerticalProgress = Math.max(0.0f, f18 - (((float) min) / 220.0f));
@@ -1070,13 +1065,13 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         if (!showCustomEmojiReaction) {
         }
         canvas.restoreToCount(save32);
-        drawBubbles(canvas, f, max, f2, 255);
+        drawBubbles(canvas, f, max, f2, NotificationCenter.voipServiceCreated);
         invalidate();
     }
 
     public void drawBubbles(Canvas canvas) {
         float max = (Math.max(0.25f, Math.min(this.transitionProgress, 1.0f)) - 0.25f) / 0.75f;
-        drawBubbles(canvas, this.bigCircleRadius * max, max, this.smallCircleRadius * max, this.type == 5 ? 255 : (int) (Utilities.clamp(this.customEmojiReactionsEnterProgress / 0.2f, 1.0f, 0.0f) * (1.0f - this.customEmojiReactionsEnterProgress) * 255.0f));
+        drawBubbles(canvas, this.bigCircleRadius * max, max, this.smallCircleRadius * max, this.type == 5 ? NotificationCenter.voipServiceCreated : (int) (Utilities.clamp(this.customEmojiReactionsEnterProgress / 0.2f, 1.0f, 0.0f) * (1.0f - this.customEmojiReactionsEnterProgress) * 255.0f));
     }
 
     private void drawBubbles(Canvas canvas, float f, float f2, float f3, int i) {
@@ -1122,8 +1117,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             canvas.drawCircle(width2, lerp, f3, this.bgPaint);
         }
         canvas.restore();
-        this.shadow.setAlpha(255);
-        this.bgPaint.setAlpha(255);
+        this.shadow.setAlpha(NotificationCenter.voipServiceCreated);
+        this.bgPaint.setAlpha(NotificationCenter.voipServiceCreated);
     }
 
     public void setMiniBubblesOffset(float f) {
@@ -1238,8 +1233,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         int dp = AndroidUtilities.dp(24.0f);
         float height = getHeight() / 2.0f;
         int color = Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground);
-        this.leftShadowPaint.setShader(new LinearGradient(0.0f, height, dp, height, color, 0, Shader.TileMode.CLAMP));
-        this.rightShadowPaint.setShader(new LinearGradient(getWidth(), height, getWidth() - dp, height, color, 0, Shader.TileMode.CLAMP));
+        Paint paint = this.leftShadowPaint;
+        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+        paint.setShader(new LinearGradient(0.0f, height, dp, height, color, 0, tileMode));
+        this.rightShadowPaint.setShader(new LinearGradient(getWidth(), height, getWidth() - dp, height, color, 0, tileMode));
         invalidate();
     }
 
@@ -1481,7 +1478,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     private void updateSelected(final boolean z) {
-        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda1
+        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda0
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ReactionsContainerLayout.this.lambda$updateSelected$4(z, (View) obj);
@@ -1790,7 +1787,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.pullingLeftOffset = 0.0f;
         this.pressedReaction = null;
         this.clicked = false;
-        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda0
+        AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$$ExternalSyntheticLambda1
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ReactionsContainerLayout.this.lambda$reset$6((View) obj);
@@ -2309,12 +2306,15 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(4, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId);
                     AnimatedEmojiDrawable animatedEmojiDrawable2 = new AnimatedEmojiDrawable(3, ReactionsContainerLayout.this.currentAccount, this.currentReaction.documentId);
                     if (ReactionsContainerLayout.this.type == 1 || ReactionsContainerLayout.this.type == 2 || ReactionsContainerLayout.this.type == 4) {
-                        animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-                        animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
+                        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+                        animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(-1, mode));
+                        animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(-1, mode));
                     } else {
                         int i2 = Theme.key_windowBackgroundWhiteBlueIcon;
-                        animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2, ReactionsContainerLayout.this.resourcesProvider), PorterDuff.Mode.SRC_IN));
-                        animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2, ReactionsContainerLayout.this.resourcesProvider), PorterDuff.Mode.SRC_IN));
+                        int color = Theme.getColor(i2, ReactionsContainerLayout.this.resourcesProvider);
+                        PorterDuff.Mode mode2 = PorterDuff.Mode.SRC_IN;
+                        animatedEmojiDrawable.setColorFilter(new PorterDuffColorFilter(color, mode2));
+                        animatedEmojiDrawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2, ReactionsContainerLayout.this.resourcesProvider), mode2));
                     }
                     this.pressedBackupImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable);
                     this.loopImageView.setAnimatedEmojiDrawable(animatedEmojiDrawable2);
@@ -2825,7 +2825,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 ReactionsContainerLayout.this.premiumLockIconView.setPadding(AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f), AndroidUtilities.dp(1.0f));
                 ReactionsContainerLayout reactionsContainerLayout = ReactionsContainerLayout.this;
                 reactionsContainerLayout.premiumLockContainer.addView(reactionsContainerLayout.premiumLockIconView, LayoutHelper.createFrame(26, 26, 17));
-                ReactionsContainerLayout.this.premiumLockIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$Adapter$$ExternalSyntheticLambda0
+                ReactionsContainerLayout.this.premiumLockIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$Adapter$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ReactionsContainerLayout.Adapter.this.lambda$onCreateViewHolder$0(view2);
@@ -2854,7 +2854,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 ReactionsContainerLayout.this.customEmojiReactionsIconView.setContentDescription(LocaleController.getString(R.string.AccDescrExpandPanel));
                 ReactionsContainerLayout reactionsContainerLayout7 = ReactionsContainerLayout.this;
                 reactionsContainerLayout7.customReactionsContainer.addView(reactionsContainerLayout7.customEmojiReactionsIconView, LayoutHelper.createFrame(30, 30, 17));
-                ReactionsContainerLayout.this.customEmojiReactionsIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$Adapter$$ExternalSyntheticLambda1
+                ReactionsContainerLayout.this.customEmojiReactionsIconView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ReactionsContainerLayout$Adapter$$ExternalSyntheticLambda0
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ReactionsContainerLayout.Adapter.this.lambda$onCreateViewHolder$1(view2);

@@ -147,10 +147,14 @@ class AsynchronousMediaCodecBufferEnqueuer {
     private static MessageParams getMessageParams() {
         ArrayDeque<MessageParams> arrayDeque = MESSAGE_PARAMS_INSTANCE_POOL;
         synchronized (arrayDeque) {
-            if (arrayDeque.isEmpty()) {
-                return new MessageParams();
+            try {
+                if (arrayDeque.isEmpty()) {
+                    return new MessageParams();
+                }
+                return arrayDeque.removeFirst();
+            } catch (Throwable th) {
+                throw th;
             }
-            return arrayDeque.removeFirst();
         }
     }
 

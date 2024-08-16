@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class RoundVideoPlayingDrawable extends Drawable {
@@ -23,7 +24,7 @@ public class RoundVideoPlayingDrawable extends Drawable {
     private int progress1Direction = 1;
     private int progress2Direction = 1;
     private int progress3Direction = 1;
-    int alpha = 255;
+    int alpha = NotificationCenter.voipServiceCreated;
 
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {

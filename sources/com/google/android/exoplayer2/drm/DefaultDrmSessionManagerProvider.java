@@ -27,11 +27,15 @@ public final class DefaultDrmSessionManagerProvider implements DrmSessionManager
             return DrmSessionManager.DRM_UNSUPPORTED;
         }
         synchronized (this.lock) {
-            if (!Util.areEqual(drmConfiguration, this.drmConfiguration)) {
-                this.drmConfiguration = drmConfiguration;
-                this.manager = createManager(drmConfiguration);
+            try {
+                if (!Util.areEqual(drmConfiguration, this.drmConfiguration)) {
+                    this.drmConfiguration = drmConfiguration;
+                    this.manager = createManager(drmConfiguration);
+                }
+                drmSessionManager = (DrmSessionManager) Assertions.checkNotNull(this.manager);
+            } catch (Throwable th) {
+                throw th;
             }
-            drmSessionManager = (DrmSessionManager) Assertions.checkNotNull(this.manager);
         }
         return drmSessionManager;
     }

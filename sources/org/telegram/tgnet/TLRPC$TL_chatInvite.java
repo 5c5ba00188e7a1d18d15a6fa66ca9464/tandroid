@@ -13,7 +13,7 @@ public class TLRPC$TL_chatInvite extends TLRPC$ChatInvite {
         this.megagroup = (readInt32 & 8) != 0;
         this.request_needed = (readInt32 & 64) != 0;
         this.verified = (readInt32 & 128) != 0;
-        this.scam = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.scam = (readInt32 & 256) != 0;
         this.fake = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.can_refulfill_subscription = (readInt32 & 2048) != 0;
         this.title = abstractSerializedData.readString(z);
@@ -65,7 +65,7 @@ public class TLRPC$TL_chatInvite extends TLRPC$ChatInvite {
         this.flags = i6;
         int i7 = this.verified ? i6 | 128 : i6 & (-129);
         this.flags = i7;
-        int i8 = this.scam ? i7 | LiteMode.FLAG_CHAT_BLUR : i7 & (-257);
+        int i8 = this.scam ? i7 | 256 : i7 & (-257);
         this.flags = i8;
         int i9 = this.fake ? i8 | LiteMode.FLAG_CALLS_ANIMATIONS : i8 & (-513);
         this.flags = i9;

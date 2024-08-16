@@ -51,7 +51,7 @@ public class AlbumButton extends View {
         textPaint.setColor(Theme.getColor(i2, resourcesProvider));
         textPaint.setTextSize(AndroidUtilities.dp(16.0f));
         textPaint2.setColor(Theme.getColor(i2, resourcesProvider));
-        textPaint2.setAlpha(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
+        textPaint2.setAlpha(102);
         textPaint2.setTextSize(AndroidUtilities.dp(13.0f));
         this.title = "" + ((Object) charSequence);
         this.subtitle = "" + i;
@@ -99,13 +99,18 @@ public class AlbumButton extends View {
     private void updateLayouts(int i) {
         StaticLayout staticLayout = this.nameLayout;
         if (staticLayout == null || staticLayout.getWidth() != i) {
-            StaticLayout staticLayout2 = new StaticLayout(TextUtils.ellipsize(this.title, this.namePaintLayout, i, TextUtils.TruncateAt.END), this.namePaintLayout, Math.max(0, i), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            CharSequence ellipsize = TextUtils.ellipsize(this.title, this.namePaintLayout, i, truncateAt);
+            TextPaint textPaint = this.namePaintLayout;
+            int max = Math.max(0, i);
+            Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+            StaticLayout staticLayout2 = new StaticLayout(ellipsize, textPaint, max, alignment, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout2;
             this.nameLayoutLeft = staticLayout2.getLineCount() > 0 ? this.nameLayout.getLineLeft(0) : 0.0f;
             float lineWidth = this.nameLayout.getLineCount() > 0 ? this.nameLayout.getLineWidth(0) : 0.0f;
             this.nameLayoutWidth = lineWidth;
             int dp = i - ((int) (lineWidth + AndroidUtilities.dp(8.0f)));
-            StaticLayout staticLayout3 = new StaticLayout(TextUtils.ellipsize(this.subtitle, this.countPaintLayout, dp, TextUtils.TruncateAt.END), this.countPaintLayout, Math.max(0, dp), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            StaticLayout staticLayout3 = new StaticLayout(TextUtils.ellipsize(this.subtitle, this.countPaintLayout, dp, truncateAt), this.countPaintLayout, Math.max(0, dp), alignment, 1.0f, 0.0f, false);
             this.countLayout = staticLayout3;
             this.countLayoutLeft = staticLayout3.getLineCount() > 0 ? this.countLayout.getLineLeft(0) : 0.0f;
             this.countLayoutWidth = this.countLayout.getLineCount() > 0 ? this.countLayout.getLineWidth(0) : 0.0f;

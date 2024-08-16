@@ -1,34 +1,65 @@
 package j$.util.stream;
 
 import j$.util.function.BiConsumer;
+import j$.util.function.Consumer;
 import j$.util.function.Supplier;
 /* loaded from: classes2.dex */
-final class E1 extends u1 {
-    final /* synthetic */ j$.util.function.f h;
-    final /* synthetic */ BiConsumer i;
-    final /* synthetic */ Supplier j;
-    final /* synthetic */ Collector k;
+final class E1 extends O1 implements N1 {
+    final /* synthetic */ Supplier b;
+    final /* synthetic */ BiConsumer c;
+    final /* synthetic */ j$.util.function.f d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public E1(U2 u2, j$.util.function.f fVar, BiConsumer biConsumer, Supplier supplier, Collector collector) {
-        super(u2);
-        this.h = fVar;
-        this.i = biConsumer;
-        this.j = supplier;
-        this.k = collector;
+    public E1(Supplier supplier, BiConsumer biConsumer, j$.util.function.f fVar) {
+        this.b = supplier;
+        this.c = biConsumer;
+        this.d = fVar;
     }
 
-    @Override // j$.util.stream.u1, j$.util.stream.C3
-    public final int b() {
-        if (this.k.characteristics().contains(i.UNORDERED)) {
-            return T2.r;
-        }
-        return 0;
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final /* synthetic */ void accept(double d) {
+        t0.b();
+        throw null;
     }
 
-    @Override // j$.util.stream.u1
-    public final O1 u() {
-        return new F1(this.j, this.i, this.h);
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(int i) {
+        t0.k();
+        throw null;
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(long j) {
+        t0.l();
+        throw null;
+    }
+
+    @Override // j$.util.function.Consumer
+    public final void accept(Object obj) {
+        this.c.accept(this.a, obj);
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
+    }
+
+    @Override // j$.util.stream.N1
+    public final void h(N1 n1) {
+        this.a = this.d.apply(this.a, ((E1) n1).a);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.e2
+    public final void n(long j) {
+        this.a = this.b.get();
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ boolean q() {
+        return false;
     }
 }

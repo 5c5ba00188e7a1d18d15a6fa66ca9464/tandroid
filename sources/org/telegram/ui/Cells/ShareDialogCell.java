@@ -22,7 +22,6 @@ import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
-import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -312,10 +311,10 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         this.topicTextView.setTag(R.id.spring_tag, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x019d  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x01a0  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x01da  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x01a2  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x01df  */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x01fb  */
     @Override // android.view.ViewGroup
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -459,7 +458,7 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
         public RepostStoryDrawable(Context context, View view, boolean z, Theme.ResourcesProvider resourcesProvider) {
             Paint paint = new Paint(1);
             this.paint = paint;
-            this.alpha = 255;
+            this.alpha = NotificationCenter.voipServiceCreated;
             LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f), new int[]{Theme.getColor(Theme.key_stories_circle1, resourcesProvider), Theme.getColor(Theme.key_stories_circle2, resourcesProvider)}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
             this.gradient = linearGradient;
             paint.setShader(linearGradient);
@@ -467,7 +466,6 @@ public class ShareDialogCell extends FrameLayout implements NotificationCenter.N
                 RLottieDrawable rLottieDrawable = new RLottieDrawable(R.raw.story_repost, "story_repost", AndroidUtilities.dp(42.0f), AndroidUtilities.dp(42.0f), true, null);
                 this.lottieDrawable = rLottieDrawable;
                 rLottieDrawable.setMasterParent(view);
-                Objects.requireNonNull(rLottieDrawable);
                 AndroidUtilities.runOnUIThread(new ShareDialogCell$RepostStoryDrawable$$ExternalSyntheticLambda0(rLottieDrawable), 450L);
                 this.drawable = null;
                 return;

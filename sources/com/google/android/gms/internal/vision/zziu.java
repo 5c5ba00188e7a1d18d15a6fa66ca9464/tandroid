@@ -75,11 +75,7 @@ public final class zziu<T extends zziw<T>> {
 
     public final Object zza(T t) {
         Object obj = this.zza.get(t);
-        if (obj instanceof zzjp) {
-            zzjp zzjpVar = (zzjp) obj;
-            return zzjp.zza();
-        }
-        return obj;
+        return obj instanceof zzjp ? zzjp.zza() : obj;
     }
 
     public final void zza(T t, Object obj) {
@@ -123,10 +119,10 @@ public final class zziu<T extends zziw<T>> {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x0029, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x002a, code lost:
         if ((r6 instanceof com.google.android.gms.internal.vision.zzje) == false) goto L3;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0032, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x0033, code lost:
         if ((r6 instanceof byte[]) == false) goto L3;
      */
     /* JADX WARN: Code restructure failed: missing block: B:8:0x0020, code lost:
@@ -251,7 +247,6 @@ public final class zziu<T extends zziw<T>> {
         T key = entry.getKey();
         Object value = entry.getValue();
         if (value instanceof zzjp) {
-            zzjp zzjpVar = (zzjp) value;
             value = zzjp.zza();
         }
         if (key.zzd()) {

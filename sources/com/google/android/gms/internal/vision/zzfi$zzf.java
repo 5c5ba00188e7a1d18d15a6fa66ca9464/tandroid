@@ -146,10 +146,9 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzf>, com.google.android.gms.internal.vision.zzjb$zza] */
+    /* JADX WARN: Type inference failed for: r3v19, types: [com.google.android.gms.internal.vision.zzkx<com.google.android.gms.internal.vision.zzfi$zzf>, com.google.android.gms.internal.vision.zzjb$zza] */
     @Override // com.google.android.gms.internal.vision.zzjb
     public final Object zza(int i, Object obj, Object obj2) {
-        zzkx<zzfi$zzf> zzkxVar;
         switch (zzfk.zza[i - 1]) {
             case 1:
                 return new zzfi$zzf();
@@ -160,21 +159,23 @@ public final class zzfi$zzf extends zzjb<zzfi$zzf, zzb> implements zzkm {
             case 4:
                 return zzl;
             case 5:
-                zzkx<zzfi$zzf> zzkxVar2 = zzm;
-                zzkx<zzfi$zzf> zzkxVar3 = zzkxVar2;
-                if (zzkxVar2 == null) {
+                zzkx<zzfi$zzf> zzkxVar = zzm;
+                zzkx<zzfi$zzf> zzkxVar2 = zzkxVar;
+                if (zzkxVar == null) {
                     synchronized (zzfi$zzf.class) {
-                        zzkx<zzfi$zzf> zzkxVar4 = zzm;
-                        zzkxVar = zzkxVar4;
-                        if (zzkxVar4 == null) {
-                            ?? zzaVar = new zzjb.zza(zzl);
-                            zzm = zzaVar;
-                            zzkxVar = zzaVar;
+                        try {
+                            zzkx<zzfi$zzf> zzkxVar3 = zzm;
+                            zzkx<zzfi$zzf> zzkxVar4 = zzkxVar3;
+                            if (zzkxVar3 == null) {
+                                ?? zzaVar = new zzjb.zza(zzl);
+                                zzm = zzaVar;
+                                zzkxVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzkxVar3 = zzkxVar;
                 }
-                return zzkxVar3;
+                return zzkxVar2;
             case 6:
                 return (byte) 1;
             case 7:

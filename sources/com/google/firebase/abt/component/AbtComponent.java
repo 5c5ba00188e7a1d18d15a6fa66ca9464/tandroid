@@ -19,8 +19,12 @@ public class AbtComponent {
     }
 
     public synchronized FirebaseABTesting get(String str) {
-        if (!this.abtOriginInstances.containsKey(str)) {
-            this.abtOriginInstances.put(str, createAbtInstance(str));
+        try {
+            if (!this.abtOriginInstances.containsKey(str)) {
+                this.abtOriginInstances.put(str, createAbtInstance(str));
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.abtOriginInstances.get(str);
     }

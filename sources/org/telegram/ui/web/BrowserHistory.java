@@ -62,7 +62,7 @@ public class BrowserHistory {
         historyLoading = true;
         history = new ArrayList<>();
         historyById = new LongSparseArray<>();
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda0
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 BrowserHistory.lambda$preloadHistory$1();
@@ -153,13 +153,13 @@ public class BrowserHistory {
     }
 
     private static void scheduleHistorySave() {
-        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda1
+        AndroidUtilities.cancelRunOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BrowserHistory.saveHistory();
             }
         });
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.web.BrowserHistory$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 BrowserHistory.saveHistory();

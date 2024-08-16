@@ -43,6 +43,18 @@ public abstract class Brush {
         return 1.0f;
     }
 
+    public float getSmoothThicknessRate() {
+        return 1.0f;
+    }
+
+    public float getSpacing() {
+        return 0.15f;
+    }
+
+    public boolean isEraser() {
+        return false;
+    }
+
     public String getShaderName(int i) {
         if (i != 0) {
             if (i != 1) {
@@ -54,18 +66,6 @@ public abstract class Brush {
             return "compositeWithMask";
         }
         return "blitWithMask";
-    }
-
-    public float getSmoothThicknessRate() {
-        return 1.0f;
-    }
-
-    public float getSpacing() {
-        return 0.15f;
-    }
-
-    public boolean isEraser() {
-        return false;
     }
 
     public int getStampResId() {
@@ -172,6 +172,11 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public float getSpacing() {
+            return 0.07f;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
                 if (i != 1) {
@@ -183,11 +188,6 @@ public abstract class Brush {
                 return "compositeWithMaskLight";
             }
             return "blitWithMaskLight";
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Brush
-        public float getSpacing() {
-            return 0.07f;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -242,6 +242,11 @@ public abstract class Brush {
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
+        public boolean isEraser() {
+            return true;
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
         public String getShaderName(int i) {
             if (i != 0) {
                 if (i != 1) {
@@ -253,11 +258,6 @@ public abstract class Brush {
                 return "compositeWithMaskEraser";
             }
             return "blitWithMaskEraser";
-        }
-
-        @Override // org.telegram.ui.Components.Paint.Brush
-        public boolean isEraser() {
-            return true;
         }
 
         @Override // org.telegram.ui.Components.Paint.Brush
@@ -316,17 +316,6 @@ public abstract class Brush {
             return 0;
         }
 
-        @Override // org.telegram.ui.Components.Paint.Brush
-        public String getShaderName(int i) {
-            if (i == 0 || i == 1) {
-                return "shape";
-            }
-            if (i != 2) {
-                return null;
-            }
-            return "brush";
-        }
-
         public String getShapeName() {
             return null;
         }
@@ -345,6 +334,17 @@ public abstract class Brush {
                 throw new IndexOutOfBoundsException(sb.toString());
             }
             return SHAPES_LIST.get(i);
+        }
+
+        @Override // org.telegram.ui.Components.Paint.Brush
+        public String getShaderName(int i) {
+            if (i == 0 || i == 1) {
+                return "shape";
+            }
+            if (i != 2) {
+                return null;
+            }
+            return "brush";
         }
 
         /* loaded from: classes3.dex */

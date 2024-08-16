@@ -207,7 +207,7 @@ public class Bulletin {
     }
 
     private Bulletin() {
-        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 Bulletin.this.hide();
@@ -222,7 +222,7 @@ public class Bulletin {
     }
 
     private Bulletin(BaseFragment baseFragment, final FrameLayout frameLayout, Layout layout, int i) {
-        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
+        this.hideRunnable = new Runnable() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 Bulletin.this.hide();
@@ -311,7 +311,7 @@ public class Bulletin {
             visibleBulletin = this;
             this.layout.onAttach(this);
             FrameLayout frameLayout = this.containerLayout;
-            View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda5
+            View.OnLayoutChangeListener onLayoutChangeListener = new View.OnLayoutChangeListener() { // from class: org.telegram.ui.Components.Bulletin$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnLayoutChangeListener
                 public final void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                     Bulletin.this.lambda$show$2(z, view, i, i2, i3, i4, i5, i6, i7, i8);
@@ -966,8 +966,8 @@ public class Bulletin {
             int i = isWideScreen ? this.wideScreenWidth : -1;
             if (isWideScreen) {
                 r2 = (this.top ? 48 : 80) | this.wideScreenGravity;
-            } else if (!this.top) {
-                r2 = 80;
+            } else if (this.top) {
+                r2 = 48;
             }
             setLayoutParams(LayoutHelper.createFrame(i, -2, r2));
         }
@@ -1316,7 +1316,7 @@ public class Bulletin {
                 canvas.save();
                 canvas.clipRect(0.0f, topOffset, getMeasuredWidth(), measuredHeight);
                 if (clipWithGradient) {
-                    canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+                    canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
                 }
                 this.background.draw(canvas);
                 super.dispatchDraw(canvas);
@@ -2017,17 +2017,21 @@ public class Bulletin {
                 };
                 this.textView = linksTextView2;
                 NotificationCenter.listenEmojiLoading(linksTextView2);
-                this.textView.setTypeface(Typeface.SANS_SERIF);
+                TextView textView = this.textView;
+                Typeface typeface = Typeface.SANS_SERIF;
+                textView.setTypeface(typeface);
                 this.textView.setTextSize(1, 14.0f);
                 this.textView.setTypeface(AndroidUtilities.bold());
-                this.textView.setEllipsize(TextUtils.TruncateAt.END);
+                TextView textView2 = this.textView;
+                TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+                textView2.setEllipsize(truncateAt);
                 this.textView.setMaxLines(1);
                 this.linearLayout.addView(this.textView);
                 LinkSpanDrawable.LinksTextView linksTextView3 = new LinkSpanDrawable.LinksTextView(context);
                 this.subtitleView = linksTextView3;
-                linksTextView3.setTypeface(Typeface.SANS_SERIF);
+                linksTextView3.setTypeface(typeface);
                 this.subtitleView.setTextSize(1, 12.0f);
-                this.subtitleView.setEllipsize(TextUtils.TruncateAt.END);
+                this.subtitleView.setEllipsize(truncateAt);
                 this.subtitleView.setSingleLine(false);
                 this.subtitleView.setMaxLines(3);
                 this.subtitleView.setLinkTextColor(getThemedColor(Theme.key_undo_cancelColor));
@@ -2421,16 +2425,16 @@ public class Bulletin {
                 attributes.height = -1;
                 attributes.gravity = 51;
                 attributes.dimAmount = 0.0f;
-                int i2 = (attributes.flags & (-3)) | 8 | 201326592 | 16;
-                attributes.flags = i2;
+                int i2 = attributes.flags & (-3);
+                attributes.flags = 201326616 | i2;
                 if (i >= 21) {
-                    attributes.flags = i2 | (-2147417856);
+                    attributes.flags = i2 | (-1946091240);
                 }
                 attributes.flags &= -1025;
                 if (i >= 28) {
                     attributes.layoutInDisplayCutoutMode = 1;
                 }
-                window.setAttributes(this.params);
+                window.setAttributes(attributes);
                 if (AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundGray)) <= 0.721f) {
                     z = false;
                 }

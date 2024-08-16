@@ -19,7 +19,7 @@ public final /* synthetic */ class d implements f {
 
     @Override // j$.util.function.BiFunction
     public final /* synthetic */ BiFunction andThen(Function function) {
-        return BiFunction.VivifiedWrapper.convert(this.a.andThen(D.a(function)));
+        return BiFunction.VivifiedWrapper.convert(this.a.andThen(y.a(function)));
     }
 
     @Override // j$.util.function.BiFunction
@@ -28,10 +28,11 @@ public final /* synthetic */ class d implements f {
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        BinaryOperator binaryOperator = this.a;
         if (obj instanceof d) {
             obj = ((d) obj).a;
         }
-        return this.a.equals(obj);
+        return binaryOperator.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

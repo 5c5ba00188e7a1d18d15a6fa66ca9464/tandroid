@@ -151,7 +151,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         this.ignoreLayout = false;
         this.scrollToFirst = false;
         this.shown = false;
-        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
+        this.updateVisibilityRunnable = new Runnable() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 MentionsContainerView.this.lambda$new$0();
@@ -254,13 +254,13 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 TLRPC$PhotoSize closestPhotoSizeWithSize;
                 if (i != 0) {
                     int i2 = i - 1;
-                    if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
-                        i2++;
+                    if (MentionsContainerView.this.adapter.getBotContextSwitch() == null && MentionsContainerView.this.adapter.getBotWebViewSwitch() == null) {
+                        i = i2;
                     }
                     Size size = this.size;
                     size.width = 0.0f;
                     size.height = 0.0f;
-                    Object item = MentionsContainerView.this.adapter.getItem(i2);
+                    Object item = MentionsContainerView.this.adapter.getItem(i);
                     if (item instanceof TLRPC$BotInlineResult) {
                         TLRPC$BotInlineResult tLRPC$BotInlineResult = (TLRPC$BotInlineResult) item;
                         TLRPC$Document tLRPC$Document = tLRPC$BotInlineResult.document;
@@ -346,7 +346,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                     return 20;
                 }
                 if (MentionsContainerView.this.adapter.getBotContextSwitch() != null || MentionsContainerView.this.adapter.getBotWebViewSwitch() != null) {
-                    i2--;
+                    i2 = i - 2;
                 }
                 return MentionsContainerView.this.gridLayoutManager.getSpanSizeForItem(i2);
             }
@@ -615,6 +615,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     private void updateListViewTranslation(final boolean z, boolean z2) {
         float f;
         int i;
+        float max;
         SpringAnimation springAnimation;
         if (this.listView == null || this.paddedAdapter == null) {
             this.scrollRangeUpdateTries = 0;
@@ -635,8 +636,12 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 f = padding;
             }
             this.scrollRangeUpdateTries = 0;
-            float f2 = this.listViewPadding;
-            float max = isReversed ? -Math.max(0.0f, f2 - f) : Math.max(0.0f, f2 - f) + (-f2);
+            if (isReversed) {
+                max = -Math.max(0.0f, this.listViewPadding - f);
+            } else {
+                float f2 = this.listViewPadding;
+                max = Math.max(0.0f, f2 - f) + (-f2);
+            }
             if (z && !isReversed) {
                 max += this.listView.computeVerticalScrollOffset();
             }
@@ -653,14 +658,13 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 final float f5 = z ? 1.0f : 0.0f;
                 if (translationY == f3) {
                     this.listViewTranslationAnimator = null;
-                    Integer valueOf = Integer.valueOf(z ? 8 : 0);
+                    num = Integer.valueOf(z ? 8 : 0);
                     if (this.switchLayoutManagerOnEnd && z) {
                         this.switchLayoutManagerOnEnd = false;
                         this.listView.setLayoutManager(getNeededLayoutManager());
                         this.shown = true;
                         updateVisibility(true);
                     }
-                    num = valueOf;
                 } else {
                     SpringAnimation spring = new SpringAnimation(new FloatValueHolder(translationY)).setSpring(new SpringForce(f3).setDampingRatio(1.0f).setStiffness(550.0f));
                     this.listViewTranslationAnimator = spring;
@@ -727,7 +731,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     public void withDelegate(final Delegate delegate) {
         this.delegate = delegate;
         MentionsListView listView = getListView();
-        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
+        RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 MentionsContainerView.this.lambda$withDelegate$4(delegate, view, i);
@@ -735,7 +739,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
         };
         this.mentionsOnItemClickListener = onItemClickListener;
         listView.setOnItemClickListener(onItemClickListener);
-        getListView().setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda1
+        getListView().setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda2
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$withDelegate$5;
@@ -881,7 +885,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                     } else if (i == 0) {
                         return;
                     } else {
-                        i--;
+                        i = childAdapterPosition - 2;
                         if (!MentionsContainerView.this.gridLayoutManager.isFirstRow(i)) {
                             rect.top = AndroidUtilities.dp(2.0f);
                         }
@@ -1000,7 +1004,7 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda3
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.MentionsContainerView$$ExternalSyntheticLambda0
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     MentionsContainerView.lambda$didReceivedNotification$6((View) obj);

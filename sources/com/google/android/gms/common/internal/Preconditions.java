@@ -13,11 +13,16 @@ public final class Preconditions {
     }
 
     public static void checkHandlerThread(Handler handler) {
+        String str;
         Looper myLooper = Looper.myLooper();
         if (myLooper != handler.getLooper()) {
-            String name = myLooper != null ? myLooper.getThread().getName() : "null current looper";
-            String name2 = handler.getLooper().getThread().getName();
-            throw new IllegalStateException("Must be called on " + name2 + " thread, but got " + name + ".");
+            if (myLooper != null) {
+                str = myLooper.getThread().getName();
+            } else {
+                str = "null current looper";
+            }
+            String name = handler.getLooper().getThread().getName();
+            throw new IllegalStateException("Must be called on " + name + " thread, but got " + str + ".");
         }
     }
 

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.AnimatedTextView;
@@ -185,7 +186,7 @@ public class AnimatedTextView extends View {
             this.animateInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.moveAmplitude = 0.3f;
             this.scaleAmplitude = 0.0f;
-            this.alpha = 255;
+            this.alpha = NotificationCenter.voipServiceCreated;
             this.bounds = new android.graphics.Rect();
             this.includeFontPadding = true;
             this.shadowed = false;
@@ -214,11 +215,11 @@ public class AnimatedTextView extends View {
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:46:0x00eb, code lost:
-            if (r18.ignoreRTL == false) goto L32;
+        /* JADX WARN: Code restructure failed: missing block: B:47:0x00ea, code lost:
+            if (r25.ignoreRTL == false) goto L40;
          */
-        /* JADX WARN: Removed duplicated region for block: B:118:0x021b  */
-        /* JADX WARN: Removed duplicated region for block: B:134:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x021e  */
+        /* JADX WARN: Removed duplicated region for block: B:133:? A[RETURN, SYNTHETIC] */
         @Override // android.graphics.drawable.Drawable
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -227,7 +228,6 @@ public class AnimatedTextView extends View {
             float f;
             float f2;
             float f3;
-            android.graphics.Rect rect;
             float f4;
             float f5;
             float f6;
@@ -238,11 +238,11 @@ public class AnimatedTextView extends View {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(this.bounds);
                 rectF.right -= this.rightPadding;
-                canvas.saveLayerAlpha(rectF, 255, 31);
+                canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
             }
             canvas.save();
-            android.graphics.Rect rect2 = this.bounds;
-            canvas.translate(rect2.left, rect2.top);
+            android.graphics.Rect rect = this.bounds;
+            canvas.translate(rect.left, rect.top);
             int width = this.bounds.width();
             int height = this.bounds.height();
             if (this.currentParts != null && this.oldParts != null) {
@@ -367,9 +367,9 @@ public class AnimatedTextView extends View {
                     this.ellipsizeGradientMatrix.postTranslate((this.bounds.right - this.rightPadding) - dp, 0.0f);
                     this.ellipsizeGradient.setLocalMatrix(this.ellipsizeGradientMatrix);
                     canvas.save();
-                    int i6 = this.bounds.right;
-                    float f22 = this.rightPadding;
-                    canvas.drawRect((i6 - f22) - dp, rect.top, (i6 - f22) + AndroidUtilities.dp(1.0f), this.bounds.bottom, this.ellipsizePaint);
+                    android.graphics.Rect rect2 = this.bounds;
+                    float f22 = rect2.right - this.rightPadding;
+                    canvas.drawRect(f22 - dp, rect2.top, f22 + AndroidUtilities.dp(1.0f), this.bounds.bottom, this.ellipsizePaint);
                     canvas.restore();
                     canvas.restore();
                     return;
@@ -378,21 +378,21 @@ public class AnimatedTextView extends View {
             canvas.translate(0.0f, (height - this.currentHeight) / 2.0f);
             if (this.currentParts != null) {
                 applyAlphaInternal(1.0f);
-                for (int i7 = 0; i7 < this.currentParts.length; i7++) {
+                for (int i6 = 0; i6 < this.currentParts.length; i6++) {
                     canvas.save();
-                    Part part4 = this.currentParts[i7];
+                    Part part4 = this.currentParts[i6];
                     float f23 = part4.offset;
                     boolean z3 = this.isRTL;
                     if (z3 && !this.ignoreRTL) {
                         f23 = this.currentWidth - (f23 + part4.width);
                     }
                     float f24 = f23 - part4.left;
-                    int i8 = this.gravity;
-                    if ((i8 | (-4)) != -1) {
-                        if ((i8 | (-6)) == -1) {
+                    int i7 = this.gravity;
+                    if ((i7 | (-4)) != -1) {
+                        if ((i7 | (-6)) == -1) {
                             f = width;
                             f2 = this.currentWidth;
-                        } else if ((i8 | (-2)) == -1) {
+                        } else if ((i7 | (-2)) == -1) {
                             f3 = (width - this.currentWidth) / 2.0f;
                             f24 += f3;
                         } else if (z3 && !this.ignoreRTL) {
@@ -811,7 +811,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream chars() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0.m(toCharSequence());
+                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1.m(toCharSequence());
                 }
                 return null;
             }
@@ -819,7 +819,7 @@ public class AnimatedTextView extends View {
             @Override // java.lang.CharSequence
             public j$.util.stream.IntStream codePoints() {
                 if (Build.VERSION.SDK_INT >= 24) {
-                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion1.m(toCharSequence());
+                    return UnprecomputeTextOnModificationSpannable$CharSequenceHelper_API24$$ExternalSyntheticAPIConversion0.m(toCharSequence());
                 }
                 return null;
             }
@@ -827,17 +827,11 @@ public class AnimatedTextView extends View {
 
         public static boolean partEquals(CharSequence charSequence, CharSequence charSequence2, int i, int i2) {
             if (!(charSequence instanceof WordSequence) || !(charSequence2 instanceof WordSequence)) {
-                if (charSequence == null && charSequence2 == null) {
-                    return true;
-                }
-                return (charSequence == null || charSequence2 == null || charSequence.charAt(i) != charSequence2.charAt(i2)) ? false : true;
+                return (charSequence == null && charSequence2 == null) || !(charSequence == null || charSequence2 == null || charSequence.charAt(i) != charSequence2.charAt(i2));
             }
             CharSequence wordAt = ((WordSequence) charSequence).wordAt(i);
             CharSequence wordAt2 = ((WordSequence) charSequence2).wordAt(i2);
-            if (wordAt == null && wordAt2 == null) {
-                return true;
-            }
-            return wordAt != null && wordAt.equals(wordAt2);
+            return (wordAt == null && wordAt2 == null) || (wordAt != null && wordAt.equals(wordAt2));
         }
 
         private void diff(CharSequence charSequence, CharSequence charSequence2, RegionCallback regionCallback, RegionCallback regionCallback2, RegionCallback regionCallback3) {

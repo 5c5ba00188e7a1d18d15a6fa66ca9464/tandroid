@@ -62,11 +62,12 @@ public class ShutterButton extends View {
         this.shadowDrawable = getResources().getDrawable(R.drawable.camera_btn);
         Paint paint = new Paint(1);
         this.whitePaint = paint;
-        paint.setStyle(Paint.Style.FILL);
+        Paint.Style style = Paint.Style.FILL;
+        paint.setStyle(style);
         this.whitePaint.setColor(-1);
         Paint paint2 = new Paint(1);
         this.redPaint = paint2;
-        paint2.setStyle(Paint.Style.FILL);
+        paint2.setStyle(style);
         this.redPaint.setColor(-3324089);
         this.state = State.DEFAULT;
     }

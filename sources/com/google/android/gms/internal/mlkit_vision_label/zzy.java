@@ -3,9 +3,10 @@ package com.google.android.gms.internal.mlkit_vision_label;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-final class zzy extends zzbp {
+public final class zzy extends zzbp {
     final transient Map zza;
     final /* synthetic */ zzag zzb;
 

@@ -31,10 +31,14 @@ public final class NetworkTypeObserver {
     public static synchronized NetworkTypeObserver getInstance(Context context) {
         NetworkTypeObserver networkTypeObserver;
         synchronized (NetworkTypeObserver.class) {
-            if (staticInstance == null) {
-                staticInstance = new NetworkTypeObserver(context);
+            try {
+                if (staticInstance == null) {
+                    staticInstance = new NetworkTypeObserver(context);
+                }
+                networkTypeObserver = staticInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            networkTypeObserver = staticInstance;
         }
         return networkTypeObserver;
     }
@@ -82,19 +86,23 @@ public final class NetworkTypeObserver {
     /* JADX INFO: Access modifiers changed from: private */
     public void updateNetworkType(int i) {
         synchronized (this.networkTypeLock) {
-            if (this.networkType == i) {
-                return;
-            }
-            this.networkType = i;
-            Iterator<WeakReference<Listener>> it = this.listeners.iterator();
-            while (it.hasNext()) {
-                WeakReference<Listener> next = it.next();
-                Listener listener = next.get();
-                if (listener != null) {
-                    listener.onNetworkTypeChanged(i);
-                } else {
-                    this.listeners.remove(next);
+            try {
+                if (this.networkType == i) {
+                    return;
                 }
+                this.networkType = i;
+                Iterator<WeakReference<Listener>> it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    WeakReference<Listener> next = it.next();
+                    Listener listener = next.get();
+                    if (listener != null) {
+                        listener.onNetworkTypeChanged(i);
+                    } else {
+                        this.listeners.remove(next);
+                    }
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -115,11 +123,11 @@ public final class NetworkTypeObserver {
                     if (type == 1) {
                         return 2;
                     }
+                    if (type == 9) {
+                        return 7;
+                    }
                     if (type != 4 && type != 5) {
-                        if (type != 6) {
-                            return type != 9 ? 8 : 7;
-                        }
-                        return 5;
+                        return type != 6 ? 8 : 5;
                     }
                 }
                 return getMobileNetworkType(activeNetworkInfo);

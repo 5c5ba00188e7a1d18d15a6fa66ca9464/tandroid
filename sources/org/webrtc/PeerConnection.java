@@ -473,7 +473,7 @@ public class PeerConnection {
         ADAPTER_TYPE_ANY(32),
         CELLULAR_2G(64),
         CELLULAR_3G(128),
-        CELLULAR_4G(Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR)),
+        CELLULAR_4G(256),
         CELLULAR_5G(Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS));
         
         private static final Map<Integer, AdapterType> BY_BITMASK = new HashMap();

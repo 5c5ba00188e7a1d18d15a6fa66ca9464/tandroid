@@ -64,8 +64,12 @@ public final class zzab {
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzj() {
         synchronized (this.zzdj) {
-            for (zzad zzadVar : this.zzdk) {
-                zzadVar.zzk();
+            try {
+                for (zzad zzadVar : this.zzdk) {
+                    zzadVar.zzk();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -74,10 +78,13 @@ public final class zzab {
         Map<String, String> zzi = zzae.zza("gms:phenotype:phenotype_flag:debug_disable_caching", false) ? zzi() : this.zzdi;
         if (zzi == null) {
             synchronized (this.zzdh) {
-                zzi = this.zzdi;
-                if (zzi == null) {
-                    zzi = zzi();
-                    this.zzdi = zzi;
+                try {
+                    zzi = this.zzdi;
+                    if (zzi == null) {
+                        zzi = zzi();
+                        this.zzdi = zzi;
+                    }
+                } finally {
                 }
             }
         }

@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 /* loaded from: classes3.dex */
 public class ScamDrawable extends Drawable {
@@ -33,8 +34,8 @@ public class ScamDrawable extends Drawable {
     public ScamDrawable(int i, int i2) {
         TextPaint textPaint = new TextPaint(1);
         this.textPaint = textPaint;
-        this.colorAlpha = 255;
-        this.alpha = 255;
+        this.colorAlpha = NotificationCenter.voipServiceCreated;
+        this.alpha = NotificationCenter.voipServiceCreated;
         this.currentType = i2;
         textPaint.setTextSize(AndroidUtilities.dp(i));
         this.textPaint.setTypeface(AndroidUtilities.bold());

@@ -32,6 +32,7 @@ import java.util.List;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -79,21 +80,23 @@ public class SelectorSearchCell extends ScrollView {
         this.allSpans = new ArrayList<>();
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.topGradientAlpha = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-        LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{-16777216, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+        LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{-16777216, 0}, new float[]{0.0f, 1.0f}, tileMode);
         this.topGradient = linearGradient;
         Paint paint = new Paint(1);
         this.topGradientPaint = paint;
         this.topGradientMatrix = new Matrix();
         this.bottomGradientAlpha = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-        LinearGradient linearGradient2 = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{0, -16777216}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+        LinearGradient linearGradient2 = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{0, -16777216}, new float[]{0.0f, 1.0f}, tileMode);
         this.bottomGradient = linearGradient2;
         Paint paint2 = new Paint(1);
         this.bottomGradientPaint = paint2;
         this.bottomGradientMatrix = new Matrix();
         paint.setShader(linearGradient);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
+        paint.setXfermode(new PorterDuffXfermode(mode));
         paint2.setShader(linearGradient2);
-        paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        paint2.setXfermode(new PorterDuffXfermode(mode));
         this.resourcesProvider = resourcesProvider;
         this.updateHeight = runnable;
         setVerticalScrollBarEnabled(false);
@@ -109,7 +112,7 @@ public class SelectorSearchCell extends ScrollView {
                     SelectorSearchCell.this.currentDeletingSpan = null;
                 }
                 if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
-                    SelectorSearchCell.this.fullScroll(130);
+                    SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                     clearFocus();
                     requestFocus();
                 }
@@ -166,7 +169,6 @@ public class SelectorSearchCell extends ScrollView {
     }
 
     public void updateSpans(boolean z, final HashSet<Long> hashSet, final Runnable runnable, List<TLRPC$TL_help_country> list) {
-        boolean z2;
         Object chat;
         TLRPC$TL_help_country tLRPC$TL_help_country;
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
@@ -180,43 +182,39 @@ public class SelectorSearchCell extends ScrollView {
         }
         Iterator<Long> it = hashSet.iterator();
         while (it.hasNext()) {
-            long longValue = it.next().longValue();
+            Long next = it.next();
+            long longValue = next.longValue();
             int i2 = 0;
             while (true) {
                 if (i2 >= this.allSpans.size()) {
-                    z2 = false;
-                    break;
+                    if (longValue >= 0) {
+                        chat = messagesController.getUser(next);
+                    } else {
+                        chat = messagesController.getChat(Long.valueOf(-longValue));
+                    }
+                    if (list != null) {
+                        for (TLRPC$TL_help_country tLRPC$TL_help_country2 : list) {
+                            if (tLRPC$TL_help_country2.default_name.hashCode() == longValue) {
+                                tLRPC$TL_help_country = tLRPC$TL_help_country2;
+                                break;
+                            }
+                        }
+                    }
+                    tLRPC$TL_help_country = chat;
+                    if (tLRPC$TL_help_country != null) {
+                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
+                        groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
+                            @Override // android.view.View.OnClickListener
+                            public final void onClick(View view) {
+                                SelectorSearchCell.this.lambda$updateSpans$0(hashSet, runnable, view);
+                            }
+                        });
+                        arrayList2.add(groupCreateSpan2);
+                    }
                 } else if (this.allSpans.get(i2).getUid() == longValue) {
-                    z2 = true;
                     break;
                 } else {
                     i2++;
-                }
-            }
-            if (!z2) {
-                if (longValue >= 0) {
-                    chat = messagesController.getUser(Long.valueOf(longValue));
-                } else {
-                    chat = messagesController.getChat(Long.valueOf(-longValue));
-                }
-                if (list != null) {
-                    for (TLRPC$TL_help_country tLRPC$TL_help_country2 : list) {
-                        if (tLRPC$TL_help_country2.default_name.hashCode() == longValue) {
-                            tLRPC$TL_help_country = tLRPC$TL_help_country2;
-                            break;
-                        }
-                    }
-                }
-                tLRPC$TL_help_country = chat;
-                if (tLRPC$TL_help_country != null) {
-                    GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), tLRPC$TL_help_country, null, true, this.resourcesProvider);
-                    groupCreateSpan2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda0
-                        @Override // android.view.View.OnClickListener
-                        public final void onClick(View view) {
-                            SelectorSearchCell.this.lambda$updateSpans$0(hashSet, runnable, view);
-                        }
-                    });
-                    arrayList2.add(groupCreateSpan2);
                 }
             }
         }
@@ -268,7 +266,7 @@ public class SelectorSearchCell extends ScrollView {
     protected void dispatchDraw(Canvas canvas) {
         int scrollY;
         float scrollY2 = getScrollY();
-        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, 255, 31);
+        canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.voipServiceCreated, 31);
         super.dispatchDraw(canvas);
         canvas.save();
         float f = this.topGradientAlpha.set(canScrollVertically(-1));
@@ -329,7 +327,7 @@ public class SelectorSearchCell extends ScrollView {
 
     protected Animator getContainerHeightAnimator(float f) {
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.containerHeight, f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 SelectorSearchCell.this.lambda$getContainerHeightAnimator$1(valueAnimator);
@@ -369,7 +367,7 @@ public class SelectorSearchCell extends ScrollView {
             this.heightDp = 28;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:33:0x00da  */
+        /* JADX WARN: Removed duplicated region for block: B:33:0x00d9  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -508,7 +506,7 @@ public class SelectorSearchCell extends ScrollView {
                     SelectorSearchCell.this.editText.bringPointIntoView(SelectorSearchCell.this.editText.getSelectionStart());
                 }
                 if (SelectorSearchCell.this.scroll) {
-                    SelectorSearchCell.this.fullScroll(130);
+                    SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                     SelectorSearchCell.this.scroll = false;
                 }
             }
@@ -517,7 +515,7 @@ public class SelectorSearchCell extends ScrollView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onMeasure$0() {
-            SelectorSearchCell.this.fullScroll(130);
+            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
         }
 
         @Override // android.view.ViewGroup, android.view.View
@@ -549,7 +547,7 @@ public class SelectorSearchCell extends ScrollView {
                         SelectorSearchCell.this.updateHeight.run();
                     }
                     if (SelectorSearchCell.this.scroll) {
-                        SelectorSearchCell.this.fullScroll(130);
+                        SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                         SelectorSearchCell.this.scroll = false;
                     }
                 }
@@ -595,7 +593,7 @@ public class SelectorSearchCell extends ScrollView {
                             SelectorSearchCell.this.updateHeight.run();
                         }
                         if (SelectorSearchCell.this.scroll) {
-                            SelectorSearchCell.this.fullScroll(130);
+                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                             SelectorSearchCell.this.scroll = false;
                         }
                     }
@@ -661,7 +659,7 @@ public class SelectorSearchCell extends ScrollView {
                             SelectorSearchCell.this.updateHeight.run();
                         }
                         if (SelectorSearchCell.this.scroll) {
-                            SelectorSearchCell.this.fullScroll(130);
+                            SelectorSearchCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                             SelectorSearchCell.this.scroll = false;
                         }
                     }

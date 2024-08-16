@@ -74,11 +74,7 @@ final class zzej<T extends zzel<T>> {
 
     private final Object zza(T t) {
         Object obj = this.zza.get(t);
-        if (obj instanceof zzfa) {
-            zzfa zzfaVar = (zzfa) obj;
-            return zzfa.zza();
-        }
-        return obj;
+        return obj instanceof zzfa ? zzfa.zza() : obj;
     }
 
     private final void zzb(T t, Object obj) {
@@ -230,7 +226,6 @@ final class zzej<T extends zzel<T>> {
         T key = entry.getKey();
         Object value = entry.getValue();
         if (value instanceof zzfa) {
-            zzfa zzfaVar = (zzfa) value;
             value = zzfa.zza();
         }
         if (key.zzd()) {

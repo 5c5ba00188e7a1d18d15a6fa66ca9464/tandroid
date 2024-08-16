@@ -37,8 +37,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -101,10 +101,7 @@ public class SpoilerEffect extends Drawable {
     }
 
     private static int measureMaxParticlesCount() {
-        if (SharedConfig.getDevicePerformanceClass() != 2) {
-            return 100;
-        }
-        return ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+        return SharedConfig.getDevicePerformanceClass() != 2 ? 100 : 150;
     }
 
     public SpoilerEffect() {
@@ -117,7 +114,7 @@ public class SpoilerEffect extends Drawable {
         this.particles = new ArrayList<>();
         this.rippleProgress = -1.0f;
         this.spaces = new ArrayList();
-        this.mAlpha = 255;
+        this.mAlpha = NotificationCenter.voipServiceCreated;
         this.rippleInterpolator = new TimeInterpolator() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect$$ExternalSyntheticLambda0
             @Override // android.animation.TimeInterpolator
             public final float getInterpolation(float f) {
@@ -176,11 +173,8 @@ public class SpoilerEffect extends Drawable {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        final int alpha = this.reverseAnimator ? 255 : this.particlePaints[ALPHAS.length - 1].getAlpha();
-        float[] fArr = new float[2];
-        fArr[0] = this.rippleProgress;
-        fArr[1] = z ? 0.0f : 1.0f;
-        ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
+        final int alpha = this.reverseAnimator ? NotificationCenter.voipServiceCreated : this.particlePaints[ALPHAS.length - 1].getAlpha();
+        ValueAnimator duration = ValueAnimator.ofFloat(this.rippleProgress, z ? 0.0f : 1.0f).setDuration(MathUtils.clamp(this.rippleMaxRadius * 0.3f, 250.0f, 550.0f));
         this.rippleAnimator = duration;
         duration.setInterpolator(this.rippleInterpolator);
         this.rippleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.spoilers.SpoilerEffect$$ExternalSyntheticLambda1
@@ -354,39 +348,43 @@ public class SpoilerEffect extends Drawable {
                         if (i13 < fArr2.length - 2) {
                             fArr2[i13] = particle3.x;
                             this.particlePoints[length][i13 + 1] = particle3.y;
-                            i13 += 2;
+                            int i15 = i13 + 2;
                             if (particle3.x < strokeWidth) {
                                 float[] fArr3 = this.particlePoints[length];
-                                if (i13 < fArr3.length - 2) {
-                                    fArr3[i13] = particle3.x + this.bitmapSize;
-                                    this.particlePoints[length][i13 + 1] = particle3.y;
-                                    i13 += 2;
+                                if (i15 < fArr3.length - 2) {
+                                    fArr3[i15] = particle3.x + this.bitmapSize;
+                                    this.particlePoints[length][i13 + 3] = particle3.y;
+                                    i15 = i13 + 4;
                                 }
+                                i13 = i15;
                             }
                             if (particle3.x > this.bitmapSize - strokeWidth) {
                                 float[] fArr4 = this.particlePoints[length];
-                                if (i13 < fArr4.length - 2) {
-                                    fArr4[i13] = particle3.x - this.bitmapSize;
-                                    this.particlePoints[length][i13 + 1] = particle3.y;
-                                    i13 += 2;
+                                if (i15 < fArr4.length - 2) {
+                                    fArr4[i15] = particle3.x - this.bitmapSize;
+                                    this.particlePoints[length][i15 + 1] = particle3.y;
+                                    i15 += 2;
                                 }
+                                i13 = i15;
                             }
                             if (particle3.y < strokeWidth) {
                                 float[] fArr5 = this.particlePoints[length];
-                                if (i13 < fArr5.length - 2) {
-                                    fArr5[i13] = particle3.x;
-                                    this.particlePoints[length][i13 + 1] = particle3.y + this.bitmapSize;
-                                    i13 += 2;
+                                if (i15 < fArr5.length - 2) {
+                                    fArr5[i15] = particle3.x;
+                                    this.particlePoints[length][i15 + 1] = particle3.y + this.bitmapSize;
+                                    i15 += 2;
                                 }
+                                i13 = i15;
                             }
                             if (particle3.y > this.bitmapSize - strokeWidth) {
                                 float[] fArr6 = this.particlePoints[length];
-                                if (i13 < fArr6.length - 2) {
-                                    fArr6[i13] = particle3.x;
-                                    this.particlePoints[length][i13 + 1] = particle3.y - this.bitmapSize;
-                                    i13 += 2;
+                                if (i15 < fArr6.length - 2) {
+                                    fArr6[i15] = particle3.x;
+                                    this.particlePoints[length][i15 + 1] = particle3.y - this.bitmapSize;
+                                    i13 = i15 + 2;
                                 }
                             }
+                            i13 = i15;
                         }
                     }
                 }

@@ -181,11 +181,15 @@ public abstract class FragmentManager {
 
     private void updateOnBackPressedCallbackEnabled() {
         synchronized (this.mPendingActions) {
-            boolean z = true;
-            if (!this.mPendingActions.isEmpty()) {
-                this.mOnBackPressedCallback.setEnabled(true);
-            } else {
-                this.mOnBackPressedCallback.setEnabled((getBackStackEntryCount() <= 0 || !isPrimaryNavigation(this.mParent)) ? false : false);
+            try {
+                boolean z = true;
+                if (!this.mPendingActions.isEmpty()) {
+                    this.mOnBackPressedCallback.setEnabled(true);
+                } else {
+                    this.mOnBackPressedCallback.setEnabled((getBackStackEntryCount() <= 0 || !isPrimaryNavigation(this.mParent)) ? false : false);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -391,17 +395,21 @@ public abstract class FragmentManager {
         printWriter.print(str);
         printWriter.println("Back Stack Index: " + this.mBackStackIndex.get());
         synchronized (this.mPendingActions) {
-            int size3 = this.mPendingActions.size();
-            if (size3 > 0) {
-                printWriter.print(str);
-                printWriter.println("Pending Actions:");
-                for (int i3 = 0; i3 < size3; i3++) {
+            try {
+                int size3 = this.mPendingActions.size();
+                if (size3 > 0) {
                     printWriter.print(str);
-                    printWriter.print("  #");
-                    printWriter.print(i3);
-                    printWriter.print(": ");
-                    printWriter.println(this.mPendingActions.get(i3));
+                    printWriter.println("Pending Actions:");
+                    for (int i3 = 0; i3 < size3; i3++) {
+                        printWriter.print(str);
+                        printWriter.print("  #");
+                        printWriter.print(i3);
+                        printWriter.print(": ");
+                        printWriter.println(this.mPendingActions.get(i3));
+                    }
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         printWriter.print(str);
@@ -919,26 +927,34 @@ public abstract class FragmentManager {
             checkStateLoss();
         }
         synchronized (this.mPendingActions) {
-            if (this.mHost == null) {
-                if (!z) {
-                    throw new IllegalStateException("Activity has been destroyed");
+            try {
+                if (this.mHost == null) {
+                    if (!z) {
+                        throw new IllegalStateException("Activity has been destroyed");
+                    }
+                    return;
                 }
-                return;
+                this.mPendingActions.add(opGenerator);
+                scheduleCommit();
+            } catch (Throwable th) {
+                throw th;
             }
-            this.mPendingActions.add(opGenerator);
-            scheduleCommit();
         }
     }
 
     void scheduleCommit() {
         synchronized (this.mPendingActions) {
-            ArrayList<StartEnterTransitionListener> arrayList = this.mPostponedTransactions;
-            boolean z = (arrayList == null || arrayList.isEmpty()) ? false : true;
-            boolean z2 = this.mPendingActions.size() == 1;
-            if (z || z2) {
-                this.mHost.getHandler().removeCallbacks(this.mExecCommit);
-                this.mHost.getHandler().post(this.mExecCommit);
-                updateOnBackPressedCallbackEnabled();
+            try {
+                ArrayList<StartEnterTransitionListener> arrayList = this.mPostponedTransactions;
+                boolean z = (arrayList == null || arrayList.isEmpty()) ? false : true;
+                boolean z2 = this.mPendingActions.size() == 1;
+                if (z || z2) {
+                    this.mHost.getHandler().removeCallbacks(this.mExecCommit);
+                    this.mHost.getHandler().post(this.mExecCommit);
+                    updateOnBackPressedCallbackEnabled();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -1409,17 +1425,21 @@ public abstract class FragmentManager {
 
     private boolean generateOpsForPendingActions(ArrayList<BackStackRecord> arrayList, ArrayList<Boolean> arrayList2) {
         synchronized (this.mPendingActions) {
-            if (this.mPendingActions.isEmpty()) {
-                return false;
+            try {
+                if (this.mPendingActions.isEmpty()) {
+                    return false;
+                }
+                int size = this.mPendingActions.size();
+                boolean z = false;
+                for (int i = 0; i < size; i++) {
+                    z |= this.mPendingActions.get(i).generateOps(arrayList, arrayList2);
+                }
+                this.mPendingActions.clear();
+                this.mHost.getHandler().removeCallbacks(this.mExecCommit);
+                return z;
+            } catch (Throwable th) {
+                throw th;
             }
-            int size = this.mPendingActions.size();
-            boolean z = false;
-            for (int i = 0; i < size; i++) {
-                z |= this.mPendingActions.get(i).generateOps(arrayList, arrayList2);
-            }
-            this.mPendingActions.clear();
-            this.mHost.getHandler().removeCallbacks(this.mExecCommit);
-            return z;
         }
     }
 
@@ -1798,34 +1818,23 @@ public abstract class FragmentManager {
                     Map emptyMap;
                     Intrinsics.checkNotNullParameter(context, "context");
                     Intrinsics.checkNotNullParameter(input, "input");
-                    boolean z = true;
                     if (input.length == 0) {
                         emptyMap = MapsKt__MapsKt.emptyMap();
                         return new ActivityResultContract.SynchronousResult<>(emptyMap);
                     }
-                    int length = input.length;
-                    int i = 0;
-                    while (true) {
-                        if (i >= length) {
-                            break;
+                    for (String str3 : input) {
+                        if (ContextCompat.checkSelfPermission(context, str3) != 0) {
+                            return null;
                         }
-                        if (!(ContextCompat.checkSelfPermission(context, input[i]) == 0)) {
-                            z = false;
-                            break;
-                        }
-                        i++;
                     }
-                    if (z) {
-                        mapCapacity = MapsKt__MapsJVMKt.mapCapacity(input.length);
-                        coerceAtLeast = RangesKt___RangesKt.coerceAtLeast(mapCapacity, 16);
-                        LinkedHashMap linkedHashMap = new LinkedHashMap(coerceAtLeast);
-                        for (String str3 : input) {
-                            Pair pair = TuplesKt.to(str3, Boolean.TRUE);
-                            linkedHashMap.put(pair.getFirst(), pair.getSecond());
-                        }
-                        return new ActivityResultContract.SynchronousResult<>(linkedHashMap);
+                    mapCapacity = MapsKt__MapsJVMKt.mapCapacity(input.length);
+                    coerceAtLeast = RangesKt___RangesKt.coerceAtLeast(mapCapacity, 16);
+                    LinkedHashMap linkedHashMap = new LinkedHashMap(coerceAtLeast);
+                    for (String str4 : input) {
+                        Pair pair = TuplesKt.to(str4, Boolean.TRUE);
+                        linkedHashMap.put(pair.getFirst(), pair.getSecond());
                     }
-                    return null;
+                    return new ActivityResultContract.SynchronousResult<>(linkedHashMap);
                 }
 
                 @Override // androidx.activity.result.contract.ActivityResultContract

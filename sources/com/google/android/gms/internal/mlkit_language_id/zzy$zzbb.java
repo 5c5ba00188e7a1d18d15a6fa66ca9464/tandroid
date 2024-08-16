@@ -29,7 +29,6 @@ public final class zzy$zzbb extends zzeo<zzy$zzbb, zza> implements zzgb {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzbb>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
-        zzgj<zzy$zzbb> zzgjVar;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzbb();
@@ -40,21 +39,23 @@ public final class zzy$zzbb extends zzeo<zzy$zzbb, zza> implements zzgb {
             case 4:
                 return zzf;
             case 5:
-                zzgj<zzy$zzbb> zzgjVar2 = zzg;
-                zzgj<zzy$zzbb> zzgjVar3 = zzgjVar2;
-                if (zzgjVar2 == null) {
+                zzgj<zzy$zzbb> zzgjVar = zzg;
+                zzgj<zzy$zzbb> zzgjVar2 = zzgjVar;
+                if (zzgjVar == null) {
                     synchronized (zzy$zzbb.class) {
-                        zzgj<zzy$zzbb> zzgjVar4 = zzg;
-                        zzgjVar = zzgjVar4;
-                        if (zzgjVar4 == null) {
-                            ?? zzaVar = new zzeo.zza(zzf);
-                            zzg = zzaVar;
-                            zzgjVar = zzaVar;
+                        try {
+                            zzgj<zzy$zzbb> zzgjVar3 = zzg;
+                            zzgj<zzy$zzbb> zzgjVar4 = zzgjVar3;
+                            if (zzgjVar3 == null) {
+                                ?? zzaVar = new zzeo.zza(zzf);
+                                zzg = zzaVar;
+                                zzgjVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzgjVar3 = zzgjVar;
                 }
-                return zzgjVar3;
+                return zzgjVar2;
             case 6:
                 return (byte) 1;
             case 7:

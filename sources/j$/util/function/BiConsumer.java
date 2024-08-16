@@ -3,10 +3,10 @@ package j$.util.function;
 public interface BiConsumer<T, U> {
 
     /* loaded from: classes2.dex */
-    public final /* synthetic */ class -CC<T, U> {
+    public final /* synthetic */ class -CC {
         public static BiConsumer $default$andThen(BiConsumer biConsumer, BiConsumer biConsumer2) {
             biConsumer2.getClass();
-            return new j$.util.concurrent.u(1, biConsumer, biConsumer2);
+            return new j$.util.concurrent.s(1, biConsumer, biConsumer2);
         }
     }
 
@@ -36,10 +36,11 @@ public interface BiConsumer<T, U> {
         }
 
         public final /* synthetic */ boolean equals(Object obj) {
+            java.util.function.BiConsumer biConsumer = this.a;
             if (obj instanceof VivifiedWrapper) {
                 obj = ((VivifiedWrapper) obj).a;
             }
-            return this.a.equals(obj);
+            return biConsumer.equals(obj);
         }
 
         public final /* synthetic */ int hashCode() {

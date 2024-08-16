@@ -23,7 +23,7 @@ public final class zzw {
             if (i5 % 2 == 0 && i4 % 2 == 0) {
                 int i6 = i2 + 1;
                 allocateDirect.put(i2, (byte) (((-0.169f) * red) + ((-0.331f) * green) + (blue * 0.5f) + 128.0f));
-                i2 = i6 + 1;
+                i2 += 2;
                 allocateDirect.put(i6, (byte) ((red * 0.5f) + (green * (-0.419f)) + (blue * (-0.081f)) + 128.0f));
             }
         }

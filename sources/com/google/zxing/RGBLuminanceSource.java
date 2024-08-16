@@ -1,4 +1,6 @@
 package com.google.zxing;
+
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class RGBLuminanceSource extends LuminanceSource {
     private final int dataHeight;
@@ -17,7 +19,7 @@ public final class RGBLuminanceSource extends LuminanceSource {
         this.luminances = new byte[i3];
         for (int i4 = 0; i4 < i3; i4++) {
             int i5 = iArr[i4];
-            this.luminances[i4] = (byte) (((((i5 >> 16) & 255) + ((i5 >> 7) & 510)) + (i5 & 255)) / 4);
+            this.luminances[i4] = (byte) (((((i5 >> 16) & NotificationCenter.voipServiceCreated) + ((i5 >> 7) & 510)) + (i5 & NotificationCenter.voipServiceCreated)) / 4);
         }
     }
 

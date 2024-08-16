@@ -42,53 +42,20 @@ public final class g implements java.util.Map, Serializable, Map {
         }
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final void clear() {
         synchronized (this.b) {
             this.a.clear();
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0031, code lost:
-        r5 = null;
-     */
     @Override // j$.util.Map
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public final Object compute(Object obj, BiFunction biFunction) {
-        Object $default$compute;
-        Object apply;
+        Object a;
         synchronized (this.b) {
-            java.util.Map map = this.a;
-            if (map instanceof Map) {
-                $default$compute = ((Map) map).compute(obj, biFunction);
-            } else if (map instanceof ConcurrentMap) {
-                ConcurrentMap concurrentMap = (ConcurrentMap) map;
-                biFunction.getClass();
-                loop0: while (true) {
-                    Object obj2 = concurrentMap.get(obj);
-                    while (true) {
-                        apply = biFunction.apply(obj, obj2);
-                        if (apply != null) {
-                            if (obj2 == null) {
-                                obj2 = concurrentMap.putIfAbsent(obj, apply);
-                                if (obj2 == null) {
-                                    break loop0;
-                                }
-                            } else if (concurrentMap.replace(obj, obj2, apply)) {
-                                break;
-                            }
-                        } else if ((obj2 != null || concurrentMap.containsKey(obj)) && !concurrentMap.remove(obj, obj2)) {
-                        }
-                    }
-                }
-                $default$compute = apply;
-            } else {
-                $default$compute = Map.-CC.$default$compute(map, obj, biFunction);
-            }
+            a = Map.-EL.a(this.a, obj, biFunction);
         }
-        return $default$compute;
+        return a;
     }
 
     @Override // java.util.Map
@@ -160,7 +127,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return computeIfPresent(obj, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean containsKey(Object obj) {
         boolean containsKey;
         synchronized (this.b) {
@@ -169,7 +136,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return containsKey;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean containsValue(Object obj) {
         boolean containsValue;
         synchronized (this.b) {
@@ -178,19 +145,23 @@ public final class g implements java.util.Map, Serializable, Map {
         return containsValue;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Set entrySet() {
         Set set;
         synchronized (this.b) {
-            if (this.d == null) {
-                this.d = a(this.a.entrySet(), this.b);
+            try {
+                if (this.d == null) {
+                    this.d = a(this.a.entrySet(), this.b);
+                }
+                set = this.d;
+            } catch (Throwable th) {
+                throw th;
             }
-            set = this.d;
         }
         return set;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean equals(Object obj) {
         boolean equals;
         if (this == obj) {
@@ -214,7 +185,7 @@ public final class g implements java.util.Map, Serializable, Map {
         forEach(BiConsumer.VivifiedWrapper.convert(biConsumer));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Object get(Object obj) {
         Object obj2;
         synchronized (this.b) {
@@ -232,7 +203,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return orDefault;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final int hashCode() {
         int hashCode;
         synchronized (this.b) {
@@ -241,7 +212,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return hashCode;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final boolean isEmpty() {
         boolean isEmpty;
         synchronized (this.b) {
@@ -250,14 +221,18 @@ public final class g implements java.util.Map, Serializable, Map {
         return isEmpty;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Set keySet() {
         Set set;
         synchronized (this.b) {
-            if (this.c == null) {
-                this.c = a(this.a.keySet(), this.b);
+            try {
+                if (this.c == null) {
+                    this.c = a(this.a.keySet(), this.b);
+                }
+                set = this.c;
+            } catch (Throwable th) {
+                throw th;
             }
-            set = this.c;
         }
         return set;
     }
@@ -319,7 +294,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return merge(obj, obj2, BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Object put(Object obj, Object obj2) {
         Object put;
         synchronized (this.b) {
@@ -328,7 +303,7 @@ public final class g implements java.util.Map, Serializable, Map {
         return put;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final void putAll(java.util.Map map) {
         synchronized (this.b) {
             this.a.putAll(map);
@@ -337,14 +312,14 @@ public final class g implements java.util.Map, Serializable, Map {
 
     @Override // java.util.Map, j$.util.Map
     public final Object putIfAbsent(Object obj, Object obj2) {
-        Object a;
+        Object b;
         synchronized (this.b) {
-            a = Map.-EL.a(this.a, obj, obj2);
+            b = Map.-EL.b(this.a, obj, obj2);
         }
-        return a;
+        return b;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Object remove(Object obj) {
         Object remove;
         synchronized (this.b) {
@@ -392,11 +367,11 @@ public final class g implements java.util.Map, Serializable, Map {
             } else if (map instanceof ConcurrentMap) {
                 ConcurrentMap concurrentMap = (ConcurrentMap) map;
                 biFunction.getClass();
-                j$.util.concurrent.u uVar = new j$.util.concurrent.u(0, concurrentMap, biFunction);
-                if (concurrentMap instanceof j$.util.concurrent.v) {
-                    ((j$.util.concurrent.v) concurrentMap).forEach(uVar);
+                j$.util.concurrent.s sVar = new j$.util.concurrent.s(0, concurrentMap, biFunction);
+                if (concurrentMap instanceof j$.util.concurrent.t) {
+                    ((j$.util.concurrent.t) concurrentMap).forEach(sVar);
                 } else {
-                    j$.time.a.a(concurrentMap, uVar);
+                    j$.com.android.tools.r8.a.e(concurrentMap, sVar);
                 }
             } else {
                 Map.-CC.$default$replaceAll(map, biFunction);
@@ -409,7 +384,7 @@ public final class g implements java.util.Map, Serializable, Map {
         replaceAll(BiFunction.VivifiedWrapper.convert(biFunction));
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final int size() {
         int size;
         synchronized (this.b) {
@@ -426,37 +401,40 @@ public final class g implements java.util.Map, Serializable, Map {
         return obj;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final Collection values() {
         Collection collection;
         Constructor constructor;
         Constructor constructor2;
         Collection collection2;
         synchronized (this.b) {
-            if (this.e == null) {
-                Collection values = this.a.values();
-                Object obj = this.b;
-                constructor = DesugarCollections.e;
-                if (constructor == null) {
-                    collection2 = Collections.synchronizedCollection(values);
-                } else {
-                    try {
-                        constructor2 = DesugarCollections.e;
-                        collection2 = (Collection) constructor2.newInstance(values, obj);
-                    } catch (IllegalAccessException e) {
-                        e = e;
-                        throw new Error("Unable to instantiate a synchronized list.", e);
-                    } catch (InstantiationException e2) {
-                        e = e2;
-                        throw new Error("Unable to instantiate a synchronized list.", e);
-                    } catch (InvocationTargetException e3) {
-                        e = e3;
-                        throw new Error("Unable to instantiate a synchronized list.", e);
+            try {
+                if (this.e == null) {
+                    Collection values = this.a.values();
+                    Object obj = this.b;
+                    constructor = DesugarCollections.e;
+                    if (constructor == null) {
+                        collection2 = Collections.synchronizedCollection(values);
+                    } else {
+                        try {
+                            constructor2 = DesugarCollections.e;
+                            collection2 = (Collection) constructor2.newInstance(values, obj);
+                        } catch (IllegalAccessException e) {
+                            e = e;
+                            throw new Error("Unable to instantiate a synchronized list.", e);
+                        } catch (InstantiationException e2) {
+                            e = e2;
+                            throw new Error("Unable to instantiate a synchronized list.", e);
+                        } catch (InvocationTargetException e3) {
+                            e = e3;
+                            throw new Error("Unable to instantiate a synchronized list.", e);
+                        }
                     }
+                    this.e = collection2;
                 }
-                this.e = collection2;
+                collection = this.e;
+            } finally {
             }
-            collection = this.e;
         }
         return collection;
     }

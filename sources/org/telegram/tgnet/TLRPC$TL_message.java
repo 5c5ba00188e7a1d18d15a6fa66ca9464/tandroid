@@ -24,7 +24,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.flags2 = readInt322;
         this.offline = (readInt322 & 2) != 0;
         this.id = abstractSerializedData.readInt32(z);
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 536870912) != 0) {
@@ -160,7 +160,7 @@ public class TLRPC$TL_message extends TLRPC$Message {
         this.flags2 = i12;
         abstractSerializedData.writeInt32(i12);
         abstractSerializedData.writeInt32(this.id);
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.from_id.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 536870912) != 0) {

@@ -11,21 +11,16 @@ public final /* synthetic */ class I implements K {
         this.a = ofLong;
     }
 
-    public static /* synthetic */ K f(Spliterator.OfLong ofLong) {
+    public static /* synthetic */ K b(Spliterator.OfLong ofLong) {
         if (ofLong == null) {
             return null;
         }
         return ofLong instanceof J ? ((J) ofLong).a : new I(ofLong);
     }
 
-    @Override // j$.util.K, j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
-    }
-
-    @Override // j$.util.K
-    public final /* synthetic */ void b(j$.util.function.h0 h0Var) {
-        this.a.forEachRemaining(j$.util.function.g0.a(h0Var));
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.Q
@@ -34,25 +29,21 @@ public final /* synthetic */ class I implements K {
     }
 
     @Override // j$.util.K
-    public final /* synthetic */ boolean e(j$.util.function.h0 h0Var) {
-        return this.a.tryAdvance(j$.util.function.g0.a(h0Var));
+    public final /* synthetic */ void d(j$.util.function.W w) {
+        this.a.forEachRemaining(j$.util.function.V.a(w));
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        Spliterator.OfLong ofLong = this.a;
         if (obj instanceof I) {
             obj = ((I) obj).a;
         }
-        return this.a.equals(obj);
+        return ofLong.equals(obj);
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ long estimateSize() {
         return this.a.estimateSize();
-    }
-
-    @Override // j$.util.K, j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.N
@@ -79,6 +70,16 @@ public final /* synthetic */ class I implements K {
         return this.a.hashCode();
     }
 
+    @Override // j$.util.K
+    public final /* synthetic */ boolean i(j$.util.function.W w) {
+        return this.a.tryAdvance(j$.util.function.V.a(w));
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    }
+
     @Override // j$.util.N
     public final /* synthetic */ boolean tryAdvance(Object obj) {
         return this.a.tryAdvance((Spliterator.OfLong) obj);
@@ -86,16 +87,16 @@ public final /* synthetic */ class I implements K {
 
     @Override // j$.util.K, j$.util.N, j$.util.Q
     public final /* synthetic */ K trySplit() {
-        return f(this.a.trySplit());
+        return b(this.a.trySplit());
     }
 
     @Override // j$.util.N, j$.util.Q
     public final /* synthetic */ N trySplit() {
-        return L.f(this.a.trySplit());
+        return L.b(this.a.trySplit());
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ Q trySplit() {
-        return O.f(this.a.trySplit());
+        return O.b(this.a.trySplit());
     }
 }

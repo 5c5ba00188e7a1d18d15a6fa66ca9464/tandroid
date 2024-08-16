@@ -7,7 +7,7 @@ import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-final class zzcu extends zzal implements RandomAccess, zzdm {
+final class zzcu extends zzal implements RandomAccess, zzcf, zzdm {
     private static final zzcu zza = new zzcu(new long[0], 0, false);
     private long[] zzb;
     private int zzc;

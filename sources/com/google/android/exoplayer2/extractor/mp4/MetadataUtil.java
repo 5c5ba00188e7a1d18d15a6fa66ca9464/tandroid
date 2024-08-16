@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.metadata.mp4.MdtaMetadataEntry;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.TranslateController;
 /* loaded from: classes.dex */
 final class MetadataUtil {
@@ -57,7 +58,7 @@ final class MetadataUtil {
     public static Metadata.Entry parseIlstElement(ParsableByteArray parsableByteArray) {
         int position = parsableByteArray.getPosition() + parsableByteArray.readInt();
         int readInt = parsableByteArray.readInt();
-        int i = (readInt >> 24) & 255;
+        int i = (readInt >> 24) & NotificationCenter.voipServiceCreated;
         try {
             if (i == 169 || i == 253) {
                 int i2 = 16777215 & readInt;
@@ -249,10 +250,15 @@ final class MetadataUtil {
     }
 
     private static ApicFrame parseCoverArt(ParsableByteArray parsableByteArray) {
+        String str;
         int readInt = parsableByteArray.readInt();
         if (parsableByteArray.readInt() == 1684108385) {
             int parseFullAtomFlags = Atom.parseFullAtomFlags(parsableByteArray.readInt());
-            String str = parseFullAtomFlags == 13 ? "image/jpeg" : parseFullAtomFlags == 14 ? "image/png" : null;
+            if (parseFullAtomFlags == 13) {
+                str = "image/jpeg";
+            } else {
+                str = parseFullAtomFlags == 14 ? "image/png" : null;
+            }
             if (str == null) {
                 Log.w("MetadataUtil", "Unrecognized cover art flags: " + parseFullAtomFlags);
                 return null;

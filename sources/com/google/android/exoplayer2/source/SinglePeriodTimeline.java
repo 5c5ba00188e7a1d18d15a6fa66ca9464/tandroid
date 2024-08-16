@@ -56,8 +56,8 @@ public final class SinglePeriodTimeline extends Timeline {
         this.liveConfiguration = liveConfiguration;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x002b, code lost:
-        if (r1 > r3) goto L9;
+    /* JADX WARN: Code restructure failed: missing block: B:12:0x0029, code lost:
+        if (r1 > r3) goto L11;
      */
     @Override // com.google.android.exoplayer2.Timeline
     /*

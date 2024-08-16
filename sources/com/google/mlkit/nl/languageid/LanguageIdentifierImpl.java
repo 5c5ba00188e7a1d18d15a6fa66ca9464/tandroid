@@ -18,6 +18,7 @@ import com.google.mlkit.nl.languageid.internal.LanguageIdentificationJni;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public class LanguageIdentifierImpl implements LanguageIdentifier {
@@ -142,7 +143,7 @@ public class LanguageIdentifierImpl implements LanguageIdentifier {
         Float zzb = this.zza.zzb();
         long elapsedRealtime = SystemClock.elapsedRealtime();
         try {
-            String zza = languageIdentificationJni.zza(str.substring(0, Math.min(str.length(), 200)), zzb != null ? zzb.floatValue() : 0.5f);
+            String zza = languageIdentificationJni.zza(str.substring(0, Math.min(str.length(), (int) NotificationCenter.storyQualityUpdate)), zzb != null ? zzb.floatValue() : 0.5f);
             if (zza == null) {
                 zzcVar = zzy$zzau.zzc.zzb();
             } else {

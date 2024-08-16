@@ -32,11 +32,6 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
     private SubtitleOutputBuffer subtitle;
     private boolean waitingForKeyFrame;
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "TextRenderer";
-    }
-
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
         return true;
@@ -55,6 +50,11 @@ public final class TextRenderer extends BaseRenderer implements Handler.Callback
         this.finalStreamEndPositionUs = -9223372036854775807L;
         this.outputStreamOffsetUs = -9223372036854775807L;
         this.lastRendererPositionUs = -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "TextRenderer";
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities

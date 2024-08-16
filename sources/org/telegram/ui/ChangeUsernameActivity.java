@@ -234,7 +234,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             @Override // org.telegram.ui.Components.RecyclerListView, android.view.ViewGroup, android.view.View
             public void dispatchDraw(Canvas canvas) {
                 int childAdapterPosition;
-                int size = (ChangeUsernameActivity.this.usernames.size() + 4) - 1;
+                int size = ChangeUsernameActivity.this.usernames.size() + 3;
                 int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 int i5 = Integer.MIN_VALUE;
                 for (int i6 = 0; i6 < getChildCount(); i6++) {
@@ -291,12 +291,12 @@ public class ChangeUsernameActivity extends BaseFragment {
 
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
         public void onItemClick(final View view, final int i) {
-            String str;
             int i2;
-            String str2;
+            String str;
             int i3;
-            String str3;
+            String str2;
             int i4;
+            String str3;
             if (view instanceof UsernameCell) {
                 UsernameCell usernameCell = (UsernameCell) view;
                 final TLRPC$TL_username tLRPC$TL_username = usernameCell.currentUsername;
@@ -313,27 +313,27 @@ public class ChangeUsernameActivity extends BaseFragment {
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChangeUsernameActivity.this.getContext(), ChangeUsernameActivity.this.getResourceProvider());
                 if (tLRPC$TL_username.active) {
-                    str = "UsernameDeactivateLink";
                     i2 = R.string.UsernameDeactivateLink;
+                    str = "UsernameDeactivateLink";
                 } else {
-                    str = "UsernameActivateLink";
                     i2 = R.string.UsernameActivateLink;
+                    str = "UsernameActivateLink";
                 }
                 AlertDialog.Builder title = builder.setTitle(LocaleController.getString(str, i2));
                 if (tLRPC$TL_username.active) {
-                    str2 = "UsernameDeactivateLinkProfileMessage";
                     i3 = R.string.UsernameDeactivateLinkProfileMessage;
+                    str2 = "UsernameDeactivateLinkProfileMessage";
                 } else {
-                    str2 = "UsernameActivateLinkProfileMessage";
                     i3 = R.string.UsernameActivateLinkProfileMessage;
+                    str2 = "UsernameActivateLinkProfileMessage";
                 }
                 AlertDialog.Builder message = title.setMessage(LocaleController.getString(str2, i3));
                 if (tLRPC$TL_username.active) {
-                    str3 = "Hide";
                     i4 = R.string.Hide;
+                    str3 = "Hide";
                 } else {
-                    str3 = "Show";
                     i4 = R.string.Show;
+                    str3 = "Show";
                 }
                 message.setPositiveButton(LocaleController.getString(str3, i4), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChangeUsernameActivity$3$$ExternalSyntheticLambda0
                     @Override // android.content.DialogInterface.OnClickListener
@@ -439,8 +439,8 @@ public class ChangeUsernameActivity extends BaseFragment {
         toggleUsername(i, z, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0072 A[LOOP:1: B:34:0x0072->B:43:0x00a2, LOOP_START, PHI: r2 
-      PHI: (r2v1 int) = (r2v0 int), (r2v2 int) binds: [B:33:0x0070, B:43:0x00a2] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0073 A[LOOP:1: B:34:0x0073->B:43:0x00a3, LOOP_START, PHI: r2 
+      PHI: (r2v1 int) = (r2v0 int), (r2v2 int) binds: [B:33:0x0071, B:43:0x00a3] A[DONT_GENERATE, DONT_INLINE]] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -600,7 +600,7 @@ public class ChangeUsernameActivity extends BaseFragment {
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         public int getItemCount() {
-            return (ChangeUsernameActivity.this.usernames.size() > 0 ? ChangeUsernameActivity.this.usernames.size() + 1 + 1 : 0) + 3;
+            return (ChangeUsernameActivity.this.usernames.size() > 0 ? ChangeUsernameActivity.this.usernames.size() + 2 : 0) + 3;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
@@ -636,7 +636,7 @@ public class ChangeUsernameActivity extends BaseFragment {
             }
             swapListElements(ChangeUsernameActivity.this.usernames, i3, i4);
             notifyItemMoved(i, i2);
-            int size = (ChangeUsernameActivity.this.usernames.size() + 4) - 1;
+            int size = ChangeUsernameActivity.this.usernames.size() + 3;
             if (i == size || i2 == size) {
                 notifyItemChanged(i, 3);
                 notifyItemChanged(i2, 3);
@@ -689,7 +689,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                 tL_bots$reorderUsernames2.order = arrayList;
                 tL_bots$reorderUsernames = tL_bots$reorderUsernames2;
             }
-            getConnectionsManager().sendRequest(tL_bots$reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda4
+            getConnectionsManager().sendRequest(tL_bots$reorderUsernames, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChangeUsernameActivity.lambda$sendReorder$2(tLObject, tLRPC$TL_error);
@@ -1024,8 +1024,10 @@ public class ChangeUsernameActivity extends BaseFragment {
             addView(this.activeView, LayoutHelper.createFrame(-1, -2.0f, 48, 70.0f, 23.0f, 0.0f, 0.0f));
             Drawable[] drawableArr = {ContextCompat.getDrawable(context, R.drawable.msg_link_1).mutate(), ContextCompat.getDrawable(context, R.drawable.msg_link_2).mutate()};
             this.linkDrawables = drawableArr;
-            drawableArr[0].setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
-            this.linkDrawables[1].setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
+            Drawable drawable = drawableArr[0];
+            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+            drawable.setColorFilter(new PorterDuffColorFilter(-1, mode));
+            this.linkDrawables[1].setColorFilter(new PorterDuffColorFilter(-1, mode));
             ChangeUsernameActivity.linkBackgroundActive.setColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
             ChangeUsernameActivity.linkBackgroundInactive.setColor(Theme.getColor(Theme.key_chats_unreadCounterMuted, resourcesProvider));
         }
@@ -1038,12 +1040,9 @@ public class ChangeUsernameActivity extends BaseFragment {
                     valueAnimator.cancel();
                 }
                 this.loadingView.setVisibility(0);
-                float[] fArr = new float[2];
-                fArr[0] = this.loadingFloat;
-                fArr[1] = z ? 1.0f : 0.0f;
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.loadingFloat, z ? 1.0f : 0.0f);
                 this.loadingAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChangeUsernameActivity$UsernameCell$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChangeUsernameActivity$UsernameCell$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         ChangeUsernameActivity.UsernameCell.this.lambda$setLoading$0(valueAnimator2);
@@ -1074,10 +1073,10 @@ public class ChangeUsernameActivity extends BaseFragment {
         }
 
         public void set(TLRPC$TL_username tLRPC$TL_username, boolean z, boolean z2, long j) {
-            String str;
             int i;
-            String str2;
+            String str;
             int i2;
+            String str2;
             this.currentUsername = tLRPC$TL_username;
             this.useDivider = z;
             this.botId = j;
@@ -1094,27 +1093,27 @@ public class ChangeUsernameActivity extends BaseFragment {
             if (this.isProfile) {
                 AnimatedTextView animatedTextView = this.activeView;
                 if (this.editable) {
-                    str2 = "UsernameProfileLinkEditable";
                     i2 = R.string.UsernameProfileLinkEditable;
+                    str2 = "UsernameProfileLinkEditable";
                 } else if (this.active) {
-                    str2 = "UsernameProfileLinkActive";
                     i2 = R.string.UsernameProfileLinkActive;
+                    str2 = "UsernameProfileLinkActive";
                 } else {
-                    str2 = "UsernameProfileLinkInactive";
                     i2 = R.string.UsernameProfileLinkInactive;
+                    str2 = "UsernameProfileLinkInactive";
                 }
                 animatedTextView.setText(LocaleController.getString(str2, i2), z2, !this.active);
             } else {
                 AnimatedTextView animatedTextView2 = this.activeView;
                 if (this.editable) {
-                    str = "UsernameLinkEditable";
                     i = R.string.UsernameLinkEditable;
+                    str = "UsernameLinkEditable";
                 } else if (this.active) {
-                    str = "UsernameLinkActive";
                     i = R.string.UsernameLinkActive;
+                    str = "UsernameLinkActive";
                 } else {
-                    str = "UsernameLinkInactive";
                     i = R.string.UsernameLinkInactive;
+                    str = "UsernameLinkInactive";
                 }
                 animatedTextView2.setText(LocaleController.getString(str, i), z2, !this.active);
             }
@@ -1144,12 +1143,9 @@ public class ChangeUsernameActivity extends BaseFragment {
                 this.activeViewTextColorAnimator = null;
             }
             if (z2) {
-                float[] fArr = new float[2];
-                fArr[0] = this.activeViewTextColorT;
-                fArr[1] = z ? 1.0f : 0.0f;
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.activeViewTextColorT, z ? 1.0f : 0.0f);
                 this.activeViewTextColorAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChangeUsernameActivity$UsernameCell$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChangeUsernameActivity$UsernameCell$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         ChangeUsernameActivity.UsernameCell.this.lambda$animateValueTextColor$1(valueAnimator2);
@@ -1441,7 +1437,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                     }
                 }
                 this.lastCheckName = str;
-                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda5
+                Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChangeUsernameActivity.this.lambda$checkUserName$5(str);
@@ -1560,14 +1556,14 @@ public class ChangeUsernameActivity extends BaseFragment {
         final TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername = new TLRPC$TL_account_updateUsername();
         tLRPC$TL_account_updateUsername.username = this.username;
         NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.updateInterfaces, Integer.valueOf(MessagesController.UPDATE_MASK_NAME));
-        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda2
+        final int sendRequest = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_account_updateUsername, new RequestDelegate() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChangeUsernameActivity.this.lambda$saveName$10(alertDialog, tLRPC$TL_account_updateUsername, tLObject, tLRPC$TL_error);
             }
         }, 2);
         ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(sendRequest, this.classGuid);
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda3
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnCancelListener
             public final void onCancel(DialogInterface dialogInterface) {
                 ChangeUsernameActivity.this.lambda$saveName$11(sendRequest, dialogInterface);
@@ -1580,14 +1576,14 @@ public class ChangeUsernameActivity extends BaseFragment {
     public /* synthetic */ void lambda$saveName$10(final AlertDialog alertDialog, final TLRPC$TL_account_updateUsername tLRPC$TL_account_updateUsername, TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
         if (tLRPC$TL_error == null) {
             final TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChangeUsernameActivity.this.lambda$saveName$6(alertDialog, tLRPC$User);
                 }
             });
         } else if ("USERNAME_NOT_MODIFIED".equals(tLRPC$TL_error.text)) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda7
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChangeUsernameActivity.this.lambda$saveName$7(alertDialog);
@@ -1601,7 +1597,7 @@ public class ChangeUsernameActivity extends BaseFragment {
                 }
             });
         } else {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda9
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChangeUsernameActivity$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChangeUsernameActivity.this.lambda$saveName$9(alertDialog, tLRPC$TL_error, tLRPC$TL_account_updateUsername);

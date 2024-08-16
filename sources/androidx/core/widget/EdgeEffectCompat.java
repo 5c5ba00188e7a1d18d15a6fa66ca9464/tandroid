@@ -47,10 +47,8 @@ public final class EdgeEffectCompat {
         }
 
         public static float onPullDistance(EdgeEffect edgeEffect, float f, float f2) {
-            float onPullDistance;
             try {
-                onPullDistance = edgeEffect.onPullDistance(f, f2);
-                return onPullDistance;
+                return edgeEffect.onPullDistance(f, f2);
             } catch (Throwable unused) {
                 edgeEffect.onPull(f, f2);
                 return 0.0f;
@@ -58,10 +56,8 @@ public final class EdgeEffectCompat {
         }
 
         public static float getDistance(EdgeEffect edgeEffect) {
-            float distance;
             try {
-                distance = edgeEffect.getDistance();
-                return distance;
+                return edgeEffect.getDistance();
             } catch (Throwable unused) {
                 return 0.0f;
             }

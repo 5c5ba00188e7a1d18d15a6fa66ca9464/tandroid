@@ -90,7 +90,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         this.invalidateGradient = true;
         setOrientation(1);
         this.currentAccount = i;
-        this.paint.setAlpha(234);
+        this.paint.setAlpha(NotificationCenter.needCheckSystemBarColors);
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.GroupCallPipAlertView.1
             @Override // android.view.View
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
@@ -131,7 +131,7 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
         TextView textView2 = new TextView(context);
         this.subtitleView = textView2;
         textView2.setTextSize(12.0f);
-        this.subtitleView.setTextColor(ColorUtils.setAlphaComponent(-1, 153));
+        this.subtitleView.setTextColor(ColorUtils.setAlphaComponent(-1, NotificationCenter.recordStopped));
         linearLayout.addView(this.subtitleView, LayoutHelper.createLinear(-1, -2));
         this.groupInfoContainer.addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, 16, 55.0f, 0.0f, 0.0f, 0.0f));
         addView(this.groupInfoContainer, LayoutHelper.createLinear(-1, -2, 0, 10, 10, 10, 10));
@@ -250,10 +250,10 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
     /* JADX WARN: Removed duplicated region for block: B:28:0x0055  */
     /* JADX WARN: Removed duplicated region for block: B:35:0x006c  */
     /* JADX WARN: Removed duplicated region for block: B:43:0x0085  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01c3  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x01cc  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0207  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x022a  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x01b1  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x01ba  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01f5  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x0218  */
     @Override // android.widget.LinearLayout, android.view.View
     @SuppressLint({"DrawAllocation"})
     /*
@@ -446,8 +446,9 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             if (VoIPService.getSharedInstance() != null) {
                 this.mutedByAdmin = VoIPService.getSharedInstance().mutedByAdmin();
             }
+            float f = 0.0f;
             this.mutedByAdminProgress = this.mutedByAdmin ? 1.0f : 0.0f;
-            this.muteProgress = VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin ? 1.0f : 0.0f;
+            this.muteProgress = (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().isMicMute() || this.mutedByAdmin) ? 1.0f : 1.0f;
         }
         NotificationCenter.getInstance(this.currentAccount).addObserver(this, NotificationCenter.groupCallUpdated);
         updateButtons(false);
@@ -480,8 +481,8 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
 
     private void updateButtons(boolean z) {
         VoIPService sharedInstance;
-        String str;
         int i;
+        String str;
         if (this.soundButton == null || this.muteButton == null || (sharedInstance = VoIPService.getSharedInstance()) == null) {
             return;
         }
@@ -504,11 +505,11 @@ public class GroupCallPipAlertView extends LinearLayout implements VoIPService.S
             int i2 = R.drawable.calls_unmute;
             int alphaComponent = ColorUtils.setAlphaComponent(-1, (int) ((sharedInstance.isMicMute() ? 0.3f : 0.15f) * 255.0f));
             if (sharedInstance.isMicMute()) {
-                str = "VoipUnmute";
                 i = R.string.VoipUnmute;
+                str = "VoipUnmute";
             } else {
-                str = "VoipMute";
                 i = R.string.VoipMute;
+                str = "VoipMute";
             }
             voIPToggleButton.setData(i2, -1, alphaComponent, 0.1f, true, LocaleController.getString(str, i), sharedInstance.isMicMute(), z);
         }

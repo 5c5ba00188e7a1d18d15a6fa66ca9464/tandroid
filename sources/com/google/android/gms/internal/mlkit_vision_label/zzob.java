@@ -10,10 +10,14 @@ public final class zzob {
     public static synchronized zzob zza() {
         zzob zzobVar;
         synchronized (zzob.class) {
-            if (zza == null) {
-                zza = new zzob();
+            try {
+                if (zza == null) {
+                    zza = new zzob();
+                }
+                zzobVar = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            zzobVar = zza;
         }
         return zzobVar;
     }

@@ -1,17 +1,30 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-public interface C0 extends D0 {
-    @Override // j$.util.stream.D0
-    C0 a(int i);
+public final /* synthetic */ class C0 implements j$.util.function.W {
+    public final /* synthetic */ int a;
 
-    Object b();
+    public /* synthetic */ C0(int i) {
+        this.a = i;
+    }
 
-    void c(Object obj, int i);
+    private final void a(long j) {
+    }
 
-    void d(Object obj);
+    private final void c(long j) {
+    }
 
-    Object newArray(int i);
+    @Override // j$.util.function.W
+    public final void accept(long j) {
+        int i = this.a;
+    }
 
-    @Override // j$.util.stream.D0
-    j$.util.N spliterator();
+    @Override // j$.util.function.W
+    public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
+        switch (this.a) {
+            case 0:
+                return j$.com.android.tools.r8.a.d(this, w);
+            default:
+                return j$.com.android.tools.r8.a.d(this, w);
+        }
+    }
 }

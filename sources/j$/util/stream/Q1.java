@@ -1,43 +1,51 @@
 package j$.util.stream;
 
-import java.util.concurrent.CountedCompleter;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.function.Consumer;
+import j$.util.function.ToLongFunction;
 /* loaded from: classes2.dex */
-public final class Q1 extends f {
-    private final u1 h;
+public final /* synthetic */ class Q1 implements j$.util.function.I, ToLongFunction, Consumer {
+    public final /* synthetic */ int a;
 
-    Q1(Q1 q1, j$.util.Q q) {
-        super(q1, q);
-        this.h = q1.h;
+    private final void a(Object obj) {
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public Q1(u1 u1Var, u0 u0Var, j$.util.Q q) {
-        super(u0Var, q);
-        this.h = u1Var;
+    private final void c(Object obj) {
     }
 
-    @Override // j$.util.stream.f
-    protected final Object a() {
-        u0 u0Var = this.a;
-        O1 u = this.h.u();
-        u0Var.X0(this.b, u);
-        return u;
+    @Override // j$.util.function.Consumer
+    public void accept(Object obj) {
+        int i = this.a;
     }
 
-    @Override // j$.util.stream.f
-    protected final f d(j$.util.Q q) {
-        return new Q1(this, q);
-    }
-
-    @Override // j$.util.stream.f, java.util.concurrent.CountedCompleter
-    public final void onCompletion(CountedCompleter countedCompleter) {
-        f fVar = this.d;
-        if (!(fVar == null)) {
-            O1 o1 = (O1) ((Q1) fVar).b();
-            o1.k((O1) ((Q1) this.e).b());
-            e(o1);
+    @Override // j$.util.function.Consumer
+    public /* synthetic */ Consumer andThen(Consumer consumer) {
+        switch (this.a) {
+            case 6:
+                return Consumer.-CC.$default$andThen(this, consumer);
+            default:
+                return Consumer.-CC.$default$andThen(this, consumer);
         }
-        super.onCompletion(countedCompleter);
+    }
+
+    @Override // j$.util.function.I
+    public Object apply(int i) {
+        switch (this.a) {
+            case 0:
+                return new Object[i];
+            case 1:
+            default:
+                return new Double[i];
+            case 2:
+                return new Object[i];
+            case 3:
+                return new Integer[i];
+            case 4:
+                return new Long[i];
+        }
+    }
+
+    @Override // j$.util.function.ToLongFunction
+    public long applyAsLong(Object obj) {
+        return 1L;
     }
 }

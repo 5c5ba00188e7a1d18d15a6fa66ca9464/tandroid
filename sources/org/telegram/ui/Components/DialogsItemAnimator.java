@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.os.Build;
+import android.util.Property;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.DecelerateInterpolator;
@@ -107,7 +108,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<MoveInfo> arrayList = new ArrayList<>(this.mPendingMoves);
                 this.mMovesList.add(arrayList);
                 this.mPendingMoves.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda0
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$0(arrayList);
@@ -118,7 +119,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<ChangeInfo> arrayList2 = new ArrayList<>(this.mPendingChanges);
                 this.mChangesList.add(arrayList2);
                 this.mPendingChanges.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda1
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$1(arrayList2);
@@ -129,7 +130,7 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
                 final ArrayList<RecyclerView.ViewHolder> arrayList3 = new ArrayList<>(this.mPendingAdditions);
                 this.mAdditionsList.add(arrayList3);
                 this.mPendingAdditions.clear();
-                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda2
+                new Runnable() { // from class: org.telegram.ui.Components.DialogsItemAnimator$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsItemAnimator.this.lambda$runPendingAnimations$2(arrayList3);
@@ -469,7 +470,9 @@ public class DialogsItemAnimator extends SimpleItemAnimator {
         }
         final AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(180L);
-        animatorSet.playTogether(ObjectAnimator.ofFloat(viewHolder.itemView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(viewHolder2.itemView, View.ALPHA, 1.0f));
+        View view = viewHolder.itemView;
+        Property property = View.ALPHA;
+        animatorSet.playTogether(ObjectAnimator.ofFloat(view, property, 0.0f), ObjectAnimator.ofFloat(viewHolder2.itemView, property, 1.0f));
         this.mChangeAnimations.add(changeInfo.oldHolder);
         this.mChangeAnimations.add(changeInfo.newHolder);
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.DialogsItemAnimator.6

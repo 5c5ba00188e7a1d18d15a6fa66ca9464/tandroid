@@ -7,9 +7,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.AnimatedTextView;
 /* loaded from: classes3.dex */
 public class VideoCompressButton extends View {
@@ -32,7 +34,7 @@ public class VideoCompressButton extends View {
         this.clearPaint = paint3;
         CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
         this.disabledT = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-        this.sizes = new int[]{144, 240, 360, 480, 720, 1080, 1440, 2160};
+        this.sizes = new int[]{NotificationCenter.messagePlayingProgressDidChanged, NotificationCenter.reloadInterface, 360, 480, 720, 1080, 1440, 2160};
         AnimatedTextView.AnimatedTextDrawable animatedTextDrawable = new AnimatedTextView.AnimatedTextDrawable(true, false, false);
         this.textDrawable = animatedTextDrawable;
         animatedTextDrawable.setAnimationProperties(0.4f, 0L, 360L, cubicBezierInterpolator);
@@ -49,12 +51,14 @@ public class VideoCompressButton extends View {
         animatedTextDrawable2.setTextSize(AndroidUtilities.dpf2(8.6f));
         animatedTextDrawable2.setCallback(this);
         animatedTextDrawable2.setGravity(5);
-        animatedTextDrawable2.getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        TextPaint paint4 = animatedTextDrawable2.getPaint();
+        PorterDuff.Mode mode = PorterDuff.Mode.CLEAR;
+        paint4.setXfermode(new PorterDuffXfermode(mode));
         animatedTextDrawable2.setOverrideFullWidth(AndroidUtilities.displaySize.x);
         paint.setColor(-1);
         paint.setStyle(Paint.Style.STROKE);
         paint2.setColor(-1);
-        paint3.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        paint3.setXfermode(new PorterDuffXfermode(mode));
     }
 
     public void setState(boolean z, boolean z2, int i) {
@@ -94,7 +98,7 @@ public class VideoCompressButton extends View {
     @Override // android.view.View
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
         float f = (1.0f - (this.disabledT.set(this.disabled) * 0.35f)) * 255.0f;
         int i = (int) f;
         this.strokePaint.setAlpha(i);
@@ -113,7 +117,7 @@ public class VideoCompressButton extends View {
         rectF.set(rect);
         rectF.inset(-AndroidUtilities.dpf2(1.33f), -AndroidUtilities.dpf2(1.33f));
         canvas.drawRoundRect(rectF, AndroidUtilities.dpf2(1.66f), AndroidUtilities.dpf2(1.66f), this.clearPaint);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
         rectF.set(rect);
         this.fillPaint.setAlpha((int) (f * this.sizeTextDrawable.isNotEmpty()));
         canvas.drawRoundRect(rectF, AndroidUtilities.dpf2(1.66f), AndroidUtilities.dpf2(1.66f), this.fillPaint);

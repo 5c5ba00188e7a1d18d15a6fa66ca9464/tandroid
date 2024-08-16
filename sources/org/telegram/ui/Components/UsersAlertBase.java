@@ -240,13 +240,14 @@ public class UsersAlertBase extends BottomSheet {
             addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
             ImageView imageView = new ImageView(context);
             this.searchIconImageView = imageView;
-            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+            imageView.setScaleType(scaleType);
             imageView.setImageResource(R.drawable.smiles_inputsearch);
             imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(UsersAlertBase.this.keySearchPlaceholder, ((BottomSheet) UsersAlertBase.this).resourcesProvider), PorterDuff.Mode.MULTIPLY));
             addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f));
             ImageView imageView2 = new ImageView(context);
             this.clearSearchImageView = imageView2;
-            imageView2.setScaleType(ImageView.ScaleType.CENTER);
+            imageView2.setScaleType(scaleType);
             CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.Components.UsersAlertBase.SearchField.1
                 @Override // org.telegram.ui.Components.CloseProgressDrawable2
                 protected int getCurrentColor() {
@@ -450,13 +451,7 @@ public class UsersAlertBase extends BottomSheet {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        View view = this.shadow;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.UsersAlertBase.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -630,9 +625,9 @@ public class UsersAlertBase extends BottomSheet {
             super.requestLayout();
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:15:0x00c7  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0172  */
-        /* JADX WARN: Removed duplicated region for block: B:23:0x01af  */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x00c6  */
+        /* JADX WARN: Removed duplicated region for block: B:20:0x0171  */
+        /* JADX WARN: Removed duplicated region for block: B:23:0x01ae  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -640,6 +635,8 @@ public class UsersAlertBase extends BottomSheet {
         protected void onDraw(Canvas canvas) {
             float f;
             int i;
+            int i2;
+            int i3;
             canvas.save();
             UsersAlertBase usersAlertBase = UsersAlertBase.this;
             int dp = (usersAlertBase.scrollOffsetY - ((BottomSheet) usersAlertBase).backgroundPaddingTop) + AndroidUtilities.dp(6.0f);
@@ -647,14 +644,14 @@ public class UsersAlertBase extends BottomSheet {
             int dp2 = (usersAlertBase2.scrollOffsetY - ((BottomSheet) usersAlertBase2).backgroundPaddingTop) - AndroidUtilities.dp(13.0f);
             int measuredHeight = getMeasuredHeight() + AndroidUtilities.dp(50.0f) + ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop;
             if (Build.VERSION.SDK_INT >= 21) {
-                int i2 = AndroidUtilities.statusBarHeight;
-                dp2 += i2;
-                dp += i2;
-                measuredHeight -= i2;
+                int i4 = AndroidUtilities.statusBarHeight;
+                dp2 += i4;
+                dp += i4;
+                measuredHeight -= i4;
                 float translationY = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
-                int i3 = AndroidUtilities.statusBarHeight;
-                if (translationY < i3 * 2) {
-                    int min = (int) Math.min(i3, (((i3 * 2) - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                int i5 = AndroidUtilities.statusBarHeight;
+                if (translationY < i5 * 2) {
+                    int min = (int) Math.min(i5, ((i2 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
                     dp2 -= min;
                     measuredHeight += min;
                     f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
@@ -662,9 +659,9 @@ public class UsersAlertBase extends BottomSheet {
                     f = 1.0f;
                 }
                 float translationY2 = ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop + dp2 + getTranslationY();
-                int i4 = AndroidUtilities.statusBarHeight;
-                if (translationY2 < i4) {
-                    i = (int) Math.min(i4, ((i4 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
+                float f2 = AndroidUtilities.statusBarHeight;
+                if (translationY2 < f2) {
+                    i = (int) Math.min(f2, ((i3 - dp2) - ((BottomSheet) UsersAlertBase.this).backgroundPaddingTop) - getTranslationY());
                     UsersAlertBase.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
                     UsersAlertBase.this.shadowDrawable.draw(canvas);
                     if (!UsersAlertBase.this.drawTitle) {
@@ -704,9 +701,8 @@ public class UsersAlertBase extends BottomSheet {
             if (bool == null || bool.booleanValue() != z) {
                 boolean z2 = AndroidUtilities.computePerceivedBrightness(UsersAlertBase.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
                 boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(UsersAlertBase.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                Boolean valueOf = Boolean.valueOf(z);
-                this.statusBarOpen = valueOf;
-                if (!valueOf.booleanValue()) {
+                this.statusBarOpen = Boolean.valueOf(z);
+                if (!z) {
                     z2 = z3;
                 }
                 AndroidUtilities.setLightStatusBar(UsersAlertBase.this.getWindow(), z2);

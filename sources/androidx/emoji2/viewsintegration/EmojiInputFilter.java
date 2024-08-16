@@ -25,12 +25,8 @@ final class EmojiInputFilter implements InputFilter {
         }
         int loadState = EmojiCompat.get().getLoadState();
         if (loadState != 0) {
-            boolean z = true;
             if (loadState == 1) {
-                if (i4 == 0 && i3 == 0 && spanned.length() == 0 && charSequence == this.mTextView.getText()) {
-                    z = false;
-                }
-                if (!z || charSequence == null) {
+                if ((i4 == 0 && i3 == 0 && spanned.length() == 0 && charSequence == this.mTextView.getText()) || charSequence == null) {
                     return charSequence;
                 }
                 if (i != 0 || i2 != charSequence.length()) {

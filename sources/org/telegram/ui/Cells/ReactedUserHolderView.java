@@ -181,11 +181,11 @@ public class ReactedUserHolderView extends FrameLayout {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x0300  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x0317  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x031a  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x01d4  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x01f6  */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:117:0x0314  */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01d1  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x01f3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -261,14 +261,12 @@ public class ReactedUserHolderView extends FrameLayout {
                 z6 = true;
             }
             int i = R.string.AccDescrReactedWith;
-            Object[] objArr = new Object[2];
-            objArr[0] = this.titleView.getText();
+            CharSequence text = this.titleView.getText();
             Object obj = fromTL.emojicon;
             if (obj == null) {
                 obj = tLRPC$Reaction;
             }
-            objArr[1] = obj;
-            formatString = LocaleController.formatString("AccDescrReactedWith", i, objArr);
+            formatString = LocaleController.formatString("AccDescrReactedWith", i, text, obj);
             z5 = z6;
         } else {
             BackupImageView backupImageView5 = this.reactView;

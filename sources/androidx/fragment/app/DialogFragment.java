@@ -285,8 +285,10 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
                 } else {
                     this.mDialog = null;
                 }
-            } finally {
                 this.mCreatingDialog = false;
+            } catch (Throwable th) {
+                this.mCreatingDialog = false;
+                throw th;
             }
         }
     }

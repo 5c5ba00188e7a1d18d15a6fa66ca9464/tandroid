@@ -197,14 +197,17 @@ public final class zabe extends GoogleApiClient implements zabz {
                 zal(i);
                 zan();
                 this.zaj.unlock();
+                this.zaj.unlock();
             }
             z = true;
             Preconditions.checkArgument(z, "Illegal sign-in mode: " + i);
             zal(i);
             zan();
             this.zaj.unlock();
-        } finally {
             this.zaj.unlock();
+        } catch (Throwable th) {
+            this.zaj.unlock();
+            throw th;
         }
     }
 
@@ -385,7 +388,7 @@ public final class zabe extends GoogleApiClient implements zabz {
         return false;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0041, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0043, code lost:
         if (r3 == false) goto L17;
      */
     @Override // com.google.android.gms.common.api.GoogleApiClient
@@ -416,8 +419,10 @@ public final class zabe extends GoogleApiClient implements zabz {
             } else {
                 Log.wtf("GoogleApiClientImpl", "Attempted to remove pending transform when no transforms are registered.", new Exception());
             }
-        } finally {
             this.zaj.unlock();
+        } catch (Throwable th) {
+            this.zaj.unlock();
+            throw th;
         }
     }
 

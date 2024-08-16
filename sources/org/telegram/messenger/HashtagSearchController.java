@@ -40,12 +40,15 @@ public class HashtagSearchController {
         HashtagSearchController hashtagSearchController = Instance[i];
         if (hashtagSearchController == null) {
             synchronized (lockObjects[i]) {
-                hashtagSearchController = Instance[i];
-                if (hashtagSearchController == null) {
-                    HashtagSearchController[] hashtagSearchControllerArr = Instance;
-                    HashtagSearchController hashtagSearchController2 = new HashtagSearchController(i);
-                    hashtagSearchControllerArr[i] = hashtagSearchController2;
-                    hashtagSearchController = hashtagSearchController2;
+                try {
+                    hashtagSearchController = Instance[i];
+                    if (hashtagSearchController == null) {
+                        HashtagSearchController[] hashtagSearchControllerArr = Instance;
+                        HashtagSearchController hashtagSearchController2 = new HashtagSearchController(i);
+                        hashtagSearchControllerArr[i] = hashtagSearchController2;
+                        hashtagSearchController = hashtagSearchController2;
+                    }
+                } finally {
                 }
             }
         }

@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.util.TimestampAdjuster;
 import java.io.IOException;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class PsExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.PsExtractor$$ExternalSyntheticLambda0
@@ -87,11 +88,15 @@ public final class PsExtractor implements Extractor {
     public void seek(long j, long j2) {
         boolean z = true;
         boolean z2 = this.timestampAdjuster.getTimestampOffsetUs() == -9223372036854775807L;
-        if (!z2) {
-            long firstSampleTimestampUs = this.timestampAdjuster.getFirstSampleTimestampUs();
-            z2 = (firstSampleTimestampUs == -9223372036854775807L || firstSampleTimestampUs == 0 || firstSampleTimestampUs == j2) ? false : false;
-        }
         if (z2) {
+            z = z2;
+        } else {
+            long firstSampleTimestampUs = this.timestampAdjuster.getFirstSampleTimestampUs();
+            if (firstSampleTimestampUs == -9223372036854775807L || firstSampleTimestampUs == 0 || firstSampleTimestampUs == j2) {
+                z = false;
+            }
+        }
+        if (z) {
             this.timestampAdjuster.reset(j2);
         }
         PsBinarySearchSeeker psBinarySearchSeeker = this.psBinarySearchSeeker;
@@ -108,7 +113,7 @@ public final class PsExtractor implements Extractor {
         ElementaryStreamReader elementaryStreamReader;
         Assertions.checkStateNotNull(this.output);
         long length = extractorInput.getLength();
-        if ((length != -1) && !this.durationReader.isDurationReadFinished()) {
+        if (length != -1 && !this.durationReader.isDurationReadFinished()) {
             return this.durationReader.readDuration(extractorInput, positionHolder);
         }
         maybeOutputSeekMap(length);
@@ -138,7 +143,7 @@ public final class PsExtractor implements Extractor {
                 extractorInput.skipFully(1);
                 return 0;
             } else {
-                int i = readInt & 255;
+                int i = readInt & NotificationCenter.voipServiceCreated;
                 PesReader pesReader = this.psPayloadReaders.get(i);
                 if (!this.foundAllTracks) {
                     if (pesReader == null) {
@@ -146,11 +151,11 @@ public final class PsExtractor implements Extractor {
                             elementaryStreamReader = new Ac3Reader();
                             this.foundAudioTrack = true;
                             this.lastTrackPosition = extractorInput.getPosition();
-                        } else if ((i & 224) == 192) {
+                        } else if ((readInt & NotificationCenter.didReceiveCall) == 192) {
                             elementaryStreamReader = new MpegAudioReader();
                             this.foundAudioTrack = true;
                             this.lastTrackPosition = extractorInput.getPosition();
-                        } else if ((i & 240) == 224) {
+                        } else if ((readInt & NotificationCenter.reloadInterface) == 224) {
                             elementaryStreamReader = new H262Reader();
                             this.foundVideoTrack = true;
                             this.lastTrackPosition = extractorInput.getPosition();
@@ -158,7 +163,7 @@ public final class PsExtractor implements Extractor {
                             elementaryStreamReader = null;
                         }
                         if (elementaryStreamReader != null) {
-                            elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, LiteMode.FLAG_CHAT_BLUR));
+                            elementaryStreamReader.createTracks(this.output, new TsPayloadReader.TrackIdGenerator(i, 256));
                             pesReader = new PesReader(elementaryStreamReader, this.timestampAdjuster);
                             this.psPayloadReaders.put(i, pesReader);
                         }

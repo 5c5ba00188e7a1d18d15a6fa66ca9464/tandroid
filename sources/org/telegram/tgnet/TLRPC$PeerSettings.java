@@ -38,7 +38,7 @@ public class TLRPC$PeerSettings extends TLObject {
                     this.need_contacts_exception = (readInt32 & 16) != 0;
                     this.report_geo = (readInt32 & 32) != 0;
                     this.autoarchived = (readInt32 & 128) != 0;
-                    this.invite_members = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                    this.invite_members = (readInt32 & 256) != 0;
                     this.request_chat_broadcast = (readInt32 & 1024) != 0;
                     if ((readInt32 & 64) != 0) {
                         this.geo_distance = abstractSerializedData2.readInt32(z2);
@@ -68,7 +68,7 @@ public class TLRPC$PeerSettings extends TLObject {
                     this.flags = i7;
                     int i8 = this.autoarchived ? i7 | 128 : i7 & (-129);
                     this.flags = i8;
-                    int i9 = this.invite_members ? i8 | LiteMode.FLAG_CHAT_BLUR : i8 & (-257);
+                    int i9 = this.invite_members ? i8 | 256 : i8 & (-257);
                     this.flags = i9;
                     int i10 = this.request_chat_broadcast ? i9 | 1024 : i9 & (-1025);
                     this.flags = i10;

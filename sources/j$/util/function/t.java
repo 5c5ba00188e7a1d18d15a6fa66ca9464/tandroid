@@ -1,30 +1,32 @@
 package j$.util.function;
 
-import java.util.function.DoubleToIntFunction;
+import java.util.function.DoubleToLongFunction;
 /* loaded from: classes2.dex */
 public final /* synthetic */ class t implements v {
-    public final /* synthetic */ DoubleToIntFunction a;
+    public final /* synthetic */ DoubleToLongFunction a;
 
-    private /* synthetic */ t(DoubleToIntFunction doubleToIntFunction) {
-        this.a = doubleToIntFunction;
+    private /* synthetic */ t(DoubleToLongFunction doubleToLongFunction) {
+        this.a = doubleToLongFunction;
     }
 
-    public static /* synthetic */ v b(DoubleToIntFunction doubleToIntFunction) {
-        if (doubleToIntFunction == null) {
+    public static /* synthetic */ v a(DoubleToLongFunction doubleToLongFunction) {
+        if (doubleToLongFunction == null) {
             return null;
         }
-        return doubleToIntFunction instanceof u ? ((u) doubleToIntFunction).a : new t(doubleToIntFunction);
+        return doubleToLongFunction instanceof u ? ((u) doubleToLongFunction).a : new t(doubleToLongFunction);
     }
 
-    public final /* synthetic */ int a(double d) {
-        return this.a.applyAsInt(d);
+    @Override // j$.util.function.v
+    public final /* synthetic */ long applyAsLong(double d) {
+        return this.a.applyAsLong(d);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        DoubleToLongFunction doubleToLongFunction = this.a;
         if (obj instanceof t) {
             obj = ((t) obj).a;
         }
-        return this.a.equals(obj);
+        return doubleToLongFunction.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

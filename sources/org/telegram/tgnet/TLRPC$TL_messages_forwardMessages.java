@@ -32,7 +32,7 @@ public class TLRPC$TL_messages_forwardMessages extends TLObject {
         this.flags = i;
         int i2 = this.background ? i | 64 : i & (-65);
         this.flags = i2;
-        int i3 = this.with_my_score ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
+        int i3 = this.with_my_score ? i2 | 256 : i2 & (-257);
         this.flags = i3;
         int i4 = this.drop_author ? i3 | 2048 : i3 & (-2049);
         this.flags = i4;

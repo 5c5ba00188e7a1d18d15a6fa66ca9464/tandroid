@@ -1,5 +1,6 @@
 package androidx.core.text;
 
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.LocaleList;
 import android.text.PrecomputedText;
@@ -10,6 +11,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.MetricAffectingSpan;
 import androidx.core.util.ObjectsCompat;
+import java.util.Locale;
 /* loaded from: classes.dex */
 public class PrecomputedTextCompat implements Spannable {
     private static final Object sLock = new Object();
@@ -175,14 +177,27 @@ public class PrecomputedTextCompat implements Spannable {
             boolean isElegantTextHeight2;
             int i = Build.VERSION.SDK_INT;
             if (i >= 24) {
+                Float valueOf = Float.valueOf(this.mPaint.getTextSize());
+                Float valueOf2 = Float.valueOf(this.mPaint.getTextScaleX());
+                Float valueOf3 = Float.valueOf(this.mPaint.getTextSkewX());
                 letterSpacing2 = this.mPaint.getLetterSpacing();
+                Float valueOf4 = Float.valueOf(letterSpacing2);
+                Integer valueOf5 = Integer.valueOf(this.mPaint.getFlags());
                 textLocales = this.mPaint.getTextLocales();
+                Typeface typeface = this.mPaint.getTypeface();
                 isElegantTextHeight2 = this.mPaint.isElegantTextHeight();
-                return ObjectsCompat.hash(Float.valueOf(this.mPaint.getTextSize()), Float.valueOf(this.mPaint.getTextScaleX()), Float.valueOf(this.mPaint.getTextSkewX()), Float.valueOf(letterSpacing2), Integer.valueOf(this.mPaint.getFlags()), textLocales, this.mPaint.getTypeface(), Boolean.valueOf(isElegantTextHeight2), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
+                return ObjectsCompat.hash(valueOf, valueOf2, valueOf3, valueOf4, valueOf5, textLocales, typeface, Boolean.valueOf(isElegantTextHeight2), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
             } else if (i >= 21) {
+                Float valueOf6 = Float.valueOf(this.mPaint.getTextSize());
+                Float valueOf7 = Float.valueOf(this.mPaint.getTextScaleX());
+                Float valueOf8 = Float.valueOf(this.mPaint.getTextSkewX());
                 letterSpacing = this.mPaint.getLetterSpacing();
+                Float valueOf9 = Float.valueOf(letterSpacing);
+                Integer valueOf10 = Integer.valueOf(this.mPaint.getFlags());
+                Locale textLocale = this.mPaint.getTextLocale();
+                Typeface typeface2 = this.mPaint.getTypeface();
                 isElegantTextHeight = this.mPaint.isElegantTextHeight();
-                return ObjectsCompat.hash(Float.valueOf(this.mPaint.getTextSize()), Float.valueOf(this.mPaint.getTextScaleX()), Float.valueOf(this.mPaint.getTextSkewX()), Float.valueOf(letterSpacing), Integer.valueOf(this.mPaint.getFlags()), this.mPaint.getTextLocale(), this.mPaint.getTypeface(), Boolean.valueOf(isElegantTextHeight), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
+                return ObjectsCompat.hash(valueOf6, valueOf7, valueOf8, valueOf9, valueOf10, textLocale, typeface2, Boolean.valueOf(isElegantTextHeight), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
             } else {
                 return ObjectsCompat.hash(Float.valueOf(this.mPaint.getTextSize()), Float.valueOf(this.mPaint.getTextScaleX()), Float.valueOf(this.mPaint.getTextSkewX()), Integer.valueOf(this.mPaint.getFlags()), this.mPaint.getTextLocale(), this.mPaint.getTypeface(), this.mTextDir, Integer.valueOf(this.mBreakStrategy), Integer.valueOf(this.mHyphenationFrequency));
             }
@@ -236,9 +251,8 @@ public class PrecomputedTextCompat implements Spannable {
     }
 
     public PrecomputedText getPrecomputedText() {
-        Spannable spannable = this.mText;
-        if (spannable instanceof PrecomputedText) {
-            return (PrecomputedText) spannable;
+        if (PrecomputedTextCompat$$ExternalSyntheticApiModelOutline0.m(this.mText)) {
+            return PrecomputedTextCompat$$ExternalSyntheticApiModelOutline1.m(this.mText);
         }
         return null;
     }

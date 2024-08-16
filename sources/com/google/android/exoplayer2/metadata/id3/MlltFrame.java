@@ -58,7 +58,7 @@ public final class MlltFrame extends Id3Frame {
     }
 
     public int hashCode() {
-        return ((((((((527 + this.mpegFramesBetweenReference) * 31) + this.bytesBetweenReference) * 31) + this.millisecondsBetweenReference) * 31) + Arrays.hashCode(this.bytesDeviations)) * 31) + Arrays.hashCode(this.millisecondsDeviations);
+        return ((((((((this.mpegFramesBetweenReference + 527) * 31) + this.bytesBetweenReference) * 31) + this.millisecondsBetweenReference) * 31) + Arrays.hashCode(this.bytesDeviations)) * 31) + Arrays.hashCode(this.millisecondsDeviations);
     }
 
     @Override // android.os.Parcelable

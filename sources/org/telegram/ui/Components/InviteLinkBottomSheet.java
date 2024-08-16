@@ -240,18 +240,19 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     if (this.fullHeight) {
                         int i3 = ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop + dp;
                         int i4 = AndroidUtilities.statusBarHeight;
-                        if (i3 < i4 * 2) {
-                            int min = Math.min(i4, ((i4 * 2) - dp) - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop);
+                        int i5 = i4 * 2;
+                        if (i3 < i5) {
+                            int min = Math.min(i4, (i5 - dp) - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop);
                             dp -= min;
                             measuredHeight += min;
                             f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
                         } else {
                             f = 1.0f;
                         }
-                        int i5 = ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop + dp;
-                        int i6 = AndroidUtilities.statusBarHeight;
-                        if (i5 < i6) {
-                            i = Math.min(i6, (i6 - dp) - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop);
+                        int i6 = ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop + dp;
+                        int i7 = AndroidUtilities.statusBarHeight;
+                        if (i6 < i7) {
+                            i = Math.min(i7, (i7 - dp) - ((BottomSheet) InviteLinkBottomSheet.this).backgroundPaddingTop);
                             ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
                             ((BottomSheet) InviteLinkBottomSheet.this).shadowDrawable.draw(canvas);
                             if (f != 1.0f) {
@@ -291,9 +292,8 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 if (bool == null || bool.booleanValue() != z3) {
                     boolean z4 = AndroidUtilities.computePerceivedBrightness(InviteLinkBottomSheet.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
                     boolean z5 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(InviteLinkBottomSheet.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                    Boolean valueOf = Boolean.valueOf(z3);
-                    this.statusBarOpen = valueOf;
-                    if (!valueOf.booleanValue()) {
+                    this.statusBarOpen = Boolean.valueOf(z3);
+                    if (!z3) {
                         z4 = z5;
                     }
                     AndroidUtilities.setLightStatusBar(InviteLinkBottomSheet.this.getWindow(), z4);
@@ -503,7 +503,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final AlertDialog alertDialog, final Context context, final long j, final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 InviteLinkBottomSheet.this.lambda$new$0(alertDialog, context, j, tLRPC$TL_chatInviteExported, tLRPC$TL_chatInviteImporter, tLRPC$ChannelParticipant);
@@ -614,10 +614,10 @@ public class InviteLinkBottomSheet extends BottomSheet {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:32:0x009d  */
-    /* JADX WARN: Removed duplicated region for block: B:35:0x00bb  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x00d9  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00ef  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0098  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00b6  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00d4  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00ea  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -647,72 +647,67 @@ public class InviteLinkBottomSheet extends BottomSheet {
         this.expiredEndRow = -1;
         boolean z3 = true;
         if (!this.permanent) {
-            int i = 0 + 1;
             this.linkActionRow = 0;
-            this.rowCount = i + 1;
-            this.linkInfoRow = i;
+            this.rowCount = 2;
+            this.linkInfoRow = 1;
         }
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
         if (tLRPC$TL_chatInviteExported.subscription_pricing != null) {
-            int i2 = this.rowCount;
-            int i3 = i2 + 1;
-            this.revenueHeaderRow = i2;
-            this.rowCount = i3 + 1;
-            this.revenueRow = i3;
+            int i = this.rowCount;
+            this.revenueHeaderRow = i;
+            this.rowCount = i + 2;
+            this.revenueRow = i + 1;
         }
-        int i4 = this.rowCount;
-        int i5 = i4 + 1;
-        this.creatorHeaderRow = i4;
-        this.rowCount = i5 + 1;
-        this.creatorRow = i5;
-        int i6 = tLRPC$TL_chatInviteExported.usage;
-        boolean z4 = i6 > 0 || tLRPC$TL_chatInviteExported.usage_limit > 0 || tLRPC$TL_chatInviteExported.requested > 0 || tLRPC$TL_chatInviteExported.subscription_expired > 0;
-        if (i6 <= this.joinedUsers.size() && this.invite.subscription_expired <= this.expiredUsers.size()) {
+        int i2 = this.rowCount;
+        this.creatorHeaderRow = i2;
+        this.rowCount = i2 + 2;
+        this.creatorRow = i2 + 1;
+        int i3 = tLRPC$TL_chatInviteExported.usage;
+        boolean z4 = i3 > 0 || tLRPC$TL_chatInviteExported.usage_limit > 0 || tLRPC$TL_chatInviteExported.requested > 0 || tLRPC$TL_chatInviteExported.subscription_expired > 0;
+        if (i3 <= this.joinedUsers.size() && this.invite.subscription_expired <= this.expiredUsers.size()) {
             TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
             if (!tLRPC$TL_chatInviteExported2.request_needed || tLRPC$TL_chatInviteExported2.requested <= this.requestedUsers.size()) {
                 z = false;
                 if (!this.joinedUsers.isEmpty()) {
-                    int i7 = this.rowCount;
-                    int i8 = i7 + 1;
-                    this.rowCount = i8;
-                    this.joinedHeaderRow = i7;
-                    this.joinedStartRow = i8;
-                    int size = i8 + this.joinedUsers.size();
+                    int i4 = this.rowCount;
+                    int i5 = i4 + 1;
+                    this.rowCount = i5;
+                    this.joinedHeaderRow = i4;
+                    this.joinedStartRow = i5;
+                    int size = i5 + this.joinedUsers.size();
                     this.rowCount = size;
                     this.joinedEndRow = size;
                     z2 = true;
                 }
                 if (!this.expiredUsers.isEmpty()) {
-                    int i9 = this.rowCount;
-                    int i10 = i9 + 1;
-                    this.rowCount = i10;
-                    this.expiredHeaderRow = i9;
-                    this.expiredStartRow = i10;
-                    int size2 = i10 + this.expiredUsers.size();
+                    int i6 = this.rowCount;
+                    int i7 = i6 + 1;
+                    this.rowCount = i7;
+                    this.expiredHeaderRow = i6;
+                    this.expiredStartRow = i7;
+                    int size2 = i7 + this.expiredUsers.size();
                     this.rowCount = size2;
                     this.expiredEndRow = size2;
                     z2 = true;
                 }
                 if (this.requestedUsers.isEmpty()) {
-                    int i11 = this.rowCount;
-                    int i12 = i11 + 1;
-                    this.rowCount = i12;
-                    this.requestedHeaderRow = i11;
-                    this.requestedStartRow = i12;
-                    int size3 = i12 + this.requestedUsers.size();
+                    int i8 = this.rowCount;
+                    int i9 = i8 + 1;
+                    this.rowCount = i9;
+                    this.requestedHeaderRow = i8;
+                    this.requestedStartRow = i9;
+                    int size3 = i9 + this.requestedUsers.size();
                     this.rowCount = size3;
                     this.requestedEndRow = size3;
                 } else {
                     z3 = z2;
                 }
                 if ((!z4 || z) && !z3) {
-                    int i13 = this.rowCount;
-                    int i14 = i13 + 1;
-                    this.dividerRow = i13;
-                    int i15 = i14 + 1;
-                    this.loadingRow = i14;
-                    this.rowCount = i15 + 1;
-                    this.emptyView2 = i15;
+                    int i10 = this.rowCount;
+                    this.dividerRow = i10;
+                    this.loadingRow = i10 + 1;
+                    this.rowCount = i10 + 3;
+                    this.emptyView2 = i10 + 2;
                 }
                 this.adapter.notifyDataSetChanged();
             }
@@ -726,13 +721,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         if (!z4) {
         }
-        int i132 = this.rowCount;
-        int i142 = i132 + 1;
-        this.dividerRow = i132;
-        int i152 = i142 + 1;
-        this.loadingRow = i142;
-        this.rowCount = i152 + 1;
-        this.emptyView2 = i152;
+        int i102 = this.rowCount;
+        this.dividerRow = i102;
+        this.loadingRow = i102 + 1;
+        this.rowCount = i102 + 3;
+        this.emptyView2 = i102 + 2;
         this.adapter.notifyDataSetChanged();
     }
 
@@ -874,7 +867,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     tLRPC$TL_messages_editExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
                     tLRPC$TL_messages_editExportedChatInvite.revoked = true;
                     tLRPC$TL_messages_editExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_editExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             InviteLinkBottomSheet.Adapter.2.this.lambda$revokeLink$1(tLObject, tLRPC$TL_error);
@@ -975,7 +968,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     InviteLinkBottomSheet inviteLinkBottomSheet2 = InviteLinkBottomSheet.this;
                     tLRPC$TL_messages_deleteExportedChatInvite.link = inviteLinkBottomSheet2.invite.link;
                     tLRPC$TL_messages_deleteExportedChatInvite.peer = MessagesController.getInstance(((BottomSheet) inviteLinkBottomSheet2).currentAccount).getInputPeer(-InviteLinkBottomSheet.this.chatId);
-                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda0
+                    ConnectionsManager.getInstance(((BottomSheet) InviteLinkBottomSheet.this).currentAccount).sendRequest(tLRPC$TL_messages_deleteExportedChatInvite, new RequestDelegate() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$Adapter$2$$ExternalSyntheticLambda1
                         @Override // org.telegram.tgnet.RequestDelegate
                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                             InviteLinkBottomSheet.Adapter.2.this.lambda$removeLink$3(tLObject, tLRPC$TL_error);
@@ -1141,24 +1134,23 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     timerPrivacyCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                 } else if (tLRPC$TL_chatInviteExported3.expire_date > 0) {
                     long currentTimeMillis = System.currentTimeMillis() + (InviteLinkBottomSheet.this.timeDif * 1000);
-                    int i10 = InviteLinkBottomSheet.this.invite.expire_date;
-                    long j2 = (i10 * 1000) - currentTimeMillis;
-                    if (j2 < 0) {
-                        j2 = 0;
+                    long j2 = InviteLinkBottomSheet.this.invite.expire_date;
+                    long j3 = (j2 * 1000) - currentTimeMillis;
+                    if (j3 < 0) {
+                        j3 = 0;
                     }
-                    if (j2 > 86400000) {
-                        timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresIn", R.string.LinkExpiresIn, LocaleController.formatDateAudio(i10, false)));
+                    if (j3 > 86400000) {
+                        timerPrivacyCell.setText(LocaleController.formatString("LinkExpiresIn", R.string.LinkExpiresIn, LocaleController.formatDateAudio(j2, false)));
                         return;
                     }
-                    long j3 = j2 / 1000;
-                    int i11 = (int) (j3 % 60);
-                    long j4 = j3 / 60;
-                    int i12 = (int) (j4 / 60);
+                    long j4 = j3 / 1000;
+                    int i10 = (int) (j4 % 60);
+                    long j5 = j4 / 60;
                     StringBuilder sb = new StringBuilder();
                     Locale locale = Locale.ENGLISH;
-                    sb.append(String.format(locale, "%02d", Integer.valueOf(i12)));
-                    sb.append(String.format(locale, ":%02d", Integer.valueOf((int) (j4 % 60))));
-                    sb.append(String.format(locale, ":%02d", Integer.valueOf(i11)));
+                    sb.append(String.format(locale, "%02d", Integer.valueOf((int) (j5 / 60))));
+                    sb.append(String.format(locale, ":%02d", Integer.valueOf((int) (j5 % 60))));
+                    sb.append(String.format(locale, ":%02d", Integer.valueOf(i10)));
                     String sb2 = sb.toString();
                     timerPrivacyCell.timer = true;
                     timerPrivacyCell.runTimer();
@@ -1177,9 +1169,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
                     return;
                 }
                 EmptyHintRow emptyHintRow = (EmptyHintRow) viewHolder.itemView;
-                int i13 = InviteLinkBottomSheet.this.invite.usage_limit;
-                if (i13 > 0) {
-                    emptyHintRow.textView.setText(LocaleController.formatPluralString("PeopleCanJoinViaLinkCount", i13, new Object[0]));
+                int i11 = InviteLinkBottomSheet.this.invite.usage_limit;
+                if (i11 > 0) {
+                    emptyHintRow.textView.setText(LocaleController.formatPluralString("PeopleCanJoinViaLinkCount", i11, new Object[0]));
                     emptyHintRow.textView.setVisibility(0);
                     return;
                 }
@@ -1250,22 +1242,11 @@ public class InviteLinkBottomSheet extends BottomSheet {
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
         View view = this.shadow;
         Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(view, property, z ? 1.0f : 0.0f));
         if (!this.titleVisible) {
-            AnimatorSet animatorSet3 = this.shadowAnimation;
-            Animator[] animatorArr2 = new Animator[1];
-            TextView textView = this.titleTextView;
-            Property property2 = View.ALPHA;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z ? 1.0f : 0.0f;
-            animatorArr2[0] = ObjectAnimator.ofFloat(textView, property2, fArr2);
-            animatorSet3.playTogether(animatorArr2);
+            this.shadowAnimation.playTogether(ObjectAnimator.ofFloat(this.titleTextView, property, z ? 1.0f : 0.0f));
         }
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet.5
@@ -1369,7 +1350,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$6(final List list, final boolean z, final boolean z2, final boolean z3, final boolean z4, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteLinkBottomSheet$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 InviteLinkBottomSheet.this.lambda$loadUsers$5(tLRPC$TL_error, tLObject, list, z, z2, z3, z4);
@@ -1386,11 +1367,7 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 TLRPC$User tLRPC$User = tLRPC$TL_messages_chatInviteImporters.users.get(i);
                 this.users.put(Long.valueOf(tLRPC$User.id), tLRPC$User);
             }
-            boolean z5 = true;
-            if (!z ? !(!z2 ? list.size() < tLRPC$TL_messages_chatInviteImporters.count || z3 || z4 : list.size() < tLRPC$TL_messages_chatInviteImporters.count || z3) : list.size() >= tLRPC$TL_messages_chatInviteImporters.count) {
-                z5 = false;
-            }
-            this.hasMore = z5;
+            this.hasMore = !z ? !(!z2 ? !(list.size() < tLRPC$TL_messages_chatInviteImporters.count || z3 || z4) : !(list.size() < tLRPC$TL_messages_chatInviteImporters.count || z3)) : list.size() >= tLRPC$TL_messages_chatInviteImporters.count;
             updateRows();
         }
         this.usersLoading = false;
@@ -1609,15 +1586,14 @@ public class InviteLinkBottomSheet extends BottomSheet {
     }
 
     public static BottomSheet showSubscriptionSheet(final Context context, int i, long j, TLRPC$TL_starsSubscriptionPricing tLRPC$TL_starsSubscriptionPricing, final TLRPC$TL_chatInviteImporter tLRPC$TL_chatInviteImporter, TLRPC$ChannelParticipant tLRPC$ChannelParticipant, Theme.ResourcesProvider resourcesProvider) {
-        Object obj;
         BottomSheet.Builder builder;
+        Object obj;
         Object obj2;
-        BottomSheet.Builder builder2;
         double d;
         double d2;
         double d3;
         double d4;
-        BottomSheet.Builder builder3 = new BottomSheet.Builder(context, false, resourcesProvider);
+        BottomSheet.Builder builder2 = new BottomSheet.Builder(context, false, resourcesProvider);
         final BottomSheet[] bottomSheetArr = new BottomSheet[1];
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(1);
@@ -1668,15 +1644,16 @@ public class InviteLinkBottomSheet extends BottomSheet {
         textView2.setTextColor(Theme.getColor(i2, resourcesProvider));
         int i3 = tLRPC$TL_starsSubscriptionPricing.period;
         if (i3 == 2592000) {
-            obj = "min";
+            builder = builder2;
             textView2.setText(StarsIntroActivity.replaceStarsWithPlain(LocaleController.formatString(R.string.StarsSubscriptionPrice, Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount)), 0.8f));
-            builder = builder3;
+            obj = "min";
             obj2 = "5min";
         } else {
+            builder = builder2;
+            String str = i3 == 300 ? "5min" : "min";
             obj = "min";
-            builder = builder3;
             obj2 = "5min";
-            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(String.format(Locale.US, "⭐%1$d/%2$s", Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount), i3 == 300 ? "5min" : obj), 0.8f));
+            textView2.setText(StarsIntroActivity.replaceStarsWithPlain(String.format(Locale.US, "⭐%1$d/%2$s", Long.valueOf(tLRPC$TL_starsSubscriptionPricing.amount), str), 0.8f));
         }
         linearLayout.addView(textView2, LayoutHelper.createLinear(-1, -2, 17, 20, 0, 20, 4));
         TextView textView3 = new TextView(context);
@@ -1688,11 +1665,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
             int i5 = R.string.StarsParticipantSubscriptionApproxMonth;
             BillingController billingController = BillingController.getInstance();
             Double.isNaN(tLRPC$TL_starsSubscriptionPricing.amount);
-            builder2 = builder;
             Double.isNaN(MessagesController.getInstance(i).starsUsdWithdrawRate1000);
             textView3.setText(LocaleController.formatString(i5, billingController.formatCurrency((int) ((d3 / 1000.0d) * d4), "USD")));
         } else {
-            builder2 = builder;
             Object obj3 = i4 == 300 ? obj2 : obj;
             Locale locale = Locale.US;
             BillingController billingController2 = BillingController.getInstance();
@@ -1766,9 +1741,9 @@ public class InviteLinkBottomSheet extends BottomSheet {
                 InviteLinkBottomSheet.lambda$showSubscriptionSheet$8(bottomSheetArr, view);
             }
         });
-        BottomSheet.Builder builder4 = builder2;
-        builder4.setCustomView(linearLayout);
-        BottomSheet create = builder4.create();
+        BottomSheet.Builder builder3 = builder;
+        builder3.setCustomView(linearLayout);
+        BottomSheet create = builder3.create();
         bottomSheetArr[0] = create;
         create.useBackgroundTopPadding = false;
         create.fixNavigationBar();

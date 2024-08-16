@@ -1,63 +1,57 @@
 package j$.util;
-
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
 /* loaded from: classes2.dex */
-public abstract class k {
-    public static Optional a(java.util.Optional optional) {
-        if (optional == null) {
-            return null;
-        }
-        return optional.isPresent() ? Optional.of(optional.get()) : Optional.empty();
+public final class k implements j$.util.function.W, j$.util.function.F {
+    private long count;
+    private long sum;
+    private long min = Long.MAX_VALUE;
+    private long max = Long.MIN_VALUE;
+
+    public final void a(k kVar) {
+        this.count += kVar.count;
+        this.sum += kVar.sum;
+        this.min = Math.min(this.min, kVar.min);
+        this.max = Math.max(this.max, kVar.max);
     }
 
-    public static l b(OptionalDouble optionalDouble) {
-        if (optionalDouble == null) {
-            return null;
-        }
-        return optionalDouble.isPresent() ? l.d(optionalDouble.getAsDouble()) : l.a();
+    @Override // j$.util.function.F
+    public final void accept(int i) {
+        accept(i);
     }
 
-    public static m c(OptionalInt optionalInt) {
-        if (optionalInt == null) {
-            return null;
-        }
-        return optionalInt.isPresent() ? m.d(optionalInt.getAsInt()) : m.a();
+    @Override // j$.util.function.W
+    public final void accept(long j) {
+        this.count++;
+        this.sum += j;
+        this.min = Math.min(this.min, j);
+        this.max = Math.max(this.max, j);
     }
 
-    public static n d(OptionalLong optionalLong) {
-        if (optionalLong == null) {
-            return null;
-        }
-        return optionalLong.isPresent() ? n.d(optionalLong.getAsLong()) : n.a();
+    @Override // j$.util.function.W
+    public final /* synthetic */ j$.util.function.W f(j$.util.function.W w) {
+        return j$.com.android.tools.r8.a.d(this, w);
     }
 
-    public static java.util.Optional e(Optional optional) {
-        if (optional == null) {
-            return null;
-        }
-        return optional.isPresent() ? java.util.Optional.of(optional.get()) : java.util.Optional.empty();
+    @Override // j$.util.function.F
+    public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 
-    public static OptionalDouble f(l lVar) {
-        if (lVar == null) {
-            return null;
+    public final String toString() {
+        double d;
+        String simpleName = k.class.getSimpleName();
+        Long valueOf = Long.valueOf(this.count);
+        Long valueOf2 = Long.valueOf(this.sum);
+        Long valueOf3 = Long.valueOf(this.min);
+        long j = this.count;
+        if (j > 0) {
+            double d2 = this.sum;
+            double d3 = j;
+            Double.isNaN(d2);
+            Double.isNaN(d3);
+            d = d2 / d3;
+        } else {
+            d = 0.0d;
         }
-        return lVar.c() ? OptionalDouble.of(lVar.b()) : OptionalDouble.empty();
-    }
-
-    public static OptionalInt g(m mVar) {
-        if (mVar == null) {
-            return null;
-        }
-        return mVar.c() ? OptionalInt.of(mVar.b()) : OptionalInt.empty();
-    }
-
-    public static OptionalLong h(n nVar) {
-        if (nVar == null) {
-            return null;
-        }
-        return nVar.c() ? OptionalLong.of(nVar.b()) : OptionalLong.empty();
+        return String.format("%s{count=%d, sum=%d, min=%d, average=%f, max=%d}", simpleName, valueOf, valueOf2, valueOf3, Double.valueOf(d), Long.valueOf(this.max));
     }
 }

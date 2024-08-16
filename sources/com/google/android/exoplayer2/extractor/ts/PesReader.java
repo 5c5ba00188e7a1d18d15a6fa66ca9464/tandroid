@@ -142,7 +142,7 @@ public final class PesReader implements TsPayloadReader {
         if (readBits2 == 0) {
             this.payloadSize = -1;
         } else {
-            int i = ((readBits2 + 6) - 9) - readBits3;
+            int i = (readBits2 - 3) - readBits3;
             this.payloadSize = i;
             if (i < 0) {
                 Log.w("PesReader", "Found negative packet payload size: " + this.payloadSize);

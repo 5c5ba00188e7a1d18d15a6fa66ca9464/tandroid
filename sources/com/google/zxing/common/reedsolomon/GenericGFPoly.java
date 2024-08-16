@@ -12,8 +12,8 @@ public final class GenericGFPoly {
         }
         this.field = genericGF;
         int length = iArr.length;
+        int i = 1;
         if (length > 1 && iArr[0] == 0) {
-            int i = 1;
             while (i < length && iArr[i] == 0) {
                 i++;
             }
@@ -21,9 +21,10 @@ public final class GenericGFPoly {
                 this.coefficients = new int[]{0};
                 return;
             }
-            int[] iArr2 = new int[length - i];
+            int i2 = length - i;
+            int[] iArr2 = new int[i2];
             this.coefficients = iArr2;
-            System.arraycopy(iArr, i, iArr2, 0, iArr2.length);
+            System.arraycopy(iArr, i, iArr2, 0, i2);
             return;
         }
         this.coefficients = iArr;

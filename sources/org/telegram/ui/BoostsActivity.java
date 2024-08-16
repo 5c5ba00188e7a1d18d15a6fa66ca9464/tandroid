@@ -409,7 +409,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         this.progressLayout.setAlpha(0.0f);
         if (this.boostsStatus == null) {
             this.progressLayout.animate().alpha(1.0f).setDuration(200L).setStartDelay(500L).start();
-            getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda3
+            getMessagesController().getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda2
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     BoostsActivity.this.lambda$loadStatistic$1((TL_stories$TL_premium_boostsStatus) obj);
@@ -512,7 +512,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadUsers$4() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 BoostsActivity.this.lambda$loadUsers$3();
@@ -543,7 +543,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         tL_stories$TL_premium_getBoostsList.limit = this.limitBoosts;
         tL_stories$TL_premium_getBoostsList.offset = this.lastBoostsOffset;
         tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda7
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BoostsActivity.this.lambda$loadOnlyBoosts$9(countDownLatch, runnable, tLObject, tLRPC$TL_error);
@@ -553,7 +553,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadOnlyBoosts$9(final CountDownLatch countDownLatch, final Runnable runnable, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 BoostsActivity.this.lambda$loadOnlyBoosts$8(countDownLatch, tLObject, runnable);
@@ -604,7 +604,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
         tL_stories$TL_premium_getBoostsList.gifts = true;
         tL_stories$TL_premium_getBoostsList.offset = this.lastGiftsOffset;
         tL_stories$TL_premium_getBoostsList.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda10
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stories$TL_premium_getBoostsList, new RequestDelegate() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BoostsActivity.this.lambda$loadOnlyGifts$11(countDownLatch, runnable, tLObject, tLRPC$TL_error);
@@ -776,7 +776,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 this.drawable.setBounds(0, 0, getWidth(), getHeight());
-                this.drawable.setAlpha(255);
+                this.drawable.setAlpha(NotificationCenter.voipServiceCreated);
                 this.drawable.draw(canvas);
                 invalidate();
                 super.onDraw(canvas);
@@ -798,7 +798,7 @@ public class BoostsActivity extends GradientHeaderActivity implements Notificati
             LimitPreviewView limitPreviewView = new LimitPreviewView(getContext(), R.drawable.filled_limit_boost, 0, 0, this.resourceProvider);
             this.limitPreviewView = limitPreviewView;
             limitPreviewView.isStatistic = true;
-            limitPreviewView.setDarkGradientProvider(new LimitPreviewView.DarkGradientProvider() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda2
+            limitPreviewView.setDarkGradientProvider(new LimitPreviewView.DarkGradientProvider() { // from class: org.telegram.ui.BoostsActivity$$ExternalSyntheticLambda3
                 @Override // org.telegram.ui.Components.Premium.LimitPreviewView.DarkGradientProvider
                 public final Paint setDarkGradientLocation(float f, float f2) {
                     return BoostsActivity.this.setDarkGradientLocation(f, f2);

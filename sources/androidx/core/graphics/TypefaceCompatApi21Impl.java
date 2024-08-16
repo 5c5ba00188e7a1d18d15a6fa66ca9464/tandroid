@@ -5,10 +5,8 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
-import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
-import android.system.StructStat;
 import android.util.Log;
 import androidx.core.content.res.FontResourcesParserCompat;
 import androidx.core.provider.FontsContractCompat;
@@ -28,24 +26,24 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static boolean sHasInitBeenCalled = false;
 
     private static void init() {
-        Class<?> cls;
         Method method;
-        Constructor<?> constructor;
+        Class<?> cls;
         Method method2;
         if (sHasInitBeenCalled) {
             return;
         }
         sHasInitBeenCalled = true;
+        Constructor<?> constructor = null;
         try {
             cls = Class.forName("android.graphics.FontFamily");
-            constructor = cls.getConstructor(new Class[0]);
+            Constructor<?> constructor2 = cls.getConstructor(null);
             method2 = cls.getMethod("addFontWeightStyle", String.class, Integer.TYPE, Boolean.TYPE);
             method = Typeface.class.getMethod("createFromFamiliesWithDefault", Array.newInstance(cls, 1).getClass());
+            constructor = constructor2;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             Log.e("TypefaceCompatApi21Impl", e.getClass().getName(), e);
-            cls = null;
             method = null;
-            constructor = null;
+            cls = null;
             method2 = null;
         }
         sFontFamilyCtor = constructor;
@@ -55,19 +53,9 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     }
 
     private File getFile(ParcelFileDescriptor parcelFileDescriptor) {
-        String readlink;
-        StructStat stat;
-        int i;
-        boolean S_ISREG;
-        try {
-            readlink = Os.readlink("/proc/self/fd/" + parcelFileDescriptor.getFd());
-            stat = Os.stat(readlink);
-            i = stat.st_mode;
-            S_ISREG = OsConstants.S_ISREG(i);
-            if (S_ISREG) {
-                return new File(readlink);
-            }
-        } catch (ErrnoException unused) {
+        String readlink = Os.readlink("/proc/self/fd/" + parcelFileDescriptor.getFd());
+        if (OsConstants.S_ISREG(Os.stat(readlink).st_mode)) {
+            return new File(readlink);
         }
         return null;
     }
@@ -75,7 +63,7 @@ class TypefaceCompatApi21Impl extends TypefaceCompatBaseImpl {
     private static Object newFamily() {
         init();
         try {
-            return sFontFamilyCtor.newInstance(new Object[0]);
+            return sFontFamilyCtor.newInstance(null);
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }

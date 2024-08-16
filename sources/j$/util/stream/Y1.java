@@ -3,28 +3,28 @@ package j$.util.stream;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 public abstract class Y1 implements c2 {
-    protected final f2 a;
+    protected final e2 a;
 
-    public Y1(f2 f2Var) {
-        f2Var.getClass();
-        this.a = f2Var;
+    public Y1(e2 e2Var) {
+        e2Var.getClass();
+        this.a = e2Var;
     }
 
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void accept(int i) {
-        u0.p0();
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final /* synthetic */ void accept(double d) {
+        t0.b();
         throw null;
     }
 
-    @Override // j$.util.stream.f2
+    @Override // j$.util.stream.e2
     public final /* synthetic */ void accept(long j) {
-        u0.q0();
+        t0.l();
         throw null;
     }
 
     @Override // j$.util.function.Consumer
     public final /* bridge */ /* synthetic */ void accept(Object obj) {
-        p((Double) obj);
+        o((Integer) obj);
     }
 
     @Override // j$.util.function.Consumer
@@ -32,24 +32,28 @@ public abstract class Y1 implements c2 {
         return Consumer.-CC.$default$andThen(this, consumer);
     }
 
-    @Override // j$.util.stream.f2
-    public void end() {
-        this.a.end();
+    @Override // j$.util.function.F
+    public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 
-    @Override // j$.util.stream.f2
-    public boolean h() {
-        return this.a.h();
+    @Override // j$.util.stream.e2
+    public void m() {
+        this.a.m();
     }
 
-    @Override // j$.util.function.m
-    public final j$.util.function.m m(j$.util.function.m mVar) {
-        mVar.getClass();
-        return new j$.util.function.j(this, mVar);
+    @Override // j$.util.stream.e2
+    public void n(long j) {
+        this.a.n(j);
     }
 
     @Override // j$.util.stream.c2
-    public final /* synthetic */ void p(Double d) {
-        u0.j0(this, d);
+    public final /* synthetic */ void o(Integer num) {
+        t0.g(this, num);
+    }
+
+    @Override // j$.util.stream.e2
+    public boolean q() {
+        return this.a.q();
     }
 }

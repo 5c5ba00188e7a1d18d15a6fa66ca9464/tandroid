@@ -196,7 +196,6 @@ public class LiteMode {
                     i = PRESET_HIGH;
                 }
             } else {
-                boolean z = false;
                 if (globalMainSettings.contains("light_mode")) {
                     if ((globalMainSettings.getInt("light_mode", SharedConfig.getDevicePerformanceClass() == 0 ? 1 : 0) & 1) > 0) {
                         i = PRESET_LOW;
@@ -208,13 +207,13 @@ public class LiteMode {
                     i = globalMainSettings.getBoolean("loopStickers", true) ? i | 2 : i & (-3);
                 }
                 if (globalMainSettings.contains("autoplay_video")) {
-                    i = (globalMainSettings.getBoolean("autoplay_video", true) || globalMainSettings.getBoolean("autoplay_video_liteforce", false)) ? true : true ? i | 1024 : i & (-1025);
+                    i = (globalMainSettings.getBoolean("autoplay_video", true) || globalMainSettings.getBoolean("autoplay_video_liteforce", false)) ? i | 1024 : i & (-1025);
                 }
                 if (globalMainSettings.contains("autoplay_gif")) {
                     i = globalMainSettings.getBoolean("autoplay_gif", true) ? i | 2048 : i & (-2049);
                 }
                 if (globalMainSettings.contains("chatBlur")) {
-                    i = globalMainSettings.getBoolean("chatBlur", true) ? i | FLAG_CHAT_BLUR : i & (-257);
+                    i = globalMainSettings.getBoolean("chatBlur", true) ? i | 256 : i & (-257);
                 }
             }
         }

@@ -53,26 +53,14 @@ public class SessionCell extends FrameLayout {
     private boolean showStub;
     private AnimatedFloat showStubValue;
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0264  */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x0266  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x026c  */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x0271  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x0297  */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x02b8  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:118:0x02ca  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x02cf  */
-    /* JADX WARN: Removed duplicated region for block: B:122:0x02d4  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x022f  */
-    /* JADX WARN: Removed duplicated region for block: B:94:0x0232  */
-    /* JADX WARN: Removed duplicated region for block: B:97:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0255  */
+    /* JADX WARN: Code restructure failed: missing block: B:84:0x0215, code lost:
+        if (r25 == 0) goto L41;
+     */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public SessionCell(Context context, int i) {
         super(context);
-        int i2;
         this.showStubValue = new AnimatedFloat(this);
         this.currentAccount = UserConfig.selectedAccount;
         LinearLayout linearLayout = new LinearLayout(context);
@@ -80,7 +68,7 @@ public class SessionCell extends FrameLayout {
         linearLayout.setOrientation(0);
         this.linearLayout.setWeightSum(1.0f);
         this.currentType = i;
-        int i3 = 21;
+        int i2 = 21;
         if (i == 1) {
             LinearLayout linearLayout2 = this.linearLayout;
             boolean z = LocaleController.isRTL;
@@ -113,18 +101,20 @@ public class SessionCell extends FrameLayout {
         }
         TextView textView = new TextView(context);
         this.nameTextView = textView;
-        int i4 = Theme.key_windowBackgroundWhiteBlackText;
-        textView.setTextColor(Theme.getColor(i4));
+        int i3 = Theme.key_windowBackgroundWhiteBlackText;
+        textView.setTextColor(Theme.getColor(i3));
         this.nameTextView.setTextSize(1, i == 0 ? 15.0f : 16.0f);
         this.nameTextView.setLines(1);
         this.nameTextView.setTypeface(AndroidUtilities.bold());
         this.nameTextView.setMaxLines(1);
         this.nameTextView.setSingleLine(true);
-        this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
+        TextView textView2 = this.nameTextView;
+        TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+        textView2.setEllipsize(truncateAt);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-        TextView textView2 = new TextView(context);
-        this.onlineTextView = textView2;
-        textView2.setTextSize(1, i == 0 ? 12.0f : 13.0f);
+        TextView textView3 = new TextView(context);
+        this.onlineTextView = textView3;
+        textView3.setTextSize(1, i == 0 ? 12.0f : 13.0f);
         this.onlineTextView.setGravity((LocaleController.isRTL ? 3 : 5) | 48);
         if (LocaleController.isRTL) {
             this.linearLayout.addView(this.onlineTextView, LayoutHelper.createLinear(-2, -1, 51, 0, 2, 0, 0));
@@ -134,55 +124,31 @@ public class SessionCell extends FrameLayout {
             this.linearLayout.addView(this.onlineTextView, LayoutHelper.createLinear(-2, -1, 53, 0, 2, 0, 0));
         }
         if (!LocaleController.isRTL) {
-            i3 = i == 0 ? 72 : 21;
-        } else if (i == 0) {
-            i2 = 72;
-            TextView textView3 = new TextView(context);
-            this.detailTextView = textView3;
-            textView3.setTextColor(Theme.getColor(i4));
-            this.detailTextView.setTextSize(1, i != 0 ? 13.0f : 14.0f);
-            this.detailTextView.setLines(1);
-            this.detailTextView.setMaxLines(1);
-            this.detailTextView.setSingleLine(true);
-            this.detailTextView.setEllipsize(TextUtils.TruncateAt.END);
-            this.detailTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-            float f = i3;
-            float f2 = i2;
-            addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f, i != 0 ? 28.0f : 36.0f, f2, 0.0f));
-            TextView textView4 = new TextView(context);
-            this.detailExTextView = textView4;
-            textView4.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
-            this.detailExTextView.setTextSize(1, i != 0 ? 14.0f : 13.0f);
-            this.detailExTextView.setLines(1);
-            this.detailExTextView.setMaxLines(1);
-            this.detailExTextView.setSingleLine(true);
-            this.detailExTextView.setEllipsize(TextUtils.TruncateAt.END);
-            this.detailExTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-            addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, i != 0 ? 46.0f : 59.0f, f2, 0.0f));
+            i2 = i != 0 ? 21 : 72;
         }
-        i2 = 21;
-        TextView textView32 = new TextView(context);
-        this.detailTextView = textView32;
-        textView32.setTextColor(Theme.getColor(i4));
-        this.detailTextView.setTextSize(1, i != 0 ? 13.0f : 14.0f);
+        r3 = 21;
+        TextView textView4 = new TextView(context);
+        this.detailTextView = textView4;
+        textView4.setTextColor(Theme.getColor(i3));
+        this.detailTextView.setTextSize(1, i == 0 ? 13.0f : 14.0f);
         this.detailTextView.setLines(1);
         this.detailTextView.setMaxLines(1);
         this.detailTextView.setSingleLine(true);
-        this.detailTextView.setEllipsize(TextUtils.TruncateAt.END);
-        this.detailTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-        float f3 = i3;
-        float f22 = i2;
-        addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (!LocaleController.isRTL ? 5 : 3) | 48, f3, i != 0 ? 28.0f : 36.0f, f22, 0.0f));
-        TextView textView42 = new TextView(context);
-        this.detailExTextView = textView42;
-        textView42.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+        this.detailTextView.setEllipsize(truncateAt);
+        this.detailTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        float f = i2;
+        float f2 = r3;
+        addView(this.detailTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, i == 0 ? 28.0f : 36.0f, f2, 0.0f));
+        TextView textView5 = new TextView(context);
+        this.detailExTextView = textView5;
+        textView5.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
         this.detailExTextView.setTextSize(1, i != 0 ? 14.0f : 13.0f);
         this.detailExTextView.setLines(1);
         this.detailExTextView.setMaxLines(1);
         this.detailExTextView.setSingleLine(true);
-        this.detailExTextView.setEllipsize(TextUtils.TruncateAt.END);
-        this.detailExTextView.setGravity((!LocaleController.isRTL ? 5 : 3) | 48);
-        addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f3, i != 0 ? 46.0f : 59.0f, f22, 0.0f));
+        this.detailExTextView.setEllipsize(truncateAt);
+        this.detailExTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
+        addView(this.detailExTextView, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, f, i == 0 ? 46.0f : 59.0f, f2, 0.0f));
     }
 
     private void setContentAlpha(float f) {

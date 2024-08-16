@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executor;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class BiometricFragment extends Fragment {
     Handler mHandler = new Handler(Looper.getMainLooper());
@@ -214,7 +215,7 @@ public class BiometricFragment extends Fragment {
         } else {
             this.mViewModel.setNegativeButtonTextOverride(null);
         }
-        if (i >= 21 && isManagingDeviceCredentialButton() && BiometricManager.from(activity).canAuthenticate(255) != 0) {
+        if (i >= 21 && isManagingDeviceCredentialButton() && BiometricManager.from(activity).canAuthenticate(NotificationCenter.voipServiceCreated) != 0) {
             this.mViewModel.setAwaitingResult(true);
             launchConfirmCredentialActivity();
         } else if (this.mViewModel.isDelayingPrompt()) {
@@ -304,6 +305,7 @@ public class BiometricFragment extends Fragment {
     }
 
     void authenticateWithBiometricPrompt(android.hardware.biometrics.BiometricPrompt biometricPrompt, Context context) {
+        String str;
         BiometricPrompt.CryptoObject wrapForBiometricPrompt = CryptoObjectUtils.wrapForBiometricPrompt(this.mViewModel.getCryptoObject());
         CancellationSignal biometricCancellationSignal = this.mViewModel.getCancellationSignalProvider().getBiometricCancellationSignal();
         PromptExecutor promptExecutor = new PromptExecutor();
@@ -316,7 +318,12 @@ public class BiometricFragment extends Fragment {
             }
         } catch (NullPointerException e) {
             Log.e("BiometricFragment", "Got NPE while authenticating with biometric prompt.", e);
-            sendErrorAndDismiss(1, context != null ? context.getString(R$string.default_error_msg) : "");
+            if (context != null) {
+                str = context.getString(R$string.default_error_msg);
+            } else {
+                str = "";
+            }
+            sendErrorAndDismiss(1, str);
         }
     }
 
@@ -612,9 +619,7 @@ public class BiometricFragment extends Fragment {
         }
 
         static android.hardware.biometrics.BiometricPrompt buildPrompt(BiometricPrompt.Builder builder) {
-            android.hardware.biometrics.BiometricPrompt build;
-            build = builder.build();
-            return build;
+            return builder.build();
         }
 
         static void authenticate(android.hardware.biometrics.BiometricPrompt biometricPrompt, CancellationSignal cancellationSignal, Executor executor, BiometricPrompt.AuthenticationCallback authenticationCallback) {
@@ -630,9 +635,7 @@ public class BiometricFragment extends Fragment {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static Intent createConfirmDeviceCredentialIntent(KeyguardManager keyguardManager, CharSequence charSequence, CharSequence charSequence2) {
-            Intent createConfirmDeviceCredentialIntent;
-            createConfirmDeviceCredentialIntent = keyguardManager.createConfirmDeviceCredentialIntent(charSequence, charSequence2);
-            return createConfirmDeviceCredentialIntent;
+            return keyguardManager.createConfirmDeviceCredentialIntent(charSequence, charSequence2);
         }
     }
 }

@@ -533,7 +533,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             calculateDiff.dispatchUpdatesTo(this);
             return;
         }
-        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda3
+        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 DialogsAdapter.this.lambda$updateList$2(callback, runnable, arrayList2);
@@ -603,49 +603,37 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r3v10, types: [org.telegram.ui.Cells.ShadowSectionCell, android.view.View] */
-    /* JADX WARN: Type inference failed for: r3v11, types: [org.telegram.ui.Adapters.DialogsAdapter$LastEmptyView] */
-    /* JADX WARN: Type inference failed for: r3v12, types: [android.view.View, org.telegram.ui.Adapters.DialogsAdapter$4] */
-    /* JADX WARN: Type inference failed for: r3v13, types: [android.view.View, org.telegram.ui.Cells.HeaderCell] */
-    /* JADX WARN: Type inference failed for: r3v14, types: [org.telegram.ui.Cells.RequestPeerRequirementsCell] */
-    /* JADX WARN: Type inference failed for: r3v15, types: [org.telegram.ui.Adapters.DialogsAdapter$3] */
-    /* JADX WARN: Type inference failed for: r3v16, types: [org.telegram.ui.Cells.DialogsHintCell] */
-    /* JADX WARN: Type inference failed for: r3v17, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
-    /* JADX WARN: Type inference failed for: r3v18, types: [org.telegram.ui.Adapters.DialogsAdapter$LastEmptyView, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v19, types: [android.view.View] */
-    /* JADX WARN: Type inference failed for: r3v20 */
-    /* JADX WARN: Type inference failed for: r3v3, types: [org.telegram.ui.Components.FlickerLoadingView] */
-    /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.ui.Cells.HeaderCell, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v5, types: [android.view.View, org.telegram.ui.Adapters.DialogsAdapter$2, android.view.ViewGroup] */
-    /* JADX WARN: Type inference failed for: r3v6, types: [org.telegram.ui.Cells.DialogMeUrlCell] */
-    /* JADX WARN: Type inference failed for: r3v7, types: [org.telegram.ui.Cells.DialogsEmptyCell] */
-    /* JADX WARN: Type inference failed for: r3v8, types: [org.telegram.ui.Cells.UserCell] */
-    /* JADX WARN: Type inference failed for: r3v9, types: [android.view.View, org.telegram.ui.Cells.HeaderCell] */
+    /* JADX WARN: Type inference failed for: r4v15, types: [org.telegram.ui.Cells.ShadowSectionCell, android.view.View] */
+    /* JADX WARN: Type inference failed for: r4v17 */
+    /* JADX WARN: Type inference failed for: r4v18, types: [android.view.View, org.telegram.ui.Adapters.DialogsAdapter$4] */
+    /* JADX WARN: Type inference failed for: r4v3, types: [org.telegram.ui.Components.FlickerLoadingView] */
+    /* JADX WARN: Type inference failed for: r4v4, types: [org.telegram.ui.Cells.HeaderCell, android.view.ViewGroup] */
+    /* JADX WARN: Type inference failed for: r5v35, types: [org.telegram.ui.Adapters.DialogsAdapter$5] */
     /* JADX WARN: Type inference failed for: r5v4, types: [org.telegram.ui.Cells.DialogCell] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view;
+        ViewGroup viewGroup2;
         ?? flickerLoadingView;
-        View view2;
+        HeaderCell headerCell;
         switch (i) {
             case 0:
                 int i2 = this.dialogsType;
                 if (i2 == 2 || i2 == 15) {
-                    view = new ProfileSearchCell(this.mContext);
+                    viewGroup2 = new ProfileSearchCell(this.mContext);
                 } else {
                     ?? dialogCell = new DialogCell(this.parentFragment, this.mContext, true, false, this.currentAccount, null);
                     dialogCell.setArchivedPullAnimation(this.pullForegroundDrawable);
                     dialogCell.setPreloader(this.preloader);
                     dialogCell.setDialogCellDelegate(this);
                     dialogCell.setIsTransitionSupport(this.isTransitionSupport);
-                    view = dialogCell;
+                    viewGroup2 = dialogCell;
                 }
-                view2 = view;
+                headerCell = viewGroup2;
                 if (this.dialogsType == 15) {
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    view2 = view;
+                    viewGroup2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    headerCell = viewGroup2;
+                    break;
                 }
-                flickerLoadingView = view2;
                 break;
             case 1:
             case 13:
@@ -658,8 +646,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 }
                 if (i == 13) {
                     flickerLoadingView.setItemsCount((int) ((AndroidUtilities.displaySize.y * 0.5f) / AndroidUtilities.dp(64.0f)));
-                    break;
                 }
+                headerCell = flickerLoadingView;
                 break;
             case 2:
                 flickerLoadingView = new HeaderCell(this.mContext);
@@ -673,55 +661,59 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 flickerLoadingView.addView(textView, LayoutHelper.createFrame(-1, -1.0f, (LocaleController.isRTL ? 3 : 5) | 48, 17.0f, 15.0f, 17.0f, 0.0f));
                 textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda4
                     @Override // android.view.View.OnClickListener
-                    public final void onClick(View view3) {
-                        DialogsAdapter.this.lambda$onCreateViewHolder$3(view3);
+                    public final void onClick(View view) {
+                        DialogsAdapter.this.lambda$onCreateViewHolder$3(view);
                     }
                 });
+                headerCell = flickerLoadingView;
                 break;
             case 3:
-                flickerLoadingView = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.2
+                ViewGroup viewGroup3 = new FrameLayout(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.2
                     @Override // android.widget.FrameLayout, android.view.View
                     protected void onMeasure(int i4, int i5) {
                         super.onMeasure(View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i4), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(12.0f), 1073741824));
                     }
                 };
-                flickerLoadingView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-                View view3 = new View(this.mContext);
-                view3.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                flickerLoadingView.addView(view3, LayoutHelper.createFrame(-1, -1.0f));
+                viewGroup3.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+                View view = new View(this.mContext);
+                view.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                viewGroup3.addView(view, LayoutHelper.createFrame(-1, -1.0f));
+                headerCell = viewGroup3;
                 break;
             case 4:
-                flickerLoadingView = new DialogMeUrlCell(this.mContext);
+                headerCell = new DialogMeUrlCell(this.mContext);
                 break;
             case 5:
-                flickerLoadingView = new DialogsEmptyCell(this.mContext);
+                headerCell = new DialogsEmptyCell(this.mContext);
                 break;
             case 6:
-                flickerLoadingView = new UserCell(this.mContext, 8, 0, false);
+                headerCell = new UserCell(this.mContext, 8, 0, false);
                 break;
             case 7:
-                flickerLoadingView = new HeaderCell(this.mContext);
-                flickerLoadingView.setPadding(0, 0, 0, AndroidUtilities.dp(12.0f));
+                ViewGroup headerCell2 = new HeaderCell(this.mContext);
+                headerCell2.setPadding(0, 0, 0, AndroidUtilities.dp(12.0f));
+                headerCell = headerCell2;
                 break;
             case 8:
                 flickerLoadingView = new ShadowSectionCell(this.mContext);
                 CombinedDrawable combinedDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                 combinedDrawable.setFullsize(true);
                 flickerLoadingView.setBackgroundDrawable(combinedDrawable);
+                headerCell = flickerLoadingView;
                 break;
             case 9:
             case 12:
             default:
-                View textCell = new TextCell(this.mContext);
-                view2 = textCell;
+                ViewGroup textCell = new TextCell(this.mContext);
+                headerCell = textCell;
                 if (this.dialogsType == 15) {
                     textCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    view2 = textCell;
+                    headerCell = textCell;
+                    break;
                 }
-                flickerLoadingView = view2;
                 break;
             case 10:
-                flickerLoadingView = new LastEmptyView(this.mContext);
+                headerCell = new LastEmptyView(this.mContext);
                 break;
             case 11:
                 flickerLoadingView = new TextInfoPrivacyCell(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.4
@@ -777,17 +769,19 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                 combinedDrawable2.setFullsize(true);
                 flickerLoadingView.setBackgroundDrawable(combinedDrawable2);
+                headerCell = flickerLoadingView;
                 break;
             case 14:
-                flickerLoadingView = new HeaderCell(this.mContext, Theme.key_graySectionText, 16, 0, false);
-                flickerLoadingView.setHeight(32);
-                flickerLoadingView.setClickable(false);
+                HeaderCell headerCell3 = new HeaderCell(this.mContext, Theme.key_graySectionText, 16, 0, false);
+                headerCell3.setHeight(32);
+                headerCell3.setClickable(false);
+                headerCell = headerCell3;
                 break;
             case 15:
-                flickerLoadingView = new RequestPeerRequirementsCell(this.mContext);
+                headerCell = new RequestPeerRequirementsCell(this.mContext);
                 break;
             case 16:
-                flickerLoadingView = new DialogsRequestedEmptyCell(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.3
+                headerCell = new DialogsRequestedEmptyCell(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.3
                     @Override // org.telegram.ui.Cells.DialogsRequestedEmptyCell
                     protected void onButtonClick() {
                         DialogsAdapter.this.onCreateGroupForThisClick();
@@ -795,10 +789,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 };
                 break;
             case 17:
-                flickerLoadingView = new DialogsHintCell(this.mContext, null);
+                headerCell = new DialogsHintCell(this.mContext, null);
                 break;
             case 18:
-                flickerLoadingView = new View(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.5
+                headerCell = new View(this.mContext) { // from class: org.telegram.ui.Adapters.DialogsAdapter.5
                     @Override // android.view.View
                     protected void onMeasure(int i4, int i5) {
                         super.onMeasure(i4, View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(81.0f), 1073741824));
@@ -806,17 +800,18 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
                 };
                 break;
             case 19:
-                flickerLoadingView = new LastEmptyView(this.mContext);
-                flickerLoadingView.addView(new ArchiveHelp(this.mContext, this.currentAccount, null, new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda5
+                ViewGroup lastEmptyView = new LastEmptyView(this.mContext);
+                lastEmptyView.addView(new ArchiveHelp(this.mContext, this.currentAccount, null, new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.this.onArchiveSettingsClick();
                     }
                 }, null), LayoutHelper.createFrame(-1, -1.0f, 17, 0.0f, -40.0f, 0.0f, 0.0f));
+                headerCell = lastEmptyView;
                 break;
         }
-        flickerLoadingView.setLayoutParams(new RecyclerView.LayoutParams(-1, (i == 5 || i == 19) ? -1 : -2));
-        return new RecyclerListView.Holder(flickerLoadingView);
+        headerCell.setLayoutParams(new RecyclerView.LayoutParams(-1, (i == 5 || i == 19) ? -1 : -2));
+        return new RecyclerListView.Holder(headerCell);
     }
 
     public int dialogsEmptyType() {
@@ -1235,9 +1230,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             if (!preloadIsAvilable() || !this.resumed || this.preloadDialogsPool.isEmpty() || this.currentRequestCount >= 4 || this.networkRequestCount > 6) {
                 return;
             }
-            long longValue = this.preloadDialogsPool.remove(0).longValue();
+            Long remove = this.preloadDialogsPool.remove(0);
+            long longValue = remove.longValue();
             this.currentRequestCount++;
-            this.loadingDialogs.add(Long.valueOf(longValue));
+            this.loadingDialogs.add(remove);
             MessagesController.getInstance(UserConfig.selectedAccount).ensureMessagesLoaded(longValue, 0, new 1(longValue));
         }
 
@@ -1253,7 +1249,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
             public void onMessagesLoaded(final boolean z) {
                 final long j = this.val$dialog_id;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda0
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.DialogsPreloader.1.this.lambda$onMessagesLoaded$0(z, j);
@@ -1284,7 +1280,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             @Override // org.telegram.messenger.MessagesController.MessagesLoadedCallback
             public void onError() {
                 final long j = this.val$dialog_id;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.DialogsAdapter$DialogsPreloader$1$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         DialogsAdapter.DialogsPreloader.1.this.lambda$onError$1(j);
@@ -1351,11 +1347,11 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
         /* JADX WARN: Code restructure failed: missing block: B:82:0x017c, code lost:
             if (r6 != false) goto L89;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:83:0x017e, code lost:
-            r13 = r13 - r7;
-         */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x01b4, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x01b3, code lost:
             if (r6 != false) goto L89;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:97:0x01b5, code lost:
+            r13 = r13 - r7;
          */
         @Override // android.widget.FrameLayout, android.view.View
         /*

@@ -34,7 +34,6 @@ public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.clearcut.zzdz<com.google.android.gms.internal.clearcut.zzge$zzd>, com.google.android.gms.internal.clearcut.zzcg$zzb] */
     @Override // com.google.android.gms.internal.clearcut.zzcg
     public final Object zza(int i, Object obj, Object obj2) {
-        zzdz<zzge$zzd> zzdzVar;
         switch (zzgf.zzba[i - 1]) {
             case 1:
                 return new zzge$zzd();
@@ -45,21 +44,23 @@ public final class zzge$zzd extends zzcg<zzge$zzd, zza> implements zzdq {
             case 4:
                 return zztx;
             case 5:
-                zzdz<zzge$zzd> zzdzVar2 = zzbg;
-                zzdz<zzge$zzd> zzdzVar3 = zzdzVar2;
-                if (zzdzVar2 == null) {
+                zzdz<zzge$zzd> zzdzVar = zzbg;
+                zzdz<zzge$zzd> zzdzVar2 = zzdzVar;
+                if (zzdzVar == null) {
                     synchronized (zzge$zzd.class) {
-                        zzdz<zzge$zzd> zzdzVar4 = zzbg;
-                        zzdzVar = zzdzVar4;
-                        if (zzdzVar4 == null) {
-                            ?? zzbVar = new zzcg.zzb(zztx);
-                            zzbg = zzbVar;
-                            zzdzVar = zzbVar;
+                        try {
+                            zzdz<zzge$zzd> zzdzVar3 = zzbg;
+                            zzdz<zzge$zzd> zzdzVar4 = zzdzVar3;
+                            if (zzdzVar3 == null) {
+                                ?? zzbVar = new zzcg.zzb(zztx);
+                                zzbg = zzbVar;
+                                zzdzVar4 = zzbVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzdzVar3 = zzdzVar;
                 }
-                return zzdzVar3;
+                return zzdzVar2;
             case 6:
                 return (byte) 1;
             case 7:

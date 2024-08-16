@@ -13,7 +13,6 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.common.util.WorkSourceUtil;
 import com.google.android.gms.internal.location.zzd;
 import com.google.android.gms.internal.location.zzdj;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-location@@21.0.1 */
 /* loaded from: classes.dex */
@@ -37,12 +36,12 @@ public final class LocationRequest extends AbstractSafeParcelable implements Ref
 
     @Deprecated
     public LocationRequest() {
-        this(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
+        this(102, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
     }
 
     @Deprecated
     public static LocationRequest create() {
-        return new LocationRequest(R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
+        return new LocationRequest(102, 3600000L, 600000L, 0L, Long.MAX_VALUE, Long.MAX_VALUE, ConnectionsManager.DEFAULT_DATACENTER_ID, 0.0f, true, 3600000L, 0, 0, null, false, new WorkSource(), null);
     }
 
     private static String zzf(long j) {

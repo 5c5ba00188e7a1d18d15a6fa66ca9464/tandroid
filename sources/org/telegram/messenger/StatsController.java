@@ -78,28 +78,24 @@ public class StatsController extends BaseController {
         StatsController statsController = Instance[i];
         if (statsController == null) {
             synchronized (StatsController.class) {
-                statsController = Instance[i];
-                if (statsController == null) {
-                    StatsController[] statsControllerArr = Instance;
-                    StatsController statsController2 = new StatsController(i);
-                    statsControllerArr[i] = statsController2;
-                    statsController = statsController2;
+                try {
+                    statsController = Instance[i];
+                    if (statsController == null) {
+                        StatsController[] statsControllerArr = Instance;
+                        StatsController statsController2 = new StatsController(i);
+                        statsControllerArr[i] = statsController2;
+                        statsController = statsController2;
+                    }
+                } finally {
                 }
             }
         }
         return statsController;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0188  */
-    /* JADX WARN: Removed duplicated region for block: B:54:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private StatsController(int i) {
         super(i);
-        boolean z;
         SharedPreferences sharedPreferences;
-        RandomAccessFile randomAccessFile;
         this.buffer = new byte[8];
         Class cls = Long.TYPE;
         this.sentBytes = (long[][]) Array.newInstance(cls, 3, 8);
@@ -147,9 +143,9 @@ public class StatsController extends BaseController {
                         statsController10.byteArrayOutputStream.write(statsController10.intToBytes(statsController10.receivedItems[i4][7]), 0, 4);
                     }
                     StatsController.this.statsFile.seek(0L);
-                    RandomAccessFile randomAccessFile2 = StatsController.this.statsFile;
+                    RandomAccessFile randomAccessFile = StatsController.this.statsFile;
                     ImmutableByteArrayOutputStream immutableByteArrayOutputStream = StatsController.this.byteArrayOutputStream;
-                    randomAccessFile2.write(immutableByteArrayOutputStream.buf, 0, immutableByteArrayOutputStream.count());
+                    randomAccessFile.write(immutableByteArrayOutputStream.buf, 0, immutableByteArrayOutputStream.count());
                     StatsController.this.statsFile.getFD().sync();
                 } catch (Exception unused) {
                 }
@@ -162,86 +158,79 @@ public class StatsController extends BaseController {
             filesDirFixed.mkdirs();
         }
         try {
-            randomAccessFile = new RandomAccessFile(new File(filesDirFixed, "stats2.dat"), "rw");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(new File(filesDirFixed, "stats2.dat"), "rw");
             this.statsFile = randomAccessFile;
+            if (randomAccessFile.length() > 0) {
+                boolean z = false;
+                for (int i2 = 0; i2 < 3; i2++) {
+                    for (int i3 = 0; i3 < 7; i3++) {
+                        this.statsFile.readFully(this.buffer, 0, 8);
+                        this.sentBytes[i2][i3] = bytesToLong(this.buffer);
+                        this.statsFile.readFully(this.buffer, 0, 8);
+                        this.receivedBytes[i2][i3] = bytesToLong(this.buffer);
+                        this.statsFile.readFully(this.buffer, 0, 4);
+                        this.sentItems[i2][i3] = bytesToInt(this.buffer);
+                        this.statsFile.readFully(this.buffer, 0, 4);
+                        this.receivedItems[i2][i3] = bytesToInt(this.buffer);
+                    }
+                    this.statsFile.readFully(this.buffer, 0, 4);
+                    this.callsTotalTime[i2] = bytesToInt(this.buffer);
+                    this.statsFile.readFully(this.buffer, 0, 8);
+                    this.resetStatsDate[i2] = bytesToLong(this.buffer);
+                    long[] jArr = this.resetStatsDate;
+                    if (jArr[i2] == 0) {
+                        jArr[i2] = System.currentTimeMillis();
+                        z = true;
+                    }
+                }
+                for (int i4 = 0; i4 < 3; i4++) {
+                    this.statsFile.readFully(this.buffer, 0, 8);
+                    this.sentBytes[i4][7] = bytesToLong(this.buffer);
+                    this.statsFile.readFully(this.buffer, 0, 8);
+                    this.receivedBytes[i4][7] = bytesToLong(this.buffer);
+                    this.statsFile.readFully(this.buffer, 0, 4);
+                    this.sentItems[i4][7] = bytesToInt(this.buffer);
+                    this.statsFile.readFully(this.buffer, 0, 4);
+                    this.receivedItems[i4][7] = bytesToInt(this.buffer);
+                }
+                if (z) {
+                    saveStats();
+                    return;
+                }
+                return;
+            }
         } catch (Exception unused) {
         }
-        if (randomAccessFile.length() > 0) {
-            boolean z2 = false;
-            for (int i2 = 0; i2 < 3; i2++) {
-                for (int i3 = 0; i3 < 7; i3++) {
-                    this.statsFile.readFully(this.buffer, 0, 8);
-                    this.sentBytes[i2][i3] = bytesToLong(this.buffer);
-                    this.statsFile.readFully(this.buffer, 0, 8);
-                    this.receivedBytes[i2][i3] = bytesToLong(this.buffer);
-                    this.statsFile.readFully(this.buffer, 0, 4);
-                    this.sentItems[i2][i3] = bytesToInt(this.buffer);
-                    this.statsFile.readFully(this.buffer, 0, 4);
-                    this.receivedItems[i2][i3] = bytesToInt(this.buffer);
-                }
-                this.statsFile.readFully(this.buffer, 0, 4);
-                this.callsTotalTime[i2] = bytesToInt(this.buffer);
-                this.statsFile.readFully(this.buffer, 0, 8);
-                this.resetStatsDate[i2] = bytesToLong(this.buffer);
-                long[] jArr = this.resetStatsDate;
-                if (jArr[i2] == 0) {
-                    jArr[i2] = System.currentTimeMillis();
-                    z2 = true;
-                }
-            }
-            for (int i4 = 0; i4 < 3; i4++) {
-                this.statsFile.readFully(this.buffer, 0, 8);
-                this.sentBytes[i4][7] = bytesToLong(this.buffer);
-                this.statsFile.readFully(this.buffer, 0, 8);
-                this.receivedBytes[i4][7] = bytesToLong(this.buffer);
-                this.statsFile.readFully(this.buffer, 0, 4);
-                this.sentItems[i4][7] = bytesToInt(this.buffer);
-                this.statsFile.readFully(this.buffer, 0, 4);
-                this.receivedItems[i4][7] = bytesToInt(this.buffer);
-            }
-            if (z2) {
-                saveStats();
-            }
-            z = false;
-            if (z) {
-                return;
-            }
-            if (i == 0) {
-                sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("stats", 0);
-            } else {
-                Context context = ApplicationLoader.applicationContext;
-                sharedPreferences = context.getSharedPreferences("stats" + i, 0);
-            }
-            boolean z3 = false;
-            for (int i5 = 0; i5 < 3; i5++) {
-                int[] iArr = this.callsTotalTime;
-                iArr[i5] = sharedPreferences.getInt("callsTotalTime" + i5, 0);
-                long[] jArr2 = this.resetStatsDate;
-                jArr2[i5] = sharedPreferences.getLong("resetStatsDate" + i5, 0L);
-                for (int i6 = 0; i6 < 8; i6++) {
-                    long[] jArr3 = this.sentBytes[i5];
-                    jArr3[i6] = sharedPreferences.getLong("sentBytes" + i5 + "_" + i6, 0L);
-                    long[] jArr4 = this.receivedBytes[i5];
-                    jArr4[i6] = sharedPreferences.getLong("receivedBytes" + i5 + "_" + i6, 0L);
-                    int[] iArr2 = this.sentItems[i5];
-                    iArr2[i6] = sharedPreferences.getInt("sentItems" + i5 + "_" + i6, 0);
-                    int[] iArr3 = this.receivedItems[i5];
-                    iArr3[i6] = sharedPreferences.getInt("receivedItems" + i5 + "_" + i6, 0);
-                }
-                long[] jArr5 = this.resetStatsDate;
-                if (jArr5[i5] == 0) {
-                    jArr5[i5] = System.currentTimeMillis();
-                    z3 = true;
-                }
-            }
-            if (z3) {
-                saveStats();
-                return;
-            }
-            return;
+        if (i == 0) {
+            sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("stats", 0);
+        } else {
+            Context context = ApplicationLoader.applicationContext;
+            sharedPreferences = context.getSharedPreferences("stats" + i, 0);
         }
-        z = true;
-        if (z) {
+        boolean z2 = false;
+        for (int i5 = 0; i5 < 3; i5++) {
+            int[] iArr = this.callsTotalTime;
+            iArr[i5] = sharedPreferences.getInt("callsTotalTime" + i5, 0);
+            long[] jArr2 = this.resetStatsDate;
+            jArr2[i5] = sharedPreferences.getLong("resetStatsDate" + i5, 0L);
+            for (int i6 = 0; i6 < 8; i6++) {
+                long[] jArr3 = this.sentBytes[i5];
+                jArr3[i6] = sharedPreferences.getLong("sentBytes" + i5 + "_" + i6, 0L);
+                long[] jArr4 = this.receivedBytes[i5];
+                jArr4[i6] = sharedPreferences.getLong("receivedBytes" + i5 + "_" + i6, 0L);
+                int[] iArr2 = this.sentItems[i5];
+                iArr2[i6] = sharedPreferences.getInt("sentItems" + i5 + "_" + i6, 0);
+                int[] iArr3 = this.receivedItems[i5];
+                iArr3[i6] = sharedPreferences.getInt("receivedItems" + i5 + "_" + i6, 0);
+            }
+            long[] jArr5 = this.resetStatsDate;
+            if (jArr5[i5] == 0) {
+                jArr5[i5] = System.currentTimeMillis();
+                z2 = true;
+            }
+        }
+        if (z2) {
+            saveStats();
         }
     }
 

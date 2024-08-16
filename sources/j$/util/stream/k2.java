@@ -1,41 +1,76 @@
 package j$.util.stream;
+
+import org.telegram.messenger.LiteMode;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class k2 extends a2 {
-    long b;
-    long c;
-    final /* synthetic */ l2 d;
+public final class k2 extends g0 {
+    final /* synthetic */ long m;
+    final /* synthetic */ long n;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public k2(l2 l2Var, f2 f2Var) {
-        super(f2Var);
-        this.d = l2Var;
-        this.b = l2Var.l;
-        long j = l2Var.m;
-        this.c = j < 0 ? Long.MAX_VALUE : j;
+    public k2(b bVar, int i, long j, long j2) {
+        super(bVar, i, 0);
+        this.m = j;
+        this.n = j2;
     }
 
-    @Override // j$.util.stream.e2, j$.util.stream.f2
-    public final void accept(long j) {
-        long j2 = this.b;
-        if (j2 != 0) {
-            this.b = j2 - 1;
-            return;
+    @Override // j$.util.stream.b
+    final F0 w0(j$.util.Q q, j$.util.function.I i, b bVar) {
+        long j;
+        long j2;
+        long o0 = bVar.o0(q);
+        if (o0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            if (S2.ORDERED.d(bVar.s0())) {
+                return (F0) new o2(this, bVar, q, i, this.m, this.n).invoke();
+            }
+            j$.util.K k = (j$.util.K) bVar.F0(q);
+            long j3 = this.m;
+            long j4 = this.n;
+            if (j3 <= o0) {
+                j = j4 >= 0 ? Math.min(j4, o0 - j3) : o0 - j3;
+                j2 = 0;
+            } else {
+                j = j4;
+                j2 = j3;
+            }
+            return t0.H(this, new q3(k, j2, j), true);
         }
-        long j3 = this.c;
-        if (j3 > 0) {
-            this.c = j3 - 1;
-            this.a.accept(j);
+        return t0.H(bVar, t0.y(bVar.r0(), q, this.m, this.n), true);
+    }
+
+    @Override // j$.util.stream.b
+    final j$.util.Q x0(b bVar, j$.util.Q q) {
+        long j;
+        long j2;
+        long o0 = bVar.o0(q);
+        long j3 = this.n;
+        if (o0 > 0 && q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
+            long j4 = this.m;
+            return new k3((j$.util.K) bVar.F0(q), j4, t0.x(j4, j3));
         }
+        if (S2.ORDERED.d(bVar.s0())) {
+            return ((F0) new o2(this, bVar, q, new Q1(4), this.m, this.n).invoke()).spliterator();
+        }
+        j$.util.K k = (j$.util.K) bVar.F0(q);
+        long j5 = this.m;
+        if (j5 <= o0) {
+            long j6 = o0 - j5;
+            if (j3 >= 0) {
+                j6 = Math.min(j3, j6);
+            }
+            j = j6;
+            j2 = 0;
+        } else {
+            j = j3;
+            j2 = j5;
+        }
+        return new q3(k, j2, j);
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
-        this.a.f(u0.E0(j, this.d.l, this.c));
-    }
-
-    @Override // j$.util.stream.a2, j$.util.stream.f2
-    public final boolean h() {
-        return this.c == 0 || this.a.h();
+    /* JADX INFO: Access modifiers changed from: package-private */
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        return new j2(this, e2Var);
     }
 }

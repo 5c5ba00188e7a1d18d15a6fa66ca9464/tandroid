@@ -173,7 +173,7 @@ public class SlideIntChooseView extends FrameLayout {
         if (z) {
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.maxTextEmojiSaturation, f);
             this.maxTextEmojiSaturationAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.SlideIntChooseView$$ExternalSyntheticLambda0
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Cells.SlideIntChooseView$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     SlideIntChooseView.this.lambda$setMaxTextEmojiSaturation$0(valueAnimator2);

@@ -297,13 +297,17 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
     }
 
     private synchronized void initPlaybackLooper(Looper looper) {
-        Looper looper2 = this.playbackLooper;
-        if (looper2 == null) {
-            this.playbackLooper = looper;
-            this.playbackHandler = new Handler(looper);
-        } else {
-            Assertions.checkState(looper2 == looper);
-            Assertions.checkNotNull(this.playbackHandler);
+        try {
+            Looper looper2 = this.playbackLooper;
+            if (looper2 == null) {
+                this.playbackLooper = looper;
+                this.playbackHandler = new Handler(looper);
+            } else {
+                Assertions.checkState(looper2 == looper);
+                Assertions.checkNotNull(this.playbackHandler);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -528,7 +532,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
         }
 
         public void acquire(final Format format) {
-            ((Handler) Assertions.checkNotNull(DefaultDrmSessionManager.this.playbackHandler)).post(new Runnable() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$PreacquiredSessionReference$$ExternalSyntheticLambda1
+            ((Handler) Assertions.checkNotNull(DefaultDrmSessionManager.this.playbackHandler)).post(new Runnable() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$PreacquiredSessionReference$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     DefaultDrmSessionManager.PreacquiredSessionReference.this.lambda$acquire$0(format);
@@ -548,7 +552,7 @@ public class DefaultDrmSessionManager implements DrmSessionManager {
 
         @Override // com.google.android.exoplayer2.drm.DrmSessionManager.DrmSessionReference
         public void release() {
-            Util.postOrRun((Handler) Assertions.checkNotNull(DefaultDrmSessionManager.this.playbackHandler), new Runnable() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$PreacquiredSessionReference$$ExternalSyntheticLambda0
+            Util.postOrRun((Handler) Assertions.checkNotNull(DefaultDrmSessionManager.this.playbackHandler), new Runnable() { // from class: com.google.android.exoplayer2.drm.DefaultDrmSessionManager$PreacquiredSessionReference$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     DefaultDrmSessionManager.PreacquiredSessionReference.this.lambda$release$1();

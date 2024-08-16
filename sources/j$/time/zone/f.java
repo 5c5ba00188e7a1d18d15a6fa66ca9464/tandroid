@@ -21,28 +21,22 @@ public abstract class f {
     }
 
     public static ZoneRules a(String str, boolean z) {
-        if (str != null) {
-            ConcurrentHashMap concurrentHashMap = b;
-            f fVar = (f) concurrentHashMap.get(str);
-            if (fVar == null) {
-                if (concurrentHashMap.isEmpty()) {
-                    throw new c("No time-zone data files registered");
-                }
-                throw new c("Unknown time-zone ID: ".concat(str));
+        j$.util.a.B(str, "zoneId");
+        ConcurrentHashMap concurrentHashMap = b;
+        f fVar = (f) concurrentHashMap.get(str);
+        if (fVar == null) {
+            if (concurrentHashMap.isEmpty()) {
+                throw new c("No time-zone data files registered");
             }
-            return fVar.b(str);
+            throw new c("Unknown time-zone ID: ".concat(str));
         }
-        throw new NullPointerException("zoneId");
+        return fVar.b(str);
     }
 
     public static void d(f fVar) {
-        if (fVar == null) {
-            throw new NullPointerException("provider");
-        }
+        j$.util.a.B(fVar, "provider");
         for (String str : fVar.c()) {
-            if (str == null) {
-                throw new NullPointerException("zoneId");
-            }
+            j$.util.a.B(str, "zoneId");
             if (((f) b.putIfAbsent(str, fVar)) != null) {
                 throw new c("Unable to register zone as one already registered with that ID: " + str + ", currently loading from provider: " + fVar);
             }

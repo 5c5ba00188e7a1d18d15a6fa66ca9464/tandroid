@@ -48,12 +48,7 @@ public abstract class zzba implements Iterable, Serializable {
     }
 
     public final String toString() {
-        Locale locale = Locale.ROOT;
-        Object[] objArr = new Object[3];
-        objArr[0] = Integer.toHexString(System.identityHashCode(this));
-        objArr[1] = Integer.valueOf(zzd());
-        objArr[2] = zzd() <= 50 ? zzee.zza(this) : zzee.zza(zzf(0, 47)).concat("...");
-        return String.format(locale, "<ByteString@%s size=%d contents=\"%s\">", objArr);
+        return String.format(Locale.ROOT, "<ByteString@%s size=%d contents=\"%s\">", Integer.toHexString(System.identityHashCode(this)), Integer.valueOf(zzd()), zzd() <= 50 ? zzee.zza(this) : zzee.zza(zzf(0, 47)).concat("..."));
     }
 
     public abstract byte zza(int i);

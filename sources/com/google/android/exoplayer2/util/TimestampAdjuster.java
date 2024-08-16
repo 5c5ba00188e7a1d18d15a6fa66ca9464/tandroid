@@ -11,16 +11,20 @@ public final class TimestampAdjuster {
     }
 
     public synchronized void sharedInitializeOrWait(boolean z, long j) throws InterruptedException {
-        Assertions.checkState(this.firstSampleTimestampUs == 9223372036854775806L);
-        if (this.timestampOffsetUs != -9223372036854775807L) {
-            return;
-        }
-        if (z) {
-            this.nextSampleTimestampUs.set(Long.valueOf(j));
-        } else {
-            while (this.timestampOffsetUs == -9223372036854775807L) {
-                wait();
+        try {
+            Assertions.checkState(this.firstSampleTimestampUs == 9223372036854775806L);
+            if (this.timestampOffsetUs != -9223372036854775807L) {
+                return;
             }
+            if (z) {
+                this.nextSampleTimestampUs.set(Long.valueOf(j));
+            } else {
+                while (this.timestampOffsetUs == -9223372036854775807L) {
+                    wait();
+                }
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -32,11 +36,15 @@ public final class TimestampAdjuster {
 
     public synchronized long getLastAdjustedTimestampUs() {
         long firstSampleTimestampUs;
-        long j = this.lastUnadjustedTimestampUs;
-        if (j != -9223372036854775807L) {
-            firstSampleTimestampUs = j + this.timestampOffsetUs;
-        } else {
-            firstSampleTimestampUs = getFirstSampleTimestampUs();
+        try {
+            long j = this.lastUnadjustedTimestampUs;
+            if (j != -9223372036854775807L) {
+                firstSampleTimestampUs = j + this.timestampOffsetUs;
+            } else {
+                firstSampleTimestampUs = getFirstSampleTimestampUs();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return firstSampleTimestampUs;
     }
@@ -55,33 +63,41 @@ public final class TimestampAdjuster {
         if (j == -9223372036854775807L) {
             return -9223372036854775807L;
         }
-        long j2 = this.lastUnadjustedTimestampUs;
-        if (j2 != -9223372036854775807L) {
-            long usToNonWrappedPts = usToNonWrappedPts(j2);
-            long j3 = (4294967296L + usToNonWrappedPts) / 8589934592L;
-            long j4 = ((j3 - 1) * 8589934592L) + j;
-            j += j3 * 8589934592L;
-            if (Math.abs(j4 - usToNonWrappedPts) < Math.abs(j - usToNonWrappedPts)) {
-                j = j4;
+        try {
+            long j2 = this.lastUnadjustedTimestampUs;
+            if (j2 != -9223372036854775807L) {
+                long usToNonWrappedPts = usToNonWrappedPts(j2);
+                long j3 = (4294967296L + usToNonWrappedPts) / 8589934592L;
+                long j4 = ((j3 - 1) * 8589934592L) + j;
+                j += j3 * 8589934592L;
+                if (Math.abs(j4 - usToNonWrappedPts) < Math.abs(j - usToNonWrappedPts)) {
+                    j = j4;
+                }
             }
+            return adjustSampleTimestamp(ptsToUs(j));
+        } catch (Throwable th) {
+            throw th;
         }
-        return adjustSampleTimestamp(ptsToUs(j));
     }
 
     public synchronized long adjustSampleTimestamp(long j) {
         if (j == -9223372036854775807L) {
             return -9223372036854775807L;
         }
-        if (this.timestampOffsetUs == -9223372036854775807L) {
-            long j2 = this.firstSampleTimestampUs;
-            if (j2 == 9223372036854775806L) {
-                j2 = ((Long) Assertions.checkNotNull(this.nextSampleTimestampUs.get())).longValue();
+        try {
+            if (this.timestampOffsetUs == -9223372036854775807L) {
+                long j2 = this.firstSampleTimestampUs;
+                if (j2 == 9223372036854775806L) {
+                    j2 = ((Long) Assertions.checkNotNull(this.nextSampleTimestampUs.get())).longValue();
+                }
+                this.timestampOffsetUs = j2 - j;
+                notifyAll();
             }
-            this.timestampOffsetUs = j2 - j;
-            notifyAll();
+            this.lastUnadjustedTimestampUs = j;
+            return j + this.timestampOffsetUs;
+        } catch (Throwable th) {
+            throw th;
         }
-        this.lastUnadjustedTimestampUs = j;
-        return j + this.timestampOffsetUs;
     }
 
     public static long ptsToUs(long j) {

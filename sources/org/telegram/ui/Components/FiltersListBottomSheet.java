@@ -14,7 +14,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,18 +156,19 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                     if (this.fullHeight) {
                         int i4 = ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp;
                         int i5 = AndroidUtilities.statusBarHeight;
-                        if (i4 < i5 * 2) {
-                            int min = Math.min(i5, ((i5 * 2) - dp) - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop);
+                        int i6 = i5 * 2;
+                        if (i4 < i6) {
+                            int min = Math.min(i5, (i6 - dp) - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop);
                             dp -= min;
                             measuredHeight += min;
                             f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
                         } else {
                             f = 1.0f;
                         }
-                        int i6 = ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp;
-                        int i7 = AndroidUtilities.statusBarHeight;
-                        if (i6 < i7) {
-                            i2 = Math.min(i7, (i7 - dp) - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop);
+                        int i7 = ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop + dp;
+                        int i8 = AndroidUtilities.statusBarHeight;
+                        if (i7 < i8) {
+                            i2 = Math.min(i8, (i8 - dp) - ((BottomSheet) FiltersListBottomSheet.this).backgroundPaddingTop);
                             ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.setBounds(0, dp, getMeasuredWidth(), measuredHeight);
                             ((BottomSheet) FiltersListBottomSheet.this).shadowDrawable.draw(canvas);
                             if (f != 1.0f) {
@@ -208,9 +208,8 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 if (bool == null || bool.booleanValue() != z) {
                     boolean z2 = AndroidUtilities.computePerceivedBrightness(FiltersListBottomSheet.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
                     boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(FiltersListBottomSheet.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                    Boolean valueOf = Boolean.valueOf(z);
-                    this.statusBarOpen = valueOf;
-                    if (!valueOf.booleanValue()) {
+                    this.statusBarOpen = Boolean.valueOf(z);
+                    if (!z) {
                         z2 = z3;
                     }
                     AndroidUtilities.setLightStatusBar(FiltersListBottomSheet.this.getWindow(), z2);
@@ -257,7 +256,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 FiltersListBottomSheet.this.updateLayout();
             }
         });
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FiltersListBottomSheet$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.FiltersListBottomSheet$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view2, int i3) {
                 FiltersListBottomSheet.this.lambda$new$0(view2, i3);
@@ -333,13 +332,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        View view = this.shadow;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.FiltersListBottomSheet.4
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -373,7 +366,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int i, int i2, Object... objArr) {
         if (i == NotificationCenter.emojiLoaded) {
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.FiltersListBottomSheet$$ExternalSyntheticLambda0
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Components.FiltersListBottomSheet$$ExternalSyntheticLambda1
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     FiltersListBottomSheet.lambda$didReceivedNotification$1((View) obj);
@@ -517,8 +510,10 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
             bottomSheetCell.getImageView().setColorFilter((ColorFilter) null);
             Drawable drawable = this.context.getResources().getDrawable(R.drawable.poll_add_circle);
             Drawable drawable2 = this.context.getResources().getDrawable(R.drawable.poll_add_plus);
-            drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-            drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
+            int color = Theme.getColor(Theme.key_switchTrackChecked);
+            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+            drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
+            drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), mode));
             CombinedDrawable combinedDrawable = new CombinedDrawable(drawable, drawable2);
             bottomSheetCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4));
             bottomSheetCell.setTextAndIcon(LocaleController.getString("CreateNewFilter", R.string.CreateNewFilter), combinedDrawable);

@@ -35,9 +35,11 @@ public final class SeekParameters {
         }
         long subtractWithOverflowDefault = Util.subtractWithOverflowDefault(j, j4, Long.MIN_VALUE);
         long addWithOverflowDefault = Util.addWithOverflowDefault(j, this.toleranceAfterUs, Long.MAX_VALUE);
-        boolean z = true;
+        boolean z = false;
         boolean z2 = subtractWithOverflowDefault <= j2 && j2 <= addWithOverflowDefault;
-        z = (subtractWithOverflowDefault > j3 || j3 > addWithOverflowDefault) ? false : false;
+        if (subtractWithOverflowDefault <= j3 && j3 <= addWithOverflowDefault) {
+            z = true;
+        }
         return (z2 && z) ? Math.abs(j2 - j) <= Math.abs(j3 - j) ? j2 : j3 : z2 ? j2 : z ? j3 : subtractWithOverflowDefault;
     }
 

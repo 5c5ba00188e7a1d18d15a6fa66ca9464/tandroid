@@ -11,7 +11,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -283,7 +282,7 @@ public final class CommonNotificationBuilder {
         }
         try {
             drawable = resources.getDrawable(i, null);
-            if (drawable instanceof AdaptiveIconDrawable) {
+            if (CommonNotificationBuilder$$ExternalSyntheticApiModelOutline1.m(drawable)) {
                 StringBuilder sb = new StringBuilder(77);
                 sb.append("Adaptive icons cannot be used in notifications. Ignoring icon id: ");
                 sb.append(i);

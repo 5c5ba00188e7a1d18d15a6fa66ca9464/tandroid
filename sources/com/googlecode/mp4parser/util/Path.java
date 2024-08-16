@@ -22,7 +22,7 @@ public class Path {
                 i++;
             }
         }
-        String str2 = String.valueOf(String.format("/%s[%d]", box.getType(), Integer.valueOf(i))) + str;
+        String str2 = String.format("/%s[%d]", box.getType(), Integer.valueOf(i)) + str;
         return parent instanceof Box ? createPath((Box) parent, str2) : str2;
     }
 }

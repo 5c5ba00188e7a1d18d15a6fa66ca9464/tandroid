@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import androidx.appcompat.R$attr;
 import androidx.appcompat.app.AlertController;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class AlertDialog extends AppCompatDialog implements DialogInterface {
     final AlertController mAlert;
@@ -22,7 +23,7 @@ public class AlertDialog extends AppCompatDialog implements DialogInterface {
     }
 
     static int resolveDialogTheme(Context context, int i) {
-        if (((i >>> 24) & 255) >= 1) {
+        if (((i >>> 24) & NotificationCenter.voipServiceCreated) >= 1) {
             return i;
         }
         TypedValue typedValue = new TypedValue();

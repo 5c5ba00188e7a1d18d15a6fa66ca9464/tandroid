@@ -44,12 +44,15 @@ public class BotStarsController {
         BotStarsController botStarsController = Instance[i];
         if (botStarsController == null) {
             synchronized (lockObjects[i]) {
-                botStarsController = Instance[i];
-                if (botStarsController == null) {
-                    BotStarsController[] botStarsControllerArr = Instance;
-                    BotStarsController botStarsController2 = new BotStarsController(i);
-                    botStarsControllerArr[i] = botStarsController2;
-                    botStarsController = botStarsController2;
+                try {
+                    botStarsController = Instance[i];
+                    if (botStarsController == null) {
+                        BotStarsController[] botStarsControllerArr = Instance;
+                        BotStarsController botStarsController2 = new BotStarsController(i);
+                        botStarsControllerArr[i] = botStarsController2;
+                        botStarsController = botStarsController2;
+                    }
+                } finally {
                 }
             }
         }
@@ -112,7 +115,7 @@ public class BotStarsController {
             TLRPC$TL_payments_getStarsRevenueStats tLRPC$TL_payments_getStarsRevenueStats = new TLRPC$TL_payments_getStarsRevenueStats();
             tLRPC$TL_payments_getStarsRevenueStats.dark = Theme.isCurrentThemeDark();
             tLRPC$TL_payments_getStarsRevenueStats.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(j);
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda0
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BotStarsController.this.lambda$getRevenueStats$1(j, tLObject, tLRPC$TL_error);
@@ -124,7 +127,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getRevenueStats$1(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getRevenueStats$0(tLObject, j);
@@ -155,7 +158,7 @@ public class BotStarsController {
             if (chatFull == null) {
                 return tL_stats$TL_broadcastRevenueStats;
             }
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda1
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BotStarsController.this.lambda$getChannelRevenueStats$3(j, tLObject, tLRPC$TL_error);
@@ -167,7 +170,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getChannelRevenueStats$3(final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$getChannelRevenueStats$2(tLObject, j);
@@ -272,7 +275,7 @@ public class BotStarsController {
         if (str == null) {
             tLRPC$TL_payments_getStarsTransactions.offset = "";
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda2
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsTransactions, new RequestDelegate() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 BotStarsController.this.lambda$loadTransactions$5(transactionsState, i, j, tLObject, tLRPC$TL_error);
@@ -282,7 +285,7 @@ public class BotStarsController {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadTransactions$5(final TransactionsState transactionsState, final int i, final long j, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stars.BotStarsController$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 BotStarsController.this.lambda$loadTransactions$4(transactionsState, i, tLObject, j);

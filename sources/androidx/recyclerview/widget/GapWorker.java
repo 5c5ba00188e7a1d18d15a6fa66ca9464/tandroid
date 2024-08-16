@@ -109,20 +109,21 @@ public final class GapWorker implements Runnable {
             if (i2 < 0) {
                 throw new IllegalArgumentException("Pixel distance must be non-negative");
             }
-            int i3 = this.mCount * 2;
+            int i3 = this.mCount;
+            int i4 = i3 * 2;
             int[] iArr = this.mPrefetchArray;
             if (iArr == null) {
                 int[] iArr2 = new int[4];
                 this.mPrefetchArray = iArr2;
                 Arrays.fill(iArr2, -1);
-            } else if (i3 >= iArr.length) {
-                int[] iArr3 = new int[i3 * 2];
+            } else if (i4 >= iArr.length) {
+                int[] iArr3 = new int[i3 * 4];
                 this.mPrefetchArray = iArr3;
                 System.arraycopy(iArr, 0, iArr3, 0, iArr.length);
             }
             int[] iArr4 = this.mPrefetchArray;
-            iArr4[i3] = i;
-            iArr4[i3 + 1] = i2;
+            iArr4[i4] = i;
+            iArr4[i4 + 1] = i2;
             this.mCount++;
         }
 
@@ -223,27 +224,32 @@ public final class GapWorker implements Runnable {
         }
         RecyclerView.Recycler recycler = recyclerView.mRecycler;
         try {
-            recyclerView.onEnterLayoutOrScroll();
-            RecyclerView.ViewHolder tryGetViewHolderForPositionByDeadline = recycler.tryGetViewHolderForPositionByDeadline(i, false, j);
-            if (tryGetViewHolderForPositionByDeadline != null) {
-                if (tryGetViewHolderForPositionByDeadline.isBound() && !tryGetViewHolderForPositionByDeadline.isInvalid()) {
-                    recycler.recycleView(tryGetViewHolderForPositionByDeadline.itemView);
-                } else {
-                    recycler.addViewHolderToRecycledViewPool(tryGetViewHolderForPositionByDeadline, false);
+            try {
+                recyclerView.onEnterLayoutOrScroll();
+                RecyclerView.ViewHolder tryGetViewHolderForPositionByDeadline = recycler.tryGetViewHolderForPositionByDeadline(i, false, j);
+                if (tryGetViewHolderForPositionByDeadline != null) {
+                    if (tryGetViewHolderForPositionByDeadline.isBound() && !tryGetViewHolderForPositionByDeadline.isInvalid()) {
+                        recycler.recycleView(tryGetViewHolderForPositionByDeadline.itemView);
+                    } else {
+                        recycler.addViewHolderToRecycledViewPool(tryGetViewHolderForPositionByDeadline, false);
+                    }
                 }
+                recyclerView.onExitLayoutOrScroll(false);
+                return tryGetViewHolderForPositionByDeadline;
+            } catch (Exception e) {
+                FileLog.e(e);
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: androidx.recyclerview.widget.GapWorker$$ExternalSyntheticLambda0
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        GapWorker.lambda$prefetchPositionWithDeadline$0(RecyclerView.this);
+                    }
+                });
+                recyclerView.onExitLayoutOrScroll(false);
+                return null;
             }
-            return tryGetViewHolderForPositionByDeadline;
-        } catch (Exception e) {
-            FileLog.e(e);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: androidx.recyclerview.widget.GapWorker$$ExternalSyntheticLambda0
-                @Override // java.lang.Runnable
-                public final void run() {
-                    GapWorker.lambda$prefetchPositionWithDeadline$0(RecyclerView.this);
-                }
-            });
-            return null;
-        } finally {
+        } catch (Throwable th) {
             recyclerView.onExitLayoutOrScroll(false);
+            throw th;
         }
     }
 

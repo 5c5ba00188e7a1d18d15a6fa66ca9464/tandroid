@@ -18,11 +18,15 @@ final class zzi implements Runnable {
         OnCompleteListener onCompleteListener2;
         obj = this.zzb.zzb;
         synchronized (obj) {
-            zzj zzjVar = this.zzb;
-            onCompleteListener = zzjVar.zzc;
-            if (onCompleteListener != null) {
-                onCompleteListener2 = zzjVar.zzc;
-                onCompleteListener2.onComplete(this.zza);
+            try {
+                zzj zzjVar = this.zzb;
+                onCompleteListener = zzjVar.zzc;
+                if (onCompleteListener != null) {
+                    onCompleteListener2 = zzjVar.zzc;
+                    onCompleteListener2.onComplete(this.zza);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

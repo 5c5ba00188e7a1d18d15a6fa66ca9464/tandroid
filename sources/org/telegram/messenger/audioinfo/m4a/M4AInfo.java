@@ -203,7 +203,13 @@ public class M4AInfo extends AudioInfo {
         }
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:143:0x027c A[Catch: Exception -> 0x025e, TryCatch #0 {Exception -> 0x025e, blocks: (B:131:0x0242, B:133:0x0259, B:141:0x0271, B:143:0x027c, B:145:0x0293, B:147:0x02b0, B:149:0x02b4, B:146:0x02ac, B:138:0x0260, B:140:0x0268), top: B:155:0x0242 }] */
+    /* JADX WARN: Removed duplicated region for block: B:182:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     void data(MP4Atom mP4Atom) throws IOException {
+        Bitmap decodeByteArray;
         Bitmap bitmap;
         Logger logger = LOGGER;
         if (logger.isLoggable(this.debugLevel)) {
@@ -348,28 +354,35 @@ public class M4AInfo extends AudioInfo {
                     options.inSampleSize = 1;
                     BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
                     int i = options.outWidth;
-                    if (i > 800 || options.outHeight > 800) {
-                        for (int max = Math.max(i, options.outHeight); max > 800; max /= 2) {
-                            options.inSampleSize *= 2;
+                    if (i <= 800) {
+                        if (options.outHeight > 800) {
                         }
-                    }
-                    options.inJustDecodeBounds = false;
-                    Bitmap decodeByteArray = BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
-                    this.cover = decodeByteArray;
-                    if (decodeByteArray != null) {
-                        float max2 = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
-                        if (max2 > 0.0f) {
-                            this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max2), (int) (this.cover.getHeight() / max2), true);
-                        } else {
-                            this.smallCover = this.cover;
-                        }
-                        if (this.smallCover == null) {
-                            this.smallCover = this.cover;
+                        options.inJustDecodeBounds = false;
+                        decodeByteArray = BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
+                        this.cover = decodeByteArray;
+                        if (decodeByteArray == null) {
+                            float max = Math.max(decodeByteArray.getWidth(), this.cover.getHeight()) / 120.0f;
+                            if (max > 0.0f) {
+                                this.smallCover = Bitmap.createScaledBitmap(this.cover, (int) (bitmap.getWidth() / max), (int) (this.cover.getHeight() / max), true);
+                            } else {
+                                this.smallCover = this.cover;
+                            }
+                            if (this.smallCover == null) {
+                                this.smallCover = this.cover;
+                                return;
+                            }
                             return;
                         }
                         return;
                     }
-                    return;
+                    for (int max2 = Math.max(i, options.outHeight); max2 > 800; max2 /= 2) {
+                        options.inSampleSize *= 2;
+                    }
+                    options.inJustDecodeBounds = false;
+                    decodeByteArray = BitmapFactory.decodeByteArray(readBytes, 0, readBytes.length, options);
+                    this.cover = decodeByteArray;
+                    if (decodeByteArray == null) {
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     return;

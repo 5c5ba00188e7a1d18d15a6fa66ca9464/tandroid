@@ -1,157 +1,174 @@
 package j$.util.stream;
 
-import java.util.Comparator;
-/* JADX INFO: Access modifiers changed from: package-private */
+import java.util.Arrays;
+import java.util.Spliterator;
 /* loaded from: classes2.dex */
-public abstract class N2 implements j$.util.N {
-    int a;
-    final int b;
-    int c;
-    final int d;
+abstract class N2 extends d implements Iterable {
     Object e;
-    final /* synthetic */ O2 f;
+    Object[] f;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public N2(O2 o2, int i, int i2, int i3, int i4) {
-        this.f = o2;
-        this.a = i;
-        this.b = i2;
-        this.c = i3;
-        this.d = i4;
-        Object[] objArr = o2.f;
-        this.e = objArr == null ? o2.e : objArr[i];
+    public N2() {
+        this.e = c(16);
     }
 
-    @Override // j$.util.Q
-    public final int characteristics() {
-        return 16464;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public N2(int i) {
+        super(i);
+        this.e = c(1 << this.a);
     }
 
-    @Override // j$.util.Q
-    public final long estimateSize() {
-        int i = this.a;
-        int i2 = this.d;
-        int i3 = this.b;
-        if (i == i3) {
-            return i2 - this.c;
+    public abstract Object c(int i);
+
+    @Override // j$.util.stream.d
+    public final void clear() {
+        Object[] objArr = this.f;
+        if (objArr != null) {
+            this.e = objArr[0];
+            this.f = null;
+            this.d = null;
         }
-        long[] jArr = this.f.d;
-        return ((jArr[i3] + i2) - jArr[i]) - this.c;
+        this.b = 0;
+        this.c = 0;
     }
 
-    abstract void f(int i, Object obj, Object obj2);
-
-    @Override // j$.util.N
-    /* renamed from: forEachRemaining */
-    public final void d(Object obj) {
-        O2 o2;
-        obj.getClass();
-        int i = this.a;
-        int i2 = this.d;
+    public void d(Object obj, int i) {
+        long j = i;
+        long count = count() + j;
+        if (count > v(obj) || count < j) {
+            throw new IndexOutOfBoundsException("does not fit");
+        }
+        if (this.c == 0) {
+            System.arraycopy(this.e, 0, obj, i, this.b);
+            return;
+        }
+        for (int i2 = 0; i2 < this.c; i2++) {
+            Object obj2 = this.f[i2];
+            System.arraycopy(obj2, 0, obj, i, v(obj2));
+            i += v(this.f[i2]);
+        }
         int i3 = this.b;
-        if (i < i3 || (i == i3 && this.c < i2)) {
-            int i4 = this.c;
-            while (true) {
-                o2 = this.f;
-                if (i >= i3) {
-                    break;
-                }
-                Object obj2 = o2.f[i];
-                o2.r(obj2, i4, o2.s(obj2), obj);
-                i++;
-                i4 = 0;
+        if (i3 > 0) {
+            System.arraycopy(this.e, 0, obj, i, i3);
+        }
+    }
+
+    public Object e() {
+        long count = count();
+        if (count < 2147483639) {
+            Object c = c((int) count);
+            d(c, 0);
+            return c;
+        }
+        throw new IllegalArgumentException("Stream size exceeds max array size");
+    }
+
+    public void g(Object obj) {
+        for (int i = 0; i < this.c; i++) {
+            Object obj2 = this.f[i];
+            u(obj2, 0, v(obj2), obj);
+        }
+        u(this.e, 0, this.b, obj);
+    }
+
+    public abstract j$.util.Q spliterator();
+
+    @Override // java.lang.Iterable
+    public final /* synthetic */ Spliterator spliterator() {
+        return j$.util.P.a(spliterator());
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract void u(Object obj, int i, int i2, Object obj2);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract int v(Object obj);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final int w(long j) {
+        if (this.c == 0) {
+            if (j < this.b) {
+                return 0;
             }
-            o2.r(this.a == i3 ? this.e : o2.f[i3], i4, i2, obj);
-            this.a = i3;
-            this.c = i2;
-        }
-    }
-
-    abstract j$.util.N g(Object obj, int i, int i2);
-
-    @Override // j$.util.Q
-    public final Comparator getComparator() {
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.i(this);
-    }
-
-    abstract j$.util.N h(int i, int i2, int i3, int i4);
-
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.k(this, i);
-    }
-
-    @Override // j$.util.N
-    /* renamed from: tryAdvance */
-    public final boolean o(Object obj) {
-        obj.getClass();
-        int i = this.a;
-        int i2 = this.b;
-        if (i < i2 || (i == i2 && this.c < this.d)) {
-            Object obj2 = this.e;
-            int i3 = this.c;
-            this.c = i3 + 1;
-            f(i3, obj2, obj);
-            int i4 = this.c;
-            Object obj3 = this.e;
-            O2 o2 = this.f;
-            if (i4 == o2.s(obj3)) {
-                this.c = 0;
-                int i5 = this.a + 1;
-                this.a = i5;
-                Object[] objArr = o2.f;
-                if (objArr != null && i5 <= i2) {
-                    this.e = objArr[i5];
+            throw new IndexOutOfBoundsException(Long.toString(j));
+        } else if (j < count()) {
+            for (int i = 0; i <= this.c; i++) {
+                if (j < this.d[i] + v(this.f[i])) {
+                    return i;
                 }
             }
-            return true;
-        }
-        return false;
-    }
-
-    @Override // j$.util.N, j$.util.Q
-    public /* bridge */ /* synthetic */ j$.util.E trySplit() {
-        return (j$.util.E) trySplit();
-    }
-
-    @Override // j$.util.N, j$.util.Q
-    public /* bridge */ /* synthetic */ j$.util.H trySplit() {
-        return (j$.util.H) trySplit();
-    }
-
-    @Override // j$.util.N, j$.util.Q
-    public /* bridge */ /* synthetic */ j$.util.K trySplit() {
-        return (j$.util.K) trySplit();
-    }
-
-    @Override // j$.util.Q
-    public final j$.util.N trySplit() {
-        int i = this.a;
-        int i2 = this.b;
-        if (i < i2) {
-            int i3 = this.c;
-            O2 o2 = this.f;
-            j$.util.N h = h(i, i2 - 1, i3, o2.s(o2.f[i2 - 1]));
-            this.a = i2;
-            this.c = 0;
-            this.e = o2.f[i2];
-            return h;
-        } else if (i == i2) {
-            int i4 = this.c;
-            int i5 = (this.d - i4) / 2;
-            if (i5 == 0) {
-                return null;
-            }
-            j$.util.N g = g(this.e, i4, i5);
-            this.c += i5;
-            return g;
+            throw new IndexOutOfBoundsException(Long.toString(j));
         } else {
-            return null;
+            throw new IndexOutOfBoundsException(Long.toString(j));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final void x(long j) {
+        long v;
+        int i;
+        int i2 = this.c;
+        if (i2 == 0) {
+            v = v(this.e);
+        } else {
+            v = v(this.f[i2]) + this.d[i2];
+        }
+        if (j > v) {
+            if (this.f == null) {
+                Object[] y = y();
+                this.f = y;
+                this.d = new long[8];
+                y[0] = this.e;
+            }
+            int i3 = this.c + 1;
+            while (j > v) {
+                Object[] objArr = this.f;
+                if (i3 >= objArr.length) {
+                    int length = objArr.length * 2;
+                    this.f = Arrays.copyOf(objArr, length);
+                    this.d = Arrays.copyOf(this.d, length);
+                }
+                int i4 = this.a;
+                if (i3 != 0 && i3 != 1) {
+                    i4 = Math.min((i4 + i3) - 1, 30);
+                }
+                int i5 = 1 << i4;
+                this.f[i3] = c(i5);
+                long[] jArr = this.d;
+                jArr[i3] = jArr[i3 - 1] + v(this.f[i]);
+                v += i5;
+                i3++;
+            }
+        }
+    }
+
+    protected abstract Object[] y();
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final void z() {
+        long v;
+        if (this.b == v(this.e)) {
+            if (this.f == null) {
+                Object[] y = y();
+                this.f = y;
+                this.d = new long[8];
+                y[0] = this.e;
+            }
+            int i = this.c;
+            int i2 = i + 1;
+            Object[] objArr = this.f;
+            if (i2 >= objArr.length || objArr[i2] == null) {
+                if (i == 0) {
+                    v = v(this.e);
+                } else {
+                    v = v(objArr[i]) + this.d[i];
+                }
+                x(v + 1);
+            }
+            this.b = 0;
+            int i3 = this.c + 1;
+            this.c = i3;
+            this.e = this.f[i3];
         }
     }
 }

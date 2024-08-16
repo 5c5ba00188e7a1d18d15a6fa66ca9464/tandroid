@@ -51,7 +51,7 @@ public class RoundVideoRecorder extends FrameLayout {
         this.shadowPaint = new Paint(1);
         Paint paint = new Paint(1);
         this.progressPaint = paint;
-        this.stopRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda1
+        this.stopRunnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 RoundVideoRecorder.this.stop();
@@ -91,7 +91,7 @@ public class RoundVideoRecorder extends FrameLayout {
         cameraView.setScaleX(0.0f);
         cameraView.setScaleY(0.0f);
         addView(cameraView);
-        cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda2
+        cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.camera.CameraView.CameraViewDelegate
             public final void onCameraInit() {
                 RoundVideoRecorder.this.lambda$new$2();
@@ -204,7 +204,7 @@ public class RoundVideoRecorder extends FrameLayout {
             this.progressPaint.setColor(Theme.multAlpha(-1090519041, this.alpha));
             this.progressPaint.setShadowLayer(AndroidUtilities.dp(1.0f), 0.0f, AndroidUtilities.dp(0.33f), Theme.multAlpha(536870912, this.alpha));
             rectF.inset(-AndroidUtilities.dp(7.665f), -AndroidUtilities.dp(7.665f));
-            canvas.drawArc(rectF, -90.0f, 360.0f * clamp, false, this.progressPaint);
+            canvas.drawArc(rectF, -90.0f, clamp * 360.0f, false, this.progressPaint);
             if (this.recordingStopped <= 0) {
                 invalidate();
             }
@@ -359,7 +359,7 @@ public class RoundVideoRecorder extends FrameLayout {
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.destroyT, 1.0f);
         this.destroyAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.RoundVideoRecorder$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 RoundVideoRecorder.this.lambda$destroy$6(valueAnimator2);

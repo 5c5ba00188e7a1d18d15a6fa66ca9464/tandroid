@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class CrossOutDrawable extends Drawable {
@@ -44,12 +45,14 @@ public class CrossOutDrawable extends Drawable {
         this.xRefPaint = paint;
         this.iconDrawable = ContextCompat.getDrawable(context, i);
         this.colorKey = i2;
-        this.paint.setStyle(Paint.Style.STROKE);
+        Paint paint2 = this.paint;
+        Paint.Style style = Paint.Style.STROKE;
+        paint2.setStyle(style);
         this.paint.setStrokeWidth(AndroidUtilities.dpf2(1.7f));
         this.paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setColor(-16777216);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(style);
         paint.setStrokeWidth(AndroidUtilities.dpf2(2.5f));
     }
 
@@ -97,7 +100,7 @@ public class CrossOutDrawable extends Drawable {
                     return;
                 }
                 this.rectF.set(this.iconDrawable.getBounds());
-                canvas.saveLayerAlpha(this.rectF, 255, 31);
+                canvas.saveLayerAlpha(this.rectF, NotificationCenter.voipServiceCreated, 31);
                 this.iconDrawable.draw(canvas);
                 float dpf2 = this.rectF.left + AndroidUtilities.dpf2(4.5f) + this.xOffset + this.lenOffsetTop;
                 float dpf22 = ((this.rectF.top + AndroidUtilities.dpf2(4.5f)) - AndroidUtilities.dp(1.0f)) + this.lenOffsetTop;
@@ -108,9 +111,9 @@ public class CrossOutDrawable extends Drawable {
                     dp = ((dp - dpf2) * f2) + dpf2;
                     dp2 = ((dp2 - dpf22) * f2) + dpf22;
                 } else {
-                    float f3 = this.progress;
-                    dpf2 += (dp - dpf2) * (1.0f - f3);
-                    dpf22 += (dp2 - dpf22) * (1.0f - f3);
+                    float f3 = 1.0f - this.progress;
+                    dpf2 += (dp - dpf2) * f3;
+                    dpf22 += (dp2 - dpf22) * f3;
                 }
                 float f4 = dpf2;
                 float f5 = dp;

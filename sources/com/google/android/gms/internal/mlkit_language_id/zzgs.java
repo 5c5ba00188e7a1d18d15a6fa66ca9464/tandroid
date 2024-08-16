@@ -1,13 +1,11 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzgs implements Iterator, j$.util.Iterator {
+final class zzgs implements Iterator {
     private int zza;
     private Iterator zzb;
     private final /* synthetic */ zzgq zzc;
@@ -19,17 +17,7 @@ final class zzgs implements Iterator, j$.util.Iterator {
         this.zza = list.size();
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         List list;
         int i = this.zza;
@@ -42,12 +30,12 @@ final class zzgs implements Iterator, j$.util.Iterator {
         return zza().hasNext();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }
 
-    private final java.util.Iterator zza() {
+    private final Iterator zza() {
         Map map;
         if (this.zzb == null) {
             map = this.zzc.zzf;
@@ -56,7 +44,7 @@ final class zzgs implements Iterator, j$.util.Iterator {
         return this.zzb;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final /* synthetic */ Object next() {
         List list;
         if (zza().hasNext()) {

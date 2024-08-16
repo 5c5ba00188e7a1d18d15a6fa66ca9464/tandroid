@@ -26,6 +26,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.StaticLayoutEx;
@@ -97,7 +98,10 @@ public class VoIPNotificationsLayout extends LinearLayout {
     }
 
     public CharSequence ellipsize(CharSequence charSequence) {
-        return charSequence == null ? "" : TextUtils.ellipsize(charSequence, this.textPaint, AndroidUtilities.dp(300.0f), TextUtils.TruncateAt.END);
+        if (charSequence == null) {
+            return "";
+        }
+        return TextUtils.ellipsize(charSequence, this.textPaint, AndroidUtilities.dp(300.0f), TextUtils.TruncateAt.END);
     }
 
     public void removeNotification(String str) {
@@ -241,12 +245,12 @@ public class VoIPNotificationsLayout extends LinearLayout {
             this.backgroundProvider.setDarkTranslation(getX() + ((View) getParent()).getX(), getY() + ((View) getParent()).getY());
             int alpha = this.backgroundProvider.getDarkPaint(this.ignoreShader).getAlpha();
             canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), alpha, 31);
-            this.backgroundProvider.getDarkPaint(this.ignoreShader).setAlpha(255);
+            this.backgroundProvider.getDarkPaint(this.ignoreShader).setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawRoundRect(this.bgRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), this.backgroundProvider.getDarkPaint(this.ignoreShader));
             this.backgroundProvider.getDarkPaint(this.ignoreShader).setAlpha(alpha);
             if (this.backgroundProvider.isReveal()) {
                 int alpha2 = this.backgroundProvider.getRevealDarkPaint().getAlpha();
-                this.backgroundProvider.getRevealDarkPaint().setAlpha(255);
+                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawRoundRect(this.bgRect, AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), this.backgroundProvider.getRevealDarkPaint());
                 this.backgroundProvider.getRevealDarkPaint().setAlpha(alpha2);
             }

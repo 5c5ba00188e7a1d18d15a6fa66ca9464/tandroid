@@ -24,6 +24,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
@@ -215,23 +216,26 @@ public class RecordControl extends View implements FlashViews.Invertable {
         radialGradient.setLocalMatrix(matrix);
         paint5.setShader(this.redGradient);
         paint.setColor(-1);
-        paint.setStyle(Paint.Style.STROKE);
+        Paint.Style style = Paint.Style.STROKE;
+        paint.setStyle(style);
         paint2.setColor(-577231);
-        paint2.setStrokeCap(Paint.Cap.ROUND);
-        paint2.setStyle(Paint.Style.STROKE);
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint2.setStrokeCap(cap);
+        paint2.setStyle(style);
         paint3.setColor(1677721600);
         paint4.setColor(-1);
         paint6.setColor(1493172223);
         paint7.setColor(402653184);
-        paint6.setStyle(Paint.Style.STROKE);
-        paint6.setStrokeCap(Paint.Cap.ROUND);
-        paint7.setStyle(Paint.Style.STROKE);
-        paint7.setStrokeCap(Paint.Cap.ROUND);
+        paint6.setStyle(style);
+        paint6.setStrokeCap(cap);
+        paint7.setStyle(style);
+        paint7.setStrokeCap(cap);
         imageReceiver.setParentView(this);
         imageReceiver.setCrossfadeWithOldImage(true);
         imageReceiver.setRoundRadius(AndroidUtilities.dp(6.0f));
         Drawable mutate = context.getResources().getDrawable(R.drawable.msg_media_gallery).mutate();
-        mutate.setColorFilter(new PorterDuffColorFilter(1308622847, PorterDuff.Mode.MULTIPLY));
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        mutate.setColorFilter(new PorterDuffColorFilter(1308622847, mode));
         CombinedDrawable combinedDrawable = new CombinedDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(6.0f), -13750737), mutate);
         this.noGalleryDrawable = combinedDrawable;
         combinedDrawable.setFullsize(false);
@@ -240,19 +244,19 @@ public class RecordControl extends View implements FlashViews.Invertable {
         int i = R.drawable.msg_photo_switch2;
         Drawable mutate2 = resources.getDrawable(i).mutate();
         this.flipDrawableWhite = mutate2;
-        mutate2.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
+        mutate2.setColorFilter(new PorterDuffColorFilter(-1, mode));
         Drawable mutate3 = context.getResources().getDrawable(i).mutate();
         this.flipDrawableBlack = mutate3;
-        mutate3.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
+        mutate3.setColorFilter(new PorterDuffColorFilter(-16777216, mode));
         Drawable mutate4 = context.getResources().getDrawable(R.drawable.msg_filled_unlockedrecord).mutate();
         this.unlockDrawable = mutate4;
-        mutate4.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
+        mutate4.setColorFilter(new PorterDuffColorFilter(-1, mode));
         Drawable mutate5 = context.getResources().getDrawable(R.drawable.msg_filled_lockedrecord).mutate();
         this.lockDrawable = mutate5;
-        mutate5.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
+        mutate5.setColorFilter(new PorterDuffColorFilter(-16777216, mode));
         Drawable mutate6 = context.getResources().getDrawable(R.drawable.msg_round_pause_m).mutate();
         this.pauseDrawable = mutate6;
-        mutate6.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
+        mutate6.setColorFilter(new PorterDuffColorFilter(-1, mode));
         updateGalleryImage();
     }
 
@@ -301,8 +305,11 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.buttonPaint.setColor(ColorUtils.blendARGB(1677721600, 369098752, f));
         this.hintLinePaintWhite.setColor(ColorUtils.blendARGB(1493172223, 285212671, f));
         this.hintLinePaintBlack.setColor(ColorUtils.blendARGB(402653184, 805306368, f));
-        this.flipDrawableWhite.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
-        this.unlockDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), PorterDuff.Mode.MULTIPLY));
+        Drawable drawable = this.flipDrawableWhite;
+        int blendARGB = ColorUtils.blendARGB(-1, -16777216, f);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        drawable.setColorFilter(new PorterDuffColorFilter(blendARGB, mode));
+        this.unlockDrawable.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(-1, -16777216, f), mode));
     }
 
     public void setAmplitude(float f, boolean z) {
@@ -389,8 +396,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.lockButton.setPressed(false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:122:0x06bb  */
-    /* JADX WARN: Removed duplicated region for block: B:130:0x06ef  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x06ba  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x06ee  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -402,8 +409,8 @@ public class RecordControl extends View implements FlashViews.Invertable {
         RectF rectF;
         float f4;
         float f5;
-        long j;
         float f6;
+        long j;
         float f7;
         float f8;
         float f9;
@@ -474,16 +481,17 @@ public class RecordControl extends View implements FlashViews.Invertable {
         this.outlineFilledPaint.setStrokeWidth(AndroidUtilities.dp(3.0f));
         this.outlineFilledPaint.setAlpha((int) (Math.max(0.7f * f28, 1.0f - f26) * 255.0f));
         if (f28 <= 0.0f) {
-            f5 = lerp2;
+            f6 = lerp2;
             j = currentTimeMillis;
             f4 = f23;
             rectF = rectF2;
             canvas.drawArc(rectF2, -90.0f, f27, false, this.outlineFilledPaint);
-            f6 = f21;
+            f5 = f21;
         } else {
             rectF = rectF2;
             f4 = f23;
-            f5 = lerp2;
+            f5 = f21;
+            f6 = lerp2;
             j = currentTimeMillis;
             CircularProgressDrawable.getSegments((float) ((SystemClock.elapsedRealtime() - this.recordingLoadingStart) % 5400), this.loadingSegments);
             invalidate();
@@ -497,7 +505,6 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 f31 = AndroidUtilities.lerp((-90.0f) + f32, f31, f28);
                 abs = AndroidUtilities.lerp(f32, abs, f28);
             }
-            f6 = f21;
             canvas.drawArc(rectF, f31 - abs, abs * 2.0f, false, this.outlineFilledPaint);
         }
         if (this.recording) {
@@ -561,11 +568,11 @@ public class RecordControl extends View implements FlashViews.Invertable {
         }
         float f35 = this.lockedT.set((this.longpressRecording || !this.recording) ? 0.0f : 1.0f);
         if (f7 > 0.0f) {
-            this.redPaint.setAlpha(255);
+            this.redPaint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawCircle(this.touchX, this.cy, f7, this.redPaint);
             float f36 = this.touchX;
             float clamp3 = Utilities.clamp(1.0f - ((Math.abs(clamp2) * f2) / 1.3f), 1.0f, 0.0f);
-            float abs2 = Math.abs(f5 - f36);
+            float abs2 = Math.abs(f6 - f36);
             if (abs2 < lerp3 + (f7 * 2.0f) && clamp3 < 0.6f) {
                 float f37 = lerp3 + f7;
                 if (abs2 < f37) {
@@ -578,12 +585,12 @@ public class RecordControl extends View implements FlashViews.Invertable {
                     d = 0.0d;
                     d2 = 0.0d;
                 }
-                double d3 = f36 > f5 ? 0.0d : 3.141592653589793d;
+                double d3 = f36 > f6 ? 0.0d : 3.141592653589793d;
                 f8 = f7;
                 double acos = (float) Math.acos((lerp3 - f7) / abs2);
                 Double.isNaN(acos);
                 f9 = f35;
-                RectF rectF3 = rectF;
+                float f41 = f5;
                 double d4 = clamp3;
                 Double.isNaN(d4);
                 double d5 = (acos - d) * d4;
@@ -594,56 +601,57 @@ public class RecordControl extends View implements FlashViews.Invertable {
                 double d8 = ((3.141592653589793d - d2) - acos) * d4;
                 double d9 = ((d3 + 3.141592653589793d) - d2) - d8;
                 double d10 = (d3 - 3.141592653589793d) + d2 + d8;
-                float f41 = f5;
-                getVector(f41, this.cy, d6, lerp3, this.p1);
-                getVector(f41, this.cy, d7, lerp3, this.p2);
+                float f42 = f6;
+                getVector(f42, this.cy, d6, lerp3, this.p1);
+                getVector(f42, this.cy, d7, lerp3, this.p2);
                 getVector(f36, this.cy, d9, f8, this.p3);
                 getVector(f36, this.cy, d10, f8, this.p4);
                 float min = Math.min(clamp3 * 2.4f, dist(this.p1, this.p3) / f37) * Math.min(1.0f, (abs2 * 2.0f) / f37);
-                float f42 = lerp3 * min;
-                float f43 = f8 * min;
+                float f43 = lerp3 * min;
+                float f44 = f8 * min;
                 Point point = this.p1;
-                getVector(point.x, point.y, d6 - 1.5707963705062866d, f42, this.h1);
+                getVector(point.x, point.y, d6 - 1.5707963705062866d, f43, this.h1);
                 Point point2 = this.p2;
-                getVector(point2.x, point2.y, d7 + 1.5707963705062866d, f42, this.h2);
+                getVector(point2.x, point2.y, d7 + 1.5707963705062866d, f43, this.h2);
                 Point point3 = this.p3;
-                getVector(point3.x, point3.y, d9 + 1.5707963705062866d, f43, this.h3);
+                getVector(point3.x, point3.y, d9 + 1.5707963705062866d, f44, this.h3);
                 Point point4 = this.p4;
-                getVector(point4.x, point4.y, d10 - 1.5707963705062866d, f43, this.h4);
-                float f44 = f2 * max * f11 * f3;
-                if (f44 > 0.0f) {
+                getVector(point4.x, point4.y, d10 - 1.5707963705062866d, f44, this.h4);
+                float f45 = f2 * max * f11 * f3;
+                if (f45 > 0.0f) {
                     this.metaballsPath.rewind();
                     Path path = this.metaballsPath;
                     Point point5 = this.p1;
                     path.moveTo(point5.x, point5.y);
                     Path path2 = this.metaballsPath;
                     Point point6 = this.h1;
-                    float f45 = point6.x;
-                    float f46 = point6.y;
+                    float f46 = point6.x;
+                    float f47 = point6.y;
                     Point point7 = this.h3;
-                    float f47 = point7.x;
-                    float f48 = point7.y;
+                    float f48 = point7.x;
+                    float f49 = point7.y;
                     Point point8 = this.p3;
-                    path2.cubicTo(f45, f46, f47, f48, point8.x, point8.y);
+                    path2.cubicTo(f46, f47, f48, f49, point8.x, point8.y);
                     Path path3 = this.metaballsPath;
                     Point point9 = this.p4;
                     path3.lineTo(point9.x, point9.y);
                     Path path4 = this.metaballsPath;
                     Point point10 = this.h4;
-                    float f49 = point10.x;
-                    float f50 = point10.y;
+                    float f50 = point10.x;
+                    float f51 = point10.y;
                     Point point11 = this.h2;
-                    float f51 = point11.x;
-                    float f52 = point11.y;
+                    float f52 = point11.x;
+                    float f53 = point11.y;
                     Point point12 = this.p2;
-                    path4.cubicTo(f49, f50, f51, f52, point12.x, point12.y);
+                    path4.cubicTo(f50, f51, f52, f53, point12.x, point12.y);
                     Path path5 = this.metaballsPath;
                     Point point13 = this.p1;
                     path5.lineTo(point13.x, point13.y);
-                    this.redPaint.setAlpha((int) (f44 * 255.0f));
+                    this.redPaint.setAlpha((int) (f45 * 255.0f));
                     canvas.drawPath(this.metaballsPath, this.redPaint);
-                    float f53 = this.cy;
-                    rectF3.set(f6, f53 - lerp3, f4, f53 + lerp3);
+                    float f54 = this.cy;
+                    RectF rectF3 = rectF;
+                    rectF3.set(f41, f54 - lerp3, f4, f54 + lerp3);
                     canvas.drawRoundRect(rectF3, lerp4, lerp4, this.redPaint);
                 }
                 if (f8 <= 0.0f || f9 > 0.0f) {

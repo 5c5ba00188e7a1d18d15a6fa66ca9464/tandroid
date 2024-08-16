@@ -286,7 +286,9 @@ public final class TextViewCompat {
     }
 
     private static int getTextDirection(TextDirectionHeuristic textDirectionHeuristic) {
-        if (textDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_RTL || textDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_LTR) {
+        TextDirectionHeuristic textDirectionHeuristic2;
+        TextDirectionHeuristic textDirectionHeuristic3 = TextDirectionHeuristics.FIRSTSTRONG_RTL;
+        if (textDirectionHeuristic == textDirectionHeuristic3 || textDirectionHeuristic == (textDirectionHeuristic2 = TextDirectionHeuristics.FIRSTSTRONG_LTR)) {
             return 1;
         }
         if (textDirectionHeuristic == TextDirectionHeuristics.ANYRTL_LTR) {
@@ -301,10 +303,10 @@ public final class TextViewCompat {
         if (textDirectionHeuristic == TextDirectionHeuristics.LOCALE) {
             return 5;
         }
-        if (textDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_LTR) {
+        if (textDirectionHeuristic == textDirectionHeuristic2) {
             return 6;
         }
-        return textDirectionHeuristic == TextDirectionHeuristics.FIRSTSTRONG_RTL ? 7 : 1;
+        return textDirectionHeuristic == textDirectionHeuristic3 ? 7 : 1;
     }
 
     public static void setCompoundDrawableTintList(TextView textView, ColorStateList colorStateList) {
@@ -385,15 +387,11 @@ public final class TextViewCompat {
         }
 
         static PrecomputedText.Params getTextMetricsParams(TextView textView) {
-            PrecomputedText.Params textMetricsParams;
-            textMetricsParams = textView.getTextMetricsParams();
-            return textMetricsParams;
+            return textView.getTextMetricsParams();
         }
 
         static String[] getDigitStrings(DecimalFormatSymbols decimalFormatSymbols) {
-            String[] digitStrings;
-            digitStrings = decimalFormatSymbols.getDigitStrings();
-            return digitStrings;
+            return decimalFormatSymbols.getDigitStrings();
         }
     }
 
@@ -401,9 +399,7 @@ public final class TextViewCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static int getBreakStrategy(TextView textView) {
-            int breakStrategy;
-            breakStrategy = textView.getBreakStrategy();
-            return breakStrategy;
+            return textView.getBreakStrategy();
         }
 
         static void setBreakStrategy(TextView textView, int i) {
@@ -411,9 +407,7 @@ public final class TextViewCompat {
         }
 
         static int getHyphenationFrequency(TextView textView) {
-            int hyphenationFrequency;
-            hyphenationFrequency = textView.getHyphenationFrequency();
-            return hyphenationFrequency;
+            return textView.getHyphenationFrequency();
         }
 
         static void setHyphenationFrequency(TextView textView, int i) {
@@ -421,15 +415,11 @@ public final class TextViewCompat {
         }
 
         static PorterDuff.Mode getCompoundDrawableTintMode(TextView textView) {
-            PorterDuff.Mode compoundDrawableTintMode;
-            compoundDrawableTintMode = textView.getCompoundDrawableTintMode();
-            return compoundDrawableTintMode;
+            return textView.getCompoundDrawableTintMode();
         }
 
         static ColorStateList getCompoundDrawableTintList(TextView textView) {
-            ColorStateList compoundDrawableTintList;
-            compoundDrawableTintList = textView.getCompoundDrawableTintList();
-            return compoundDrawableTintList;
+            return textView.getCompoundDrawableTintList();
         }
 
         static void setCompoundDrawableTintList(TextView textView, ColorStateList colorStateList) {
@@ -445,9 +435,7 @@ public final class TextViewCompat {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static DecimalFormatSymbols getInstance(Locale locale) {
-            DecimalFormatSymbols decimalFormatSymbols;
-            decimalFormatSymbols = DecimalFormatSymbols.getInstance(locale);
-            return decimalFormatSymbols;
+            return DecimalFormatSymbols.getInstance(locale);
         }
     }
 }

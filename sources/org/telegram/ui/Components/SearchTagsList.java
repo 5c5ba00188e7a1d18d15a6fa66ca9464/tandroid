@@ -50,7 +50,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CounterView;
-import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda8;
+import org.telegram.ui.Components.FloatingDebug.FloatingDebugView$$ExternalSyntheticLambda7;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Components.RecyclerListView;
@@ -144,7 +144,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         }
         LinearLayout linearLayout = new LinearLayout(getContext());
         this.premiumLayout = linearLayout;
-        linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda7
+        linearLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 SearchTagsList.this.lambda$createPremiumLayout$0(view);
@@ -185,7 +185,8 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_mini_lock3).mutate();
         int i2 = Theme.key_chat_messageLinkIn;
-        mutate.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.SRC_IN));
+        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+        mutate.setColorFilter(new PorterDuffColorFilter(i2, mode));
         ColoredImageSpan coloredImageSpan = new ColoredImageSpan(mutate);
         coloredImageSpan.setTranslateY(0.0f);
         coloredImageSpan.setTranslateX(0.0f);
@@ -203,7 +204,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(LocaleController.getString(R.string.AddTagsToYourSavedMessages2));
         SpannableString spannableString2 = new SpannableString(">");
         Drawable mutate2 = getContext().getResources().getDrawable(R.drawable.msg_arrowright).mutate();
-        mutate2.setColorFilter(new PorterDuffColorFilter(i2, PorterDuff.Mode.SRC_IN));
+        mutate2.setColorFilter(new PorterDuffColorFilter(i2, mode));
         ColoredImageSpan coloredImageSpan2 = new ColoredImageSpan(mutate2);
         coloredImageSpan2.setScale(0.76f, 0.76f);
         coloredImageSpan2.setTranslateX(-AndroidUtilities.dp(1.0f));
@@ -333,7 +334,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 }
                 i3++;
             }
-            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda5
+            this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda6
                 @Override // androidx.core.util.Consumer
                 public final void accept(Object obj) {
                     SearchTagsList.lambda$new$1((View) obj);
@@ -369,7 +370,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             reactionButton.startAnimation();
         }
         final Item item = this.items.get(i2);
-        ItemOptions.makeOptions(baseFragment, view).setGravity(3).add(R.drawable.menu_tag_rename, LocaleController.getString(TextUtils.isEmpty(item.name) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag), new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda6
+        ItemOptions.makeOptions(baseFragment, view).setGravity(3).add(R.drawable.menu_tag_rename, LocaleController.getString(TextUtils.isEmpty(item.name) ? R.string.SavedTagLabelTag : R.string.SavedTagRenameTag), new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 SearchTagsList.this.lambda$new$3(i, item, resourcesProvider);
@@ -414,16 +415,16 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     /* JADX WARN: Type inference failed for: r0v16, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r1v17 */
-    /* JADX WARN: Type inference failed for: r1v18, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v23 */
+    /* JADX WARN: Type inference failed for: r1v15 */
+    /* JADX WARN: Type inference failed for: r1v16, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v21 */
     public static void openRenameTagAlert(Context context, final int i, final TLRPC$Reaction tLRPC$Reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
         Object builder;
         ?? r1;
         BaseFragment lastFragment = LaunchActivity.getLastFragment();
         Activity findActivity = AndroidUtilities.findActivity(context);
         final View currentFocus = findActivity != null ? findActivity.getCurrentFocus() : null;
-        boolean z2 = (lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f)) && !z;
+        boolean z2 = lastFragment != null && (lastFragment.getFragmentView() instanceof SizeNotifierFrameLayout) && ((SizeNotifierFrameLayout) lastFragment.getFragmentView()).measureKeyboardHeight() > AndroidUtilities.dp(20.0f) && !z;
         final ?? r14 = new AlertDialog[1];
         if (z2) {
             builder = new AlertDialogDecor.Builder(context, resourcesProvider);
@@ -623,7 +624,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     }
 
     public void clear() {
-        this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
+        this.listView.forAllChild(new Consumer() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda2
             @Override // androidx.core.util.Consumer
             public final void accept(Object obj) {
                 SearchTagsList.lambda$clear$11((View) obj);
@@ -658,7 +659,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
             }
         } else if (i == NotificationCenter.emojiLoaded) {
             invalidate();
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) new FloatingDebugView$$ExternalSyntheticLambda8());
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (com.google.android.exoplayer2.util.Consumer<View>) new FloatingDebugView$$ExternalSyntheticLambda7());
         }
     }
 
@@ -734,7 +735,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         LinearLayout linearLayout = this.premiumLayout;
         if (linearLayout != null) {
             if (z) {
-                linearLayout.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda2
+                linearLayout.animate().alpha(0.0f).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         SearchTagsList.this.lambda$updateTags$12();
@@ -789,10 +790,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
         if (z) {
             setVisibility(0);
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.actionBarTagsT;
-        fArr[1] = z ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.actionBarTagsT, z ? 1.0f : 0.0f);
         this.actionBarTagsAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener

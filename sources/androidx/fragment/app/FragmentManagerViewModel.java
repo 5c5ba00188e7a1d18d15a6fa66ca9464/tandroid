@@ -101,11 +101,9 @@ public final class FragmentManagerViewModel extends ViewModel {
         if (this.mIsStateSaved) {
             if (FragmentManager.isLoggingEnabled(2)) {
                 Log.v("FragmentManager", "Ignoring removeRetainedFragment as the state is already saved");
-                return;
             }
-            return;
-        }
-        if ((this.mRetainedFragments.remove(fragment.mWho) != null) && FragmentManager.isLoggingEnabled(2)) {
+        } else if (this.mRetainedFragments.remove(fragment.mWho) == null || !FragmentManager.isLoggingEnabled(2)) {
+        } else {
             Log.v("FragmentManager", "Updating retained Fragments: Removed " + fragment);
         }
     }

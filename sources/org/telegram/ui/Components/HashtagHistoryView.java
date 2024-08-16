@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.util.Property;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import org.telegram.messenger.HashtagSearchController;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -90,7 +90,7 @@ public class HashtagHistoryView extends FrameLayout {
         this.emptyText.setText(LocaleController.getString(R.string.HashtagSearchPlaceholder));
         this.emptyText.setGravity(17);
         this.emptyView.addView(this.emptyText, LayoutHelper.createFrame(-2, -2.0f, 81, 0.0f, 56.0f, 0.0f, 0.0f));
-        addView(this.emptyView, LayoutHelper.createFrame(210, -2, 17));
+        addView(this.emptyView, LayoutHelper.createFrame((int) NotificationCenter.starGiftOptionsLoaded, -2, 17));
         this.recyclerView.setEmptyView(this.emptyView);
     }
 
@@ -109,12 +109,7 @@ public class HashtagHistoryView extends FrameLayout {
         setTag(z ? 1 : null);
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.animation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(this, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this, View.ALPHA, z ? 1.0f : 0.0f));
         this.animation.setInterpolator(CubicBezierInterpolator.EASE_IN);
         this.animation.setDuration(180L);
         this.animation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.HashtagHistoryView.2

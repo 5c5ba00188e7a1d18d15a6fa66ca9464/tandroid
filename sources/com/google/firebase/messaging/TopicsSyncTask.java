@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.firebase:firebase-messaging@@22.0.0 */
 /* loaded from: classes.dex */
@@ -35,17 +36,21 @@ public class TopicsSyncTask implements Runnable {
 
         @Override // android.content.BroadcastReceiver
         public synchronized void onReceive(Context context, Intent intent) {
-            TopicsSyncTask topicsSyncTask = this.task;
-            if (topicsSyncTask == null) {
-                return;
-            }
-            if (topicsSyncTask.isDeviceConnected()) {
-                if (TopicsSyncTask.access$100()) {
-                    Log.d("FirebaseMessaging", "Connectivity changed. Starting background sync.");
+            try {
+                TopicsSyncTask topicsSyncTask = this.task;
+                if (topicsSyncTask == null) {
+                    return;
                 }
-                this.task.topicsSubscriber.scheduleSyncTaskWithDelaySeconds(this.task, 0L);
-                context.unregisterReceiver(this);
-                this.task = null;
+                if (topicsSyncTask.isDeviceConnected()) {
+                    if (TopicsSyncTask.access$100()) {
+                        Log.d("FirebaseMessaging", "Connectivity changed. Starting background sync.");
+                    }
+                    this.task.topicsSubscriber.scheduleSyncTaskWithDelaySeconds(this.task, 0L);
+                    context.unregisterReceiver(this);
+                    this.task = null;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
 
@@ -71,7 +76,7 @@ public class TopicsSyncTask implements Runnable {
     }
 
     private static String createPermissionMissingLog(String str) {
-        StringBuilder sb = new StringBuilder(str.length() + 142);
+        StringBuilder sb = new StringBuilder(str.length() + NotificationCenter.filePreparingFailed);
         sb.append("Missing Permission: ");
         sb.append(str);
         sb.append(". This permission should normally be included by the manifest merger, but may needed to be manually added to your manifest");
@@ -82,15 +87,19 @@ public class TopicsSyncTask implements Runnable {
         boolean booleanValue;
         boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
-            Boolean bool = hasAccessNetworkStatePermission;
-            if (bool == null) {
-                booleanValue = hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool);
-            } else {
-                booleanValue = bool.booleanValue();
+            try {
+                Boolean bool = hasAccessNetworkStatePermission;
+                if (bool == null) {
+                    booleanValue = hasPermission(context, "android.permission.ACCESS_NETWORK_STATE", bool);
+                } else {
+                    booleanValue = bool.booleanValue();
+                }
+                Boolean valueOf = Boolean.valueOf(booleanValue);
+                hasAccessNetworkStatePermission = valueOf;
+                booleanValue2 = valueOf.booleanValue();
+            } catch (Throwable th) {
+                throw th;
             }
-            Boolean valueOf = Boolean.valueOf(booleanValue);
-            hasAccessNetworkStatePermission = valueOf;
-            booleanValue2 = valueOf.booleanValue();
         }
         return booleanValue2;
     }
@@ -111,29 +120,37 @@ public class TopicsSyncTask implements Runnable {
         boolean booleanValue;
         boolean booleanValue2;
         synchronized (TOPIC_SYNC_TASK_LOCK) {
-            Boolean bool = hasWakeLockPermission;
-            if (bool == null) {
-                booleanValue = hasPermission(context, "android.permission.WAKE_LOCK", bool);
-            } else {
-                booleanValue = bool.booleanValue();
+            try {
+                Boolean bool = hasWakeLockPermission;
+                if (bool == null) {
+                    booleanValue = hasPermission(context, "android.permission.WAKE_LOCK", bool);
+                } else {
+                    booleanValue = bool.booleanValue();
+                }
+                Boolean valueOf = Boolean.valueOf(booleanValue);
+                hasWakeLockPermission = valueOf;
+                booleanValue2 = valueOf.booleanValue();
+            } catch (Throwable th) {
+                throw th;
             }
-            Boolean valueOf = Boolean.valueOf(booleanValue);
-            hasWakeLockPermission = valueOf;
-            booleanValue2 = valueOf.booleanValue();
         }
         return booleanValue2;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized boolean isDeviceConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) this.context.getSystemService("connectivity");
-        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-        if (activeNetworkInfo != null) {
-            if (activeNetworkInfo.isConnected()) {
-                return true;
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) this.context.getSystemService("connectivity");
+            NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+            if (activeNetworkInfo != null) {
+                if (activeNetworkInfo.isConnected()) {
+                    return true;
+                }
             }
+            return false;
+        } catch (Throwable th) {
+            throw th;
         }
-        return false;
     }
 
     private static boolean isLoggable() {
@@ -184,10 +201,7 @@ public class TopicsSyncTask implements Runnable {
                         }
                     }
                 }
-            } catch (IOException e) {
-                String valueOf = String.valueOf(e.getMessage());
-                Log.e("FirebaseMessaging", valueOf.length() != 0 ? "Failed to sync topics. Won't retry sync. ".concat(valueOf) : new String("Failed to sync topics. Won't retry sync. "));
-                this.topicsSubscriber.setSyncScheduledOrRunning(false);
+            } catch (Throwable th) {
                 if (hasWakeLockPermission(this.context)) {
                     try {
                         this.syncWakeLock.release();
@@ -195,8 +209,12 @@ public class TopicsSyncTask implements Runnable {
                         Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
                     }
                 }
+                throw th;
             }
-        } catch (Throwable th) {
+        } catch (IOException e) {
+            String valueOf = String.valueOf(e.getMessage());
+            Log.e("FirebaseMessaging", valueOf.length() != 0 ? "Failed to sync topics. Won't retry sync. ".concat(valueOf) : new String("Failed to sync topics. Won't retry sync. "));
+            this.topicsSubscriber.setSyncScheduledOrRunning(false);
             if (hasWakeLockPermission(this.context)) {
                 try {
                     this.syncWakeLock.release();
@@ -204,7 +222,6 @@ public class TopicsSyncTask implements Runnable {
                     Log.i("FirebaseMessaging", "TopicsSyncTask's wakelock was already released due to timeout.");
                 }
             }
-            throw th;
         }
     }
 }

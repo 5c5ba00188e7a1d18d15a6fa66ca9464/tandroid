@@ -17,27 +17,31 @@ public class TintContextWrapper extends ContextWrapper {
     public static Context wrap(Context context) {
         if (shouldWrap(context)) {
             synchronized (CACHE_LOCK) {
-                ArrayList<WeakReference<TintContextWrapper>> arrayList = sCache;
-                if (arrayList == null) {
-                    sCache = new ArrayList<>();
-                } else {
-                    for (int size = arrayList.size() - 1; size >= 0; size--) {
-                        WeakReference<TintContextWrapper> weakReference = sCache.get(size);
-                        if (weakReference == null || weakReference.get() == null) {
-                            sCache.remove(size);
+                try {
+                    ArrayList<WeakReference<TintContextWrapper>> arrayList = sCache;
+                    if (arrayList == null) {
+                        sCache = new ArrayList<>();
+                    } else {
+                        for (int size = arrayList.size() - 1; size >= 0; size--) {
+                            WeakReference<TintContextWrapper> weakReference = sCache.get(size);
+                            if (weakReference == null || weakReference.get() == null) {
+                                sCache.remove(size);
+                            }
+                        }
+                        for (int size2 = sCache.size() - 1; size2 >= 0; size2--) {
+                            WeakReference<TintContextWrapper> weakReference2 = sCache.get(size2);
+                            TintContextWrapper tintContextWrapper = weakReference2 != null ? weakReference2.get() : null;
+                            if (tintContextWrapper != null && tintContextWrapper.getBaseContext() == context) {
+                                return tintContextWrapper;
+                            }
                         }
                     }
-                    for (int size2 = sCache.size() - 1; size2 >= 0; size2--) {
-                        WeakReference<TintContextWrapper> weakReference2 = sCache.get(size2);
-                        TintContextWrapper tintContextWrapper = weakReference2 != null ? weakReference2.get() : null;
-                        if (tintContextWrapper != null && tintContextWrapper.getBaseContext() == context) {
-                            return tintContextWrapper;
-                        }
-                    }
+                    TintContextWrapper tintContextWrapper2 = new TintContextWrapper(context);
+                    sCache.add(new WeakReference<>(tintContextWrapper2));
+                    return tintContextWrapper2;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                TintContextWrapper tintContextWrapper2 = new TintContextWrapper(context);
-                sCache.add(new WeakReference<>(tintContextWrapper2));
-                return tintContextWrapper2;
             }
         }
         return context;

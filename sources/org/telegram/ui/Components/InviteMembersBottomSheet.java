@@ -168,7 +168,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         }
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda0
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 InviteMembersBottomSheet.this.lambda$new$0(j, baseFragment, longSparseArray, context, view, i3);
@@ -222,7 +222,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 }
             });
         }
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda1
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 InviteMembersBottomSheet.this.lambda$new$2(context, j, view);
@@ -233,7 +233,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         imageView.setScaleY(0.0f);
         imageView.setAlpha(0.0f);
         imageView.setContentDescription(LocaleController.getString("Next", R.string.Next));
-        this.containerView.addView(imageView, LayoutHelper.createFrame(i3 >= 21 ? 56 : 60, i3 < 21 ? 60 : 56, 85, 14.0f, 14.0f, 14.0f, 14.0f));
+        this.containerView.addView(imageView, LayoutHelper.createFrame(i3 >= 21 ? 56 : 60, i3 >= 21 ? 56 : 60, 85, 14.0f, 14.0f, 14.0f, 14.0f));
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).topMargin = AndroidUtilities.dp(20.0f);
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).leftMargin = AndroidUtilities.dp(4.0f);
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).rightMargin = AndroidUtilities.dp(4.0f);
@@ -394,10 +394,10 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         NotificationCenter.getInstance(this.currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00c8  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0116  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x013e  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x00c4  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x0112  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x011f  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x013a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -409,11 +409,12 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         Object user;
         int size = arrayList.size();
         for (int i3 = 0; i3 < size; i3++) {
-            long longValue = arrayList.get(i3).longValue();
+            Long l = arrayList.get(i3);
+            long longValue = l.longValue();
             if (DialogObject.isChatDialog(longValue)) {
                 user = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-longValue));
             } else {
-                user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(longValue));
+                user = MessagesController.getInstance(this.currentAccount).getUser(l);
             }
             GroupCreateSpan groupCreateSpan = new GroupCreateSpan(this.spansContainer.getContext(), user);
             this.spansContainer.addSpan(groupCreateSpan, false);
@@ -495,10 +496,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 this.spansScrollView.setVisibility(0);
             }
             if (z) {
-                float[] fArr = new float[2];
-                fArr[0] = this.spansEnterProgress;
-                fArr[1] = z2 ? 1.0f : 0.0f;
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.spansEnterProgress, z2 ? 1.0f : 0.0f);
                 this.spansEnterAnimator = ofFloat;
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -582,7 +580,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.contactsEndRow = -1;
         this.copyLinkRow = -1;
         this.noContactsStubRow = -1;
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.emptyRow = 0;
         if (this.dialogsDelegate == null) {
             if (hasLink()) {
@@ -835,12 +833,12 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         /* JADX WARN: Code restructure failed: missing block: B:36:0x00b0, code lost:
             if (r13.toString().startsWith("@" + r3) != false) goto L27;
          */
-        /* JADX WARN: Removed duplicated region for block: B:57:0x010c  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x0111  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x0123  */
-        /* JADX WARN: Removed duplicated region for block: B:65:0x0128  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x0137  */
-        /* JADX WARN: Removed duplicated region for block: B:93:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:59:0x010e  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x0113  */
+        /* JADX WARN: Removed duplicated region for block: B:66:0x0125  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x012a  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x0139  */
+        /* JADX WARN: Removed duplicated region for block: B:95:? A[RETURN, SYNTHETIC] */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1159,7 +1157,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             if (baseFragment instanceof ChatActivity) {
                 boolean needEnterText = ((ChatActivity) baseFragment).needEnterText();
                 this.enterEventSent = true;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         InviteMembersBottomSheet.this.lambda$onSearchViewTouched$5(editTextBoldCursor);
@@ -1170,7 +1168,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             this.enterEventSent = true;
             setFocusable(true);
             editTextBoldCursor.requestFocus();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     AndroidUtilities.showKeyboard(EditTextBoldCursor.this);

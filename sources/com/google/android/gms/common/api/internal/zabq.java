@@ -301,17 +301,21 @@ public final class zabq implements GoogleApiClient.ConnectionCallbacks, GoogleAp
         zaae zaaeVar2;
         obj = GoogleApiManager.zac;
         synchronized (obj) {
-            GoogleApiManager googleApiManager = this.zaa;
-            zaaeVar = googleApiManager.zaq;
-            if (zaaeVar != null) {
-                set = googleApiManager.zar;
-                if (set.contains(this.zad)) {
-                    zaaeVar2 = this.zaa.zaq;
-                    zaaeVar2.zah(connectionResult, this.zah);
-                    return true;
+            try {
+                GoogleApiManager googleApiManager = this.zaa;
+                zaaeVar = googleApiManager.zaq;
+                if (zaaeVar != null) {
+                    set = googleApiManager.zar;
+                    if (set.contains(this.zad)) {
+                        zaaeVar2 = this.zaa.zaq;
+                        zaaeVar2.zah(connectionResult, this.zah);
+                        return true;
+                    }
                 }
+                return false;
+            } catch (Throwable th) {
+                throw th;
             }
-            return false;
         }
     }
 

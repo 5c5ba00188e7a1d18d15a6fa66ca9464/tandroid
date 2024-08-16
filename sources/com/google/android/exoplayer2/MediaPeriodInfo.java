@@ -17,11 +17,11 @@ final class MediaPeriodInfo {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public MediaPeriodInfo(MediaSource.MediaPeriodId mediaPeriodId, long j, long j2, long j3, long j4, boolean z, boolean z2, boolean z3, boolean z4) {
-        boolean z5 = false;
+        boolean z5 = true;
         Assertions.checkArgument(!z4 || z2);
         Assertions.checkArgument(!z3 || z2);
-        if (!z || (!z2 && !z3 && !z4)) {
-            z5 = true;
+        if (z && (z2 || z3 || z4)) {
+            z5 = false;
         }
         Assertions.checkArgument(z5);
         this.id = mediaPeriodId;
@@ -55,6 +55,6 @@ final class MediaPeriodInfo {
     }
 
     public int hashCode() {
-        return ((((((((((((((((527 + this.id.hashCode()) * 31) + ((int) this.startPositionUs)) * 31) + ((int) this.requestedContentPositionUs)) * 31) + ((int) this.endPositionUs)) * 31) + ((int) this.durationUs)) * 31) + (this.isFollowedByTransitionToSameStream ? 1 : 0)) * 31) + (this.isLastInTimelinePeriod ? 1 : 0)) * 31) + (this.isLastInTimelineWindow ? 1 : 0)) * 31) + (this.isFinal ? 1 : 0);
+        return ((((((((((((((((this.id.hashCode() + 527) * 31) + ((int) this.startPositionUs)) * 31) + ((int) this.requestedContentPositionUs)) * 31) + ((int) this.endPositionUs)) * 31) + ((int) this.durationUs)) * 31) + (this.isFollowedByTransitionToSameStream ? 1 : 0)) * 31) + (this.isLastInTimelinePeriod ? 1 : 0)) * 31) + (this.isLastInTimelineWindow ? 1 : 0)) * 31) + (this.isFinal ? 1 : 0);
     }
 }

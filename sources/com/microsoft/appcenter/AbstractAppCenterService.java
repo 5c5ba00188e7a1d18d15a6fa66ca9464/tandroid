@@ -102,32 +102,28 @@ public abstract class AbstractAppCenterService implements AppCenterService {
 
     @Override // com.microsoft.appcenter.AppCenterService
     public synchronized void setInstanceEnabled(boolean z) {
-        if (z == isInstanceEnabled()) {
-            String loggerTag = getLoggerTag();
-            Object[] objArr = new Object[2];
-            objArr[0] = getServiceName();
-            objArr[1] = z ? "enabled" : "disabled";
-            AppCenterLog.info(loggerTag, String.format("%s service has already been %s.", objArr));
-            return;
-        }
-        String groupName = getGroupName();
-        Channel channel = this.mChannel;
-        if (channel != null && groupName != null) {
-            if (z) {
-                channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
-            } else {
-                channel.clear(groupName);
-                this.mChannel.removeGroup(groupName);
+        try {
+            if (z == isInstanceEnabled()) {
+                AppCenterLog.info(getLoggerTag(), String.format("%s service has already been %s.", getServiceName(), z ? "enabled" : "disabled"));
+                return;
             }
-        }
-        SharedPreferencesManager.putBoolean(getEnabledPreferenceKey(), z);
-        String loggerTag2 = getLoggerTag();
-        Object[] objArr2 = new Object[2];
-        objArr2[0] = getServiceName();
-        objArr2[1] = z ? "enabled" : "disabled";
-        AppCenterLog.info(loggerTag2, String.format("%s service has been %s.", objArr2));
-        if (this.mChannel != null) {
-            applyEnabledState(z);
+            String groupName = getGroupName();
+            Channel channel = this.mChannel;
+            if (channel != null && groupName != null) {
+                if (z) {
+                    channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
+                } else {
+                    channel.clear(groupName);
+                    this.mChannel.removeGroup(groupName);
+                }
+            }
+            SharedPreferencesManager.putBoolean(getEnabledPreferenceKey(), z);
+            AppCenterLog.info(getLoggerTag(), String.format("%s service has been %s.", getServiceName(), z ? "enabled" : "disabled"));
+            if (this.mChannel != null) {
+                applyEnabledState(z);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -138,18 +134,22 @@ public abstract class AbstractAppCenterService implements AppCenterService {
 
     @Override // com.microsoft.appcenter.AppCenterService
     public synchronized void onStarted(Context context, Channel channel, String str, String str2, boolean z) {
-        String groupName = getGroupName();
-        boolean isInstanceEnabled = isInstanceEnabled();
-        if (groupName != null) {
-            channel.removeGroup(groupName);
-            if (isInstanceEnabled) {
-                channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
-            } else {
-                channel.clear(groupName);
+        try {
+            String groupName = getGroupName();
+            boolean isInstanceEnabled = isInstanceEnabled();
+            if (groupName != null) {
+                channel.removeGroup(groupName);
+                if (isInstanceEnabled) {
+                    channel.addGroup(groupName, getTriggerCount(), getTriggerInterval(), getTriggerMaxParallelRequests(), null, getChannelListener());
+                } else {
+                    channel.clear(groupName);
+                }
             }
+            this.mChannel = channel;
+            applyEnabledState(isInstanceEnabled);
+        } catch (Throwable th) {
+            throw th;
         }
-        this.mChannel = channel;
-        applyEnabledState(isInstanceEnabled);
     }
 
     /* JADX INFO: Access modifiers changed from: protected */

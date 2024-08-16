@@ -133,11 +133,15 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
     @Override // android.graphics.SurfaceTexture.OnFrameAvailableListener
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
         synchronized (this.mFrameSyncObject) {
-            if (this.mFrameAvailable) {
-                throw new RuntimeException("mFrameAvailable already set, frame could be dropped");
+            try {
+                if (this.mFrameAvailable) {
+                    throw new RuntimeException("mFrameAvailable already set, frame could be dropped");
+                }
+                this.mFrameAvailable = true;
+                this.mFrameSyncObject.notifyAll();
+            } catch (Throwable th) {
+                throw th;
             }
-            this.mFrameAvailable = true;
-            this.mFrameSyncObject.notifyAll();
         }
     }
 

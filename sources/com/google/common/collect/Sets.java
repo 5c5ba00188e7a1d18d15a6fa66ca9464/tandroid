@@ -244,7 +244,7 @@ public final class Sets {
         int i = 0;
         while (it.hasNext()) {
             Object next = it.next();
-            i = ((i + (next != null ? next.hashCode() : 0)) ^ (-1)) ^ (-1);
+            i += next != null ? next.hashCode() : 0;
         }
         return i;
     }

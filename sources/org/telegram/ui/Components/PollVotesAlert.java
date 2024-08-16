@@ -368,8 +368,10 @@ public class PollVotesAlert extends BottomSheet {
             }
             ArrayList<Animator> arrayList = this.animators;
             if (arrayList != null) {
-                arrayList.add(ObjectAnimator.ofFloat(this.avatarImageView, View.ALPHA, 0.0f, 1.0f));
-                this.animators.add(ObjectAnimator.ofFloat(this.nameTextView, View.ALPHA, 0.0f, 1.0f));
+                BackupImageView backupImageView = this.avatarImageView;
+                Property property = View.ALPHA;
+                arrayList.add(ObjectAnimator.ofFloat(backupImageView, property, 0.0f, 1.0f));
+                this.animators.add(ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f, 1.0f));
                 this.animators.add(ObjectAnimator.ofFloat(this, PollVotesAlert.USER_CELL_PROPERTY, 1.0f, 0.0f));
             } else if (this.drawPlaceholder) {
             } else {
@@ -922,7 +924,7 @@ public class PollVotesAlert extends BottomSheet {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final Integer[] numArr, final int i, final ChatActivity chatActivity, final ArrayList arrayList, final TLRPC$TL_pollAnswerVoters tLRPC$TL_pollAnswerVoters, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 PollVotesAlert.this.lambda$new$0(numArr, i, tLObject, chatActivity, arrayList, tLRPC$TL_pollAnswerVoters);
@@ -1033,10 +1035,11 @@ public class PollVotesAlert extends BottomSheet {
                 tLRPC$TL_messages_getPollVotes.peer = this.peer;
                 tLRPC$TL_messages_getPollVotes.id = this.messageObject.getId();
                 tLRPC$TL_messages_getPollVotes.limit = 50;
+                int i3 = tLRPC$TL_messages_getPollVotes.flags;
                 tLRPC$TL_messages_getPollVotes.option = votesList.option;
-                tLRPC$TL_messages_getPollVotes.flags = tLRPC$TL_messages_getPollVotes.flags | 1 | 2;
+                tLRPC$TL_messages_getPollVotes.flags = i3 | 3;
                 tLRPC$TL_messages_getPollVotes.offset = votesList.next_offset;
-                this.chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda4
+                this.chatActivity.getConnectionsManager().sendRequest(tLRPC$TL_messages_getPollVotes, new RequestDelegate() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda5
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                         PollVotesAlert.this.lambda$new$3(votesList, chatActivity, tLObject, tLRPC$TL_error);
@@ -1140,7 +1143,7 @@ public class PollVotesAlert extends BottomSheet {
         if (!z || i == 0) {
             return;
         }
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda5
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.Components.PollVotesAlert$$ExternalSyntheticLambda3
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$updateButtons$5;
@@ -1201,18 +1204,9 @@ public class PollVotesAlert extends BottomSheet {
             this.actionBarAnimation = animatorSet2;
             animatorSet2.setDuration(180L);
             AnimatorSet animatorSet3 = this.actionBarAnimation;
-            Animator[] animatorArr = new Animator[2];
             ActionBar actionBar = this.actionBar;
             Property property = View.ALPHA;
-            float[] fArr = new float[1];
-            fArr[0] = z2 ? 1.0f : 0.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(actionBar, property, fArr);
-            View view = this.actionBarShadow;
-            Property property2 = View.ALPHA;
-            float[] fArr2 = new float[1];
-            fArr2[0] = z2 ? 1.0f : 0.0f;
-            animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
-            animatorSet3.playTogether(animatorArr);
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, property, z2 ? 1.0f : 0.0f));
             this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PollVotesAlert.9
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {

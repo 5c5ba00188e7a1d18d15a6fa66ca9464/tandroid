@@ -85,10 +85,13 @@ public class EmojiCompat {
         EmojiCompat emojiCompat = sInstance;
         if (emojiCompat == null) {
             synchronized (INSTANCE_LOCK) {
-                emojiCompat = sInstance;
-                if (emojiCompat == null) {
-                    emojiCompat = new EmojiCompat(config);
-                    sInstance = emojiCompat;
+                try {
+                    emojiCompat = sInstance;
+                    if (emojiCompat == null) {
+                        emojiCompat = new EmojiCompat(config);
+                        sInstance = emojiCompat;
+                    }
+                } finally {
                 }
             }
         }
@@ -178,10 +181,13 @@ public class EmojiCompat {
         try {
             if (this.mLoadState != 1 && this.mLoadState != 2) {
                 this.mInitCallbacks.add(initCallback);
+                this.mInitLock.writeLock().unlock();
             }
             this.mMainHandler.post(new ListenerDispatcher(initCallback, this.mLoadState));
-        } finally {
             this.mInitLock.writeLock().unlock();
+        } catch (Throwable th) {
+            this.mInitLock.writeLock().unlock();
+            throw th;
         }
     }
 

@@ -401,13 +401,23 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01c6  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01db  */
+    /* JADX WARN: Type inference failed for: r2v10 */
+    /* JADX WARN: Type inference failed for: r2v20 */
+    /* JADX WARN: Type inference failed for: r2v31, types: [java.lang.CharSequence] */
+    /* JADX WARN: Type inference failed for: r8v1, types: [android.text.SpannableStringBuilder] */
     @Override // androidx.recyclerview.widget.RecyclerView.Adapter
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         long j;
         String str;
         long j2;
         boolean z;
         CharSequence charSequence;
+        String str2;
         int itemViewType = viewHolder.getItemViewType();
         if (itemViewType != 0) {
             if (itemViewType == 1) {
@@ -438,84 +448,90 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         }
         TLObject tLObject = (TLObject) getItem(i);
-        if (tLObject != null) {
-            CharSequence charSequence2 = null;
-            if (tLObject instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
-                str = UserObject.getPublicUsername(tLRPC$User);
-                if (str != null && this.lastQuery != null && !str.toLowerCase().contains(this.lastQuery.toLowerCase()) && tLRPC$User.usernames != null) {
-                    for (int i2 = 0; i2 < tLRPC$User.usernames.size(); i2++) {
-                        TLRPC$TL_username tLRPC$TL_username = tLRPC$User.usernames.get(i2);
-                        if (tLRPC$TL_username != null && tLRPC$TL_username.active && tLRPC$TL_username.username.toLowerCase().contains(this.lastQuery.toLowerCase())) {
-                            str = tLRPC$TL_username.username;
-                        }
+        if (tLObject == null) {
+            return;
+        }
+        String str3 = null;
+        if (tLObject instanceof TLRPC$User) {
+            TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
+            str = UserObject.getPublicUsername(tLRPC$User);
+            if (str != null && this.lastQuery != null && !str.toLowerCase().contains(this.lastQuery.toLowerCase()) && tLRPC$User.usernames != null) {
+                for (int i2 = 0; i2 < tLRPC$User.usernames.size(); i2++) {
+                    TLRPC$TL_username tLRPC$TL_username = tLRPC$User.usernames.get(i2);
+                    if (tLRPC$TL_username != null && tLRPC$TL_username.active && tLRPC$TL_username.username.toLowerCase().contains(this.lastQuery.toLowerCase())) {
+                        str = tLRPC$TL_username.username;
                     }
                 }
-                long j3 = tLRPC$User.id;
-                z = tLRPC$User.self;
-                j2 = j3;
-            } else {
-                if (tLObject instanceof TLRPC$Chat) {
-                    TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
-                    str = ChatObject.getPublicUsername(tLRPC$Chat);
-                    j = tLRPC$Chat.id;
-                } else {
-                    j = 0;
-                    str = null;
-                }
-                j2 = j;
-                z = false;
             }
-            if (i < this.searchResult.size()) {
-                CharSequence charSequence3 = this.searchResultNames.get(i);
-                if (charSequence3 != null && str != null && str.length() > 0) {
-                    if (charSequence3.toString().startsWith("@" + str)) {
-                        charSequence = charSequence3;
-                    }
-                }
-                charSequence = null;
-                charSequence2 = charSequence3;
-            } else if (i <= this.searchResult.size() || str == null) {
-                charSequence = null;
+            long j3 = tLRPC$User.id;
+            z = tLRPC$User.self;
+            j2 = j3;
+        } else {
+            if (tLObject instanceof TLRPC$Chat) {
+                TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) tLObject;
+                str = ChatObject.getPublicUsername(tLRPC$Chat);
+                j = tLRPC$Chat.id;
             } else {
-                String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
-                if (lastFoundUsername != null && lastFoundUsername.startsWith("@")) {
-                    lastFoundUsername = lastFoundUsername.substring(1);
-                }
-                try {
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                    spannableStringBuilder.append((CharSequence) "@");
-                    spannableStringBuilder.append((CharSequence) str);
-                    charSequence = spannableStringBuilder;
-                    if (lastFoundUsername != null) {
-                        int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername);
-                        charSequence = spannableStringBuilder;
-                        if (indexOfIgnoreCase != -1) {
-                            int length = lastFoundUsername.length();
-                            if (indexOfIgnoreCase == 0) {
-                                length++;
-                            } else {
-                                indexOfIgnoreCase++;
-                            }
-                            spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
-                            charSequence = spannableStringBuilder;
-                        }
+                j = 0;
+                str = null;
+            }
+            j2 = j;
+            z = false;
+        }
+        if (i < this.searchResult.size()) {
+            charSequence = this.searchResultNames.get(i);
+            if (charSequence != null && str != null && str.length() > 0) {
+                if (charSequence.toString().startsWith("@" + str)) {
+                    str2 = charSequence;
+                    if (this.useUserCell) {
+                        UserCell userCell = (UserCell) viewHolder.itemView;
+                        userCell.setData(tLObject, str3, str2, 0);
+                        userCell.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
+                        return;
                     }
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    charSequence = str;
+                    ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
+                    profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str3, str2, false, z);
+                    profileSearchCell2.useSeparator = (i == getItemCount() - 1 || i == this.searchResult.size() - 1) ? false : true;
+                    profileSearchCell2.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
+                    return;
                 }
+            }
+        } else if (i <= this.searchResult.size() || str == null) {
+            charSequence = null;
+        } else {
+            String lastFoundUsername = this.searchAdapterHelper.getLastFoundUsername();
+            if (lastFoundUsername != null && lastFoundUsername.startsWith("@")) {
+                lastFoundUsername = lastFoundUsername.substring(1);
+            }
+            try {
+                ?? spannableStringBuilder = new SpannableStringBuilder();
+                spannableStringBuilder.append("@");
+                spannableStringBuilder.append(str);
+                str2 = spannableStringBuilder;
+                if (lastFoundUsername != null) {
+                    int indexOfIgnoreCase = AndroidUtilities.indexOfIgnoreCase(str, lastFoundUsername);
+                    str2 = spannableStringBuilder;
+                    if (indexOfIgnoreCase != -1) {
+                        int length = lastFoundUsername.length();
+                        if (indexOfIgnoreCase == 0) {
+                            length++;
+                        } else {
+                            indexOfIgnoreCase++;
+                        }
+                        spannableStringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4), indexOfIgnoreCase, length + indexOfIgnoreCase, 33);
+                        str2 = spannableStringBuilder;
+                    }
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+                str2 = str;
             }
             if (this.useUserCell) {
-                UserCell userCell = (UserCell) viewHolder.itemView;
-                userCell.setData(tLObject, charSequence2, charSequence, 0);
-                userCell.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
-                return;
             }
-            ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
-            profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : charSequence2, charSequence, false, z);
-            profileSearchCell2.useSeparator = (i == getItemCount() - 1 || i == this.searchResult.size() - 1) ? false : true;
-            profileSearchCell2.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
+        }
+        str2 = null;
+        str3 = charSequence;
+        if (this.useUserCell) {
         }
     }
 

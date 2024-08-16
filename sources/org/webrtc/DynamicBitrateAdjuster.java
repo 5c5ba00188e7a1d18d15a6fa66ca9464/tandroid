@@ -30,45 +30,39 @@ class DynamicBitrateAdjuster extends BaseBitrateAdjuster {
         if (i2 == 0) {
             return;
         }
-        int i3 = this.targetBitrateBps;
-        double d = i3;
+        double d = this.targetBitrateBps;
         Double.isNaN(d);
         double d2 = d / BITS_PER_BYTE;
         double d3 = i2;
         Double.isNaN(d3);
-        double d4 = d2 / d3;
-        double d5 = this.deviationBytes;
-        double d6 = i;
-        Double.isNaN(d6);
-        double d7 = d5 + (d6 - d4);
-        this.deviationBytes = d7;
-        double d8 = this.timeSinceLastAdjustmentMs;
-        double d9 = i2;
-        Double.isNaN(d9);
-        this.timeSinceLastAdjustmentMs = d8 + (1000.0d / d9);
-        double d10 = i3;
-        Double.isNaN(d10);
-        double d11 = d10 / BITS_PER_BYTE;
-        double d12 = BITRATE_ADJUSTMENT_SEC * d11;
-        double min = Math.min(d7, d12);
+        double d4 = this.deviationBytes;
+        double d5 = i;
+        Double.isNaN(d5);
+        double d6 = d4 + (d5 - (d2 / d3));
+        this.deviationBytes = d6;
+        double d7 = this.timeSinceLastAdjustmentMs;
+        Double.isNaN(d3);
+        this.timeSinceLastAdjustmentMs = d7 + (1000.0d / d3);
+        double d8 = BITRATE_ADJUSTMENT_SEC * d2;
+        double min = Math.min(d6, d8);
         this.deviationBytes = min;
-        double max = Math.max(min, -d12);
+        double max = Math.max(min, -d8);
         this.deviationBytes = max;
         if (this.timeSinceLastAdjustmentMs <= 3000.0d) {
             return;
         }
-        if (max > d11) {
-            int i4 = this.bitrateAdjustmentScaleExp - ((int) ((max / d11) + 0.5d));
-            this.bitrateAdjustmentScaleExp = i4;
-            this.bitrateAdjustmentScaleExp = Math.max(i4, -20);
-            this.deviationBytes = d11;
+        if (max > d2) {
+            int i3 = this.bitrateAdjustmentScaleExp - ((int) ((max / d2) + 0.5d));
+            this.bitrateAdjustmentScaleExp = i3;
+            this.bitrateAdjustmentScaleExp = Math.max(i3, -20);
+            this.deviationBytes = d2;
         } else {
-            double d13 = -d11;
-            if (max < d13) {
-                int i5 = this.bitrateAdjustmentScaleExp + ((int) (((-max) / d11) + 0.5d));
-                this.bitrateAdjustmentScaleExp = i5;
-                this.bitrateAdjustmentScaleExp = Math.min(i5, 20);
-                this.deviationBytes = d13;
+            double d9 = -d2;
+            if (max < d9) {
+                int i4 = this.bitrateAdjustmentScaleExp + ((int) (((-max) / d2) + 0.5d));
+                this.bitrateAdjustmentScaleExp = i4;
+                this.bitrateAdjustmentScaleExp = Math.min(i4, 20);
+                this.deviationBytes = d9;
             }
         }
         this.timeSinceLastAdjustmentMs = 0.0d;

@@ -2,7 +2,6 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
 final class X implements E {
     private final double[] a;
@@ -14,12 +13,12 @@ final class X implements E {
         this.a = dArr;
         this.b = i;
         this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+        this.d = i3 | 16448;
     }
 
-    @Override // j$.util.E, j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return a.n(this, consumer);
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
+        a.b(this, consumer);
     }
 
     @Override // j$.util.Q
@@ -28,10 +27,10 @@ final class X implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: d */
-    public final void forEachRemaining(j$.util.function.m mVar) {
+    /* renamed from: e */
+    public final void forEachRemaining(j$.util.function.n nVar) {
         int i;
-        mVar.getClass();
+        nVar.getClass();
         double[] dArr = this.a;
         int length = dArr.length;
         int i2 = this.c;
@@ -41,7 +40,7 @@ final class X implements E {
         this.b = i2;
         if (i < i2) {
             do {
-                mVar.accept(dArr[i]);
+                nVar.accept(dArr[i]);
                 i++;
             } while (i < i2);
         }
@@ -50,11 +49,6 @@ final class X implements E {
     @Override // j$.util.Q
     public final long estimateSize() {
         return this.c - this.b;
-    }
-
-    @Override // j$.util.E, j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.f(this, consumer);
     }
 
     @Override // j$.util.Q
@@ -67,7 +61,7 @@ final class X implements E {
 
     @Override // j$.util.Q
     public final /* synthetic */ long getExactSizeIfKnown() {
-        return a.i(this);
+        return a.j(this);
     }
 
     @Override // j$.util.Q
@@ -76,16 +70,21 @@ final class X implements E {
     }
 
     @Override // j$.util.N
-    /* renamed from: o */
-    public final boolean tryAdvance(j$.util.function.m mVar) {
-        mVar.getClass();
+    /* renamed from: p */
+    public final boolean tryAdvance(j$.util.function.n nVar) {
+        nVar.getClass();
         int i = this.b;
         if (i < 0 || i >= this.c) {
             return false;
         }
         this.b = i + 1;
-        mVar.accept(this.a[i]);
+        nVar.accept(this.a[i]);
         return true;
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return a.n(this, consumer);
     }
 
     @Override // j$.util.Q

@@ -1,59 +1,75 @@
 package j$.util.stream;
-
-import j$.util.function.BiConsumer;
-import j$.util.function.Consumer;
-import j$.util.function.LongFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class W implements j$.util.function.G, j$.util.function.d0, LongFunction, j$.util.function.F0, BiConsumer, Consumer {
-    public final /* synthetic */ int a;
+final class W extends Y1 {
+    public final /* synthetic */ int b;
+    final /* synthetic */ b c;
 
-    public /* synthetic */ W(int i) {
-        this.a = i;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ W(b bVar, e2 e2Var, int i) {
+        super(e2Var);
+        this.b = i;
+        this.c = bVar;
     }
 
-    @Override // j$.util.function.Consumer
-    public final void accept(Object obj) {
-    }
-
-    @Override // j$.util.function.F0
-    public final void accept(Object obj, long j) {
-        ((j$.util.j) obj).accept(j);
-    }
-
-    @Override // j$.util.function.BiConsumer
-    public final void accept(Object obj, Object obj2) {
-        ((j$.util.j) obj).a((j$.util.j) obj2);
-    }
-
-    @Override // j$.util.function.BiConsumer
-    public final /* synthetic */ BiConsumer andThen(BiConsumer biConsumer) {
-        return BiConsumer.-CC.$default$andThen(this, biConsumer);
-    }
-
-    @Override // j$.util.function.Consumer
-    public final /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.function.LongFunction
-    public final Object apply(long j) {
-        return Long.valueOf(j);
-    }
-
-    @Override // j$.util.function.G
-    public final int applyAsInt(int i, int i2) {
-        return Math.max(i, i2);
-    }
-
-    @Override // j$.util.function.d0
-    public final long applyAsLong(long j, long j2) {
-        switch (this.a) {
+    @Override // j$.util.stream.e2
+    public final void accept(int i) {
+        switch (this.b) {
+            case 0:
+                ((j$.util.function.F) ((v) this.c).n).accept(i);
+                this.a.accept(i);
+                return;
             case 1:
-                return Math.min(j, j2);
+                this.a.accept(((j$.util.function.O) ((v) this.c).n).a.applyAsInt(i));
+                return;
             case 2:
-                return Math.max(j, j2);
+                this.a.accept((e2) ((j$.util.function.I) ((u) this.c).n).apply(i));
+                return;
+            case 3:
+                this.a.accept(((j$.util.function.N) ((w) this.c).n).applyAsLong(i));
+                return;
+            case 4:
+                this.a.accept(((j$.util.function.K) ((t) this.c).n).a.applyAsDouble(i));
+                return;
+            case 5:
+                IntStream intStream = (IntStream) ((j$.util.function.I) ((v) this.c).n).apply(i);
+                if (intStream != null) {
+                    try {
+                        intStream.sequential().L(new U(1, this));
+                    } catch (Throwable th) {
+                        try {
+                            intStream.close();
+                        } catch (Throwable th2) {
+                            th.addSuppressed(th2);
+                        }
+                        throw th;
+                    }
+                }
+                if (intStream != null) {
+                    intStream.close();
+                    return;
+                }
+                return;
             default:
-                return j + j2;
+                if (((j$.util.function.J) ((v) this.c).n).a.test(i)) {
+                    this.a.accept(i);
+                    return;
+                }
+                return;
+        }
+    }
+
+    @Override // j$.util.stream.Y1, j$.util.stream.e2
+    public void n(long j) {
+        switch (this.b) {
+            case 5:
+                this.a.n(-1L);
+                return;
+            case 6:
+                this.a.n(-1L);
+                return;
+            default:
+                super.n(j);
+                return;
         }
     }
 }

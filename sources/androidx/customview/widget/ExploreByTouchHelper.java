@@ -108,7 +108,7 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
         }
         this.mHoveredVirtualViewId = i;
         sendEventForVirtualView(i, 128);
-        sendEventForVirtualView(i2, LiteMode.FLAG_CHAT_BLUR);
+        sendEventForVirtualView(i2, 256);
     }
 
     private AccessibilityEvent createEvent(int i, int i2) {

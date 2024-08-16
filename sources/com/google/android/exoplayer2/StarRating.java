@@ -27,9 +27,12 @@ public final class StarRating extends Rating {
     }
 
     public StarRating(int i, float f) {
-        boolean z = true;
+        boolean z = false;
         Assertions.checkArgument(i > 0, "maxStars must be a positive integer");
-        Assertions.checkArgument((f < 0.0f || f > ((float) i)) ? false : false, "starRating is out of range [0, maxStars]");
+        if (f >= 0.0f && f <= i) {
+            z = true;
+        }
+        Assertions.checkArgument(z, "starRating is out of range [0, maxStars]");
         this.maxStars = i;
         this.starRating = f;
     }

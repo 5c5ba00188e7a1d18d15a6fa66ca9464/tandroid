@@ -14,10 +14,13 @@ public class zzef {
         zzef zzefVar = zzc;
         if (zzefVar == null) {
             synchronized (zzef.class) {
-                zzefVar = zzc;
-                if (zzefVar == null) {
-                    zzefVar = zzd;
-                    zzc = zzefVar;
+                try {
+                    zzefVar = zzc;
+                    if (zzefVar == null) {
+                        zzefVar = zzd;
+                        zzc = zzefVar;
+                    }
+                } finally {
                 }
             }
         }

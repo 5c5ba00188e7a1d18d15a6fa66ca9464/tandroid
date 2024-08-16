@@ -1,11 +1,9 @@
 package com.google.android.gms.internal.mlkit_language_id;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzhk implements Iterator<String>, j$.util.Iterator {
+final class zzhk implements Iterator<String> {
     private Iterator<String> zza;
     private final /* synthetic */ zzhi zzb;
 
@@ -17,28 +15,18 @@ final class zzhk implements Iterator<String>, j$.util.Iterator {
         this.zza = zzfgVar.iterator();
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super String> consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         return this.zza.hasNext();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
-    public final /* synthetic */ Object next() {
+    @Override // java.util.Iterator
+    public final /* synthetic */ String next() {
         return this.zza.next();
     }
 }

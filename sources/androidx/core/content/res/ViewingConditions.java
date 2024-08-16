@@ -120,10 +120,13 @@ final class ViewingConditions {
         Double.isNaN(d5);
         double d6 = fArr6[2] * cbrt * f9;
         Double.isNaN(d6);
-        float pow2 = (float) Math.pow(d6 / 100.0d, 0.42d);
-        float[] fArr7 = {(float) Math.pow(d4 / 100.0d, 0.42d), (float) Math.pow(d5 / 100.0d, 0.42d), pow2};
+        float[] fArr7 = {(float) Math.pow(d4 / 100.0d, 0.42d), (float) Math.pow(d5 / 100.0d, 0.42d), (float) Math.pow(d6 / 100.0d, 0.42d)};
         float f14 = fArr7[0];
-        float f15 = fArr7[1];
-        return new ViewingConditions(yFromLStar, ((((f14 * 400.0f) / (f14 + 27.13f)) * 2.0f) + ((f15 * 400.0f) / (f15 + 27.13f)) + (((400.0f * pow2) / (pow2 + 27.13f)) * 0.05f)) * pow, pow, pow, lerp, f10, fArr6, cbrt, (float) Math.pow(cbrt, 0.25d), sqrt);
+        float f15 = (f14 * 400.0f) / (f14 + 27.13f);
+        float f16 = fArr7[1];
+        float f17 = (f16 * 400.0f) / (f16 + 27.13f);
+        float f18 = fArr7[2];
+        float[] fArr8 = {f15, f17, (400.0f * f18) / (f18 + 27.13f)};
+        return new ViewingConditions(yFromLStar, ((fArr8[0] * 2.0f) + fArr8[1] + (fArr8[2] * 0.05f)) * pow, pow, pow, lerp, f10, fArr6, cbrt, (float) Math.pow(cbrt, 0.25d), sqrt);
     }
 }

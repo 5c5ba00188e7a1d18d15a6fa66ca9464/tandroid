@@ -124,7 +124,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode = this.giftCode;
             if (tLRPC$TL_payments_checkedGiftCode.boost != null) {
-                headerCell.setGiftLinkToUserText(tLRPC$TL_payments_checkedGiftCode.to_id, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
+                headerCell.setGiftLinkToUserText(tLRPC$TL_payments_checkedGiftCode.to_id, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
@@ -138,7 +138,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             LinkCell linkCell = (LinkCell) viewHolder.itemView;
             linkCell.setSlug(this.slug);
             if (this.giftCode.boost != null && this.slug == null) {
-                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         GiftInfoAdapter.this.onHiddenLinkClicked();
@@ -147,7 +147,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             String str = this.slug;
             if ((str == null || str.isEmpty()) && this.giftCode.to_id == -1) {
-                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
+                linkCell.hideSlug(new Runnable() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         GiftInfoAdapter.this.onHiddenLinkClicked();
@@ -155,7 +155,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 });
             }
         } else if (itemViewType == 2) {
-            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
+            ((TableCell) viewHolder.itemView).setData(this.giftCode, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.onObjectClicked((TLObject) obj);
@@ -167,7 +167,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             }
             final ActionBtnCell actionBtnCell = (ActionBtnCell) viewHolder.itemView;
             actionBtnCell.setOkStyle(this.isUnused);
-            actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda3
+            actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$2(actionBtnCell, view);
@@ -176,7 +176,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             TLRPC$TL_payments_checkedGiftCode tLRPC$TL_payments_checkedGiftCode2 = this.giftCode;
             if (tLRPC$TL_payments_checkedGiftCode2.boost != null || tLRPC$TL_payments_checkedGiftCode2.flags == -1) {
                 actionBtnCell.setCloseStyle();
-                actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda4
+                actionBtnCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda1
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         GiftInfoAdapter.this.lambda$onBindViewHolder$3(view);
@@ -218,12 +218,12 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
                 return;
             }
             actionBtnCell.updateLoading(true);
-            BoostRepository.applyGiftCode(this.slug, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda5
+            BoostRepository.applyGiftCode(this.slug, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$0(actionBtnCell, (Void) obj);
                 }
-            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda6
+            }, new Utilities.Callback() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda7
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     GiftInfoAdapter.this.lambda$onBindViewHolder$1(actionBtnCell, (TLRPC$TL_error) obj);
@@ -255,7 +255,7 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
         bundle.putBoolean("onlySelect", true);
         bundle.putInt("dialogsType", 3);
         DialogsActivity dialogsActivity = new DialogsActivity(bundle);
-        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda7
+        dialogsActivity.setDelegate(new DialogsActivity.DialogsActivityDelegate() { // from class: org.telegram.ui.Components.Premium.boosts.adapters.GiftInfoAdapter$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.DialogsActivity.DialogsActivityDelegate
             public final boolean didSelectDialogs(DialogsActivity dialogsActivity2, ArrayList arrayList, CharSequence charSequence, boolean z, TopicsFragment topicsFragment) {
                 boolean lambda$share$4;

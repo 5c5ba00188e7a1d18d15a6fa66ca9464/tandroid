@@ -7,7 +7,6 @@ import android.view.animation.Interpolator;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ImageReceiver;
 /* loaded from: classes3.dex */
 public class SmoothScroller extends LinearSmoothScroller {
     private float durationScale;
@@ -77,6 +76,6 @@ public class SmoothScroller extends LinearSmoothScroller {
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // androidx.recyclerview.widget.LinearSmoothScroller
     public int calculateTimeForScrolling(int i) {
-        return Math.round(Math.min(super.calculateTimeForScrolling(i), (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION) * this.durationScale);
+        return Math.round(Math.min(super.calculateTimeForScrolling(i), 150) * this.durationScale);
     }
 }

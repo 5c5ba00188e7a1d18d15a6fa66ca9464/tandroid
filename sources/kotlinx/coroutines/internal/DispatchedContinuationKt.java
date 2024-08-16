@@ -31,7 +31,6 @@ public final class DispatchedContinuationKt {
     }
 
     public static final <T> void resumeCancellableWith(Continuation<? super T> continuation, Object obj, Function1<? super Throwable, Unit> function1) {
-        boolean z;
         if (continuation instanceof DispatchedContinuation) {
             DispatchedContinuation dispatchedContinuation = (DispatchedContinuation) continuation;
             Object state = CompletionStateKt.toState(obj, function1);
@@ -46,16 +45,12 @@ public final class DispatchedContinuationKt {
                 eventLoop$kotlinx_coroutines_core.incrementUseCount(true);
                 try {
                     Job job = (Job) dispatchedContinuation.getContext().get(Job.Key);
-                    if (job == null || job.isActive()) {
-                        z = false;
-                    } else {
+                    if (job != null && !job.isActive()) {
                         CancellationException cancellationException = job.getCancellationException();
                         dispatchedContinuation.cancelCompletedResult$kotlinx_coroutines_core(state, cancellationException);
                         Result.Companion companion = Result.Companion;
                         dispatchedContinuation.resumeWith(Result.constructor-impl(ResultKt.createFailure(cancellationException)));
-                        z = true;
-                    }
-                    if (!z) {
+                    } else {
                         Continuation<T> continuation2 = dispatchedContinuation.continuation;
                         Object obj2 = dispatchedContinuation.countOrElement;
                         CoroutineContext context = continuation2.getContext();

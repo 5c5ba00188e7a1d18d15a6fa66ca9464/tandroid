@@ -343,7 +343,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         LayoutParams layoutParams = (LayoutParams) view.getLayoutParams();
         int makeMeasureSpec = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i3) - i4, View.MeasureSpec.getMode(i3));
         ActionMenuItemView actionMenuItemView = view instanceof ActionMenuItemView ? (ActionMenuItemView) view : null;
-        boolean z = true;
+        boolean z = false;
         boolean z2 = actionMenuItemView != null && actionMenuItemView.hasText();
         if (i2 > 0) {
             i5 = 2;
@@ -357,14 +357,20 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
                 if (!z2 || i6 >= 2) {
                     i5 = i6;
                 }
-                layoutParams.expandable = (layoutParams.isOverflowButton && z2) ? false : false;
+                if (!layoutParams.isOverflowButton && z2) {
+                    z = true;
+                }
+                layoutParams.expandable = z;
                 layoutParams.cellsUsed = i5;
                 view.measure(View.MeasureSpec.makeMeasureSpec(i * i5, 1073741824), makeMeasureSpec);
                 return i5;
             }
         }
         i5 = 0;
-        layoutParams.expandable = (layoutParams.isOverflowButton && z2) ? false : false;
+        if (!layoutParams.isOverflowButton) {
+            z = true;
+        }
+        layoutParams.expandable = z;
         layoutParams.cellsUsed = i5;
         view.measure(View.MeasureSpec.makeMeasureSpec(i * i5, 1073741824), makeMeasureSpec);
         return i5;
@@ -599,7 +605,7 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         View childAt = getChildAt(i - 1);
         View childAt2 = getChildAt(i);
         if (i < getChildCount() && (childAt instanceof ActionMenuChildView)) {
-            z = false | ((ActionMenuChildView) childAt).needsDividerAfter();
+            z = ((ActionMenuChildView) childAt).needsDividerAfter();
         }
         return (i <= 0 || !(childAt2 instanceof ActionMenuChildView)) ? z : z | ((ActionMenuChildView) childAt2).needsDividerBefore();
     }

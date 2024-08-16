@@ -1,23 +1,45 @@
 package j$.util.function;
+
+import java.util.function.LongUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class e0 implements h0 {
-    public final /* synthetic */ h0 a;
-    public final /* synthetic */ h0 b;
+public final /* synthetic */ class e0 implements LongUnaryOperator {
+    public final /* synthetic */ f0 a;
 
-    public /* synthetic */ e0(h0 h0Var, h0 h0Var2) {
-        this.a = h0Var;
-        this.b = h0Var2;
+    private /* synthetic */ e0(f0 f0Var) {
+        this.a = f0Var;
     }
 
-    @Override // j$.util.function.h0
-    public final void accept(long j) {
-        this.a.accept(j);
-        this.b.accept(j);
+    public static /* synthetic */ LongUnaryOperator a(f0 f0Var) {
+        if (f0Var == null) {
+            return null;
+        }
+        return f0Var instanceof d0 ? ((d0) f0Var).a : new e0(f0Var);
     }
 
-    @Override // j$.util.function.h0
-    public final h0 i(h0 h0Var) {
-        h0Var.getClass();
-        return new e0(this, h0Var);
+    @Override // java.util.function.LongUnaryOperator
+    public final /* synthetic */ LongUnaryOperator andThen(LongUnaryOperator longUnaryOperator) {
+        return a(this.a.a(d0.b(longUnaryOperator)));
+    }
+
+    @Override // java.util.function.LongUnaryOperator
+    public final /* synthetic */ long applyAsLong(long j) {
+        return this.a.applyAsLong(j);
+    }
+
+    @Override // java.util.function.LongUnaryOperator
+    public final /* synthetic */ LongUnaryOperator compose(LongUnaryOperator longUnaryOperator) {
+        return a(this.a.c(d0.b(longUnaryOperator)));
+    }
+
+    public final /* synthetic */ boolean equals(Object obj) {
+        f0 f0Var = this.a;
+        if (obj instanceof e0) {
+            obj = ((e0) obj).a;
+        }
+        return f0Var.equals(obj);
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
     }
 }

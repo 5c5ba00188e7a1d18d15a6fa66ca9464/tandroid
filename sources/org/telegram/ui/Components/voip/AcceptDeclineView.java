@@ -117,9 +117,10 @@ public class AcceptDeclineView extends View {
         String string = LocaleController.getString("AcceptCall", R.string.AcceptCall);
         String string2 = LocaleController.getString("DeclineCall", R.string.DeclineCall);
         String string3 = LocaleController.getString("RetryCall", R.string.RetryCall);
-        this.acceptLayout = new StaticLayout(string, textPaint, (int) textPaint.measureText(string), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        this.declineLayout = new StaticLayout(string2, textPaint, (int) textPaint.measureText(string2), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        this.retryLayout = new StaticLayout(string3, textPaint, (int) textPaint.measureText(string3), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+        this.acceptLayout = new StaticLayout(string, textPaint, (int) textPaint.measureText(string), alignment, 1.0f, 0.0f, false);
+        this.declineLayout = new StaticLayout(string2, textPaint, (int) textPaint.measureText(string2), alignment, 1.0f, 0.0f, false);
+        this.retryLayout = new StaticLayout(string3, textPaint, (int) textPaint.measureText(string3), alignment, 1.0f, 0.0f, false);
         this.callDrawable = ContextCompat.getDrawable(context, R.drawable.calls_decline).mutate();
         Drawable mutate = ContextCompat.getDrawable(context, R.drawable.ic_close_white).mutate();
         this.cancelDrawable = mutate;
@@ -148,8 +149,8 @@ public class AcceptDeclineView extends View {
         this.linePaint.setColor(-1);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0015, code lost:
-        if (r0 != 3) goto L12;
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x0015, code lost:
+        if (r2 != 3) goto L11;
      */
     @Override // android.view.View
     /*
@@ -192,7 +193,7 @@ public class AcceptDeclineView extends View {
                 if (this.captured) {
                     if (this.leftDrag) {
                         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.leftOffsetX, 0.0f);
-                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
+                        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 AcceptDeclineView.this.lambda$onTouchEvent$0(valueAnimator);
@@ -205,7 +206,7 @@ public class AcceptDeclineView extends View {
                         }
                     } else {
                         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(this.rigthOffsetX, 0.0f);
-                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda2
+                        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda1
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                                 AcceptDeclineView.this.lambda$onTouchEvent$1(valueAnimator);
@@ -357,7 +358,7 @@ public class AcceptDeclineView extends View {
         this.declineDrawable.setColor(-1041108);
         ValueAnimator ofInt = ValueAnimator.ofInt(0, 60, 0, 0, 60, 0, 0, 0, 0);
         this.callAnimator = ofInt;
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda0
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.AcceptDeclineView$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AcceptDeclineView.this.lambda$setRetryMod$2(valueAnimator);

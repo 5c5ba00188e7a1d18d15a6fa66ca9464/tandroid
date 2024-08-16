@@ -67,7 +67,7 @@ public abstract class zzae<T> {
         this(zzaoVar, str, obj);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:45:0x0020 A[Catch: all -> 0x002a, TryCatch #0 {, blocks: (B:34:0x0007, B:36:0x000d, B:43:0x001c, B:45:0x0020, B:46:0x0023, B:47:0x0025, B:39:0x0014), top: B:53:0x0007 }] */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x0022 A[Catch: all -> 0x0014, TryCatch #0 {all -> 0x0014, blocks: (B:35:0x0007, B:37:0x000d, B:46:0x001e, B:48:0x0022, B:49:0x0025, B:50:0x0027, B:42:0x0016), top: B:55:0x0007 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -75,22 +75,26 @@ public abstract class zzae<T> {
         boolean isDeviceProtectedStorage;
         if (zzh == null) {
             synchronized (zzdn) {
-                if (Build.VERSION.SDK_INT >= 24) {
-                    isDeviceProtectedStorage = context.isDeviceProtectedStorage();
-                    if (isDeviceProtectedStorage) {
-                        if (zzh != context) {
-                            zzdp = null;
+                try {
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        isDeviceProtectedStorage = context.isDeviceProtectedStorage();
+                        if (isDeviceProtectedStorage) {
+                            if (zzh != context) {
+                                zzdp = null;
+                            }
+                            zzh = context;
                         }
-                        zzh = context;
                     }
+                    Context applicationContext = context.getApplicationContext();
+                    if (applicationContext != null) {
+                        context = applicationContext;
+                    }
+                    if (zzh != context) {
+                    }
+                    zzh = context;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                Context applicationContext = context.getApplicationContext();
-                if (applicationContext != null) {
-                    context = applicationContext;
-                }
-                if (zzh != context) {
-                }
-                zzh = context;
             }
             zzdo = false;
         }

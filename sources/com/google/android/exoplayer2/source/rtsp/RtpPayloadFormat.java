@@ -6,6 +6,7 @@ import com.google.common.base.Ascii;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class RtpPayloadFormat {
     public final int clockRate;
@@ -317,6 +318,6 @@ public final class RtpPayloadFormat {
     }
 
     public int hashCode() {
-        return ((((((((217 + this.rtpPayloadType) * 31) + this.clockRate) * 31) + this.format.hashCode()) * 31) + this.fmtpParameters.hashCode()) * 31) + this.mediaEncoding.hashCode();
+        return ((((((((this.rtpPayloadType + NotificationCenter.channelStarsUpdated) * 31) + this.clockRate) * 31) + this.format.hashCode()) * 31) + this.fmtpParameters.hashCode()) * 31) + this.mediaEncoding.hashCode();
     }
 }

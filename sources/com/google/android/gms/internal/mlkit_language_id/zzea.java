@@ -3,6 +3,7 @@ package com.google.android.gms.internal.mlkit_language_id;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
 public abstract class zzea extends zzdk {
@@ -182,7 +183,7 @@ public abstract class zzea extends zzdk {
             if (bArr == null) {
                 throw new NullPointerException("buffer");
             }
-            if ((i2 | 0 | (bArr.length - i2)) < 0) {
+            if (((bArr.length - i2) | i2) < 0) {
                 throw new IllegalArgumentException(String.format("Array range is invalid. Buffer.length=%d, offset=%d, length=%d", Integer.valueOf(bArr.length), 0, Integer.valueOf(i2)));
             }
             this.zzb = bArr;
@@ -315,7 +316,7 @@ public abstract class zzea extends zzdk {
                         byte[] bArr = this.zzb;
                         int i2 = this.zze;
                         this.zze = i2 + 1;
-                        bArr[i2] = (byte) ((i & 127) | 128);
+                        bArr[i2] = (byte) ((i & NotificationCenter.dialogTranslate) | 128);
                         i >>>= 7;
                     } catch (IndexOutOfBoundsException e) {
                         throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
@@ -328,7 +329,7 @@ public abstract class zzea extends zzdk {
             } else if ((i & (-128)) == 0) {
                 byte[] bArr3 = this.zzb;
                 int i4 = this.zze;
-                this.zze = i4 + 1;
+                this.zze = 1 + i4;
                 zzhn.zza(bArr3, i4, (byte) i);
             } else {
                 byte[] bArr4 = this.zzb;
@@ -339,7 +340,7 @@ public abstract class zzea extends zzdk {
                 if ((i6 & (-128)) == 0) {
                     byte[] bArr5 = this.zzb;
                     int i7 = this.zze;
-                    this.zze = i7 + 1;
+                    this.zze = 1 + i7;
                     zzhn.zza(bArr5, i7, (byte) i6);
                     return;
                 }
@@ -347,11 +348,11 @@ public abstract class zzea extends zzdk {
                 int i8 = this.zze;
                 this.zze = i8 + 1;
                 zzhn.zza(bArr6, i8, (byte) (i6 | 128));
-                int i9 = i6 >>> 7;
+                int i9 = i >>> 14;
                 if ((i9 & (-128)) == 0) {
                     byte[] bArr7 = this.zzb;
                     int i10 = this.zze;
-                    this.zze = i10 + 1;
+                    this.zze = 1 + i10;
                     zzhn.zza(bArr7, i10, (byte) i9);
                     return;
                 }
@@ -359,11 +360,11 @@ public abstract class zzea extends zzdk {
                 int i11 = this.zze;
                 this.zze = i11 + 1;
                 zzhn.zza(bArr8, i11, (byte) (i9 | 128));
-                int i12 = i9 >>> 7;
+                int i12 = i >>> 21;
                 if ((i12 & (-128)) == 0) {
                     byte[] bArr9 = this.zzb;
                     int i13 = this.zze;
-                    this.zze = i13 + 1;
+                    this.zze = 1 + i13;
                     zzhn.zza(bArr9, i13, (byte) i12);
                     return;
                 }
@@ -373,8 +374,8 @@ public abstract class zzea extends zzdk {
                 zzhn.zza(bArr10, i14, (byte) (i12 | 128));
                 byte[] bArr11 = this.zzb;
                 int i15 = this.zze;
-                this.zze = i15 + 1;
-                zzhn.zza(bArr11, i15, (byte) (i12 >>> 7));
+                this.zze = 1 + i15;
+                zzhn.zza(bArr11, i15, (byte) (i >>> 28));
             }
         }
 
@@ -383,14 +384,11 @@ public abstract class zzea extends zzdk {
             try {
                 byte[] bArr = this.zzb;
                 int i2 = this.zze;
-                int i3 = i2 + 1;
                 bArr[i2] = (byte) i;
-                int i4 = i3 + 1;
-                bArr[i3] = (byte) (i >> 8);
-                int i5 = i4 + 1;
-                bArr[i4] = (byte) (i >> 16);
-                this.zze = i5 + 1;
-                bArr[i5] = (byte) (i >>> 24);
+                bArr[i2 + 1] = (byte) (i >> 8);
+                bArr[i2 + 2] = (byte) (i >> 16);
+                this.zze = i2 + 4;
+                bArr[i2 + 3] = (byte) (i >>> 24);
             } catch (IndexOutOfBoundsException e) {
                 throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
             }
@@ -403,12 +401,12 @@ public abstract class zzea extends zzdk {
                     byte[] bArr = this.zzb;
                     int i = this.zze;
                     this.zze = i + 1;
-                    zzhn.zza(bArr, i, (byte) ((((int) j) & 127) | 128));
+                    zzhn.zza(bArr, i, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                     j >>>= 7;
                 }
                 byte[] bArr2 = this.zzb;
                 int i2 = this.zze;
-                this.zze = i2 + 1;
+                this.zze = 1 + i2;
                 zzhn.zza(bArr2, i2, (byte) j);
                 return;
             }
@@ -417,7 +415,7 @@ public abstract class zzea extends zzdk {
                     byte[] bArr3 = this.zzb;
                     int i3 = this.zze;
                     this.zze = i3 + 1;
-                    bArr3[i3] = (byte) ((((int) j) & 127) | 128);
+                    bArr3[i3] = (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128);
                     j >>>= 7;
                 } catch (IndexOutOfBoundsException e) {
                     throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
@@ -434,22 +432,15 @@ public abstract class zzea extends zzdk {
             try {
                 byte[] bArr = this.zzb;
                 int i = this.zze;
-                int i2 = i + 1;
                 bArr[i] = (byte) j;
-                int i3 = i2 + 1;
-                bArr[i2] = (byte) (j >> 8);
-                int i4 = i3 + 1;
-                bArr[i3] = (byte) (j >> 16);
-                int i5 = i4 + 1;
-                bArr[i4] = (byte) (j >> 24);
-                int i6 = i5 + 1;
-                bArr[i5] = (byte) (j >> 32);
-                int i7 = i6 + 1;
-                bArr[i6] = (byte) (j >> 40);
-                int i8 = i7 + 1;
-                bArr[i7] = (byte) (j >> 48);
-                this.zze = i8 + 1;
-                bArr[i8] = (byte) (j >> 56);
+                bArr[i + 1] = (byte) (j >> 8);
+                bArr[i + 2] = (byte) (j >> 16);
+                bArr[i + 3] = (byte) (j >> 24);
+                bArr[i + 4] = (byte) (j >> 32);
+                bArr[i + 5] = (byte) (j >> 40);
+                bArr[i + 6] = (byte) (j >> 48);
+                this.zze = i + 8;
+                bArr[i + 7] = (byte) (j >> 56);
             } catch (IndexOutOfBoundsException e) {
                 throw new zzb(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
             }

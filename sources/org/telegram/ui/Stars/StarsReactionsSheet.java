@@ -107,10 +107,12 @@ public class StarsReactionsSheet extends BottomSheet {
     private final FrameLayout topLayout;
     private final TopSendersView topSendersView;
 
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
     public StarsReactionsSheet(final Context context, final int i, long j, final ChatActivity chatActivity, final MessageObject messageObject, ArrayList<TLRPC$MessageReactor> arrayList, boolean z, final Theme.ResourcesProvider resourcesProvider) {
         super(context, false, resourcesProvider);
         TLRPC$MessageReactor tLRPC$MessageReactor;
         String formatString;
+        int i2 = 9;
         this.starRef = new ColoredImageSpan[1];
         this.checkedVisiblity = false;
         this.resourcesProvider = resourcesProvider;
@@ -146,15 +148,14 @@ public class StarsReactionsSheet extends BottomSheet {
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
         this.slider = new StarsSlider(context) { // from class: org.telegram.ui.Stars.StarsReactionsSheet.1
             @Override // org.telegram.ui.Stars.StarsReactionsSheet.StarsSlider
-            public void onValueChanged(int i2) {
-                long j2 = i2;
+            public void onValueChanged(int i3) {
+                long j2 = i3;
                 StarsReactionsSheet.this.updateSenders(j2);
                 if (StarsReactionsSheet.this.buttonView != null) {
                     StarsReactionsSheet.this.buttonView.setText(StarsIntroActivity.replaceStars(LocaleController.formatString(R.string.StarsReactionSend, LocaleController.formatNumber(j2, ',')), StarsReactionsSheet.this.starRef), true);
                 }
             }
         };
-        int i2 = 9;
         int[] iArr = {1, 50, 100, 500, 1000, 2000, 5000, 7500, 10000};
         long j2 = MessagesController.getInstance(i).starsPaidReactionAmountMax;
         ArrayList arrayList2 = new ArrayList();
@@ -222,10 +223,7 @@ public class StarsReactionsSheet extends BottomSheet {
         if (tLRPC$MessageReactor != null) {
             formatString = LocaleController.formatPluralStringComma("StarsReactionTextSent", tLRPC$MessageReactor.count);
         } else {
-            int i8 = R.string.StarsReactionText;
-            Object[] objArr = new Object[1];
-            objArr[0] = chat == null ? "" : chat.title;
-            formatString = LocaleController.formatString(i8, objArr);
+            formatString = LocaleController.formatString(R.string.StarsReactionText, chat == null ? "" : chat.title);
         }
         textView2.setText(AndroidUtilities.replaceTags(formatString));
         if (z) {
@@ -266,7 +264,7 @@ public class StarsReactionsSheet extends BottomSheet {
                     StarsReactionsSheet.this.lambda$new$1(i, chatActivity, (Long) obj);
                 }
             });
-            this.layout.addView(topSendersView, LayoutHelper.createLinear(-1, (int) R.styleable.AppCompatTheme_textColorAlertDialogListItem));
+            this.layout.addView(topSendersView, LayoutHelper.createLinear(-1, 110));
             View view2 = new View(context);
             this.checkSeparatorView = view2;
             view2.setBackgroundColor(Theme.getColor(Theme.key_divider, resourcesProvider));
@@ -351,12 +349,12 @@ public class StarsReactionsSheet extends BottomSheet {
         gLIconTextureView.mRenderer.white = 1.0f;
         gLIconTextureView.setVisibility(4);
         gLIconTextureView.setPaused(true);
-        this.container.addView(gLIconTextureView, LayoutHelper.createFrame(ImageReceiver.DEFAULT_CROSSFADE_DURATION, 150.0f));
+        this.container.addView(gLIconTextureView, LayoutHelper.createFrame(150, 150.0f));
         this.slider.setValue(50);
         if (arrayList != null) {
             long j3 = 0;
-            for (int i9 = 0; i9 < arrayList.size(); i9++) {
-                long j4 = arrayList.get(i9).count;
+            for (int i8 = 0; i8 < arrayList.size(); i8++) {
+                long j4 = arrayList.get(i8).count;
                 if (j4 > j3) {
                     j3 = j4;
                 }
@@ -933,14 +931,15 @@ public class StarsReactionsSheet extends BottomSheet {
             this.gradient.setLocalMatrix(this.gradientMatrix);
             this.sliderPaint.setShader(this.gradient);
             this.sliderInnerPath.rewind();
-            this.sliderInnerPath.addRoundRect(this.sliderInnerRect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Path.Direction.CW);
+            Path.Direction direction = Path.Direction.CW;
+            this.sliderInnerPath.addRoundRect(this.sliderInnerRect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), direction);
             canvas.drawPath(this.sliderInnerPath, this.sliderInnerPaint);
             this.sliderRect.set(this.sliderInnerRect);
             float progress = getProgress(getValue());
             RectF rectF = this.sliderRect;
             rectF.right = AndroidUtilities.lerp(rectF.left + AndroidUtilities.dp(24.0f), this.sliderRect.right, progress);
             this.sliderPath.rewind();
-            this.sliderPath.addRoundRect(this.sliderRect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), Path.Direction.CW);
+            this.sliderPath.addRoundRect(this.sliderRect, AndroidUtilities.dp(12.0f), AndroidUtilities.dp(12.0f), direction);
             this.sliderParticles.setBounds(this.sliderInnerRect);
             this.sliderParticles.setSpeed((this.progress * 15.0f) + 1.0f);
             this.sliderParticles.setVisible((this.progress * 0.85f) + 0.15f);
@@ -1608,7 +1607,7 @@ public class StarsReactionsSheet extends BottomSheet {
                         this.anonymousAvatarDrawable.setBounds(i2 - (AndroidUtilities.dp(56.0f) / 2), i3 - (AndroidUtilities.dp(56.0f) / 2), i2 + (AndroidUtilities.dp(56.0f) / 2), i3 + (AndroidUtilities.dp(56.0f) / 2));
                         this.anonymousAvatarDrawable.setAlpha((int) (f2 * 255.0f * f4));
                         this.anonymousAvatarDrawable.draw(canvas);
-                        this.anonymousAvatarDrawable.setAlpha(255);
+                        this.anonymousAvatarDrawable.setAlpha(NotificationCenter.voipServiceCreated);
                     }
                 }
                 RectF rectF = AndroidUtilities.rectTmp;

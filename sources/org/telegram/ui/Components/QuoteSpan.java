@@ -30,6 +30,7 @@ import java.util.TreeSet;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
@@ -195,7 +196,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         return i3;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0107  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -252,8 +253,8 @@ public class QuoteSpan implements LeadingMarginSpan {
                     }
                     if (spannable instanceof SpannableStringBuilder) {
                         SpannableStringBuilder spannableStringBuilder = (SpannableStringBuilder) spannable;
-                        int i6 = block.span.end;
-                        boolean z3 = i6 + (-1) >= 0 && spannableStringBuilder.charAt(i6 + (-1)) == '\n';
+                        int i6 = block.span.end - 1;
+                        boolean z3 = i6 >= 0 && spannableStringBuilder.charAt(i6) == '\n';
                         if (block.hasButton()) {
                             int i7 = block.span.end;
                             if (i7 - 2 >= 0 && layout.getLineRight(layout.getLineForOffset(i7 - 1)) - AndroidUtilities.dp(12.0f) > block.width - block.buttonWidth()) {
@@ -431,6 +432,7 @@ public class QuoteSpan implements LeadingMarginSpan {
         public void draw(Canvas canvas, float f, int i, int i2, float f2, TextPaint textPaint) {
             QuoteSpan quoteSpan;
             int i3;
+            int i4;
             this.span.setColor(i2);
             int dp = this.span.edit ? i : this.width + AndroidUtilities.dp(32.0f);
             double d = i;
@@ -459,7 +461,10 @@ public class QuoteSpan implements LeadingMarginSpan {
             fArr5[3] = dp2;
             fArr4[2] = dp2;
             this.span.backgroundPath.rewind();
-            this.span.backgroundPath.addRoundRect(rectF, this.span.backgroundPathRadii, Path.Direction.CW);
+            Path path = this.span.backgroundPath;
+            float[] fArr8 = this.span.backgroundPathRadii;
+            Path.Direction direction = Path.Direction.CW;
+            path.addRoundRect(rectF, fArr8, direction);
             canvas.drawPath(this.span.backgroundPath, this.span.backgroundPaint);
             QuoteSpan quoteSpan2 = this.span;
             if (quoteSpan2.edit && this.view != null) {
@@ -474,9 +479,8 @@ public class QuoteSpan implements LeadingMarginSpan {
                 if (this.collapseButtonBounds == null) {
                     this.collapseButtonBounds = new RectF();
                 }
-                int i4 = this.bottom;
                 float f3 = dp - dp5;
-                this.collapseButtonBounds.set(i3 - dp3, (i4 - dp5) - dp4, f3, i4 - dp5);
+                this.collapseButtonBounds.set(i3 - dp3, i4 - dp4, f3, this.bottom - dp5);
                 float scale = this.span.expandScale.set(hasButton()) * this.span.expandBounce.getScale(0.02f);
                 if (scale > 0.0f) {
                     canvas.save();
@@ -497,24 +501,24 @@ public class QuoteSpan implements LeadingMarginSpan {
                 }
             }
             rectF.set(-AndroidUtilities.dp(3.0f), this.top, 0.0f, this.bottom);
-            float[] fArr8 = this.span.linePathRadii;
             float[] fArr9 = this.span.linePathRadii;
             float[] fArr10 = this.span.linePathRadii;
             float[] fArr11 = this.span.linePathRadii;
-            float dp7 = AndroidUtilities.dp(4.0f);
-            fArr11[7] = dp7;
-            fArr10[6] = dp7;
-            fArr9[1] = dp7;
-            fArr8[0] = dp7;
             float[] fArr12 = this.span.linePathRadii;
+            float dp7 = AndroidUtilities.dp(4.0f);
+            fArr12[7] = dp7;
+            fArr11[6] = dp7;
+            fArr10[1] = dp7;
+            fArr9[0] = dp7;
             float[] fArr13 = this.span.linePathRadii;
             float[] fArr14 = this.span.linePathRadii;
+            float[] fArr15 = this.span.linePathRadii;
             this.span.linePathRadii[5] = 0.0f;
-            fArr14[4] = 0.0f;
-            fArr13[3] = 0.0f;
-            fArr12[2] = 0.0f;
+            fArr15[4] = 0.0f;
+            fArr14[3] = 0.0f;
+            fArr13[2] = 0.0f;
             this.span.linePath.rewind();
-            this.span.linePath.addRoundRect(rectF, this.span.linePathRadii, Path.Direction.CW);
+            this.span.linePath.addRoundRect(rectF, this.span.linePathRadii, direction);
             canvas.drawPath(this.span.linePath, this.span.linePaint);
             if (!this.span.rtl) {
                 int intrinsicHeight = (int) (((this.top + this.bottom) - quoteSpan.quoteDrawable.getIntrinsicHeight()) / 2.0f);
@@ -614,8 +618,9 @@ public class QuoteSpan implements LeadingMarginSpan {
         loop1: while (true) {
             z = false;
             while (it.hasNext()) {
-                int intValue = ((Integer) it.next()).intValue();
-                int intValue2 = ((Integer) hashMap.get(Integer.valueOf(intValue))).intValue();
+                Integer num = (Integer) it.next();
+                int intValue = num.intValue();
+                int intValue2 = ((Integer) hashMap.get(num)).intValue();
                 if (i4 != intValue) {
                     int i6 = intValue - 1;
                     int i7 = (i6 < 0 || i6 >= spannableStringBuilder.length() || spannableStringBuilder.charAt(i6) != '\n') ? intValue : intValue - 1;
@@ -672,8 +677,9 @@ public class QuoteSpan implements LeadingMarginSpan {
         loop1: while (true) {
             z = false;
             while (it.hasNext()) {
-                int intValue = ((Integer) it.next()).intValue();
-                int intValue2 = ((Integer) hashMap.get(Integer.valueOf(intValue))).intValue();
+                Integer num = (Integer) it.next();
+                int intValue = num.intValue();
+                int intValue2 = ((Integer) hashMap.get(num)).intValue();
                 if (i2 != intValue) {
                     int i4 = intValue - 1;
                     int i5 = (i4 < 0 || i4 >= editable.length() || editable.charAt(i4) != '\n') ? intValue : intValue - 1;
@@ -765,7 +771,7 @@ public class QuoteSpan implements LeadingMarginSpan {
             this.paint = paint;
             Path path = new Path();
             this.path = path;
-            this.alpha = 255;
+            this.alpha = NotificationCenter.voipServiceCreated;
             this.view = view;
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeCap(Paint.Cap.ROUND);

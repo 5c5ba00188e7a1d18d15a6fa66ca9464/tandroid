@@ -32,7 +32,7 @@ public final class SavedStateRegistryController {
     public final void performAttach() {
         Lifecycle lifecycle = this.owner.getLifecycle();
         Intrinsics.checkNotNullExpressionValue(lifecycle, "owner.lifecycle");
-        if (!(lifecycle.getCurrentState() == Lifecycle.State.INITIALIZED)) {
+        if (lifecycle.getCurrentState() != Lifecycle.State.INITIALIZED) {
             throw new IllegalStateException("Restarter must be created only during owner's initialization stage".toString());
         }
         lifecycle.addObserver(new Recreator(this.owner));

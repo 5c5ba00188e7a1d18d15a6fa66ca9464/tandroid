@@ -50,27 +50,27 @@ import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PhotoViewer;
 /* loaded from: classes3.dex */
 public class PipVideoOverlay {
-    private static final FloatPropertyCompat<PipVideoOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda1
+    private static final FloatPropertyCompat<PipVideoOverlay> PIP_X_PROPERTY = new SimpleFloatPropertyCompat("pipX", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda2
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((PipVideoOverlay) obj).pipX;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda2
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda3
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             PipVideoOverlay.lambda$static$1((PipVideoOverlay) obj, f);
         }
     });
-    private static final FloatPropertyCompat<PipVideoOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda3
+    private static final FloatPropertyCompat<PipVideoOverlay> PIP_Y_PROPERTY = new SimpleFloatPropertyCompat("pipY", new SimpleFloatPropertyCompat.Getter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda4
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Getter
         public final float get(Object obj) {
             float f;
             f = ((PipVideoOverlay) obj).pipY;
             return f;
         }
-    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda4
+    }, new SimpleFloatPropertyCompat.Setter() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda5
         @Override // org.telegram.ui.Components.SimpleFloatPropertyCompat.Setter
         public final void set(Object obj, float f) {
             PipVideoOverlay.lambda$static$3((PipVideoOverlay) obj, f);
@@ -119,20 +119,20 @@ public class PipVideoOverlay {
     private float maxScaleFactor = 1.4f;
     private float scaleFactor = 1.0f;
     private VideoForwardDrawable videoForwardDrawable = new VideoForwardDrawable(false);
-    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda7
+    private Runnable progressRunnable = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$4();
         }
     };
     private float[] longClickStartPoint = new float[2];
-    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
+    private Runnable longClickCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.onLongClick();
         }
     };
-    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
+    private Runnable dismissControlsCallback = new Runnable() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
         @Override // java.lang.Runnable
         public final void run() {
             PipVideoOverlay.this.lambda$new$5();
@@ -370,13 +370,10 @@ public class PipVideoOverlay {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void toggleControls(boolean z) {
-        float[] fArr = new float[2];
-        fArr[0] = z ? 0.0f : 1.0f;
-        fArr[1] = z ? 1.0f : 0.0f;
-        ValueAnimator duration = ValueAnimator.ofFloat(fArr).setDuration(200L);
+        ValueAnimator duration = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f).setDuration(200L);
         this.controlsAnimator = duration;
         duration.setInterpolator(CubicBezierInterpolator.DEFAULT);
-        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda5
+        this.controlsAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 PipVideoOverlay.this.lambda$toggleControls$6(valueAnimator);
@@ -553,9 +550,7 @@ public class PipVideoOverlay {
         this.isVideoCompleted = true;
         this.videoProgress = 0.0f;
         this.bufferProgress = 0.0f;
-        if (videoProgressView != null) {
-            videoProgressView.invalidate();
-        }
+        videoProgressView.invalidate();
         updatePlayButtonInternal();
         AndroidUtilities.cancelRunOnUIThread(this.progressRunnable);
         if (this.isShowingControls) {
@@ -604,8 +599,8 @@ public class PipVideoOverlay {
         if (pipX != -1.0f) {
             float f3 = rect.width;
             float f4 = pipX + (f3 / 2.0f);
-            int i = AndroidUtilities.displaySize.x;
-            rect.x = f4 >= ((float) i) / 2.0f ? (i - f3) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f);
+            float f5 = AndroidUtilities.displaySize.x;
+            rect.x = f4 >= f5 / 2.0f ? (f5 - f3) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f);
         } else {
             rect.x = (AndroidUtilities.displaySize.x - rect.width) - AndroidUtilities.dp(16.0f);
         }
@@ -651,13 +646,13 @@ public class PipVideoOverlay {
         this.pipWidth = (int) (getSuggestedWidth() * this.scaleFactor);
         this.pipHeight = (int) (getSuggestedHeight() * this.scaleFactor);
         this.isShowingControls = false;
-        this.pipXSpring = new SpringAnimation(this, PIP_X_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
+        this.pipXSpring = new SpringAnimation(this, PIP_X_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda7
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f, float f2) {
                 PipVideoOverlay.this.lambda$showInternal$7(dynamicAnimation, z3, f, f2);
             }
         });
-        this.pipYSpring = new SpringAnimation(this, PIP_Y_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
+        this.pipYSpring = new SpringAnimation(this, PIP_Y_PROPERTY).setSpring(new SpringForce().setDampingRatio(0.75f).setStiffness(650.0f)).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda8
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z3, float f, float f2) {
                 PipVideoOverlay.this.lambda$showInternal$8(dynamicAnimation, z3, f, f2);
@@ -737,22 +732,20 @@ public class PipVideoOverlay {
 
             @Override // android.view.View
             protected void onConfigurationChanged(Configuration configuration) {
+                PipVideoOverlay pipVideoOverlay;
+                PipVideoOverlay pipVideoOverlay2;
                 AndroidUtilities.checkDisplaySize(getContext(), configuration);
                 PipVideoOverlay.this.pipConfig = null;
                 if (PipVideoOverlay.this.pipWidth == PipVideoOverlay.this.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor && PipVideoOverlay.this.pipHeight == PipVideoOverlay.this.getSuggestedHeight() * PipVideoOverlay.this.scaleFactor) {
                     return;
                 }
-                WindowManager.LayoutParams layoutParams = PipVideoOverlay.this.windowLayoutParams;
-                PipVideoOverlay pipVideoOverlay = PipVideoOverlay.this;
-                layoutParams.width = pipVideoOverlay.pipWidth = (int) (pipVideoOverlay.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor);
-                WindowManager.LayoutParams layoutParams2 = PipVideoOverlay.this.windowLayoutParams;
-                PipVideoOverlay pipVideoOverlay2 = PipVideoOverlay.this;
-                layoutParams2.height = pipVideoOverlay2.pipHeight = (int) (pipVideoOverlay2.getSuggestedHeight() * PipVideoOverlay.this.scaleFactor);
+                PipVideoOverlay.this.windowLayoutParams.width = PipVideoOverlay.this.pipWidth = (int) (pipVideoOverlay.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor);
+                PipVideoOverlay.this.windowLayoutParams.height = PipVideoOverlay.this.pipHeight = (int) (pipVideoOverlay2.getSuggestedHeight() * PipVideoOverlay.this.scaleFactor);
                 PipVideoOverlay.this.windowManager.updateViewLayout(PipVideoOverlay.this.contentView, PipVideoOverlay.this.windowLayoutParams);
                 SpringForce spring = PipVideoOverlay.this.pipXSpring.setStartValue(PipVideoOverlay.this.pipX).getSpring();
                 float suggestedWidth = PipVideoOverlay.this.pipX + ((PipVideoOverlay.this.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor) / 2.0f);
-                int i5 = AndroidUtilities.displaySize.x;
-                spring.setFinalPosition(suggestedWidth >= ((float) i5) / 2.0f ? (i5 - (PipVideoOverlay.this.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor)) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f));
+                float f = AndroidUtilities.displaySize.x;
+                spring.setFinalPosition(suggestedWidth >= f / 2.0f ? (f - (PipVideoOverlay.this.getSuggestedWidth() * PipVideoOverlay.this.scaleFactor)) - AndroidUtilities.dp(16.0f) : AndroidUtilities.dp(16.0f));
                 PipVideoOverlay.this.pipXSpring.start();
                 PipVideoOverlay.this.pipYSpring.setStartValue(PipVideoOverlay.this.pipY).getSpring().setFinalPosition(MathUtils.clamp(PipVideoOverlay.this.pipY, AndroidUtilities.dp(16.0f), (AndroidUtilities.displaySize.y - (PipVideoOverlay.this.getSuggestedHeight() * PipVideoOverlay.this.scaleFactor)) - AndroidUtilities.dp(16.0f)));
                 PipVideoOverlay.this.pipYSpring.start();
@@ -845,11 +838,13 @@ public class PipVideoOverlay {
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(R.drawable.pip_video_close);
         int i5 = Theme.key_voipgroup_actionBarItems;
-        imageView.setColorFilter(Theme.getColor(i5), PorterDuff.Mode.MULTIPLY);
+        int color = Theme.getColor(i5);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView.setColorFilter(color, mode);
         int i6 = Theme.key_listSelector;
         imageView.setBackground(Theme.createSelectorDrawable(Theme.getColor(i6)));
         imageView.setPadding(dp, dp, dp, dp);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda12
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.dismissAndDestroy();
@@ -860,10 +855,10 @@ public class PipVideoOverlay {
         this.controlsView.addView(imageView, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, f2, 0.0f));
         ImageView imageView2 = new ImageView(context);
         imageView2.setImageResource(R.drawable.pip_video_expand);
-        imageView2.setColorFilter(Theme.getColor(i5), PorterDuff.Mode.MULTIPLY);
+        imageView2.setColorFilter(Theme.getColor(i5), mode);
         imageView2.setBackground(Theme.createSelectorDrawable(Theme.getColor(i6)));
         imageView2.setPadding(dp, dp, dp, dp);
-        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda13
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda10
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$10(z, view3);
@@ -872,9 +867,9 @@ public class PipVideoOverlay {
         this.controlsView.addView(imageView2, LayoutHelper.createFrame(38, f, 5, 0.0f, f2, 48, 0.0f));
         ImageView imageView3 = new ImageView(context);
         this.playPauseButton = imageView3;
-        imageView3.setColorFilter(Theme.getColor(i5), PorterDuff.Mode.MULTIPLY);
+        imageView3.setColorFilter(Theme.getColor(i5), mode);
         this.playPauseButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(i6)));
-        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda14
+        this.playPauseButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PipVideoOverlay$$ExternalSyntheticLambda11
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
                 PipVideoOverlay.this.lambda$showInternal$11(view3);
@@ -1100,7 +1095,7 @@ public class PipVideoOverlay {
             return true;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:46:0x00b6  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x00b5  */
         @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnDoubleTapListener
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -1259,7 +1254,7 @@ public class PipVideoOverlay {
         }
         if (!z && (!z2 || !LaunchActivity.isResumed)) {
             Objects.requireNonNull(view);
-            LaunchActivity.onResumeStaticCallback = new EmbedBottomSheet$$ExternalSyntheticLambda7(view);
+            LaunchActivity.onResumeStaticCallback = new EmbedBottomSheet$$ExternalSyntheticLambda6(view);
             Context context = ApplicationLoader.applicationContext;
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(268435456);
@@ -1333,13 +1328,17 @@ public class PipVideoOverlay {
             this.progressPaint = new Paint();
             this.bufferPaint = new Paint();
             this.progressPaint.setColor(-1);
-            this.progressPaint.setStyle(Paint.Style.STROKE);
-            this.progressPaint.setStrokeCap(Paint.Cap.ROUND);
+            Paint paint = this.progressPaint;
+            Paint.Style style = Paint.Style.STROKE;
+            paint.setStyle(style);
+            Paint paint2 = this.progressPaint;
+            Paint.Cap cap = Paint.Cap.ROUND;
+            paint2.setStrokeCap(cap);
             this.progressPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
             this.bufferPaint.setColor(this.progressPaint.getColor());
             this.bufferPaint.setAlpha((int) (this.progressPaint.getAlpha() * 0.3f));
-            this.bufferPaint.setStyle(Paint.Style.STROKE);
-            this.bufferPaint.setStrokeCap(Paint.Cap.ROUND);
+            this.bufferPaint.setStyle(style);
+            this.bufferPaint.setStrokeCap(cap);
             this.bufferPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         }
 

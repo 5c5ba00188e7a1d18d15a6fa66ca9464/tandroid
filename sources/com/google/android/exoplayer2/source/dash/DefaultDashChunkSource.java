@@ -99,12 +99,8 @@ public class DefaultDashChunkSource implements DashChunkSource {
         while (i4 < this.representationHolders.length) {
             Representation representation = representations.get(exoTrackSelection.getIndexInTrackGroup(i4));
             BaseUrl selectBaseUrl = baseUrlExclusionList.selectBaseUrl(representation.baseUrls);
-            RepresentationHolder[] representationHolderArr = this.representationHolders;
-            if (selectBaseUrl == null) {
-                selectBaseUrl = representation.baseUrls.get(0);
-            }
             int i5 = i4;
-            representationHolderArr[i5] = new RepresentationHolder(periodDurationUs, representation, selectBaseUrl, factory.createProgressiveMediaExtractor(i2, representation.format, z, list, playerTrackEmsgHandler, playerId), 0L, representation.getIndex());
+            this.representationHolders[i5] = new RepresentationHolder(periodDurationUs, representation, selectBaseUrl == null ? representation.baseUrls.get(0) : selectBaseUrl, factory.createProgressiveMediaExtractor(i2, representation.format, z, list, playerTrackEmsgHandler, playerId), 0L, representation.getIndex());
             i4 = i5 + 1;
         }
     }
@@ -215,8 +211,8 @@ public class DefaultDashChunkSource implements DashChunkSource {
                 }
                 i3 = i + 1;
                 msToUs2 = j4;
-                mediaChunkIteratorArr2 = mediaChunkIteratorArr;
                 length = i2;
+                mediaChunkIteratorArr2 = mediaChunkIteratorArr;
                 j5 = j3;
             }
             long j6 = j5;
@@ -375,17 +371,17 @@ public class DefaultDashChunkSource implements DashChunkSource {
         return j - Util.msToUs(j2 + dashManifest.getPeriod(this.periodIndex).startMs);
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:5:0x0011, code lost:
+        if (r3 == null) goto L6;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     protected Chunk newInitializationChunk(RepresentationHolder representationHolder, DataSource dataSource, Format format, int i, Object obj, RangedUri rangedUri, RangedUri rangedUri2) {
         RangedUri rangedUri3 = rangedUri;
         Representation representation = representationHolder.representation;
-        if (rangedUri3 != null) {
-            RangedUri attemptMerge = rangedUri3.attemptMerge(rangedUri2, representationHolder.selectedBaseUrl.url);
-            if (attemptMerge != null) {
-                rangedUri3 = attemptMerge;
-            }
-        } else {
-            rangedUri3 = rangedUri2;
-        }
+        RangedUri attemptMerge = rangedUri3 != null ? rangedUri3.attemptMerge(rangedUri2, representationHolder.selectedBaseUrl.url) : rangedUri2;
+        rangedUri3 = attemptMerge;
         return new InitializationChunk(dataSource, DashUtil.buildDataSpec(representation, representationHolder.selectedBaseUrl.url, rangedUri3, 0), format, i, obj, representationHolder.chunkExtractor);
     }
 
@@ -469,7 +465,6 @@ public class DefaultDashChunkSource implements DashChunkSource {
 
         RepresentationHolder copyWithNewRepresentation(long j, Representation representation) throws BehindLiveWindowException {
             long segmentNum;
-            long segmentNum2;
             DashSegmentIndex index = this.representation.getIndex();
             DashSegmentIndex index2 = representation.getIndex();
             if (index == null) {
@@ -484,24 +479,24 @@ public class DefaultDashChunkSource implements DashChunkSource {
             }
             long firstSegmentNum = index.getFirstSegmentNum();
             long timeUs = index.getTimeUs(firstSegmentNum);
-            long j2 = (segmentCount + firstSegmentNum) - 1;
-            long timeUs2 = index.getTimeUs(j2) + index.getDurationUs(j2, j);
+            long j2 = segmentCount + firstSegmentNum;
+            long j3 = j2 - 1;
+            long timeUs2 = index.getTimeUs(j3) + index.getDurationUs(j3, j);
             long firstSegmentNum2 = index2.getFirstSegmentNum();
             long timeUs3 = index2.getTimeUs(firstSegmentNum2);
-            long j3 = this.segmentNumShift;
-            if (timeUs2 == timeUs3) {
-                segmentNum = j2 + 1;
-            } else if (timeUs2 < timeUs3) {
-                throw new BehindLiveWindowException();
-            } else {
-                if (timeUs3 < timeUs) {
-                    segmentNum2 = j3 - (index2.getSegmentNum(timeUs, j) - firstSegmentNum);
-                    return new RepresentationHolder(j, representation, this.selectedBaseUrl, this.chunkExtractor, segmentNum2, index2);
+            long j4 = this.segmentNumShift;
+            if (timeUs2 != timeUs3) {
+                if (timeUs2 < timeUs3) {
+                    throw new BehindLiveWindowException();
                 }
-                segmentNum = index.getSegmentNum(timeUs3, j);
+                if (timeUs3 < timeUs) {
+                    segmentNum = j4 - (index2.getSegmentNum(timeUs, j) - firstSegmentNum);
+                    return new RepresentationHolder(j, representation, this.selectedBaseUrl, this.chunkExtractor, segmentNum, index2);
+                }
+                j2 = index.getSegmentNum(timeUs3, j);
             }
-            segmentNum2 = j3 + (segmentNum - firstSegmentNum2);
-            return new RepresentationHolder(j, representation, this.selectedBaseUrl, this.chunkExtractor, segmentNum2, index2);
+            segmentNum = j4 + (j2 - firstSegmentNum2);
+            return new RepresentationHolder(j, representation, this.selectedBaseUrl, this.chunkExtractor, segmentNum, index2);
         }
 
         RepresentationHolder copyWithNewSegmentIndex(DashSegmentIndex dashSegmentIndex) {

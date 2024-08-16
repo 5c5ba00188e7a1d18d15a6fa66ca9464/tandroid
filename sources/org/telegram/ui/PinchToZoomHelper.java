@@ -219,17 +219,19 @@ public class PinchToZoomHelper {
             float bitmapWidth = imageReceiver.getBitmapWidth();
             this.fullImageWidth = bitmapWidth;
             float f = this.fullImageHeight;
-            float f2 = this.imageHeight;
-            float f3 = this.imageWidth;
-            if (f / bitmapWidth == f2 / f3) {
-                this.fullImageHeight = f2;
-                this.fullImageWidth = f3;
-            } else if (f / bitmapWidth < f2 / f3) {
-                this.fullImageWidth = (bitmapWidth / f) * f2;
-                this.fullImageHeight = f2;
+            float f2 = f / bitmapWidth;
+            float f3 = this.imageHeight;
+            float f4 = this.imageWidth;
+            float f5 = f3 / f4;
+            if (f2 == f5) {
+                this.fullImageHeight = f3;
+                this.fullImageWidth = f4;
+            } else if (f2 < f5) {
+                this.fullImageWidth = (bitmapWidth / f) * f3;
+                this.fullImageHeight = f3;
             } else {
-                this.fullImageHeight = (f / bitmapWidth) * f3;
-                this.fullImageWidth = f3;
+                this.fullImageHeight = f2 * f4;
+                this.fullImageWidth = f4;
             }
             if (messageObject != null && messageObject.isVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
                 this.isHardwareVideo = true;
@@ -299,8 +301,8 @@ public class PinchToZoomHelper {
             if (view == null) {
                 return false;
             }
-            f2 += view.getLeft();
-            f3 += view.getTop();
+            f3 += view.getLeft();
+            f2 += view.getTop();
             if (!(view.getParent() instanceof View)) {
                 break;
             }
@@ -315,8 +317,8 @@ public class PinchToZoomHelper {
         }
         this.fragmentOffsetX = f;
         this.fragmentOffsetY = f4;
-        this.parentOffsetX = f2;
-        this.parentOffsetY = f3;
+        this.parentOffsetX = f3;
+        this.parentOffsetY = f2;
         return true;
     }
 

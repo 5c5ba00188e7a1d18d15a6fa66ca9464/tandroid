@@ -4,7 +4,7 @@ import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
-import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class FlacFrameReader {
 
@@ -61,7 +61,7 @@ public final class FlacFrameReader {
     public static int readFrameBlockSizeSamplesFromKey(ParsableByteArray parsableByteArray, int i) {
         switch (i) {
             case 1:
-                return 192;
+                return NotificationCenter.dialogPhotosUpdate;
             case 2:
             case 3:
             case 4:
@@ -79,7 +79,7 @@ public final class FlacFrameReader {
             case 13:
             case 14:
             case 15:
-                return LiteMode.FLAG_CHAT_BLUR << (i - 8);
+                return 256 << (i - 8);
             default:
                 return -1;
         }

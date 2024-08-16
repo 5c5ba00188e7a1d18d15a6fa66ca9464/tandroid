@@ -1,6 +1,5 @@
 package j$.util;
 
-import j$.util.function.Consumer;
 import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
@@ -12,7 +11,7 @@ public final /* synthetic */ class u implements PrimitiveIterator.OfInt {
         this.a = vVar;
     }
 
-    public static /* synthetic */ PrimitiveIterator.OfInt a(v vVar) {
+    public static /* synthetic */ PrimitiveIterator.OfInt b(v vVar) {
         if (vVar == null) {
             return null;
         }
@@ -34,12 +33,12 @@ public final /* synthetic */ class u implements PrimitiveIterator.OfInt {
 
     @Override // java.util.PrimitiveIterator.OfInt, java.util.Iterator
     public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        this.a.a(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.PrimitiveIterator.OfInt
     public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
-        this.a.c(j$.util.function.I.a(intConsumer));
+        this.a.c(j$.util.function.D.a(intConsumer));
     }
 
     @Override // java.util.Iterator

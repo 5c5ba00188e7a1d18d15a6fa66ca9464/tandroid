@@ -46,38 +46,42 @@ public final class MultiDex {
     private static void doInstallation(Context context, File file, File file2, String str, String str2, boolean z) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException, InstantiationException {
         Set<File> set = installedApk;
         synchronized (set) {
-            if (set.contains(file)) {
-                return;
-            }
-            set.add(file);
-            int i = Build.VERSION.SDK_INT;
-            if (i > 20) {
-                Log.w("MultiDex", "MultiDex is not guaranteed to work in SDK version " + i + ": SDK version higher than 20 should be backed by runtime with built-in multidex capabilty but it's not the case here: java.vm.version=\"" + System.getProperty("java.vm.version") + "\"");
-            }
-            ClassLoader dexClassloader = getDexClassloader(context);
-            if (dexClassloader == null) {
-                return;
-            }
-            clearOldDexDir(context);
-            File dexDir = getDexDir(context, file2, str);
-            MultiDexExtractor multiDexExtractor = new MultiDexExtractor(file, dexDir);
             try {
-                installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, false));
-            } catch (IOException e) {
-                if (!z) {
+                if (set.contains(file)) {
+                    return;
+                }
+                set.add(file);
+                int i = Build.VERSION.SDK_INT;
+                if (i > 20) {
+                    Log.w("MultiDex", "MultiDex is not guaranteed to work in SDK version " + i + ": SDK version higher than 20 should be backed by runtime with built-in multidex capabilty but it's not the case here: java.vm.version=\"" + System.getProperty("java.vm.version") + "\"");
+                }
+                ClassLoader dexClassloader = getDexClassloader(context);
+                if (dexClassloader == null) {
+                    return;
+                }
+                clearOldDexDir(context);
+                File dexDir = getDexDir(context, file2, str);
+                MultiDexExtractor multiDexExtractor = new MultiDexExtractor(file, dexDir);
+                try {
+                    installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, false));
+                } catch (IOException e) {
+                    if (!z) {
+                        throw e;
+                    }
+                    Log.w("MultiDex", "Failed to install extracted secondary dex files, retrying with forced extraction", e);
+                    installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, true));
+                }
+                try {
+                    multiDexExtractor.close();
+                    e = null;
+                } catch (IOException e2) {
+                    e = e2;
+                }
+                if (e != null) {
                     throw e;
                 }
-                Log.w("MultiDex", "Failed to install extracted secondary dex files, retrying with forced extraction", e);
-                installSecondaryDexes(dexClassloader, dexDir, multiDexExtractor.load(context, str2, true));
-            }
-            try {
-                multiDexExtractor.close();
-                e = null;
-            } catch (IOException e2) {
-                e = e2;
-            }
-            if (e != null) {
-                throw e;
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

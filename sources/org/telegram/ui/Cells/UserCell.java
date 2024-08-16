@@ -113,7 +113,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         super(context);
         int i3;
         int i4;
-        int i5;
+        float f;
         this.currentAccount = UserConfig.selectedAccount;
         this.storyParams = new StoriesUtilities.AvatarStoryParams(false) { // from class: org.telegram.ui.Cells.UserCell.1
             @Override // org.telegram.ui.Stories.StoriesUtilities.AvatarStoryParams
@@ -177,19 +177,19 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
         View view3 = this.nameTextView;
         boolean z5 = LocaleController.isRTL;
-        int i6 = (z5 ? 5 : 3) | 48;
+        int i5 = (z5 ? 5 : 3) | 48;
         if (z5) {
             i4 = (i2 == 2 ? 18 : 0) + 28 + i3;
         } else {
             i4 = i + 64;
         }
-        float f = i4;
+        float f2 = i4;
         if (z5) {
-            i5 = i + 64;
+            f = i + 64;
         } else {
-            i5 = (i2 != 2 ? 0 : 18) + 28 + i3;
+            f = (i2 != 2 ? 0 : 18) + 28 + i3;
         }
-        addView(view3, LayoutHelper.createFrame(-1, 20.0f, i6, f, 10.0f, i5, 0.0f));
+        addView(view3, LayoutHelper.createFrame(-1, 20.0f, i5, f2, 10.0f, f, 0.0f));
         this.emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this.nameTextView, AndroidUtilities.dp(20.0f));
         SimpleTextView simpleTextView2 = new SimpleTextView(context);
         this.statusTextView = simpleTextView2;
@@ -200,8 +200,12 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         addView(view4, LayoutHelper.createFrame(-1, 20.0f, (z6 ? 5 : 3) | 48, z6 ? i3 + 28 : i + 64, 32.0f, z6 ? i + 64 : i3 + 28, 0.0f));
         ImageView imageView = new ImageView(context);
         this.imageView = imageView;
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
-        this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView.setScaleType(scaleType);
+        ImageView imageView2 = this.imageView;
+        int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView2.setColorFilter(new PorterDuffColorFilter(color, mode));
         this.imageView.setVisibility(8);
         View view5 = this.imageView;
         boolean z7 = LocaleController.isRTL;
@@ -221,11 +225,11 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             boolean z9 = LocaleController.isRTL;
             addView(view6, LayoutHelper.createFrame(24, 24.0f, (z9 ? 5 : 3) | 48, z9 ? 0.0f : i + 37, 36.0f, z9 ? i + 37 : 0.0f, 0.0f));
         } else if (i2 == 3) {
-            ImageView imageView2 = new ImageView(context);
-            this.checkBox3 = imageView2;
-            imageView2.setScaleType(ImageView.ScaleType.CENTER);
+            ImageView imageView3 = new ImageView(context);
+            this.checkBox3 = imageView3;
+            imageView3.setScaleType(scaleType);
             this.checkBox3.setImageResource(R.drawable.account_check);
-            this.checkBox3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+            this.checkBox3.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), mode));
             this.checkBox3.setVisibility(8);
             View view7 = this.checkBox3;
             boolean z10 = LocaleController.isRTL;
@@ -260,7 +264,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (LocaleController.isRTL) {
             f = i + 64;
         } else {
-            f = (this.checkBoxBig == null ? 0 : 18) + 28;
+            f = (this.checkBoxBig != null ? 18 : 0) + 28;
         }
         layoutParams2.rightMargin = AndroidUtilities.dp(f);
         FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) this.statusTextView.getLayoutParams();
@@ -367,6 +371,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     public void setException(NotificationsSettingsActivity.NotificationException notificationException, CharSequence charSequence, boolean z) {
         String string;
         TLRPC$User user;
+        boolean z2 = true;
         if (notificationException.story) {
             int i = notificationException.notify;
             if (i <= 0 && notificationException.auto) {
@@ -377,23 +382,22 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 string = LocaleController.getString("NotificationDisabled");
             }
         } else {
-            boolean z2 = notificationException.hasCustom;
+            boolean z3 = notificationException.hasCustom;
             int i2 = notificationException.notify;
             int i3 = notificationException.muteUntil;
-            boolean z3 = true;
             if (i2 != 3 || i3 == Integer.MAX_VALUE) {
                 if (i2 != 0 && i2 != 1) {
-                    z3 = false;
+                    z2 = false;
                 }
-                if (z3 && z2) {
+                if (z2 && z3) {
                     string = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                 } else {
-                    string = z3 ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
+                    string = z2 ? LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted) : LocaleController.getString("NotificationsMuted", R.string.NotificationsMuted);
                 }
             } else {
                 int currentTime = i3 - ConnectionsManager.getInstance(this.currentAccount).getCurrentTime();
                 if (currentTime <= 0) {
-                    if (z2) {
+                    if (z3) {
                         string = LocaleController.getString("NotificationsCustom", R.string.NotificationsCustom);
                     } else {
                         string = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);

@@ -3,7 +3,6 @@ package org.telegram.messenger;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyPermanentlyInvalidatedException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -67,7 +66,7 @@ public class FingerprintController {
                 keyPairGenerator2.initialize(build);
                 keyPairGenerator2.generateKeyPair();
                 setLocale(locale);
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         FingerprintController.lambda$generateNewKey$0(z);
@@ -105,7 +104,7 @@ public class FingerprintController {
 
     public static void checkKeyReady(final boolean z) {
         if (!isKeyReady() && AndroidUtilities.isKeyguardSecure() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda3
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FingerprintController$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     FingerprintController.generateNewKey(z);
@@ -132,9 +131,6 @@ public class FingerprintController {
             Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding").init(2, keyStore.getKey(KEY_ALIAS, null));
             hasChangedFingerprints = Boolean.FALSE;
             return false;
-        } catch (KeyPermanentlyInvalidatedException unused) {
-            hasChangedFingerprints = Boolean.TRUE;
-            return true;
         } catch (Exception e) {
             FileLog.e(e);
             hasChangedFingerprints = Boolean.FALSE;

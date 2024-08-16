@@ -129,7 +129,7 @@ final class zzdu<T> implements zzef<T> {
     @Override // com.google.android.gms.internal.clearcut.zzef
     public final int zzm(T t) {
         zzex<?, ?> zzexVar = this.zzmx;
-        int zzr = zzexVar.zzr(zzexVar.zzq(t)) + 0;
+        int zzr = zzexVar.zzr(zzexVar.zzq(t));
         return this.zzmo ? zzr + this.zzmy.zza(t).zzat() : zzr;
     }
 

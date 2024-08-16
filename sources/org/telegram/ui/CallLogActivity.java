@@ -157,7 +157,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             this.imageView = rLottieImageView;
             rLottieImageView.setAnimation(R.raw.utyan_call, 120, 120);
             this.imageView.setAutoRepeat(false);
-            addView(this.imageView, LayoutHelper.createFrame(140, 140.0f, 17, 52.0f, 4.0f, 52.0f, 60.0f));
+            addView(this.imageView, LayoutHelper.createFrame(NotificationCenter.filePreparingStarted, 140.0f, 17, 52.0f, 4.0f, 52.0f, 60.0f));
             this.imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CallLogActivity$EmptyTextProgressView$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
@@ -321,7 +321,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             addView(this.profileSearchCell, LayoutHelper.createFrame(-1, -1.0f));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setAlpha(214);
+            imageView.setAlpha(NotificationCenter.factCheckLoaded);
             this.imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addButton), PorterDuff.Mode.MULTIPLY));
             this.imageView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector), 1));
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -445,19 +445,21 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         mutate.setBounds(0, 0, mutate.getIntrinsicWidth(), this.greenDrawable.getIntrinsicHeight());
         Drawable drawable = this.greenDrawable;
         int i = Theme.key_calls_callReceivedGreenIcon;
-        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.MULTIPLY));
+        int color = Theme.getColor(i);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
         this.iconOut = new ImageSpan(this.greenDrawable, 0);
         Resources resources = getParentActivity().getResources();
         int i2 = R.drawable.ic_call_received_green_18dp;
         Drawable mutate2 = resources.getDrawable(i2).mutate();
         this.greenDrawable2 = mutate2;
         mutate2.setBounds(0, 0, mutate2.getIntrinsicWidth(), this.greenDrawable2.getIntrinsicHeight());
-        this.greenDrawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.MULTIPLY));
+        this.greenDrawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), mode));
         this.iconIn = new ImageSpan(this.greenDrawable2, 0);
         Drawable mutate3 = getParentActivity().getResources().getDrawable(i2).mutate();
         this.redDrawable = mutate3;
         mutate3.setBounds(0, 0, mutate3.getIntrinsicWidth(), this.redDrawable.getIntrinsicHeight());
-        this.redDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_fill_RedNormal), PorterDuff.Mode.MULTIPLY));
+        this.redDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_fill_RedNormal), mode));
         this.iconMissed = new ImageSpan(this.redDrawable, 0);
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar.setAllowOverlayTitle(true);
@@ -535,13 +537,13 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         int i3 = Build.VERSION.SDK_INT;
         if (i3 < 21) {
             Drawable mutate4 = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
-            mutate4.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
+            mutate4.setColorFilter(new PorterDuffColorFilter(-16777216, mode));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate4, createSimpleSelectorCircleDrawable, 0, 0);
             combinedDrawable.setIconSize(AndroidUtilities.dp(56.0f), AndroidUtilities.dp(56.0f));
             createSimpleSelectorCircleDrawable = combinedDrawable;
         }
         this.floatingButton.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
-        this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
+        this.floatingButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), mode));
         this.floatingButton.setImageResource(R.drawable.ic_call);
         this.floatingButton.setContentDescription(LocaleController.getString("Call", R.string.Call));
         if (i3 >= 21) {
@@ -610,16 +612,11 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         2() {
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x00a5, code lost:
-            if (java.lang.Math.abs(r7) > 1) goto L33;
-         */
         @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public void onScrolled(RecyclerView recyclerView, int i, int i2) {
             boolean z;
             int findFirstVisibleItemPosition = CallLogActivity.this.layoutManager.findFirstVisibleItemPosition();
+            boolean z2 = false;
             int abs = findFirstVisibleItemPosition == -1 ? 0 : Math.abs(CallLogActivity.this.layoutManager.findLastVisibleItemPosition() - findFirstVisibleItemPosition) + 1;
             if (abs > 0) {
                 int itemCount = CallLogActivity.this.listViewAdapter.getItemCount();
@@ -639,11 +636,14 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
                 if (CallLogActivity.this.prevPosition == findFirstVisibleItemPosition) {
                     int i3 = CallLogActivity.this.prevTop - top;
                     z = top < CallLogActivity.this.prevTop;
+                    if (Math.abs(i3) > 1) {
+                        z2 = true;
+                    }
                 } else {
+                    z2 = true;
                     z = findFirstVisibleItemPosition > CallLogActivity.this.prevPosition;
                 }
-                r0 = true;
-                if (r0 && CallLogActivity.this.scrollUpdated) {
+                if (z2 && CallLogActivity.this.scrollUpdated) {
                     CallLogActivity.this.hideFloatingButton(z);
                 }
                 CallLogActivity.this.prevPosition = findFirstVisibleItemPosition;
@@ -668,7 +668,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
         bundle.putBoolean("onlyUsers", true);
         bundle.putBoolean("allowSelf", false);
         ContactsActivity contactsActivity = new ContactsActivity(bundle);
-        contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda9
+        contactsActivity.setDelegate(new ContactsActivity.ContactsActivityDelegate() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda8
             @Override // org.telegram.ui.ContactsActivity.ContactsActivityDelegate
             public final void didSelectContact(TLRPC$User tLRPC$User, String str, ContactsActivity contactsActivity2) {
                 CallLogActivity.this.lambda$createView$2(tLRPC$User, str, contactsActivity2);
@@ -845,9 +845,8 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void showOrUpdateActionMode() {
-        boolean z;
+        boolean z = true;
         if (this.actionBar.isActionModeShowed()) {
-            z = true;
             if (this.selectedIds.isEmpty()) {
                 hideActionMode(true);
                 return;
@@ -877,10 +876,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             return;
         }
         this.floatingHidden = z;
-        ImageView imageView = this.floatingButton;
-        float[] fArr = new float[1];
-        fArr[0] = z ? AndroidUtilities.dp(100.0f) : 0.0f;
-        ObjectAnimator duration = ObjectAnimator.ofFloat(imageView, "translationY", fArr).setDuration(300L);
+        ObjectAnimator duration = ObjectAnimator.ofFloat(this.floatingButton, "translationY", z ? AndroidUtilities.dp(100.0f) : 0.0f).setDuration(300L);
         duration.setInterpolator(this.floatingInterpolator);
         this.floatingButton.setClickable(!z);
         duration.start();
@@ -916,7 +912,7 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$getCalls$9(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CallLogActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 CallLogActivity.this.lambda$getCalls$8(tLRPC$TL_error, tLObject);
@@ -1071,22 +1067,21 @@ public class CallLogActivity extends BaseFragment implements NotificationCenter.
             }
             if (this.activeHeaderRow != -1) {
                 int i3 = this.rowsCount;
-                int i4 = i3 + 1;
                 this.sectionRow = i3;
-                this.rowsCount = i4 + 1;
-                this.callsHeaderRow = i4;
+                this.rowsCount = i3 + 2;
+                this.callsHeaderRow = i3 + 1;
             }
-            int i5 = this.rowsCount;
-            this.callsStartRow = i5;
-            int size2 = i5 + CallLogActivity.this.calls.size();
+            int i4 = this.rowsCount;
+            this.callsStartRow = i4;
+            int size2 = i4 + CallLogActivity.this.calls.size();
             this.rowsCount = size2;
             this.callsEndRow = size2;
             if (CallLogActivity.this.endReached) {
                 return;
             }
-            int i6 = this.rowsCount;
-            this.rowsCount = i6 + 1;
-            this.loadingCallsRow = i6;
+            int i5 = this.rowsCount;
+            this.rowsCount = i5 + 1;
+            this.loadingCallsRow = i5;
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Charsets;
 import java.nio.charset.Charset;
 import java.util.List;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Tx3gDecoder extends SimpleSubtitleDecoder {
     private final int calculatedVideoTrackHeight;
@@ -147,7 +148,7 @@ public final class Tx3gDecoder extends SimpleSubtitleDecoder {
 
     private static void attachColor(SpannableStringBuilder spannableStringBuilder, int i, int i2, int i3, int i4, int i5) {
         if (i != i2) {
-            spannableStringBuilder.setSpan(new ForegroundColorSpan((i >>> 8) | ((i & 255) << 24)), i3, i4, i5 | 33);
+            spannableStringBuilder.setSpan(new ForegroundColorSpan((i >>> 8) | ((i & NotificationCenter.voipServiceCreated) << 24)), i3, i4, i5 | 33);
         }
     }
 

@@ -1,10 +1,10 @@
 package androidx.emoji2.text;
 
 import android.os.Build;
-import android.text.PrecomputedText;
 import android.text.Spannable;
 import android.text.SpannableString;
 import androidx.core.text.PrecomputedTextCompat;
+import androidx.core.text.PrecomputedTextCompat$$ExternalSyntheticApiModelOutline0;
 import j$.util.stream.IntStream;
 import java.util.stream.IntStream;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -152,7 +152,7 @@ public class UnprecomputeTextOnModificationSpannable implements Spannable {
 
         @Override // androidx.emoji2.text.UnprecomputeTextOnModificationSpannable.PrecomputedTextDetector
         boolean isPrecomputedText(CharSequence charSequence) {
-            return (charSequence instanceof PrecomputedText) || (charSequence instanceof PrecomputedTextCompat);
+            return PrecomputedTextCompat$$ExternalSyntheticApiModelOutline0.m(charSequence) || (charSequence instanceof PrecomputedTextCompat);
         }
     }
 }

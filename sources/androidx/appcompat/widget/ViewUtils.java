@@ -43,11 +43,11 @@ public class ViewUtils {
 
     public static void makeOptionalFitsSystemWindows(View view) {
         try {
-            Method method = view.getClass().getMethod("makeOptionalFitsSystemWindows", new Class[0]);
+            Method method = view.getClass().getMethod("makeOptionalFitsSystemWindows", null);
             if (!method.isAccessible()) {
                 method.setAccessible(true);
             }
-            method.invoke(view, new Object[0]);
+            method.invoke(view, null);
         } catch (IllegalAccessException e) {
             Log.d("ViewUtils", "Could not invoke makeOptionalFitsSystemWindows", e);
         } catch (NoSuchMethodException unused) {

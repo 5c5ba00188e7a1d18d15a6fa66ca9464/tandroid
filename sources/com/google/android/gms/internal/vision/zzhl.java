@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
@@ -18,7 +19,7 @@ public final class zzhl {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, zzhn zzhnVar) {
-        int i3 = i & 127;
+        int i3 = i & NotificationCenter.dialogTranslate;
         int i4 = i2 + 1;
         byte b = bArr[i2];
         if (b >= 0) {
@@ -26,21 +27,21 @@ public final class zzhl {
             return i4;
         }
         int i5 = i3 | ((b & Byte.MAX_VALUE) << 7);
-        int i6 = i4 + 1;
+        int i6 = i2 + 2;
         byte b2 = bArr[i4];
         if (b2 >= 0) {
             zzhnVar.zza = i5 | (b2 << 14);
             return i6;
         }
         int i7 = i5 | ((b2 & Byte.MAX_VALUE) << 14);
-        int i8 = i6 + 1;
+        int i8 = i2 + 3;
         byte b3 = bArr[i6];
         if (b3 >= 0) {
             zzhnVar.zza = i7 | (b3 << 21);
             return i8;
         }
         int i9 = i7 | ((b3 & Byte.MAX_VALUE) << 21);
-        int i10 = i8 + 1;
+        int i10 = i2 + 4;
         byte b4 = bArr[i8];
         if (b4 >= 0) {
             zzhnVar.zza = i9 | (b4 << 28);
@@ -66,7 +67,7 @@ public final class zzhl {
             zzhnVar.zzb = j;
             return i2;
         }
-        int i3 = i2 + 1;
+        int i3 = i + 2;
         byte b2 = bArr[i2];
         long j2 = (j & 127) | ((b2 & Byte.MAX_VALUE) << 7);
         int i4 = 7;

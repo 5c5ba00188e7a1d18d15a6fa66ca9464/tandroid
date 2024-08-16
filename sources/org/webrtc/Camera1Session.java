@@ -247,7 +247,7 @@ public class Camera1Session implements CameraSession {
                     Camera1Session.camera1StartTimeMsHistogram.addSample((int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - Camera1Session.this.constructionTimeNs));
                     Camera1Session.this.firstFrameReported = true;
                 }
-                VideoFrame videoFrame = new VideoFrame(new NV21Buffer(bArr, Camera1Session.this.captureFormat.width, Camera1Session.this.captureFormat.height, new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda1
+                VideoFrame videoFrame = new VideoFrame(new NV21Buffer(bArr, Camera1Session.this.captureFormat.width, Camera1Session.this.captureFormat.height, new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         Camera1Session.2.this.lambda$onPreviewFrame$1(bArr);
@@ -262,7 +262,7 @@ public class Camera1Session implements CameraSession {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onPreviewFrame$1(final byte[] bArr) {
-            Camera1Session.this.cameraThreadHandler.post(new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda0
+            Camera1Session.this.cameraThreadHandler.post(new Runnable() { // from class: org.webrtc.Camera1Session$2$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     Camera1Session.2.this.lambda$onPreviewFrame$0(bArr);

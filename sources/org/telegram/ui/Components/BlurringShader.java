@@ -30,6 +30,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.BlurringShader;
@@ -128,7 +129,15 @@ public class BlurringShader {
         if (!this.setupTransform) {
             updateTransform(new Matrix(), 1, 1);
         }
-        float[] fArr = {-1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f};
+        float[] fArr = new float[8];
+        fArr[0] = -1.0f;
+        fArr[1] = 1.0f;
+        fArr[2] = 1.0f;
+        fArr[3] = 1.0f;
+        fArr[4] = -1.0f;
+        fArr[5] = -1.0f;
+        fArr[6] = 1.0f;
+        fArr[7] = -1.0f;
         ByteBuffer allocateDirect = ByteBuffer.allocateDirect(32);
         allocateDirect.order(ByteOrder.nativeOrder());
         FloatBuffer asFloatBuffer = allocateDirect.asFloatBuffer();
@@ -272,8 +281,8 @@ public class BlurringShader {
         GLES20.glDrawArrays(5, 0, 4);
         GLES20.glBindFramebuffer(36160, this.framebuffer[2]);
         int i4 = this.width;
-        int i5 = this.padding;
-        GLES20.glViewport(0, 0, i4 + (i5 * 2), this.height + (i5 * 2));
+        int i5 = this.padding * 2;
+        GLES20.glViewport(0, 0, i4 + i5, this.height + i5);
         GLES20.glClear(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM);
         GLES20.glEnableVertexAttribArray(program.posHandle);
         GLES20.glVertexAttribPointer(program.posHandle, 2, 5126, false, 8, (Buffer) this.padPosBuffer);
@@ -294,8 +303,8 @@ public class BlurringShader {
         if (byteBuffer != null) {
             byteBuffer.rewind();
             int i6 = this.width;
-            int i7 = this.padding;
-            GLES20.glReadPixels(0, 0, i6 + (i7 * 2), this.height + (i7 * 2), 6408, 5121, this.buffer);
+            int i7 = this.padding * 2;
+            GLES20.glReadPixels(0, 0, i6 + i7, this.height + i7, 6408, 5121, this.buffer);
             synchronized (this.bitmapLock) {
                 this.bitmap.copyPixelsFromBuffer(this.buffer);
                 this.bitmapAvailable = true;
@@ -312,10 +321,14 @@ public class BlurringShader {
 
     public Bitmap getBitmap() {
         synchronized (this.bitmapLock) {
-            if (this.bitmapAvailable) {
-                return this.bitmap;
+            try {
+                if (this.bitmapAvailable) {
+                    return this.bitmap;
+                }
+                return null;
+            } catch (Throwable th) {
+                throw th;
             }
-            return null;
         }
     }
 
@@ -423,26 +436,38 @@ public class BlurringShader {
 
         public EGLContext getParentContext() {
             synchronized (this.contextLock) {
-                EGLContext eGLContext = this.context;
-                if (eGLContext != null) {
-                    return eGLContext;
+                try {
+                    EGLContext eGLContext = this.context;
+                    if (eGLContext != null) {
+                        return eGLContext;
+                    }
+                    return EGL10.EGL_NO_CONTEXT;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                return EGL10.EGL_NO_CONTEXT;
             }
         }
 
         public void acquiredContext(EGLContext eGLContext) {
             synchronized (this.contextLock) {
-                if (this.context == null) {
-                    this.context = eGLContext;
+                try {
+                    if (this.context == null) {
+                        this.context = eGLContext;
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
 
         public void destroyedContext(EGLContext eGLContext) {
             synchronized (this.contextLock) {
-                if (this.context == eGLContext) {
-                    this.context = null;
+                try {
+                    if (this.context == eGLContext) {
+                        this.context = null;
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -612,6 +637,10 @@ public class BlurringShader {
         public /* synthetic */ void lambda$getBitmap$1(final Bitmap bitmap, int i, int i2, final String str, final boolean z) {
             int i3;
             int i4;
+            int i5;
+            int i6;
+            int i7;
+            int i8;
             if (bitmap == null || bitmap.isRecycled()) {
                 return;
             }
@@ -625,33 +654,32 @@ public class BlurringShader {
                 i4 = round2;
                 i3 = round;
             }
-            int i5 = this.padding;
-            final Bitmap createBitmap = Bitmap.createBitmap((i5 * 2) + i3, (i5 * 2) + i4, Bitmap.Config.ARGB_8888);
+            int i9 = this.padding * 2;
+            final Bitmap createBitmap = Bitmap.createBitmap(i9 + i3, i9 + i4, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(createBitmap);
             android.graphics.Rect rect = new android.graphics.Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            int i6 = this.padding;
-            android.graphics.Rect rect2 = new android.graphics.Rect(i6, i6, i6 + round, i6 + round2);
-            int i7 = this.padding;
-            canvas.translate(i7 + (i3 / 2.0f), i7 + (i4 / 2.0f));
+            int i10 = this.padding;
+            android.graphics.Rect rect2 = new android.graphics.Rect(i10, i10, i10 + round, i10 + round2);
+            float f = this.padding;
+            canvas.translate((i3 / 2.0f) + f, f + (i4 / 2.0f));
             if (i2 == 1) {
                 canvas.scale(-1.0f, 1.0f);
             } else if (i2 == 2) {
                 canvas.scale(1.0f, -1.0f);
             }
             canvas.rotate(i);
-            int i8 = this.padding;
-            canvas.translate((-i8) - (round / 2.0f), (-i8) - (round2 / 2.0f));
+            float f2 = -this.padding;
+            canvas.translate(f2 - (round / 2.0f), f2 - (round2 / 2.0f));
             canvas.drawBitmap(bitmap, rect, rect2, (Paint) null);
             Utilities.stackBlurBitmap(createBitmap, 6);
-            int i9 = this.padding;
-            if (i9 > 0) {
-                canvas.drawRect(0.0f, 0.0f, round + i9, i9, this.clearPaint);
-                int i10 = this.padding;
-                canvas.drawRect(0.0f, i10, i10, i10 + round2, this.clearPaint);
-                int i11 = this.padding;
-                canvas.drawRect(i11 + round, i11, i11 + round + i11, i11 + round2, this.clearPaint);
+            int i11 = this.padding;
+            if (i11 > 0) {
+                canvas.drawRect(0.0f, 0.0f, round + i11, i11, this.clearPaint);
+                float f3 = this.padding;
+                canvas.drawRect(0.0f, f3, f3, i5 + round2, this.clearPaint);
                 int i12 = this.padding;
-                canvas.drawRect(0.0f, i12 + round2, round + i12 + i12, round2 + i12 + i12, this.clearPaint);
+                canvas.drawRect(i12 + round, i12, i6 + i12, i12 + round2, this.clearPaint);
+                canvas.drawRect(0.0f, round2 + this.padding, round + i7 + i7, i8 + i7, this.clearPaint);
             }
             AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.BlurringShader$ThumbBlurer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
@@ -739,12 +767,16 @@ public class BlurringShader {
             if (i == 0) {
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.45f);
             } else if (i == 5) {
-                this.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-                this.oldPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                Paint paint = this.paint;
+                PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+                paint.setXfermode(new PorterDuffXfermode(mode));
+                this.oldPaint.setXfermode(new PorterDuffXfermode(mode));
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.3f);
             } else if (i == 2) {
-                this.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-                this.oldPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                Paint paint2 = this.paint;
+                PorterDuff.Mode mode2 = PorterDuff.Mode.SRC_IN;
+                paint2.setXfermode(new PorterDuffXfermode(mode2));
+                this.oldPaint.setXfermode(new PorterDuffXfermode(mode2));
                 AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.4f);
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.3f);
             } else if (i == 1) {
@@ -767,8 +799,10 @@ public class BlurringShader {
                 AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, -0.15f);
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.47f);
             } else if (i == 9) {
-                this.paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-                this.oldPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                Paint paint3 = this.paint;
+                PorterDuff.Mode mode3 = PorterDuff.Mode.SRC_IN;
+                paint3.setXfermode(new PorterDuffXfermode(mode3));
+                this.oldPaint.setXfermode(new PorterDuffXfermode(mode3));
                 AndroidUtilities.adjustBrightnessColorMatrix(colorMatrix, 0.4f);
                 AndroidUtilities.adjustSaturationColorMatrix(colorMatrix, 0.45f);
             } else if (i == 10) {
@@ -1004,7 +1038,7 @@ public class BlurringShader {
                     android.graphics.Rect bounds = getBounds();
                     if (paint != null) {
                         if (drawable != null) {
-                            canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, 255, 31);
+                            canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, NotificationCenter.voipServiceCreated, 31);
                             drawable.setBounds(bounds);
                             drawable.draw(canvas);
                             canvas.drawRect(bounds, paint);

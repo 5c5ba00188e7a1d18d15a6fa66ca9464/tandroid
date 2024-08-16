@@ -275,8 +275,8 @@ public class BillingClientImpl extends BillingClient {
     /* JADX WARN: Removed duplicated region for block: B:168:0x0420 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:172:0x042b  */
     /* JADX WARN: Removed duplicated region for block: B:173:0x042e  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x0477 A[Catch: Exception -> 0x04c2, CancellationException -> 0x04d9, TimeoutException -> 0x04db, TryCatch #4 {CancellationException -> 0x04d9, TimeoutException -> 0x04db, Exception -> 0x04c2, blocks: (B:176:0x0463, B:178:0x0477, B:180:0x04a8), top: B:196:0x0463 }] */
-    /* JADX WARN: Removed duplicated region for block: B:180:0x04a8 A[Catch: Exception -> 0x04c2, CancellationException -> 0x04d9, TimeoutException -> 0x04db, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x04d9, TimeoutException -> 0x04db, Exception -> 0x04c2, blocks: (B:176:0x0463, B:178:0x0477, B:180:0x04a8), top: B:196:0x0463 }] */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x0477 A[Catch: Exception -> 0x04a8, CancellationException -> 0x04aa, TimeoutException -> 0x04ac, TryCatch #4 {CancellationException -> 0x04aa, TimeoutException -> 0x04ac, Exception -> 0x04a8, blocks: (B:176:0x0463, B:178:0x0477, B:186:0x04ae), top: B:198:0x0463 }] */
+    /* JADX WARN: Removed duplicated region for block: B:186:0x04ae A[Catch: Exception -> 0x04a8, CancellationException -> 0x04aa, TimeoutException -> 0x04ac, TRY_LEAVE, TryCatch #4 {CancellationException -> 0x04aa, TimeoutException -> 0x04ac, Exception -> 0x04a8, blocks: (B:176:0x0463, B:178:0x0477, B:186:0x04ae), top: B:198:0x0463 }] */
     @Override // com.android.billingclient.api.BillingClient
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -323,7 +323,16 @@ public class BillingClientImpl extends BillingClient {
             if (!billingFlowParams.zzq() || billingClientImpl.zzl) {
                 if (zzg.size() <= 1 || billingClientImpl.zzs) {
                     if (zzh.isEmpty() || billingClientImpl.zzt) {
-                        if (billingClientImpl.zzl) {
+                        if (!billingClientImpl.zzl) {
+                            str = "BUY_INTENT";
+                            str2 = "BillingClient";
+                            zzS = zzS(new Callable() { // from class: com.android.billingclient.api.zzt
+                                @Override // java.util.concurrent.Callable
+                                public final Object call() {
+                                    return BillingClientImpl.this.zzd(productId, productType);
+                                }
+                            }, 5000L, null, billingClientImpl.zzc);
+                        } else {
                             boolean z3 = billingClientImpl.zzn;
                             boolean z4 = billingClientImpl.zzy;
                             String str8 = billingClientImpl.zzb;
@@ -561,15 +570,6 @@ public class BillingClientImpl extends BillingClient {
                                 billingClientImpl.zzP(billingResult2);
                                 return billingResult2;
                             }
-                        } else {
-                            str = "BUY_INTENT";
-                            str2 = "BillingClient";
-                            zzS = zzS(new Callable() { // from class: com.android.billingclient.api.zzt
-                                @Override // java.util.concurrent.Callable
-                                public final Object call() {
-                                    return BillingClientImpl.this.zzd(productId, productType);
-                                }
-                            }, 5000L, null, billingClientImpl.zzc);
                         }
                         try {
                             Bundle bundle22 = (Bundle) zzS.get(5000L, TimeUnit.MILLISECONDS);
@@ -771,7 +771,7 @@ public class BillingClientImpl extends BillingClient {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x0121, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:42:0x0127, code lost:
         r12 = 4;
      */
     /*
@@ -781,149 +781,145 @@ public class BillingClientImpl extends BillingClient {
         String str;
         int i;
         int i2;
-        zze zzeVar;
-        int i3;
-        String packageName;
-        Bundle bundle;
-        com.google.android.gms.internal.play_billing.zzu zzuVar;
         ArrayList arrayList = new ArrayList();
         String zzb = queryProductDetailsParams.zzb();
         com.google.android.gms.internal.play_billing.zzu zza = queryProductDetailsParams.zza();
         int size = zza.size();
-        int i4 = 0;
+        int i3 = 0;
         while (true) {
-            if (i4 >= size) {
+            if (i3 < size) {
+                int i4 = i3 + 20;
+                ArrayList arrayList2 = new ArrayList(zza.subList(i3, i4 > size ? size : i4));
+                ArrayList<String> arrayList3 = new ArrayList<>();
+                int size2 = arrayList2.size();
+                for (int i5 = 0; i5 < size2; i5++) {
+                    arrayList3.add(((QueryProductDetailsParams.Product) arrayList2.get(i5)).zza());
+                }
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("ITEM_ID_LIST", arrayList3);
+                bundle.putString("playBillingLibraryVersion", this.zzb);
+                try {
+                    zze zzeVar = this.zzg;
+                    int i6 = true != this.zzw ? 17 : 20;
+                    String packageName = this.zze.getPackageName();
+                    String str2 = this.zzb;
+                    if (TextUtils.isEmpty(null)) {
+                        this.zze.getPackageName();
+                    }
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("playBillingLibraryVersion", str2);
+                    bundle2.putBoolean("enablePendingPurchases", true);
+                    bundle2.putString("SKU_DETAILS_RESPONSE_FORMAT", "PRODUCT_DETAILS");
+                    ArrayList<String> arrayList4 = new ArrayList<>();
+                    ArrayList<String> arrayList5 = new ArrayList<>();
+                    int size3 = arrayList2.size();
+                    com.google.android.gms.internal.play_billing.zzu zzuVar = zza;
+                    int i7 = 0;
+                    boolean z = false;
+                    boolean z2 = false;
+                    while (i7 < size3) {
+                        ArrayList arrayList6 = arrayList2;
+                        arrayList4.add(null);
+                        z |= !TextUtils.isEmpty(null);
+                        int i8 = size3;
+                        if (((QueryProductDetailsParams.Product) arrayList2.get(i7)).zzb().equals("first_party")) {
+                            com.google.android.gms.internal.play_billing.zzm.zzc(null, "Serialized DocId is required for constructing ExtraParams to query ProductDetails for all first party products.");
+                            arrayList5.add(null);
+                            z2 = true;
+                        }
+                        i7++;
+                        size3 = i8;
+                        arrayList2 = arrayList6;
+                    }
+                    if (z) {
+                        bundle2.putStringArrayList("SKU_OFFER_ID_TOKEN_LIST", arrayList4);
+                    }
+                    if (!arrayList5.isEmpty()) {
+                        bundle2.putStringArrayList("SKU_SERIALIZED_DOCID_LIST", arrayList5);
+                    }
+                    if (z2 && !TextUtils.isEmpty(null)) {
+                        bundle2.putString("accountName", null);
+                    }
+                    i2 = 7;
+                    try {
+                        Bundle zzl = zzeVar.zzl(i6, packageName, zzb, bundle, bundle2);
+                        str = "Item is unavailable for purchase.";
+                        if (zzl != null) {
+                            if (zzl.containsKey("DETAILS_LIST")) {
+                                ArrayList<String> stringArrayList = zzl.getStringArrayList("DETAILS_LIST");
+                                if (stringArrayList != null) {
+                                    for (int i9 = 0; i9 < stringArrayList.size(); i9++) {
+                                        try {
+                                            ProductDetails productDetails = new ProductDetails(stringArrayList.get(i9));
+                                            zzb.zzi("BillingClient", "Got product details: ".concat(productDetails.toString()));
+                                            arrayList.add(productDetails);
+                                        } catch (JSONException e) {
+                                            zzb.zzk("BillingClient", "Got a JSON exception trying to decode ProductDetails. \n Exception: ", e);
+                                            zzar zzarVar = this.zzf;
+                                            BillingResult.Builder newBuilder = BillingResult.newBuilder();
+                                            newBuilder.setResponseCode(6);
+                                            str = "Error trying to decode SkuDetails.";
+                                            newBuilder.setDebugMessage("Error trying to decode SkuDetails.");
+                                            zzarVar.zza(zzaq.zza(47, 7, newBuilder.build()));
+                                            i = 6;
+                                            BillingResult.Builder newBuilder2 = BillingResult.newBuilder();
+                                            newBuilder2.setResponseCode(i);
+                                            newBuilder2.setDebugMessage(str);
+                                            productDetailsResponseListener.onProductDetailsResponse(newBuilder2.build(), arrayList);
+                                            return null;
+                                        }
+                                    }
+                                    i3 = i4;
+                                    zza = zzuVar;
+                                } else {
+                                    zzb.zzj("BillingClient", "queryProductDetailsAsync got null response list");
+                                    this.zzf.zza(zzaq.zza(46, 7, zzat.zzB));
+                                    break;
+                                }
+                            } else {
+                                i = zzb.zzb(zzl, "BillingClient");
+                                str = zzb.zzf(zzl, "BillingClient");
+                                if (i != 0) {
+                                    zzb.zzj("BillingClient", "getSkuDetails() failed for queryProductDetailsAsync. Response code: " + i);
+                                    this.zzf.zza(zzaq.zza(23, 7, zzat.zza(i, str)));
+                                } else {
+                                    zzb.zzj("BillingClient", "getSkuDetails() returned a bundle with neither an error nor a product detail list for queryProductDetailsAsync.");
+                                    zzar zzarVar2 = this.zzf;
+                                    BillingResult.Builder newBuilder3 = BillingResult.newBuilder();
+                                    newBuilder3.setResponseCode(6);
+                                    newBuilder3.setDebugMessage(str);
+                                    zzarVar2.zza(zzaq.zza(45, 7, newBuilder3.build()));
+                                }
+                            }
+                        } else {
+                            zzb.zzj("BillingClient", "queryProductDetailsAsync got empty product details response.");
+                            zzar zzarVar3 = this.zzf;
+                            BillingResult.Builder newBuilder4 = BillingResult.newBuilder();
+                            newBuilder4.setResponseCode(4);
+                            newBuilder4.setDebugMessage("Item is unavailable for purchase.");
+                            zzarVar3.zza(zzaq.zza(44, 7, newBuilder4.build()));
+                            break;
+                        }
+                    } catch (Exception e2) {
+                        e = e2;
+                        zzb.zzk("BillingClient", "queryProductDetailsAsync got a remote exception (try to reconnect).", e);
+                        this.zzf.zza(zzaq.zza(43, i2, zzat.zzj));
+                        str = "An internal error occurred.";
+                        i = 6;
+                        BillingResult.Builder newBuilder22 = BillingResult.newBuilder();
+                        newBuilder22.setResponseCode(i);
+                        newBuilder22.setDebugMessage(str);
+                        productDetailsResponseListener.onProductDetailsResponse(newBuilder22.build(), arrayList);
+                        return null;
+                    }
+                } catch (Exception e3) {
+                    e = e3;
+                    i2 = 7;
+                }
+            } else {
                 str = "";
                 i = 0;
                 break;
-            }
-            int i5 = i4 + 20;
-            ArrayList arrayList2 = new ArrayList(zza.subList(i4, i5 > size ? size : i5));
-            ArrayList<String> arrayList3 = new ArrayList<>();
-            int size2 = arrayList2.size();
-            for (int i6 = 0; i6 < size2; i6++) {
-                arrayList3.add(((QueryProductDetailsParams.Product) arrayList2.get(i6)).zza());
-            }
-            Bundle bundle2 = new Bundle();
-            bundle2.putStringArrayList("ITEM_ID_LIST", arrayList3);
-            bundle2.putString("playBillingLibraryVersion", this.zzb);
-            try {
-                zzeVar = this.zzg;
-                i3 = true != this.zzw ? 17 : 20;
-                packageName = this.zze.getPackageName();
-                String str2 = this.zzb;
-                if (TextUtils.isEmpty(null)) {
-                    this.zze.getPackageName();
-                }
-                bundle = new Bundle();
-                bundle.putString("playBillingLibraryVersion", str2);
-                bundle.putBoolean("enablePendingPurchases", true);
-                bundle.putString("SKU_DETAILS_RESPONSE_FORMAT", "PRODUCT_DETAILS");
-                ArrayList<String> arrayList4 = new ArrayList<>();
-                ArrayList<String> arrayList5 = new ArrayList<>();
-                int size3 = arrayList2.size();
-                zzuVar = zza;
-                int i7 = 0;
-                boolean z = false;
-                boolean z2 = false;
-                while (i7 < size3) {
-                    ArrayList arrayList6 = arrayList2;
-                    arrayList4.add(null);
-                    z |= !TextUtils.isEmpty(null);
-                    int i8 = size3;
-                    if (((QueryProductDetailsParams.Product) arrayList2.get(i7)).zzb().equals("first_party")) {
-                        com.google.android.gms.internal.play_billing.zzm.zzc(null, "Serialized DocId is required for constructing ExtraParams to query ProductDetails for all first party products.");
-                        arrayList5.add(null);
-                        z2 = true;
-                    }
-                    i7++;
-                    size3 = i8;
-                    arrayList2 = arrayList6;
-                }
-                if (z) {
-                    bundle.putStringArrayList("SKU_OFFER_ID_TOKEN_LIST", arrayList4);
-                }
-                if (!arrayList5.isEmpty()) {
-                    bundle.putStringArrayList("SKU_SERIALIZED_DOCID_LIST", arrayList5);
-                }
-                if (z2 && !TextUtils.isEmpty(null)) {
-                    bundle.putString("accountName", null);
-                }
-                i2 = 7;
-            } catch (Exception e) {
-                e = e;
-                i2 = 7;
-            }
-            try {
-                Bundle zzl = zzeVar.zzl(i3, packageName, zzb, bundle2, bundle);
-                str = "Item is unavailable for purchase.";
-                if (zzl != null) {
-                    if (zzl.containsKey("DETAILS_LIST")) {
-                        ArrayList<String> stringArrayList = zzl.getStringArrayList("DETAILS_LIST");
-                        if (stringArrayList != null) {
-                            for (int i9 = 0; i9 < stringArrayList.size(); i9++) {
-                                try {
-                                    ProductDetails productDetails = new ProductDetails(stringArrayList.get(i9));
-                                    zzb.zzi("BillingClient", "Got product details: ".concat(productDetails.toString()));
-                                    arrayList.add(productDetails);
-                                } catch (JSONException e2) {
-                                    zzb.zzk("BillingClient", "Got a JSON exception trying to decode ProductDetails. \n Exception: ", e2);
-                                    zzar zzarVar = this.zzf;
-                                    BillingResult.Builder newBuilder = BillingResult.newBuilder();
-                                    newBuilder.setResponseCode(6);
-                                    str = "Error trying to decode SkuDetails.";
-                                    newBuilder.setDebugMessage("Error trying to decode SkuDetails.");
-                                    zzarVar.zza(zzaq.zza(47, 7, newBuilder.build()));
-                                    i = 6;
-                                    BillingResult.Builder newBuilder2 = BillingResult.newBuilder();
-                                    newBuilder2.setResponseCode(i);
-                                    newBuilder2.setDebugMessage(str);
-                                    productDetailsResponseListener.onProductDetailsResponse(newBuilder2.build(), arrayList);
-                                    return null;
-                                }
-                            }
-                            i4 = i5;
-                            zza = zzuVar;
-                        } else {
-                            zzb.zzj("BillingClient", "queryProductDetailsAsync got null response list");
-                            this.zzf.zza(zzaq.zza(46, 7, zzat.zzB));
-                            break;
-                        }
-                    } else {
-                        i = zzb.zzb(zzl, "BillingClient");
-                        str = zzb.zzf(zzl, "BillingClient");
-                        if (i != 0) {
-                            zzb.zzj("BillingClient", "getSkuDetails() failed for queryProductDetailsAsync. Response code: " + i);
-                            this.zzf.zza(zzaq.zza(23, 7, zzat.zza(i, str)));
-                        } else {
-                            zzb.zzj("BillingClient", "getSkuDetails() returned a bundle with neither an error nor a product detail list for queryProductDetailsAsync.");
-                            zzar zzarVar2 = this.zzf;
-                            BillingResult.Builder newBuilder3 = BillingResult.newBuilder();
-                            newBuilder3.setResponseCode(6);
-                            newBuilder3.setDebugMessage(str);
-                            zzarVar2.zza(zzaq.zza(45, 7, newBuilder3.build()));
-                        }
-                    }
-                } else {
-                    zzb.zzj("BillingClient", "queryProductDetailsAsync got empty product details response.");
-                    zzar zzarVar3 = this.zzf;
-                    BillingResult.Builder newBuilder4 = BillingResult.newBuilder();
-                    newBuilder4.setResponseCode(4);
-                    newBuilder4.setDebugMessage("Item is unavailable for purchase.");
-                    zzarVar3.zza(zzaq.zza(44, 7, newBuilder4.build()));
-                    break;
-                }
-            } catch (Exception e3) {
-                e = e3;
-                zzb.zzk("BillingClient", "queryProductDetailsAsync got a remote exception (try to reconnect).", e);
-                this.zzf.zza(zzaq.zza(43, i2, zzat.zzj));
-                str = "An internal error occurred.";
-                i = 6;
-                BillingResult.Builder newBuilder22 = BillingResult.newBuilder();
-                newBuilder22.setResponseCode(i);
-                newBuilder22.setDebugMessage(str);
-                productDetailsResponseListener.onProductDetailsResponse(newBuilder22.build(), arrayList);
-                return null;
             }
         }
         BillingResult.Builder newBuilder222 = BillingResult.newBuilder();

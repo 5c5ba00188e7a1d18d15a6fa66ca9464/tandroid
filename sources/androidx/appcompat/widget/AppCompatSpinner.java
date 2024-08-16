@@ -91,7 +91,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
         this(context, attributeSet, i, i2, null);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:23:0x0060, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0064, code lost:
         if (r11 == null) goto L7;
      */
     /* JADX WARN: Multi-variable type inference failed */
@@ -544,8 +544,8 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
                 this.mListAdapter = (ListAdapter) spinnerAdapter;
             }
             if (theme != null) {
-                if (Build.VERSION.SDK_INT >= 23 && (spinnerAdapter instanceof android.widget.ThemedSpinnerAdapter)) {
-                    Api23Impl.setDropDownViewTheme((android.widget.ThemedSpinnerAdapter) spinnerAdapter, theme);
+                if (Build.VERSION.SDK_INT >= 23 && AppCompatSpinner$DropDownAdapter$$ExternalSyntheticApiModelOutline0.m(spinnerAdapter)) {
+                    Api23Impl.setDropDownViewTheme(AppCompatSpinner$DropDownAdapter$$ExternalSyntheticApiModelOutline1.m(spinnerAdapter), theme);
                 } else if (spinnerAdapter instanceof ThemedSpinnerAdapter) {
                     ThemedSpinnerAdapter themedSpinnerAdapter = (ThemedSpinnerAdapter) spinnerAdapter;
                     if (themedSpinnerAdapter.getDropDownViewTheme() == null) {
@@ -885,9 +885,7 @@ public class AppCompatSpinner extends Spinner implements TintableBackgroundView 
     /* loaded from: classes.dex */
     private static final class Api23Impl {
         static void setDropDownViewTheme(android.widget.ThemedSpinnerAdapter themedSpinnerAdapter, Resources.Theme theme) {
-            Resources.Theme dropDownViewTheme;
-            dropDownViewTheme = themedSpinnerAdapter.getDropDownViewTheme();
-            if (ObjectsCompat.equals(dropDownViewTheme, theme)) {
+            if (ObjectsCompat.equals(themedSpinnerAdapter.getDropDownViewTheme(), theme)) {
                 return;
             }
             themedSpinnerAdapter.setDropDownViewTheme(theme);

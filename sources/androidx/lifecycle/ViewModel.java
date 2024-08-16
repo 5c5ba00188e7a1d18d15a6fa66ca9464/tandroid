@@ -22,16 +22,22 @@ public abstract class ViewModel {
         Map<String, Object> map = this.mBagOfTags;
         if (map != null) {
             synchronized (map) {
-                for (Object obj : this.mBagOfTags.values()) {
-                    closeWithRuntimeException(obj);
+                try {
+                    for (Object obj : this.mBagOfTags.values()) {
+                        closeWithRuntimeException(obj);
+                    }
+                } finally {
                 }
             }
         }
         Set<Closeable> set = this.mCloseables;
         if (set != null) {
             synchronized (set) {
-                for (Closeable closeable : this.mCloseables) {
-                    closeWithRuntimeException(closeable);
+                try {
+                    for (Closeable closeable : this.mCloseables) {
+                        closeWithRuntimeException(closeable);
+                    }
+                } finally {
                 }
             }
         }
@@ -42,9 +48,13 @@ public abstract class ViewModel {
     public <T> T setTagIfAbsent(String str, T t) {
         Object obj;
         synchronized (this.mBagOfTags) {
-            obj = this.mBagOfTags.get(str);
-            if (obj == null) {
-                this.mBagOfTags.put(str, t);
+            try {
+                obj = this.mBagOfTags.get(str);
+                if (obj == null) {
+                    this.mBagOfTags.put(str, t);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         if (obj != null) {

@@ -15,6 +15,7 @@ import android.graphics.Shader;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class PinnedLineView extends View {
@@ -50,16 +51,23 @@ public class PinnedLineView extends View {
         this.selectedPaint = new Paint(1);
         this.nextPosition = -1;
         this.resourcesProvider = resourcesProvider;
-        this.paint.setStyle(Paint.Style.FILL);
-        this.paint.setStrokeCap(Paint.Cap.ROUND);
-        this.selectedPaint.setStyle(Paint.Style.FILL);
-        this.selectedPaint.setStrokeCap(Paint.Cap.ROUND);
+        Paint paint = this.paint;
+        Paint.Style style = Paint.Style.FILL;
+        paint.setStyle(style);
+        Paint paint2 = this.paint;
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint2.setStrokeCap(cap);
+        this.selectedPaint.setStyle(style);
+        this.selectedPaint.setStrokeCap(cap);
         this.fadePaint = new Paint();
-        this.fadePaint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(6.0f), new int[]{-1, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
-        this.fadePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+        this.fadePaint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(6.0f), new int[]{-1, 0}, new float[]{0.0f, 1.0f}, tileMode));
+        Paint paint3 = this.fadePaint;
+        PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
+        paint3.setXfermode(new PorterDuffXfermode(mode));
         this.fadePaint2 = new Paint();
-        this.fadePaint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(6.0f), new int[]{0, -1}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
-        this.fadePaint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        this.fadePaint2.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(6.0f), new int[]{0, -1}, new float[]{0.0f, 1.0f}, tileMode));
+        this.fadePaint2.setXfermode(new PorterDuffXfermode(mode));
         updateColors();
     }
 
@@ -147,7 +155,7 @@ public class PinnedLineView extends View {
         }
         boolean z = i > 3;
         if (z) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.voipServiceCreated, 31);
         }
         int dp = AndroidUtilities.dp(8.0f);
         if (this.replaceInProgress) {

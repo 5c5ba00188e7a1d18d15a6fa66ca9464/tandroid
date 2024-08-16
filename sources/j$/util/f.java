@@ -1,9 +1,9 @@
 package j$.util;
 
 import j$.util.function.Function;
-import j$.util.function.M0;
-import j$.util.function.O0;
-import j$.util.function.Q0;
+import j$.util.function.v0;
+import j$.util.function.x0;
+import j$.util.function.z0;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
@@ -65,16 +65,16 @@ public final class f implements Comparator, e {
 
     @Override // java.util.Comparator
     public final Comparator thenComparingDouble(ToDoubleFunction toDoubleFunction) {
-        return Comparator$-EL.a(this, Comparator$-CC.comparingDouble(M0.a(toDoubleFunction)));
+        return Comparator$-EL.a(this, Comparator$-CC.comparingDouble(v0.a(toDoubleFunction)));
     }
 
     @Override // java.util.Comparator
     public final Comparator thenComparingInt(ToIntFunction toIntFunction) {
-        return Comparator$-EL.a(this, Comparator$-CC.comparingInt(O0.a(toIntFunction)));
+        return Comparator$-EL.a(this, Comparator$-CC.comparingInt(x0.a(toIntFunction)));
     }
 
     @Override // java.util.Comparator
     public final Comparator thenComparingLong(ToLongFunction toLongFunction) {
-        return Comparator$-EL.a(this, Comparator$-CC.comparingLong(Q0.a(toLongFunction)));
+        return Comparator$-EL.a(this, Comparator$-CC.comparingLong(z0.a(toLongFunction)));
     }
 }

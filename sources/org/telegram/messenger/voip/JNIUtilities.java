@@ -2,7 +2,6 @@ package org.telegram.messenger.voip;
 
 import android.annotation.TargetApi;
 import android.net.ConnectivityManager;
-import android.net.LinkAddress;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.wifi.WifiInfo;
@@ -25,10 +24,6 @@ public class JNIUtilities {
         return 320;
     }
 
-    public static String getSupportedVideoCodecs() {
-        return "";
-    }
-
     /* JADX WARN: Code restructure failed: missing block: B:5:0x0012, code lost:
         r0 = r0.getLinkProperties(r1);
      */
@@ -49,7 +44,7 @@ public class JNIUtilities {
         return interfaceName;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:7:0x001e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:7:0x001b, code lost:
         r0 = r0.getLinkProperties(r1);
      */
     /*
@@ -58,7 +53,7 @@ public class JNIUtilities {
     public static String[] getLocalNetworkAddressesAndInterfaceName() {
         Network activeNetwork;
         LinkProperties linkProperties;
-        List<LinkAddress> linkAddresses;
+        List<Object> linkAddresses;
         String interfaceName;
         InetAddress address;
         ConnectivityManager connectivityManager = (ConnectivityManager) ApplicationLoader.applicationContext.getSystemService("connectivity");
@@ -70,8 +65,8 @@ public class JNIUtilities {
             }
             linkAddresses = linkProperties.getLinkAddresses();
             String str2 = null;
-            for (LinkAddress linkAddress : linkAddresses) {
-                address = linkAddress.getAddress();
+            for (Object obj : linkAddresses) {
+                address = JNIUtilities$$ExternalSyntheticApiModelOutline3.m(obj).getAddress();
                 if (address instanceof Inet4Address) {
                     if (!address.isLinkLocalAddress()) {
                         str = address.getHostAddress();
@@ -127,12 +122,12 @@ public class JNIUtilities {
             return null;
         }
         String networkOperator = telephonyManager.getNetworkOperator();
-        if (networkOperator == null || networkOperator.length() <= 3) {
-            str = "";
-            str2 = "";
-        } else {
+        if (networkOperator != null && networkOperator.length() > 3) {
             str = networkOperator.substring(0, 3);
             str2 = networkOperator.substring(3);
+        } else {
+            str = "";
+            str2 = "";
         }
         return new String[]{telephonyManager.getNetworkOperatorName(), telephonyManager.getNetworkCountryIso().toUpperCase(), str, str2};
     }
@@ -144,5 +139,9 @@ public class JNIUtilities {
         } catch (Exception unused) {
             return null;
         }
+    }
+
+    public static String getSupportedVideoCodecs() {
+        return "";
     }
 }

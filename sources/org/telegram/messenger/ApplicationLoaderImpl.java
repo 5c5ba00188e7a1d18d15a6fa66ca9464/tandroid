@@ -34,31 +34,32 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
         try {
             if (BuildVars.DEBUG_VERSION) {
                 Distribute.setEnabledForDebuggableBuild(true);
-                if (TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
-                    throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
-                }
-                AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class, Analytics.class);
-                Crashes.getMinidumpDirectory().thenAccept(new AppCenterConsumer() { // from class: org.telegram.messenger.ApplicationLoaderImpl$$ExternalSyntheticLambda2
-                    @Override // com.microsoft.appcenter.utils.async.AppCenterConsumer
-                    public final void accept(Object obj) {
-                        ApplicationLoaderImpl.lambda$startAppCenterInternal$0((String) obj);
+                if (!TextUtils.isEmpty(BuildConfig.APP_CENTER_HASH)) {
+                    AppCenter.start(activity.getApplication(), BuildConfig.APP_CENTER_HASH, Distribute.class, Crashes.class, Analytics.class);
+                    Crashes.getMinidumpDirectory().thenAccept(new AppCenterConsumer() { // from class: org.telegram.messenger.ApplicationLoaderImpl$$ExternalSyntheticLambda2
+                        @Override // com.microsoft.appcenter.utils.async.AppCenterConsumer
+                        public final void accept(Object obj) {
+                            ApplicationLoaderImpl.lambda$startAppCenterInternal$0((String) obj);
+                        }
+                    });
+                    CustomProperties customProperties = new CustomProperties();
+                    customProperties.set("model", Build.MODEL);
+                    customProperties.set("manufacturer", Build.MANUFACTURER);
+                    if (Build.VERSION.SDK_INT >= 31) {
+                        str = Build.SOC_MODEL;
+                        customProperties.set("model", str);
+                        str2 = Build.SOC_MANUFACTURER;
+                        customProperties.set("manufacturer", str2);
                     }
-                });
-                CustomProperties customProperties = new CustomProperties();
-                customProperties.set("model", Build.MODEL);
-                customProperties.set("manufacturer", Build.MANUFACTURER);
-                if (Build.VERSION.SDK_INT >= 31) {
-                    str = Build.SOC_MODEL;
-                    customProperties.set("model", str);
-                    str2 = Build.SOC_MANUFACTURER;
-                    customProperties.set("manufacturer", str2);
+                    customProperties.set("device", Build.DEVICE);
+                    customProperties.set("product", Build.PRODUCT);
+                    customProperties.set("hardware", Build.HARDWARE);
+                    customProperties.set("user", Build.USER);
+                    AppCenter.setCustomProperties(customProperties);
+                    AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
+                    return;
                 }
-                customProperties.set("device", Build.DEVICE);
-                customProperties.set("product", Build.PRODUCT);
-                customProperties.set("hardware", Build.HARDWARE);
-                customProperties.set("user", Build.USER);
-                AppCenter.setCustomProperties(customProperties);
-                AppCenter.setUserId("uid=" + UserConfig.getInstance(UserConfig.selectedAccount).clientUserId);
+                throw new RuntimeException("App Center hash is empty. add to local.properties field APP_CENTER_HASH_PRIVATE and APP_CENTER_HASH_PUBLIC");
             }
         } catch (Throwable th) {
             FileLog.e(th);

@@ -11,12 +11,16 @@ public final class zzb {
 
     public final boolean zza() {
         synchronized (this.zzb) {
-            long currentTimeMillis = System.currentTimeMillis();
-            if (this.zzc + this.zza > currentTimeMillis) {
-                return false;
+            try {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (this.zzc + this.zza > currentTimeMillis) {
+                    return false;
+                }
+                this.zzc = currentTimeMillis;
+                return true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = currentTimeMillis;
-            return true;
         }
     }
 }

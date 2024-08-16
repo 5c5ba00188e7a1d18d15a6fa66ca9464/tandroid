@@ -268,7 +268,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     @Deprecated
     public static Fragment instantiate(Context context, String str, Bundle bundle) {
         try {
-            Fragment newInstance = FragmentFactory.loadFragmentClass(context.getClassLoader(), str).getConstructor(new Class[0]).newInstance(new Object[0]);
+            Fragment newInstance = FragmentFactory.loadFragmentClass(context.getClassLoader(), str).getConstructor(null).newInstance(null);
             if (bundle != null) {
                 bundle.setClassLoader(newInstance.getClass().getClassLoader());
                 newInstance.setArguments(bundle);

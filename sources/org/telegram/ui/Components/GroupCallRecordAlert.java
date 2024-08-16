@@ -24,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -134,10 +135,11 @@ public class GroupCallRecordAlert extends BottomSheet {
             }
         });
         View view = new View(getContext());
-        view.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{color, 0}));
+        GradientDrawable.Orientation orientation = GradientDrawable.Orientation.LEFT_RIGHT;
+        view.setBackground(new GradientDrawable(orientation, new int[]{color, 0}));
         this.containerView.addView(view, LayoutHelper.createFrame(120, -1.0f, 51, 0.0f, 100.0f, 0.0f, 130.0f));
         View view2 = new View(getContext());
-        view2.setBackground(new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0, color}));
+        view2.setBackground(new GradientDrawable(orientation, new int[]{0, color}));
         this.containerView.addView(view2, LayoutHelper.createFrame(120, -1.0f, 53, 0.0f, 100.0f, 0.0f, 130.0f));
         TextView textView3 = new TextView(getContext()) { // from class: org.telegram.ui.Components.GroupCallRecordAlert.3
             private Paint[] gradientPaint;
@@ -155,8 +157,8 @@ public class GroupCallRecordAlert extends BottomSheet {
                 }
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:14:0x002f  */
-            /* JADX WARN: Removed duplicated region for block: B:15:0x004b  */
+            /* JADX WARN: Removed duplicated region for block: B:14:0x002e  */
+            /* JADX WARN: Removed duplicated region for block: B:15:0x0044  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -195,7 +197,7 @@ public class GroupCallRecordAlert extends BottomSheet {
             protected void onDraw(Canvas canvas) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[GroupCallRecordAlert.this.currentPage].setAlpha(255);
+                this.gradientPaint[GroupCallRecordAlert.this.currentPage].setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawRoundRect(rectF, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.gradientPaint[GroupCallRecordAlert.this.currentPage]);
                 if (GroupCallRecordAlert.this.pageOffset > 0.0f) {
                     int i2 = GroupCallRecordAlert.this.currentPage + 1;
@@ -283,11 +285,11 @@ public class GroupCallRecordAlert extends BottomSheet {
         int i = this.currentPage;
         TextView textView = textViewArr[i];
         TextView textView2 = i < textViewArr.length + (-1) ? textViewArr[i + 1] : null;
-        int measuredWidth = this.containerView.getMeasuredWidth() / 2;
+        this.containerView.getMeasuredWidth();
         float left = textView.getLeft() + (textView.getMeasuredWidth() / 2);
-        float measuredWidth2 = (this.containerView.getMeasuredWidth() / 2) - left;
+        float measuredWidth = (this.containerView.getMeasuredWidth() / 2) - left;
         if (textView2 != null) {
-            measuredWidth2 -= ((textView2.getLeft() + (textView2.getMeasuredWidth() / 2)) - left) * this.pageOffset;
+            measuredWidth -= ((textView2.getLeft() + (textView2.getMeasuredWidth() / 2)) - left) * this.pageOffset;
         }
         int i2 = 0;
         while (true) {
@@ -312,7 +314,7 @@ public class GroupCallRecordAlert extends BottomSheet {
                 this.titles[i2].setScaleY(f);
                 i2++;
             } else {
-                this.titlesLayout.setTranslationX(measuredWidth2);
+                this.titlesLayout.setTranslationX(measuredWidth);
                 this.positiveButton.invalidate();
                 return;
             }

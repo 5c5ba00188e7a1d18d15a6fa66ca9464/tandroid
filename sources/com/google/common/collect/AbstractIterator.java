@@ -43,7 +43,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
         }
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final boolean hasNext() {
         Preconditions.checkState(this.state != State.FAILED);
         int i = 1.$SwitchMap$com$google$common$collect$AbstractIterator$State[this.state.ordinal()];
@@ -66,7 +66,7 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
         return false;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final T next() {
         if (!hasNext()) {
             throw new NoSuchElementException();

@@ -281,11 +281,14 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         int measureText2 = (int) this.textPaint2.measureText(str2);
         this.layout1Width = measureText2;
         this.layout1Width = Math.min(measureText2, this.lastWidth - AndroidUtilities.dp(60.0f));
-        this.layout1 = new StaticLayout(str2, this.textPaint2, this.layout1Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        TextPaint textPaint = this.textPaint2;
+        int i3 = this.layout1Width;
+        Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
+        this.layout1 = new StaticLayout(str2, textPaint, i3, alignment, 1.0f, 0.0f, false);
         int measureText3 = (int) this.textPaint2.measureText(string3);
         this.layout2Width = measureText3;
         this.layout2Width = Math.min(measureText3, this.lastWidth - AndroidUtilities.dp(60.0f));
-        this.layout2 = new StaticLayout(string3, this.textPaint2, this.layout2Width, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
+        this.layout2 = new StaticLayout(string3, this.textPaint2, this.layout2Width, alignment, 1.0f, 0.0f, false);
         this.imageReceiver.setImageCoords((this.lastWidth / 2.0f) - (AndroidUtilities.dp(40.0f) / 2.0f), (AndroidUtilities.dp(12.0f) + this.circleRadius) - (AndroidUtilities.dp(40.0f) / 2.0f), AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f));
         this.imageReceiver.setRoundRadius((int) (AndroidUtilities.dp(40.0f) / 2.0f));
         this.counterDrawable.setSize(AndroidUtilities.dp(28.0f), AndroidUtilities.dp(100.0f));
@@ -411,8 +414,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             float dp6 = ((AndroidUtilities.dp(20.0f) * (1.0f - this.swipeToReleaseProgress)) - (AndroidUtilities.dp(36.0f) * this.swipeToReleaseProgress)) + f10;
             RectF rectF2 = AndroidUtilities.rectTmp;
             int i7 = this.lastWidth;
-            int i8 = this.chatNameWidth;
-            rectF2.set((i7 - i8) / 2.0f, dp6, i7 - ((i7 - i8) / 2.0f), this.chatNameLayout.getHeight() + dp6);
+            float f15 = (i7 - this.chatNameWidth) / 2.0f;
+            rectF2.set(f15, dp6, i7 - f15, this.chatNameLayout.getHeight() + dp6);
             rectF2.inset(-AndroidUtilities.dp(8.0f), -AndroidUtilities.dp(4.0f));
             canvas.drawRoundRect(rectF2, AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), getThemedPaint("paintChatActionBackground"));
             if (hasGradientService()) {
@@ -433,18 +436,18 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
             }
             ImageReceiver imageReceiver2 = imageReceiver;
             imageReceiver2.setAlpha(f3);
-            float f15 = dp2 / 2.0f;
-            imageReceiver2.setRoundRadius((int) f15);
-            imageReceiver2.setImageCoords(f9 - f15, dp23, dp2, dp2);
+            float f16 = dp2 / 2.0f;
+            imageReceiver2.setRoundRadius((int) f16);
+            imageReceiver2.setImageCoords(f9 - f16, dp23, dp2, dp2);
             if (this.isTopic && imageReceiver2.getDrawable() != null && (imageReceiver2.getDrawable() instanceof CombinedDrawable) && (((CombinedDrawable) imageReceiver2.getDrawable()).getIcon() instanceof LetterDrawable)) {
                 ((LetterDrawable) ((CombinedDrawable) imageReceiver2.getDrawable()).getIcon()).scale = f;
             }
             if (this.swipeToReleaseProgress > 0.0f && this.visibleCounterDrawable) {
                 f6 = 1.0f;
-                canvas.saveLayerAlpha(imageReceiver2.getImageX(), imageReceiver2.getImageY(), imageReceiver2.getImageWidth() + imageReceiver2.getImageX(), imageReceiver2.getImageHeight() + imageReceiver2.getImageY(), 255, 31);
+                canvas.saveLayerAlpha(imageReceiver2.getImageX(), imageReceiver2.getImageY(), imageReceiver2.getImageWidth() + imageReceiver2.getImageX(), imageReceiver2.getImageHeight() + imageReceiver2.getImageY(), NotificationCenter.voipServiceCreated, 31);
                 imageReceiver2.draw(canvas);
-                float f16 = this.swipeToReleaseProgress;
-                canvas.scale(f16, f16, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
+                float f17 = this.swipeToReleaseProgress;
+                canvas.scale(f17, f17, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
                 canvas.translate(AndroidUtilities.dp(12.0f) + f9, dp23 - AndroidUtilities.dp(6.0f));
                 this.counterDrawable.updateBackgroundRect();
                 this.counterDrawable.rectF.inset(-AndroidUtilities.dp(2.0f), -AndroidUtilities.dp(2.0f));
@@ -452,8 +455,8 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
                 canvas.drawRoundRect(rectF3, rectF3.height() / 2.0f, this.counterDrawable.rectF.height() / 2.0f, this.xRefPaint);
                 canvas.restore();
                 canvas.save();
-                float f17 = this.swipeToReleaseProgress;
-                canvas.scale(f17, f17, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
+                float f18 = this.swipeToReleaseProgress;
+                canvas.scale(f18, f18, AndroidUtilities.dp(12.0f) + f9 + this.counterDrawable.getCenterX(), (dp23 - AndroidUtilities.dp(6.0f)) + AndroidUtilities.dp(14.0f));
                 canvas.translate(f9 + AndroidUtilities.dp(12.0f), dp23 - AndroidUtilities.dp(6.0f));
                 this.counterDrawable.draw(canvas);
                 canvas.restore();

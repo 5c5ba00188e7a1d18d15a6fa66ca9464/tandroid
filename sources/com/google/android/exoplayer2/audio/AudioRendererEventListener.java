@@ -70,7 +70,7 @@ public interface AudioRendererEventListener {
         public void decoderInitialized(final String str, final long j, final long j2) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda7
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$decoderInitialized$1(str, j, j2);
@@ -87,7 +87,7 @@ public interface AudioRendererEventListener {
         public void inputFormatChanged(final Format format, final DecoderReuseEvaluation decoderReuseEvaluation) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda1
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda6
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$inputFormatChanged$2(format, decoderReuseEvaluation);
@@ -105,7 +105,7 @@ public interface AudioRendererEventListener {
         public void positionAdvancing(final long j) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$positionAdvancing$3(j);
@@ -122,7 +122,7 @@ public interface AudioRendererEventListener {
         public void underrun(final int i, final long j, final long j2) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda9
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda8
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$underrun$4(i, j, j2);
@@ -157,7 +157,7 @@ public interface AudioRendererEventListener {
             decoderCounters.ensureUpdated();
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda3
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$disabled$6(decoderCounters);
@@ -175,7 +175,7 @@ public interface AudioRendererEventListener {
         public void skipSilenceEnabledChanged(final boolean z) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda8
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$skipSilenceEnabledChanged$7(z);
@@ -192,7 +192,7 @@ public interface AudioRendererEventListener {
         public void audioSinkError(final Exception exc) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda5
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$audioSinkError$8(exc);
@@ -209,7 +209,7 @@ public interface AudioRendererEventListener {
         public void audioCodecError(final Exception exc) {
             Handler handler = this.handler;
             if (handler != null) {
-                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda6
+                handler.post(new Runnable() { // from class: com.google.android.exoplayer2.audio.AudioRendererEventListener$EventDispatcher$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         AudioRendererEventListener.EventDispatcher.this.lambda$audioCodecError$9(exc);

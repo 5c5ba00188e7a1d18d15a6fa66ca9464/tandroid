@@ -39,7 +39,7 @@ public final class DeviceInfo implements Bundleable {
     }
 
     public int hashCode() {
-        return ((((527 + this.playbackType) * 31) + this.minVolume) * 31) + this.maxVolume;
+        return ((((this.playbackType + 527) * 31) + this.minVolume) * 31) + this.maxVolume;
     }
 
     @Override // com.google.android.exoplayer2.Bundleable

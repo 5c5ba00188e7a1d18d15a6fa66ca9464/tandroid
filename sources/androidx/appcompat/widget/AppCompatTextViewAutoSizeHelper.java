@@ -331,12 +331,15 @@ public class AppCompatTextViewAutoSizeHelper {
                 }
                 RectF rectF = TEMP_RECTF;
                 synchronized (rectF) {
-                    rectF.setEmpty();
-                    rectF.right = measuredWidth;
-                    rectF.bottom = height;
-                    float findLargestTextSizeWhichFits = findLargestTextSizeWhichFits(rectF);
-                    if (findLargestTextSizeWhichFits != this.mTextView.getTextSize()) {
-                        setTextSizeInternal(0, findLargestTextSizeWhichFits);
+                    try {
+                        rectF.setEmpty();
+                        rectF.right = measuredWidth;
+                        rectF.bottom = height;
+                        float findLargestTextSizeWhichFits = findLargestTextSizeWhichFits(rectF);
+                        if (findLargestTextSizeWhichFits != this.mTextView.getTextSize()) {
+                            setTextSizeInternal(0, findLargestTextSizeWhichFits);
+                        }
+                    } finally {
                     }
                 }
             }
@@ -374,7 +377,7 @@ public class AppCompatTextViewAutoSizeHelper {
                 try {
                     Method textViewMethod = getTextViewMethod("nullLayouts");
                     if (textViewMethod != null) {
-                        textViewMethod.invoke(this.mTextView, new Object[0]);
+                        textViewMethod.invoke(this.mTextView, null);
                     }
                 } catch (Exception e) {
                     Log.w("ACTVAutoSizeHelper", "Failed to invoke TextView#nullLayouts() method", e);
@@ -444,7 +447,7 @@ public class AppCompatTextViewAutoSizeHelper {
 
     static <T> T invokeAndReturnWithDefault(Object obj, String str, T t) {
         try {
-            return (T) getTextViewMethod(str).invoke(obj, new Object[0]);
+            return (T) getTextViewMethod(str).invoke(obj, null);
         } catch (Exception e) {
             Log.w("ACTVAutoSizeHelper", "Failed to invoke TextView#" + str + "() method", e);
             return t;
@@ -454,7 +457,7 @@ public class AppCompatTextViewAutoSizeHelper {
     private static Method getTextViewMethod(String str) {
         try {
             Method method = sTextViewMethodByNameCache.get(str);
-            if (method == null && (method = TextView.class.getDeclaredMethod(str, new Class[0])) != null) {
+            if (method == null && (method = TextView.class.getDeclaredMethod(str, null)) != null) {
                 method.setAccessible(true);
                 sTextViewMethodByNameCache.put(str, method);
             }
@@ -478,34 +481,18 @@ public class AppCompatTextViewAutoSizeHelper {
     /* loaded from: classes.dex */
     public static final class Api23Impl {
         static StaticLayout createStaticLayoutForMeasuring(CharSequence charSequence, Layout.Alignment alignment, int i, int i2, TextView textView, TextPaint textPaint, Impl impl) {
-            StaticLayout.Builder obtain;
-            StaticLayout.Builder alignment2;
-            StaticLayout.Builder lineSpacing;
-            StaticLayout.Builder includePad;
-            int breakStrategy;
-            StaticLayout.Builder breakStrategy2;
-            int hyphenationFrequency;
-            StaticLayout.Builder hyphenationFrequency2;
-            StaticLayout build;
-            obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
-            alignment2 = obtain.setAlignment(alignment);
-            lineSpacing = alignment2.setLineSpacing(textView.getLineSpacingExtra(), textView.getLineSpacingMultiplier());
-            includePad = lineSpacing.setIncludePad(textView.getIncludeFontPadding());
-            breakStrategy = textView.getBreakStrategy();
-            breakStrategy2 = includePad.setBreakStrategy(breakStrategy);
-            hyphenationFrequency = textView.getHyphenationFrequency();
-            hyphenationFrequency2 = breakStrategy2.setHyphenationFrequency(hyphenationFrequency);
+            StaticLayout.Builder obtain = StaticLayout.Builder.obtain(charSequence, 0, charSequence.length(), textPaint, i);
+            StaticLayout.Builder hyphenationFrequency = obtain.setAlignment(alignment).setLineSpacing(textView.getLineSpacingExtra(), textView.getLineSpacingMultiplier()).setIncludePad(textView.getIncludeFontPadding()).setBreakStrategy(textView.getBreakStrategy()).setHyphenationFrequency(textView.getHyphenationFrequency());
             if (i2 == -1) {
                 i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
             }
-            hyphenationFrequency2.setMaxLines(i2);
+            hyphenationFrequency.setMaxLines(i2);
             try {
                 impl.computeAndSetTextDirection(obtain, textView);
             } catch (ClassCastException unused) {
                 Log.w("ACTVAutoSizeHelper", "Failed to obtain TextDirectionHeuristic, auto size may be incorrect");
             }
-            build = obtain.build();
-            return build;
+            return obtain.build();
         }
     }
 

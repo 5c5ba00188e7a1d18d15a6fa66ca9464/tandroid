@@ -21,17 +21,23 @@ import org.xmlpull.v1.XmlSerializer;
 /* loaded from: classes.dex */
 public class AppLocalesStorageHelper {
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x0039, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x002d, code lost:
+        if (r6 != 4) goto L29;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x003a, code lost:
+        if (r4.getName().equals("locales") == false) goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x003c, code lost:
         r2 = r4.getAttributeValue(null, "application_locales");
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0040, code lost:
-        if (r3 != null) goto L20;
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0043, code lost:
+        if (r3 != null) goto L21;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:19:0x0042, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0045, code lost:
         r3.close();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:25:0x004f, code lost:
-        if (r3 == null) goto L14;
+    /* JADX WARN: Code restructure failed: missing block: B:26:0x0050, code lost:
+        if (r3 == null) goto L15;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -47,9 +53,11 @@ public class AppLocalesStorageHelper {
                     int depth = newPullParser.getDepth();
                     while (true) {
                         int next = newPullParser.next();
-                        if (next == 1 || (next == 3 && newPullParser.getDepth() <= depth)) {
-                            break;
-                        } else if (next != 3 && next != 4 && newPullParser.getName().equals("locales")) {
+                        if (next != 1) {
+                            if (next == 3 && newPullParser.getDepth() <= depth) {
+                                break;
+                            }
+                        } else {
                             break;
                         }
                     }
@@ -163,14 +171,18 @@ public class AppLocalesStorageHelper {
         @Override // java.util.concurrent.Executor
         public void execute(final Runnable runnable) {
             synchronized (this.mLock) {
-                this.mTasks.add(new Runnable() { // from class: androidx.appcompat.app.AppLocalesStorageHelper$SerialExecutor$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        AppLocalesStorageHelper.SerialExecutor.this.lambda$execute$0(runnable);
+                try {
+                    this.mTasks.add(new Runnable() { // from class: androidx.appcompat.app.AppLocalesStorageHelper$SerialExecutor$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            AppLocalesStorageHelper.SerialExecutor.this.lambda$execute$0(runnable);
+                        }
+                    });
+                    if (this.mActive == null) {
+                        scheduleNext();
                     }
-                });
-                if (this.mActive == null) {
-                    scheduleNext();
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -186,10 +198,14 @@ public class AppLocalesStorageHelper {
 
         protected void scheduleNext() {
             synchronized (this.mLock) {
-                Runnable poll = this.mTasks.poll();
-                this.mActive = poll;
-                if (poll != null) {
-                    this.mExecutor.execute(poll);
+                try {
+                    Runnable poll = this.mTasks.poll();
+                    this.mActive = poll;
+                    if (poll != null) {
+                        this.mExecutor.execute(poll);
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }

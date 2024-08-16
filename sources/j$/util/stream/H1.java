@@ -1,20 +1,76 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
+
+import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
-public final class H1 extends u1 {
-    final /* synthetic */ j$.util.function.G h;
-    final /* synthetic */ int i;
+final class H1 implements N1, c2 {
+    private int a;
+    final /* synthetic */ int b;
+    final /* synthetic */ j$.util.function.B c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public H1(U2 u2, j$.util.function.G g, int i) {
-        super(u2);
-        this.h = g;
-        this.i = i;
+    public H1(int i, j$.util.function.B b) {
+        this.b = i;
+        this.c = b;
     }
 
-    @Override // j$.util.stream.u1
-    public final O1 u() {
-        return new I1(this.i, this.h);
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final /* synthetic */ void accept(double d) {
+        t0.b();
+        throw null;
+    }
+
+    @Override // j$.util.stream.e2
+    public final void accept(int i) {
+        this.a = this.c.applyAsInt(this.a, i);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void accept(long j) {
+        t0.l();
+        throw null;
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* bridge */ /* synthetic */ void accept(Object obj) {
+        o((Integer) obj);
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
+    }
+
+    @Override // j$.util.function.Supplier
+    public final Object get() {
+        return Integer.valueOf(this.a);
+    }
+
+    @Override // j$.util.stream.N1
+    public final void h(N1 n1) {
+        accept(((H1) n1).a);
+    }
+
+    @Override // j$.util.function.F
+    public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
+        return j$.com.android.tools.r8.a.c(this, f);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ void m() {
+    }
+
+    @Override // j$.util.stream.e2
+    public final void n(long j) {
+        this.a = this.b;
+    }
+
+    @Override // j$.util.stream.c2
+    public final /* synthetic */ void o(Integer num) {
+        t0.g(this, num);
+    }
+
+    @Override // j$.util.stream.e2
+    public final /* synthetic */ boolean q() {
+        return false;
     }
 }

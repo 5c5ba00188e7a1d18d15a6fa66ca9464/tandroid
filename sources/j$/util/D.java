@@ -1,6 +1,5 @@
 package j$.util;
 
-import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -45,12 +44,12 @@ public final /* synthetic */ class D implements Spliterator.OfDouble {
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator
     public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        this.a.a(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.Spliterator.OfDouble
     public final /* synthetic */ void forEachRemaining(DoubleConsumer doubleConsumer) {
-        this.a.d(j$.util.function.k.a(doubleConsumer));
+        this.a.e(j$.util.function.l.a(doubleConsumer));
     }
 
     @Override // java.util.Spliterator
@@ -78,13 +77,13 @@ public final /* synthetic */ class D implements Spliterator.OfDouble {
     }
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator
-    public final /* synthetic */ boolean tryAdvance(java.util.function.Consumer consumer) {
-        return this.a.a(Consumer.VivifiedWrapper.convert(consumer));
+    public final /* synthetic */ boolean tryAdvance(Consumer consumer) {
+        return this.a.s(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.Spliterator.OfDouble
     public final /* synthetic */ boolean tryAdvance(DoubleConsumer doubleConsumer) {
-        return this.a.o(j$.util.function.k.a(doubleConsumer));
+        return this.a.p(j$.util.function.l.a(doubleConsumer));
     }
 
     @Override // java.util.Spliterator.OfDouble, java.util.Spliterator.OfPrimitive, java.util.Spliterator

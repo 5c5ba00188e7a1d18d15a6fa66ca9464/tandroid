@@ -238,9 +238,8 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                         SharedDocumentCell sharedDocumentCell = (SharedDocumentCell) childAt;
                         if (sharedDocumentCell.getMessage().getId() == messageObject.getId()) {
                             BackupImageView imageView2 = sharedDocumentCell.getImageView();
-                            ImageReceiver imageReceiver2 = imageView2.getImageReceiver();
+                            photoImage = imageView2.getImageReceiver();
                             imageView2.getLocationInWindow(iArr);
-                            photoImage = imageReceiver2;
                         }
                         photoImage = null;
                     } else {
@@ -268,7 +267,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
                         placeProviderObject.parentView.getLocationInWindow(iArr);
                         placeProviderObject.clipTopAddition = 0;
                         if (PhotoViewer.isShowingImage(messageObject) && (pinnedHeader = recyclerListView.getPinnedHeader()) != null) {
-                            int dp = (childAt instanceof SharedDocumentCell ? AndroidUtilities.dp(8.0f) + 0 : 0) - placeProviderObject.viewY;
+                            int dp = (childAt instanceof SharedDocumentCell ? AndroidUtilities.dp(8.0f) : 0) - placeProviderObject.viewY;
                             if (dp > childAt.getHeight()) {
                                 recyclerListView.scrollBy(0, -(dp + pinnedHeader.getHeight()));
                             } else {
@@ -289,7 +288,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         };
         this.firstLoading = true;
         this.notificationsLocker = new AnimationNotificationsLocker();
-        this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda1
+        this.hideFloatingDateRunnable = new Runnable() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 FilteredSearchView.this.lambda$new$0();
@@ -326,7 +325,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             }
         };
         this.recyclerListView = blurredRecyclerView;
-        blurredRecyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda2
+        blurredRecyclerView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 FilteredSearchView.this.lambda$new$1(view, i);
@@ -578,15 +577,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
     }
 
     public void search(final long j, final long j2, final long j3, final FiltersView.MediaFilterData mediaFilterData, final boolean z, final String str, boolean z2) {
-        Locale locale = Locale.ENGLISH;
-        Object[] objArr = new Object[6];
-        objArr[0] = Long.valueOf(j);
-        objArr[1] = Long.valueOf(j2);
-        objArr[2] = Long.valueOf(j3);
-        objArr[3] = Integer.valueOf(mediaFilterData == null ? -1 : mediaFilterData.filterType);
-        objArr[4] = str;
-        objArr[5] = Boolean.valueOf(z);
-        final String format = String.format(locale, "%d%d%d%d%s%s", objArr);
+        final String format = String.format(Locale.ENGLISH, "%d%d%d%d%s%s", Long.valueOf(j), Long.valueOf(j2), Long.valueOf(j3), Integer.valueOf(mediaFilterData == null ? -1 : mediaFilterData.filterType), str, Boolean.valueOf(z));
         String str2 = this.lastSearchFilterQueryString;
         boolean z3 = str2 != null && str2.equals(format);
         boolean z4 = !z3 && z2;
@@ -738,7 +729,7 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
         this.lastSearchFilterQueryString = str2;
         final ArrayList arrayList5 = new ArrayList();
         FiltersView.fillTipDates(this.lastMessagesSearchString, arrayList5);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_searchGlobal3, new RequestDelegate() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda3
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_messages_searchGlobal3, new RequestDelegate() { // from class: org.telegram.ui.FilteredSearchView$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 FilteredSearchView.this.lambda$search$3(i, str, i2, z, mediaFilterData, j, j2, arrayList4, arrayList5, tLObject, tLRPC$TL_error);
@@ -768,7 +759,6 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$search$2(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, int i2, boolean z, String str, ArrayList arrayList, FiltersView.MediaFilterData mediaFilterData, long j, long j2, ArrayList arrayList2, ArrayList arrayList3) {
-        boolean z2;
         String string;
         if (i != this.requestIndex) {
             return;
@@ -876,18 +866,15 @@ public class FilteredSearchView extends FrameLayout implements NotificationCente
             if (str != null && str.length() >= 3 && (LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
                 int i6 = 0;
                 while (true) {
-                    if (i6 >= this.localTipChats.size()) {
-                        z2 = false;
-                        break;
-                    } else if ((this.localTipChats.get(i6) instanceof TLRPC$User) && UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == ((TLRPC$User) this.localTipChats.get(i6)).id) {
-                        z2 = true;
-                        break;
-                    } else {
+                    if (i6 < this.localTipChats.size()) {
+                        if ((this.localTipChats.get(i6) instanceof TLRPC$User) && UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == ((TLRPC$User) this.localTipChats.get(i6)).id) {
+                            break;
+                        }
                         i6++;
+                    } else {
+                        this.localTipChats.add(0, UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser());
+                        break;
                     }
-                }
-                if (!z2) {
-                    this.localTipChats.add(0, UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser());
                 }
             }
             this.localTipDates.clear();

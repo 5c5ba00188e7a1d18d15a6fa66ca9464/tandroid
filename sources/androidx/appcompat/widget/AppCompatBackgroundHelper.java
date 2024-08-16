@@ -47,8 +47,10 @@ class AppCompatBackgroundHelper {
             if (obtainStyledAttributes.hasValue(i4)) {
                 ViewCompat.setBackgroundTintMode(this.mView, DrawableUtils.parseTintMode(obtainStyledAttributes.getInt(i4, -1), null));
             }
-        } finally {
             obtainStyledAttributes.recycle();
+        } catch (Throwable th) {
+            obtainStyledAttributes.recycle();
+            throw th;
         }
     }
 

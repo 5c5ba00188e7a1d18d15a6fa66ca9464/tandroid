@@ -1,97 +1,157 @@
 package j$.time;
+
+import j$.time.temporal.q;
+import java.io.Serializable;
 /* loaded from: classes2.dex */
-abstract /* synthetic */ class g {
-    static final /* synthetic */ int[] a;
-    static final /* synthetic */ int[] b;
+public final class g implements j$.time.temporal.k, j$.time.chrono.c, Serializable {
+    private final LocalDate a;
+    private final i b;
 
     static {
-        int[] iArr = new int[j$.time.temporal.b.values().length];
-        b = iArr;
-        try {
-            iArr[j$.time.temporal.b.DAYS.ordinal()] = 1;
-        } catch (NoSuchFieldError unused) {
+        LocalDate localDate = LocalDate.d;
+        i iVar = i.e;
+        j$.util.a.B(localDate, "date");
+        j$.util.a.B(iVar, "time");
+        LocalDate localDate2 = LocalDate.e;
+        i iVar2 = i.f;
+        j$.util.a.B(localDate2, "date");
+        j$.util.a.B(iVar2, "time");
+    }
+
+    private g(LocalDate localDate, i iVar) {
+        this.a = localDate;
+        this.b = iVar;
+    }
+
+    public static g i(int i) {
+        return new g(LocalDate.of(i, 12, 31), i.j());
+    }
+
+    public static g j(long j, int i, ZoneOffset zoneOffset) {
+        long totalSeconds;
+        j$.util.a.B(zoneOffset, "offset");
+        long j2 = i;
+        j$.time.temporal.a.NANO_OF_SECOND.g(j2);
+        return new g(LocalDate.p(j$.com.android.tools.r8.a.j(j + zoneOffset.getTotalSeconds(), 86400L)), i.k((((int) j$.com.android.tools.r8.a.i(totalSeconds, 86400L)) * 1000000000) + j2));
+    }
+
+    @Override // j$.time.temporal.k
+    public final q a(j$.time.temporal.l lVar) {
+        if (lVar instanceof j$.time.temporal.a) {
+            if (((j$.time.temporal.a) lVar).h()) {
+                i iVar = this.b;
+                iVar.getClass();
+                return j$.time.temporal.j.c(iVar, lVar);
+            }
+            return this.a.a(lVar);
         }
-        try {
-            b[j$.time.temporal.b.WEEKS.ordinal()] = 2;
-        } catch (NoSuchFieldError unused2) {
+        return lVar.d(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final long b(j$.time.temporal.l lVar) {
+        return lVar instanceof j$.time.temporal.a ? ((j$.time.temporal.a) lVar).h() ? this.b.b(lVar) : this.a.b(lVar) : lVar.b(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final Object c(j$.time.temporal.n nVar) {
+        j$.time.temporal.m e = j$.time.temporal.j.e();
+        LocalDate localDate = this.a;
+        if (nVar == e) {
+            return localDate;
         }
-        try {
-            b[j$.time.temporal.b.MONTHS.ordinal()] = 3;
-        } catch (NoSuchFieldError unused3) {
+        if (nVar == j$.time.temporal.j.j() || nVar == j$.time.temporal.j.i() || nVar == j$.time.temporal.j.g()) {
+            return null;
         }
-        try {
-            b[j$.time.temporal.b.YEARS.ordinal()] = 4;
-        } catch (NoSuchFieldError unused4) {
+        if (nVar == j$.time.temporal.j.f()) {
+            return this.b;
         }
-        try {
-            b[j$.time.temporal.b.DECADES.ordinal()] = 5;
-        } catch (NoSuchFieldError unused5) {
+        if (nVar != j$.time.temporal.j.d()) {
+            return nVar == j$.time.temporal.j.h() ? j$.time.temporal.b.NANOS : nVar.a(this);
         }
-        try {
-            b[j$.time.temporal.b.CENTURIES.ordinal()] = 6;
-        } catch (NoSuchFieldError unused6) {
+        localDate.getClass();
+        return j$.time.chrono.g.a;
+    }
+
+    @Override // j$.time.temporal.k
+    public final int d(j$.time.temporal.a aVar) {
+        return aVar instanceof j$.time.temporal.a ? aVar.h() ? this.b.d(aVar) : this.a.d(aVar) : j$.time.temporal.j.a(this, aVar);
+    }
+
+    @Override // j$.time.temporal.k
+    public final boolean e(j$.time.temporal.l lVar) {
+        if (!(lVar instanceof j$.time.temporal.a)) {
+            return lVar != null && lVar.c(this);
         }
-        try {
-            b[j$.time.temporal.b.MILLENNIA.ordinal()] = 7;
-        } catch (NoSuchFieldError unused7) {
+        j$.time.temporal.a aVar = (j$.time.temporal.a) lVar;
+        return aVar.e() || aVar.h();
+    }
+
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        try {
-            b[j$.time.temporal.b.ERAS.ordinal()] = 8;
-        } catch (NoSuchFieldError unused8) {
+        if (obj instanceof g) {
+            g gVar = (g) obj;
+            return this.a.equals(gVar.a) && this.b.equals(gVar.b);
         }
-        int[] iArr2 = new int[j$.time.temporal.a.values().length];
-        a = iArr2;
-        try {
-            iArr2[j$.time.temporal.a.DAY_OF_MONTH.ordinal()] = 1;
-        } catch (NoSuchFieldError unused9) {
+        return false;
+    }
+
+    @Override // java.lang.Comparable
+    /* renamed from: f */
+    public final int compareTo(j$.time.chrono.c cVar) {
+        boolean z = cVar instanceof g;
+        i iVar = this.b;
+        LocalDate localDate = this.a;
+        if (z) {
+            g gVar = (g) cVar;
+            int g = localDate.g(gVar.a);
+            return g == 0 ? iVar.compareTo(gVar.b) : g;
         }
-        try {
-            a[j$.time.temporal.a.DAY_OF_YEAR.ordinal()] = 2;
-        } catch (NoSuchFieldError unused10) {
+        g gVar2 = (g) cVar;
+        int compareTo = localDate.compareTo(gVar2.a);
+        if (compareTo == 0) {
+            int compareTo2 = iVar.compareTo(gVar2.b);
+            if (compareTo2 == 0) {
+                localDate.getClass();
+                j$.time.chrono.g gVar3 = j$.time.chrono.g.a;
+                gVar2.a.getClass();
+                gVar3.getClass();
+                gVar3.getClass();
+                return 0;
+            }
+            return compareTo2;
         }
-        try {
-            a[j$.time.temporal.a.ALIGNED_WEEK_OF_MONTH.ordinal()] = 3;
-        } catch (NoSuchFieldError unused11) {
-        }
-        try {
-            a[j$.time.temporal.a.YEAR_OF_ERA.ordinal()] = 4;
-        } catch (NoSuchFieldError unused12) {
-        }
-        try {
-            a[j$.time.temporal.a.DAY_OF_WEEK.ordinal()] = 5;
-        } catch (NoSuchFieldError unused13) {
-        }
-        try {
-            a[j$.time.temporal.a.ALIGNED_DAY_OF_WEEK_IN_MONTH.ordinal()] = 6;
-        } catch (NoSuchFieldError unused14) {
-        }
-        try {
-            a[j$.time.temporal.a.ALIGNED_DAY_OF_WEEK_IN_YEAR.ordinal()] = 7;
-        } catch (NoSuchFieldError unused15) {
-        }
-        try {
-            a[j$.time.temporal.a.EPOCH_DAY.ordinal()] = 8;
-        } catch (NoSuchFieldError unused16) {
-        }
-        try {
-            a[j$.time.temporal.a.ALIGNED_WEEK_OF_YEAR.ordinal()] = 9;
-        } catch (NoSuchFieldError unused17) {
-        }
-        try {
-            a[j$.time.temporal.a.MONTH_OF_YEAR.ordinal()] = 10;
-        } catch (NoSuchFieldError unused18) {
-        }
-        try {
-            a[j$.time.temporal.a.PROLEPTIC_MONTH.ordinal()] = 11;
-        } catch (NoSuchFieldError unused19) {
-        }
-        try {
-            a[j$.time.temporal.a.YEAR.ordinal()] = 12;
-        } catch (NoSuchFieldError unused20) {
-        }
-        try {
-            a[j$.time.temporal.a.ERA.ordinal()] = 13;
-        } catch (NoSuchFieldError unused21) {
-        }
+        return compareTo;
+    }
+
+    public final int g() {
+        return this.b.i();
+    }
+
+    public final int h() {
+        return this.a.m();
+    }
+
+    public final int hashCode() {
+        return this.a.hashCode() ^ this.b.hashCode();
+    }
+
+    public final long k(ZoneOffset zoneOffset) {
+        j$.util.a.B(zoneOffset, "offset");
+        return ((this.a.s() * 86400) + this.b.m()) - zoneOffset.getTotalSeconds();
+    }
+
+    public final LocalDate l() {
+        return this.a;
+    }
+
+    public final i m() {
+        return this.b;
+    }
+
+    public final String toString() {
+        return this.a.toString() + 'T' + this.b.toString();
     }
 }

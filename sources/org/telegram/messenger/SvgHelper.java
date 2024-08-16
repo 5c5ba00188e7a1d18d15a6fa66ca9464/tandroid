@@ -180,11 +180,11 @@ public class SvgHelper {
                             totalTranslation += (((float) j2) * f5) / 1800.0f;
                             while (true) {
                                 float f6 = totalTranslation;
-                                float f7 = gradientWidth;
-                                if (f6 < f7 * 2.0f) {
+                                float f7 = gradientWidth * 2.0f;
+                                if (f6 < f7) {
                                     break;
                                 }
-                                totalTranslation = f6 - (f7 * 2.0f);
+                                totalTranslation = f6 - f7;
                             }
                         }
                     } else if (shiftRunnable == null || shiftDrawable.get() == this) {
@@ -354,11 +354,13 @@ public class SvgHelper {
                 float dp = AndroidUtilities.dp(180.0f) / gradientWidth;
                 int argb = Color.argb((int) ((Color.alpha(color) / 2) * this.colorAlpha), Color.red(color), Color.green(color), Color.blue(color));
                 float f2 = (1.0f - dp) / 2.0f;
+                LinearGradient[] linearGradientArr = this.placeholderGradient;
                 float f3 = dp / 2.0f;
-                this.placeholderGradient[z ? 1 : 0] = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{0, 0, argb, 0, 0}, new float[]{0.0f, f2 - f3, f2, f2 + f3, 1.0f}, Shader.TileMode.REPEAT);
+                Shader.TileMode tileMode = Shader.TileMode.REPEAT;
+                linearGradientArr[z ? 1 : 0] = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{0, 0, argb, 0, 0}, new float[]{0.0f, f2 - f3, f2, f3 + f2, 1.0f}, tileMode);
                 int i2 = Build.VERSION.SDK_INT;
                 if (i2 >= 28) {
-                    bitmapShader = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{argb, argb}, (float[]) null, Shader.TileMode.REPEAT);
+                    bitmapShader = new LinearGradient(0.0f, 0.0f, gradientWidth, 0.0f, new int[]{argb, argb}, (float[]) null, tileMode);
                 } else {
                     Bitmap[] bitmapArr = this.backgroundBitmap;
                     if (bitmapArr[z ? 1 : 0] == null) {
@@ -366,9 +368,7 @@ public class SvgHelper {
                         this.backgroundCanvas[z ? 1 : 0] = new Canvas(this.backgroundBitmap[z ? 1 : 0]);
                     }
                     this.backgroundCanvas[z ? 1 : 0].drawColor(argb);
-                    Bitmap bitmap = this.backgroundBitmap[z ? 1 : 0];
-                    Shader.TileMode tileMode = Shader.TileMode.REPEAT;
-                    bitmapShader = new BitmapShader(bitmap, tileMode, tileMode);
+                    bitmapShader = new BitmapShader(this.backgroundBitmap[z ? 1 : 0], tileMode, tileMode);
                 }
                 this.placeholderMatrix[z ? 1 : 0] = new Matrix();
                 this.placeholderGradient[z ? 1 : 0].setLocalMatrix(this.placeholderMatrix[z ? 1 : 0]);
@@ -580,8 +580,8 @@ public class SvgHelper {
                     case '\t':
                     case '\n':
                     case ' ':
-                    case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
-                    case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                    case ',':
+                    case '-':
                         if (charAt == '-' && str.charAt(i2 - 1) == 'e') {
                             break;
                         } else {
@@ -601,24 +601,24 @@ public class SvgHelper {
                                 continue;
                             }
                         }
-                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                    case ')':
                     case 'A':
-                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                    case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
-                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                    case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
+                    case 'C':
+                    case 'H':
+                    case 'L':
+                    case 'M':
+                    case 'Q':
+                    case 'S':
+                    case 'T':
                     case 'V':
-                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
-                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
-                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
-                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
-                    case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
-                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                    case 'Z':
+                    case 'a':
+                    case 'c':
+                    case 'h':
+                    case 'l':
+                    case 'm':
+                    case 'q':
+                    case 's':
                     case 't':
                     case 'v':
                     case 'z':
@@ -656,9 +656,9 @@ public class SvgHelper {
             NumberParse parseNumbers2 = parseNumbers(str.substring(10));
             if (parseNumbers2.numbers.size() > 0) {
                 float floatValue = ((Float) parseNumbers2.numbers.get(0)).floatValue();
-                r6 = parseNumbers2.numbers.size() > 1 ? ((Float) parseNumbers2.numbers.get(1)).floatValue() : 0.0f;
+                r4 = parseNumbers2.numbers.size() > 1 ? ((Float) parseNumbers2.numbers.get(1)).floatValue() : 0.0f;
                 Matrix matrix2 = new Matrix();
-                matrix2.postTranslate(floatValue, r6);
+                matrix2.postTranslate(floatValue, r4);
                 return matrix2;
             }
             return null;
@@ -666,9 +666,9 @@ public class SvgHelper {
             NumberParse parseNumbers3 = parseNumbers(str.substring(6));
             if (parseNumbers3.numbers.size() > 0) {
                 float floatValue2 = ((Float) parseNumbers3.numbers.get(0)).floatValue();
-                r6 = parseNumbers3.numbers.size() > 1 ? ((Float) parseNumbers3.numbers.get(1)).floatValue() : 0.0f;
+                r4 = parseNumbers3.numbers.size() > 1 ? ((Float) parseNumbers3.numbers.get(1)).floatValue() : 0.0f;
                 Matrix matrix3 = new Matrix();
-                matrix3.postScale(floatValue2, r6);
+                matrix3.postScale(floatValue2, r4);
                 return matrix3;
             }
             return null;
@@ -695,15 +695,16 @@ public class SvgHelper {
             if (parseNumbers6.numbers.size() > 0) {
                 float floatValue5 = ((Float) parseNumbers6.numbers.get(0)).floatValue();
                 if (parseNumbers6.numbers.size() > 2) {
-                    r6 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
-                    f = ((Float) parseNumbers6.numbers.get(2)).floatValue();
+                    float floatValue6 = ((Float) parseNumbers6.numbers.get(1)).floatValue();
+                    r4 = ((Float) parseNumbers6.numbers.get(2)).floatValue();
+                    f = floatValue6;
                 } else {
                     f = 0.0f;
                 }
                 Matrix matrix6 = new Matrix();
-                matrix6.postTranslate(r6, f);
+                matrix6.postTranslate(f, r4);
                 matrix6.postRotate(floatValue5);
-                matrix6.postTranslate(-r6, -f);
+                matrix6.postTranslate(-f, -r4);
                 return matrix6;
             }
             return null;
@@ -712,39 +713,44 @@ public class SvgHelper {
         }
     }
 
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Code restructure failed: missing block: B:34:0x0064, code lost:
         if (r4 != 'V') goto L9;
      */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0079  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0090  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00a3  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00d8  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x0108  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0153  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x018d  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x0191 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0079 A[PHI: r5 r6 r12 r13 
+      PHI: (r5v18 float) = (r5v1 float), (r5v5 float), (r5v6 float), (r5v7 float), (r5v8 float), (r5v10 float), (r5v1 float), (r5v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0113, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      PHI: (r6v18 float) = (r6v1 float), (r6v1 float), (r6v1 float), (r6v5 float), (r6v6 float), (r6v8 float), (r6v12 float), (r6v13 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0113, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      PHI: (r12v11 float) = (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v1 float), (r12v5 float), (r12v1 float), (r12v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0113, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]
+      PHI: (r13v11 float) = (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v1 float), (r13v5 float), (r13v1 float), (r13v1 float) binds: [B:40:0x0076, B:64:0x011a, B:63:0x0113, B:60:0x0106, B:59:0x00ff, B:55:0x00e5, B:48:0x009e, B:47:0x0098] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00a3  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00db  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x00f5  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x010d  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0121  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x019e  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x01a3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Path doPath(String str) {
         char c;
         boolean z;
-        float nextFloat;
-        float nextFloat2;
+        float f;
+        float f2;
         int length = str.length();
         ParserHelper parserHelper = new ParserHelper(str, 0);
         parserHelper.skipWhitespace();
         Path path = new Path();
         char c2 = 0;
-        float f = 0.0f;
-        float f2 = 0.0f;
         float f3 = 0.0f;
         float f4 = 0.0f;
         float f5 = 0.0f;
         float f6 = 0.0f;
+        float f7 = 0.0f;
+        float f8 = 0.0f;
         while (true) {
             int i = parserHelper.pos;
             if (i >= length) {
@@ -753,16 +759,16 @@ public class SvgHelper {
             char charAt = str.charAt(i);
             if (charAt != '+' && charAt != '-') {
                 switch (charAt) {
-                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                    case R.styleable.AppCompatTheme_colorError /* 56 */:
-                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
                         break;
                     default:
                         parserHelper.advance();
@@ -773,138 +779,172 @@ public class SvgHelper {
                 z = true;
                 switch (c2) {
                     case 'A':
-                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
-                        float nextFloat3 = parserHelper.nextFloat();
-                        float nextFloat4 = parserHelper.nextFloat();
-                        drawArc(path, f, f2, nextFloat3, nextFloat4, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
-                        f4 = f4;
-                        f = nextFloat3;
-                        f2 = nextFloat4;
-                        f3 = f3;
+                    case 'a':
+                        float nextFloat = parserHelper.nextFloat();
+                        float nextFloat2 = parserHelper.nextFloat();
+                        f = f5;
+                        f2 = f6;
+                        drawArc(path, f3, f4, nextFloat, nextFloat2, parserHelper.nextFloat(), parserHelper.nextFloat(), parserHelper.nextFloat(), (int) parserHelper.nextFloat(), (int) parserHelper.nextFloat());
+                        f6 = f7;
+                        f5 = f8;
+                        f3 = nextFloat;
+                        f4 = nextFloat2;
                         z = false;
                         break;
-                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                    case 'C':
+                    case 'c':
+                        float nextFloat3 = parserHelper.nextFloat();
+                        float nextFloat4 = parserHelper.nextFloat();
                         float nextFloat5 = parserHelper.nextFloat();
                         float nextFloat6 = parserHelper.nextFloat();
                         float nextFloat7 = parserHelper.nextFloat();
                         float nextFloat8 = parserHelper.nextFloat();
-                        float nextFloat9 = parserHelper.nextFloat();
-                        float nextFloat10 = parserHelper.nextFloat();
                         if (c2 == 'c') {
-                            nextFloat5 += f;
-                            nextFloat7 += f;
-                            nextFloat9 += f;
-                            nextFloat6 += f2;
-                            nextFloat8 += f2;
-                            nextFloat10 += f2;
+                            nextFloat3 += f3;
+                            nextFloat5 += f3;
+                            nextFloat7 += f3;
+                            nextFloat4 += f4;
+                            nextFloat6 += f4;
+                            nextFloat8 += f4;
                         }
-                        float f7 = nextFloat7;
-                        f6 = nextFloat8;
-                        path.cubicTo(nextFloat5, nextFloat6, f7, f6, nextFloat9, nextFloat10);
-                        f = nextFloat9;
-                        f2 = nextFloat10;
-                        f5 = f7;
+                        float f9 = nextFloat5;
+                        float f10 = nextFloat6;
+                        float f11 = nextFloat7;
+                        path.cubicTo(nextFloat3, nextFloat4, f9, f10, f11, nextFloat8);
+                        f3 = f11;
+                        f = f5;
+                        f4 = nextFloat8;
+                        f5 = f10;
+                        f2 = f6;
+                        f6 = f9;
                         break;
-                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
-                        float nextFloat11 = parserHelper.nextFloat();
+                    case 'H':
+                    case 'h':
+                        float nextFloat9 = parserHelper.nextFloat();
                         if (c2 == 'h') {
-                            path.rLineTo(nextFloat11, 0.0f);
-                            f += nextFloat11;
+                            path.rLineTo(nextFloat9, 0.0f);
+                            f3 += nextFloat9;
                         } else {
-                            path.lineTo(nextFloat11, f2);
-                            f = nextFloat11;
+                            path.lineTo(nextFloat9, f4);
+                            f3 = nextFloat9;
                         }
+                        f = f5;
+                        f2 = f6;
+                        f6 = f7;
+                        f5 = f8;
                         z = false;
                         break;
-                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-                        nextFloat = parserHelper.nextFloat();
-                        nextFloat2 = parserHelper.nextFloat();
+                    case 'L':
+                    case 'l':
+                        float nextFloat10 = parserHelper.nextFloat();
+                        float nextFloat11 = parserHelper.nextFloat();
                         if (c2 == 'l') {
-                            path.rLineTo(nextFloat, nextFloat2);
-                            f += nextFloat;
-                            f2 += nextFloat2;
-                            z = false;
-                            break;
+                            path.rLineTo(nextFloat10, nextFloat11);
+                            f3 += nextFloat10;
+                            f4 += nextFloat11;
                         } else {
-                            path.lineTo(nextFloat, nextFloat2);
-                            f = nextFloat;
-                            f2 = nextFloat2;
-                            z = false;
+                            path.lineTo(nextFloat10, nextFloat11);
+                            f3 = nextFloat10;
+                            f4 = nextFloat11;
                         }
-                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
-                        nextFloat = parserHelper.nextFloat();
-                        nextFloat2 = parserHelper.nextFloat();
-                        if (c2 == 'm') {
-                            f4 += nextFloat;
-                            f3 += nextFloat2;
-                            path.rMoveTo(nextFloat, nextFloat2);
-                            f += nextFloat;
-                            f2 += nextFloat2;
-                            z = false;
-                            break;
-                        } else {
-                            path.moveTo(nextFloat, nextFloat2);
-                            f = nextFloat;
-                            f4 = f;
-                            f2 = nextFloat2;
-                            f3 = f2;
-                            z = false;
-                        }
-                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                        f = f5;
+                        f2 = f6;
+                        f6 = f7;
+                        f5 = f8;
+                        z = false;
+                        break;
+                    case 'M':
+                    case 'm':
                         float nextFloat12 = parserHelper.nextFloat();
                         float nextFloat13 = parserHelper.nextFloat();
+                        if (c2 == 'm') {
+                            f6 += nextFloat12;
+                            f5 += nextFloat13;
+                            path.rMoveTo(nextFloat12, nextFloat13);
+                            f3 += nextFloat12;
+                            f4 += nextFloat13;
+                            f = f5;
+                            f2 = f6;
+                            f6 = f7;
+                            f5 = f8;
+                            z = false;
+                            break;
+                        } else {
+                            path.moveTo(nextFloat12, nextFloat13);
+                            f3 = nextFloat12;
+                            f2 = f3;
+                            f = nextFloat13;
+                            f4 = f;
+                            f6 = f7;
+                            f5 = f8;
+                            z = false;
+                        }
+                    case 'S':
+                    case 's':
                         float nextFloat14 = parserHelper.nextFloat();
                         float nextFloat15 = parserHelper.nextFloat();
+                        float nextFloat16 = parserHelper.nextFloat();
+                        float nextFloat17 = parserHelper.nextFloat();
                         if (c2 == 's') {
-                            nextFloat12 += f;
-                            nextFloat14 += f;
-                            nextFloat13 += f2;
-                            nextFloat15 += f2;
+                            nextFloat14 += f3;
+                            nextFloat16 += f3;
+                            nextFloat15 += f4;
+                            nextFloat17 += f4;
                         }
-                        float f8 = nextFloat13;
-                        float f9 = nextFloat14;
-                        float f10 = nextFloat15;
-                        path.cubicTo((f * 2.0f) - f5, (f2 * 2.0f) - f6, nextFloat12, f8, f9, f10);
-                        f5 = nextFloat12;
-                        f6 = f8;
-                        f = f9;
-                        f2 = f10;
+                        float f12 = nextFloat15;
+                        float f13 = nextFloat16;
+                        float f14 = nextFloat17;
+                        path.cubicTo((f3 * 2.0f) - f7, (f4 * 2.0f) - f8, nextFloat14, f12, f13, f14);
+                        f3 = f13;
+                        f4 = f14;
+                        f2 = f6;
+                        f6 = nextFloat14;
+                        f = f5;
+                        f5 = f12;
                         break;
                     case 'V':
                     case 'v':
-                        float nextFloat16 = parserHelper.nextFloat();
+                        float nextFloat18 = parserHelper.nextFloat();
                         if (c2 == 'v') {
-                            path.rLineTo(0.0f, nextFloat16);
-                            f2 += nextFloat16;
+                            path.rLineTo(0.0f, nextFloat18);
+                            f4 += nextFloat18;
                         } else {
-                            path.lineTo(f, nextFloat16);
-                            f2 = nextFloat16;
+                            path.lineTo(f3, nextFloat18);
+                            f4 = nextFloat18;
                         }
+                        f = f5;
+                        f2 = f6;
+                        f6 = f7;
+                        f5 = f8;
                         z = false;
                         break;
-                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                    case 'Z':
                     case 'z':
                         path.close();
-                        path.moveTo(f4, f3);
+                        path.moveTo(f6, f5);
+                        f = f5;
+                        f4 = f;
+                        f3 = f6;
                         f2 = f3;
-                        f6 = f2;
-                        f = f4;
-                        f5 = f;
                         break;
                     default:
+                        f = f5;
+                        f2 = f6;
+                        f6 = f7;
+                        f5 = f8;
                         z = false;
                         break;
                 }
-                if (!z) {
-                    f5 = f;
-                    f6 = f2;
+                if (z) {
+                    f8 = f5;
+                    f7 = f6;
+                } else {
+                    f7 = f3;
+                    f8 = f4;
                 }
                 parserHelper.skipWhitespace();
+                f5 = f;
+                f6 = f2;
                 c2 = c;
             }
             if (c2 == 'm' || c2 == 'M') {
@@ -913,33 +953,35 @@ public class SvgHelper {
                 z = true;
                 switch (c2) {
                     case 'A':
-                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                    case 'a':
                         break;
-                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                    case 'C':
+                    case 'c':
                         break;
-                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                    case 'H':
+                    case 'h':
                         break;
-                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                    case 'L':
+                    case 'l':
                         break;
-                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                    case 'M':
+                    case 'm':
                         break;
-                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                    case 'S':
+                    case 's':
                         break;
                     case 'V':
                     case 'v':
                         break;
-                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                    case 'Z':
                     case 'z':
                         break;
                 }
-                if (!z) {
+                if (z) {
                 }
                 parserHelper.skipWhitespace();
+                f5 = f;
+                f6 = f2;
                 c2 = c;
             } else {
                 if (c2 != 'c') {
@@ -964,33 +1006,35 @@ public class SvgHelper {
                 z = true;
                 switch (c2) {
                     case 'A':
-                    case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                    case 'a':
                         break;
-                    case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                    case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                    case 'C':
+                    case 'c':
                         break;
-                    case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-                    case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                    case 'H':
+                    case 'h':
                         break;
-                    case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
+                    case 'L':
+                    case 'l':
                         break;
-                    case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                    case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                    case 'M':
+                    case 'm':
                         break;
-                    case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                    case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                    case 'S':
+                    case 's':
                         break;
                     case 'V':
                     case 'v':
                         break;
-                    case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                    case 'Z':
                     case 'z':
                         break;
                 }
-                if (!z) {
+                if (z) {
                 }
                 parserHelper.skipWhitespace();
+                f5 = f;
+                f6 = f2;
                 c2 = c;
             }
         }
@@ -1385,7 +1429,7 @@ public class SvgHelper {
                 f = properties.getFloat(z ? "fill-opacity" : "stroke-opacity");
             }
             if (f == null) {
-                this.paint.setAlpha(255);
+                this.paint.setAlpha(NotificationCenter.voipServiceCreated);
             } else {
                 this.paint.setAlpha((int) (f.floatValue() * 255.0f));
             }
@@ -1444,7 +1488,7 @@ public class SvgHelper {
                             break;
                         }
                         break;
-                    case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+                    case 103:
                         if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                             c = 3;
                             break;
@@ -1638,8 +1682,8 @@ public class SvgHelper {
                             this.canvas = canvas;
                             float f3 = this.scale;
                             if (f3 != 0.0f) {
-                                float f4 = this.globalScale;
-                                canvas.scale(f4 * f3, f4 * f3);
+                                float f4 = this.globalScale * f3;
+                                canvas.scale(f4, f4);
                                 return;
                             }
                             return;
@@ -1759,7 +1803,7 @@ public class SvgHelper {
             str2.hashCode();
             char c = 65535;
             switch (str2.hashCode()) {
-                case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+                case 103:
                     if (str2.equals(ImageLoader.AUTOPLAY_FILTER)) {
                         c = 0;
                         break;
@@ -1889,15 +1933,15 @@ public class SvgHelper {
         /* JADX WARN: Removed duplicated region for block: B:11:0x0025 A[RETURN] */
         /* JADX WARN: Removed duplicated region for block: B:13:0x0028 A[LOOP:0: B:13:0x0028->B:17:0x0034, LOOP_START] */
         /* JADX WARN: Removed duplicated region for block: B:19:0x0038  */
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0058  */
-        /* JADX WARN: Removed duplicated region for block: B:31:0x0060  */
-        /* JADX WARN: Removed duplicated region for block: B:47:0x0099 A[ADDED_TO_REGION] */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x00a4  */
-        /* JADX WARN: Removed duplicated region for block: B:58:0x00b7  */
-        /* JADX WARN: Removed duplicated region for block: B:63:0x00c1 A[LOOP:3: B:63:0x00c1->B:64:0x00c7, LOOP_START] */
-        /* JADX WARN: Removed duplicated region for block: B:66:0x00cb  */
-        /* JADX WARN: Removed duplicated region for block: B:74:0x00e4  */
-        /* JADX WARN: Removed duplicated region for block: B:77:0x00e8  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0058  */
+        /* JADX WARN: Removed duplicated region for block: B:30:0x0060  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x0099 A[ADDED_TO_REGION] */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x00a4  */
+        /* JADX WARN: Removed duplicated region for block: B:57:0x00b7  */
+        /* JADX WARN: Removed duplicated region for block: B:62:0x00c1 A[LOOP:3: B:62:0x00c1->B:63:0x00c7, LOOP_START] */
+        /* JADX WARN: Removed duplicated region for block: B:65:0x00cb  */
+        /* JADX WARN: Removed duplicated region for block: B:73:0x00e4  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x00e8  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1918,7 +1962,7 @@ public class SvgHelper {
             } else if (c2 != '-') {
                 z = true;
                 switch (this.current) {
-                    case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                    case '.':
                         i = 0;
                         i2 = 0;
                         i3 = 0;
@@ -1927,24 +1971,24 @@ public class SvgHelper {
                             char read3 = read();
                             this.current = read3;
                             switch (read3) {
-                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                case '0':
                                     if (i == 0) {
                                         while (true) {
                                             char read4 = read();
                                             this.current = read4;
                                             i2--;
                                             switch (read4) {
-                                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                                case '0':
                                                     break;
-                                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                                case '1':
+                                                case '2':
+                                                case '3':
+                                                case '4':
+                                                case '5':
+                                                case '6':
+                                                case '7':
+                                                case '8':
+                                                case '9':
                                                 default:
                                                     if (!z2) {
                                                         return 0.0f;
@@ -1954,15 +1998,15 @@ public class SvgHelper {
                                         }
                                     }
                                     break;
-                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                case '1':
+                                case '2':
+                                case '3':
+                                case '4':
+                                case '5':
+                                case '6':
+                                case '7':
+                                case '8':
+                                case '9':
                                     while (true) {
                                         if (i < 9) {
                                             i++;
@@ -1990,38 +2034,38 @@ public class SvgHelper {
                             if (read != '+') {
                                 if (read != '-') {
                                     switch (read) {
-                                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                        case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                        case '0':
+                                        case '1':
+                                        case '2':
+                                        case '3':
+                                        case '4':
+                                        case '5':
+                                        case '6':
+                                        case '7':
+                                        case '8':
+                                        case '9':
                                             break;
                                         default:
                                             reportUnexpectedCharacterError(read);
                                             return 0.0f;
                                     }
                                     switch (this.current) {
-                                        case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                        case '0':
                                             while (true) {
                                                 char read6 = read();
                                                 this.current = read6;
                                                 switch (read6) {
                                                 }
                                             }
-                                        case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                        case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                        case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                        case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                        case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                        case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                        case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                        case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                        case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                        case '1':
+                                        case '2':
+                                        case '3':
+                                        case '4':
+                                        case '5':
+                                        case '6':
+                                        case '7':
+                                        case '8':
+                                        case '9':
                                             int i5 = 0;
                                             while (true) {
                                                 if (i4 < 3) {
@@ -2031,16 +2075,16 @@ public class SvgHelper {
                                                 char read7 = read();
                                                 this.current = read7;
                                                 switch (read7) {
-                                                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                                                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                                    case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                                    case '0':
+                                                    case '1':
+                                                    case '2':
+                                                    case '3':
+                                                    case '4':
+                                                    case '5':
+                                                    case '6':
+                                                    case '7':
+                                                    case '8':
+                                                    case '9':
                                                         break;
                                                     default:
                                                         i4 = i5;
@@ -2055,16 +2099,16 @@ public class SvgHelper {
                             read2 = read();
                             this.current = read2;
                             switch (read2) {
-                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                case '0':
+                                case '1':
+                                case '2':
+                                case '3':
+                                case '4':
+                                case '5':
+                                case '6':
+                                case '7':
+                                case '8':
+                                case '9':
                                     break;
                                 default:
                                     reportUnexpectedCharacterError(read2);
@@ -2081,26 +2125,26 @@ public class SvgHelper {
                             i3 = -i3;
                         }
                         return buildFloat(i3, i6);
-                    case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                    case '/':
                     default:
                         return Float.NaN;
-                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                    case '0':
                         while (true) {
                             char read8 = read();
                             this.current = read8;
                             if (read8 != '.' && read8 != 'E' && read8 != 'e') {
                                 switch (read8) {
-                                    case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                                    case '0':
                                         break;
-                                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                    case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                    case '1':
+                                    case '2':
+                                    case '3':
+                                    case '4':
+                                    case '5':
+                                    case '6':
+                                    case '7':
+                                    case '8':
+                                    case '9':
                                         break;
                                     default:
                                         return 0.0f;
@@ -2132,15 +2176,15 @@ public class SvgHelper {
                         if (!z) {
                         }
                         return buildFloat(i3, i62);
-                    case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                    case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                    case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                    case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                    case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                    case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                    case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                    case R.styleable.AppCompatTheme_colorError /* 56 */:
-                    case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
                         i = 0;
                         i2 = 0;
                         i3 = 0;
@@ -2154,16 +2198,16 @@ public class SvgHelper {
                             char read9 = read();
                             this.current = read9;
                             switch (read9) {
-                                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
-                                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
-                                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
-                                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-                                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
-                                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
-                                case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-                                case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-                                case R.styleable.AppCompatTheme_colorError /* 56 */:
-                                case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+                                case '0':
+                                case '1':
+                                case '2':
+                                case '3':
+                                case '4':
+                                case '5':
+                                case '6':
+                                case '7':
+                                case '8':
+                                case '9':
                                     break;
                                 default:
                                     z2 = true;
@@ -2216,16 +2260,16 @@ public class SvgHelper {
                 if (i >= 67108864) {
                     i++;
                 }
-                double d2 = i;
-                double[] dArr = SvgHelper.pow10;
                 if (i2 > 0) {
-                    double d3 = dArr[i2];
+                    double d2 = i;
+                    double d3 = SvgHelper.pow10[i2];
                     Double.isNaN(d2);
                     d = d2 * d3;
                 } else {
-                    double d4 = dArr[-i2];
-                    Double.isNaN(d2);
-                    d = d2 / d4;
+                    double d4 = i;
+                    double d5 = SvgHelper.pow10[-i2];
+                    Double.isNaN(d4);
+                    d = d4 / d5;
                 }
                 return (float) d;
             }
@@ -2246,14 +2290,14 @@ public class SvgHelper {
             for (byte b : bArr) {
                 int i = b & 255;
                 if (i >= 192) {
-                    sb.append("AACAAAAHAAALMAAAQASTAVAAAZaacaaaahaaalmaaaqastava.az0123456789-,".charAt((i - 128) - 64));
+                    sb.append("AACAAAAHAAALMAAAQASTAVAAAZaacaaaahaaalmaaaqastava.az0123456789-,".charAt(i - 192));
                 } else {
                     if (i >= 128) {
                         sb.append(',');
                     } else if (i >= 64) {
                         sb.append('-');
                     }
-                    sb.append(i & 63);
+                    sb.append(b & 63);
                 }
             }
             sb.append('z');

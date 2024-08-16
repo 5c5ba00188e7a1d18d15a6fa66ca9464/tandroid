@@ -15,7 +15,7 @@ public class TL_stories$TL_storyItem extends TL_stories$StoryItem {
         this.flags = readInt32;
         this.pinned = (readInt32 & 32) != 0;
         this.isPublic = (readInt32 & 128) != 0;
-        this.close_friends = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.close_friends = (readInt32 & 256) != 0;
         this.min = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.noforwards = (readInt32 & 1024) != 0;
         this.edited = (readInt32 & 2048) != 0;
@@ -101,7 +101,7 @@ public class TL_stories$TL_storyItem extends TL_stories$StoryItem {
         this.flags = i;
         int i2 = this.isPublic ? i | 128 : i & (-129);
         this.flags = i2;
-        int i3 = this.close_friends ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
+        int i3 = this.close_friends ? i2 | 256 : i2 & (-257);
         this.flags = i3;
         int i4 = this.min ? i3 | LiteMode.FLAG_CALLS_ANIMATIONS : i3 & (-513);
         this.flags = i4;

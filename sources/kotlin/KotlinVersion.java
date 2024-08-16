@@ -3,6 +3,7 @@ package kotlin;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.ranges.IntRange;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: KotlinVersion.kt */
 /* loaded from: classes.dex */
 public final class KotlinVersion implements Comparable<KotlinVersion> {
@@ -21,11 +22,7 @@ public final class KotlinVersion implements Comparable<KotlinVersion> {
     }
 
     private final int versionOf(int i, int i2, int i3) {
-        boolean z = false;
-        if (new IntRange(0, 255).contains(i) && new IntRange(0, 255).contains(i2) && new IntRange(0, 255).contains(i3)) {
-            z = true;
-        }
-        if (z) {
+        if (new IntRange(0, NotificationCenter.voipServiceCreated).contains(i) && new IntRange(0, NotificationCenter.voipServiceCreated).contains(i2) && new IntRange(0, NotificationCenter.voipServiceCreated).contains(i3)) {
             return (i << 16) + (i2 << 8) + i3;
         }
         throw new IllegalArgumentException(("Version components are out of range: " + i + '.' + i2 + '.' + i3).toString());

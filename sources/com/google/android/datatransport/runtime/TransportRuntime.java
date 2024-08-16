@@ -30,8 +30,11 @@ public class TransportRuntime implements TransportInternal {
     public static void initialize(Context context) {
         if (instance == null) {
             synchronized (TransportRuntime.class) {
-                if (instance == null) {
-                    instance = DaggerTransportRuntimeComponent.builder().setApplicationContext(context).build();
+                try {
+                    if (instance == null) {
+                        instance = DaggerTransportRuntimeComponent.builder().setApplicationContext(context).build();
+                    }
+                } finally {
                 }
             }
         }

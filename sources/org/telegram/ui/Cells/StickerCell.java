@@ -16,6 +16,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
@@ -114,7 +115,7 @@ public class StickerCell extends FrameLayout {
         this.sticker = tLRPC$Document;
         Drawable background = getBackground();
         if (background != null) {
-            background.setAlpha(230);
+            background.setAlpha(NotificationCenter.didSetNewTheme);
             background.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_stickersHintPanel), PorterDuff.Mode.MULTIPLY));
         }
         updatePremiumStatus(false);

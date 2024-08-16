@@ -60,7 +60,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = readInt32;
                         this.pinned = (readInt32 & 32) != 0;
                         this.isPublic = (readInt32 & 128) != 0;
-                        this.close_friends = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.close_friends = (readInt32 & 256) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.noforwards = (readInt32 & 1024) != 0;
                         this.edited = (readInt32 & 2048) != 0;
@@ -143,7 +143,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = i2;
                         int i3 = this.isPublic ? i2 | 128 : i2 & (-129);
                         this.flags = i3;
-                        int i4 = this.close_friends ? i3 | LiteMode.FLAG_CHAT_BLUR : i3 & (-257);
+                        int i4 = this.close_friends ? i3 | 256 : i3 & (-257);
                         this.flags = i4;
                         int i5 = this.min ? i4 | LiteMode.FLAG_CALLS_ANIMATIONS : i4 & (-513);
                         this.flags = i5;
@@ -207,7 +207,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                     public void readParams(AbstractSerializedData abstractSerializedData2, boolean z2) {
                         int readInt32 = abstractSerializedData2.readInt32(z2);
                         this.flags = readInt32;
-                        this.close_friends = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.close_friends = (readInt32 & 256) != 0;
                         this.id = abstractSerializedData2.readInt32(z2);
                         this.date = abstractSerializedData2.readInt32(z2);
                         this.expire_date = abstractSerializedData2.readInt32(z2);
@@ -216,7 +216,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                     @Override // org.telegram.tgnet.TLObject
                     public void serializeToStream(AbstractSerializedData abstractSerializedData2) {
                         abstractSerializedData2.writeInt32(-5388013);
-                        int i2 = this.close_friends ? this.flags | LiteMode.FLAG_CHAT_BLUR : this.flags & (-257);
+                        int i2 = this.close_friends ? this.flags | 256 : this.flags & (-257);
                         this.flags = i2;
                         abstractSerializedData2.writeInt32(i2);
                         abstractSerializedData2.writeInt32(this.id);
@@ -233,7 +233,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = readInt32;
                         this.pinned = (readInt32 & 32) != 0;
                         this.isPublic = (readInt32 & 128) != 0;
-                        this.close_friends = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.close_friends = (readInt32 & 256) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.noforwards = (readInt32 & 1024) != 0;
                         this.edited = (readInt32 & 2048) != 0;
@@ -313,7 +313,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = i2;
                         int i3 = this.isPublic ? i2 | 128 : i2 & (-129);
                         this.flags = i3;
-                        int i4 = this.close_friends ? i3 | LiteMode.FLAG_CHAT_BLUR : i3 & (-257);
+                        int i4 = this.close_friends ? i3 | 256 : i3 & (-257);
                         this.flags = i4;
                         int i5 = this.min ? i4 | LiteMode.FLAG_CALLS_ANIMATIONS : i4 & (-513);
                         this.flags = i5;
@@ -379,7 +379,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = readInt32;
                         this.pinned = (readInt32 & 32) != 0;
                         this.isPublic = (readInt32 & 128) != 0;
-                        this.close_friends = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.close_friends = (readInt32 & 256) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.noforwards = (readInt32 & 1024) != 0;
                         this.edited = (readInt32 & 2048) != 0;
@@ -438,7 +438,7 @@ public abstract class TL_stories$StoryItem extends TLObject {
                         this.flags = i2;
                         int i3 = this.isPublic ? i2 | 128 : i2 & (-129);
                         this.flags = i3;
-                        int i4 = this.close_friends ? i3 | LiteMode.FLAG_CHAT_BLUR : i3 & (-257);
+                        int i4 = this.close_friends ? i3 | 256 : i3 & (-257);
                         this.flags = i4;
                         int i5 = this.min ? i4 | LiteMode.FLAG_CALLS_ANIMATIONS : i4 & (-513);
                         this.flags = i5;

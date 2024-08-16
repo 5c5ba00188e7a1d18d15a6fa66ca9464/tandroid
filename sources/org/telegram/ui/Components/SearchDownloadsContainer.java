@@ -176,19 +176,26 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                     return;
                 }
                 boolean canPreviewDocument = message2.canPreviewDocument();
-                if (!canPreviewDocument) {
+                if (canPreviewDocument) {
+                    z = canPreviewDocument;
+                } else {
                     TLRPC$Message tLRPC$Message = message2.messageOwner;
                     boolean z2 = tLRPC$Message != null && tLRPC$Message.noforwards;
+                    TLRPC$Chat tLRPC$Chat = null;
                     TLRPC$Chat chat = message.messageOwner.peer_id.channel_id != 0 ? MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(message.messageOwner.peer_id.channel_id)) : null;
-                    if (chat == null) {
-                        chat = message.messageOwner.peer_id.chat_id != 0 ? MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(message.messageOwner.peer_id.chat_id)) : null;
-                    }
                     if (chat != null) {
-                        z2 = chat.noforwards;
+                        tLRPC$Chat = chat;
+                    } else if (message.messageOwner.peer_id.chat_id != 0) {
+                        tLRPC$Chat = MessagesController.getInstance(UserConfig.selectedAccount).getChat(Long.valueOf(message.messageOwner.peer_id.chat_id));
                     }
-                    canPreviewDocument = (canPreviewDocument || z2) ? true : true;
+                    if (tLRPC$Chat != null) {
+                        z2 = tLRPC$Chat.noforwards;
+                    }
+                    if (canPreviewDocument || z2) {
+                        z = true;
+                    }
                 }
-                if (canPreviewDocument) {
+                if (z) {
                     PhotoViewer.getInstance().setParentActivity(this.parentFragment);
                     ArrayList<MessageObject> arrayList = new ArrayList<>();
                     arrayList.add(message2);
@@ -241,7 +248,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             return;
         }
         this.checkingFilesExist = true;
-        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda0
+        Utilities.searchQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$checkFilesExist$3();
@@ -326,7 +333,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
         this.lastQueryString = lowerCase;
         Utilities.searchQueue.cancelRunnable(this.lastSearchRunnable);
         DispatchQueue dispatchQueue = Utilities.searchQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda1
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 SearchDownloadsContainer.this.lambda$update$5(arrayList, lowerCase, arrayList2);
@@ -763,7 +770,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
 
         @Override // androidx.recyclerview.widget.ItemTouchHelper.Callback
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            if (!(viewHolder.getAdapterPosition() >= SearchDownloadsContainer.this.downloadingFilesStartRow && viewHolder.getAdapterPosition() < SearchDownloadsContainer.this.downloadingFilesEndRow)) {
+            if (viewHolder.getAdapterPosition() < SearchDownloadsContainer.this.downloadingFilesStartRow || viewHolder.getAdapterPosition() >= SearchDownloadsContainer.this.downloadingFilesEndRow) {
                 return ItemTouchHelper.Callback.makeMovementFlags(0, 0);
             }
             return ItemTouchHelper.Callback.makeMovementFlags(3, 0);
@@ -778,7 +785,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 int i = searchDownloadsContainer.downloadingFilesStartRow;
                 int i2 = adapterPosition - i;
                 int i3 = adapterPosition2 - i;
-                searchDownloadsContainer.currentLoadingFiles.indexOf(Integer.valueOf(adapterPosition - i));
+                searchDownloadsContainer.currentLoadingFiles.indexOf(Integer.valueOf(i2));
                 SearchDownloadsContainer searchDownloadsContainer2 = SearchDownloadsContainer.this;
                 searchDownloadsContainer2.currentLoadingFiles.get(adapterPosition - searchDownloadsContainer2.downloadingFilesStartRow);
                 MessageObject messageObject = SearchDownloadsContainer.this.currentLoadingFiles.get(i2);
@@ -787,7 +794,6 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 SearchDownloadsContainer.this.currentLoadingFiles.set(i3, messageObject);
                 DownloadController.getInstance(SearchDownloadsContainer.this.currentAccount).swapLoadingPriority(messageObject, messageObject2);
                 SearchDownloadsContainer.this.adapter.notifyItemMoved(adapterPosition, adapterPosition2);
-                return false;
             }
             return false;
         }

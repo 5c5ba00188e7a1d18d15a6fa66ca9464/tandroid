@@ -30,6 +30,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -467,7 +468,7 @@ public class MessageEntityView extends EntityView {
                 if (size4 > 0) {
                     for (int i7 = 0; i7 < size4; i7++) {
                         ChatMessageCell chatMessageCell4 = this.drawReactionsAfter.get(i7);
-                        if (!(chatMessageCell4.getCurrentPosition() != null && (chatMessageCell4.getCurrentPosition().flags & 1) == 0)) {
+                        if (chatMessageCell4.getCurrentPosition() == null || (chatMessageCell4.getCurrentPosition().flags & 1) != 0) {
                             float alpha3 = chatMessageCell4.shouldDrawAlphaLayer() ? chatMessageCell4.getAlpha() : 1.0f;
                             float left3 = chatMessageCell4.getLeft() + chatMessageCell4.getNonAnimationTranslationX(false);
                             float y3 = chatMessageCell4.getY();
@@ -506,7 +507,6 @@ public class MessageEntityView extends EntityView {
                 boolean z2;
                 MessageObject.GroupedMessages currentMessagesGroup;
                 int i6;
-                Canvas canvas2 = canvas;
                 int childCount = getChildCount();
                 int i7 = 0;
                 MessageObject.GroupedMessages groupedMessages2 = null;
@@ -556,11 +556,11 @@ public class MessageEntityView extends EntityView {
                                         i6 = measuredHeight - y;
                                     }
                                     int i9 = i6 + y;
-                                    canvas2.clipRect(0, y, getMeasuredWidth(), i9);
+                                    canvas.clipRect(0, y, getMeasuredWidth(), i9);
                                     backgroundDrawable.setCustomPaint(null);
                                     backgroundDrawable.setColor(getThemedColor(Theme.key_chat_selectedBackground));
                                     backgroundDrawable.setBounds(0, y, getMeasuredWidth(), i9);
-                                    backgroundDrawable.draw(canvas2);
+                                    backgroundDrawable.draw(canvas);
                                     canvas.restore();
                                 }
                                 groupedMessages2 = currentMessagesGroup2;
@@ -569,9 +569,9 @@ public class MessageEntityView extends EntityView {
                             ChatActionCell chatActionCell = (ChatActionCell) childAt;
                             if (chatActionCell.hasGradientService()) {
                                 canvas.save();
-                                canvas2.translate(chatActionCell.getX(), chatActionCell.getY());
-                                canvas2.scale(chatActionCell.getScaleX(), chatActionCell.getScaleY(), chatActionCell.getMeasuredWidth() / 2.0f, chatActionCell.getMeasuredHeight() / 2.0f);
-                                chatActionCell.drawBackground(canvas2, true);
+                                canvas.translate(chatActionCell.getX(), chatActionCell.getY());
+                                canvas.scale(chatActionCell.getScaleX(), chatActionCell.getScaleY(), chatActionCell.getMeasuredWidth() / 2.0f, chatActionCell.getMeasuredHeight() / 2.0f);
+                                chatActionCell.drawBackground(canvas, true);
                                 canvas.restore();
                             }
                         }
@@ -656,7 +656,7 @@ public class MessageEntityView extends EntityView {
                             boolean z3 = (groupedMessages3.transitionParams.cell.getScaleX() == 1.0f && groupedMessages3.transitionParams.cell.getScaleY() == 1.0f) ? false : true;
                             if (z3) {
                                 canvas.save();
-                                canvas2.scale(groupedMessages3.transitionParams.cell.getScaleX(), groupedMessages3.transitionParams.cell.getScaleY(), f5 + ((f7 - f5) / 2.0f), f6 + ((f9 - f6) / 2.0f));
+                                canvas.scale(groupedMessages3.transitionParams.cell.getScaleX(), groupedMessages3.transitionParams.cell.getScaleY(), f5 + ((f7 - f5) / 2.0f), f6 + ((f9 - f6) / 2.0f));
                             }
                             MessageObject.GroupedMessages.TransitionParams transitionParams4 = groupedMessages3.transitionParams;
                             float f10 = f6;
@@ -681,12 +681,10 @@ public class MessageEntityView extends EntityView {
                                 }
                             }
                             i17 = i18 + 1;
-                            canvas2 = canvas;
                             z2 = true;
                         }
                     }
                     i10++;
-                    canvas2 = canvas;
                     z2 = true;
                     i5 = 2;
                     i4 = 4;
@@ -695,7 +693,7 @@ public class MessageEntityView extends EntityView {
             }
 
             /* JADX WARN: Code restructure failed: missing block: B:64:0x00f6, code lost:
-                if ((r8 & 1) != 0) goto L182;
+                if ((r8 & 1) != 0) goto L183;
              */
             /* JADX WARN: Removed duplicated region for block: B:199:0x037a  */
             @Override // androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
@@ -941,7 +939,7 @@ public class MessageEntityView extends EntityView {
                         3 r0 = 3.this;
                         PreviewView.TextureViewHolder textureViewHolder2 = textureViewHolder;
                         if ((textureViewHolder2 != null && textureViewHolder2.active && textureViewHolder2.textureViewActive) || MessageEntityView.this.clipVideoMessageForBitmap) {
-                            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+                            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
                         } else {
                             canvas.save();
                         }
@@ -1344,7 +1342,7 @@ public class MessageEntityView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);
@@ -1355,12 +1353,12 @@ public class MessageEntityView extends EntityView {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:28:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x007d  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0098  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x006f  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0074  */
+    /* JADX WARN: Removed duplicated region for block: B:33:0x0080  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0085  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x009b  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00ab  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

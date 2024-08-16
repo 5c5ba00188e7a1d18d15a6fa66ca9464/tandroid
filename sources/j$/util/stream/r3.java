@@ -1,81 +1,82 @@
 package j$.util.stream;
+
+import java.util.Comparator;
 /* loaded from: classes2.dex */
-abstract class r3 {
-    final long a;
-    final long b;
-    j$.util.Q c;
-    long d;
-    long e;
+abstract class r3 extends u3 implements j$.util.N {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public r3(j$.util.N n, long j, long j2) {
+        super(n, j, j2);
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public r3(j$.util.Q q, long j, long j2, long j3, long j4) {
-        this.c = q;
-        this.a = j;
-        this.b = j2;
-        this.d = j3;
-        this.e = j4;
+    public r3(j$.util.N n, r3 r3Var) {
+        super(n, r3Var);
     }
 
-    public final int characteristics() {
-        return this.c.characteristics();
-    }
-
-    public final long estimateSize() {
-        long j = this.e;
-        long j2 = this.a;
-        if (j2 < j) {
-            return j - Math.max(j2, this.d);
-        }
-        return 0L;
-    }
-
-    protected abstract j$.util.Q f(j$.util.Q q, long j, long j2, long j3, long j4);
-
-    public /* bridge */ /* synthetic */ j$.util.E trySplit() {
-        return (j$.util.E) trySplit();
-    }
-
-    public /* bridge */ /* synthetic */ j$.util.H trySplit() {
-        return (j$.util.H) trySplit();
-    }
-
-    public /* bridge */ /* synthetic */ j$.util.K trySplit() {
-        return (j$.util.K) trySplit();
-    }
-
-    public /* bridge */ /* synthetic */ j$.util.N trySplit() {
-        return (j$.util.N) trySplit();
-    }
-
-    public final j$.util.Q trySplit() {
-        long j = this.e;
-        if (this.a >= j || this.d >= j) {
-            return null;
-        }
+    @Override // j$.util.N
+    /* renamed from: forEachRemaining */
+    public final void e(Object obj) {
+        obj.getClass();
+        Y2 y2 = null;
         while (true) {
-            j$.util.Q trySplit = this.c.trySplit();
-            if (trySplit == null) {
-                return null;
+            t3 v = v();
+            if (v == t3.NO_MORE) {
+                return;
             }
-            long estimateSize = trySplit.estimateSize() + this.d;
-            long min = Math.min(estimateSize, this.b);
-            long j2 = this.a;
-            if (j2 >= min) {
-                this.d = min;
+            t3 t3Var = t3.MAYBE_MORE;
+            j$.util.Q q = this.a;
+            if (v != t3Var) {
+                ((j$.util.N) q).forEachRemaining(obj);
+                return;
+            }
+            if (y2 == null) {
+                y2 = x();
             } else {
-                long j3 = this.b;
-                if (min < j3) {
-                    long j4 = this.d;
-                    if (j4 < j2 || estimateSize > j3) {
-                        this.d = min;
-                        return f(trySplit, j2, j3, j4, min);
-                    }
-                    this.d = min;
-                    return trySplit;
-                }
-                this.c = trySplit;
-                this.e = min;
+                y2.b = 0;
             }
+            long j = 0;
+            while (((j$.util.N) q).tryAdvance(y2)) {
+                j++;
+                if (j >= 128) {
+                    break;
+                }
+            }
+            if (j == 0) {
+                return;
+            }
+            y2.a(obj, t(j));
         }
     }
+
+    @Override // j$.util.Q
+    public final Comparator getComparator() {
+        throw new IllegalStateException();
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ long getExactSizeIfKnown() {
+        return j$.util.a.j(this);
+    }
+
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean hasCharacteristics(int i) {
+        return j$.util.a.k(this, i);
+    }
+
+    @Override // j$.util.N
+    /* renamed from: tryAdvance */
+    public final boolean p(Object obj) {
+        obj.getClass();
+        while (v() != t3.NO_MORE && ((j$.util.N) this.a).tryAdvance(this)) {
+            if (t(1L) == 1) {
+                w(obj);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected abstract void w(Object obj);
+
+    protected abstract Y2 x();
 }

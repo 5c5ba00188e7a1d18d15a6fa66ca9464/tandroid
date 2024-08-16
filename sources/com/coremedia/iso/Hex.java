@@ -20,7 +20,7 @@ public class Hex {
             char[] cArr2 = DIGITS;
             byte b = bArr[i3];
             cArr[i2] = cArr2[(b & 240) >>> 4];
-            i2 = i4 + 1;
+            i2 += 2;
             cArr[i4] = cArr2[b & 15];
         }
         return new String(cArr);

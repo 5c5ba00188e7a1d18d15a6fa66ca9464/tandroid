@@ -1,82 +1,49 @@
 package j$.util.concurrent;
 
-import j$.util.Q;
-import j$.util.function.Consumer;
-import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class g extends q implements Q {
-    final ConcurrentHashMap i;
-    long j;
+public final class g extends a implements Iterator, Enumeration {
+    public final /* synthetic */ int k;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public g(m[] mVarArr, int i, int i2, int i3, long j, ConcurrentHashMap concurrentHashMap) {
-        super(mVarArr, i, i2, i3);
-        this.i = concurrentHashMap;
-        this.j = j;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ g(k[] kVarArr, int i, int i2, ConcurrentHashMap concurrentHashMap, int i3) {
+        super(kVarArr, i, i2, concurrentHashMap);
+        this.k = i3;
     }
 
-    @Override // j$.util.Q
-    public final boolean a(Consumer consumer) {
-        consumer.getClass();
-        m f = f();
-        if (f == null) {
-            return false;
-        }
-        consumer.accept(new l(f.b, f.c, this.i));
-        return true;
-    }
-
-    @Override // j$.util.Q
-    public final int characteristics() {
-        return 4353;
-    }
-
-    @Override // j$.util.Q
-    public final long estimateSize() {
-        return this.j;
-    }
-
-    @Override // j$.util.Q
-    public final void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
-        while (true) {
-            m f = f();
-            if (f == null) {
-                return;
-            }
-            consumer.accept(new l(f.b, f.c, this.i));
+    @Override // java.util.Iterator
+    public final Object next() {
+        switch (this.k) {
+            case 0:
+                k kVar = this.b;
+                if (kVar != null) {
+                    this.j = kVar;
+                    b();
+                    return kVar.b;
+                }
+                throw new NoSuchElementException();
+            default:
+                k kVar2 = this.b;
+                if (kVar2 != null) {
+                    Object obj = kVar2.c;
+                    this.j = kVar2;
+                    b();
+                    return obj;
+                }
+                throw new NoSuchElementException();
         }
     }
 
-    @Override // j$.util.Q
-    public final Comparator getComparator() {
-        throw new IllegalStateException();
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ long getExactSizeIfKnown() {
-        return j$.util.a.i(this);
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean hasCharacteristics(int i) {
-        return j$.util.a.k(this, i);
-    }
-
-    @Override // j$.util.Q
-    public final Q trySplit() {
-        int i = this.f;
-        int i2 = this.g;
-        int i3 = (i + i2) >>> 1;
-        if (i3 <= i) {
-            return null;
+    @Override // java.util.Enumeration
+    public final Object nextElement() {
+        switch (this.k) {
+            case 0:
+                return next();
+            default:
+                return next();
         }
-        m[] mVarArr = this.a;
-        int i4 = this.h;
-        this.g = i3;
-        long j = this.j >>> 1;
-        this.j = j;
-        return new g(mVarArr, i4, i3, i2, j, this.i);
     }
 }

@@ -27,11 +27,6 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
     private Metadata pendingMetadata;
     private long subsampleOffsetUs;
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "MetadataRenderer";
-    }
-
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
         return true;
@@ -53,6 +48,11 @@ public final class MetadataRenderer extends BaseRenderer implements Handler.Call
         this.outputMetadataEarly = z;
         this.buffer = new MetadataInputBuffer();
         this.outputStreamOffsetUs = -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "MetadataRenderer";
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities

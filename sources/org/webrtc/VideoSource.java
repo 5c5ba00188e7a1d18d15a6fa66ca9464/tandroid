@@ -30,9 +30,13 @@ public class VideoSource extends MediaSource {
             public void onCapturerStarted(boolean z) {
                 VideoSource.this.nativeAndroidVideoTrackSource.setState(z);
                 synchronized (VideoSource.this.videoProcessorLock) {
-                    VideoSource.this.isCapturerRunning = z;
-                    if (VideoSource.this.videoProcessor != null) {
-                        VideoSource.this.videoProcessor.onCapturerStarted(z);
+                    try {
+                        VideoSource.this.isCapturerRunning = z;
+                        if (VideoSource.this.videoProcessor != null) {
+                            VideoSource.this.videoProcessor.onCapturerStarted(z);
+                        }
+                    } catch (Throwable th) {
+                        throw th;
                     }
                 }
             }
@@ -41,9 +45,13 @@ public class VideoSource extends MediaSource {
             public void onCapturerStopped() {
                 VideoSource.this.nativeAndroidVideoTrackSource.setState(false);
                 synchronized (VideoSource.this.videoProcessorLock) {
-                    VideoSource.this.isCapturerRunning = false;
-                    if (VideoSource.this.videoProcessor != null) {
-                        VideoSource.this.videoProcessor.onCapturerStopped();
+                    try {
+                        VideoSource.this.isCapturerRunning = false;
+                        if (VideoSource.this.videoProcessor != null) {
+                            VideoSource.this.videoProcessor.onCapturerStopped();
+                        }
+                    } catch (Throwable th) {
+                        throw th;
                     }
                 }
             }
@@ -52,14 +60,18 @@ public class VideoSource extends MediaSource {
             public void onFrameCaptured(VideoFrame videoFrame) {
                 VideoProcessor.FrameAdaptationParameters adaptFrame = VideoSource.this.nativeAndroidVideoTrackSource.adaptFrame(videoFrame);
                 synchronized (VideoSource.this.videoProcessorLock) {
-                    if (VideoSource.this.videoProcessor != null) {
-                        VideoSource.this.videoProcessor.onFrameCaptured(videoFrame, adaptFrame);
-                        return;
-                    }
-                    VideoFrame applyFrameAdaptationParameters = VideoProcessor.-CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
-                    if (applyFrameAdaptationParameters != null) {
-                        VideoSource.this.nativeAndroidVideoTrackSource.onFrameCaptured(applyFrameAdaptationParameters);
-                        applyFrameAdaptationParameters.release();
+                    try {
+                        if (VideoSource.this.videoProcessor != null) {
+                            VideoSource.this.videoProcessor.onFrameCaptured(videoFrame, adaptFrame);
+                            return;
+                        }
+                        VideoFrame applyFrameAdaptationParameters = VideoProcessor.-CC.applyFrameAdaptationParameters(videoFrame, adaptFrame);
+                        if (applyFrameAdaptationParameters != null) {
+                            VideoSource.this.nativeAndroidVideoTrackSource.onFrameCaptured(applyFrameAdaptationParameters);
+                            applyFrameAdaptationParameters.release();
+                        }
+                    } catch (Throwable th) {
+                        throw th;
                     }
                 }
             }
@@ -87,29 +99,33 @@ public class VideoSource extends MediaSource {
 
     public void setVideoProcessor(VideoProcessor videoProcessor) {
         synchronized (this.videoProcessorLock) {
-            VideoProcessor videoProcessor2 = this.videoProcessor;
-            if (videoProcessor2 != null) {
-                videoProcessor2.setSink(null);
-                if (this.isCapturerRunning) {
-                    this.videoProcessor.onCapturerStopped();
-                }
-            }
-            this.videoProcessor = videoProcessor;
-            if (videoProcessor != null) {
-                videoProcessor.setSink(new VideoSink() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda1
-                    @Override // org.webrtc.VideoSink
-                    public final void onFrame(VideoFrame videoFrame) {
-                        VideoSource.this.lambda$setVideoProcessor$1(videoFrame);
+            try {
+                VideoProcessor videoProcessor2 = this.videoProcessor;
+                if (videoProcessor2 != null) {
+                    videoProcessor2.setSink(null);
+                    if (this.isCapturerRunning) {
+                        this.videoProcessor.onCapturerStopped();
                     }
+                }
+                this.videoProcessor = videoProcessor;
+                if (videoProcessor != null) {
+                    videoProcessor.setSink(new VideoSink() { // from class: org.webrtc.VideoSource$$ExternalSyntheticLambda1
+                        @Override // org.webrtc.VideoSink
+                        public final void onFrame(VideoFrame videoFrame) {
+                            VideoSource.this.lambda$setVideoProcessor$1(videoFrame);
+                        }
 
-                    @Override // org.webrtc.VideoSink
-                    public /* synthetic */ void setParentSink(VideoSink videoSink) {
-                        VideoSink.-CC.$default$setParentSink(this, videoSink);
+                        @Override // org.webrtc.VideoSink
+                        public /* synthetic */ void setParentSink(VideoSink videoSink) {
+                            VideoSink.-CC.$default$setParentSink(this, videoSink);
+                        }
+                    });
+                    if (this.isCapturerRunning) {
+                        videoProcessor.onCapturerStarted(true);
                     }
-                });
-                if (this.isCapturerRunning) {
-                    videoProcessor.onCapturerStarted(true);
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

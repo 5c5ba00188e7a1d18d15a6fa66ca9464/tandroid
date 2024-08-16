@@ -43,7 +43,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class ViewPager extends ViewGroup {
     private int mActivePointerId;
@@ -496,7 +496,7 @@ public class ViewPager extends ViewGroup {
             return;
         }
         Scroller scroller = this.mScroller;
-        if ((scroller == null || scroller.isFinished()) ? false : true) {
+        if (scroller != null && !scroller.isFinished()) {
             scrollX = this.mIsScrollStarted ? this.mScroller.getCurrX() : this.mScroller.getStartX();
             this.mScroller.abortAnimation();
             setScrollingCacheEnabled(false);
@@ -1039,12 +1039,12 @@ public class ViewPager extends ViewGroup {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x0082  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0089  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x008e  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00a2  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00a8  */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0092  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00a1  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00a7  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1072,7 +1072,7 @@ public class ViewPager extends ViewGroup {
             if (childAt.getVisibility() != 8 && (layoutParams2 = (LayoutParams) childAt.getLayoutParams()) != null && layoutParams2.isDecor) {
                 int i8 = layoutParams2.gravity;
                 int i9 = i8 & 7;
-                int i10 = i8 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+                int i10 = i8 & 112;
                 boolean z2 = i10 == 48 || i10 == 80;
                 if (i9 != 3 && i9 != 5) {
                     z = false;
@@ -1160,8 +1160,8 @@ public class ViewPager extends ViewGroup {
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0071  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x008e  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0072  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x0094  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1189,7 +1189,7 @@ public class ViewPager extends ViewGroup {
                 if (layoutParams.isDecor) {
                     int i11 = layoutParams.gravity;
                     int i12 = i11 & 7;
-                    int i13 = i11 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+                    int i13 = i11 & 112;
                     if (i12 == 1) {
                         max = Math.max((i7 - childAt.getMeasuredWidth()) / 2, paddingLeft);
                     } else {
@@ -1319,7 +1319,7 @@ public class ViewPager extends ViewGroup {
         throw new IllegalStateException("onPageScrolled did not call superclass implementation");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0065  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1490,7 +1490,7 @@ public class ViewPager extends ViewGroup {
 
     @Override // android.view.ViewGroup
     public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
-        int action = motionEvent.getAction() & 255;
+        int action = motionEvent.getAction() & NotificationCenter.voipServiceCreated;
         if (action == 3 || action == 1) {
             resetTouch();
             return false;
@@ -1579,7 +1579,7 @@ public class ViewPager extends ViewGroup {
             this.mVelocityTracker = VelocityTracker.obtain();
         }
         this.mVelocityTracker.addMovement(motionEvent);
-        int action = motionEvent.getAction() & 255;
+        int action = motionEvent.getAction() & NotificationCenter.voipServiceCreated;
         if (action == 0) {
             this.mScroller.abortAnimation();
             this.mPopulatePending = false;
@@ -1618,7 +1618,7 @@ public class ViewPager extends ViewGroup {
                     }
                 }
                 if (this.mIsBeingDragged) {
-                    z = false | performDrag(motionEvent.getX(motionEvent.findPointerIndex(this.mActivePointerId)));
+                    z = performDrag(motionEvent.getX(motionEvent.findPointerIndex(this.mActivePointerId)));
                 }
             } else if (action != 3) {
                 if (action == 5) {
@@ -1778,7 +1778,7 @@ public class ViewPager extends ViewGroup {
                 canvas.rotate(270.0f);
                 canvas.translate((-height) + getPaddingTop(), this.mFirstOffset * width);
                 this.mLeftEdge.setSize(height, width);
-                z = false | this.mLeftEdge.draw(canvas);
+                z = this.mLeftEdge.draw(canvas);
                 canvas.restoreToCount(save);
             }
             if (!this.mRightEdge.isFinished()) {
@@ -1983,80 +1983,74 @@ public class ViewPager extends ViewGroup {
         return false;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:44:0x00cf  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00cc  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean arrowScroll(int i) {
-        boolean z;
         View findNextFocus;
-        boolean requestFocus;
+        boolean pageLeft;
         View findFocus = findFocus();
-        boolean z2 = false;
         if (findFocus != this) {
             if (findFocus != null) {
-                ViewParent parent = findFocus.getParent();
-                while (true) {
-                    if (!(parent instanceof ViewGroup)) {
-                        z = false;
+                for (ViewParent parent = findFocus.getParent(); parent instanceof ViewGroup; parent = parent.getParent()) {
+                    if (parent == this) {
                         break;
-                    } else if (parent == this) {
-                        z = true;
-                        break;
-                    } else {
-                        parent = parent.getParent();
                     }
                 }
-                if (!z) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(findFocus.getClass().getSimpleName());
-                    for (ViewParent parent2 = findFocus.getParent(); parent2 instanceof ViewGroup; parent2 = parent2.getParent()) {
-                        sb.append(" => ");
-                        sb.append(parent2.getClass().getSimpleName());
-                    }
-                    Log.e("ViewPager", "arrowScroll tried to find focus based on non-child current focused view " + sb.toString());
+                StringBuilder sb = new StringBuilder();
+                sb.append(findFocus.getClass().getSimpleName());
+                for (ViewParent parent2 = findFocus.getParent(); parent2 instanceof ViewGroup; parent2 = parent2.getParent()) {
+                    sb.append(" => ");
+                    sb.append(parent2.getClass().getSimpleName());
                 }
+                Log.e("ViewPager", "arrowScroll tried to find focus based on non-child current focused view " + sb.toString());
             }
             findNextFocus = FocusFinder.getInstance().findNextFocus(this, findFocus, i);
-            if (findNextFocus == null && findNextFocus != findFocus) {
-                if (i == 17) {
-                    int i2 = getChildRectInPagerCoordinates(this.mTempRect, findNextFocus).left;
-                    int i3 = getChildRectInPagerCoordinates(this.mTempRect, findFocus).left;
-                    if (findFocus != null && i2 >= i3) {
-                        requestFocus = pageLeft();
-                    } else {
-                        requestFocus = findNextFocus.requestFocus();
+            if (findNextFocus != null || findNextFocus == findFocus) {
+                if (i != 17 || i == 1) {
+                    pageLeft = pageLeft();
+                } else {
+                    if (i == 66 || i == 2) {
+                        pageLeft = pageRight();
                     }
-                } else if (i == 66) {
+                    pageLeft = false;
+                }
+            } else if (i == 17) {
+                int i2 = getChildRectInPagerCoordinates(this.mTempRect, findNextFocus).left;
+                int i3 = getChildRectInPagerCoordinates(this.mTempRect, findFocus).left;
+                if (findFocus != null && i2 >= i3) {
+                    pageLeft = pageLeft();
+                } else {
+                    pageLeft = findNextFocus.requestFocus();
+                }
+            } else {
+                if (i == 66) {
                     int i4 = getChildRectInPagerCoordinates(this.mTempRect, findNextFocus).left;
                     int i5 = getChildRectInPagerCoordinates(this.mTempRect, findFocus).left;
                     if (findFocus != null && i4 <= i5) {
-                        requestFocus = pageRight();
+                        pageLeft = pageRight();
                     } else {
-                        requestFocus = findNextFocus.requestFocus();
+                        pageLeft = findNextFocus.requestFocus();
                     }
                 }
-                z2 = requestFocus;
-            } else if (i != 17 || i == 1) {
-                z2 = pageLeft();
-            } else if (i == 66 || i == 2) {
-                z2 = pageRight();
+                pageLeft = false;
             }
-            if (z2) {
+            if (pageLeft) {
                 playSoundEffect(SoundEffectConstants.getContantForFocusDirection(i));
             }
-            return z2;
+            return pageLeft;
         }
         findFocus = null;
         findNextFocus = FocusFinder.getInstance().findNextFocus(this, findFocus, i);
-        if (findNextFocus == null) {
+        if (findNextFocus != null) {
         }
         if (i != 17) {
         }
-        z2 = pageLeft();
-        if (z2) {
+        pageLeft = pageLeft();
+        if (pageLeft) {
         }
-        return z2;
+        return pageLeft;
     }
 
     private Rect getChildRectInPagerCoordinates(Rect rect, View view) {

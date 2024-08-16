@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import androidx.core.util.Supplier;
 import java.util.List;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.BackButtonMenu;
@@ -38,6 +39,10 @@ public interface INavigationLayout {
     boolean allowSwipe();
 
     void animateThemedValues(ThemeAnimationSettings themeAnimationSettings, Runnable runnable);
+
+    void animateThemedValues(Theme.ThemeInfo themeInfo, int i, boolean z, boolean z2);
+
+    void animateThemedValues(Theme.ThemeInfo themeInfo, int i, boolean z, boolean z2, Runnable runnable);
 
     boolean checkTransitionAnimation();
 
@@ -216,7 +221,7 @@ public interface INavigationLayout {
         }
 
         public static void $default$drawHeaderShadow(INavigationLayout iNavigationLayout, Canvas canvas, int i) {
-            iNavigationLayout.drawHeaderShadow(canvas, 255, i);
+            iNavigationLayout.drawHeaderShadow(canvas, NotificationCenter.voipServiceCreated, i);
         }
 
         public static BaseFragment $default$getBackgroundFragment(INavigationLayout iNavigationLayout) {

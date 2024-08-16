@@ -7,6 +7,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class GestureDetectorFixDoubleTap {
     private final GestureDetectorCompatImpl mImpl;
@@ -130,8 +131,8 @@ public class GestureDetectorFixDoubleTap {
             this.mLongpressDuration = j;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:109:0x020f  */
-        /* JADX WARN: Removed duplicated region for block: B:112:0x0226  */
+        /* JADX WARN: Removed duplicated region for block: B:109:0x020c  */
+        /* JADX WARN: Removed duplicated region for block: B:112:0x0223  */
         @Override // org.telegram.ui.Components.GestureDetectorFixDoubleTap.GestureDetectorCompatImpl
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -147,7 +148,7 @@ public class GestureDetectorFixDoubleTap {
                 this.mVelocityTracker = VelocityTracker.obtain();
             }
             this.mVelocityTracker.addMovement(motionEvent);
-            int i = action & 255;
+            int i = action & NotificationCenter.voipServiceCreated;
             boolean z2 = i == 6;
             int actionIndex = z2 ? motionEvent.getActionIndex() : -1;
             int pointerCount = motionEvent.getPointerCount();
@@ -155,13 +156,13 @@ public class GestureDetectorFixDoubleTap {
             float f2 = 0.0f;
             for (int i2 = 0; i2 < pointerCount; i2++) {
                 if (actionIndex != i2) {
-                    f += motionEvent.getX(i2);
-                    f2 += motionEvent.getY(i2);
+                    f2 += motionEvent.getX(i2);
+                    f += motionEvent.getY(i2);
                 }
             }
             float f3 = z2 ? pointerCount - 1 : pointerCount;
-            float f4 = f / f3;
-            float f5 = f2 / f3;
+            float f4 = f2 / f3;
+            float f5 = f / f3;
             if (i == 0) {
                 if (this.mDoubleTapListener != null && this.mListener.hasDoubleTap(motionEvent)) {
                     boolean hasMessages = this.mHandler.hasMessages(3);
@@ -171,7 +172,7 @@ public class GestureDetectorFixDoubleTap {
                     MotionEvent motionEvent4 = this.mCurrentDownEvent;
                     if (motionEvent4 != null && (motionEvent3 = this.mPreviousUpEvent) != null && hasMessages && isConsideredDoubleTap(motionEvent4, motionEvent3, motionEvent)) {
                         this.mIsDoubleTapping = true;
-                        z = this.mDoubleTapListener.onDoubleTap(this.mCurrentDownEvent) | false | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
+                        z = this.mDoubleTapListener.onDoubleTap(this.mCurrentDownEvent) | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
                         this.mLastFocusX = f4;
                         this.mDownFocusX = f4;
                         this.mLastFocusY = f5;
@@ -218,7 +219,7 @@ public class GestureDetectorFixDoubleTap {
                 this.mStillDown = false;
                 MotionEvent obtain = MotionEvent.obtain(motionEvent);
                 if (this.mIsDoubleTapping) {
-                    onFling = this.mDoubleTapListener.onDoubleTapEvent(motionEvent) | false;
+                    onFling = this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
                 } else {
                     if (this.mInLongPress) {
                         this.mHandler.removeMessages(3);
@@ -295,7 +296,7 @@ public class GestureDetectorFixDoubleTap {
                 float f6 = this.mLastFocusX - f4;
                 float f7 = this.mLastFocusY - f5;
                 if (this.mIsDoubleTapping) {
-                    return false | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
+                    return this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
                 }
                 if (this.mAlwaysInTapRegion) {
                     int i4 = (int) (f4 - this.mDownFocusX);

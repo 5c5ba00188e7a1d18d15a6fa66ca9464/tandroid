@@ -279,13 +279,7 @@ public final class DashMediaSource extends BaseMediaSource {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00ab  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00cb  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     void onManifestLoadCompleted(ParsingLoadable<DashManifest> parsingLoadable, long j, long j2) {
-        boolean z;
         LoadEventInfo loadEventInfo = new LoadEventInfo(parsingLoadable.loadTaskId, parsingLoadable.dataSpec, parsingLoadable.getUri(), parsingLoadable.getResponseHeaders(), j, j2, parsingLoadable.bytesLoaded());
         this.loadErrorHandlingPolicy.onLoadTaskConcluded(parsingLoadable.loadTaskId);
         this.manifestEventDispatcher.loadCompleted(loadEventInfo, parsingLoadable.type);
@@ -302,26 +296,20 @@ public final class DashMediaSource extends BaseMediaSource {
                 Log.w("DashMediaSource", "Loaded out of sync manifest");
             } else {
                 long j4 = this.expiredManifestPublishTimeUs;
-                if (j4 == -9223372036854775807L || result.publishTimeMs * 1000 > j4) {
-                    z = false;
-                    if (!z) {
-                        int i2 = this.staleManifestReloadAttempt;
-                        this.staleManifestReloadAttempt = i2 + 1;
-                        if (i2 < this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(parsingLoadable.type)) {
-                            scheduleManifestRefresh(getManifestLoadRetryDelayMillis());
-                            return;
-                        } else {
-                            this.manifestFatalError = new DashManifestStaleException();
-                            return;
-                        }
-                    }
-                    this.staleManifestReloadAttempt = 0;
-                } else {
+                if (j4 != -9223372036854775807L && result.publishTimeMs * 1000 <= j4) {
                     Log.w("DashMediaSource", "Loaded stale dynamic manifest: " + result.publishTimeMs + ", " + this.expiredManifestPublishTimeUs);
+                } else {
+                    this.staleManifestReloadAttempt = 0;
                 }
             }
-            z = true;
-            if (!z) {
+            int i2 = this.staleManifestReloadAttempt;
+            this.staleManifestReloadAttempt = i2 + 1;
+            if (i2 < this.loadErrorHandlingPolicy.getMinimumLoadableRetryCount(parsingLoadable.type)) {
+                scheduleManifestRefresh(getManifestLoadRetryDelayMillis());
+                return;
+            } else {
+                this.manifestFatalError = new DashManifestStaleException();
+                return;
             }
         }
         this.manifest = result;
@@ -329,12 +317,16 @@ public final class DashMediaSource extends BaseMediaSource {
         this.manifestLoadStartTimestampMs = j - j2;
         this.manifestLoadEndTimestampMs = j;
         synchronized (this.manifestUriLock) {
-            if (parsingLoadable.dataSpec.uri == this.manifestUri) {
-                Uri uri = this.manifest.location;
-                if (uri == null) {
-                    uri = parsingLoadable.getUri();
+            try {
+                if (parsingLoadable.dataSpec.uri == this.manifestUri) {
+                    Uri uri = this.manifest.location;
+                    if (uri == null) {
+                        uri = parsingLoadable.getUri();
+                    }
+                    this.manifestUri = uri;
                 }
-                this.manifestUri = uri;
+            } catch (Throwable th) {
+                throw th;
             }
         }
         if (periodCount == 0) {
@@ -964,7 +956,7 @@ public final class DashMediaSource extends BaseMediaSource {
                     long j = "+".equals(matcher.group(4)) ? 1L : -1L;
                     long parseLong = Long.parseLong(matcher.group(5));
                     String group2 = matcher.group(7);
-                    time -= j * ((((parseLong * 60) + (TextUtils.isEmpty(group2) ? 0L : Long.parseLong(group2))) * 60) * 1000);
+                    time -= j * (((parseLong * 60) + (TextUtils.isEmpty(group2) ? 0L : Long.parseLong(group2))) * 60000);
                 }
                 return Long.valueOf(time);
             } catch (ParseException e) {

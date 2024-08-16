@@ -37,6 +37,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC$Photo;
 import org.telegram.ui.Components.AnimatedFileDrawable;
@@ -320,7 +321,7 @@ public class PhotoView extends EntityView {
             canvas.rotate(this.orientation);
             canvas.translate((-bitmap.getWidth()) / 2.0f, (-bitmap.getHeight()) / 2.0f);
             rectF.set(0.0f, 0.0f, bitmap.getWidth(), bitmap.getHeight());
-            canvas.saveLayerAlpha(rectF, 255, 31);
+            canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
             canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
             Paint paint = new Paint(3);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
@@ -417,7 +418,7 @@ public class PhotoView extends EntityView {
             }
             if (this.segmentedImage != null) {
                 Size size2 = this.baseSize;
-                canvas.saveLayerAlpha(0.0f, 0.0f, size2.width, size2.height, 255, 31);
+                canvas.saveLayerAlpha(0.0f, 0.0f, size2.width, size2.height, NotificationCenter.voipServiceCreated, 31);
                 drawSegmented(canvas);
                 canvas.save();
                 long currentTimeMillis = System.currentTimeMillis();
@@ -641,7 +642,7 @@ public class PhotoView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);

@@ -19,6 +19,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.ConnectionsManager;
@@ -76,51 +77,48 @@ public class AvatarsDrawable {
     }
 
     public void commitTransition(boolean z, boolean z2) {
-        boolean z3;
         if (!this.wasDraw || !z) {
             this.transitionProgress = 1.0f;
             swapStates();
             return;
         }
         DrawingState[] drawingStateArr = new DrawingState[3];
-        boolean z4 = false;
+        boolean z3 = false;
         for (int i = 0; i < 3; i++) {
             DrawingState[] drawingStateArr2 = this.currentStates;
             drawingStateArr[i] = drawingStateArr2[i];
             if (drawingStateArr2[i].id != this.animatingStates[i].id) {
-                z4 = true;
+                z3 = true;
             } else {
                 this.currentStates[i].lastSpeakTime = this.animatingStates[i].lastSpeakTime;
             }
         }
-        if (!z4) {
+        if (!z3) {
             this.transitionProgress = 1.0f;
             return;
         }
         for (int i2 = 0; i2 < 3; i2++) {
             int i3 = 0;
             while (true) {
-                if (i3 >= 3) {
-                    z3 = false;
-                    break;
-                } else if (this.currentStates[i3].id == this.animatingStates[i2].id) {
-                    drawingStateArr[i3] = null;
-                    if (i2 == i3) {
-                        this.animatingStates[i2].animationType = -1;
-                        GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable = this.animatingStates[i2].wavesDrawable;
-                        this.animatingStates[i2].wavesDrawable = this.currentStates[i2].wavesDrawable;
-                        this.currentStates[i2].wavesDrawable = avatarWavesDrawable;
+                if (i3 < 3) {
+                    if (this.currentStates[i3].id == this.animatingStates[i2].id) {
+                        drawingStateArr[i3] = null;
+                        if (i2 == i3) {
+                            this.animatingStates[i2].animationType = -1;
+                            GroupCallUserCell.AvatarWavesDrawable avatarWavesDrawable = this.animatingStates[i2].wavesDrawable;
+                            this.animatingStates[i2].wavesDrawable = this.currentStates[i2].wavesDrawable;
+                            this.currentStates[i2].wavesDrawable = avatarWavesDrawable;
+                        } else {
+                            this.animatingStates[i2].animationType = 2;
+                            this.animatingStates[i2].moveFromIndex = i3;
+                        }
                     } else {
-                        this.animatingStates[i2].animationType = 2;
-                        this.animatingStates[i2].moveFromIndex = i3;
+                        i3++;
                     }
-                    z3 = true;
                 } else {
-                    i3++;
+                    this.animatingStates[i2].animationType = 0;
+                    break;
                 }
-            }
-            if (!z3) {
-                this.animatingStates[i2].animationType = 0;
             }
         }
         for (int i4 = 0; i4 < 3; i4++) {
@@ -378,21 +376,21 @@ public class AvatarsDrawable {
         invalidate();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:158:0x0283  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x02bb  */
-    /* JADX WARN: Removed duplicated region for block: B:212:0x0368  */
-    /* JADX WARN: Removed duplicated region for block: B:243:0x042a  */
-    /* JADX WARN: Removed duplicated region for block: B:249:0x043e  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x05df  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x060e  */
-    /* JADX WARN: Removed duplicated region for block: B:304:0x062a  */
-    /* JADX WARN: Removed duplicated region for block: B:310:0x065b  */
-    /* JADX WARN: Removed duplicated region for block: B:315:0x067f  */
-    /* JADX WARN: Removed duplicated region for block: B:319:0x06a8  */
-    /* JADX WARN: Removed duplicated region for block: B:320:0x06bd  */
-    /* JADX WARN: Removed duplicated region for block: B:322:0x06c2  */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x02be A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:345:0x06c5 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:158:0x0281  */
+    /* JADX WARN: Removed duplicated region for block: B:161:0x02b9  */
+    /* JADX WARN: Removed duplicated region for block: B:212:0x0367  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0426  */
+    /* JADX WARN: Removed duplicated region for block: B:249:0x043a  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x05dd  */
+    /* JADX WARN: Removed duplicated region for block: B:301:0x060c  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x0628  */
+    /* JADX WARN: Removed duplicated region for block: B:310:0x0659  */
+    /* JADX WARN: Removed duplicated region for block: B:315:0x067d  */
+    /* JADX WARN: Removed duplicated region for block: B:319:0x06a6  */
+    /* JADX WARN: Removed duplicated region for block: B:320:0x06bb  */
+    /* JADX WARN: Removed duplicated region for block: B:322:0x06c0  */
+    /* JADX WARN: Removed duplicated region for block: B:337:0x02bc A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:345:0x06c3 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -463,7 +461,7 @@ public class AvatarsDrawable {
             }
             float f4 = -dp4;
             i = 2;
-            canvas.saveLayerAlpha(f4, f4, this.width + dp4, this.height + dp4, 255, 31);
+            canvas.saveLayerAlpha(f4, f4, this.width + dp4, this.height + dp4, NotificationCenter.voipServiceCreated, 31);
         } else {
             i = 2;
         }
@@ -513,8 +511,8 @@ public class AvatarsDrawable {
                                         }
                                     } else {
                                         canvas.save();
-                                        float f10 = this.transitionProgress;
-                                        canvas.scale(1.0f - f10, 1.0f - f10, imageReceiver.getCenterX(), imageReceiver.getCenterY());
+                                        float f10 = 1.0f - this.transitionProgress;
+                                        canvas.scale(f10, f10, imageReceiver.getCenterX(), imageReceiver.getCenterY());
                                         f3 = 1.0f - this.transitionProgress;
                                     }
                                     z2 = true;
@@ -723,8 +721,8 @@ public class AvatarsDrawable {
                                             }
                                         } else {
                                             canvas.save();
-                                            float f16 = this.transitionProgress;
-                                            canvas.scale(f6 - f16, f6 - f16, imageReceiver2.getCenterX(), imageReceiver2.getCenterY());
+                                            float f16 = f6 - this.transitionProgress;
+                                            canvas.scale(f16, f16, imageReceiver2.getCenterX(), imageReceiver2.getCenterY());
                                             f2 = f6 - this.transitionProgress;
                                         }
                                         f = f2;
@@ -853,7 +851,7 @@ public class AvatarsDrawable {
             return i;
         }
         int i2 = this.currentStyle;
-        return AndroidUtilities.dp(i2 == 4 || i2 == 10 ? 32.0f : 24.0f);
+        return AndroidUtilities.dp((i2 == 4 || i2 == 10) ? 32.0f : 24.0f);
     }
 
     public void onDetachedFromWindow() {

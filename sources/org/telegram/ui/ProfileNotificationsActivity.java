@@ -133,12 +133,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.addingException = bundle.getBoolean("exception", false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x011b  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x014c  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0157  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x016b  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x016f  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0116  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0147  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0151  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0165  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x0169  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -163,73 +163,68 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.rowCount = 0;
         boolean z2 = this.addingException;
         if (z2) {
-            int i2 = 0 + 1;
             this.avatarRow = 0;
-            this.rowCount = i2 + 1;
-            this.avatarSectionRow = i2;
+            this.rowCount = 2;
+            this.avatarSectionRow = 1;
         } else {
             this.avatarRow = -1;
             this.avatarSectionRow = -1;
         }
-        int i3 = this.rowCount;
-        int i4 = i3 + 1;
-        this.rowCount = i4;
-        this.generalRow = i3;
+        int i2 = this.rowCount;
+        int i3 = i2 + 1;
+        this.rowCount = i3;
+        this.generalRow = i2;
         if (z2 || this.topicId != 0) {
-            this.rowCount = i4 + 1;
-            this.enableRow = i4;
+            this.rowCount = i2 + 2;
+            this.enableRow = i3;
         } else {
             this.enableRow = -1;
         }
         this.storiesRow = -1;
         if (!DialogObject.isEncryptedDialog(this.dialogId)) {
-            int i5 = this.rowCount;
-            this.rowCount = i5 + 1;
-            this.previewRow = i5;
+            int i4 = this.rowCount;
+            this.rowCount = i4 + 1;
+            this.previewRow = i4;
             if (DialogObject.isUserDialog(this.dialogId)) {
-                int i6 = this.rowCount;
-                this.rowCount = i6 + 1;
-                this.storiesRow = i6;
+                int i5 = this.rowCount;
+                this.rowCount = i5 + 1;
+                this.storiesRow = i5;
             }
         } else {
             this.previewRow = -1;
         }
-        int i7 = this.rowCount;
-        int i8 = i7 + 1;
-        this.soundRow = i7;
-        this.rowCount = i8 + 1;
-        this.vibrateRow = i8;
+        int i6 = this.rowCount;
+        this.soundRow = i6;
+        this.rowCount = i6 + 2;
+        this.vibrateRow = i6 + 1;
         if (DialogObject.isChatDialog(this.dialogId)) {
-            int i9 = this.rowCount;
-            this.rowCount = i9 + 1;
-            this.smartRow = i9;
+            int i7 = this.rowCount;
+            this.rowCount = i7 + 1;
+            this.smartRow = i7;
         } else {
             this.smartRow = -1;
         }
         if (Build.VERSION.SDK_INT >= 21) {
-            int i10 = this.rowCount;
-            this.rowCount = i10 + 1;
-            this.priorityRow = i10;
+            int i8 = this.rowCount;
+            this.rowCount = i8 + 1;
+            this.priorityRow = i8;
         } else {
             this.priorityRow = -1;
         }
-        int i11 = this.rowCount;
-        this.rowCount = i11 + 1;
-        this.priorityInfoRow = i11;
+        int i9 = this.rowCount;
+        this.rowCount = i9 + 1;
+        this.priorityInfoRow = i9;
         if (DialogObject.isChatDialog(this.dialogId)) {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-this.dialogId));
             if (ChatObject.isChannel(chat) && !chat.megagroup) {
                 z = true;
                 if (DialogObject.isEncryptedDialog(this.dialogId) && !z) {
-                    int i12 = this.rowCount;
-                    int i13 = i12 + 1;
-                    this.popupRow = i12;
-                    int i14 = i13 + 1;
-                    this.popupEnabledRow = i13;
-                    int i15 = i14 + 1;
-                    this.popupDisabledRow = i14;
-                    this.rowCount = i15 + 1;
-                    this.popupInfoRow = i15;
+                    int i10 = this.rowCount;
+                    this.popupRow = i10;
+                    this.popupEnabledRow = i10 + 1;
+                    this.popupDisabledRow = i10 + 2;
+                    this.rowCount = i10 + 4;
+                    this.popupInfoRow = i10 + 3;
                 } else {
                     this.popupRow = -1;
                     this.popupEnabledRow = -1;
@@ -237,34 +232,28 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     this.popupInfoRow = -1;
                 }
                 if (!DialogObject.isUserDialog(this.dialogId)) {
-                    int i16 = this.rowCount;
-                    int i17 = i16 + 1;
-                    this.callsRow = i16;
-                    int i18 = i17 + 1;
-                    this.callsVibrateRow = i17;
-                    int i19 = i18 + 1;
-                    this.ringtoneRow = i18;
-                    this.rowCount = i19 + 1;
-                    this.ringtoneInfoRow = i19;
+                    int i11 = this.rowCount;
+                    this.callsRow = i11;
+                    this.callsVibrateRow = i11 + 1;
+                    this.ringtoneRow = i11 + 2;
+                    this.rowCount = i11 + 4;
+                    this.ringtoneInfoRow = i11 + 3;
                 } else {
                     this.callsRow = -1;
                     this.callsVibrateRow = -1;
                     this.ringtoneRow = -1;
                     this.ringtoneInfoRow = -1;
                 }
-                int i20 = this.rowCount;
-                int i21 = i20 + 1;
-                this.ledRow = i20;
-                int i22 = i21 + 1;
-                this.colorRow = i21;
-                int i23 = i22 + 1;
-                this.rowCount = i23;
-                this.ledInfoRow = i22;
+                int i12 = this.rowCount;
+                this.ledRow = i12;
+                this.colorRow = i12 + 1;
+                int i13 = i12 + 3;
+                this.rowCount = i13;
+                this.ledInfoRow = i12 + 2;
                 if (this.addingException) {
-                    int i24 = i23 + 1;
-                    this.customResetRow = i23;
-                    this.rowCount = i24 + 1;
-                    this.customResetShadowRow = i24;
+                    this.customResetRow = i13;
+                    this.rowCount = i12 + 5;
+                    this.customResetShadowRow = i12 + 4;
                 } else {
                     this.customResetRow = -1;
                     this.customResetShadowRow = -1;
@@ -276,16 +265,16 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     SharedPreferences notificationsSettings = MessagesController.getNotificationsSettings(this.currentAccount);
                     String sharedPrefKey = NotificationsController.getSharedPrefKey(this.dialogId, this.topicId);
                     boolean contains = notificationsSettings.contains(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey);
-                    int i25 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
-                    if (i25 == 0) {
+                    int i14 = notificationsSettings.getInt(NotificationsSettingsFacade.PROPERTY_NOTIFY + sharedPrefKey, 0);
+                    if (i14 == 0) {
                         if (contains) {
                             this.notificationsEnabled = true;
                         } else {
                             this.notificationsEnabled = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId, false, false);
                         }
-                    } else if (i25 == 1) {
+                    } else if (i14 == 1) {
                         this.notificationsEnabled = true;
-                    } else if (i25 == 2) {
+                    } else if (i14 == 2) {
                         this.notificationsEnabled = false;
                     } else {
                         this.notificationsEnabled = false;
@@ -304,14 +293,12 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
         this.popupInfoRow = -1;
         if (!DialogObject.isUserDialog(this.dialogId)) {
         }
-        int i202 = this.rowCount;
-        int i212 = i202 + 1;
-        this.ledRow = i202;
-        int i222 = i212 + 1;
-        this.colorRow = i212;
-        int i232 = i222 + 1;
-        this.rowCount = i232;
-        this.ledInfoRow = i222;
+        int i122 = this.rowCount;
+        this.ledRow = i122;
+        this.colorRow = i122 + 1;
+        int i132 = i122 + 3;
+        this.rowCount = i132;
+        this.ledInfoRow = i122 + 2;
         if (this.addingException) {
         }
         boolean isGlobalNotificationsEnabled2 = NotificationsController.getInstance(this.currentAccount).isGlobalNotificationsEnabled(this.dialogId, false, false);
@@ -526,7 +513,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                     }
                     SharedPreferences notificationsSettings2 = MessagesController.getNotificationsSettings(this.currentAccount);
                     int i2 = notificationsSettings2.getInt("smart_max_count_" + str, 2);
-                    AlertsCreator.createSoundFrequencyPickerDialog(getParentActivity(), i2 != 0 ? i2 : 2, notificationsSettings2.getInt("smart_delay_" + str, 180), new AlertsCreator.SoundFrequencyDelegate() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda6
+                    AlertsCreator.createSoundFrequencyPickerDialog(getParentActivity(), i2 != 0 ? i2 : 2, notificationsSettings2.getInt("smart_delay_" + str, NotificationCenter.updateBotMenuButton), new AlertsCreator.SoundFrequencyDelegate() { // from class: org.telegram.ui.ProfileNotificationsActivity$$ExternalSyntheticLambda6
                         @Override // org.telegram.ui.Components.AlertsCreator.SoundFrequencyDelegate
                         public final void didSelectValues(int i3, int i4) {
                             ProfileNotificationsActivity.this.lambda$createView$4(str, i3, i4);
@@ -875,7 +862,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
                                         return;
                                     }
                                     int i4 = notificationsSettings.getInt("smart_max_count_" + sharedPrefKey, 2);
-                                    int i5 = notificationsSettings.getInt("smart_delay_" + sharedPrefKey, 180);
+                                    int i5 = notificationsSettings.getInt("smart_delay_" + sharedPrefKey, NotificationCenter.updateBotMenuButton);
                                     if (i4 == 0) {
                                         textSettingsCell.setTextAndValue(LocaleController.getString("SmartNotifications", R.string.SmartNotifications), LocaleController.getString("SmartNotificationsDisabled", R.string.SmartNotificationsDisabled), ProfileNotificationsActivity.this.priorityRow != -1);
                                         return;

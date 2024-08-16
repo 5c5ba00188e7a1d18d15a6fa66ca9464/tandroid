@@ -23,6 +23,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC$Photo;
@@ -131,12 +132,12 @@ public class WallpaperCell extends FrameLayout {
             this.imageView.getImageReceiver().setBlendMode(null);
             this.imageView.getImageReceiver().setGradientBitmap(null);
             this.isSelected = obj == obj2;
-            String str = "180_180";
+            String str = NotificationCenter.updateBotMenuButton + "_" + NotificationCenter.updateBotMenuButton;
             String str2 = "100_100_b";
             if (obj instanceof TLRPC$TL_wallPaper) {
                 TLRPC$TL_wallPaper tLRPC$TL_wallPaper = (TLRPC$TL_wallPaper) obj;
                 TLRPC$PhotoSize closestPhotoSizeWithSize = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(100));
-                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp(180));
+                TLRPC$PhotoSize closestPhotoSizeWithSize2 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$TL_wallPaper.document.thumbs, AndroidUtilities.dp((float) NotificationCenter.updateBotMenuButton));
                 tLRPC$PhotoSize = closestPhotoSizeWithSize2 != closestPhotoSizeWithSize ? closestPhotoSizeWithSize2 : null;
                 long j = tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : tLRPC$TL_wallPaper.document.size;
                 if (!tLRPC$TL_wallPaper.pattern) {
@@ -198,7 +199,7 @@ public class WallpaperCell extends FrameLayout {
                     }
                     if ("d".equals(colorWallpaper.slug)) {
                         if (colorWallpaper.defaultCache == null) {
-                            colorWallpaper.defaultCache = SvgHelper.getBitmap(R.raw.default_pattern, 100, 180, -16777216);
+                            colorWallpaper.defaultCache = SvgHelper.getBitmap(R.raw.default_pattern, 100, (int) NotificationCenter.updateBotMenuButton, -16777216);
                         }
                         this.imageView.setImageBitmap(colorWallpaper.defaultCache);
                         this.imageView.getImageReceiver().setAlpha(Math.abs(colorWallpaper.intensity));
@@ -247,7 +248,7 @@ public class WallpaperCell extends FrameLayout {
                 TLRPC$Photo tLRPC$Photo = searchImage.photo;
                 if (tLRPC$Photo != null) {
                     TLRPC$PhotoSize closestPhotoSizeWithSize4 = FileLoader.getClosestPhotoSizeWithSize(tLRPC$Photo.sizes, AndroidUtilities.dp(100));
-                    TLRPC$PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, AndroidUtilities.dp(180));
+                    TLRPC$PhotoSize closestPhotoSizeWithSize5 = FileLoader.getClosestPhotoSizeWithSize(searchImage.photo.sizes, AndroidUtilities.dp((float) NotificationCenter.updateBotMenuButton));
                     tLRPC$PhotoSize = closestPhotoSizeWithSize5 != closestPhotoSizeWithSize4 ? closestPhotoSizeWithSize5 : null;
                     this.imageView.setImage(ImageLocation.getForPhoto(tLRPC$PhotoSize, searchImage.photo), str, ImageLocation.getForPhoto(closestPhotoSizeWithSize4, searchImage.photo), str2, "jpg", tLRPC$PhotoSize != null ? tLRPC$PhotoSize.size : 0, 1, searchImage);
                     return;
@@ -271,16 +272,7 @@ public class WallpaperCell extends FrameLayout {
             if (z2) {
                 AnimatorSet animatorSet2 = new AnimatorSet();
                 this.animator = animatorSet2;
-                Animator[] animatorArr = new Animator[2];
-                BackupImageView backupImageView = this.imageView;
-                float[] fArr = new float[1];
-                fArr[0] = z ? 0.8875f : 1.0f;
-                animatorArr[0] = ObjectAnimator.ofFloat(backupImageView, "scaleX", fArr);
-                BackupImageView backupImageView2 = this.imageView;
-                float[] fArr2 = new float[1];
-                fArr2[0] = z ? 0.8875f : 1.0f;
-                animatorArr[1] = ObjectAnimator.ofFloat(backupImageView2, "scaleY", fArr2);
-                animatorSet2.playTogether(animatorArr);
+                animatorSet2.playTogether(ObjectAnimator.ofFloat(this.imageView, "scaleX", z ? 0.8875f : 1.0f), ObjectAnimator.ofFloat(this.imageView, "scaleY", z ? 0.8875f : 1.0f));
                 this.animator.setDuration(200L);
                 this.animator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.WallpaperCell.WallpaperView.2
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener

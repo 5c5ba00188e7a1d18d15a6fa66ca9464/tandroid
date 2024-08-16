@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
@@ -50,14 +51,11 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i2 = this.zze;
-            int i3 = i2 + 1;
-            bArr[i2] = (byte) (i & 255);
-            int i4 = i3 + 1;
-            bArr[i3] = (byte) ((i >> 8) & 255);
-            int i5 = i4 + 1;
-            bArr[i4] = (byte) ((i >> 16) & 255);
-            this.zze = i5 + 1;
-            bArr[i5] = (byte) ((i >> 24) & 255);
+            bArr[i2] = (byte) (i & NotificationCenter.voipServiceCreated);
+            bArr[i2 + 1] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
+            bArr[i2 + 2] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
+            this.zze = i2 + 4;
+            bArr[i2 + 3] = (byte) ((i >> 24) & NotificationCenter.voipServiceCreated);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }
@@ -74,22 +72,15 @@ public final class zzbf extends zzbi {
         try {
             byte[] bArr = this.zzc;
             int i = this.zze;
-            int i2 = i + 1;
-            bArr[i] = (byte) (((int) j) & 255);
-            int i3 = i2 + 1;
-            bArr[i2] = (byte) (((int) (j >> 8)) & 255);
-            int i4 = i3 + 1;
-            bArr[i3] = (byte) (((int) (j >> 16)) & 255);
-            int i5 = i4 + 1;
-            bArr[i4] = (byte) (((int) (j >> 24)) & 255);
-            int i6 = i5 + 1;
-            bArr[i5] = (byte) (((int) (j >> 32)) & 255);
-            int i7 = i6 + 1;
-            bArr[i6] = (byte) (((int) (j >> 40)) & 255);
-            int i8 = i7 + 1;
-            bArr[i7] = (byte) (((int) (j >> 48)) & 255);
-            this.zze = i8 + 1;
-            bArr[i8] = (byte) (((int) (j >> 56)) & 255);
+            bArr[i] = (byte) (((int) j) & NotificationCenter.voipServiceCreated);
+            bArr[i + 1] = (byte) (((int) (j >> 8)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 2] = (byte) (((int) (j >> 16)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 3] = (byte) (((int) (j >> 24)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 4] = (byte) (((int) (j >> 32)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 5] = (byte) (((int) (j >> 40)) & NotificationCenter.voipServiceCreated);
+            bArr[i + 6] = (byte) (((int) (j >> 48)) & NotificationCenter.voipServiceCreated);
+            this.zze = i + 8;
+            bArr[i + 7] = (byte) (((int) (j >> 56)) & NotificationCenter.voipServiceCreated);
         } catch (IndexOutOfBoundsException e) {
             throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
         }
@@ -192,7 +183,7 @@ public final class zzbf extends zzbi {
                 byte[] bArr = this.zzc;
                 int i2 = this.zze;
                 this.zze = i2 + 1;
-                bArr[i2] = (byte) ((i & 127) | 128);
+                bArr[i2] = (byte) ((i & NotificationCenter.dialogTranslate) | 128);
                 i >>>= 7;
             } catch (IndexOutOfBoundsException e) {
                 throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);
@@ -213,12 +204,12 @@ public final class zzbf extends zzbi {
                 byte[] bArr = this.zzc;
                 int i = this.zze;
                 this.zze = i + 1;
-                zzeq.zzn(bArr, i, (byte) ((((int) j) & 127) | 128));
+                zzeq.zzn(bArr, i, (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128));
                 j >>>= 7;
             }
             byte[] bArr2 = this.zzc;
             int i2 = this.zze;
-            this.zze = i2 + 1;
+            this.zze = 1 + i2;
             zzeq.zzn(bArr2, i2, (byte) j);
             return;
         }
@@ -227,7 +218,7 @@ public final class zzbf extends zzbi {
                 byte[] bArr3 = this.zzc;
                 int i3 = this.zze;
                 this.zze = i3 + 1;
-                bArr3[i3] = (byte) ((((int) j) & 127) | 128);
+                bArr3[i3] = (byte) ((((int) j) & NotificationCenter.dialogTranslate) | 128);
                 j >>>= 7;
             } catch (IndexOutOfBoundsException e) {
                 throw new zzbg(String.format("Pos: %d, limit: %d, len: %d", Integer.valueOf(this.zze), Integer.valueOf(this.zzd), 1), e);

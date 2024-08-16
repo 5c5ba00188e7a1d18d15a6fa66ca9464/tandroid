@@ -9,10 +9,14 @@ public final class zzj {
     public static SharedPreferences zza(Context context) throws Exception {
         SharedPreferences sharedPreferences;
         synchronized (SharedPreferences.class) {
-            if (zzw == null) {
-                zzw = (SharedPreferences) com.google.android.gms.internal.flags.zze.zza(new zzk(context));
+            try {
+                if (zzw == null) {
+                    zzw = (SharedPreferences) com.google.android.gms.internal.flags.zze.zza(new zzk(context));
+                }
+                sharedPreferences = zzw;
+            } catch (Throwable th) {
+                throw th;
             }
-            sharedPreferences = zzw;
         }
         return sharedPreferences;
     }

@@ -36,6 +36,7 @@ public final class zzbs {
             return zzc(set, collection.iterator());
         }
         Iterator it = set.iterator();
+        collection.getClass();
         boolean z = false;
         while (it.hasNext()) {
             if (collection.contains(it.next())) {

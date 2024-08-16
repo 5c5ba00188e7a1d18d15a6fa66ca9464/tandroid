@@ -80,28 +80,36 @@ public class RemoteConfigComponent {
         ConfigCacheClient cacheClient3;
         ConfigMetadataClient metadataClient;
         ConfigGetParameterHandler getHandler;
-        cacheClient = getCacheClient(str, "fetch");
-        cacheClient2 = getCacheClient(str, "activate");
-        cacheClient3 = getCacheClient(str, "defaults");
-        metadataClient = getMetadataClient(this.context, this.appId, str);
-        getHandler = getGetHandler(cacheClient2, cacheClient3);
-        final Personalization personalization = getPersonalization(this.firebaseApp, str, this.analyticsConnector);
-        if (personalization != null) {
-            getHandler.addListener(new BiConsumer() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda1
-                @Override // com.google.android.gms.common.util.BiConsumer
-                public final void accept(Object obj, Object obj2) {
-                    Personalization.this.logArmActive((String) obj, (ConfigContainer) obj2);
-                }
-            });
+        try {
+            cacheClient = getCacheClient(str, "fetch");
+            cacheClient2 = getCacheClient(str, "activate");
+            cacheClient3 = getCacheClient(str, "defaults");
+            metadataClient = getMetadataClient(this.context, this.appId, str);
+            getHandler = getGetHandler(cacheClient2, cacheClient3);
+            final Personalization personalization = getPersonalization(this.firebaseApp, str, this.analyticsConnector);
+            if (personalization != null) {
+                getHandler.addListener(new BiConsumer() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda1
+                    @Override // com.google.android.gms.common.util.BiConsumer
+                    public final void accept(Object obj, Object obj2) {
+                        Personalization.this.logArmActive((String) obj, (ConfigContainer) obj2);
+                    }
+                });
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return get(this.firebaseApp, str, this.firebaseInstallations, this.firebaseAbt, this.executorService, cacheClient, cacheClient2, cacheClient3, getFetchHandler(str, cacheClient, metadataClient), getHandler, metadataClient);
     }
 
     synchronized FirebaseRemoteConfig get(FirebaseApp firebaseApp, String str, FirebaseInstallationsApi firebaseInstallationsApi, FirebaseABTesting firebaseABTesting, Executor executor, ConfigCacheClient configCacheClient, ConfigCacheClient configCacheClient2, ConfigCacheClient configCacheClient3, ConfigFetchHandler configFetchHandler, ConfigGetParameterHandler configGetParameterHandler, ConfigMetadataClient configMetadataClient) {
-        if (!this.frcNamespaceInstances.containsKey(str)) {
-            FirebaseRemoteConfig firebaseRemoteConfig = new FirebaseRemoteConfig(this.context, firebaseApp, firebaseInstallationsApi, isAbtSupported(firebaseApp, str) ? firebaseABTesting : null, executor, configCacheClient, configCacheClient2, configCacheClient3, configFetchHandler, configGetParameterHandler, configMetadataClient);
-            firebaseRemoteConfig.startLoadingConfigsFromDisk();
-            this.frcNamespaceInstances.put(str, firebaseRemoteConfig);
+        try {
+            if (!this.frcNamespaceInstances.containsKey(str)) {
+                FirebaseRemoteConfig firebaseRemoteConfig = new FirebaseRemoteConfig(this.context, firebaseApp, firebaseInstallationsApi, isAbtSupported(firebaseApp, str) ? firebaseABTesting : null, executor, configCacheClient, configCacheClient2, configCacheClient3, configFetchHandler, configGetParameterHandler, configMetadataClient);
+                firebaseRemoteConfig.startLoadingConfigsFromDisk();
+                this.frcNamespaceInstances.put(str, firebaseRemoteConfig);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.frcNamespaceInstances.get(str);
     }
@@ -115,6 +123,10 @@ public class RemoteConfigComponent {
     }
 
     synchronized ConfigFetchHandler getFetchHandler(String str, ConfigCacheClient configCacheClient, ConfigMetadataClient configMetadataClient) {
+        try {
+        } catch (Throwable th) {
+            throw th;
+        }
         return new ConfigFetchHandler(this.firebaseInstallations, isPrimaryApp(this.firebaseApp) ? this.analyticsConnector : new Provider() { // from class: com.google.firebase.remoteconfig.RemoteConfigComponent$$ExternalSyntheticLambda2
             @Override // com.google.firebase.inject.Provider
             public final Object get() {

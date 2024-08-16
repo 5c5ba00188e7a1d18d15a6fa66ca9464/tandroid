@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
@@ -54,21 +55,24 @@ public class CropRotationWheel extends FrameLayout {
         this.tempRect = new RectF(0.0f, 0.0f, 0.0f, 0.0f);
         Paint paint = new Paint();
         this.whitePaint = paint;
-        paint.setStyle(Paint.Style.FILL);
+        Paint.Style style = Paint.Style.FILL;
+        paint.setStyle(style);
         this.whitePaint.setColor(-1);
-        this.whitePaint.setAlpha(255);
+        this.whitePaint.setAlpha(NotificationCenter.voipServiceCreated);
         this.whitePaint.setAntiAlias(true);
         Paint paint2 = new Paint();
         this.bluePaint = paint2;
-        paint2.setStyle(Paint.Style.FILL);
+        paint2.setStyle(style);
         this.bluePaint.setColor(-11420173);
-        this.bluePaint.setAlpha(255);
+        this.bluePaint.setAlpha(NotificationCenter.voipServiceCreated);
         this.bluePaint.setAntiAlias(true);
         ImageView imageView = new ImageView(context);
         this.mirrorButton = imageView;
         imageView.setImageResource(R.drawable.msg_photo_flip);
         this.mirrorButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
-        this.mirrorButton.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView2 = this.mirrorButton;
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView2.setScaleType(scaleType);
         this.mirrorButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -85,11 +89,11 @@ public class CropRotationWheel extends FrameLayout {
         });
         this.mirrorButton.setContentDescription(LocaleController.getString("AccDescrMirror", R.string.AccDescrMirror));
         addView(this.mirrorButton, LayoutHelper.createFrame(70, 64, 19));
-        ImageView imageView2 = new ImageView(context);
-        this.aspectRatioButton = imageView2;
-        imageView2.setImageResource(R.drawable.msg_photo_cropfix);
+        ImageView imageView3 = new ImageView(context);
+        this.aspectRatioButton = imageView3;
+        imageView3.setImageResource(R.drawable.msg_photo_cropfix);
         this.aspectRatioButton.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
-        this.aspectRatioButton.setScaleType(ImageView.ScaleType.CENTER);
+        this.aspectRatioButton.setScaleType(scaleType);
         this.aspectRatioButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -99,11 +103,11 @@ public class CropRotationWheel extends FrameLayout {
         this.aspectRatioButton.setVisibility(8);
         this.aspectRatioButton.setContentDescription(LocaleController.getString("AccDescrAspectRatio", R.string.AccDescrAspectRatio));
         addView(this.aspectRatioButton, LayoutHelper.createFrame(70, 64, 19));
-        ImageView imageView3 = new ImageView(context);
-        this.rotation90Button = imageView3;
-        imageView3.setImageResource(R.drawable.msg_photo_rotate);
+        ImageView imageView4 = new ImageView(context);
+        this.rotation90Button = imageView4;
+        imageView4.setImageResource(R.drawable.msg_photo_rotate);
         this.rotation90Button.setBackgroundDrawable(Theme.createSelectorDrawable(1090519039));
-        this.rotation90Button.setScaleType(ImageView.ScaleType.CENTER);
+        this.rotation90Button.setScaleType(scaleType);
         this.rotation90Button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Crop.CropRotationWheel$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -216,11 +220,17 @@ public class CropRotationWheel extends FrameLayout {
             float max = Math.max(-45.0f, Math.min(45.0f, f + ((float) ((d / 3.141592653589793d) / 1.649999976158142d))));
             if (Build.VERSION.SDK_INT >= 27) {
                 try {
-                    if ((Math.abs(max - 45.0f) < 0.001f && Math.abs(this.rotation - 45.0f) >= 0.001f) || (Math.abs(max - (-45.0f)) < 0.001f && Math.abs(this.rotation - (-45.0f)) >= 0.001f)) {
+                    if (Math.abs(max - 45.0f) < 0.001f) {
+                        if (Math.abs(this.rotation - 45.0f) < 0.001f) {
+                        }
                         performHapticFeedback(3, 1);
-                    } else if (Math.floor(this.rotation / 2.5f) != Math.floor(max / 2.5f)) {
-                        AndroidUtilities.vibrateCursor(this);
                     }
+                    if (Math.abs(max - (-45.0f)) >= 0.001f || Math.abs(this.rotation - (-45.0f)) < 0.001f) {
+                        if (Math.floor(this.rotation / 2.5f) != Math.floor(max / 2.5f)) {
+                            AndroidUtilities.vibrateCursor(this);
+                        }
+                    }
+                    performHapticFeedback(3, 1);
                 } catch (Exception unused) {
                 }
             }
@@ -261,7 +271,7 @@ public class CropRotationWheel extends FrameLayout {
             }
             i = i2 + 1;
         }
-        this.bluePaint.setAlpha(255);
+        this.bluePaint.setAlpha(NotificationCenter.voipServiceCreated);
         this.tempRect.left = (width - AndroidUtilities.dp(2.5f)) / 2;
         this.tempRect.top = (height - AndroidUtilities.dp(22.0f)) / 2;
         this.tempRect.right = (AndroidUtilities.dp(2.5f) + width) / 2;
@@ -278,7 +288,7 @@ public class CropRotationWheel extends FrameLayout {
         Double.isNaN(d);
         int i5 = (i2 / 2) + ((int) (d * cos));
         float abs = Math.abs(i4) / dp;
-        int min = Math.min(255, Math.max(0, (int) ((1.0f - (abs * abs)) * 255.0f)));
+        int min = Math.min((int) NotificationCenter.voipServiceCreated, Math.max(0, (int) ((1.0f - (abs * abs)) * 255.0f)));
         if (z) {
             paint = this.bluePaint;
         }

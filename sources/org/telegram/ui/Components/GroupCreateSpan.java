@@ -71,14 +71,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:100:0x0333  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x038a  */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x02f2  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x02f4  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0301  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x0304  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x030e  */
-    /* JADX WARN: Removed duplicated region for block: B:96:0x0320  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x037d  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x02eb  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x02ed  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0306  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0318  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0329  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -87,8 +87,6 @@ public class GroupCreateSpan extends View {
         String str;
         ImageLocation forUserOrChat;
         TLRPC$User tLRPC$User;
-        ImageLocation forUserOrChat2;
-        TLRPC$User tLRPC$User2;
         int min;
         StaticLayout staticLayout;
         char c;
@@ -249,32 +247,26 @@ public class GroupCreateSpan extends View {
             }
         } else {
             if (obj instanceof TLRPC$User) {
-                TLRPC$User tLRPC$User3 = (TLRPC$User) obj;
-                this.uid = tLRPC$User3.id;
-                if (UserObject.isReplyUser(tLRPC$User3)) {
+                TLRPC$User tLRPC$User2 = (TLRPC$User) obj;
+                this.uid = tLRPC$User2.id;
+                if (UserObject.isReplyUser(tLRPC$User2)) {
                     str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(12);
-                } else if (UserObject.isUserSelf(tLRPC$User3)) {
+                } else if (UserObject.isUserSelf(tLRPC$User2)) {
                     str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
-                    this.avatarDrawable.setInfo(tLRPC$User3);
-                    String firstName = UserObject.getFirstName(tLRPC$User3);
+                    this.avatarDrawable.setInfo(tLRPC$User2);
+                    String firstName = UserObject.getFirstName(tLRPC$User2);
                     int indexOf = firstName.indexOf(32);
                     firstName = indexOf >= 0 ? firstName.substring(0, indexOf) : firstName;
-                    forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User3, 1);
-                    String str3 = firstName;
-                    tLRPC$User2 = tLRPC$User3;
-                    str = str3;
+                    ImageLocation forUserOrChat2 = ImageLocation.getForUserOrChat(tLRPC$User2, 1);
                     tLRPC$User = tLRPC$User2;
+                    str = firstName;
                     forUserOrChat = forUserOrChat2;
                 }
-                tLRPC$User2 = null;
-                forUserOrChat2 = null;
-                tLRPC$User = tLRPC$User2;
-                forUserOrChat = forUserOrChat2;
             } else if (obj instanceof TLRPC$Chat) {
                 TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) obj;
                 this.avatarDrawable.setInfo(tLRPC$Chat);
@@ -285,7 +277,7 @@ public class GroupCreateSpan extends View {
             } else if (obj instanceof TLRPC$TL_help_country) {
                 TLRPC$TL_help_country tLRPC$TL_help_country = (TLRPC$TL_help_country) obj;
                 String languageFlag = LocaleController.getLanguageFlag(tLRPC$TL_help_country.iso2);
-                String str4 = tLRPC$TL_help_country.default_name;
+                String str3 = tLRPC$TL_help_country.default_name;
                 this.avatarDrawable.setAvatarType(17);
                 this.avatarDrawable.setTextSize(AndroidUtilities.dp(24.0f));
                 this.avatarDrawable.setInfo(0L, languageFlag, null, null);
@@ -294,7 +286,7 @@ public class GroupCreateSpan extends View {
                 this.drawAvatarBackground = false;
                 avatarDrawable2.setDrawAvatarBackground(false);
                 this.uid = tLRPC$TL_help_country.default_name.hashCode();
-                str = str4;
+                str = str3;
             } else {
                 this.avatarDrawable.setInfo(0L, contact.first_name, contact.last_name);
                 this.uid = contact.contact_id;
@@ -311,10 +303,10 @@ public class GroupCreateSpan extends View {
             this.imageReceiver.setParentView(this);
             this.imageReceiver.setImageCoords(!this.drawAvatarBackground ? 0.0f : AndroidUtilities.dp(4.0f), 0.0f, AndroidUtilities.dp(!z ? 28.0f : 32.0f), AndroidUtilities.dp(z ? 28.0f : 32.0f));
             if (!AndroidUtilities.isTablet()) {
-                min = AndroidUtilities.dp(((530 - (z ? 28 : 32)) - 18) - 114) / 2;
+                min = AndroidUtilities.dp(398 - (z ? 28 : 32)) / 2;
             } else {
                 android.graphics.Point point = AndroidUtilities.displaySize;
-                min = (Math.min(point.x, point.y) - AndroidUtilities.dp(((z ? 28 : 32) + 18) + R.styleable.AppCompatTheme_tooltipForegroundColor)) / 2;
+                min = (Math.min(point.x, point.y) - AndroidUtilities.dp((z ? 28 : 32) + NotificationCenter.httpFileDidFailedLoad)) / 2;
             }
             staticLayout = new StaticLayout(TextUtils.ellipsize(Emoji.replaceEmoji((CharSequence) str.replace('\n', ' '), textPaint.getFontMetricsInt(), AndroidUtilities.dp(12.0f), false), textPaint, min, TextUtils.TruncateAt.END), textPaint, 1000, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             this.nameLayout = staticLayout;

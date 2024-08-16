@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.vision;
 
 import java.io.PrintStream;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
 public final class zzfe {
@@ -27,13 +28,14 @@ public final class zzfe {
         try {
             return (Integer) Class.forName("android.os.Build$VERSION").getField("SDK_INT").get(null);
         } catch (Exception e) {
-            System.err.println("Failed to retrieve value from android.os.Build$VERSION.SDK_INT due to the following exception.");
-            e.printStackTrace(System.err);
+            PrintStream printStream = System.err;
+            printStream.println("Failed to retrieve value from android.os.Build$VERSION.SDK_INT due to the following exception.");
+            e.printStackTrace(printStream);
             return null;
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0065  */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x0063  */
     static {
         Integer num;
         zzfd zzaVar;
@@ -49,12 +51,12 @@ public final class zzfe {
                 th = th2;
                 PrintStream printStream = System.err;
                 String name = zza.class.getName();
-                StringBuilder sb = new StringBuilder(name.length() + 133);
+                StringBuilder sb = new StringBuilder(name.length() + NotificationCenter.didUpdateConnectionState);
                 sb.append("An error has occurred when initializing the try-with-resources desuguring strategy. The default strategy ");
                 sb.append(name);
                 sb.append("will be used. The error is: ");
                 printStream.println(sb.toString());
-                th.printStackTrace(System.err);
+                th.printStackTrace(printStream);
                 zzaVar = new zza();
                 zza = zzaVar;
                 zzb = num != null ? num.intValue() : 1;

@@ -236,7 +236,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x00bc A[LOOP:0: B:20:0x00b6->B:22:0x00bc, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x00bd A[LOOP:0: B:20:0x00b7->B:22:0x00bd, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -391,15 +391,14 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     }
 
     private void updateRows() {
-        int i = 0 + 1;
         this.previewRow = 0;
-        this.rowCount = i + 1;
-        this.infoRow = i;
+        this.rowCount = 2;
+        this.infoRow = 1;
         if (UserConfig.getInstance(this.currentAccount).isPremium()) {
             this.reactionsStartRow = -1;
-            int i2 = this.rowCount;
-            this.rowCount = i2 + 1;
-            this.premiumReactionRow = i2;
+            int i = this.rowCount;
+            this.rowCount = i + 1;
+            this.premiumReactionRow = i;
             return;
         }
         this.premiumReactionRow = -1;

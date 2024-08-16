@@ -106,7 +106,7 @@ public class TimezoneSelector extends BaseFragment implements NotificationCenter
         BackupImageView backupImageView = new BackupImageView(context);
         backupImageView.getImageReceiver().setAllowLoadingOnAttachedOnly(false);
         MediaDataController.getInstance(this.currentAccount).setPlaceholderImage(backupImageView, "RestrictedEmoji", "🌖", "130_130");
-        this.emptyView.addView(backupImageView, LayoutHelper.createLinear(130, 130, 49, 0, 42, 0, 12));
+        this.emptyView.addView(backupImageView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49, 0, 42, 0, 12));
         TextView textView = new TextView(context);
         textView.setText(LocaleController.getString(R.string.TimezoneNotFound));
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, this.resourceProvider));

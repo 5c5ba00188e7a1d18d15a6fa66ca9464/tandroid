@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class TsExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.ts.TsExtractor$$ExternalSyntheticLambda0
@@ -114,28 +115,25 @@ public final class TsExtractor implements Extractor {
         resetPayloadReaders();
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:10:0x001e, code lost:
+        r1 = r1 + 1;
+     */
     @Override // com.google.android.exoplayer2.extractor.Extractor
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public boolean sniff(ExtractorInput extractorInput) throws IOException {
-        boolean z;
         byte[] data = this.tsPacketBuffer.getData();
         extractorInput.peekFully(data, 0, 940);
-        for (int i = 0; i < 188; i++) {
-            int i2 = 0;
-            while (true) {
-                if (i2 >= 5) {
-                    z = true;
+        int i = 0;
+        while (i < 188) {
+            for (int i2 = 0; i2 < 5; i2++) {
+                if (data[(i2 * NotificationCenter.storiesBlocklistUpdate) + i] != 71) {
                     break;
-                } else if (data[(i2 * 188) + i] != 71) {
-                    z = false;
-                    break;
-                } else {
-                    i2++;
                 }
             }
-            if (z) {
-                extractorInput.skipFully(i);
-                return true;
-            }
+            extractorInput.skipFully(i);
+            return true;
         }
         return false;
     }
@@ -176,7 +174,7 @@ public final class TsExtractor implements Extractor {
     public int read(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         long length = extractorInput.getLength();
         if (this.tracksEnded) {
-            if (((length == -1 || this.mode == 2) ? false : true) && !this.durationReader.isDurationReadFinished()) {
+            if (length != -1 && this.mode != 2 && !this.durationReader.isDurationReadFinished()) {
                 return this.durationReader.readDuration(extractorInput, positionHolder, this.pcrPid);
             }
             maybeOutputSeekMap(length);
@@ -204,7 +202,7 @@ public final class TsExtractor implements Extractor {
                 this.tsPacketBuffer.setPosition(findEndOfFirstTsPacketInBuffer);
                 return 0;
             }
-            int i = ((4194304 & readInt) != 0 ? 1 : 0) | 0;
+            int i = (4194304 & readInt) != 0 ? 1 : 0;
             int i2 = (2096896 & readInt) >> 8;
             boolean z = (readInt & 32) != 0;
             TsPayloadReader tsPayloadReader = (readInt & 16) != 0 ? this.tsPayloadReaders.get(i2) : null;
@@ -282,7 +280,7 @@ public final class TsExtractor implements Extractor {
         int limit = this.tsPacketBuffer.limit();
         int findSyncBytePosition = TsUtil.findSyncBytePosition(this.tsPacketBuffer.getData(), position, limit);
         this.tsPacketBuffer.setPosition(findSyncBytePosition);
-        int i = findSyncBytePosition + 188;
+        int i = findSyncBytePosition + NotificationCenter.storiesBlocklistUpdate;
         if (i > limit) {
             int i2 = this.bytesSinceLastSync + (findSyncBytePosition - position);
             this.bytesSinceLastSync = i2;
@@ -479,20 +477,20 @@ public final class TsExtractor implements Extractor {
                                     i3 = 36;
                                 }
                             }
-                            i3 = 172;
+                            i3 = NotificationCenter.configLoaded;
                         }
-                        i3 = 135;
+                        i3 = NotificationCenter.fileUploadFailed;
                     }
-                    i3 = 129;
+                    i3 = NotificationCenter.walletPendingTransactionsChanged;
                 } else {
                     if (readUnsignedByte != 106) {
                         if (readUnsignedByte != 122) {
                             if (readUnsignedByte == 127) {
                                 if (parsableByteArray.readUnsignedByte() != 21) {
                                 }
-                                i3 = 172;
+                                i3 = NotificationCenter.configLoaded;
                             } else if (readUnsignedByte == 123) {
-                                i3 = 138;
+                                i3 = NotificationCenter.fileLoaded;
                             } else if (readUnsignedByte == 10) {
                                 str = parsableByteArray.readString(3).trim();
                             } else if (readUnsignedByte == 89) {
@@ -507,12 +505,12 @@ public final class TsExtractor implements Extractor {
                                 arrayList = arrayList2;
                                 i3 = 89;
                             } else if (readUnsignedByte == 111) {
-                                i3 = 257;
+                                i3 = NotificationCenter.webRtcSpeakerAmplitudeEvent;
                             }
                         }
-                        i3 = 135;
+                        i3 = NotificationCenter.fileUploadFailed;
                     }
-                    i3 = 129;
+                    i3 = NotificationCenter.walletPendingTransactionsChanged;
                 }
                 parsableByteArray.skipBytes(position2 - parsableByteArray.getPosition());
             }

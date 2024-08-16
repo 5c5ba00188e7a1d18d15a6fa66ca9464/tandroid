@@ -380,9 +380,8 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                     if (sharedElementSourceNames.isEmpty()) {
                         view6 = view7;
                     } else {
-                        View view8 = arrayMap3.get(sharedElementSourceNames.get(0));
-                        fragmentTransitionImpl2.setEpicenter(wrapTransitionInSet, view8);
-                        view6 = view8;
+                        view6 = arrayMap3.get(sharedElementSourceNames.get(0));
+                        fragmentTransitionImpl2.setEpicenter(wrapTransitionInSet, view6);
                     }
                     arrayList3 = arrayList8;
                     arrayList3.addAll(arrayMap4.values());
@@ -419,13 +418,13 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
             arrayList6 = arrayList3;
             fragmentTransitionImpl2 = fragmentTransitionImpl;
         }
-        View view9 = view6;
+        View view8 = view6;
         ArrayMap arrayMap5 = arrayMap2;
         Collection<?> collection = arrayList6;
         SpecialEffectsController.Operation operation9 = operation7;
         Collection<?> collection2 = arrayList5;
         Rect rect3 = rect2;
-        View view10 = view5;
+        View view9 = view5;
         FragmentTransitionImpl fragmentTransitionImpl3 = fragmentTransitionImpl2;
         SpecialEffectsController.Operation operation10 = operation8;
         ArrayList arrayList9 = new ArrayList();
@@ -446,10 +445,10 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                     }
                     arrayList2 = collection;
                     arrayList = collection2;
-                    view = view10;
+                    view = view9;
                     mergeTransitionsTogether = obj4;
                     operation3 = operation10;
-                    view2 = view9;
+                    view2 = view8;
                 } else {
                     final ArrayList<View> arrayList10 = new ArrayList<>();
                     Object obj6 = obj4;
@@ -462,17 +461,17 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                         }
                     }
                     if (arrayList10.isEmpty()) {
-                        fragmentTransitionImpl3.addTarget(cloneTransition, view10);
+                        fragmentTransitionImpl3.addTarget(cloneTransition, view9);
                         arrayList2 = collection;
                         arrayList = collection2;
-                        view = view10;
+                        view = view9;
                         operation4 = operation11;
                         obj2 = obj5;
                         operation3 = operation10;
                         obj = obj6;
                     } else {
                         fragmentTransitionImpl3.addTargets(cloneTransition, arrayList10);
-                        view = view10;
+                        view = view9;
                         obj = obj6;
                         arrayList = collection2;
                         obj2 = obj5;
@@ -500,9 +499,9 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                         if (z3) {
                             fragmentTransitionImpl3.setEpicenter(cloneTransition, rect3);
                         }
-                        view2 = view9;
+                        view2 = view8;
                     } else {
-                        view2 = view9;
+                        view2 = view8;
                         fragmentTransitionImpl3.setEpicenter(cloneTransition, view2);
                     }
                     hashMap.put(operation4, Boolean.TRUE);
@@ -516,8 +515,8 @@ class DefaultSpecialEffectsController extends SpecialEffectsController {
                 }
                 operation10 = operation3;
                 obj4 = mergeTransitionsTogether;
-                view9 = view2;
-                view10 = view;
+                view8 = view2;
+                view9 = view;
                 collection2 = arrayList;
                 collection = arrayList2;
             }

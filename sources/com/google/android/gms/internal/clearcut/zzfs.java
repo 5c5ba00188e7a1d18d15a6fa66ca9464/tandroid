@@ -5,6 +5,7 @@ import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ReadOnlyBufferException;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class zzfs {
     private final ByteBuffer zzgd;
@@ -78,7 +79,7 @@ public final class zzfs {
 
     private final void zzap(int i) throws IOException {
         while ((i & (-128)) != 0) {
-            zzao((i & 127) | 128);
+            zzao((i & NotificationCenter.dialogTranslate) | 128);
             i >>>= 7;
         }
         zzao(i);
@@ -104,50 +105,50 @@ public final class zzfs {
 
     private static void zzd(CharSequence charSequence, ByteBuffer byteBuffer) {
         int i;
-        int i2;
         char charAt;
-        int i3;
         if (byteBuffer.isReadOnly()) {
             throw new ReadOnlyBufferException();
         }
-        int i4 = 0;
+        char c = 57343;
+        int i2 = 0;
         if (!byteBuffer.hasArray()) {
             int length = charSequence.length();
-            while (i4 < length) {
-                char charAt2 = charSequence.charAt(i4);
-                char c = charAt2;
+            while (i2 < length) {
+                char charAt2 = charSequence.charAt(i2);
+                char c2 = charAt2;
                 if (charAt2 >= 128) {
                     if (charAt2 < 2048) {
-                        i3 = (charAt2 >>> 6) | 960;
-                    } else if (charAt2 >= 55296 && 57343 >= charAt2) {
-                        int i5 = i4 + 1;
-                        if (i5 != charSequence.length()) {
-                            char charAt3 = charSequence.charAt(i5);
-                            if (Character.isSurrogatePair(charAt2, charAt3)) {
-                                int codePoint = Character.toCodePoint(charAt2, charAt3);
-                                byteBuffer.put((byte) ((codePoint >>> 18) | 240));
-                                byteBuffer.put((byte) (((codePoint >>> 12) & 63) | 128));
-                                byteBuffer.put((byte) (((codePoint >>> 6) & 63) | 128));
-                                byteBuffer.put((byte) ((codePoint & 63) | 128));
-                                i4 = i5;
-                                i4++;
-                            } else {
-                                i4 = i5;
-                            }
-                        }
-                        StringBuilder sb = new StringBuilder(39);
-                        sb.append("Unpaired surrogate at index ");
-                        sb.append(i4 - 1);
-                        throw new IllegalArgumentException(sb.toString());
+                        byteBuffer.put((byte) ((charAt2 >>> 6) | 960));
+                        c2 = (charAt2 & '?') | 128;
                     } else {
+                        if (charAt2 >= 55296 && 57343 >= charAt2) {
+                            int i3 = i2 + 1;
+                            if (i3 != charSequence.length()) {
+                                char charAt3 = charSequence.charAt(i3);
+                                if (Character.isSurrogatePair(charAt2, charAt3)) {
+                                    int codePoint = Character.toCodePoint(charAt2, charAt3);
+                                    byteBuffer.put((byte) ((codePoint >>> 18) | NotificationCenter.reloadInterface));
+                                    byteBuffer.put((byte) (((codePoint >>> 12) & 63) | 128));
+                                    byteBuffer.put((byte) (((codePoint >>> 6) & 63) | 128));
+                                    byteBuffer.put((byte) ((codePoint & 63) | 128));
+                                    i2 = i3;
+                                } else {
+                                    i2 = i3;
+                                }
+                            }
+                            StringBuilder sb = new StringBuilder(39);
+                            sb.append("Unpaired surrogate at index ");
+                            sb.append(i2 - 1);
+                            throw new IllegalArgumentException(sb.toString());
+                        }
                         byteBuffer.put((byte) ((charAt2 >>> '\f') | 480));
-                        i3 = ((charAt2 >>> 6) & 63) | 128;
+                        byteBuffer.put((byte) (((charAt2 >>> 6) & 63) | 128));
+                        byteBuffer.put((byte) ((charAt2 & '?') | 128));
+                        i2++;
                     }
-                    byteBuffer.put((byte) i3);
-                    c = (charAt2 & '?') | 128;
                 }
-                byteBuffer.put((byte) c);
-                i4++;
+                byteBuffer.put((byte) c2);
+                i2++;
             }
             return;
         }
@@ -156,73 +157,67 @@ public final class zzfs {
             int arrayOffset = byteBuffer.arrayOffset() + byteBuffer.position();
             int remaining = byteBuffer.remaining();
             int length2 = charSequence.length();
-            int i6 = remaining + arrayOffset;
-            while (i4 < length2) {
-                int i7 = i4 + arrayOffset;
-                if (i7 >= i6 || (charAt = charSequence.charAt(i4)) >= 128) {
+            int i4 = remaining + arrayOffset;
+            while (i2 < length2) {
+                int i5 = i2 + arrayOffset;
+                if (i5 >= i4 || (charAt = charSequence.charAt(i2)) >= 128) {
                     break;
                 }
-                array[i7] = (byte) charAt;
-                i4++;
+                array[i5] = (byte) charAt;
+                i2++;
             }
-            if (i4 == length2) {
+            if (i2 == length2) {
                 i = arrayOffset + length2;
             } else {
-                i = arrayOffset + i4;
-                while (i4 < length2) {
-                    char charAt4 = charSequence.charAt(i4);
-                    if (charAt4 >= 128 || i >= i6) {
-                        if (charAt4 < 2048 && i <= i6 - 2) {
-                            int i8 = i + 1;
-                            array[i] = (byte) ((charAt4 >>> 6) | 960);
-                            i = i8 + 1;
-                            array[i8] = (byte) ((charAt4 & '?') | 128);
-                        } else if ((charAt4 >= 55296 && 57343 >= charAt4) || i > i6 - 3) {
-                            if (i > i6 - 4) {
-                                StringBuilder sb2 = new StringBuilder(37);
-                                sb2.append("Failed writing ");
-                                sb2.append(charAt4);
-                                sb2.append(" at index ");
-                                sb2.append(i);
-                                throw new ArrayIndexOutOfBoundsException(sb2.toString());
-                            }
-                            int i9 = i4 + 1;
-                            if (i9 != charSequence.length()) {
-                                char charAt5 = charSequence.charAt(i9);
-                                if (Character.isSurrogatePair(charAt4, charAt5)) {
-                                    int codePoint2 = Character.toCodePoint(charAt4, charAt5);
-                                    int i10 = i + 1;
-                                    array[i] = (byte) ((codePoint2 >>> 18) | 240);
-                                    int i11 = i10 + 1;
-                                    array[i10] = (byte) (((codePoint2 >>> 12) & 63) | 128);
-                                    int i12 = i11 + 1;
-                                    array[i11] = (byte) (((codePoint2 >>> 6) & 63) | 128);
-                                    i = i12 + 1;
-                                    array[i12] = (byte) ((codePoint2 & 63) | 128);
-                                    i4 = i9;
-                                } else {
-                                    i4 = i9;
-                                }
-                            }
-                            StringBuilder sb3 = new StringBuilder(39);
-                            sb3.append("Unpaired surrogate at index ");
-                            sb3.append(i4 - 1);
-                            throw new IllegalArgumentException(sb3.toString());
-                        } else {
-                            int i13 = i + 1;
-                            array[i] = (byte) ((charAt4 >>> '\f') | 480);
-                            int i14 = i13 + 1;
-                            array[i13] = (byte) (((charAt4 >>> 6) & 63) | 128);
-                            i2 = i14 + 1;
-                            array[i14] = (byte) ((charAt4 & '?') | 128);
-                        }
-                        i4++;
-                    } else {
-                        i2 = i + 1;
+                i = arrayOffset + i2;
+                while (i2 < length2) {
+                    char charAt4 = charSequence.charAt(i2);
+                    if (charAt4 < 128 && i < i4) {
                         array[i] = (byte) charAt4;
+                        i++;
+                    } else if (charAt4 < 2048 && i <= i4 - 2) {
+                        int i6 = i + 1;
+                        array[i] = (byte) ((charAt4 >>> 6) | 960);
+                        i += 2;
+                        array[i6] = (byte) ((charAt4 & '?') | 128);
+                    } else if ((charAt4 >= 55296 && c >= charAt4) || i > i4 - 3) {
+                        if (i > i4 - 4) {
+                            StringBuilder sb2 = new StringBuilder(37);
+                            sb2.append("Failed writing ");
+                            sb2.append(charAt4);
+                            sb2.append(" at index ");
+                            sb2.append(i);
+                            throw new ArrayIndexOutOfBoundsException(sb2.toString());
+                        }
+                        int i7 = i2 + 1;
+                        if (i7 != charSequence.length()) {
+                            char charAt5 = charSequence.charAt(i7);
+                            if (Character.isSurrogatePair(charAt4, charAt5)) {
+                                int codePoint2 = Character.toCodePoint(charAt4, charAt5);
+                                array[i] = (byte) ((codePoint2 >>> 18) | NotificationCenter.reloadInterface);
+                                array[i + 1] = (byte) (((codePoint2 >>> 12) & 63) | 128);
+                                int i8 = i + 3;
+                                array[i + 2] = (byte) (((codePoint2 >>> 6) & 63) | 128);
+                                i += 4;
+                                array[i8] = (byte) ((codePoint2 & 63) | 128);
+                                i2 = i7;
+                            } else {
+                                i2 = i7;
+                            }
+                        }
+                        StringBuilder sb3 = new StringBuilder(39);
+                        sb3.append("Unpaired surrogate at index ");
+                        sb3.append(i2 - 1);
+                        throw new IllegalArgumentException(sb3.toString());
+                    } else {
+                        array[i] = (byte) ((charAt4 >>> '\f') | 480);
+                        int i9 = i + 2;
+                        array[i + 1] = (byte) (((charAt4 >>> 6) & 63) | 128);
+                        i += 3;
+                        array[i9] = (byte) ((charAt4 & '?') | 128);
                     }
-                    i = i2;
-                    i4++;
+                    i2++;
+                    c = 57343;
                 }
             }
             byteBuffer.position(i - byteBuffer.arrayOffset());
@@ -404,7 +399,7 @@ public final class zzfs {
 
     public final void zzn(long j) throws IOException {
         while (((-128) & j) != 0) {
-            zzao((((int) j) & 127) | 128);
+            zzao((((int) j) & NotificationCenter.dialogTranslate) | 128);
             j >>>= 7;
         }
         zzao((int) j);

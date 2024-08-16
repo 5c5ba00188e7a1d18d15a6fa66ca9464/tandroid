@@ -93,6 +93,99 @@ public final class RtspHeaders {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static String convertToStandardHeaderName(String str) {
-        return Ascii.equalsIgnoreCase(str, "Accept") ? "Accept" : Ascii.equalsIgnoreCase(str, "Allow") ? "Allow" : Ascii.equalsIgnoreCase(str, "Authorization") ? "Authorization" : Ascii.equalsIgnoreCase(str, "Bandwidth") ? "Bandwidth" : Ascii.equalsIgnoreCase(str, "Blocksize") ? "Blocksize" : Ascii.equalsIgnoreCase(str, "Cache-Control") ? "Cache-Control" : Ascii.equalsIgnoreCase(str, "Connection") ? "Connection" : Ascii.equalsIgnoreCase(str, "Content-Base") ? "Content-Base" : Ascii.equalsIgnoreCase(str, "Content-Encoding") ? "Content-Encoding" : Ascii.equalsIgnoreCase(str, "Content-Language") ? "Content-Language" : Ascii.equalsIgnoreCase(str, "Content-Length") ? "Content-Length" : Ascii.equalsIgnoreCase(str, "Content-Location") ? "Content-Location" : Ascii.equalsIgnoreCase(str, "Content-Type") ? "Content-Type" : Ascii.equalsIgnoreCase(str, "CSeq") ? "CSeq" : Ascii.equalsIgnoreCase(str, "Date") ? "Date" : Ascii.equalsIgnoreCase(str, "Expires") ? "Expires" : Ascii.equalsIgnoreCase(str, "Location") ? "Location" : Ascii.equalsIgnoreCase(str, "Proxy-Authenticate") ? "Proxy-Authenticate" : Ascii.equalsIgnoreCase(str, "Proxy-Require") ? "Proxy-Require" : Ascii.equalsIgnoreCase(str, "Public") ? "Public" : Ascii.equalsIgnoreCase(str, "Range") ? "Range" : Ascii.equalsIgnoreCase(str, "RTP-Info") ? "RTP-Info" : Ascii.equalsIgnoreCase(str, "RTCP-Interval") ? "RTCP-Interval" : Ascii.equalsIgnoreCase(str, "Scale") ? "Scale" : Ascii.equalsIgnoreCase(str, "Session") ? "Session" : Ascii.equalsIgnoreCase(str, "Speed") ? "Speed" : Ascii.equalsIgnoreCase(str, "Supported") ? "Supported" : Ascii.equalsIgnoreCase(str, "Timestamp") ? "Timestamp" : Ascii.equalsIgnoreCase(str, "Transport") ? "Transport" : Ascii.equalsIgnoreCase(str, "User-Agent") ? "User-Agent" : Ascii.equalsIgnoreCase(str, "Via") ? "Via" : Ascii.equalsIgnoreCase(str, "WWW-Authenticate") ? "WWW-Authenticate" : str;
+        if (Ascii.equalsIgnoreCase(str, "Accept")) {
+            return "Accept";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Allow")) {
+            return "Allow";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Authorization")) {
+            return "Authorization";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Bandwidth")) {
+            return "Bandwidth";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Blocksize")) {
+            return "Blocksize";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Cache-Control")) {
+            return "Cache-Control";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Connection")) {
+            return "Connection";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Base")) {
+            return "Content-Base";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Encoding")) {
+            return "Content-Encoding";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Language")) {
+            return "Content-Language";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Length")) {
+            return "Content-Length";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Location")) {
+            return "Content-Location";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Content-Type")) {
+            return "Content-Type";
+        }
+        if (Ascii.equalsIgnoreCase(str, "CSeq")) {
+            return "CSeq";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Date")) {
+            return "Date";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Expires")) {
+            return "Expires";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Location")) {
+            return "Location";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Proxy-Authenticate")) {
+            return "Proxy-Authenticate";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Proxy-Require")) {
+            return "Proxy-Require";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Public")) {
+            return "Public";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Range")) {
+            return "Range";
+        }
+        if (Ascii.equalsIgnoreCase(str, "RTP-Info")) {
+            return "RTP-Info";
+        }
+        if (Ascii.equalsIgnoreCase(str, "RTCP-Interval")) {
+            return "RTCP-Interval";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Scale")) {
+            return "Scale";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Session")) {
+            return "Session";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Speed")) {
+            return "Speed";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Supported")) {
+            return "Supported";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Timestamp")) {
+            return "Timestamp";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Transport")) {
+            return "Transport";
+        }
+        if (Ascii.equalsIgnoreCase(str, "User-Agent")) {
+            return "User-Agent";
+        }
+        if (Ascii.equalsIgnoreCase(str, "Via")) {
+            return "Via";
+        }
+        return Ascii.equalsIgnoreCase(str, "WWW-Authenticate") ? "WWW-Authenticate" : str;
     }
 }

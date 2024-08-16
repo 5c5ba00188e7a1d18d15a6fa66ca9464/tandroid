@@ -205,15 +205,16 @@ public class VideoTimelineView extends View {
                 float dp4 = (dp2 - AndroidUtilities.dp(16.0f)) / f;
                 this.progressLeft = dp4;
                 float f2 = this.progressRight;
-                float f3 = this.maxProgressDiff;
-                if (f2 - dp4 > f3) {
-                    this.progressRight = dp4 + f3;
+                float f3 = f2 - dp4;
+                float f4 = this.maxProgressDiff;
+                if (f3 > f4) {
+                    this.progressRight = dp4 + f4;
                 } else {
-                    float f4 = this.minProgressDiff;
-                    if (f4 != 0.0f && f2 - dp4 < f4) {
-                        float f5 = f2 - f4;
-                        this.progressLeft = f5;
-                        if (f5 < 0.0f) {
+                    float f5 = this.minProgressDiff;
+                    if (f5 != 0.0f && f3 < f5) {
+                        float f6 = f2 - f5;
+                        this.progressLeft = f6;
+                        if (f6 < 0.0f) {
                             this.progressLeft = 0.0f;
                         }
                     }
@@ -234,16 +235,17 @@ public class VideoTimelineView extends View {
                 }
                 float dp5 = (dp - AndroidUtilities.dp(16.0f)) / f;
                 this.progressRight = dp5;
-                float f6 = this.progressLeft;
-                float f7 = this.maxProgressDiff;
-                if (dp5 - f6 > f7) {
-                    this.progressLeft = dp5 - f7;
+                float f7 = this.progressLeft;
+                float f8 = dp5 - f7;
+                float f9 = this.maxProgressDiff;
+                if (f8 > f9) {
+                    this.progressLeft = dp5 - f9;
                 } else {
-                    float f8 = this.minProgressDiff;
-                    if (f8 != 0.0f && dp5 - f6 < f8) {
-                        float f9 = f6 + f8;
-                        this.progressRight = f9;
-                        if (f9 > 1.0f) {
+                    float f10 = this.minProgressDiff;
+                    if (f10 != 0.0f && f8 < f10) {
+                        float f11 = f7 + f10;
+                        this.progressRight = f11;
+                        if (f11 > 1.0f) {
                             this.progressRight = 1.0f;
                         }
                     }
@@ -511,28 +513,28 @@ public class VideoTimelineView extends View {
             paint.setColor(0);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             canvas2.drawColor(Theme.getColor(Theme.key_chat_messagePanelBackground));
-            int i7 = this.roundCornersSize;
-            canvas2.drawCircle(i7, i7, i7, paint);
+            float f = this.roundCornersSize;
+            canvas2.drawCircle(f, f, f, paint);
         }
-        int i8 = this.roundCornersSize >> 1;
+        int i7 = this.roundCornersSize >> 1;
         canvas.save();
-        float f = i3;
-        float f2 = i4;
-        canvas.drawBitmap(this.roundCornerBitmap, f, f2, (Paint) null);
-        float f3 = (i + i4) - i8;
-        canvas.rotate(-90.0f, i3 + i8, f3);
-        canvas.drawBitmap(this.roundCornerBitmap, f, i5 - this.roundCornersSize, (Paint) null);
+        float f2 = i3;
+        float f3 = i4;
+        canvas.drawBitmap(this.roundCornerBitmap, f2, f3, (Paint) null);
+        float f4 = (i + i4) - i7;
+        canvas.rotate(-90.0f, i3 + i7, f4);
+        canvas.drawBitmap(this.roundCornerBitmap, f2, i5 - this.roundCornersSize, (Paint) null);
         canvas.restore();
         canvas.save();
-        float f4 = (i3 + i2) - i8;
-        canvas.rotate(180.0f, f4, f3);
+        float f5 = (i3 + i2) - i7;
+        canvas.rotate(180.0f, f5, f4);
         Bitmap bitmap = this.roundCornerBitmap;
-        int i9 = this.roundCornersSize;
-        canvas.drawBitmap(bitmap, i6 - i9, i5 - i9, (Paint) null);
+        int i8 = this.roundCornersSize;
+        canvas.drawBitmap(bitmap, i6 - i8, i5 - i8, (Paint) null);
         canvas.restore();
         canvas.save();
-        canvas.rotate(90.0f, f4, i4 + i8);
-        canvas.drawBitmap(this.roundCornerBitmap, i6 - this.roundCornersSize, f2, (Paint) null);
+        canvas.rotate(90.0f, f5, i4 + i7);
+        canvas.drawBitmap(this.roundCornerBitmap, i6 - this.roundCornersSize, f3, (Paint) null);
         canvas.restore();
     }
 

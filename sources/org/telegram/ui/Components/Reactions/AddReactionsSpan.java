@@ -13,6 +13,7 @@ import android.text.style.ReplacementSpan;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -58,7 +59,7 @@ public class AddReactionsSpan extends ReplacementSpan {
     }
 
     public void show(final View view) {
-        ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, 255);
+        ValueAnimator ofInt = ValueAnimator.ofInt(this.alpha, NotificationCenter.voipServiceCreated);
         ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Reactions.AddReactionsSpan$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {

@@ -4,8 +4,6 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Size;
-import android.util.SizeF;
 import android.util.SparseArray;
 import androidx.core.os.BundleKt;
 import androidx.savedstate.SavedStateRegistry;
@@ -60,7 +58,7 @@ public final class SavedStateHandle {
         this.savedStateProviders = new LinkedHashMap();
         this.liveDatas = new LinkedHashMap();
         this.flows = new LinkedHashMap();
-        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda0
+        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda2
             @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
             public final Bundle saveState() {
                 Bundle bundle;
@@ -76,7 +74,7 @@ public final class SavedStateHandle {
         this.savedStateProviders = new LinkedHashMap();
         this.liveDatas = new LinkedHashMap();
         this.flows = new LinkedHashMap();
-        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda0
+        this.savedStateProvider = new SavedStateRegistry.SavedStateProvider() { // from class: androidx.lifecycle.SavedStateHandle$$ExternalSyntheticLambda2
             @Override // androidx.savedstate.SavedStateRegistry.SavedStateProvider
             public final Bundle saveState() {
                 Bundle bundle;
@@ -138,7 +136,7 @@ public final class SavedStateHandle {
             }
             ArrayList parcelableArrayList = bundle.getParcelableArrayList("keys");
             ArrayList parcelableArrayList2 = bundle.getParcelableArrayList("values");
-            if (!((parcelableArrayList == null || parcelableArrayList2 == null || parcelableArrayList.size() != parcelableArrayList2.size()) ? false : true)) {
+            if (parcelableArrayList == null || parcelableArrayList2 == null || parcelableArrayList.size() != parcelableArrayList2.size()) {
                 throw new IllegalStateException("Invalid bundle passed as restored state".toString());
             }
             LinkedHashMap linkedHashMap = new LinkedHashMap();
@@ -169,41 +167,8 @@ public final class SavedStateHandle {
     }
 
     static {
-        Class<? extends Object>[] clsArr = new Class[29];
-        clsArr[0] = Boolean.TYPE;
-        clsArr[1] = boolean[].class;
-        clsArr[2] = Double.TYPE;
-        clsArr[3] = double[].class;
-        Class<SizeF> cls = Integer.TYPE;
-        clsArr[4] = cls;
-        clsArr[5] = int[].class;
-        clsArr[6] = Long.TYPE;
-        clsArr[7] = long[].class;
-        clsArr[8] = String.class;
-        clsArr[9] = String[].class;
-        clsArr[10] = Binder.class;
-        clsArr[11] = Bundle.class;
-        clsArr[12] = Byte.TYPE;
-        clsArr[13] = byte[].class;
-        clsArr[14] = Character.TYPE;
-        clsArr[15] = char[].class;
-        clsArr[16] = CharSequence.class;
-        clsArr[17] = CharSequence[].class;
-        clsArr[18] = ArrayList.class;
-        clsArr[19] = Float.TYPE;
-        clsArr[20] = float[].class;
-        clsArr[21] = Parcelable.class;
-        clsArr[22] = Parcelable[].class;
-        clsArr[23] = Serializable.class;
-        clsArr[24] = Short.TYPE;
-        clsArr[25] = short[].class;
-        clsArr[26] = SparseArray.class;
+        Class<? extends Object> cls = Integer.TYPE;
         int i = Build.VERSION.SDK_INT;
-        clsArr[27] = i >= 21 ? Size.class : cls;
-        if (i >= 21) {
-            cls = SizeF.class;
-        }
-        clsArr[28] = cls;
-        ACCEPTABLE_CLASSES = clsArr;
+        ACCEPTABLE_CLASSES = new Class[]{Boolean.TYPE, boolean[].class, Double.TYPE, double[].class, cls, int[].class, Long.TYPE, long[].class, String.class, String[].class, Binder.class, Bundle.class, Byte.TYPE, byte[].class, Character.TYPE, char[].class, CharSequence.class, CharSequence[].class, ArrayList.class, Float.TYPE, float[].class, Parcelable.class, Parcelable[].class, Serializable.class, Short.TYPE, short[].class, SparseArray.class, i >= 21 ? SavedStateHandle$$ExternalSyntheticApiModelOutline0.m() : cls, i >= 21 ? SavedStateHandle$$ExternalSyntheticApiModelOutline1.m() : cls};
     }
 }

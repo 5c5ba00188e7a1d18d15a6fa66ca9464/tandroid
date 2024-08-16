@@ -6,12 +6,12 @@ final class Platform {
     private static final Logger logger = Logger.getLogger(Platform.class.getName());
     private static final PatternCompiler patternCompiler = loadPatternCompiler();
 
+    private Platform() {
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static String nullToEmpty(String str) {
         return str == null ? "" : str;
-    }
-
-    private Platform() {
     }
 
     private static PatternCompiler loadPatternCompiler() {

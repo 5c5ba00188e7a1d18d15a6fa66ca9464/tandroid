@@ -77,9 +77,13 @@ public abstract class PagerAdapter {
 
     public void notifyDataSetChanged() {
         synchronized (this) {
-            DataSetObserver dataSetObserver = this.mViewPagerObserver;
-            if (dataSetObserver != null) {
-                dataSetObserver.onChanged();
+            try {
+                DataSetObserver dataSetObserver = this.mViewPagerObserver;
+                if (dataSetObserver != null) {
+                    dataSetObserver.onChanged();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         this.mObservable.notifyChanged();

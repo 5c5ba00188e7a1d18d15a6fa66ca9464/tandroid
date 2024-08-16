@@ -67,18 +67,22 @@ public final class zztl {
 
     private static synchronized zzav zzi() {
         synchronized (zztl.class) {
-            zzav zzavVar = zza;
-            if (zzavVar != null) {
-                return zzavVar;
+            try {
+                zzav zzavVar = zza;
+                if (zzavVar != null) {
+                    return zzavVar;
+                }
+                LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
+                zzas zzasVar = new zzas();
+                for (int i = 0; i < locales.size(); i++) {
+                    zzasVar.zza(CommonUtils.languageTagFromLocale(locales.get(i)));
+                }
+                zzav zzb2 = zzasVar.zzb();
+                zza = zzb2;
+                return zzb2;
+            } catch (Throwable th) {
+                throw th;
             }
-            LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
-            zzas zzasVar = new zzas();
-            for (int i = 0; i < locales.size(); i++) {
-                zzasVar.zza(CommonUtils.languageTagFromLocale(locales.get(i)));
-            }
-            zzav zzb2 = zzasVar.zzb();
-            zza = zzb2;
-            return zzb2;
         }
     }
 

@@ -82,7 +82,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         if (this.eglThread != null || surfaceTexture == null || this.currentVideoPlayer == null) {
             return;
         }
-        FilterGLThread filterGLThread = new FilterGLThread(surfaceTexture, new FilterGLThread.FilterGLThreadVideoDelegate() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda0
+        FilterGLThread filterGLThread = new FilterGLThread(surfaceTexture, new FilterGLThread.FilterGLThreadVideoDelegate() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.FilterGLThread.FilterGLThreadVideoDelegate
             public final void onVideoSurfaceCreated(SurfaceTexture surfaceTexture2) {
                 VideoEditTextureView.this.lambda$onSurfaceTextureAvailable$0(surfaceTexture2);
@@ -116,7 +116,7 @@ public class VideoEditTextureView extends TextureView implements TextureView.Sur
         if (filterGLThread != null) {
             filterGLThread.setSurfaceTextureSize(i, i2);
             this.eglThread.requestRender(false, true, false);
-            this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda1
+            this.eglThread.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.VideoEditTextureView$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     VideoEditTextureView.this.lambda$onSurfaceTextureSizeChanged$1();

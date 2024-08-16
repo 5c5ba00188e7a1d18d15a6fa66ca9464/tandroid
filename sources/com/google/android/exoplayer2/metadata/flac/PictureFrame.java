@@ -89,7 +89,7 @@ public final class PictureFrame implements Metadata.Entry {
     }
 
     public int hashCode() {
-        return ((((((((((((((527 + this.pictureType) * 31) + this.mimeType.hashCode()) * 31) + this.description.hashCode()) * 31) + this.width) * 31) + this.height) * 31) + this.depth) * 31) + this.colors) * 31) + Arrays.hashCode(this.pictureData);
+        return ((((((((((((((this.pictureType + 527) * 31) + this.mimeType.hashCode()) * 31) + this.description.hashCode()) * 31) + this.width) * 31) + this.height) * 31) + this.depth) * 31) + this.colors) * 31) + Arrays.hashCode(this.pictureData);
     }
 
     @Override // android.os.Parcelable

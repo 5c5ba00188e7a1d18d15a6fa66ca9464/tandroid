@@ -25,13 +25,22 @@ public final class ClippingMediaSource extends WrappingMediaSource {
     public static final class IllegalClippingException extends IOException {
         public final int reason;
 
-        private static String getReasonDescription(int i) {
-            return i != 0 ? i != 1 ? i != 2 ? "unknown" : "start exceeds end" : "not seekable to start" : "invalid period count";
-        }
-
         public IllegalClippingException(int i) {
             super("Illegal clipping: " + getReasonDescription(i));
             this.reason = i;
+        }
+
+        private static String getReasonDescription(int i) {
+            if (i != 0) {
+                if (i != 1) {
+                    if (i == 2) {
+                        return "start exceeds end";
+                    }
+                    return "unknown";
+                }
+                return "not seekable to start";
+            }
+            return "invalid period count";
         }
     }
 

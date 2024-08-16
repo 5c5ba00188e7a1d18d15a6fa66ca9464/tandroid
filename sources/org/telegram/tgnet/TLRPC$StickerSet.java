@@ -1,7 +1,6 @@
 package org.telegram.tgnet;
 
 import java.util.ArrayList;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public abstract class TLRPC$StickerSet extends TLObject {
     public long access_hash;
@@ -128,7 +127,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         if ((this.flags & 16) != 0) {
                             this.thumb_version = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.thumb_document_id = abstractSerializedData2.readInt64(z2);
                         }
                         this.count = abstractSerializedData2.readInt32(z2);
@@ -168,7 +167,7 @@ public abstract class TLRPC$StickerSet extends TLObject {
                         if ((this.flags & 16) != 0) {
                             abstractSerializedData2.writeInt32(this.thumb_version);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeInt64(this.thumb_document_id);
                         }
                         abstractSerializedData2.writeInt32(this.count);

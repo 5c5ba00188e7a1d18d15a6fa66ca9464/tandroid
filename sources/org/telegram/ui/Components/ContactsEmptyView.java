@@ -37,7 +37,7 @@ public class ContactsEmptyView extends LinearLayout implements NotificationCente
         this.drawable = loadingStickerDrawable;
         this.stickerView.setImageDrawable(loadingStickerDrawable);
         if (!AndroidUtilities.isTablet()) {
-            addView(this.stickerView, LayoutHelper.createLinear(130, 130, 49, 0, 2, 0, 0));
+            addView(this.stickerView, LayoutHelper.createLinear((int) NotificationCenter.walletSyncProgressChanged, (int) NotificationCenter.walletSyncProgressChanged, 49, 0, 2, 0, 0));
         }
         TextView textView = new TextView(context);
         this.titleTextView = textView;

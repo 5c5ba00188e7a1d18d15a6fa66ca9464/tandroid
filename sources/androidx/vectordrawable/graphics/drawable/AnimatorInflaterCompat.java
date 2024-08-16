@@ -50,12 +50,12 @@ public class AnimatorInflaterCompat {
                 try {
                     xmlResourceParser = resources.getAnimation(i);
                     return createAnimatorFromXml(context, resources, theme, xmlResourceParser, f);
-                } catch (XmlPullParserException e) {
+                } catch (IOException e) {
                     Resources.NotFoundException notFoundException = new Resources.NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(i));
                     notFoundException.initCause(e);
                     throw notFoundException;
                 }
-            } catch (IOException e2) {
+            } catch (XmlPullParserException e2) {
                 Resources.NotFoundException notFoundException2 = new Resources.NotFoundException("Can't load animation resource ID #0x" + Integer.toHexString(i));
                 notFoundException2.initCause(e2);
                 throw notFoundException2;
@@ -125,13 +125,12 @@ public class AnimatorInflaterCompat {
                 return null;
             }
             PathDataEvaluator pathDataEvaluator = new PathDataEvaluator();
-            if (createNodesFromPathData2 != null) {
-                if (!PathParser.canMorph(createNodesFromPathData, createNodesFromPathData2)) {
-                    throw new InflateException(" Can't morph from " + string + " to " + string2);
-                }
-                ofObject = PropertyValuesHolder.ofObject(str, pathDataEvaluator, createNodesFromPathData, createNodesFromPathData2);
-            } else {
+            if (createNodesFromPathData2 == null) {
                 ofObject = PropertyValuesHolder.ofObject(str, pathDataEvaluator, createNodesFromPathData);
+            } else if (!PathParser.canMorph(createNodesFromPathData, createNodesFromPathData2)) {
+                throw new InflateException(" Can't morph from " + string + " to " + string2);
+            } else {
+                ofObject = PropertyValuesHolder.ofObject(str, pathDataEvaluator, createNodesFromPathData, createNodesFromPathData2);
             }
             return ofObject;
         }
@@ -239,6 +238,7 @@ public class AnimatorInflaterCompat {
     }
 
     private static void setupPathMotion(Path path, ObjectAnimator objectAnimator, float f, String str, String str2) {
+        int i = 1;
         PathMeasure pathMeasure = new PathMeasure(path, false);
         ArrayList arrayList = new ArrayList();
         float f2 = 0.0f;
@@ -254,31 +254,39 @@ public class AnimatorInflaterCompat {
         float[] fArr2 = new float[min];
         float[] fArr3 = new float[2];
         float f4 = f3 / (min - 1);
-        int i = 0;
         int i2 = 0;
+        int i3 = 0;
         while (true) {
-            if (i >= min) {
+            if (i2 >= min) {
                 break;
             }
-            pathMeasure2.getPosTan(f2 - ((Float) arrayList.get(i2)).floatValue(), fArr3, null);
-            fArr[i] = fArr3[0];
-            fArr2[i] = fArr3[1];
+            pathMeasure2.getPosTan(f2 - ((Float) arrayList.get(i3)).floatValue(), fArr3, null);
+            fArr[i2] = fArr3[0];
+            fArr2[i2] = fArr3[1];
             f2 += f4;
-            int i3 = i2 + 1;
-            if (i3 < arrayList.size() && f2 > ((Float) arrayList.get(i3)).floatValue()) {
+            int i4 = i3 + 1;
+            if (i4 < arrayList.size() && f2 > ((Float) arrayList.get(i4)).floatValue()) {
                 pathMeasure2.nextContour();
-                i2 = i3;
+                i3 = i4;
             }
-            i++;
+            i = 1;
+            i2++;
         }
         PropertyValuesHolder ofFloat = str != null ? PropertyValuesHolder.ofFloat(str, fArr) : null;
         PropertyValuesHolder ofFloat2 = str2 != null ? PropertyValuesHolder.ofFloat(str2, fArr2) : null;
         if (ofFloat == null) {
-            objectAnimator.setValues(ofFloat2);
+            PropertyValuesHolder[] propertyValuesHolderArr = new PropertyValuesHolder[i];
+            propertyValuesHolderArr[0] = ofFloat2;
+            objectAnimator.setValues(propertyValuesHolderArr);
         } else if (ofFloat2 == null) {
-            objectAnimator.setValues(ofFloat);
+            PropertyValuesHolder[] propertyValuesHolderArr2 = new PropertyValuesHolder[i];
+            propertyValuesHolderArr2[0] = ofFloat;
+            objectAnimator.setValues(propertyValuesHolderArr2);
         } else {
-            objectAnimator.setValues(ofFloat, ofFloat2);
+            PropertyValuesHolder[] propertyValuesHolderArr3 = new PropertyValuesHolder[2];
+            propertyValuesHolderArr3[0] = ofFloat;
+            propertyValuesHolderArr3[i] = ofFloat2;
+            objectAnimator.setValues(propertyValuesHolderArr3);
         }
     }
 
@@ -397,7 +405,7 @@ public class AnimatorInflaterCompat {
         TypedArray obtainAttributes = TypedArrayUtils.obtainAttributes(resources, theme, attributeSet, AndroidResources.STYLEABLE_KEYFRAME);
         int i = 0;
         TypedValue peekNamedValue = TypedArrayUtils.peekNamedValue(obtainAttributes, xmlPullParser, "value", 0);
-        if ((peekNamedValue != null) && isColorType(peekNamedValue.type)) {
+        if (peekNamedValue != null && isColorType(peekNamedValue.type)) {
             i = 3;
         }
         obtainAttributes.recycle();

@@ -21,7 +21,7 @@ public interface BiFunction<T, U, R> {
 
         @Override // j$.util.function.BiFunction
         public final /* synthetic */ BiFunction andThen(Function function) {
-            return convert(this.a.andThen(D.a(function)));
+            return convert(this.a.andThen(y.a(function)));
         }
 
         @Override // j$.util.function.BiFunction
@@ -30,10 +30,11 @@ public interface BiFunction<T, U, R> {
         }
 
         public final /* synthetic */ boolean equals(Object obj) {
+            java.util.function.BiFunction biFunction = this.a;
             if (obj instanceof VivifiedWrapper) {
                 obj = ((VivifiedWrapper) obj).a;
             }
-            return this.a.equals(obj);
+            return biFunction.equals(obj);
         }
 
         public final /* synthetic */ int hashCode() {

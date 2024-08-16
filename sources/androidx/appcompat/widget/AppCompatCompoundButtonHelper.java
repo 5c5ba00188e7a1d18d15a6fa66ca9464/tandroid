@@ -32,17 +32,15 @@ class AppCompatCompoundButtonHelper {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Removed duplicated region for block: B:12:0x003e A[Catch: all -> 0x0085, TRY_ENTER, TryCatch #1 {all -> 0x0085, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:12:0x003e, B:14:0x0046, B:16:0x004c, B:17:0x0059, B:19:0x0061, B:20:0x006a, B:22:0x0072), top: B:30:0x001d }] */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0061 A[Catch: all -> 0x0085, TryCatch #1 {all -> 0x0085, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:12:0x003e, B:14:0x0046, B:16:0x004c, B:17:0x0059, B:19:0x0061, B:20:0x006a, B:22:0x0072), top: B:30:0x001d }] */
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0072 A[Catch: all -> 0x0085, TRY_LEAVE, TryCatch #1 {all -> 0x0085, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:12:0x003e, B:14:0x0046, B:16:0x004c, B:17:0x0059, B:19:0x0061, B:20:0x006a, B:22:0x0072), top: B:30:0x001d }] */
+    /* JADX WARN: Removed duplicated region for block: B:18:0x005e A[Catch: all -> 0x0039, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:16:0x0056, B:18:0x005e, B:19:0x0067, B:21:0x006f, B:11:0x003b, B:13:0x0043, B:15:0x0049), top: B:29:0x001d }] */
+    /* JADX WARN: Removed duplicated region for block: B:21:0x006f A[Catch: all -> 0x0039, TRY_LEAVE, TryCatch #1 {all -> 0x0039, blocks: (B:3:0x001d, B:5:0x0025, B:7:0x002b, B:16:0x0056, B:18:0x005e, B:19:0x0067, B:21:0x006f, B:11:0x003b, B:13:0x0043, B:15:0x0049), top: B:29:0x001d }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void loadFromAttributes(AttributeSet attributeSet, int i) {
-        boolean z;
+        int resourceId;
         int i2;
         int i3;
-        int resourceId;
         int resourceId2;
         Context context = this.mView.getContext();
         int[] iArr = R$styleable.CompoundButton;
@@ -55,15 +53,7 @@ class AppCompatCompoundButtonHelper {
                 try {
                     CompoundButton compoundButton2 = this.mView;
                     compoundButton2.setButtonDrawable(AppCompatResources.getDrawable(compoundButton2.getContext(), resourceId2));
-                    z = true;
                 } catch (Resources.NotFoundException unused) {
-                }
-                if (!z) {
-                    int i5 = R$styleable.CompoundButton_android_button;
-                    if (obtainStyledAttributes.hasValue(i5) && (resourceId = obtainStyledAttributes.getResourceId(i5, 0)) != 0) {
-                        CompoundButton compoundButton3 = this.mView;
-                        compoundButton3.setButtonDrawable(AppCompatResources.getDrawable(compoundButton3.getContext(), resourceId));
-                    }
                 }
                 i2 = R$styleable.CompoundButton_buttonTint;
                 if (obtainStyledAttributes.hasValue(i2)) {
@@ -74,8 +64,10 @@ class AppCompatCompoundButtonHelper {
                     CompoundButtonCompat.setButtonTintMode(this.mView, DrawableUtils.parseTintMode(obtainStyledAttributes.getInt(i3, -1), null));
                 }
             }
-            z = false;
-            if (!z) {
+            int i5 = R$styleable.CompoundButton_android_button;
+            if (obtainStyledAttributes.hasValue(i5) && (resourceId = obtainStyledAttributes.getResourceId(i5, 0)) != 0) {
+                CompoundButton compoundButton3 = this.mView;
+                compoundButton3.setButtonDrawable(AppCompatResources.getDrawable(compoundButton3.getContext(), resourceId));
             }
             i2 = R$styleable.CompoundButton_buttonTint;
             if (obtainStyledAttributes.hasValue(i2)) {

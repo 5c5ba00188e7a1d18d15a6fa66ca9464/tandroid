@@ -71,11 +71,15 @@ public class GoogleApiManager implements Handler.Callback {
 
     public static void reportSignOut() {
         synchronized (zac) {
-            GoogleApiManager googleApiManager = zad;
-            if (googleApiManager != null) {
-                googleApiManager.zao.incrementAndGet();
-                Handler handler = googleApiManager.zat;
-                handler.sendMessageAtFrontOfQueue(handler.obtainMessage(10));
+            try {
+                GoogleApiManager googleApiManager = zad;
+                if (googleApiManager != null) {
+                    googleApiManager.zao.incrementAndGet();
+                    Handler handler = googleApiManager.zat;
+                    handler.sendMessageAtFrontOfQueue(handler.obtainMessage(10));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -137,10 +141,14 @@ public class GoogleApiManager implements Handler.Callback {
     public static GoogleApiManager zam(Context context) {
         GoogleApiManager googleApiManager;
         synchronized (zac) {
-            if (zad == null) {
-                zad = new GoogleApiManager(context.getApplicationContext(), GmsClientSupervisor.getOrStartHandlerThread().getLooper(), GoogleApiAvailability.getInstance());
+            try {
+                if (zad == null) {
+                    zad = new GoogleApiManager(context.getApplicationContext(), GmsClientSupervisor.getOrStartHandlerThread().getLooper(), GoogleApiAvailability.getInstance());
+                }
+                googleApiManager = zad;
+            } catch (Throwable th) {
+                throw th;
             }
-            googleApiManager = zad;
         }
         return googleApiManager;
     }
@@ -356,20 +364,28 @@ public class GoogleApiManager implements Handler.Callback {
 
     public final void zaC(zaae zaaeVar) {
         synchronized (zac) {
-            if (this.zaq != zaaeVar) {
-                this.zaq = zaaeVar;
-                this.zar.clear();
+            try {
+                if (this.zaq != zaaeVar) {
+                    this.zaq = zaaeVar;
+                    this.zar.clear();
+                }
+                this.zar.addAll(zaaeVar.zaa());
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zar.addAll(zaaeVar.zaa());
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final void zaD(zaae zaaeVar) {
         synchronized (zac) {
-            if (this.zaq == zaaeVar) {
-                this.zaq = null;
-                this.zar.clear();
+            try {
+                if (this.zaq == zaaeVar) {
+                    this.zaq = null;
+                    this.zar.clear();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

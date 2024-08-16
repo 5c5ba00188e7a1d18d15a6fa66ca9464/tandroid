@@ -143,7 +143,7 @@ public class StarReactionsOverlay extends View {
             TLRPC$Chat chat = this.chatActivity.getMessagesController().getChat(Long.valueOf(-dialogId));
             str = chat == null ? "" : chat.title;
         }
-        new StarsIntroActivity.StarsNeededSheet(this.chatActivity.getContext(), this.chatActivity.getResourceProvider(), pendingPaidReactions, 5, str, new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda0
+        new StarsIntroActivity.StarsNeededSheet(this.chatActivity.getContext(), this.chatActivity.getResourceProvider(), pendingPaidReactions, 5, str, new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 StarReactionsOverlay.this.lambda$checkBalance$2(starsController, primaryMessageObject, pendingPaidReactions);
@@ -169,7 +169,7 @@ public class StarReactionsOverlay extends View {
         this.messageId = (chatMessageCell == null || chatMessageCell.getPrimaryMessageObject() == null) ? 0 : chatMessageCell.getPrimaryMessageObject().getId();
         ChatMessageCell chatMessageCell3 = this.cell;
         if (chatMessageCell3 != null) {
-            chatMessageCell3.setInvalidateListener(new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda1
+            chatMessageCell3.setInvalidateListener(new Runnable() { // from class: org.telegram.ui.Stars.StarReactionsOverlay$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     StarReactionsOverlay.this.invalidate();
@@ -370,12 +370,12 @@ public class StarReactionsOverlay extends View {
         AndroidUtilities.runOnUIThread(this.hideCounterRunnable, 1500L);
         if (z2) {
             long currentTimeMillis = System.currentTimeMillis();
-            long j = this.lastRippleTime;
-            if (currentTimeMillis - j < 100) {
+            long j = currentTimeMillis - this.lastRippleTime;
+            if (j < 100) {
                 this.accumulatedRippleIntensity += 0.5f;
                 return;
             }
-            this.accumulatedRippleIntensity *= Utilities.clamp(1.0f - (((float) ((currentTimeMillis - j) - 100)) / 200.0f), 1.0f, 0.0f);
+            this.accumulatedRippleIntensity *= Utilities.clamp(1.0f - (((float) (j - 100)) / 200.0f), 1.0f, 0.0f);
             if (getMeasuredWidth() == 0 && this.chatActivity.getLayoutContainer() != null) {
                 this.chatActivity.getLayoutContainer().getLocationInWindow(this.pos2);
             } else {

@@ -28,13 +28,17 @@ public final class zzbn {
             return zzbnVar;
         }
         synchronized (zzbn.class) {
-            zzbn zzbnVar2 = zzd;
-            if (zzbnVar2 != null) {
-                return zzbnVar2;
+            try {
+                zzbn zzbnVar2 = zzd;
+                if (zzbnVar2 != null) {
+                    return zzbnVar2;
+                }
+                zzbn zzb = zzbv.zzb(zzbn.class);
+                zzd = zzb;
+                return zzb;
+            } catch (Throwable th) {
+                throw th;
             }
-            zzbn zzb = zzbv.zzb(zzbn.class);
-            zzd = zzb;
-            return zzb;
         }
     }
 }

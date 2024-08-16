@@ -1,66 +1,29 @@
 package j$.time.format;
 
-import java.util.Locale;
+import j$.time.ZoneId;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class o implements h {
-    private final j$.time.temporal.l a;
-    private final TextStyle b;
-    private final v c;
-    private volatile k d;
+public class o implements g {
+    private final j$.time.temporal.n a;
+    private final String b;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public o(j$.time.temporal.a aVar, TextStyle textStyle, v vVar) {
-        this.a = aVar;
-        this.b = textStyle;
-        this.c = vVar;
+    public o(j$.time.temporal.n nVar, String str) {
+        this.a = nVar;
+        this.b = str;
     }
 
-    @Override // j$.time.format.h
-    public final boolean a(t tVar, StringBuilder sb) {
-        String c;
-        j$.time.chrono.e eVar;
-        Long e = tVar.e(this.a);
-        if (e == null) {
+    @Override // j$.time.format.g
+    public boolean a(s sVar, StringBuilder sb) {
+        ZoneId zoneId = (ZoneId) sVar.f(this.a);
+        if (zoneId == null) {
             return false;
         }
-        j$.time.chrono.d dVar = (j$.time.chrono.d) tVar.d().d(j$.time.temporal.j.d());
-        if (dVar == null || dVar == (eVar = j$.time.chrono.e.a)) {
-            c = this.c.c(this.a, e.longValue(), this.b, tVar.c());
-        } else {
-            v vVar = this.c;
-            j$.time.temporal.l lVar = this.a;
-            long longValue = e.longValue();
-            TextStyle textStyle = this.b;
-            Locale c2 = tVar.c();
-            vVar.getClass();
-            c = (dVar == eVar || !(lVar instanceof j$.time.temporal.a)) ? vVar.c(lVar, longValue, textStyle, c2) : null;
-        }
-        if (c != null) {
-            sb.append(c);
-            return true;
-        }
-        if (this.d == null) {
-            this.d = new k(this.a, 1, 19, y.NORMAL);
-        }
-        return this.d.a(tVar, sb);
+        sb.append(zoneId.getId());
+        return true;
     }
 
     public final String toString() {
-        StringBuilder sb;
-        TextStyle textStyle = TextStyle.FULL;
-        j$.time.temporal.l lVar = this.a;
-        TextStyle textStyle2 = this.b;
-        if (textStyle2 == textStyle) {
-            sb = new StringBuilder("Text(");
-            sb.append(lVar);
-        } else {
-            sb = new StringBuilder("Text(");
-            sb.append(lVar);
-            sb.append(",");
-            sb.append(textStyle2);
-        }
-        sb.append(")");
-        return sb.toString();
+        return this.b;
     }
 }

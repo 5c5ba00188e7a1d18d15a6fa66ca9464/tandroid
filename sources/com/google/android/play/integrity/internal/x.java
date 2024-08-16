@@ -27,29 +27,33 @@ public final class x extends t {
         s sVar2;
         obj = this.a.g;
         synchronized (obj) {
-            atomicInteger = this.a.m;
-            if (atomicInteger.get() > 0) {
-                atomicInteger2 = this.a.m;
-                if (atomicInteger2.decrementAndGet() > 0) {
-                    sVar2 = this.a.c;
-                    sVar2.d("Leaving the connection open for other ongoing calls.", new Object[0]);
-                    return;
+            try {
+                atomicInteger = this.a.m;
+                if (atomicInteger.get() > 0) {
+                    atomicInteger2 = this.a.m;
+                    if (atomicInteger2.decrementAndGet() > 0) {
+                        sVar2 = this.a.c;
+                        sVar2.d("Leaving the connection open for other ongoing calls.", new Object[0]);
+                        return;
+                    }
                 }
+                ae aeVar = this.a;
+                iInterface = aeVar.o;
+                if (iInterface != null) {
+                    sVar = aeVar.c;
+                    sVar.d("Unbind from service.", new Object[0]);
+                    ae aeVar2 = this.a;
+                    context = aeVar2.b;
+                    serviceConnection = aeVar2.n;
+                    context.unbindService(serviceConnection);
+                    this.a.h = false;
+                    this.a.o = null;
+                    this.a.n = null;
+                }
+                this.a.x();
+            } catch (Throwable th) {
+                throw th;
             }
-            ae aeVar = this.a;
-            iInterface = aeVar.o;
-            if (iInterface != null) {
-                sVar = aeVar.c;
-                sVar.d("Unbind from service.", new Object[0]);
-                ae aeVar2 = this.a;
-                context = aeVar2.b;
-                serviceConnection = aeVar2.n;
-                context.unbindService(serviceConnection);
-                this.a.h = false;
-                this.a.o = null;
-                this.a.n = null;
-            }
-            this.a.x();
         }
     }
 }

@@ -93,39 +93,47 @@ public class FirebaseMessaging {
         }
 
         synchronized void initialize() {
-            if (this.initialized) {
-                return;
-            }
-            Boolean readEnabled = readEnabled();
-            this.autoInitEnabled = readEnabled;
-            if (readEnabled == null) {
-                EventHandler<DataCollectionDefaultChange> eventHandler = new EventHandler(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$AutoInit$$Lambda$0
-                    private final FirebaseMessaging.AutoInit arg$1;
+            try {
+                if (this.initialized) {
+                    return;
+                }
+                Boolean readEnabled = readEnabled();
+                this.autoInitEnabled = readEnabled;
+                if (readEnabled == null) {
+                    EventHandler<DataCollectionDefaultChange> eventHandler = new EventHandler(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$AutoInit$$Lambda$0
+                        private final FirebaseMessaging.AutoInit arg$1;
 
-                    /* JADX INFO: Access modifiers changed from: package-private */
-                    {
-                        this.arg$1 = this;
-                    }
+                        /* JADX INFO: Access modifiers changed from: package-private */
+                        {
+                            this.arg$1 = this;
+                        }
 
-                    @Override // com.google.firebase.events.EventHandler
-                    public void handle(Event event) {
-                        this.arg$1.lambda$initialize$0$FirebaseMessaging$AutoInit(event);
-                    }
-                };
-                this.dataCollectionDefaultChangeEventHandler = eventHandler;
-                this.subscriber.subscribe(DataCollectionDefaultChange.class, eventHandler);
+                        @Override // com.google.firebase.events.EventHandler
+                        public void handle(Event event) {
+                            this.arg$1.lambda$initialize$0$FirebaseMessaging$AutoInit(event);
+                        }
+                    };
+                    this.dataCollectionDefaultChangeEventHandler = eventHandler;
+                    this.subscriber.subscribe(DataCollectionDefaultChange.class, eventHandler);
+                }
+                this.initialized = true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.initialized = true;
         }
 
         synchronized boolean isEnabled() {
             boolean isDataCollectionDefaultEnabled;
-            initialize();
-            Boolean bool = this.autoInitEnabled;
-            if (bool == null) {
-                isDataCollectionDefaultEnabled = FirebaseMessaging.this.firebaseApp.isDataCollectionDefaultEnabled();
-            } else {
-                isDataCollectionDefaultEnabled = bool.booleanValue();
+            try {
+                initialize();
+                Boolean bool = this.autoInitEnabled;
+                if (bool == null) {
+                    isDataCollectionDefaultEnabled = FirebaseMessaging.this.firebaseApp.isDataCollectionDefaultEnabled();
+                } else {
+                    isDataCollectionDefaultEnabled = bool.booleanValue();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
             return isDataCollectionDefaultEnabled;
         }
@@ -220,22 +228,33 @@ public class FirebaseMessaging {
                 }
             }));
             store.saveToken(getSubtype(), defaultSenderId, str, this.metadata.getAppVersionCode());
-            if (tokenWithoutTriggeringSync == null || !str.equals(tokenWithoutTriggeringSync.token)) {
-                invokeOnTokenRefresh(str);
+            if (tokenWithoutTriggeringSync != null) {
+                if (!str.equals(tokenWithoutTriggeringSync.token)) {
+                }
+                return str;
             }
+            invokeOnTokenRefresh(str);
             return str;
-        } catch (InterruptedException | ExecutionException e2) {
-            throw new IOException(e2);
+        } catch (InterruptedException e2) {
+            e = e2;
+            throw new IOException(e);
+        } catch (ExecutionException e3) {
+            e = e3;
+            throw new IOException(e);
         }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void enqueueTaskWithDelaySeconds(Runnable runnable, long j) {
         synchronized (FirebaseMessaging.class) {
-            if (syncExecutor == null) {
-                syncExecutor = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("TAG"));
+            try {
+                if (syncExecutor == null) {
+                    syncExecutor = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("TAG"));
+                }
+                syncExecutor.schedule(runnable, j, TimeUnit.SECONDS);
+            } catch (Throwable th) {
+                throw th;
             }
-            syncExecutor.schedule(runnable, j, TimeUnit.SECONDS);
         }
     }
 
@@ -395,8 +414,12 @@ public class FirebaseMessaging {
             });
         }
         synchronized (FirebaseMessaging.class) {
-            if (store == null) {
-                store = new Store(applicationContext);
+            try {
+                if (store == null) {
+                    store = new Store(applicationContext);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         executor2.execute(new Runnable(this) { // from class: com.google.firebase.messaging.FirebaseMessaging$$Lambda$1

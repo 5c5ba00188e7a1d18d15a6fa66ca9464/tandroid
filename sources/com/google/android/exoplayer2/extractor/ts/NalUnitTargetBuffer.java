@@ -41,9 +41,9 @@ final class NalUnitTargetBuffer {
             int i3 = i2 - i;
             byte[] bArr2 = this.nalData;
             int length = bArr2.length;
-            int i4 = this.nalLength;
-            if (length < i4 + i3) {
-                this.nalData = Arrays.copyOf(bArr2, (i4 + i3) * 2);
+            int i4 = this.nalLength + i3;
+            if (length < i4) {
+                this.nalData = Arrays.copyOf(bArr2, i4 * 2);
             }
             System.arraycopy(bArr, i, this.nalData, this.nalLength, i3);
             this.nalLength += i3;

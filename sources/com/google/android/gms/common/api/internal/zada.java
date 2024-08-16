@@ -36,11 +36,15 @@ public final class zada<R extends Result> extends TransformedResult<R> implement
 
     private final void zal(Status status) {
         synchronized (this.zae) {
-            ResultTransform resultTransform = this.zaa;
-            if (resultTransform != null) {
-                ((zada) Preconditions.checkNotNull(this.zab)).zaj((Status) Preconditions.checkNotNull(resultTransform.onFailure(status), "onFailure must not return null"));
-            } else if (zam()) {
-                ((ResultCallbacks) Preconditions.checkNotNull(this.zac)).onFailure(status);
+            try {
+                ResultTransform resultTransform = this.zaa;
+                if (resultTransform != null) {
+                    ((zada) Preconditions.checkNotNull(this.zab)).zaj((Status) Preconditions.checkNotNull(resultTransform.onFailure(status), "onFailure must not return null"));
+                } else if (zam()) {
+                    ((ResultCallbacks) Preconditions.checkNotNull(this.zac)).onFailure(status);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -63,13 +67,17 @@ public final class zada<R extends Result> extends TransformedResult<R> implement
     @Override // com.google.android.gms.common.api.ResultCallback
     public final void onResult(Result result) {
         synchronized (this.zae) {
-            if (!result.getStatus().isSuccess()) {
-                zaj(result.getStatus());
-                zan(result);
-            } else if (this.zaa != null) {
-                zaco.zaa().submit(new zacy(this, result));
-            } else if (zam()) {
-                ((ResultCallbacks) Preconditions.checkNotNull(this.zac)).onSuccess(result);
+            try {
+                if (!result.getStatus().isSuccess()) {
+                    zaj(result.getStatus());
+                    zan(result);
+                } else if (this.zaa != null) {
+                    zaco.zaa().submit(new zacy(this, result));
+                } else if (zam()) {
+                    ((ResultCallbacks) Preconditions.checkNotNull(this.zac)).onSuccess(result);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

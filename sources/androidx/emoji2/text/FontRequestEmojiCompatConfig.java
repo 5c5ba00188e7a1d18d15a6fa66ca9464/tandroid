@@ -67,20 +67,24 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
 
         void loadInternal() {
             synchronized (this.mLock) {
-                if (this.mCallback == null) {
-                    return;
-                }
-                if (this.mExecutor == null) {
-                    ThreadPoolExecutor createBackgroundPriorityExecutor = ConcurrencyHelpers.createBackgroundPriorityExecutor("emojiCompat");
-                    this.mMyThreadPoolExecutor = createBackgroundPriorityExecutor;
-                    this.mExecutor = createBackgroundPriorityExecutor;
-                }
-                this.mExecutor.execute(new Runnable() { // from class: androidx.emoji2.text.FontRequestEmojiCompatConfig$FontRequestMetadataLoader$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        FontRequestEmojiCompatConfig.FontRequestMetadataLoader.this.createMetadata();
+                try {
+                    if (this.mCallback == null) {
+                        return;
                     }
-                });
+                    if (this.mExecutor == null) {
+                        ThreadPoolExecutor createBackgroundPriorityExecutor = ConcurrencyHelpers.createBackgroundPriorityExecutor("emojiCompat");
+                        this.mMyThreadPoolExecutor = createBackgroundPriorityExecutor;
+                        this.mExecutor = createBackgroundPriorityExecutor;
+                    }
+                    this.mExecutor.execute(new Runnable() { // from class: androidx.emoji2.text.FontRequestEmojiCompatConfig$FontRequestMetadataLoader$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            FontRequestEmojiCompatConfig.FontRequestMetadataLoader.this.createMetadata();
+                        }
+                    });
+                } catch (Throwable th) {
+                    throw th;
+                }
             }
         }
 
@@ -102,65 +106,75 @@ public class FontRequestEmojiCompatConfig extends EmojiCompat.Config {
 
         private void cleanUp() {
             synchronized (this.mLock) {
-                this.mCallback = null;
-                ContentObserver contentObserver = this.mObserver;
-                if (contentObserver != null) {
-                    this.mFontProviderHelper.unregisterObserver(this.mContext, contentObserver);
-                    this.mObserver = null;
+                try {
+                    this.mCallback = null;
+                    ContentObserver contentObserver = this.mObserver;
+                    if (contentObserver != null) {
+                        this.mFontProviderHelper.unregisterObserver(this.mContext, contentObserver);
+                        this.mObserver = null;
+                    }
+                    Handler handler = this.mMainHandler;
+                    if (handler != null) {
+                        handler.removeCallbacks(this.mMainHandlerLoadCallback);
+                    }
+                    this.mMainHandler = null;
+                    ThreadPoolExecutor threadPoolExecutor = this.mMyThreadPoolExecutor;
+                    if (threadPoolExecutor != null) {
+                        threadPoolExecutor.shutdown();
+                    }
+                    this.mExecutor = null;
+                    this.mMyThreadPoolExecutor = null;
+                } catch (Throwable th) {
+                    throw th;
                 }
-                Handler handler = this.mMainHandler;
-                if (handler != null) {
-                    handler.removeCallbacks(this.mMainHandlerLoadCallback);
-                }
-                this.mMainHandler = null;
-                ThreadPoolExecutor threadPoolExecutor = this.mMyThreadPoolExecutor;
-                if (threadPoolExecutor != null) {
-                    threadPoolExecutor.shutdown();
-                }
-                this.mExecutor = null;
-                this.mMyThreadPoolExecutor = null;
             }
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
         public void createMetadata() {
             synchronized (this.mLock) {
-                if (this.mCallback == null) {
-                    return;
-                }
                 try {
-                    FontsContractCompat.FontInfo retrieveFontInfo = retrieveFontInfo();
-                    int resultCode = retrieveFontInfo.getResultCode();
-                    if (resultCode == 2) {
+                    if (this.mCallback == null) {
+                        return;
+                    }
+                    try {
+                        FontsContractCompat.FontInfo retrieveFontInfo = retrieveFontInfo();
+                        int resultCode = retrieveFontInfo.getResultCode();
+                        if (resultCode == 2) {
+                            synchronized (this.mLock) {
+                            }
+                        }
+                        if (resultCode != 0) {
+                            throw new RuntimeException("fetchFonts result is not OK. (" + resultCode + ")");
+                        }
+                        TraceCompat.beginSection("EmojiCompat.FontRequestEmojiCompatConfig.buildTypeface");
+                        Typeface buildTypeface = this.mFontProviderHelper.buildTypeface(this.mContext, retrieveFontInfo);
+                        ByteBuffer mmap = TypefaceCompatUtil.mmap(this.mContext, null, retrieveFontInfo.getUri());
+                        if (mmap == null || buildTypeface == null) {
+                            throw new RuntimeException("Unable to open file.");
+                        }
+                        MetadataRepo create = MetadataRepo.create(buildTypeface, mmap);
+                        TraceCompat.endSection();
                         synchronized (this.mLock) {
-                        }
-                    }
-                    if (resultCode != 0) {
-                        throw new RuntimeException("fetchFonts result is not OK. (" + resultCode + ")");
-                    }
-                    TraceCompat.beginSection("EmojiCompat.FontRequestEmojiCompatConfig.buildTypeface");
-                    Typeface buildTypeface = this.mFontProviderHelper.buildTypeface(this.mContext, retrieveFontInfo);
-                    ByteBuffer mmap = TypefaceCompatUtil.mmap(this.mContext, null, retrieveFontInfo.getUri());
-                    if (mmap == null || buildTypeface == null) {
-                        throw new RuntimeException("Unable to open file.");
-                    }
-                    MetadataRepo create = MetadataRepo.create(buildTypeface, mmap);
-                    TraceCompat.endSection();
-                    synchronized (this.mLock) {
-                        EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback = this.mCallback;
-                        if (metadataRepoLoaderCallback != null) {
-                            metadataRepoLoaderCallback.onLoaded(create);
-                        }
-                    }
-                    cleanUp();
-                } catch (Throwable th) {
-                    synchronized (this.mLock) {
-                        EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback2 = this.mCallback;
-                        if (metadataRepoLoaderCallback2 != null) {
-                            metadataRepoLoaderCallback2.onFailed(th);
+                            EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback = this.mCallback;
+                            if (metadataRepoLoaderCallback != null) {
+                                metadataRepoLoaderCallback.onLoaded(create);
+                            }
                         }
                         cleanUp();
+                    } catch (Throwable th) {
+                        synchronized (this.mLock) {
+                            try {
+                                EmojiCompat.MetadataRepoLoaderCallback metadataRepoLoaderCallback2 = this.mCallback;
+                                if (metadataRepoLoaderCallback2 != null) {
+                                    metadataRepoLoaderCallback2.onFailed(th);
+                                }
+                                cleanUp();
+                            } finally {
+                            }
+                        }
                     }
+                } finally {
                 }
             }
         }

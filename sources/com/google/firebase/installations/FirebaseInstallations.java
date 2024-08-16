@@ -105,7 +105,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
             return Tasks.forResult(cacheFid);
         }
         Task<String> addGetIdListener = addGetIdListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 FirebaseInstallations.this.lambda$getId$0();
@@ -123,7 +123,7 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     public Task<InstallationTokenResult> getToken(final boolean z) {
         preConditionChecks();
         Task<InstallationTokenResult> addGetAuthTokenListener = addGetAuthTokenListener();
-        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda0
+        this.backgroundExecutor.execute(new Runnable() { // from class: com.google.firebase.installations.FirebaseInstallations$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 FirebaseInstallations.this.lambda$getToken$1(z);
@@ -152,22 +152,30 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
 
     private void triggerOnStateReached(PersistedInstallationEntry persistedInstallationEntry) {
         synchronized (this.lock) {
-            Iterator<StateListener> it = this.listeners.iterator();
-            while (it.hasNext()) {
-                if (it.next().onStateReached(persistedInstallationEntry)) {
-                    it.remove();
+            try {
+                Iterator<StateListener> it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    if (it.next().onStateReached(persistedInstallationEntry)) {
+                        it.remove();
+                    }
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     private void triggerOnException(Exception exc) {
         synchronized (this.lock) {
-            Iterator<StateListener> it = this.listeners.iterator();
-            while (it.hasNext()) {
-                if (it.next().onException(exc)) {
-                    it.remove();
+            try {
+                Iterator<StateListener> it = this.listeners.iterator();
+                while (it.hasNext()) {
+                    if (it.next().onException(exc)) {
+                        it.remove();
+                    }
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -197,9 +205,9 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:17:0x0032  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x003f  */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x004a  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0034  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x0041  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x004c  */
     /* renamed from: doNetworkCallIfNecessary */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -251,10 +259,14 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
 
     private void insertOrUpdatePrefs(PersistedInstallationEntry persistedInstallationEntry) {
         synchronized (lockGenerateFid) {
-            CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
-            this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(persistedInstallationEntry);
-            if (acquire != null) {
-                acquire.releaseAndClose();
+            try {
+                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
+                this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(persistedInstallationEntry);
+                if (acquire != null) {
+                    acquire.releaseAndClose();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -262,13 +274,17 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     private PersistedInstallationEntry getPrefsWithGeneratedIdMultiProcessSafe() {
         PersistedInstallationEntry readPersistedInstallationEntryValue;
         synchronized (lockGenerateFid) {
-            CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
-            readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
-            if (readPersistedInstallationEntryValue.isNotGenerated()) {
-                readPersistedInstallationEntryValue = this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(readPersistedInstallationEntryValue.withUnregisteredFid(readExistingIidOrCreateFid(readPersistedInstallationEntryValue)));
-            }
-            if (acquire != null) {
-                acquire.releaseAndClose();
+            try {
+                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
+                readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
+                if (readPersistedInstallationEntryValue.isNotGenerated()) {
+                    readPersistedInstallationEntryValue = this.persistedInstallation.insertOrUpdatePersistedInstallationEntry(readPersistedInstallationEntryValue.withUnregisteredFid(readExistingIidOrCreateFid(readPersistedInstallationEntryValue)));
+                }
+                if (acquire != null) {
+                    acquire.releaseAndClose();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return readPersistedInstallationEntryValue;
@@ -347,10 +363,14 @@ public class FirebaseInstallations implements FirebaseInstallationsApi {
     private PersistedInstallationEntry getMultiProcessSafePrefs() {
         PersistedInstallationEntry readPersistedInstallationEntryValue;
         synchronized (lockGenerateFid) {
-            CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
-            readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
-            if (acquire != null) {
-                acquire.releaseAndClose();
+            try {
+                CrossProcessLock acquire = CrossProcessLock.acquire(this.firebaseApp.getApplicationContext(), "generatefid.lock");
+                readPersistedInstallationEntryValue = this.persistedInstallation.readPersistedInstallationEntryValue();
+                if (acquire != null) {
+                    acquire.releaseAndClose();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return readPersistedInstallationEntryValue;

@@ -97,9 +97,11 @@ public final class ProgressiveMediaSource extends BaseMediaSource implements Pro
         public ProgressiveMediaSource createMediaSource(MediaItem mediaItem) {
             Assertions.checkNotNull(mediaItem.localConfiguration);
             MediaItem.LocalConfiguration localConfiguration = mediaItem.localConfiguration;
-            boolean z = true;
+            boolean z = false;
             boolean z2 = localConfiguration.tag == null && this.tag != null;
-            z = (localConfiguration.customCacheKey != null || this.customCacheKey == null) ? false : false;
+            if (localConfiguration.customCacheKey == null && this.customCacheKey != null) {
+                z = true;
+            }
             if (z2 && z) {
                 mediaItem = mediaItem.buildUpon().setTag(this.tag).setCustomCacheKey(this.customCacheKey).build();
             } else if (z2) {

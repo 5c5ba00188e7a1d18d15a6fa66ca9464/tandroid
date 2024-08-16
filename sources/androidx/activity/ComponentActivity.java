@@ -55,7 +55,7 @@ import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 /* loaded from: classes.dex */
-public class ComponentActivity extends androidx.core.app.ComponentActivity implements ViewModelStoreOwner, HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner {
+public class ComponentActivity extends androidx.core.app.ComponentActivity implements LifecycleOwner, ViewModelStoreOwner, HasDefaultViewModelProviderFactory, SavedStateRegistryOwner, OnBackPressedDispatcherOwner, ActivityResultRegistryOwner {
     private final ActivityResultRegistry mActivityResultRegistry;
     private int mContentLayoutId;
     private ViewModelProvider.Factory mDefaultFactory;
@@ -562,8 +562,10 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
             } else if (i == 19 && ContextCompat.checkSelfPermission(this, "android.permission.UPDATE_DEVICE_STATS") == 0) {
                 super.reportFullyDrawn();
             }
-        } finally {
             Trace.endSection();
+        } catch (Throwable th) {
+            Trace.endSection();
+            throw th;
         }
     }
 

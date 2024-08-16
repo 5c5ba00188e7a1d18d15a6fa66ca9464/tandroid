@@ -504,7 +504,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     public /* synthetic */ void lambda$reloadLastMessages$1(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda23
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelAdminLogActivity.this.lambda$reloadLastMessages$0(tLRPC$TL_channels_adminLogResults);
@@ -599,7 +599,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         this.loadsCount++;
         updateEmptyPlaceholder();
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda8
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getAdminLog, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelAdminLogActivity.this.lambda$loadMessages$4(tLObject, tLRPC$TL_error);
@@ -615,7 +615,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     public /* synthetic */ void lambda$loadMessages$4(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
         if (tLObject != null) {
             final TLRPC$TL_channels_adminLogResults tLRPC$TL_channels_adminLogResults = (TLRPC$TL_channels_adminLogResults) tLObject;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda14
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelAdminLogActivity.this.lambda$loadMessages$3(tLRPC$TL_channels_adminLogResults);
@@ -684,7 +684,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
         if (!arrayList.isEmpty()) {
-            MediaDataController.getInstance(this.currentAccount).loadReplyMessagesForMessages(arrayList, -this.currentChat.id, 0, 0L, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
+            MediaDataController.getInstance(this.currentAccount).loadReplyMessagesForMessages(arrayList, -this.currentChat.id, 0, 0L, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda23
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelAdminLogActivity.this.lambda$loadMessages$2();
@@ -812,7 +812,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         } else {
             messageObject.actionDeleteGroupEventId = -1L;
         }
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(MessageObject.replaceWithLink(LocaleController.formatPluralString(z2 ? "EventLogDeletedMultipleMessagesToExpand" : "EventLogDeletedMultipleMessages", arrayList.size(), TextUtils.join(", ", Collection$-EL.stream(arrayList).map(new Function() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda17
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(MessageObject.replaceWithLink(LocaleController.formatPluralString(z2 ? "EventLogDeletedMultipleMessagesToExpand" : "EventLogDeletedMultipleMessages", arrayList.size(), TextUtils.join(", ", Collection$-EL.stream(arrayList).map(new Function() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda15
             @Override // j$.util.function.Function
             public /* synthetic */ Function andThen(Function function) {
                 return Function.-CC.$default$andThen(this, function);
@@ -827,7 +827,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             public /* synthetic */ Function compose(Function function) {
                 return Function.-CC.$default$compose(this, function);
             }
-        }).distinct().map(new Function() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda18
+        }).distinct().map(new Function() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda16
             @Override // j$.util.function.Function
             public /* synthetic */ Function andThen(Function function) {
                 return Function.-CC.$default$andThen(this, function);
@@ -844,7 +844,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             public /* synthetic */ Function compose(Function function) {
                 return Function.-CC.$default$compose(this, function);
             }
-        }).filter(new Predicate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
+        }).filter(new Predicate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda17
             @Override // j$.util.function.Predicate
             public /* synthetic */ Predicate and(Predicate predicate) {
                 return Predicate.-CC.$default$and(this, predicate);
@@ -889,7 +889,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 LongSparseArray<Integer> longSparseArray = this.stableIdByEventExpand;
                 long j3 = messageObject2.eventId;
                 int i2 = lastStableId;
-                lastStableId = i2 + 1;
+                lastStableId = 1 + i2;
                 longSparseArray.put(j3, Integer.valueOf(i2));
             }
             messageObject.stableId = this.stableIdByEventExpand.get(messageObject2.eventId).intValue();
@@ -1196,10 +1196,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:20:0x004e  */
-            /* JADX WARN: Removed duplicated region for block: B:31:0x0086  */
+            /* JADX WARN: Removed duplicated region for block: B:20:0x004d  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x0087  */
             /* JADX WARN: Removed duplicated region for block: B:35:0x009a  */
-            /* JADX WARN: Removed duplicated region for block: B:40:0x00bc  */
+            /* JADX WARN: Removed duplicated region for block: B:41:0x00bd  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -1223,24 +1223,23 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         if (i13 == -1) {
                             i13 = 51;
                         }
-                        int i14 = i13 & 7;
-                        int i15 = i13 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                        int i16 = i14 & 7;
-                        if (i16 == 1) {
+                        int i14 = i13 & 112;
+                        int i15 = i13 & 7;
+                        if (i15 == 1) {
                             i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
                             i7 = layoutParams.rightMargin;
-                        } else if (i16 == 5) {
+                        } else if (i15 == 5) {
                             i6 = i4 - measuredWidth;
                             i7 = layoutParams.rightMargin;
                         } else {
                             i8 = layoutParams.leftMargin;
-                            if (i15 == 16) {
-                                if (i15 == 48) {
+                            if (i14 == 16) {
+                                if (i14 == 48) {
                                     i11 = layoutParams.topMargin + getPaddingTop();
                                     if (childAt != ((BaseFragment) ChannelAdminLogActivity.this).actionBar && ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getVisibility() == 0) {
                                         i11 += ((BaseFragment) ChannelAdminLogActivity.this).actionBar.getMeasuredHeight();
                                     }
-                                } else if (i15 == 80) {
+                                } else if (i14 == 80) {
                                     i9 = (i5 - i3) - measuredHeight;
                                     i10 = layoutParams.bottomMargin;
                                 } else {
@@ -1269,7 +1268,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             childAt.layout(i8, i11, measuredWidth + i8, measuredHeight + i11);
                         }
                         i8 = i6 - i7;
-                        if (i15 == 16) {
+                        if (i14 == 16) {
                         }
                         i11 = i9 - i10;
                         if (childAt == ChannelAdminLogActivity.this.emptyViewContainer) {
@@ -1292,15 +1291,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         };
         this.fragmentView = sizeNotifierFrameLayout;
-        SizeNotifierFrameLayout sizeNotifierFrameLayout2 = sizeNotifierFrameLayout;
-        this.contentView = sizeNotifierFrameLayout2;
-        sizeNotifierFrameLayout2.setOccupyStatusBar(!AndroidUtilities.isTablet());
+        this.contentView = sizeNotifierFrameLayout;
+        sizeNotifierFrameLayout.setOccupyStatusBar(!AndroidUtilities.isTablet());
         this.contentView.setBackgroundImage(Theme.getCachedWallpaper(), Theme.isWallpaperMotion());
         FrameLayout frameLayout = new FrameLayout(context);
         this.emptyViewContainer = frameLayout;
         frameLayout.setVisibility(4);
         this.contentView.addView(this.emptyViewContainer, LayoutHelper.createFrame(-1, -2, 17));
-        this.emptyViewContainer.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda2
+        this.emptyViewContainer.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$7;
@@ -1314,7 +1312,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.emptyLayoutView.setOrientation(1);
         ImageView imageView = new ImageView(context);
         this.emptyImageView = imageView;
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView.setScaleType(scaleType);
         this.emptyImageView.setImageResource(R.drawable.large_log_actions);
         this.emptyImageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         this.emptyImageView.setVisibility(8);
@@ -1457,9 +1456,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.chatListView.setClipToPadding(false);
         this.chatListView.setPadding(0, AndroidUtilities.dp(4.0f), 0, AndroidUtilities.dp(3.0f));
         RecyclerListView recyclerListView3 = this.chatListView;
-        9 r8 = new 9(null, this.chatListView, this.resourceProvider);
-        this.chatListItemAnimator = r8;
-        recyclerListView3.setItemAnimator(r8);
+        9 r12 = new 9(null, this.chatListView, this.resourceProvider);
+        this.chatListItemAnimator = r12;
+        recyclerListView3.setItemAnimator(r12);
         this.chatListItemAnimator.setReversePositions(true);
         this.chatListView.setLayoutAnimation(null);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) { // from class: org.telegram.ui.ChannelAdminLogActivity.10
@@ -1487,7 +1486,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.chatListView.setLayoutManager(this.chatLayoutManager);
         RecyclerAnimationScrollHelper recyclerAnimationScrollHelper = new RecyclerAnimationScrollHelper(this.chatListView, this.chatLayoutManager);
         this.chatScrollHelper = recyclerAnimationScrollHelper;
-        recyclerAnimationScrollHelper.setScrollListener(new RecyclerAnimationScrollHelper.ScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda3
+        recyclerAnimationScrollHelper.setScrollListener(new RecyclerAnimationScrollHelper.ScrollListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerAnimationScrollHelper.ScrollListener
             public final void onScroll() {
                 ChannelAdminLogActivity.this.updateMessagesVisiblePart();
@@ -1573,7 +1572,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         frameLayout3.setWillNotDraw(false);
         this.bottomOverlayChat.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
         this.contentView.addView(this.bottomOverlayChat, LayoutHelper.createFrame(-1, 51, 80));
-        this.bottomOverlayChat.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda4
+        this.bottomOverlayChat.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ChannelAdminLogActivity.this.lambda$createView$9(view2);
@@ -1591,11 +1590,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         ImageView imageView2 = new ImageView(context);
         this.bottomOverlayImage = imageView2;
         imageView2.setImageResource(R.drawable.msg_help);
-        this.bottomOverlayImage.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i4), PorterDuff.Mode.MULTIPLY));
-        this.bottomOverlayImage.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView3 = this.bottomOverlayImage;
+        int color = Theme.getColor(i4);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView3.setColorFilter(new PorterDuffColorFilter(color, mode));
+        this.bottomOverlayImage.setScaleType(scaleType);
         this.bottomOverlayChat.addView(this.bottomOverlayImage, LayoutHelper.createFrame(48, 48.0f, 53, 3.0f, 0.0f, 0.0f, 0.0f));
         this.bottomOverlayImage.setContentDescription(LocaleController.getString("BotHelp", R.string.BotHelp));
-        this.bottomOverlayImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda5
+        this.bottomOverlayImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ChannelAdminLogActivity.this.lambda$createView$10(view2);
@@ -1618,13 +1620,13 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         this.searchContainer.setClickable(true);
         this.searchContainer.setPadding(0, AndroidUtilities.dp(3.0f), 0, 0);
         this.contentView.addView(this.searchContainer, LayoutHelper.createFrame(-1, 51, 80));
-        ImageView imageView3 = new ImageView(context);
-        this.searchCalendarButton = imageView3;
-        imageView3.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView4 = new ImageView(context);
+        this.searchCalendarButton = imageView4;
+        imageView4.setScaleType(scaleType);
         this.searchCalendarButton.setImageResource(R.drawable.msg_calendar);
-        this.searchCalendarButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
+        this.searchCalendarButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), mode));
         this.searchContainer.addView(this.searchCalendarButton, LayoutHelper.createFrame(48, 48, 53));
-        this.searchCalendarButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda6
+        this.searchCalendarButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 ChannelAdminLogActivity.this.lambda$createView$12(view2);
@@ -1716,7 +1718,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         }
         AdminLogFilterAlert2 adminLogFilterAlert2 = new AdminLogFilterAlert2(this, this.currentFilter, this.selectedAdmins, this.currentChat.megagroup);
         adminLogFilterAlert2.setCurrentAdmins(this.admins);
-        adminLogFilterAlert2.setAdminLogFilterAlertDelegate(new AdminLogFilterAlert2.AdminLogFilterAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda12
+        adminLogFilterAlert2.setAdminLogFilterAlertDelegate(new AdminLogFilterAlert2.AdminLogFilterAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda14
             @Override // org.telegram.ui.Components.AdminLogFilterAlert2.AdminLogFilterAlertDelegate
             public final void didSelectRights(TLRPC$TL_channelAdminLogEventsFilter tLRPC$TL_channelAdminLogEventsFilter, LongSparseArray longSparseArray) {
                 ChannelAdminLogActivity.this.lambda$createView$8(tLRPC$TL_channelAdminLogEventsFilter, longSparseArray);
@@ -1756,7 +1758,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             return;
         }
         AndroidUtilities.hideKeyboard(this.searchItem.getSearchField());
-        showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda13
+        showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, new MessagesStorage.IntCallback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda10
             @Override // org.telegram.messenger.MessagesStorage.IntCallback
             public final void run(int i) {
                 ChannelAdminLogActivity.this.lambda$createView$11(i);
@@ -1785,24 +1787,19 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0022 A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:13:0x0023  */
-    /* JADX WARN: Removed duplicated region for block: B:146:0x0597  */
-    /* JADX WARN: Removed duplicated region for block: B:149:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean createMenu(final View view, final float f, final float f2) {
         MessageObject messageObject;
         MessageObject messageObject2;
-        boolean z;
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent;
         TLRPC$Message tLRPC$Message;
         TLRPC$User user;
         TLRPC$TL_channelAdminLogEvent tLRPC$TL_channelAdminLogEvent2;
         if (view instanceof ChatMessageCell) {
             messageObject2 = ((ChatMessageCell) view).getMessageObject();
-        } else if (view instanceof ChatActionCell) {
-            messageObject2 = ((ChatActionCell) view).getMessageObject();
-        } else {
+        } else if (!(view instanceof ChatActionCell)) {
             messageObject = null;
             if (messageObject != null) {
                 return false;
@@ -1899,8 +1896,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     ClearHistoryAlert clearHistoryAlert = new ClearHistoryAlert(getParentActivity(), null, this.currentChat, false, null);
                     clearHistoryAlert.setDelegate(new ClearHistoryAlert.ClearHistoryAlertDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity.15
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
-                        public /* synthetic */ void onClearHistory(boolean z2) {
-                            ClearHistoryAlert.ClearHistoryAlertDelegate.-CC.$default$onClearHistory(this, z2);
+                        public /* synthetic */ void onClearHistory(boolean z) {
+                            ClearHistoryAlert.ClearHistoryAlertDelegate.-CC.$default$onClearHistory(this, z);
                         }
 
                         @Override // org.telegram.ui.Components.ClearHistoryAlert.ClearHistoryAlertDelegate
@@ -2008,7 +2005,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     arrayList2.add(17);
                 }
             }
-            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda9
+            final Runnable runnable = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelAdminLogActivity.this.lambda$createMenu$14(arrayList2, arrayList, arrayList3, view, f, f2);
@@ -2017,23 +2014,19 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             if (ChatObject.canBlockUsers(this.currentChat) && (tLRPC$TL_channelAdminLogEvent = messageObject.currentEvent) != null) {
                 TLRPC$ChannelAdminLogEventAction tLRPC$ChannelAdminLogEventAction3 = tLRPC$TL_channelAdminLogEvent.action;
                 if (((tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionDeleteMessage) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionEditMessage) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoin) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByInvite) || (tLRPC$ChannelAdminLogEventAction3 instanceof TLRPC$TL_channelAdminLogEventActionParticipantJoinByRequest)) && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.from_id != null && (user = getMessagesController().getUser(Long.valueOf(this.selectedObject.messageOwner.from_id.user_id))) != null && !UserObject.isUserSelf(user)) {
-                    getMessagesController().getChannelParticipant(this.currentChat, user, new Utilities.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda10
+                    getMessagesController().getChannelParticipant(this.currentChat, user, new Utilities.Callback() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda8
                         @Override // org.telegram.messenger.Utilities.Callback
                         public final void run(Object obj) {
                             ChannelAdminLogActivity.this.lambda$createMenu$16(arrayList, arrayList3, arrayList2, runnable, (TLRPC$ChannelParticipant) obj);
                         }
                     });
-                    z = true;
-                    if (z) {
-                        runnable.run();
-                        return true;
-                    }
                     return true;
                 }
             }
-            z = false;
-            if (z) {
-            }
+            runnable.run();
+            return true;
+        } else {
+            messageObject2 = ((ChatActionCell) view).getMessageObject();
         }
         messageObject = messageObject2;
         if (messageObject != null) {
@@ -2070,7 +2063,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 }
                 final Integer num = (Integer) arrayList.get(i3);
                 actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
-                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda24
+                actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda22
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ChannelAdminLogActivity.this.lambda$createMenu$13(i3, arrayList, num, view2);
@@ -2112,7 +2105,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         };
         this.scrimPopupWindow = actionBarPopupWindow;
         actionBarPopupWindow.setPauseNotifications(true);
-        this.scrimPopupWindow.setDismissAnimationDuration(220);
+        this.scrimPopupWindow.setDismissAnimationDuration(NotificationCenter.pushMessagesUpdated);
         this.scrimPopupWindow.setOutsideTouchable(true);
         this.scrimPopupWindow.setClippingEnabled(true);
         this.scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
@@ -2172,7 +2165,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createMenu$16(final ArrayList arrayList, final ArrayList arrayList2, final ArrayList arrayList3, final Runnable runnable, final TLRPC$ChannelParticipant tLRPC$ChannelParticipant) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda21
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelAdminLogActivity.this.lambda$createMenu$15(tLRPC$ChannelParticipant, arrayList, arrayList2, arrayList3, runnable);
@@ -2506,7 +2499,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             }
                         default:
                             switch (i) {
-                                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                                case 33:
                                     if (this.selectedParticipant != null) {
                                         final TLRPC$User user2 = getMessagesController().getUser(Long.valueOf(DialogObject.getPeerDialogId(this.selectedParticipant.peer)));
                                         TLRPC$ChannelParticipant tLRPC$ChannelParticipant = this.selectedParticipant;
@@ -2528,7 +2521,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                         tLRPC$TL_chatBannedRights.send_audios = true;
                                         tLRPC$TL_chatBannedRights.send_voices = true;
                                         tLRPC$TL_chatBannedRights.send_docs = true;
-                                        getMessagesController().setParticipantBannedRole(this.currentChat.id, user2, null, this.selectedParticipant.banned_rights, true, getFragmentForAlert(1), new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda27
+                                        getMessagesController().setParticipantBannedRole(this.currentChat.id, user2, null, this.selectedParticipant.banned_rights, true, getFragmentForAlert(1), new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda26
                                             @Override // java.lang.Runnable
                                             public final void run() {
                                                 ChannelAdminLogActivity.this.lambda$processSelectedOption$19(user2);
@@ -2537,19 +2530,19 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                         break;
                                     }
                                     break;
-                                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                                case 34:
                                     TLRPC$TL_channels_reportAntiSpamFalsePositive tLRPC$TL_channels_reportAntiSpamFalsePositive = new TLRPC$TL_channels_reportAntiSpamFalsePositive();
                                     tLRPC$TL_channels_reportAntiSpamFalsePositive.channel = getMessagesController().getInputChannel(this.currentChat.id);
                                     tLRPC$TL_channels_reportAntiSpamFalsePositive.msg_id = this.selectedObject.getRealId();
-                                    getConnectionsManager().sendRequest(tLRPC$TL_channels_reportAntiSpamFalsePositive, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda26
+                                    getConnectionsManager().sendRequest(tLRPC$TL_channels_reportAntiSpamFalsePositive, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda25
                                         @Override // org.telegram.tgnet.RequestDelegate
                                         public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                                             ChannelAdminLogActivity.this.lambda$processSelectedOption$18(tLObject, tLRPC$TL_error);
                                         }
                                     });
                                     break;
-                                case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
-                                    getMessagesController().deleteParticipantFromChat(this.currentChat.id, getMessagesController().getInputPeer(this.selectedObject.messageOwner.from_id), false, false, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda28
+                                case 35:
+                                    getMessagesController().deleteParticipantFromChat(this.currentChat.id, getMessagesController().getInputPeer(this.selectedObject.messageOwner.from_id), false, false, new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda24
                                         @Override // java.lang.Runnable
                                         public final void run() {
                                             ChannelAdminLogActivity.this.lambda$processSelectedOption$20();
@@ -2570,7 +2563,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$processSelectedOption$18(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda29
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda27
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelAdminLogActivity.this.lambda$processSelectedOption$17(tLObject);
@@ -2650,8 +2643,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         tLRPC$TL_channels_getParticipants.channel = MessagesController.getInputChannel(this.currentChat);
         tLRPC$TL_channels_getParticipants.filter = new TLRPC$TL_channelParticipantsAdmins();
         tLRPC$TL_channels_getParticipants.offset = 0;
-        tLRPC$TL_channels_getParticipants.limit = 200;
-        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda7
+        tLRPC$TL_channels_getParticipants.limit = NotificationCenter.storyQualityUpdate;
+        ConnectionsManager.getInstance(this.currentAccount).bindRequestToGuid(ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_getParticipants, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelAdminLogActivity.this.lambda$loadAdmins$22(tLObject, tLRPC$TL_error);
@@ -2661,7 +2654,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdmins$22(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelAdminLogActivity.this.lambda$loadAdmins$21(tLRPC$TL_error, tLObject);
@@ -2700,7 +2693,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         TLRPC$TL_inputUser tLRPC$TL_inputUser = new TLRPC$TL_inputUser();
         tLRPC$TL_inputUser.user_id = j;
         tLRPC$TL_users_getUsers.id.add(tLRPC$TL_inputUser);
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda25
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_users_getUsers, new RequestDelegate() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda18
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelAdminLogActivity.this.lambda$loadAntispamUser$23(tLObject, tLRPC$TL_error);
@@ -2841,9 +2834,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         int i = ConnectionsManager.DEFAULT_DATACENTER_ID;
         int i2 = ConnectionsManager.DEFAULT_DATACENTER_ID;
         boolean z2 = false;
-        ChatMessageCell chatMessageCell = null;
         View view = null;
         View view2 = null;
+        ChatMessageCell chatMessageCell = null;
         for (int i3 = 0; i3 < childCount; i3++) {
             View childAt = this.chatListView.getChildAt(i3);
             if (childAt instanceof ChatMessageCell) {
@@ -2924,7 +2917,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 if (view.getAlpha() != 1.0f) {
                     view.setAlpha(1.0f);
                 }
-                hideFloatingDateView(!this.currentFloatingTopIsNotMessage);
+                hideFloatingDateView(true ^ this.currentFloatingTopIsNotMessage);
             } else {
                 if (view.getAlpha() != 0.0f) {
                     view.setAlpha(0.0f);
@@ -3082,7 +3075,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
         builder.setTitle(LocaleController.getString("OpenUrlTitle", R.string.OpenUrlTitle));
         builder.setMessage(LocaleController.formatString("OpenUrlAlert2", R.string.OpenUrlAlert2, str));
-        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda22
+        builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda19
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChannelAdminLogActivity.this.lambda$showOpenUrlAlert$24(str, dialogInterface, i);
@@ -3621,9 +3614,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         Toast.makeText(ChannelAdminLogActivity.this.getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), 0).show();
                     }
                 } else if (characterStyle instanceof URLSpanUserMention) {
-                    long longValue = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL()).longValue();
+                    Long parseLong = Utilities.parseLong(((URLSpanUserMention) characterStyle).getURL());
+                    long longValue = parseLong.longValue();
                     if (longValue > 0) {
-                        TLRPC$User user = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(Long.valueOf(longValue));
+                        TLRPC$User user = MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).getUser(parseLong);
                         if (user != null) {
                             MessagesController.getInstance(((BaseFragment) ChannelAdminLogActivity.this).currentAccount).openChatOrProfileWith(user, null, ChannelAdminLogActivity.this, 0, false);
                             return;
@@ -4555,8 +4549,8 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return arrayList;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0122 A[LOOP:1: B:37:0x00a6->B:61:0x0122, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x00ec A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0123 A[LOOP:1: B:37:0x00a6->B:61:0x0123, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x00ed A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4654,7 +4648,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
         }
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda15
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.ChannelAdminLogActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelAdminLogActivity.this.lambda$startMessageUnselect$25();
@@ -4783,7 +4777,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 charSequence = charSequence2;
                 i = 0;
             } else {
-                i = chatMessageCell3.linkPreviewHeight + AndroidUtilities.dp(10.0f) + 0;
+                i = chatMessageCell3.linkPreviewHeight + AndroidUtilities.dp(10.0f);
                 charSequence = charSequence2;
             }
         }
@@ -4903,15 +4897,14 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             View childAt = this.chatListView.getChildAt(i3);
             int childAdapterPosition = this.chatListView.getChildAdapterPosition(childAt);
             if (childAdapterPosition >= 0) {
-                int top = childAt.getTop();
                 if (z) {
-                    if (top >= i) {
+                    if (childAt.getTop() >= i) {
                     }
                     i = childAt.getTop();
                     chatMessageCell = childAt;
                     i2 = childAdapterPosition;
                 } else {
-                    if (top <= i) {
+                    if (childAt.getTop() <= i) {
                     }
                     i = childAt.getTop();
                     chatMessageCell = childAt;

@@ -591,7 +591,7 @@ public class RecyclerListView extends RecyclerView {
             for (int i3 = 0; i3 < 8; i3++) {
                 this.radii[i3] = AndroidUtilities.dp(44.0f);
             }
-            this.scrollX = AndroidUtilities.dp(this.isRtl ? 10.0f : (i == 0 ? 132 : 240) - 15);
+            this.scrollX = AndroidUtilities.dp(this.isRtl ? 10.0f : (i == 0 ? NotificationCenter.httpFileDidFailedLoad : NotificationCenter.reloadInterface) - 15);
             updateColors();
             setFocusableInTouchMode(true);
             this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -600,7 +600,7 @@ public class RecyclerListView extends RecyclerView {
 
         /* JADX INFO: Access modifiers changed from: private */
         public void updateColors() {
-            this.inactiveColor = this.type == 0 ? Theme.getColor(Theme.key_fastScrollInactive, RecyclerListView.this.resourcesProvider) : ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
+            this.inactiveColor = this.type == 0 ? Theme.getColor(Theme.key_fastScrollInactive, RecyclerListView.this.resourcesProvider) : ColorUtils.setAlphaComponent(-16777216, 102);
             this.activeColor = Theme.getColor(Theme.key_fastScrollActive, RecyclerListView.this.resourcesProvider);
             this.paint.setColor(this.inactiveColor);
             if (this.type == 0) {
@@ -735,7 +735,9 @@ public class RecyclerListView extends RecyclerView {
                             } else {
                                 this.outLetterLayout = this.letterLayout;
                                 int measureText = ((int) this.letterPaint.measureText(letter)) + 1;
-                                this.letterLayout = new StaticLayout(letter, this.letterPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                TextPaint textPaint = this.letterPaint;
+                                Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+                                this.letterLayout = new StaticLayout(letter, textPaint, measureText, alignment, 1.0f, 0.0f, false);
                                 if (this.outLetterLayout != null) {
                                     String[] split = letter.split(" ");
                                     String[] split2 = this.outLetterLayout.getText().toString().split(" ");
@@ -743,13 +745,13 @@ public class RecyclerListView extends RecyclerView {
                                         String charSequence = this.outLetterLayout.getText().toString();
                                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(charSequence);
                                         spannableStringBuilder.setSpan(new EmptyStubSpan(), split2[0].length(), charSequence.length(), 0);
-                                        this.outLetterLayout = new StaticLayout(spannableStringBuilder, this.letterPaint, ((int) this.letterPaint.measureText(charSequence)) + 1, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                        this.outLetterLayout = new StaticLayout(spannableStringBuilder, this.letterPaint, ((int) this.letterPaint.measureText(charSequence)) + 1, alignment, 1.0f, 0.0f, false);
                                         SpannableStringBuilder spannableStringBuilder2 = new SpannableStringBuilder(letter);
                                         spannableStringBuilder2.setSpan(new EmptyStubSpan(), split[0].length(), letter.length(), 0);
-                                        this.inLetterLayout = new StaticLayout(spannableStringBuilder2, this.letterPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                        this.inLetterLayout = new StaticLayout(spannableStringBuilder2, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
                                         SpannableStringBuilder spannableStringBuilder3 = new SpannableStringBuilder(letter);
                                         spannableStringBuilder3.setSpan(new EmptyStubSpan(), 0, split[0].length(), 0);
-                                        this.stableLetterLayout = new StaticLayout(spannableStringBuilder3, this.letterPaint, measureText, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+                                        this.stableLetterLayout = new StaticLayout(spannableStringBuilder3, this.letterPaint, measureText, alignment, 1.0f, 0.0f, false);
                                     } else {
                                         this.inLetterLayout = this.letterLayout;
                                         this.stableLetterLayout = null;
@@ -787,26 +789,27 @@ public class RecyclerListView extends RecyclerView {
             this.arrowPath.close();
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:29:0x01f5, code lost:
-            if (r14[6] == r8) goto L88;
+        /* JADX WARN: Code restructure failed: missing block: B:29:0x01f2, code lost:
+            if (r15[6] == r8) goto L88;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:34:0x0206, code lost:
-            if (r14[4] == r8) goto L80;
+        /* JADX WARN: Code restructure failed: missing block: B:34:0x0202, code lost:
+            if (r15[4] == r8) goto L80;
          */
-        /* JADX WARN: Removed duplicated region for block: B:36:0x020a  */
-        /* JADX WARN: Removed duplicated region for block: B:37:0x0216  */
-        /* JADX WARN: Removed duplicated region for block: B:40:0x022e  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x0234  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x0239  */
-        /* JADX WARN: Removed duplicated region for block: B:45:0x023c  */
-        /* JADX WARN: Removed duplicated region for block: B:50:0x0262  */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x0266  */
+        /* JADX WARN: Removed duplicated region for block: B:36:0x0206  */
+        /* JADX WARN: Removed duplicated region for block: B:37:0x0212  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x0229  */
+        /* JADX WARN: Removed duplicated region for block: B:41:0x022f  */
+        /* JADX WARN: Removed duplicated region for block: B:44:0x0234  */
+        /* JADX WARN: Removed duplicated region for block: B:45:0x0237  */
+        /* JADX WARN: Removed duplicated region for block: B:50:0x025d  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x0261  */
         @Override // android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         protected void onDraw(Canvas canvas) {
             int paddingTop;
+            int i;
             float f;
             float dp;
             float dp2;
@@ -833,19 +836,20 @@ public class RecyclerListView extends RecyclerView {
                 canvas.drawPath(this.arrowPath, this.paint);
                 canvas.restore();
             }
-            int i = this.type;
-            if (i == 0) {
+            int i2 = this.type;
+            if (i2 == 0) {
                 if (this.isMoving || this.bubbleProgress != 0.0f) {
                     this.paint.setAlpha((int) (this.bubbleProgress * 255.0f));
                     int dp4 = AndroidUtilities.dp(30.0f) + paddingTop2;
                     int dp5 = paddingTop2 - AndroidUtilities.dp(46.0f);
                     if (dp5 <= AndroidUtilities.dp(12.0f)) {
                         f = AndroidUtilities.dp(12.0f) - dp5;
-                        dp5 = AndroidUtilities.dp(12.0f);
+                        i = AndroidUtilities.dp(12.0f);
                     } else {
+                        i = dp5;
                         f = 0.0f;
                     }
-                    canvas.translate(AndroidUtilities.dp(10.0f), dp5);
+                    canvas.translate(AndroidUtilities.dp(10.0f), i);
                     if (f <= AndroidUtilities.dp(29.0f)) {
                         dp2 = AndroidUtilities.dp(44.0f);
                         dp = AndroidUtilities.dp(4.0f) + ((f / AndroidUtilities.dp(29.0f)) * AndroidUtilities.dp(40.0f));
@@ -882,7 +886,7 @@ public class RecyclerListView extends RecyclerView {
                         if (staticLayout != null) {
                             canvas.save();
                             float f2 = this.bubbleProgress;
-                            canvas.scale(f2, f2, this.scrollX, dp4 - dp5);
+                            canvas.scale(f2, f2, this.scrollX, dp4 - i);
                             canvas.drawPath(this.path, this.paint);
                             canvas.translate(this.textX, this.textY);
                             staticLayout.draw(canvas);
@@ -906,7 +910,7 @@ public class RecyclerListView extends RecyclerView {
                     if (staticLayout != null) {
                     }
                 }
-            } else if (i == 1 && this.letterLayout != null && this.floatingDateProgress != 0.0f) {
+            } else if (i2 == 1 && this.letterLayout != null && this.floatingDateProgress != 0.0f) {
                 canvas.save();
                 float f3 = (this.floatingDateProgress * 0.3f) + 0.7f;
                 canvas.scale(f3, f3, this.rect.right - AndroidUtilities.dp(12.0f), this.rect.centerY());
@@ -972,9 +976,7 @@ public class RecyclerListView extends RecyclerView {
             }
             long currentTimeMillis = System.currentTimeMillis();
             long j = currentTimeMillis - this.lastUpdateTime;
-            if (j < 0 || j > 17) {
-                j = 17;
-            }
+            j = (j < 0 || j > 17) ? 17L : 17L;
             boolean z2 = this.isMoving;
             if ((z2 && this.letterLayout != null && this.bubbleProgress < 1.0f) || ((!z2 || this.letterLayout == null) && this.bubbleProgress > 0.0f)) {
                 this.lastUpdateTime = currentTimeMillis;

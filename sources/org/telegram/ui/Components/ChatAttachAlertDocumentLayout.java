@@ -934,6 +934,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 z = true;
             }
             this.scrolling = false;
+            z2 = z;
         } else if (!(obj instanceof MessageObject)) {
             return false;
         } else {
@@ -947,12 +948,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 this.selectedMessages.put(messageHashId, messageObject);
                 z2 = true;
             }
-            z = z2;
         }
         if (view instanceof SharedDocumentCell) {
-            ((SharedDocumentCell) view).setChecked(z, true);
+            ((SharedDocumentCell) view).setChecked(z2, true);
         }
-        this.parentAlert.updateCountButton(z ? 1 : 2);
+        this.parentAlert.updateCountButton(z2 ? 1 : 2);
         return true;
     }
 
@@ -1330,18 +1330,16 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:205:0x01a4 A[Catch: Exception -> 0x01c5, TRY_LEAVE, TryCatch #4 {Exception -> 0x01c5, blocks: (B:203:0x0193, B:205:0x01a4), top: B:237:0x0193 }] */
-    /* JADX WARN: Removed duplicated region for block: B:211:0x01cd  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x01f9  */
-    /* JADX WARN: Removed duplicated region for block: B:217:0x022e  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0241 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:209:0x0191, code lost:
+        if (r3 == null) goto L78;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:244:0x0246 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void listRoots() {
         BufferedReader bufferedReader;
-        File file;
         int lastIndexOf;
         BufferedReader bufferedReader2 = null;
         this.currentDir = null;
@@ -1369,92 +1367,87 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             hashSet.add(path);
         }
         try {
+            bufferedReader = new BufferedReader(new FileReader("/proc/mounts"));
+        } catch (Exception e) {
+            e = e;
+            bufferedReader = null;
+        } catch (Throwable th) {
+            th = th;
+            bufferedReader = bufferedReader2;
+            if (bufferedReader != null) {
+            }
+            throw th;
+        }
+        while (true) {
             try {
-                bufferedReader = new BufferedReader(new FileReader("/proc/mounts"));
-                while (true) {
-                    try {
-                        try {
-                            String readLine = bufferedReader.readLine();
-                            if (readLine == null) {
-                                break;
-                            } else if (readLine.contains("vfat") || readLine.contains("/mnt")) {
-                                if (BuildVars.LOGS_ENABLED) {
-                                    FileLog.d(readLine);
-                                }
-                                StringTokenizer stringTokenizer = new StringTokenizer(readLine, " ");
-                                stringTokenizer.nextToken();
-                                String nextToken = stringTokenizer.nextToken();
-                                if (!hashSet.contains(nextToken) && readLine.contains("/dev/block/vold") && !readLine.contains("/mnt/secure") && !readLine.contains("/mnt/asec") && !readLine.contains("/mnt/obb") && !readLine.contains("/dev/mapper") && !readLine.contains("tmpfs")) {
-                                    if (!new File(nextToken).isDirectory() && (lastIndexOf = nextToken.lastIndexOf(47)) != -1) {
-                                        String str = "/storage/" + nextToken.substring(lastIndexOf + 1);
-                                        if (new File(str).isDirectory()) {
-                                            nextToken = str;
-                                        }
-                                    }
-                                    hashSet.add(nextToken);
-                                    try {
-                                        ListItem listItem2 = new ListItem(null);
-                                        if (nextToken.toLowerCase().contains("sd")) {
-                                            listItem2.title = LocaleController.getString("SdCard", R.string.SdCard);
-                                        } else {
-                                            listItem2.title = LocaleController.getString("ExternalStorage", R.string.ExternalStorage);
-                                        }
-                                        listItem2.subtitle = LocaleController.getString("ExternalFolderInfo", R.string.ExternalFolderInfo);
-                                        listItem2.icon = R.drawable.files_internal;
-                                        listItem2.file = new File(nextToken);
-                                        this.listAdapter.items.add(listItem2);
-                                    } catch (Exception e) {
-                                        FileLog.e(e);
-                                    }
-                                }
-                            }
-                        } catch (Exception e2) {
-                            e = e2;
-                            FileLog.e(e);
-                            if (bufferedReader != null) {
-                                bufferedReader.close();
-                            }
-                            file = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-                            if (file.exists()) {
-                            }
-                            if (!this.isSoundPicker) {
-                            }
-                            if (this.allowMusic) {
-                            }
-                            if (!this.listAdapter.recentItems.isEmpty()) {
-                            }
-                            AndroidUtilities.clearDrawableAnimation(this.listView);
-                            this.scrolling = true;
-                            this.listAdapter.notifyDataSetChanged();
+                try {
+                    String readLine = bufferedReader.readLine();
+                    if (readLine != null) {
+                        if (!readLine.contains("vfat") && !readLine.contains("/mnt")) {
                         }
-                    } catch (Throwable th) {
-                        th = th;
-                        bufferedReader2 = bufferedReader;
-                        if (bufferedReader2 != null) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d(readLine);
+                        }
+                        StringTokenizer stringTokenizer = new StringTokenizer(readLine, " ");
+                        stringTokenizer.nextToken();
+                        String nextToken = stringTokenizer.nextToken();
+                        if (!hashSet.contains(nextToken) && readLine.contains("/dev/block/vold") && !readLine.contains("/mnt/secure") && !readLine.contains("/mnt/asec") && !readLine.contains("/mnt/obb") && !readLine.contains("/dev/mapper") && !readLine.contains("tmpfs")) {
+                            if (!new File(nextToken).isDirectory() && (lastIndexOf = nextToken.lastIndexOf(47)) != -1) {
+                                String str = "/storage/" + nextToken.substring(lastIndexOf + 1);
+                                if (new File(str).isDirectory()) {
+                                    nextToken = str;
+                                }
+                            }
+                            hashSet.add(nextToken);
                             try {
-                                bufferedReader2.close();
-                            } catch (Exception e3) {
-                                FileLog.e(e3);
+                                ListItem listItem2 = new ListItem(null);
+                                if (nextToken.toLowerCase().contains("sd")) {
+                                    listItem2.title = LocaleController.getString("SdCard", R.string.SdCard);
+                                } else {
+                                    listItem2.title = LocaleController.getString("ExternalStorage", R.string.ExternalStorage);
+                                }
+                                listItem2.subtitle = LocaleController.getString("ExternalFolderInfo", R.string.ExternalFolderInfo);
+                                listItem2.icon = R.drawable.files_internal;
+                                listItem2.file = new File(nextToken);
+                                this.listAdapter.items.add(listItem2);
+                            } catch (Exception e2) {
+                                FileLog.e(e2);
+                            }
+                        }
+                    }
+                } catch (Exception e3) {
+                    e = e3;
+                    try {
+                        FileLog.e(e);
+                    } catch (Throwable th2) {
+                        th = th2;
+                        bufferedReader2 = bufferedReader;
+                        bufferedReader = bufferedReader2;
+                        if (bufferedReader != null) {
+                            try {
+                                bufferedReader.close();
+                            } catch (Exception e4) {
+                                FileLog.e(e4);
                             }
                         }
                         throw th;
                     }
                 }
-                bufferedReader.close();
-            } catch (Exception e4) {
-                FileLog.e(e4);
+                try {
+                    break;
+                } catch (Exception e5) {
+                    FileLog.e(e5);
+                }
+            } catch (Throwable th3) {
+                th = th3;
+                if (bufferedReader != null) {
+                }
+                throw th;
             }
-        } catch (Exception e5) {
-            e = e5;
-            bufferedReader = null;
-        } catch (Throwable th2) {
-            th = th2;
-            if (bufferedReader2 != null) {
-            }
-            throw th;
         }
+        bufferedReader.close();
         try {
-            file = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
+            File file = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
             if (file.exists()) {
                 ListItem listItem3 = new ListItem(null);
                 listItem3.title = "Telegram";
@@ -1779,11 +1772,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             updateFiltersView(true, null, null, true);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:155:0x0085  */
-        /* JADX WARN: Removed duplicated region for block: B:166:0x00bc  */
-        /* JADX WARN: Removed duplicated region for block: B:169:0x00cb  */
-        /* JADX WARN: Removed duplicated region for block: B:172:0x00d9  */
-        /* JADX WARN: Removed duplicated region for block: B:190:0x0194  */
+        /* JADX WARN: Removed duplicated region for block: B:154:0x0084  */
+        /* JADX WARN: Removed duplicated region for block: B:165:0x00bb  */
+        /* JADX WARN: Removed duplicated region for block: B:168:0x00ca  */
+        /* JADX WARN: Removed duplicated region for block: B:171:0x00d8  */
+        /* JADX WARN: Removed duplicated region for block: B:189:0x018d  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -1826,28 +1819,9 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                             }
                             ChatAttachAlertDocumentLayout.this.filtersViewAnimator = new AnimatorSet();
                             AnimatorSet animatorSet = ChatAttachAlertDocumentLayout.this.filtersViewAnimator;
-                            Animator[] animatorArr = new Animator[4];
                             RecyclerListView recyclerListView = ChatAttachAlertDocumentLayout.this.listView;
                             Property property = View.TRANSLATION_Y;
-                            float[] fArr = new float[1];
-                            fArr[0] = z3 ? AndroidUtilities.dp(44.0f) : 0.0f;
-                            animatorArr[0] = ObjectAnimator.ofFloat(recyclerListView, property, fArr);
-                            FiltersView filtersView = ChatAttachAlertDocumentLayout.this.filtersView;
-                            Property property2 = View.TRANSLATION_Y;
-                            float[] fArr2 = new float[1];
-                            fArr2[0] = z3 ? 0.0f : -AndroidUtilities.dp(44.0f);
-                            animatorArr[1] = ObjectAnimator.ofFloat(filtersView, property2, fArr2);
-                            FlickerLoadingView flickerLoadingView = ChatAttachAlertDocumentLayout.this.loadingView;
-                            Property property3 = View.TRANSLATION_Y;
-                            float[] fArr3 = new float[1];
-                            fArr3[0] = z3 ? AndroidUtilities.dp(44.0f) : 0.0f;
-                            animatorArr[2] = ObjectAnimator.ofFloat(flickerLoadingView, property3, fArr3);
-                            StickerEmptyView stickerEmptyView = ChatAttachAlertDocumentLayout.this.emptyView;
-                            Property property4 = View.TRANSLATION_Y;
-                            float[] fArr4 = new float[1];
-                            fArr4[0] = z3 ? AndroidUtilities.dp(44.0f) : 0.0f;
-                            animatorArr[3] = ObjectAnimator.ofFloat(stickerEmptyView, property4, fArr4);
-                            animatorSet.playTogether(animatorArr);
+                            animatorSet.playTogether(ObjectAnimator.ofFloat(recyclerListView, property, z3 ? AndroidUtilities.dp(44.0f) : 0.0f), ObjectAnimator.ofFloat(ChatAttachAlertDocumentLayout.this.filtersView, property, z3 ? 0.0f : -AndroidUtilities.dp(44.0f)), ObjectAnimator.ofFloat(ChatAttachAlertDocumentLayout.this.loadingView, property, z3 ? AndroidUtilities.dp(44.0f) : 0.0f), ObjectAnimator.ofFloat(ChatAttachAlertDocumentLayout.this.emptyView, property, z3 ? AndroidUtilities.dp(44.0f) : 0.0f));
                             ChatAttachAlertDocumentLayout.this.filtersViewAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout.SearchAdapter.2
                                 {
                                     SearchAdapter.this = this;
@@ -1897,9 +1871,6 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             String str2 = this.lastSearchFilterQueryString;
             boolean z2 = str2 != null && str2.equals(format);
             boolean z3 = !z2 && z;
-            if (j == this.currentSearchDialogId && this.currentSearchMinDate == j2) {
-                int i = (this.currentSearchMaxDate > j3 ? 1 : (this.currentSearchMaxDate == j3 ? 0 : -1));
-            }
             this.currentSearchFilter = mediaFilterData;
             this.currentSearchDialogId = j;
             this.currentSearchMinDate = j2;
@@ -1939,14 +1910,14 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 updateFiltersView(false, null, null, true);
                 return;
             }
-            final int i2 = 1 + this.requestIndex;
-            this.requestIndex = i2;
+            final int i = this.requestIndex + 1;
+            this.requestIndex = i;
             final AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
             final boolean z4 = z2;
             Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertDocumentLayout$SearchAdapter$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
-                    ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$searchGlobal$4(j, str, accountInstance, j2, j3, z4, format, i2);
+                    ChatAttachAlertDocumentLayout.SearchAdapter.this.lambda$searchGlobal$4(j, str, accountInstance, j2, j3, z4, format, i);
                 }
             };
             this.searchRunnable = runnable2;
@@ -2053,7 +2024,6 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         }
 
         public /* synthetic */ void lambda$searchGlobal$2(int i, TLRPC$TL_error tLRPC$TL_error, TLObject tLObject, AccountInstance accountInstance, boolean z, String str, ArrayList arrayList, long j, long j2, ArrayList arrayList2, ArrayList arrayList3) {
-            boolean z2;
             if (i != this.requestIndex) {
                 return;
             }
@@ -2115,18 +2085,15 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 if (str.length() >= 3 && (LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase().startsWith(str) || "saved messages".startsWith(str))) {
                     int i4 = 0;
                     while (true) {
-                        if (i4 >= this.localTipChats.size()) {
-                            z2 = false;
-                            break;
-                        } else if ((this.localTipChats.get(i4) instanceof TLRPC$User) && UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == ((TLRPC$User) this.localTipChats.get(i4)).id) {
-                            z2 = true;
-                            break;
-                        } else {
+                        if (i4 < this.localTipChats.size()) {
+                            if ((this.localTipChats.get(i4) instanceof TLRPC$User) && UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser().id == ((TLRPC$User) this.localTipChats.get(i4)).id) {
+                                break;
+                            }
                             i4++;
+                        } else {
+                            this.localTipChats.add(0, UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser());
+                            break;
                         }
-                    }
-                    if (!z2) {
-                        this.localTipChats.add(0, UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser());
                     }
                 }
                 this.localTipDates.clear();

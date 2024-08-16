@@ -4,6 +4,7 @@ import androidx.concurrent.futures.AbstractResolvableFuture$SafeAtomicHelper$$Ex
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: WorkQueue.kt */
 /* loaded from: classes.dex */
 public final class WorkQueue {
@@ -55,7 +56,7 @@ public final class WorkQueue {
         if (getBufferSize$kotlinx_coroutines_core() == 127) {
             return task;
         }
-        int i = this.producerIndex & 127;
+        int i = this.producerIndex & NotificationCenter.dialogTranslate;
         while (this.buffer.get(i) != null) {
             Thread.yield();
         }
@@ -65,11 +66,10 @@ public final class WorkQueue {
     }
 
     private final void decrementIfBlocking(Task task) {
-        if (task != null) {
-            if (task.taskContext.getTaskMode() == 1) {
-                blockingTasksInBuffer$FU.decrementAndGet(this);
-            }
+        if (task == null || task.taskContext.getTaskMode() != 1) {
+            return;
         }
+        blockingTasksInBuffer$FU.decrementAndGet(this);
     }
 
     public final long tryStealFrom(WorkQueue workQueue) {
@@ -82,26 +82,19 @@ public final class WorkQueue {
     }
 
     public final long tryStealBlockingFrom(WorkQueue workQueue) {
-        int i = workQueue.consumerIndex;
-        int i2 = workQueue.producerIndex;
+        int i = workQueue.producerIndex;
         AtomicReferenceArray<Task> atomicReferenceArray = workQueue.buffer;
-        while (true) {
-            if (i == i2) {
-                break;
-            }
-            int i3 = i & 127;
+        for (int i2 = workQueue.consumerIndex; i2 != i; i2++) {
+            int i3 = i2 & NotificationCenter.dialogTranslate;
             if (workQueue.blockingTasksInBuffer == 0) {
                 break;
             }
             Task task = atomicReferenceArray.get(i3);
-            if (task != null) {
-                if ((task.taskContext.getTaskMode() == 1) && WorkQueue$$ExternalSyntheticBackportWithForwarding0.m(atomicReferenceArray, i3, task, null)) {
-                    blockingTasksInBuffer$FU.decrementAndGet(workQueue);
-                    add$default(this, task, false, 2, null);
-                    return -1L;
-                }
+            if (task != null && task.taskContext.getTaskMode() == 1 && WorkQueue$$ExternalSyntheticBackportWithForwarding0.m(atomicReferenceArray, i3, task, null)) {
+                blockingTasksInBuffer$FU.decrementAndGet(workQueue);
+                add$default(this, task, false, 2, null);
+                return -1L;
             }
-            i++;
         }
         return tryStealLastScheduled(workQueue, true);
     }
@@ -122,10 +115,8 @@ public final class WorkQueue {
             if (task == null) {
                 return -2L;
             }
-            if (z) {
-                if (!(task.taskContext.getTaskMode() == 1)) {
-                    return -2L;
-                }
+            if (z && task.taskContext.getTaskMode() != 1) {
+                return -2L;
             }
             long nanoTime = TasksKt.schedulerTimeSource.nanoTime() - task.submissionTime;
             long j = TasksKt.WORK_STEALING_TIME_RESOLUTION_NS;
@@ -153,7 +144,7 @@ public final class WorkQueue {
             if (i - this.producerIndex == 0) {
                 return null;
             }
-            int i2 = i & 127;
+            int i2 = i & NotificationCenter.dialogTranslate;
             if (consumerIndex$FU.compareAndSet(this, i, i + 1) && (andSet = this.buffer.getAndSet(i2, null)) != null) {
                 decrementIfBlocking(andSet);
                 return andSet;

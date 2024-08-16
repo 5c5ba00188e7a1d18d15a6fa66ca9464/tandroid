@@ -42,10 +42,10 @@ final class Sniffer {
             return false;
         }
         while (true) {
-            int i3 = this.peekLength;
-            long j3 = j2 + readUint;
-            if (i3 >= j3) {
-                return ((long) i3) == j3;
+            long j3 = this.peekLength;
+            long j4 = j2 + readUint;
+            if (j3 >= j4) {
+                return j3 == j4;
             } else if (readUint(extractorInput) == Long.MIN_VALUE) {
                 return false;
             } else {
@@ -53,9 +53,9 @@ final class Sniffer {
                 if (readUint2 < 0 || readUint2 > 2147483647L) {
                     break;
                 } else if (readUint2 != 0) {
-                    int i4 = (int) readUint2;
-                    extractorInput.advancePeekPosition(i4);
-                    this.peekLength += i4;
+                    int i3 = (int) readUint2;
+                    extractorInput.advancePeekPosition(i3);
+                    this.peekLength += i3;
                 }
             }
         }

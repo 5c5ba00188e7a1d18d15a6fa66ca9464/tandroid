@@ -82,7 +82,7 @@ public class MediaHeaderBox extends AbstractFullBox {
 
     @Override // com.googlecode.mp4parser.AbstractBox
     protected long getContentSize() {
-        return (getVersion() == 1 ? 32L : 20L) + 2 + 2;
+        return (getVersion() == 1 ? 32L : 20L) + 4;
     }
 
     public void setCreationTime(Date date) {

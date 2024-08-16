@@ -146,34 +146,36 @@ public class SharingLiveLocationCell extends FrameLayout {
     }
 
     public void setDialog(long j, TLRPC$TL_channelLocation tLRPC$TL_channelLocation) {
+        String str;
         this.currentAccount = UserConfig.selectedAccount;
-        String str = tLRPC$TL_channelLocation.address;
+        String str2 = tLRPC$TL_channelLocation.address;
         this.avatarDrawable = null;
-        String str2 = "";
         if (DialogObject.isUserDialog(j)) {
             TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(j));
             if (user != null) {
                 this.avatarDrawable = new AvatarDrawable(user);
-                String userName = UserObject.getUserName(user);
+                str = UserObject.getUserName(user);
                 this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
-                str2 = userName;
             }
+            str = "";
         } else {
             TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-j));
             if (chat != null) {
                 AvatarDrawable avatarDrawable = new AvatarDrawable(chat);
                 this.avatarDrawable = avatarDrawable;
-                str2 = chat.title;
+                String str3 = chat.title;
                 this.avatarImageView.setForUserOrChat(chat, avatarDrawable);
+                str = str3;
             }
+            str = "";
         }
-        this.nameTextView.setText(str2);
+        this.nameTextView.setText(str);
         this.location.setLatitude(tLRPC$TL_channelLocation.geo_point.lat);
         this.location.setLongitude(tLRPC$TL_channelLocation.geo_point._long);
         TextView textView = this.distanceTextView;
         this.distanceTextViewSingle = true;
         textView.setSingleLine(true);
-        this.distanceTextView.setText(str);
+        this.distanceTextView.setText(str2);
     }
 
     private CharSequence getName(final double d, final double d2) {
@@ -249,7 +251,7 @@ public class SharingLiveLocationCell extends FrameLayout {
     }
 
     public void setDialog(MessageObject messageObject, Location location, boolean z) {
-        String str;
+        CharSequence charSequence;
         TLRPC$Message tLRPC$Message;
         if (messageObject != null && (tLRPC$Message = messageObject.messageOwner) != null && tLRPC$Message.local_id == -1) {
             Drawable drawable = getResources().getDrawable(R.drawable.pin);
@@ -263,9 +265,9 @@ public class SharingLiveLocationCell extends FrameLayout {
             TextView textView = this.distanceTextView;
             this.distanceTextViewSingle = false;
             textView.setSingleLine(false);
-            String str2 = messageObject.messageOwner.media.address;
-            this.distanceTextViewHeight = new StaticLayout(str2, this.distanceTextView.getPaint(), AndroidUtilities.displaySize.x - AndroidUtilities.dp(this.padding + 73), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false).getHeight();
-            this.distanceTextView.setText(str2);
+            String str = messageObject.messageOwner.media.address;
+            this.distanceTextViewHeight = new StaticLayout(str, this.distanceTextView.getPaint(), AndroidUtilities.displaySize.x - AndroidUtilities.dp(this.padding + 73), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false).getHeight();
+            this.distanceTextView.setText(str);
             requestLayout();
             return;
         }
@@ -277,7 +279,7 @@ public class SharingLiveLocationCell extends FrameLayout {
             fromChatId = MessageObject.getPeerId(messageObject.messageOwner.fwd_from.from_id);
         }
         this.currentAccount = messageObject.currentAccount;
-        String str3 = !TextUtils.isEmpty(messageObject.messageOwner.media.address) ? messageObject.messageOwner.media.address : null;
+        String str2 = !TextUtils.isEmpty(messageObject.messageOwner.media.address) ? messageObject.messageOwner.media.address : null;
         boolean isEmpty = TextUtils.isEmpty(messageObject.messageOwner.media.title);
         if (isEmpty) {
             this.avatarDrawable = null;
@@ -285,11 +287,11 @@ public class SharingLiveLocationCell extends FrameLayout {
                 TLRPC$User user = MessagesController.getInstance(this.currentAccount).getUser(Long.valueOf(fromChatId));
                 if (user != null) {
                     this.avatarDrawable = new AvatarDrawable(user);
-                    str = UserObject.getUserName(user);
+                    charSequence = UserObject.getUserName(user);
                     this.avatarImageView.setForUserOrChat(user, this.avatarDrawable);
                 } else {
                     TLRPC$GeoPoint tLRPC$GeoPoint = messageObject.messageOwner.media.geo;
-                    str = getName(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
+                    charSequence = getName(tLRPC$GeoPoint.lat, tLRPC$GeoPoint._long);
                     isEmpty = false;
                 }
             } else {
@@ -297,29 +299,29 @@ public class SharingLiveLocationCell extends FrameLayout {
                 if (chat != null) {
                     AvatarDrawable avatarDrawable = new AvatarDrawable(chat);
                     this.avatarDrawable = avatarDrawable;
-                    String str4 = chat.title;
+                    String str3 = chat.title;
                     this.avatarImageView.setForUserOrChat(chat, avatarDrawable);
-                    str = str4;
+                    charSequence = str3;
                 } else {
                     TLRPC$GeoPoint tLRPC$GeoPoint2 = messageObject.messageOwner.media.geo;
-                    str = getName(tLRPC$GeoPoint2.lat, tLRPC$GeoPoint2._long);
+                    charSequence = getName(tLRPC$GeoPoint2.lat, tLRPC$GeoPoint2._long);
                     isEmpty = false;
                 }
             }
         } else {
-            str = "";
+            charSequence = "";
         }
-        if (TextUtils.isEmpty(str)) {
+        if (TextUtils.isEmpty(charSequence)) {
             if (this.loadingString == null) {
                 SpannableString spannableString = new SpannableString("dkaraush has been here");
                 this.loadingString = spannableString;
                 spannableString.setSpan(new LoadingSpan(this.nameTextView, AndroidUtilities.dp(100.0f), 0, this.resourcesProvider), 0, this.loadingString.length(), 33);
             }
-            str = this.loadingString;
+            charSequence = this.loadingString;
         }
         if (!isEmpty) {
             if (!TextUtils.isEmpty(messageObject.messageOwner.media.title)) {
-                str = messageObject.messageOwner.media.title;
+                charSequence = messageObject.messageOwner.media.title;
             }
             Drawable drawable2 = getResources().getDrawable(R.drawable.pin);
             drawable2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_location_sendLocationIcon), PorterDuff.Mode.MULTIPLY));
@@ -329,18 +331,18 @@ public class SharingLiveLocationCell extends FrameLayout {
             combinedDrawable2.setIconSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
             this.avatarImageView.setImageDrawable(combinedDrawable2);
         }
-        this.nameTextView.setText(str);
+        this.nameTextView.setText(charSequence);
         this.location.setLatitude(messageObject.messageOwner.media.geo.lat);
         this.location.setLongitude(messageObject.messageOwner.media.geo._long);
         if (location != null) {
             float distanceTo = this.location.distanceTo(location);
-            if (str3 != null) {
-                this.distanceTextView.setText(String.format("%s - %s", str3, LocaleController.formatDistance(distanceTo, 0)));
+            if (str2 != null) {
+                this.distanceTextView.setText(String.format("%s - %s", str2, LocaleController.formatDistance(distanceTo, 0)));
             } else {
                 this.distanceTextView.setText(LocaleController.formatDistance(distanceTo, 0));
             }
-        } else if (str3 != null) {
-            this.distanceTextView.setText(str3);
+        } else if (str2 != null) {
+            this.distanceTextView.setText(str2);
         } else if (!z) {
             this.distanceTextView.setText(LocaleController.getString("Loading", R.string.Loading));
         } else {
@@ -423,9 +425,9 @@ public class SharingLiveLocationCell extends FrameLayout {
         if (i2 >= currentTime || z) {
             float abs = z ? 1.0f : Math.abs(i2 - currentTime) / i;
             if (LocaleController.isRTL) {
-                this.rect.set(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(this.distanceTextView == null ? 12.0f : 18.0f), AndroidUtilities.dp(43.0f), AndroidUtilities.dp(this.distanceTextView == null ? 42.0f : 48.0f));
+                this.rect.set(AndroidUtilities.dp(13.0f), AndroidUtilities.dp(this.distanceTextView != null ? 18.0f : 12.0f), AndroidUtilities.dp(43.0f), AndroidUtilities.dp(this.distanceTextView != null ? 48.0f : 42.0f));
             } else {
-                this.rect.set(getMeasuredWidth() - AndroidUtilities.dp(43.0f), AndroidUtilities.dp(this.distanceTextView == null ? 12.0f : 18.0f), getMeasuredWidth() - AndroidUtilities.dp(13.0f), AndroidUtilities.dp(this.distanceTextView == null ? 42.0f : 48.0f));
+                this.rect.set(getMeasuredWidth() - AndroidUtilities.dp(43.0f), AndroidUtilities.dp(this.distanceTextView != null ? 18.0f : 12.0f), getMeasuredWidth() - AndroidUtilities.dp(13.0f), AndroidUtilities.dp(this.distanceTextView != null ? 48.0f : 42.0f));
             }
             if (this.distanceTextView == null) {
                 themedColor = getThemedColor(Theme.key_dialog_liveLocationProgress);

@@ -66,14 +66,14 @@ final class FlacBinarySearchSeeker extends BinarySearchSeeker {
                 long lastFrameFirstSampleIndex = this.decoderJni.getLastFrameFirstSampleIndex();
                 long nextFrameFirstSampleIndex = this.decoderJni.getNextFrameFirstSampleIndex();
                 long decodePosition = this.decoderJni.getDecodePosition();
-                if (lastFrameFirstSampleIndex <= j && nextFrameFirstSampleIndex > j) {
-                    this.outputFrameHolder.timeUs = this.decoderJni.getLastFrameTimestamp();
-                    return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(extractorInput.getPosition());
-                } else if (nextFrameFirstSampleIndex <= j) {
-                    return BinarySearchSeeker.TimestampSearchResult.underestimatedResult(nextFrameFirstSampleIndex, decodePosition);
-                } else {
+                if (lastFrameFirstSampleIndex > j || nextFrameFirstSampleIndex <= j) {
+                    if (nextFrameFirstSampleIndex <= j) {
+                        return BinarySearchSeeker.TimestampSearchResult.underestimatedResult(nextFrameFirstSampleIndex, decodePosition);
+                    }
                     return BinarySearchSeeker.TimestampSearchResult.overestimatedResult(lastFrameFirstSampleIndex, position);
                 }
+                this.outputFrameHolder.timeUs = this.decoderJni.getLastFrameTimestamp();
+                return BinarySearchSeeker.TimestampSearchResult.targetFoundResult(extractorInput.getPosition());
             } catch (FlacDecoderJni.FlacFrameDecodeException unused) {
                 return BinarySearchSeeker.TimestampSearchResult.NO_TIMESTAMP_IN_RANGE_RESULT;
             }

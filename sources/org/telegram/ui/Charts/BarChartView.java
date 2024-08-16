@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import androidx.core.graphics.ColorUtils;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Charts.data.ChartData;
 import org.telegram.ui.Charts.view_data.BarViewData;
 import org.telegram.ui.Charts.view_data.TransitionParams;
@@ -94,14 +95,12 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                                 z = true;
                             } else {
                                 float[] fArr2 = barViewData.linesPath;
-                                int i11 = i4 + 1;
                                 fArr2[i4] = f15;
-                                int i12 = i11 + 1;
-                                fArr2[i11] = measuredHeight;
-                                int i13 = i12 + 1;
-                                fArr2[i12] = f15;
-                                i4 = i13 + 1;
-                                fArr2[i13] = getMeasuredHeight() - this.chartBottom;
+                                fArr2[i4 + 1] = measuredHeight;
+                                int i11 = i4 + 3;
+                                fArr2[i4 + 2] = f15;
+                                i4 += 4;
+                                fArr2[i11] = getMeasuredHeight() - this.chartBottom;
                             }
                             i10++;
                             jArr = jArr2;
@@ -118,17 +117,17 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                         } else {
                             f8 = 0.0f;
                         }
-                        int i14 = (int) (255.0f * f);
-                        paint.setAlpha(i14);
+                        int i12 = (int) (255.0f * f);
+                        paint.setAlpha(i12);
                         canvas.drawLines(barViewData.linesPath, 0, i4, paint);
                         if (z) {
                             barViewData.paint.setStrokeWidth(f11);
-                            barViewData.paint.setAlpha(i14);
+                            barViewData.paint.setAlpha(i12);
                             Paint paint2 = barViewData.paint;
                             float f16 = f13;
                             i2 = i;
                             canvas.drawLine(f14, f16, f14, getMeasuredHeight() - this.chartBottom, paint2);
-                            barViewData.paint.setAlpha(255);
+                            barViewData.paint.setAlpha(NotificationCenter.voipServiceCreated);
                             i = i2 + 1;
                             i9 = 2;
                             c = 1;
@@ -202,16 +201,13 @@ public class BarChartView extends BaseChartView<ChartData, BarViewData> {
                                 jArr = jArr2;
                                 f = (float) t.maxValue;
                             }
-                            float f5 = (1.0f - ((((float) j) / f) * f3)) * (i5 - measuredHeight2);
                             float[] fArr2 = barViewData.linesPath;
-                            int i9 = i8 + 1;
                             fArr2[i8] = f4;
-                            int i10 = i9 + 1;
-                            fArr2[i9] = f5;
-                            int i11 = i10 + 1;
-                            fArr2[i10] = f4;
-                            i8 = i11 + 1;
-                            fArr2[i11] = getMeasuredHeight() - this.chartBottom;
+                            fArr2[i8 + 1] = (1.0f - ((((float) j) / f) * f3)) * (i5 - measuredHeight2);
+                            int i9 = i8 + 3;
+                            fArr2[i8 + 2] = f4;
+                            i8 += 4;
+                            fArr2[i9] = getMeasuredHeight() - this.chartBottom;
                         }
                         i7++;
                         length = i3;

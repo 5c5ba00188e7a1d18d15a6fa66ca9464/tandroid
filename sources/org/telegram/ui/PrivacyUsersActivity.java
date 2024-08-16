@@ -131,7 +131,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
-        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda0
+        recyclerListView.setItemSelectorColorProvider(new GenericProvider() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 Integer lambda$createView$0;
@@ -151,13 +151,13 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
         recyclerListView3.setAdapter(listAdapter);
         this.listView.setVerticalScrollbarPosition(LocaleController.isRTL ? 1 : 2);
         frameLayout.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i2) {
                 PrivacyUsersActivity.this.lambda$createView$3(view, i2);
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda2
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i2) {
                 boolean lambda$createView$4;
@@ -301,7 +301,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             public final void run() {
                 PrivacyUsersActivity.this.lambda$showUnblockAlert$6(l);
             }
-        }).setMinWidth(190).show();
+        }).setMinWidth(NotificationCenter.storiesSendAsUpdate).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -331,7 +331,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
             this.blockUserRow = i;
             int i3 = this.currentType;
             if (i3 == 1) {
-                this.rowCount = i2 + 1;
+                this.rowCount = i + 2;
                 this.blockUserDetailRow = i2;
             }
             if (i3 == 1) {
@@ -354,7 +354,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
                 this.rowCount = i8;
                 this.usersDetailRow = i7;
                 if (i4 != 1) {
-                    this.rowCount = i8 + 1;
+                    this.rowCount = i7 + 2;
                     this.deleteAllRow = i8;
                 }
             } else {
@@ -599,7 +599,7 @@ public class PrivacyUsersActivity extends BaseFragment implements NotificationCe
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda3
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PrivacyUsersActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PrivacyUsersActivity.this.lambda$getThemeDescriptions$7();

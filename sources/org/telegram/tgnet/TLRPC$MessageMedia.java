@@ -56,14 +56,14 @@ public abstract class TLRPC$MessageMedia extends TLObject {
     public boolean voice;
     public TLRPC$WebPage webpage;
 
-    /* JADX WARN: Code restructure failed: missing block: B:61:0x01a6, code lost:
-        if (r6.captionLegacy == null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x01a5, code lost:
+        if (r5.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:74:0x0229, code lost:
-        if (r6.captionLegacy == null) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:75:0x022c, code lost:
+        if (r5.captionLegacy == null) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:75:0x022b, code lost:
-        r6.captionLegacy = "";
+    /* JADX WARN: Code restructure failed: missing block: B:76:0x022e, code lost:
+        r5.captionLegacy = "";
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

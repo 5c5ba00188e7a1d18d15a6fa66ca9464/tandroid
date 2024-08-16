@@ -107,7 +107,11 @@ public class Rpc {
                     }
                     synchronized (this.zzd) {
                         for (int i = 0; i < this.zzd.size(); i++) {
-                            zza(this.zzd.keyAt(i), intent2.getExtras());
+                            try {
+                                zza(this.zzd.keyAt(i), intent2.getExtras());
+                            } catch (Throwable th) {
+                                throw th;
+                            }
                         }
                     }
                     return;
@@ -136,24 +140,32 @@ public class Rpc {
 
     private static synchronized void zza(Context context, Intent intent) {
         synchronized (Rpc.class) {
-            if (zzb == null) {
-                Intent intent2 = new Intent();
-                intent2.setPackage("com.google.example.invalidpackage");
-                zzb = PendingIntent.getBroadcast(context, 0, intent2, 0);
+            try {
+                if (zzb == null) {
+                    Intent intent2 = new Intent();
+                    intent2.setPackage("com.google.example.invalidpackage");
+                    zzb = PendingIntent.getBroadcast(context, 0, intent2, 0);
+                }
+                intent.putExtra("app", zzb);
+            } catch (Throwable th) {
+                throw th;
             }
-            intent.putExtra("app", zzb);
         }
     }
 
     private final void zza(String str, Bundle bundle) {
         synchronized (this.zzd) {
-            TaskCompletionSource<Bundle> remove = this.zzd.remove(str);
-            if (remove == null) {
-                String valueOf = String.valueOf(str);
-                Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
-                return;
+            try {
+                TaskCompletionSource<Bundle> remove = this.zzd.remove(str);
+                if (remove == null) {
+                    String valueOf = String.valueOf(str);
+                    Log.w("Rpc", valueOf.length() != 0 ? "Missing callback for ".concat(valueOf) : new String("Missing callback for "));
+                    return;
+                }
+                remove.setResult(bundle);
+            } catch (Throwable th) {
+                throw th;
             }
-            remove.setResult(bundle);
         }
     }
 
@@ -161,7 +173,7 @@ public class Rpc {
         if (this.zzf.zzb() >= 12000000) {
             return zze.zza(this.zze).zzb(1, bundle).continueWith(zzc, zzt.zza);
         }
-        if (!(this.zzf.zza() != 0)) {
+        if (this.zzf.zza() == 0) {
             return Tasks.forException(new IOException("MISSING_INSTANCEID_SERVICE"));
         }
         return zzc(bundle).continueWithTask(zzc, new Continuation(this, bundle) { // from class: com.google.android.gms.cloudmessaging.zzv

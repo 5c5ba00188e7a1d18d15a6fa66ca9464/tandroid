@@ -36,6 +36,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import java.util.ArrayList;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class NestedScrollView extends FrameLayout implements NestedScrollingParent3, NestedScrollingChild {
@@ -401,7 +402,9 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     public boolean executeKeyEvent(KeyEvent keyEvent) {
         this.mTempRect.setEmpty();
-        if (!canScroll()) {
+        boolean canScroll = canScroll();
+        int i = NotificationCenter.walletSyncProgressChanged;
+        if (!canScroll) {
             if (!isFocused() || keyEvent.getKeyCode() == 4) {
                 return false;
             }
@@ -409,8 +412,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
             if (findFocus == this) {
                 findFocus = null;
             }
-            View findNextFocus = FocusFinder.getInstance().findNextFocus(this, findFocus, 130);
-            return (findNextFocus == null || findNextFocus == this || !findNextFocus.requestFocus(130)) ? false : true;
+            View findNextFocus = FocusFinder.getInstance().findNextFocus(this, findFocus, NotificationCenter.walletSyncProgressChanged);
+            return (findNextFocus == null || findNextFocus == this || !findNextFocus.requestFocus(NotificationCenter.walletSyncProgressChanged)) ? false : true;
         } else if (keyEvent.getAction() == 0) {
             int keyCode = keyEvent.getKeyCode();
             if (keyCode == 19) {
@@ -420,13 +423,16 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
                 return fullScroll(33);
             } else if (keyCode == 20) {
                 if (!keyEvent.isAltPressed()) {
-                    return arrowScroll(130);
+                    return arrowScroll(NotificationCenter.walletSyncProgressChanged);
                 }
-                return fullScroll(130);
+                return fullScroll(NotificationCenter.walletSyncProgressChanged);
             } else if (keyCode != 62) {
                 return false;
             } else {
-                pageScroll(keyEvent.isShiftPressed() ? 33 : 130);
+                if (keyEvent.isShiftPressed()) {
+                    i = 33;
+                }
+                pageScroll(i);
                 return false;
             }
         } else {
@@ -481,7 +487,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         if (action == 2 && this.mIsBeingDragged) {
             return true;
         }
-        int i = action & 255;
+        int i = action & NotificationCenter.voipServiceCreated;
         if (i == 0) {
             int y = (int) motionEvent.getY();
             if (!inChild((int) motionEvent.getX(), y)) {
@@ -648,7 +654,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         boolean z2 = false;
         if (dispatchNestedPreScroll(0, i, this.mScrollConsumed, this.mScrollOffset, i3)) {
             i4 = i - this.mScrollConsumed[1];
-            i5 = this.mScrollOffset[1] + 0;
+            i5 = this.mScrollOffset[1];
         } else {
             i4 = i;
             i5 = 0;
@@ -1058,7 +1064,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     }
 
     public final void smoothScrollBy(int i, int i2) {
-        smoothScrollBy(i, i2, 250, false);
+        smoothScrollBy(i, i2, NotificationCenter.playerDidStartPlaying, false);
     }
 
     private void smoothScrollBy(int i, int i2, int i3, boolean z) {
@@ -1083,11 +1089,11 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     }
 
     public final void smoothScrollTo(int i, int i2) {
-        smoothScrollTo(i, i2, 250, false);
+        smoothScrollTo(i, i2, NotificationCenter.playerDidStartPlaying, false);
     }
 
     void smoothScrollTo(int i, int i2, boolean z) {
-        smoothScrollTo(i, i2, 250, z);
+        smoothScrollTo(i, i2, NotificationCenter.playerDidStartPlaying, z);
     }
 
     void smoothScrollTo(int i, int i2, int i3, boolean z) {
@@ -1138,9 +1144,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         view.measure(ViewGroup.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight(), view.getLayoutParams().width), View.MeasureSpec.makeMeasureSpec(0, 0));
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.view.ViewGroup
-    public void measureChildWithMargins(View view, int i, int i2, int i3, int i4) {
+    protected void measureChildWithMargins(View view, int i, int i2, int i3, int i4) {
         ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         view.measure(ViewGroup.getChildMeasureSpec(i, getPaddingLeft() + getPaddingRight() + marginLayoutParams.leftMargin + marginLayoutParams.rightMargin + i2, marginLayoutParams.width), View.MeasureSpec.makeMeasureSpec(marginLayoutParams.topMargin + marginLayoutParams.bottomMargin, 0));
     }
@@ -1155,7 +1160,6 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         int consumeFlingInVerticalStretch = consumeFlingInVerticalStretch(currY - this.mLastScrollerY);
         this.mLastScrollerY = currY;
         int[] iArr = this.mScrollConsumed;
-        boolean z = false;
         iArr[1] = 0;
         dispatchNestedPreScroll(0, consumeFlingInVerticalStretch, iArr, null, 1);
         int i = consumeFlingInVerticalStretch - this.mScrollConsumed[1];
@@ -1173,9 +1177,6 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         if (i != 0) {
             int overScrollMode = getOverScrollMode();
             if (overScrollMode == 0 || (overScrollMode == 1 && scrollRange > 0)) {
-                z = true;
-            }
-            if (z) {
                 if (i < 0) {
                     if (this.mEdgeGlowTop.isFinished()) {
                         this.mEdgeGlowTop.onAbsorb((int) this.mScroller.getCurrVelocity());
@@ -1289,7 +1290,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
             } else {
                 i2 = rect.bottom - i4;
             }
-            return Math.min(i2 + 0, (childAt.getBottom() + layoutParams.bottomMargin) - i3);
+            return Math.min(i2, (childAt.getBottom() + layoutParams.bottomMargin) - i3);
         } else if (rect.top >= scrollY || i5 >= i4) {
             return 0;
         } else {
@@ -1316,7 +1317,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     protected boolean onRequestFocusInDescendants(int i, Rect rect) {
         View findNextFocusFromRect;
         if (i == 2) {
-            i = 130;
+            i = NotificationCenter.walletSyncProgressChanged;
         } else if (i == 1) {
             i = 33;
         }
@@ -1436,7 +1437,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
             int i2 = Build.VERSION.SDK_INT;
             if (i2 < 21 || Api21Impl.getClipToPadding(this)) {
                 width -= getPaddingLeft() + getPaddingRight();
-                paddingLeft = getPaddingLeft() + 0;
+                paddingLeft = getPaddingLeft();
             } else {
                 paddingLeft = 0;
             }
@@ -1461,7 +1462,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         int i3 = Build.VERSION.SDK_INT;
         if (i3 < 21 || Api21Impl.getClipToPadding(this)) {
             width2 -= getPaddingLeft() + getPaddingRight();
-            i = 0 + getPaddingLeft();
+            i = getPaddingLeft();
         }
         if (i3 >= 21 && Api21Impl.getClipToPadding(this)) {
             height2 -= getPaddingTop() + getPaddingBottom();
@@ -1607,9 +1608,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static boolean getClipToPadding(ViewGroup viewGroup) {
-            boolean clipToPadding;
-            clipToPadding = viewGroup.getClipToPadding();
-            return clipToPadding;
+            return viewGroup.getClipToPadding();
         }
     }
 }

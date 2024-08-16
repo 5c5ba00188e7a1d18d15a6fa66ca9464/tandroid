@@ -14,11 +14,11 @@ public final class IsoTypeReader {
     }
 
     public static int readUInt24(ByteBuffer byteBuffer) {
-        return (readUInt16(byteBuffer) << 8) + 0 + byte2int(byteBuffer.get());
+        return (readUInt16(byteBuffer) << 8) + byte2int(byteBuffer.get());
     }
 
     public static int readUInt16(ByteBuffer byteBuffer) {
-        return (byte2int(byteBuffer.get()) << 8) + 0 + byte2int(byteBuffer.get());
+        return (byte2int(byteBuffer.get()) << 8) + byte2int(byteBuffer.get());
     }
 
     public static int readUInt8(ByteBuffer byteBuffer) {
@@ -32,7 +32,7 @@ public final class IsoTypeReader {
     }
 
     public static long readUInt64(ByteBuffer byteBuffer) {
-        long readUInt32 = (readUInt32(byteBuffer) << 32) + 0;
+        long readUInt32 = readUInt32(byteBuffer) << 32;
         if (readUInt32 < 0) {
             throw new RuntimeException("I don't know how to deal with UInt64! long is not sufficient and I don't want to use BigInt");
         }
@@ -42,7 +42,7 @@ public final class IsoTypeReader {
     public static double readFixedPoint1616(ByteBuffer byteBuffer) {
         byte[] bArr = new byte[4];
         byteBuffer.get(bArr);
-        double d = 0 | ((bArr[0] << 24) & (-16777216)) | ((bArr[1] << 16) & 16711680) | ((bArr[2] << 8) & 65280) | (bArr[3] & 255);
+        double d = ((bArr[0] << 24) & (-16777216)) | ((bArr[1] << 16) & 16711680) | ((bArr[2] << 8) & 65280) | (bArr[3] & 255);
         Double.isNaN(d);
         return d / 65536.0d;
     }
@@ -50,7 +50,7 @@ public final class IsoTypeReader {
     public static double readFixedPoint0230(ByteBuffer byteBuffer) {
         byte[] bArr = new byte[4];
         byteBuffer.get(bArr);
-        double d = 0 | ((bArr[0] << 24) & (-16777216)) | ((bArr[1] << 16) & 16711680) | ((bArr[2] << 8) & 65280) | (bArr[3] & 255);
+        double d = ((bArr[0] << 24) & (-16777216)) | ((bArr[1] << 16) & 16711680) | ((bArr[2] << 8) & 65280) | (bArr[3] & 255);
         Double.isNaN(d);
         return d / 1.073741824E9d;
     }
@@ -58,7 +58,7 @@ public final class IsoTypeReader {
     public static float readFixedPoint88(ByteBuffer byteBuffer) {
         byte[] bArr = new byte[2];
         byteBuffer.get(bArr);
-        return ((short) (((short) (0 | ((bArr[0] << 8) & 65280))) | (bArr[1] & 255))) / 256.0f;
+        return ((short) (((short) ((bArr[0] << 8) & 65280)) | (bArr[1] & 255))) / 256.0f;
     }
 
     public static String readIso639(ByteBuffer byteBuffer) {

@@ -170,14 +170,15 @@ public final class AudioCapabilities {
             ImmutableList.Builder builder = ImmutableList.builder();
             UnmodifiableIterator it = AudioCapabilities.ALL_SURROUND_ENCODINGS_AND_MAX_CHANNELS.keySet().iterator();
             while (it.hasNext()) {
-                int intValue = ((Integer) it.next()).intValue();
+                Integer num = (Integer) it.next();
+                int intValue = num.intValue();
                 channelMask = new AudioFormat.Builder().setChannelMask(12);
                 encoding = channelMask.setEncoding(intValue);
                 sampleRate = encoding.setSampleRate(48000);
                 build = sampleRate.build();
                 isDirectPlaybackSupported = AudioTrack.isDirectPlaybackSupported(build, DEFAULT_AUDIO_ATTRIBUTES);
                 if (isDirectPlaybackSupported) {
-                    builder.add((ImmutableList.Builder) Integer.valueOf(intValue));
+                    builder.add((ImmutableList.Builder) num);
                 }
             }
             builder.add((ImmutableList.Builder) 2);

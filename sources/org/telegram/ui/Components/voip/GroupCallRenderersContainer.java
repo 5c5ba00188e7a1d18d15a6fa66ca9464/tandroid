@@ -32,6 +32,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.support.LongSparseIntArray;
@@ -184,17 +185,17 @@ public class GroupCallRenderersContainer extends FrameLayout {
         imageView.setBackground(Theme.createSelectorDrawable(ColorUtils.setAlphaComponent(-1, 55)));
         View view = new View(context);
         this.topShadowView = view;
-        Drawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_tooltipForegroundColor)});
+        Drawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[]{0, ColorUtils.setAlphaComponent(-16777216, 114)});
         this.topShadowDrawable = gradientDrawable;
         view.setBackground(gradientDrawable);
         addView(view, LayoutHelper.createFrame(-1, 120.0f));
         View view2 = new View(context);
         this.rightShadowView = view2;
-        Drawable gradientDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0, ColorUtils.setAlphaComponent(-16777216, R.styleable.AppCompatTheme_tooltipForegroundColor)});
+        Drawable gradientDrawable2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{0, ColorUtils.setAlphaComponent(-16777216, 114)});
         this.rightShadowDrawable = gradientDrawable2;
         view2.setBackground(gradientDrawable2);
         view2.setVisibility((call == null || !isRtmpStream()) ? 8 : 0);
-        addView(view2, LayoutHelper.createFrame(160, -1, 5));
+        addView(view2, LayoutHelper.createFrame((int) NotificationCenter.audioRouteChanged, -1, 5));
         addView(imageView, LayoutHelper.createFrame(56, -1, 51));
         imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
@@ -289,7 +290,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
             }
         });
         addView(this.pipView, LayoutHelper.createFrame(32, 32.0f, 53, 12.0f, 12.0f, 12.0f, 12.0f));
-        final ShapeDrawable createRoundRectDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_listViewBackground), 204));
+        final ShapeDrawable createRoundRectDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_voipgroup_listViewBackground), NotificationCenter.groupPackUpdated));
         FrameLayout frameLayout = new FrameLayout(context) { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer.5
             @Override // android.view.ViewGroup, android.view.View
             protected void dispatchDraw(Canvas canvas) {
@@ -1015,10 +1016,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
                     this.pinContainer.setVisibility(0);
                 }
                 onFullScreenModeChanged(true);
-                float[] fArr = new float[2];
-                fArr[0] = this.progressToFullscreenMode;
-                fArr[1] = this.inFullscreenMode ? 1.0f : 0.0f;
-                ValueAnimator ofFloat4 = ValueAnimator.ofFloat(fArr);
+                ValueAnimator ofFloat4 = ValueAnimator.ofFloat(this.progressToFullscreenMode, this.inFullscreenMode ? 1.0f : 0.0f);
                 this.fullscreenAnimator = ofFloat4;
                 ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda7
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1346,22 +1344,11 @@ public class GroupCallRenderersContainer extends FrameLayout {
     }
 
     private void animateSwipeToBack(boolean z) {
-        ValueAnimator ofFloat;
         if (this.swipeToBackGesture) {
             this.swipeToBackGesture = false;
-            float[] fArr = new float[2];
-            float f = this.swipeToBackDy;
-            if (z) {
-                fArr[0] = f;
-                fArr[1] = 0.0f;
-                ofFloat = ValueAnimator.ofFloat(fArr);
-            } else {
-                fArr[0] = f;
-                fArr[1] = 0.0f;
-                ofFloat = ValueAnimator.ofFloat(fArr);
-            }
+            ValueAnimator ofFloat = z ? ValueAnimator.ofFloat(this.swipeToBackDy, 0.0f) : ValueAnimator.ofFloat(this.swipeToBackDy, 0.0f);
             this.swipeToBackAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda3
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     GroupCallRenderersContainer.this.lambda$animateSwipeToBack$7(valueAnimator);
@@ -1407,7 +1394,7 @@ public class GroupCallRenderersContainer extends FrameLayout {
             final float f = this.pinchScale;
             final float f2 = this.pinchTranslationX;
             final float f3 = this.pinchTranslationY;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda2
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                     GroupCallRenderersContainer.this.lambda$finishZoom$8(f, f2, f3, valueAnimator);
@@ -1530,10 +1517,9 @@ public class GroupCallRenderersContainer extends FrameLayout {
             return;
         }
         int currentAccount = this.groupCallActivity.getCurrentAccount();
-        long j = 500;
         if (System.currentTimeMillis() - this.lastUpdateTooltipTime < 500) {
             if (this.updateTooltipRunnbale == null) {
-                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda2
+                Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.voip.GroupCallRenderersContainer$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         GroupCallRenderersContainer.this.lambda$setVisibleParticipant$9();
@@ -1556,7 +1542,9 @@ public class GroupCallRenderersContainer extends FrameLayout {
             } else {
                 long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
                 i = i3;
-                if (SystemClock.uptimeMillis() - tLRPC$TL_groupCallParticipant.lastSpeakTime < j) {
+                if (SystemClock.uptimeMillis() - tLRPC$TL_groupCallParticipant.lastSpeakTime >= 500) {
+                    continue;
+                } else {
                     if (spannableStringBuilder == null) {
                         spannableStringBuilder = new SpannableStringBuilder();
                     }
@@ -1588,12 +1576,9 @@ public class GroupCallRenderersContainer extends FrameLayout {
                     if (i4 == 3) {
                         break;
                     }
-                } else {
-                    continue;
                 }
             }
             i3 = i + 1;
-            j = 500;
         }
         boolean z3 = i4 != 0;
         boolean z4 = this.showSpeakingMembersToast;

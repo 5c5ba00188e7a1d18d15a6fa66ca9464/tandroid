@@ -215,7 +215,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             2 r3 = new 2(PeerColorActivity.this, i);
             this.listAdapter = r3;
             recyclerListView2.setAdapter(r3);
-            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda1
+            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i2) {
                     PeerColorActivity.Page.this.lambda$new$0(i, view, i2);
@@ -234,7 +234,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             this.button = buttonWithCounterView;
             buttonWithCounterView.text.setHacks(true, true, true);
             this.button.setText((PeerColorActivity.this.isChannel || PeerColorActivity.this.getUserConfig().isPremium()) ? this.buttonUnlocked : this.buttonLocked, false);
-            this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda2
+            this.button.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda1
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     PeerColorActivity.Page.this.lambda$new$1(view);
@@ -708,29 +708,26 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             this.rowCount = 0;
             int i = this.type;
             if (i == 0) {
-                this.rowCount = 0 + 1;
+                this.rowCount = 1;
                 this.previewRow = 0;
             }
             int i2 = this.rowCount;
-            int i3 = i2 + 1;
             this.colorPickerRow = i2;
-            int i4 = i3 + 1;
-            this.iconRow = i3;
-            int i5 = i4 + 1;
-            this.rowCount = i5;
-            this.infoRow = i4;
+            this.iconRow = i2 + 1;
+            int i3 = i2 + 3;
+            this.rowCount = i3;
+            this.infoRow = i2 + 2;
             if (i == 1 && this.selectedColor >= 0) {
-                int i6 = i5 + 1;
-                this.clearRow = i5;
-                this.rowCount = i6 + 1;
-                this.shadowRow = i6;
+                this.clearRow = i3;
+                this.rowCount = i2 + 5;
+                this.shadowRow = i2 + 4;
             } else {
                 this.clearRow = -1;
                 this.shadowRow = -1;
             }
-            int i7 = this.rowCount;
-            this.rowCount = i7 + 1;
-            this.buttonRow = i7;
+            int i4 = this.rowCount;
+            this.rowCount = i4 + 1;
+            this.buttonRow = i4;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -775,7 +772,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 profilePreview.setColor(this.selectedColor, false);
             }
             this.buttonContainer.setBackgroundColor(PeerColorActivity.this.getThemedColor(i));
-            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda0
+            AndroidUtilities.forEachViews((RecyclerView) this.listView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.PeerColorActivity$Page$$ExternalSyntheticLambda2
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     PeerColorActivity.Page.this.lambda$updateColors$2((View) obj);
@@ -805,13 +802,13 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0061  */
-    /* JADX WARN: Removed duplicated region for block: B:26:0x0066  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x0077  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x007c  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x008d  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x00a2 A[LOOP:1: B:38:0x009c->B:40:0x00a2, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00b8  */
+    /* JADX WARN: Removed duplicated region for block: B:26:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0069  */
+    /* JADX WARN: Removed duplicated region for block: B:30:0x007a  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x007f  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0090  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00a5 A[LOOP:1: B:39:0x009f->B:41:0x00a5, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x00bb  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1137,11 +1134,8 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         if (!this.isChannel) {
             FilledTabsView filledTabsView = new FilledTabsView(context);
             this.tabsView = filledTabsView;
-            CharSequence[] charSequenceArr = new CharSequence[2];
-            charSequenceArr[0] = LocaleController.getString(this.isChannel ? R.string.ChannelColorTabName : R.string.UserColorTabName);
-            charSequenceArr[1] = LocaleController.getString(this.isChannel ? R.string.ChannelColorTabProfile : R.string.UserColorTabProfile);
-            filledTabsView.setTabs(charSequenceArr);
-            this.tabsView.onTabSelected(new Utilities.Callback() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda3
+            filledTabsView.setTabs(LocaleController.getString(this.isChannel ? R.string.ChannelColorTabName : R.string.UserColorTabName), LocaleController.getString(this.isChannel ? R.string.ChannelColorTabProfile : R.string.UserColorTabProfile));
+            this.tabsView.onTabSelected(new Utilities.Callback() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda0
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     PeerColorActivity.this.lambda$createView$0((Integer) obj);
@@ -1172,13 +1166,16 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
         ImageView imageView = new ImageView(context);
         this.backButton = imageView;
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView.setScaleType(scaleType);
         ImageView imageView2 = this.backButton;
         int i = Theme.key_actionBarWhiteSelector;
         imageView2.setBackground(Theme.createSelectorDrawable(getThemedColor(i), 1));
         this.backButton.setImageResource(R.drawable.ic_ab_back);
-        this.backButton.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda4
+        ImageView imageView3 = this.backButton;
+        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+        imageView3.setColorFilter(new PorterDuffColorFilter(-1, mode));
+        this.backButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PeerColorActivity.this.lambda$createView$1(view);
@@ -1203,12 +1200,12 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         this.sunDrawable.setLayerColor("Path.**", color);
         this.sunDrawable.setLayerColor("Path 5.**", color);
         this.sunDrawable.commitApplyLayerColors();
-        ImageView imageView3 = new ImageView(context);
-        this.dayNightItem = imageView3;
-        imageView3.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView4 = new ImageView(context);
+        this.dayNightItem = imageView4;
+        imageView4.setScaleType(scaleType);
         this.dayNightItem.setBackground(Theme.createSelectorDrawable(getThemedColor(i), 1));
-        this.dayNightItem.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
-        this.dayNightItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda5
+        this.dayNightItem.setColorFilter(new PorterDuffColorFilter(-1, mode));
+        this.dayNightItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PeerColorActivity.this.lambda$createView$2(view);
@@ -1267,12 +1264,12 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         if (getVisibleDialog() != null) {
             return;
         }
-        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(this.isChannel ? R.string.ChannelColorUnsaved : R.string.UserColorUnsaved)).setMessage(LocaleController.getString(this.isChannel ? R.string.ChannelColorUnsavedMessage : R.string.UserColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda0
+        AlertDialog create = new AlertDialog.Builder(getContext(), getResourceProvider()).setTitle(LocaleController.getString(this.isChannel ? R.string.ChannelColorUnsaved : R.string.UserColorUnsaved)).setMessage(LocaleController.getString(this.isChannel ? R.string.ChannelColorUnsavedMessage : R.string.UserColorUnsavedMessage)).setNegativeButton(LocaleController.getString(R.string.Dismiss), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 PeerColorActivity.this.lambda$showUnsavedAlert$3(dialogInterface, i);
             }
-        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda1
+        }).setPositiveButton(LocaleController.getString(R.string.ApplyTheme), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 PeerColorActivity.this.lambda$showUnsavedAlert$4(dialogInterface, i);
@@ -1325,7 +1322,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 if (this.namePage.selectedColor != UserObject.getColorId(currentUser) || this.namePage.selectedEmoji != UserObject.getEmojiId(currentUser)) {
                     this.applyingName = true;
                     TLRPC$TL_account_updateColor tLRPC$TL_account_updateColor = new TLRPC$TL_account_updateColor();
-                    currentUser.flags2 |= LiteMode.FLAG_CHAT_BLUR;
+                    currentUser.flags2 |= 256;
                     TLRPC$TL_peerColor tLRPC$TL_peerColor2 = currentUser.color;
                     tLRPC$TL_peerColor2.flags |= 1;
                     tLRPC$TL_account_updateColor.flags |= 4;
@@ -1421,7 +1418,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda2
+        return SimpleThemeDescription.createThemeDescriptions(new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PeerColorActivity$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PeerColorActivity.this.updateColors();
@@ -1553,6 +1550,7 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             super(context);
             int i2;
             int i3;
+            int i4;
             this.userTextBackgroundPaint = new Paint(1);
             this.userTextColorKey = -1;
             MessagesController messagesController = MessagesController.getInstance(i);
@@ -1574,37 +1572,35 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             CharSequence string = LocaleController.getString(i2);
             if (z && !z2 && MessagesController.getInstance(i).getMainSettings().getInt("boostingappearance", 0) < 3) {
                 MessagesController.PeerColors peerColors = messagesController.peerColors;
-                int i4 = ConnectionsManager.DEFAULT_DATACENTER_ID;
                 if (peerColors != null) {
                     int min = Math.min((int) ConnectionsManager.DEFAULT_DATACENTER_ID, peerColors.maxLevel());
                     int max = Math.max(0, messagesController.peerColors.maxLevel());
-                    int min2 = Math.min(min, messagesController.peerColors.minLevel());
-                    int max2 = Math.max(max, messagesController.peerColors.minLevel());
-                    i4 = min2;
-                    i3 = max2;
+                    i3 = Math.min(min, messagesController.peerColors.minLevel());
+                    i4 = Math.max(max, messagesController.peerColors.minLevel());
                 } else {
-                    i3 = 0;
+                    i3 = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                    i4 = 0;
                 }
+                int min2 = Math.min(i3, messagesController.channelBgIconLevelMin);
                 int min3 = Math.min(i4, messagesController.channelBgIconLevelMin);
-                int min4 = Math.min(i3, messagesController.channelBgIconLevelMin);
                 MessagesController.PeerColors peerColors2 = messagesController.profilePeerColors;
                 if (peerColors2 != null) {
-                    int min5 = Math.min(min3, peerColors2.maxLevel());
-                    int max3 = Math.max(min4, messagesController.profilePeerColors.maxLevel());
-                    min3 = Math.min(min5, messagesController.profilePeerColors.minLevel());
-                    min4 = Math.max(max3, messagesController.profilePeerColors.minLevel());
+                    int min4 = Math.min(min2, peerColors2.maxLevel());
+                    int max2 = Math.max(min3, messagesController.profilePeerColors.maxLevel());
+                    min2 = Math.min(min4, messagesController.profilePeerColors.minLevel());
+                    min3 = Math.max(max2, messagesController.profilePeerColors.minLevel());
                 }
-                int min6 = Math.min(min3, messagesController.channelProfileIconLevelMin);
-                int max4 = Math.max(min4, messagesController.channelProfileIconLevelMin);
-                int min7 = Math.min(min6, messagesController.channelEmojiStatusLevelMin);
-                int max5 = Math.max(max4, messagesController.channelEmojiStatusLevelMin);
-                int min8 = Math.min(min7, messagesController.channelWallpaperLevelMin);
-                int max6 = Math.max(max5, messagesController.channelWallpaperLevelMin);
-                int min9 = Math.min(min8, messagesController.channelCustomWallpaperLevelMin);
-                int max7 = Math.max(max6, messagesController.channelCustomWallpaperLevelMin);
+                int min5 = Math.min(min2, messagesController.channelProfileIconLevelMin);
+                int max3 = Math.max(min3, messagesController.channelProfileIconLevelMin);
+                int min6 = Math.min(min5, messagesController.channelEmojiStatusLevelMin);
+                int max4 = Math.max(max3, messagesController.channelEmojiStatusLevelMin);
+                int min7 = Math.min(min6, messagesController.channelWallpaperLevelMin);
+                int max5 = Math.max(max4, messagesController.channelWallpaperLevelMin);
+                int min8 = Math.min(min7, messagesController.channelCustomWallpaperLevelMin);
+                int max6 = Math.max(max5, messagesController.channelCustomWallpaperLevelMin);
                 int i5 = chat != null ? chat.level : 0;
-                if (i5 < max7) {
-                    this.lock = new LevelLock(context, true, Math.max(i5, min9), resourcesProvider);
+                if (i5 < max6) {
+                    this.lock = new LevelLock(context, true, Math.max(i5, min8), resourcesProvider);
                 }
             }
             if (z && this.lock == null) {
@@ -2300,8 +2296,8 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             this.color2Path.rewind();
             this.color2Path.moveTo(this.radius * 2.0f, 0.0f);
             Path path2 = this.color2Path;
-            float f2 = this.radius;
-            path2.lineTo(f2 * 2.0f, f2 * 2.0f);
+            float f2 = this.radius * 2.0f;
+            path2.lineTo(f2, f2);
             this.color2Path.lineTo(0.0f, this.radius * 2.0f);
             this.color2Path.close();
         }
@@ -2636,6 +2632,8 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
 
         public void setColor(int i, boolean z) {
             MessagesController.PeerColor color;
+            Theme.ResourcesProvider resourcesProvider;
+            int i2;
             MessagesController.PeerColors peerColors = MessagesController.getInstance(this.currentAccount).profilePeerColors;
             if (peerColors == null) {
                 color = null;
@@ -2643,27 +2641,36 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                 this.lastColorId = i;
                 color = peerColors.getColor(i);
             }
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
+            Theme.ResourcesProvider resourcesProvider2 = this.resourcesProvider;
+            boolean isDark = resourcesProvider2 != null ? resourcesProvider2.isDark() : Theme.isCurrentThemeDark();
             if (color != null) {
                 this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(color.getBgColor1(isDark))));
-                this.statusEmoji.setColor(Integer.valueOf(ColorUtils.blendARGB(color.getColor(1, this.resourcesProvider), color.getColor(color.hasColor6(isDark) ? 4 : 2, this.resourcesProvider), 0.5f)));
+                AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.statusEmoji;
+                int color2 = color.getColor(1, this.resourcesProvider);
+                if (color.hasColor6(isDark)) {
+                    resourcesProvider = this.resourcesProvider;
+                    i2 = 4;
+                } else {
+                    resourcesProvider = this.resourcesProvider;
+                    i2 = 2;
+                }
+                swapAnimatedEmojiDrawable.setColor(Integer.valueOf(ColorUtils.blendARGB(color2, color.getColor(i2, resourcesProvider), 0.5f)));
                 int blendARGB = ColorUtils.blendARGB(color.getStoryColor1(isDark), color.getStoryColor2(isDark), 0.5f);
-                int i2 = Theme.key_actionBarDefault;
-                if (!Theme.hasHue(getThemedColor(i2))) {
+                int i3 = Theme.key_actionBarDefault;
+                if (!Theme.hasHue(getThemedColor(i3))) {
                     this.subtitleView.setTextColor(blendARGB);
                 } else {
-                    this.subtitleView.setTextColor(Theme.changeColorAccent(getThemedColor(i2), blendARGB, getThemedColor(Theme.key_avatar_subtitleInProfileBlue), isDark, blendARGB));
+                    this.subtitleView.setTextColor(Theme.changeColorAccent(getThemedColor(i3), blendARGB, getThemedColor(Theme.key_avatar_subtitleInProfileBlue), isDark, blendARGB));
                 }
                 this.titleView.setTextColor(-1);
             } else {
-                int i3 = Theme.key_actionBarDefault;
-                if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i3)) > 0.8f) {
+                int i4 = Theme.key_actionBarDefault;
+                if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i4)) > 0.8f) {
                     this.emoji.setColor(Integer.valueOf(getThemedColor(Theme.key_windowBackgroundWhiteBlueText)));
-                } else if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i3)) < 0.2f) {
+                } else if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i4)) < 0.2f) {
                     this.emoji.setColor(Integer.valueOf(Theme.multAlpha(getThemedColor(Theme.key_actionBarDefaultTitle), 0.5f)));
                 } else {
-                    this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(getThemedColor(i3))));
+                    this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(getThemedColor(i4))));
                 }
                 this.statusEmoji.setColor(Integer.valueOf(Theme.getColor(Theme.key_profile_verifiedBackground, this.resourcesProvider)));
                 this.subtitleView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
@@ -2674,6 +2681,8 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
         }
 
         public void setEmoji(long j, boolean z) {
+            Theme.ResourcesProvider resourcesProvider;
+            int i;
             if (j == 0) {
                 this.emoji.set((Drawable) null, z);
             } else {
@@ -2681,25 +2690,34 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             }
             MessagesController.PeerColors peerColors = MessagesController.getInstance(this.currentAccount).profilePeerColors;
             MessagesController.PeerColor color = peerColors != null ? peerColors.getColor(this.lastColorId) : null;
-            Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
-            boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
+            Theme.ResourcesProvider resourcesProvider2 = this.resourcesProvider;
+            boolean isDark = resourcesProvider2 != null ? resourcesProvider2.isDark() : Theme.isCurrentThemeDark();
             if (color != null) {
                 this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(color.getBgColor1(isDark))));
             } else {
-                int i = Theme.key_actionBarDefault;
-                if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i)) > 0.8f) {
+                int i2 = Theme.key_actionBarDefault;
+                if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i2)) > 0.8f) {
                     this.emoji.setColor(Integer.valueOf(getThemedColor(Theme.key_windowBackgroundWhiteBlueText)));
-                } else if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i)) < 0.2f) {
+                } else if (AndroidUtilities.computePerceivedBrightness(getThemedColor(i2)) < 0.2f) {
                     this.emoji.setColor(Integer.valueOf(Theme.multAlpha(Theme.getColor(Theme.key_actionBarDefaultTitle), 0.5f)));
                 } else {
-                    this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(Theme.getColor(i))));
+                    this.emoji.setColor(Integer.valueOf(PeerColorActivity.adaptProfileEmojiColor(Theme.getColor(i2))));
                 }
             }
             if (color != null) {
-                this.statusEmoji.setColor(Integer.valueOf(ColorUtils.blendARGB(color.getColor(1, this.resourcesProvider), color.getColor(color.hasColor6(isDark) ? 4 : 2, this.resourcesProvider), 0.5f)));
-            } else {
-                this.statusEmoji.setColor(Integer.valueOf(Theme.getColor(Theme.key_profile_verifiedBackground, this.resourcesProvider)));
+                AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable swapAnimatedEmojiDrawable = this.statusEmoji;
+                int color2 = color.getColor(1, this.resourcesProvider);
+                if (color.hasColor6(isDark)) {
+                    resourcesProvider = this.resourcesProvider;
+                    i = 4;
+                } else {
+                    resourcesProvider = this.resourcesProvider;
+                    i = 2;
+                }
+                swapAnimatedEmojiDrawable.setColor(Integer.valueOf(ColorUtils.blendARGB(color2, color.getColor(i, resourcesProvider), 0.5f)));
+                return;
             }
+            this.statusEmoji.setColor(Integer.valueOf(Theme.getColor(Theme.key_profile_verifiedBackground, this.resourcesProvider)));
         }
 
         public void setStatusEmoji(long j, boolean z) {

@@ -53,10 +53,11 @@ final class zzeh {
             int size = list.size();
             int i2 = 0;
             for (int i3 = 0; i3 < size; i3++) {
-                int intValue = list.get(i3).intValue();
+                Integer num = list.get(i3);
+                int intValue = num.intValue();
                 if (zzckVar.zzb(intValue) != null) {
                     if (i3 != i2) {
-                        list.set(i2, Integer.valueOf(intValue));
+                        list.set(i2, num);
                     }
                     i2++;
                 } else {
@@ -245,8 +246,9 @@ final class zzeh {
         if (i2 < 40) {
             return true;
         }
-        long j = i3;
-        return ((((long) i2) - ((long) i)) + 1) + 9 <= ((2 * j) + 3) + ((j + 3) * 3);
+        long j = i2 - i;
+        long j2 = i3;
+        return j + 10 <= ((2 * j2) + 3) + ((j2 + 3) * 3);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

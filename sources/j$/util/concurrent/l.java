@@ -1,55 +1,14 @@
 package j$.util.concurrent;
-
-import java.util.Map;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class l implements Map.Entry {
-    final Object a;
-    Object b;
-    final ConcurrentHashMap c;
+final class l extends k {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public l() {
+        super(-3, null, null, null);
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public l(Object obj, Object obj2, ConcurrentHashMap concurrentHashMap) {
-        this.a = obj;
-        this.b = obj2;
-        this.c = concurrentHashMap;
-    }
-
-    @Override // java.util.Map.Entry
-    public final boolean equals(Object obj) {
-        Map.Entry entry;
-        Object key;
-        Object value;
-        Object obj2;
-        Object obj3;
-        return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && (key == (obj2 = this.a) || key.equals(obj2)) && (value == (obj3 = this.b) || value.equals(obj3));
-    }
-
-    @Override // java.util.Map.Entry
-    public final Object getKey() {
-        return this.a;
-    }
-
-    @Override // java.util.Map.Entry
-    public final Object getValue() {
-        return this.b;
-    }
-
-    @Override // java.util.Map.Entry
-    public final int hashCode() {
-        return this.a.hashCode() ^ this.b.hashCode();
-    }
-
-    @Override // java.util.Map.Entry
-    public final Object setValue(Object obj) {
-        obj.getClass();
-        Object obj2 = this.b;
-        this.b = obj;
-        this.c.put(this.a, obj);
-        return obj2;
-    }
-
-    public final String toString() {
-        return this.a + "=" + this.b;
+    @Override // j$.util.concurrent.k
+    public final k a(Object obj, int i) {
+        return null;
     }
 }

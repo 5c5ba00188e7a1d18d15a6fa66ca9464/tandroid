@@ -1,23 +1,35 @@
 package j$.util.function;
+
+import java.util.function.IntFunction;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class H implements K {
-    public final /* synthetic */ K a;
-    public final /* synthetic */ K b;
+public final /* synthetic */ class H implements IntFunction {
+    public final /* synthetic */ I a;
 
-    public /* synthetic */ H(K k, K k2) {
-        this.a = k;
-        this.b = k2;
+    private /* synthetic */ H(I i) {
+        this.a = i;
     }
 
-    @Override // j$.util.function.K
-    public final void accept(int i) {
-        this.a.accept(i);
-        this.b.accept(i);
+    public static /* synthetic */ IntFunction a(I i) {
+        if (i == null) {
+            return null;
+        }
+        return i instanceof G ? ((G) i).a : new H(i);
     }
 
-    @Override // j$.util.function.K
-    public final K n(K k) {
-        k.getClass();
-        return new H(this, k);
+    @Override // java.util.function.IntFunction
+    public final /* synthetic */ Object apply(int i) {
+        return this.a.apply(i);
+    }
+
+    public final /* synthetic */ boolean equals(Object obj) {
+        I i = this.a;
+        if (obj instanceof H) {
+            obj = ((H) obj).a;
+        }
+        return i.equals(obj);
+    }
+
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
     }
 }

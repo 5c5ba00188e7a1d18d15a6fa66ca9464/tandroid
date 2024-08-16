@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.view.animation.DecelerateInterpolator;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class CloseProgressDrawable2 extends Drawable {
     private float angle;
@@ -46,7 +47,7 @@ public class CloseProgressDrawable2 extends Drawable {
         this.paint = new Paint(1);
         this.interpolator = new DecelerateInterpolator();
         this.rect = new RectF();
-        this.globalColorAlpha = 255;
+        this.globalColorAlpha = NotificationCenter.voipServiceCreated;
         this.paint.setColor(-1);
         this.paint.setStrokeWidth(AndroidUtilities.dp(f));
         this.paint.setStrokeCap(Paint.Cap.ROUND);
@@ -67,7 +68,7 @@ public class CloseProgressDrawable2 extends Drawable {
     private void setColor(int i) {
         if (this.currentColor != i) {
             this.globalColorAlpha = Color.alpha(i);
-            this.paint.setColor(ColorUtils.setAlphaComponent(i, 255));
+            this.paint.setColor(ColorUtils.setAlphaComponent(i, NotificationCenter.voipServiceCreated));
         }
     }
 
@@ -79,9 +80,9 @@ public class CloseProgressDrawable2 extends Drawable {
     /* JADX WARN: Removed duplicated region for block: B:75:0x0145  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x0159  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:85:0x01a9  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x01b3  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x01b5  */
+    /* JADX WARN: Removed duplicated region for block: B:85:0x01a8  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x01b2  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x01b4  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -154,18 +155,18 @@ public class CloseProgressDrawable2 extends Drawable {
                         canvas.drawLine(0.0f, (-this.side) * f2, 0.0f, 0.0f, this.paint);
                     }
                     if (f5 != 1.0f) {
-                        int i = this.side;
-                        canvas.drawLine(i * f5, 0.0f, i, 0.0f, this.paint);
+                        float f8 = this.side;
+                        canvas.drawLine(f8 * f5, 0.0f, f8, 0.0f, this.paint);
                     }
                     canvas.restore();
                     int centerX = getBounds().centerX();
                     int centerY = getBounds().centerY();
                     RectF rectF = this.rect;
-                    int i2 = this.side;
-                    rectF.set(centerX - i2, centerY - i2, centerX + i2, centerY + i2);
+                    int i = this.side;
+                    rectF.set(centerX - i, centerY - i, centerX + i, centerY + i);
                     RectF rectF2 = this.rect;
-                    float f8 = this.angle;
-                    canvas.drawArc(rectF2, (f8 >= 360.0f ? f8 - 360.0f : 0.0f) - 45.0f, f8 >= 360.0f ? f8 : 720.0f - f8, false, this.paint);
+                    float f9 = this.angle;
+                    canvas.drawArc(rectF2, (f9 >= 360.0f ? f9 - 360.0f : 0.0f) - 45.0f, f9 >= 360.0f ? f9 : 720.0f - f9, false, this.paint);
                     this.lastFrameTime = currentTimeMillis;
                 }
                 f2 = 1.0f - ((f7 - 180.0f) / 90.0f);
@@ -184,11 +185,11 @@ public class CloseProgressDrawable2 extends Drawable {
                 int centerX2 = getBounds().centerX();
                 int centerY2 = getBounds().centerY();
                 RectF rectF3 = this.rect;
-                int i22 = this.side;
-                rectF3.set(centerX2 - i22, centerY2 - i22, centerX2 + i22, centerY2 + i22);
+                int i2 = this.side;
+                rectF3.set(centerX2 - i2, centerY2 - i2, centerX2 + i2, centerY2 + i2);
                 RectF rectF22 = this.rect;
-                float f82 = this.angle;
-                canvas.drawArc(rectF22, (f82 >= 360.0f ? f82 - 360.0f : 0.0f) - 45.0f, f82 >= 360.0f ? f82 : 720.0f - f82, false, this.paint);
+                float f92 = this.angle;
+                canvas.drawArc(rectF22, (f92 >= 360.0f ? f92 - 360.0f : 0.0f) - 45.0f, f92 >= 360.0f ? f92 : 720.0f - f92, false, this.paint);
                 this.lastFrameTime = currentTimeMillis;
             }
             f3 = 1.0f - ((f7 - 90.0f) / 90.0f);
@@ -207,11 +208,11 @@ public class CloseProgressDrawable2 extends Drawable {
             int centerX22 = getBounds().centerX();
             int centerY22 = getBounds().centerY();
             RectF rectF32 = this.rect;
-            int i222 = this.side;
-            rectF32.set(centerX22 - i222, centerY22 - i222, centerX22 + i222, centerY22 + i222);
+            int i22 = this.side;
+            rectF32.set(centerX22 - i22, centerY22 - i22, centerX22 + i22, centerY22 + i22);
             RectF rectF222 = this.rect;
-            float f822 = this.angle;
-            canvas.drawArc(rectF222, (f822 >= 360.0f ? f822 - 360.0f : 0.0f) - 45.0f, f822 >= 360.0f ? f822 : 720.0f - f822, false, this.paint);
+            float f922 = this.angle;
+            canvas.drawArc(rectF222, (f922 >= 360.0f ? f922 - 360.0f : 0.0f) - 45.0f, f922 >= 360.0f ? f922 : 720.0f - f922, false, this.paint);
             this.lastFrameTime = currentTimeMillis;
         }
         f = 1.0f - (f7 / 90.0f);
@@ -230,11 +231,11 @@ public class CloseProgressDrawable2 extends Drawable {
         int centerX222 = getBounds().centerX();
         int centerY222 = getBounds().centerY();
         RectF rectF322 = this.rect;
-        int i2222 = this.side;
-        rectF322.set(centerX222 - i2222, centerY222 - i2222, centerX222 + i2222, centerY222 + i2222);
+        int i222 = this.side;
+        rectF322.set(centerX222 - i222, centerY222 - i222, centerX222 + i222, centerY222 + i222);
         RectF rectF2222 = this.rect;
-        float f8222 = this.angle;
-        canvas.drawArc(rectF2222, (f8222 >= 360.0f ? f8222 - 360.0f : 0.0f) - 45.0f, f8222 >= 360.0f ? f8222 : 720.0f - f8222, false, this.paint);
+        float f9222 = this.angle;
+        canvas.drawArc(rectF2222, (f9222 >= 360.0f ? f9222 - 360.0f : 0.0f) - 45.0f, f9222 >= 360.0f ? f9222 : 720.0f - f9222, false, this.paint);
         this.lastFrameTime = currentTimeMillis;
     }
 

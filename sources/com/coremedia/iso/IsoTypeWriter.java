@@ -1,6 +1,7 @@
 package com.coremedia.iso;
 
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class IsoTypeWriter {
     public static void writeUInt64(ByteBuffer byteBuffer, long j) {
@@ -18,19 +19,17 @@ public final class IsoTypeWriter {
     }
 
     public static void writeUInt48(ByteBuffer byteBuffer, long j) {
-        long j2 = j & 281474976710655L;
-        writeUInt16(byteBuffer, (int) (j2 >> 32));
-        writeUInt32(byteBuffer, j2 & 4294967295L);
+        writeUInt16(byteBuffer, (int) ((281474976710655L & j) >> 32));
+        writeUInt32(byteBuffer, j & 4294967295L);
     }
 
     public static void writeUInt16(ByteBuffer byteBuffer, int i) {
-        int i2 = i & 65535;
-        writeUInt8(byteBuffer, i2 >> 8);
-        writeUInt8(byteBuffer, i2 & 255);
+        writeUInt8(byteBuffer, (65535 & i) >> 8);
+        writeUInt8(byteBuffer, i & NotificationCenter.voipServiceCreated);
     }
 
     public static void writeUInt8(ByteBuffer byteBuffer, int i) {
-        byteBuffer.put((byte) (i & 255));
+        byteBuffer.put((byte) (i & NotificationCenter.voipServiceCreated));
     }
 
     public static void writeFixedPoint1616(ByteBuffer byteBuffer, double d) {
@@ -38,7 +37,7 @@ public final class IsoTypeWriter {
         byteBuffer.put((byte) (((-16777216) & i) >> 24));
         byteBuffer.put((byte) ((16711680 & i) >> 16));
         byteBuffer.put((byte) ((65280 & i) >> 8));
-        byteBuffer.put((byte) (i & 255));
+        byteBuffer.put((byte) (i & NotificationCenter.voipServiceCreated));
     }
 
     public static void writeFixedPoint0230(ByteBuffer byteBuffer, double d) {
@@ -46,7 +45,7 @@ public final class IsoTypeWriter {
         byteBuffer.put((byte) (((-16777216) & i) >> 24));
         byteBuffer.put((byte) ((16711680 & i) >> 16));
         byteBuffer.put((byte) ((65280 & i) >> 8));
-        byteBuffer.put((byte) (i & 255));
+        byteBuffer.put((byte) (i & NotificationCenter.voipServiceCreated));
     }
 
     public static void writeFixedPoint88(ByteBuffer byteBuffer, double d) {

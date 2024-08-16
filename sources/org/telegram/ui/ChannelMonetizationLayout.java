@@ -547,14 +547,14 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         ButtonWithCounterView buttonWithCounterView = this.starsBalanceButton;
         if (buttonWithCounterView == null || !buttonWithCounterView.isLoading()) {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda29
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
                     ChannelMonetizationLayout.this.lambda$new$4(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.balanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda30
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$new$5(baseFragment, twoStepVerificationActivity);
@@ -588,7 +588,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (this.starsBalanceBlockedUntil > currentTime) {
             this.withdrawalBulletin = BulletinFactory.of(baseFragment).createSimpleBulletin(R.raw.timer_3, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotStarsWithdrawalToast, BotStarsActivity.untilString(this.starsBalanceBlockedUntil - currentTime)))).show();
         } else if (this.starsBalanceEditTextValue < MessagesController.getInstance(i).starsRevenueWithdrawalMin) {
-            BulletinFactory.of(baseFragment).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) MessagesController.getInstance(i).starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda26
+            BulletinFactory.of(baseFragment).createSimpleBulletin(getContext().getResources().getDrawable(R.drawable.star_small_inner).mutate(), AndroidUtilities.replaceSingleTag(LocaleController.formatPluralString("BotStarsWithdrawMinLimit", (int) MessagesController.getInstance(i).starsRevenueWithdrawalMin, new Object[0]), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda23
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$new$8(i);
@@ -596,14 +596,14 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             })).show();
         } else {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda27
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
                     ChannelMonetizationLayout.this.lambda$new$9(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.starsBalanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda28
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$new$10(baseFragment, twoStepVerificationActivity);
@@ -651,7 +651,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         this.starsAdsButton.setLoading(true);
         TLRPC$TL_payments_getStarsRevenueAdsAccountUrl tLRPC$TL_payments_getStarsRevenueAdsAccountUrl = new TLRPC$TL_payments_getStarsRevenueAdsAccountUrl();
         tLRPC$TL_payments_getStarsRevenueAdsAccountUrl.peer = MessagesController.getInstance(i).getInputPeer(j);
-        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda23
+        ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_payments_getStarsRevenueAdsAccountUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda29
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelMonetizationLayout.this.lambda$new$14(context, tLObject, tLRPC$TL_error);
@@ -674,7 +674,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (tLObject instanceof TLRPC$TL_payments_starsRevenueAdsAccountUrl) {
             Browser.openUrl(context, ((TLRPC$TL_payments_starsRevenueAdsAccountUrl) tLObject).url);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda37
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda39
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$new$12();
@@ -691,14 +691,14 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     public /* synthetic */ boolean lambda$new$18(final BaseFragment baseFragment, TextView textView, int i, KeyEvent keyEvent) {
         if (i == 5) {
             final TwoStepVerificationActivity twoStepVerificationActivity = new TwoStepVerificationActivity();
-            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda24
+            twoStepVerificationActivity.setDelegate(1, new TwoStepVerificationActivity.TwoStepVerificationActivityDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
                 @Override // org.telegram.ui.TwoStepVerificationActivity.TwoStepVerificationActivityDelegate
                 public final void didEnterPassword(TLRPC$InputCheckPasswordSRP tLRPC$InputCheckPasswordSRP) {
                     ChannelMonetizationLayout.this.lambda$new$16(twoStepVerificationActivity, tLRPC$InputCheckPasswordSRP);
                 }
             });
             this.starsBalanceButton.setLoading(true);
-            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda25
+            twoStepVerificationActivity.preload(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$new$17(baseFragment, twoStepVerificationActivity);
@@ -777,7 +777,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             tL_stats$TL_getBroadcastRevenueWithdrawalUrl2.password = tLRPC$InputCheckPasswordSRP;
             tL_stats$TL_getBroadcastRevenueWithdrawalUrl = tL_stats$TL_getBroadcastRevenueWithdrawalUrl2;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda42
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueWithdrawalUrl, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda37
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelMonetizationLayout.this.lambda$initWithdraw$24(twoStepVerificationActivity, parentActivity, z, tLObject, tLRPC$TL_error);
@@ -823,7 +823,9 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 int i3 = R.drawable.list_circle;
                 imageView.setImageResource(i3);
                 imageView.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-                imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.MULTIPLY));
+                int color = Theme.getColor(i2);
+                PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                imageView.setColorFilter(new PorterDuffColorFilter(color, mode));
                 TextView textView2 = new TextView(activity);
                 textView2.setTextColor(Theme.getColor(i2));
                 textView2.setTextSize(1, 16.0f);
@@ -842,7 +844,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 ImageView imageView2 = new ImageView(activity);
                 imageView2.setImageResource(i3);
                 imageView2.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(11.0f) : 0, AndroidUtilities.dp(9.0f), LocaleController.isRTL ? 0 : AndroidUtilities.dp(11.0f), 0);
-                imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.MULTIPLY));
+                imageView2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), mode));
                 TextView textView3 = new TextView(activity);
                 textView3.setTextColor(Theme.getColor(i2));
                 textView3.setTextSize(1, 16.0f);
@@ -858,7 +860,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                 }
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
-                    builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda45
+                    builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda46
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i4) {
                             ChannelMonetizationLayout.this.lambda$initWithdraw$20(dialogInterface, i4);
@@ -885,7 +887,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     return;
                 }
             } else if ("SRP_ID_INVALID".equals(tLRPC$TL_error.text)) {
-                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda46
+                ConnectionsManager.getInstance(this.currentAccount).sendRequest(new TLRPC$TL_account_getPassword(), new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda45
                     @Override // org.telegram.tgnet.RequestDelegate
                     public final void run(TLObject tLObject2, TLRPC$TL_error tLRPC$TL_error2) {
                         ChannelMonetizationLayout.this.lambda$initWithdraw$22(twoStepVerificationActivity, z, tLObject2, tLRPC$TL_error2);
@@ -1000,7 +1002,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (this.starsRevenueAvailable) {
             final TLRPC$TL_payments_starsRevenueStats revenueStats = BotStarsController.getInstance(this.currentAccount).getRevenueStats(this.dialogId);
             if (revenueStats != null) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda33
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda31
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChannelMonetizationLayout.this.lambda$loadStarsStats$25(revenueStats);
@@ -1011,7 +1013,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             TLRPC$TL_payments_getStarsRevenueStats tLRPC$TL_payments_getStarsRevenueStats = new TLRPC$TL_payments_getStarsRevenueStats();
             tLRPC$TL_payments_getStarsRevenueStats.peer = MessagesController.getInstance(this.currentAccount).getInputPeer(this.dialogId);
             tLRPC$TL_payments_getStarsRevenueStats.dark = Theme.isCurrentThemeDark();
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda34
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_payments_getStarsRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda32
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChannelMonetizationLayout.this.lambda$loadStarsStats$27(tLObject, tLRPC$TL_error);
@@ -1022,7 +1024,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadStarsStats$27(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda39
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda38
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$loadStarsStats$26(tLObject);
@@ -1052,7 +1054,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
         setupBalances(tLRPC$TL_payments_starsRevenueStats.status);
         if (!this.tonRevenueAvailable && (frameLayout = this.progress) != null) {
-            frameLayout.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda38
+            frameLayout.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda41
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$applyStarsStats$28();
@@ -1076,7 +1078,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (chat != null) {
             this.currentBoostLevel = chat.level;
         }
-        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda20
+        MessagesController.getInstance(this.currentAccount).getBoostsController().getBoostsStats(this.dialogId, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda27
             @Override // com.google.android.exoplayer2.util.Consumer
             public final void accept(Object obj) {
                 ChannelMonetizationLayout.this.lambda$initLevel$30((TL_stories$TL_premium_boostsStatus) obj);
@@ -1102,7 +1104,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         if (i == -1) {
             return;
         }
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda21
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tL_stats$TL_getBroadcastRevenueStats, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda28
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelMonetizationLayout.this.lambda$initLevel$33(tLObject, tLRPC$TL_error);
@@ -1112,7 +1114,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initLevel$30(final TL_stories$TL_premium_boostsStatus tL_stories$TL_premium_boostsStatus) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda36
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$initLevel$29(tL_stories$TL_premium_boostsStatus);
@@ -1136,7 +1138,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$initLevel$33(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda32
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda36
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$initLevel$32(tLObject);
@@ -1160,7 +1162,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
             this.ton_rate = tL_stats$TL_broadcastRevenueStats.usd_rate;
             setupBalances(tL_stats$TL_broadcastRevenueStats.balances);
-            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda43
+            this.progress.animate().alpha(0.0f).setDuration(380L).setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT).withEndAction(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda40
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$initLevel$31();
@@ -1356,7 +1358,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 final LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this.fragment, getContext(), 30, this.currentAccount, this.resourcesProvider);
                 limitReachedBottomSheet.setDialogId(this.dialogId);
                 limitReachedBottomSheet.setBoostsStats(this.boostsStatus, true);
-                MessagesController.getInstance(this.currentAccount).getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda19
+                MessagesController.getInstance(this.currentAccount).getBoostsController().userCanBoostChannel(this.dialogId, this.boostsStatus, new Consumer() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda30
                     @Override // com.google.android.exoplayer2.util.Consumer
                     public final void accept(Object obj) {
                         ChannelMonetizationLayout.this.lambda$onClick$34(limitReachedBottomSheet, (ChannelBoostsController.CanApplyBoost) obj);
@@ -1386,7 +1388,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         TLRPC$TL_channels_restrictSponsoredMessages tLRPC$TL_channels_restrictSponsoredMessages = new TLRPC$TL_channels_restrictSponsoredMessages();
         tLRPC$TL_channels_restrictSponsoredMessages.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(-this.dialogId);
         tLRPC$TL_channels_restrictSponsoredMessages.restricted = this.switchOffValue;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_restrictSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda22
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_restrictSponsoredMessages, new RequestDelegate() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda26
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelMonetizationLayout.this.lambda$sendCpmUpdate$36(tLObject, tLRPC$TL_error);
@@ -1396,7 +1398,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$sendCpmUpdate$36(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda31
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda33
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$sendCpmUpdate$35(tLRPC$TL_error, tLObject);
@@ -1697,14 +1699,15 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
     /* JADX INFO: Access modifiers changed from: private */
     public static void showTransactionSheet(final Context context, int i, TL_stats$BroadcastRevenueTransaction tL_stats$BroadcastRevenueTransaction, long j, Theme.ResourcesProvider resourcesProvider) {
+        boolean z;
         LinearLayout linearLayout;
         long j2;
         long j3;
-        long j4;
-        boolean z;
-        char c;
         String str;
+        long j4;
         boolean z2;
+        char c;
+        boolean z3;
         final BottomSheet bottomSheet;
         String userName;
         TLRPC$Chat tLRPC$Chat;
@@ -1712,48 +1715,48 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         bottomSheet2.fixNavigationBar();
         LinearLayout linearLayout2 = new LinearLayout(context);
         linearLayout2.setOrientation(1);
-        boolean z3 = tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionWithdrawal;
-        if (z3) {
+        boolean z4 = tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionWithdrawal;
+        if (z4) {
             TL_stats$TL_broadcastRevenueTransactionWithdrawal tL_stats$TL_broadcastRevenueTransactionWithdrawal = (TL_stats$TL_broadcastRevenueTransactionWithdrawal) tL_stats$BroadcastRevenueTransaction;
             String string = LocaleController.getString(R.string.MonetizationTransactionDetailWithdraw);
-            j2 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.amount;
-            z = tL_stats$TL_broadcastRevenueTransactionWithdrawal.pending;
+            j2 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.date;
+            z = z4;
+            j3 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.amount;
             linearLayout = linearLayout2;
-            j3 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.date;
+            z3 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.pending;
             j4 = 0;
             c = 65535;
             str = string;
             z2 = tL_stats$TL_broadcastRevenueTransactionWithdrawal.failed;
-        } else if (tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionProceeds) {
-            TL_stats$TL_broadcastRevenueTransactionProceeds tL_stats$TL_broadcastRevenueTransactionProceeds = (TL_stats$TL_broadcastRevenueTransactionProceeds) tL_stats$BroadcastRevenueTransaction;
-            String string2 = LocaleController.getString(R.string.MonetizationTransactionDetailProceed);
-            long j5 = tL_stats$TL_broadcastRevenueTransactionProceeds.from_date;
-            linearLayout = linearLayout2;
-            long j6 = tL_stats$TL_broadcastRevenueTransactionProceeds.amount;
-            j3 = j5;
-            z = false;
-            c = 1;
-            str = string2;
-            z2 = false;
-            j4 = tL_stats$TL_broadcastRevenueTransactionProceeds.to_date;
-            j2 = j6;
         } else {
-            linearLayout = linearLayout2;
-            if (!(tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionRefund)) {
-                return;
+            z = z4;
+            if (tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionProceeds) {
+                TL_stats$TL_broadcastRevenueTransactionProceeds tL_stats$TL_broadcastRevenueTransactionProceeds = (TL_stats$TL_broadcastRevenueTransactionProceeds) tL_stats$BroadcastRevenueTransaction;
+                String string2 = LocaleController.getString(R.string.MonetizationTransactionDetailProceed);
+                j2 = tL_stats$TL_broadcastRevenueTransactionProceeds.from_date;
+                linearLayout = linearLayout2;
+                j4 = tL_stats$TL_broadcastRevenueTransactionProceeds.to_date;
+                j3 = tL_stats$TL_broadcastRevenueTransactionProceeds.amount;
+                str = string2;
+            } else {
+                linearLayout = linearLayout2;
+                if (!(tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionRefund)) {
+                    return;
+                }
+                TL_stats$TL_broadcastRevenueTransactionRefund tL_stats$TL_broadcastRevenueTransactionRefund = (TL_stats$TL_broadcastRevenueTransactionRefund) tL_stats$BroadcastRevenueTransaction;
+                String string3 = LocaleController.getString(R.string.MonetizationTransactionDetailRefund);
+                j2 = tL_stats$TL_broadcastRevenueTransactionRefund.from_date;
+                j3 = tL_stats$TL_broadcastRevenueTransactionRefund.amount;
+                str = string3;
+                j4 = 0;
             }
-            TL_stats$TL_broadcastRevenueTransactionRefund tL_stats$TL_broadcastRevenueTransactionRefund = (TL_stats$TL_broadcastRevenueTransactionRefund) tL_stats$BroadcastRevenueTransaction;
-            String string3 = LocaleController.getString(R.string.MonetizationTransactionDetailRefund);
-            j2 = tL_stats$TL_broadcastRevenueTransactionRefund.amount;
-            j3 = tL_stats$TL_broadcastRevenueTransactionRefund.from_date;
-            j4 = 0;
-            z = false;
-            c = 1;
-            str = string3;
             z2 = false;
+            c = 1;
+            z3 = false;
         }
         DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
         decimalFormatSymbols.setDecimalSeparator('.');
+        String str2 = str;
         DecimalFormat decimalFormat = new DecimalFormat("#.##", decimalFormatSymbols);
         decimalFormat.setMinimumFractionDigits(2);
         decimalFormat.setMaximumFractionDigits(12);
@@ -1765,7 +1768,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         textView.setTextColor(Theme.getColor(c < 0 ? Theme.key_text_RedBold : Theme.key_avatar_nameInMessageGreen));
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append((CharSequence) (c < 0 ? "-" : "+"));
-        double abs = Math.abs(j2);
+        double abs = Math.abs(j3);
         Double.isNaN(abs);
         double round = Math.round((abs / 1.0E9d) * 100000.0d);
         Double.isNaN(round);
@@ -1782,14 +1785,14 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         textView2.setGravity(17);
         textView2.setTextSize(1, 13.0f);
         textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
-        if (z) {
+        if (z3) {
             textView2.setText(LocaleController.getString(R.string.MonetizationTransactionPending));
-        } else if (j3 == 0) {
+        } else if (j2 == 0) {
             textView2.setText(LocaleController.formatShortDateTime(j4));
         } else if (j4 == 0) {
-            textView2.setText(LocaleController.formatShortDateTime(j3));
+            textView2.setText(LocaleController.formatShortDateTime(j2));
         } else {
-            textView2.setText(LocaleController.formatShortDateTime(j3) + " - " + LocaleController.formatShortDateTime(j4));
+            textView2.setText(LocaleController.formatShortDateTime(j2) + " - " + LocaleController.formatShortDateTime(j4));
         }
         if (z2) {
             textView2.setTextColor(Theme.getColor(Theme.key_text_RedBold, resourcesProvider));
@@ -1801,7 +1804,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         textView3.setTypeface(AndroidUtilities.bold());
         textView3.setTextSize(1, 14.0f);
         textView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
-        textView3.setText(str);
+        textView3.setText(str2);
         linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2, 49, 0, 27, 0, 0));
         if (tL_stats$BroadcastRevenueTransaction instanceof TL_stats$TL_broadcastRevenueTransactionProceeds) {
             FrameLayout frameLayout = new FrameLayout(context);
@@ -1835,11 +1838,11 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             linearLayout3.addView(frameLayout, LayoutHelper.createLinear(-2, 28, 1, 42, 10, 42, 0));
         }
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, resourcesProvider);
-        if (z3) {
+        if (z) {
             final TL_stats$TL_broadcastRevenueTransactionWithdrawal tL_stats$TL_broadcastRevenueTransactionWithdrawal2 = (TL_stats$TL_broadcastRevenueTransactionWithdrawal) tL_stats$BroadcastRevenueTransaction;
             if ((tL_stats$TL_broadcastRevenueTransactionWithdrawal2.flags & 2) != 0) {
                 buttonWithCounterView.setText(LocaleController.getString(R.string.MonetizationTransactionDetailWithdrawButton), false);
-                buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda40
+                buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda42
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ChannelMonetizationLayout.lambda$showTransactionSheet$37(context, tL_stats$TL_broadcastRevenueTransactionWithdrawal2, view);
@@ -1853,7 +1856,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
         buttonWithCounterView.setText(LocaleController.getString(R.string.OK), false);
         bottomSheet = bottomSheet2;
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda41
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda43
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BottomSheet.this.dismiss();
@@ -1916,7 +1919,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         linksTextView.setTextSize(1, 14.0f);
         linksTextView.setTextColor(Theme.getColor(i, this.resourcesProvider));
         linksTextView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, this.resourcesProvider));
-        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda1
+        linksTextView.setText(AndroidUtilities.withLearnMore(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MonetizationInfoTONText)), new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelMonetizationLayout.this.lambda$showLearnSheet$39();
@@ -1925,7 +1928,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         linearLayout.addView(linksTextView, LayoutHelper.createLinear(-1, -2, 28.0f, 9.0f, 28.0f, 0.0f));
         ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(getContext(), this.resourcesProvider);
         buttonWithCounterView.setText(LocaleController.getString(R.string.GotIt), false);
-        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda2
+        buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 BottomSheet.this.dismiss();
@@ -2054,7 +2057,10 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             public String getItemTitle(int i) {
                 int itemViewType = getItemViewType(i);
                 if (itemViewType != 0) {
-                    return itemViewType != 1 ? "" : LocaleController.getString(R.string.MonetizationTransactionsTON);
+                    if (itemViewType == 1) {
+                        return LocaleController.getString(R.string.MonetizationTransactionsTON);
+                    }
+                    return "";
                 }
                 return LocaleController.getString(R.string.MonetizationTransactionsStars);
             }
@@ -2142,13 +2148,15 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
 
         public boolean hasTransactions(int i) {
+            boolean isEmpty;
             if (i == 1) {
-                return !this.tonTransactions.isEmpty();
+                isEmpty = this.tonTransactions.isEmpty();
+            } else if (i != 0) {
+                return false;
+            } else {
+                isEmpty = this.starsTransactions.isEmpty();
             }
-            if (i == 0) {
-                return !this.starsTransactions.isEmpty();
-            }
-            return false;
+            return !isEmpty;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -2190,7 +2198,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadTransactions$1(final int i, final boolean z, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.ChannelTransactionsView.this.lambda$loadTransactions$0(tLObject, i, tLRPC$TL_error, z, z2);
@@ -2220,7 +2228,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$loadTransactions$3(final int i, final boolean z, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$ChannelTransactionsView$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.ChannelTransactionsView.this.lambda$loadTransactions$2(tLObject, i, tLRPC$TL_error, z, z2);
@@ -2377,7 +2385,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
             }
         } catch (Throwable th) {
             FileLog.e(th);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChannelMonetizationLayout.this.lambda$onNestedScroll$41();

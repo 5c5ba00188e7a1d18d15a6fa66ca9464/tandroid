@@ -1,39 +1,88 @@
 package j$.util.stream;
 
 import j$.util.function.Consumer;
+import java.util.Arrays;
+import java.util.Iterator;
+import org.telegram.messenger.NotificationCenter;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class J2 extends N2 implements j$.util.H {
-    final /* synthetic */ K2 g;
+public class J2 extends N2 implements j$.util.function.F {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public J2() {
+    }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public J2(K2 k2, int i, int i2, int i3, int i4) {
-        super(k2, i, i2, i3, i4);
-        this.g = k2;
+    public J2(int i) {
+        super(i);
     }
 
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return j$.util.a.p(this, consumer);
+    @Override // j$.util.stream.N2, java.lang.Iterable
+    /* renamed from: A */
+    public j$.util.H spliterator() {
+        return new I2(this, 0, this.c, 0, this.b);
     }
 
-    @Override // j$.util.stream.N2
-    final void f(int i, Object obj, Object obj2) {
-        ((j$.util.function.K) obj2).accept(((int[]) obj)[i]);
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.g(this, consumer);
+    @Override // j$.util.function.F
+    public void accept(int i) {
+        z();
+        int i2 = this.b;
+        this.b = i2 + 1;
+        ((int[]) this.e)[i2] = i;
     }
 
     @Override // j$.util.stream.N2
-    final j$.util.N g(Object obj, int i, int i2) {
-        return j$.util.f0.k((int[]) obj, i, i2 + i);
+    public final Object c(int i) {
+        return new int[i];
+    }
+
+    public final void forEach(Consumer consumer) {
+        if (consumer instanceof j$.util.function.F) {
+            g((j$.util.function.F) consumer);
+        } else if (A3.a) {
+            A3.a(getClass(), "{0} calling SpinedBuffer.OfInt.forEach(Consumer)");
+            throw null;
+        } else {
+            j$.util.a.f((I2) spliterator(), consumer);
+        }
+    }
+
+    @Override // java.lang.Iterable
+    public final Iterator iterator() {
+        return j$.util.f0.g(spliterator());
+    }
+
+    @Override // j$.util.function.F
+    public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
+        return j$.com.android.tools.r8.a.c(this, f);
+    }
+
+    public final String toString() {
+        int[] iArr = (int[]) e();
+        if (iArr.length < 200) {
+            return String.format("%s[length=%d, chunks=%d]%s", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(iArr));
+        }
+        return String.format("%s[length=%d, chunks=%d]%s...", getClass().getSimpleName(), Integer.valueOf(iArr.length), Integer.valueOf(this.c), Arrays.toString(Arrays.copyOf(iArr, (int) NotificationCenter.storyQualityUpdate)));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.N2
+    public final void u(Object obj, int i, int i2, Object obj2) {
+        int[] iArr = (int[]) obj;
+        j$.util.function.F f = (j$.util.function.F) obj2;
+        while (i < i2) {
+            f.accept(iArr[i]);
+            i++;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // j$.util.stream.N2
+    public final int v(Object obj) {
+        return ((int[]) obj).length;
     }
 
     @Override // j$.util.stream.N2
-    final j$.util.N h(int i, int i2, int i3, int i4) {
-        return new J2(this.g, i, i2, i3, i4);
+    protected final Object[] y() {
+        return new int[8];
     }
 }

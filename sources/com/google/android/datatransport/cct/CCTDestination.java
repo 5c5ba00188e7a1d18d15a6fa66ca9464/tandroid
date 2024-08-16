@@ -19,11 +19,6 @@ public final class CCTDestination implements EncodedDestination {
     private final String apiKey;
     private final String endPoint;
 
-    @Override // com.google.android.datatransport.runtime.Destination
-    public String getName() {
-        return "cct";
-    }
-
     static {
         String mergeStrings = StringMerger.mergeStrings("hts/frbslgiggolai.o/0clgbthfra=snpoo", "tp:/ieaeogn.ogepscmvc/o/ac?omtjo_rt3");
         DEFAULT_END_POINT = mergeStrings;
@@ -39,6 +34,11 @@ public final class CCTDestination implements EncodedDestination {
     public CCTDestination(String str, String str2) {
         this.endPoint = str;
         this.apiKey = str2;
+    }
+
+    @Override // com.google.android.datatransport.runtime.Destination
+    public String getName() {
+        return "cct";
     }
 
     @Override // com.google.android.datatransport.runtime.Destination
@@ -64,15 +64,11 @@ public final class CCTDestination implements EncodedDestination {
         if (str == null && this.endPoint == null) {
             return null;
         }
-        Object[] objArr = new Object[4];
-        objArr[0] = "1$";
-        objArr[1] = this.endPoint;
-        objArr[2] = "\\";
+        String str2 = this.endPoint;
         if (str == null) {
             str = "";
         }
-        objArr[3] = str;
-        return String.format("%s%s%s%s", objArr).getBytes(Charset.forName("UTF-8"));
+        return String.format("%s%s%s%s", "1$", str2, "\\", str).getBytes(Charset.forName("UTF-8"));
     }
 
     public static CCTDestination fromByteArray(byte[] bArr) {

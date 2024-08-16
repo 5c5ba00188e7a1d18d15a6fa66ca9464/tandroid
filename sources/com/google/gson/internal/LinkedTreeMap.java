@@ -1,7 +1,5 @@
 package com.google.gson.internal;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
@@ -10,6 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 /* loaded from: classes.dex */
 public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Serializable {
@@ -159,14 +158,14 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
 
     Node<K, V> findByEntry(Map.Entry<?, ?> entry) {
         Node<K, V> findByObject = findByObject(entry.getKey());
-        if (findByObject != null && equal(findByObject.value, entry.getValue())) {
-            return findByObject;
+        if (findByObject == null || !equal(findByObject.value, entry.getValue())) {
+            return null;
         }
-        return null;
+        return findByObject;
     }
 
-    private boolean equal(Object obj, Object obj2) {
-        return obj == obj2 || (obj != null && obj.equals(obj2));
+    private static boolean equal(Object obj, Object obj2) {
+        return Objects.equals(obj, obj2);
     }
 
     void removeInternal(Node<K, V> node, boolean z) {
@@ -454,27 +453,17 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public abstract class LinkedTreeMapIterator<T> implements Iterator<T>, j$.util.Iterator {
+    public abstract class LinkedTreeMapIterator<T> implements Iterator<T> {
         int expectedModCount;
         Node<K, V> lastReturned = null;
         Node<K, V> next;
-
-        @Override // j$.util.Iterator
-        public /* synthetic */ void forEachRemaining(Consumer consumer) {
-            Iterator.-CC.$default$forEachRemaining(this, consumer);
-        }
-
-        @Override // java.util.Iterator
-        public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-            forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-        }
 
         LinkedTreeMapIterator() {
             this.next = LinkedTreeMap.this.header.next;
             this.expectedModCount = LinkedTreeMap.this.modCount;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public final boolean hasNext() {
             return this.next != LinkedTreeMap.this.header;
         }
@@ -493,7 +482,7 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
             return node;
         }
 
-        @Override // java.util.Iterator, j$.util.Iterator
+        @Override // java.util.Iterator
         public final void remove() {
             Node<K, V> node = this.lastReturned;
             if (node == null) {
@@ -516,13 +505,13 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-        public java.util.Iterator<Map.Entry<K, V>> iterator() {
+        public Iterator<Map.Entry<K, V>> iterator() {
             return new LinkedTreeMap<K, V>.LinkedTreeMapIterator<Map.Entry<K, V>>() { // from class: com.google.gson.internal.LinkedTreeMap.EntrySet.1
                 {
                     LinkedTreeMap linkedTreeMap = LinkedTreeMap.this;
                 }
 
-                @Override // java.util.Iterator, j$.util.Iterator
+                @Override // java.util.Iterator
                 public Map.Entry<K, V> next() {
                     return nextNode();
                 }
@@ -561,13 +550,13 @@ public final class LinkedTreeMap<K, V> extends AbstractMap<K, V> implements Seri
         }
 
         @Override // java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.Set
-        public java.util.Iterator<K> iterator() {
+        public Iterator<K> iterator() {
             return new LinkedTreeMap<K, V>.LinkedTreeMapIterator<K>() { // from class: com.google.gson.internal.LinkedTreeMap.KeySet.1
                 {
                     LinkedTreeMap linkedTreeMap = LinkedTreeMap.this;
                 }
 
-                @Override // java.util.Iterator, j$.util.Iterator
+                @Override // java.util.Iterator
                 public K next() {
                     return nextNode().key;
                 }

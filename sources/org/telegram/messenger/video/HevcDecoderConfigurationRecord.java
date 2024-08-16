@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class HevcDecoderConfigurationRecord {
     int avgFrameRate;
@@ -55,36 +55,37 @@ public class HevcDecoderConfigurationRecord {
     public void parse(ByteBuffer byteBuffer) {
         this.configurationVersion = IsoTypeReader.readUInt8(byteBuffer);
         int readUInt8 = IsoTypeReader.readUInt8(byteBuffer);
-        this.general_profile_space = (readUInt8 & 192) >> 6;
+        this.general_profile_space = (readUInt8 & NotificationCenter.dialogPhotosUpdate) >> 6;
         this.general_tier_flag = (readUInt8 & 32) > 0;
         this.general_profile_idc = readUInt8 & 31;
         this.general_profile_compatibility_flags = IsoTypeReader.readUInt32(byteBuffer);
         long readUInt48 = IsoTypeReader.readUInt48(byteBuffer);
         this.general_constraint_indicator_flags = readUInt48;
-        this.frame_only_constraint_flag = ((readUInt48 >> 44) & 8) > 0;
-        this.non_packed_constraint_flag = ((readUInt48 >> 44) & 4) > 0;
-        this.interlaced_source_flag = ((readUInt48 >> 44) & 2) > 0;
-        this.progressive_source_flag = ((readUInt48 >> 44) & 1) > 0;
+        long j = readUInt48 >> 44;
+        this.frame_only_constraint_flag = (8 & j) > 0;
+        this.non_packed_constraint_flag = (4 & j) > 0;
+        this.interlaced_source_flag = (2 & j) > 0;
+        this.progressive_source_flag = (j & 1) > 0;
         this.general_constraint_indicator_flags = readUInt48 & 140737488355327L;
         this.general_level_idc = IsoTypeReader.readUInt8(byteBuffer);
         int readUInt16 = IsoTypeReader.readUInt16(byteBuffer);
         this.reserved1 = (61440 & readUInt16) >> 12;
         this.min_spatial_segmentation_idc = readUInt16 & 4095;
         int readUInt82 = IsoTypeReader.readUInt8(byteBuffer);
-        this.reserved2 = (readUInt82 & 252) >> 2;
+        this.reserved2 = (readUInt82 & NotificationCenter.messagePlayingSpeedChanged) >> 2;
         this.parallelismType = readUInt82 & 3;
         int readUInt83 = IsoTypeReader.readUInt8(byteBuffer);
-        this.reserved3 = (readUInt83 & 252) >> 2;
+        this.reserved3 = (readUInt83 & NotificationCenter.messagePlayingSpeedChanged) >> 2;
         this.chromaFormat = readUInt83 & 3;
         int readUInt84 = IsoTypeReader.readUInt8(byteBuffer);
-        this.reserved4 = (readUInt84 & 248) >> 3;
+        this.reserved4 = (readUInt84 & NotificationCenter.liveLocationsCacheChanged) >> 3;
         this.bitDepthLumaMinus8 = readUInt84 & 7;
         int readUInt85 = IsoTypeReader.readUInt8(byteBuffer);
-        this.reserved5 = (readUInt85 & 248) >> 3;
+        this.reserved5 = (readUInt85 & NotificationCenter.liveLocationsCacheChanged) >> 3;
         this.bitDepthChromaMinus8 = readUInt85 & 7;
         this.avgFrameRate = IsoTypeReader.readUInt16(byteBuffer);
         int readUInt86 = IsoTypeReader.readUInt8(byteBuffer);
-        this.constantFrameRate = (readUInt86 & 192) >> 6;
+        this.constantFrameRate = (readUInt86 & NotificationCenter.dialogPhotosUpdate) >> 6;
         this.numTemporalLayers = (readUInt86 & 56) >> 3;
         this.temporalIdNested = (readUInt86 & 4) > 0;
         this.lengthSizeMinusOne = readUInt86 & 3;
@@ -487,12 +488,12 @@ public class HevcDecoderConfigurationRecord {
                 case 32:
                     arrayList3.add(byteBuffer.duplicate());
                     break;
-                case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+                case 33:
                     arrayList.add(byteBuffer.duplicate());
                     byteBuffer.position(2);
                     sequenceParameterSetRbsp = new SequenceParameterSetRbsp(new CleanInputStream(Channels.newInputStream(new ByteBufferByteChannel(byteBuffer.slice()))));
                     break;
-                case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+                case 34:
                     arrayList2.add(byteBuffer.duplicate());
                     break;
             }

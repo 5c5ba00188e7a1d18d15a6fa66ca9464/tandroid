@@ -109,7 +109,7 @@ public class ItemOptions {
         this.resourcesProvider = baseFragment.getResourceProvider();
         this.context = baseFragment.getContext();
         this.scrimView = view;
-        this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider))) > 0.705d ? R.styleable.AppCompatTheme_textAppearanceLargePopupMenu : 51;
+        this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, this.resourcesProvider))) > 0.705d ? 102 : 51;
         this.swipeback = z;
         init();
     }
@@ -126,7 +126,7 @@ public class ItemOptions {
         this.resourcesProvider = resourcesProvider;
         this.context = viewGroup.getContext();
         this.scrimView = view;
-        this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider))) > 0.705d ? R.styleable.AppCompatTheme_textAppearanceLargePopupMenu : 51;
+        this.dimAlpha = ((double) AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider))) > 0.705d ? 102 : 51;
         this.swipeback = z;
         init();
     }
@@ -155,7 +155,7 @@ public class ItemOptions {
             }
         };
         this.lastLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda1
+        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ItemOptions.this.lambda$init$0(keyEvent);
@@ -249,7 +249,7 @@ public class ItemOptions {
         actionBarMenuSubItem.setColors(intValue, num2 != null ? num2.intValue() : Theme.getColor(i2, this.resourcesProvider));
         Integer num3 = this.selectorColor;
         actionBarMenuSubItem.setSelectorColor(num3 != null ? num3.intValue() : Theme.multAlpha(Theme.getColor(i3, this.resourcesProvider), 0.12f));
-        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda2
+        actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ItemOptions.this.lambda$add$1(runnable, view);
@@ -306,7 +306,7 @@ public class ItemOptions {
             ActionBarMenuSubItem actionBarMenuSubItem = (ActionBarMenuSubItem) itemAt;
             actionBarMenuSubItem.setRightIcon(R.drawable.msg_mini_lock3);
             actionBarMenuSubItem.getRightIcon().setAlpha(0.4f);
-            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda4
+            actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ItemOptions.this.lambda$putPremiumLock$2(runnable, view);
@@ -363,7 +363,7 @@ public class ItemOptions {
         }
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(this.context, this.resourcesProvider);
         this.lastLayout = actionBarPopupWindowLayout;
-        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda5
+        actionBarPopupWindowLayout.setDispatchKeyEventListener(new ActionBarPopupWindow.OnDispatchKeyEventListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.ActionBar.ActionBarPopupWindow.OnDispatchKeyEventListener
             public final void onDispatchKeyEvent(KeyEvent keyEvent) {
                 ItemOptions.this.lambda$addSpaceGap$3(keyEvent);
@@ -631,7 +631,7 @@ public class ItemOptions {
                 if (this.dimAlpha > 0) {
                     final DimView dimView = new DimView(this.context);
                     this.dimView = dimView;
-                    this.preDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda0
+                    this.preDrawListener = new ViewTreeObserver.OnPreDrawListener() { // from class: org.telegram.ui.Components.ItemOptions$$ExternalSyntheticLambda2
                         @Override // android.view.ViewTreeObserver.OnPreDrawListener
                         public final boolean onPreDraw() {
                             boolean lambda$show$5;
@@ -848,11 +848,11 @@ public class ItemOptions {
         float f = 0.0f;
         float f2 = 0.0f;
         while (view != viewGroup) {
-            f += view.getY();
-            f2 += view.getX();
+            f2 += view.getY();
+            f += view.getX();
             if (view instanceof ScrollView) {
-                f2 -= view.getScrollX();
-                f -= view.getScrollY();
+                f -= view.getScrollX();
+                f2 -= view.getScrollY();
             }
             if (!(view.getParent() instanceof View)) {
                 break;
@@ -862,8 +862,8 @@ public class ItemOptions {
                 return;
             }
         }
-        fArr[0] = f2 - viewGroup.getPaddingLeft();
-        fArr[1] = f - viewGroup.getPaddingTop();
+        fArr[0] = f - viewGroup.getPaddingLeft();
+        fArr[1] = f2 - viewGroup.getPaddingTop();
     }
 
     public ItemOptions setViewAdditionalOffsets(int i, int i2, int i3, int i4) {

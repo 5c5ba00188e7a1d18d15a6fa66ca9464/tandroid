@@ -12,10 +12,14 @@ public final class zzr {
 
     public final void zza(zzq zzqVar) {
         synchronized (this.zza) {
-            if (this.zzb == null) {
-                this.zzb = new ArrayDeque();
+            try {
+                if (this.zzb == null) {
+                    this.zzb = new ArrayDeque();
+                }
+                this.zzb.add(zzqVar);
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzb.add(zzqVar);
         }
     }
 
@@ -26,10 +30,13 @@ public final class zzr {
                 this.zzc = true;
                 while (true) {
                     synchronized (this.zza) {
-                        zzqVar = (zzq) this.zzb.poll();
-                        if (zzqVar == null) {
-                            this.zzc = false;
-                            return;
+                        try {
+                            zzqVar = (zzq) this.zzb.poll();
+                            if (zzqVar == null) {
+                                this.zzc = false;
+                                return;
+                            }
+                        } finally {
                         }
                     }
                     zzqVar.zzd(task);

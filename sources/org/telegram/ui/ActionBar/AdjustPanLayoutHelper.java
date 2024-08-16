@@ -118,7 +118,7 @@ public class AdjustPanLayoutHelper {
         updateTransition(((Float) valueAnimator.getAnimatedValue()).floatValue());
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x005e  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0060  */
     /* JADX WARN: Removed duplicated region for block: B:20:0x0074  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -137,7 +137,7 @@ public class AdjustPanLayoutHelper {
             if (parent instanceof View) {
                 i3 = ((View) parent).getHeight() - i2;
                 LaunchActivity launchActivity = LaunchActivity.instance;
-                setViewHeight(Math.max(i, i3 + i2 + ((launchActivity != null || launchActivity.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight() + 0)));
+                setViewHeight(Math.max(i, i3 + i2 + ((launchActivity != null || launchActivity.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight())));
                 this.resizableView.requestLayout();
                 onTransitionStart(z, i, i2);
                 float f = i2 - i;
@@ -166,7 +166,7 @@ public class AdjustPanLayoutHelper {
         LaunchActivity launchActivity2 = LaunchActivity.instance;
         if (launchActivity2 != null) {
         }
-        setViewHeight(Math.max(i, i3 + i2 + ((launchActivity2 != null || launchActivity2.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight() + 0)));
+        setViewHeight(Math.max(i, i3 + i2 + ((launchActivity2 != null || launchActivity2.getBottomSheetTabs() == null) ? 0 : LaunchActivity.instance.getBottomSheetTabs().getExpandedHeight())));
         this.resizableView.requestLayout();
         onTransitionStart(z, i, i2);
         float f4 = i2 - i;
@@ -408,7 +408,7 @@ public class AdjustPanLayoutHelper {
                             windowInsetsAnimation = null;
                             break;
                         }
-                        windowInsetsAnimation = it.next();
+                        windowInsetsAnimation = AdjustPanLayoutHelper$4$$ExternalSyntheticApiModelOutline0.m(it.next());
                         typeMask = windowInsetsAnimation.getTypeMask();
                         if ((typeMask & WindowInsetsCompat.Type.ime()) != 0) {
                             break;

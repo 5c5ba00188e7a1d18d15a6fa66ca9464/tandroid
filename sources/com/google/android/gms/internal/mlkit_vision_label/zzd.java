@@ -1,12 +1,13 @@
 package com.google.android.gms.internal.mlkit_vision_label;
 
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
-public final class zzd extends zza {
+public final class zzd extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzd(IBinder iBinder) {
         super(iBinder, "com.google.android.gms.vision.label.internal.client.INativeImageLabeler");

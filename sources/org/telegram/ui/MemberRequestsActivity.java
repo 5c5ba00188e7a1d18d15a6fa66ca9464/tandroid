@@ -30,8 +30,8 @@ public class MemberRequestsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        String str;
         int i;
+        String str;
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.MemberRequestsActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -44,11 +44,11 @@ public class MemberRequestsActivity extends BaseFragment {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         ActionBar actionBar = this.actionBar;
         if (this.delegate.isChannel) {
-            str = "SubscribeRequests";
             i = R.string.SubscribeRequests;
+            str = "SubscribeRequests";
         } else {
-            str = "MemberRequests";
             i = R.string.MemberRequests;
+            str = "MemberRequests";
         }
         actionBar.setTitle(LocaleController.getString(str, i));
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.MemberRequestsActivity.3

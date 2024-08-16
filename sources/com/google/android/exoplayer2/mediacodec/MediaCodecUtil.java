@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import org.telegram.messenger.FileLoaderPriorityQueue;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
 import org.telegram.tgnet.ConnectionsManager;
 @SuppressLint({"InlinedApi"})
 /* loaded from: classes.dex */
@@ -72,7 +71,7 @@ public final class MediaCodecUtil {
             case 7:
                 return 128;
             case 8:
-                return LiteMode.FLAG_CHAT_BLUR;
+                return 256;
             case 9:
                 return LiteMode.FLAG_CALLS_ANIMATIONS;
             case 10:
@@ -129,26 +128,26 @@ public final class MediaCodecUtil {
                     default:
                         switch (i) {
                             case 30:
-                                return LiteMode.FLAG_CHAT_BLUR;
-                            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+                                return 256;
+                            case 31:
                                 return LiteMode.FLAG_CALLS_ANIMATIONS;
                             case 32:
                                 return 1024;
                             default:
                                 switch (i) {
-                                    case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
+                                    case 40:
                                         return 2048;
-                                    case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                                    case 41:
                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-                                    case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+                                    case 42:
                                         return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                     default:
                                         switch (i) {
-                                            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                                            case 50:
                                                 return LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
-                                            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                                            case 51:
                                                 return LiteMode.FLAG_CHAT_SCALE;
-                                            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                                            case 52:
                                                 return 65536;
                                             default:
                                                 return -1;
@@ -171,7 +170,7 @@ public final class MediaCodecUtil {
             case 64:
                 return 202752;
             case 128:
-            case LiteMode.FLAG_CHAT_BLUR /* 256 */:
+            case 256:
                 return 414720;
             case LiteMode.FLAG_CALLS_ANIMATIONS /* 512 */:
                 return 921600;
@@ -268,11 +267,11 @@ public final class MediaCodecUtil {
                                         if (i != 50) {
                                             if (i != 51) {
                                                 switch (i) {
-                                                    case R.styleable.AppCompatTheme_controlBackground /* 60 */:
+                                                    case 60:
                                                         return 2048;
-                                                    case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+                                                    case 61:
                                                         return LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM;
-                                                    case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
+                                                    case 62:
                                                         return LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
                                                     default:
                                                         return -1;
@@ -280,7 +279,7 @@ public final class MediaCodecUtil {
                                             }
                                             return LiteMode.FLAG_CALLS_ANIMATIONS;
                                         }
-                                        return LiteMode.FLAG_CHAT_BLUR;
+                                        return 256;
                                     }
                                     return 128;
                                 }
@@ -334,29 +333,33 @@ public final class MediaCodecUtil {
     public static synchronized List<MediaCodecInfo> getDecoderInfos(String str, boolean z, boolean z2) throws DecoderQueryException {
         MediaCodecListCompat mediaCodecListCompatV16;
         synchronized (MediaCodecUtil.class) {
-            CodecKey codecKey = new CodecKey(str, z, z2);
-            HashMap<CodecKey, List<MediaCodecInfo>> hashMap = decoderInfosCache;
-            List<MediaCodecInfo> list = hashMap.get(codecKey);
-            if (list != null) {
-                return list;
-            }
-            int i = Util.SDK_INT;
-            if (i >= 21) {
-                mediaCodecListCompatV16 = new MediaCodecListCompatV21(z, z2);
-            } else {
-                mediaCodecListCompatV16 = new MediaCodecListCompatV16();
-            }
-            ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompatV16);
-            if (z && decoderInfosInternal.isEmpty() && 21 <= i && i <= 23) {
-                decoderInfosInternal = getDecoderInfosInternal(codecKey, new MediaCodecListCompatV16());
-                if (!decoderInfosInternal.isEmpty()) {
-                    Log.w("MediaCodecUtil", "MediaCodecList API didn't list secure decoder for: " + str + ". Assuming: " + decoderInfosInternal.get(0).name);
+            try {
+                CodecKey codecKey = new CodecKey(str, z, z2);
+                HashMap<CodecKey, List<MediaCodecInfo>> hashMap = decoderInfosCache;
+                List<MediaCodecInfo> list = hashMap.get(codecKey);
+                if (list != null) {
+                    return list;
                 }
+                int i = Util.SDK_INT;
+                if (i >= 21) {
+                    mediaCodecListCompatV16 = new MediaCodecListCompatV21(z, z2);
+                } else {
+                    mediaCodecListCompatV16 = new MediaCodecListCompatV16();
+                }
+                ArrayList<MediaCodecInfo> decoderInfosInternal = getDecoderInfosInternal(codecKey, mediaCodecListCompatV16);
+                if (z && decoderInfosInternal.isEmpty() && 21 <= i && i <= 23) {
+                    decoderInfosInternal = getDecoderInfosInternal(codecKey, new MediaCodecListCompatV16());
+                    if (!decoderInfosInternal.isEmpty()) {
+                        Log.w("MediaCodecUtil", "MediaCodecList API didn't list secure decoder for: " + str + ". Assuming: " + decoderInfosInternal.get(0).name);
+                    }
+                }
+                applyWorkarounds(str, decoderInfosInternal);
+                ImmutableList copyOf = ImmutableList.copyOf((Collection) decoderInfosInternal);
+                hashMap.put(codecKey, copyOf);
+                return copyOf;
+            } catch (Throwable th) {
+                throw th;
             }
-            applyWorkarounds(str, decoderInfosInternal);
-            ImmutableList copyOf = ImmutableList.copyOf((Collection) decoderInfosInternal);
-            hashMap.put(codecKey, copyOf);
-            return copyOf;
         }
     }
 
@@ -502,17 +505,14 @@ public final class MediaCodecUtil {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(7:28|(4:(2:72|73)|53|(9:56|57|58|59|60|61|62|64|65)|9)|32|33|34|36|9) */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x0080, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x008d, code lost:
         if (r1.secure == false) goto L32;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x00a5, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00b2, code lost:
         r0 = e;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x00a6, code lost:
-        r1 = r11;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0102 A[Catch: Exception -> 0x0150, TRY_ENTER, TryCatch #1 {Exception -> 0x0150, blocks: (B:3:0x0009, B:5:0x001c, B:60:0x0121, B:8:0x002e, B:11:0x0039, B:54:0x00fa, B:57:0x0102, B:59:0x0108, B:61:0x012b, B:62:0x014e), top: B:70:0x0009 }] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x012b A[ADDED_TO_REGION, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0106 A[Catch: Exception -> 0x012f, TRY_ENTER, TryCatch #0 {Exception -> 0x012f, blocks: (B:3:0x0009, B:5:0x001c, B:61:0x0125, B:8:0x002e, B:11:0x0039, B:55:0x00fe, B:58:0x0106, B:60:0x010c, B:64:0x0131, B:65:0x0154), top: B:70:0x0009 }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0131 A[ADDED_TO_REGION, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -527,10 +527,11 @@ public final class MediaCodecUtil {
         boolean isFeatureSupported;
         boolean isFeatureRequired;
         boolean z2;
+        String str3;
         CodecKey codecKey2 = codecKey;
         try {
             ArrayList<MediaCodecInfo> arrayList = new ArrayList<>();
-            String str3 = codecKey2.mimeType;
+            String str4 = codecKey2.mimeType;
             int codecCount = mediaCodecListCompat.getCodecCount();
             boolean secureDecodersExplicit = mediaCodecListCompat.secureDecodersExplicit();
             int i3 = 0;
@@ -538,7 +539,7 @@ public final class MediaCodecUtil {
                 android.media.MediaCodecInfo codecInfoAt = mediaCodecListCompat.getCodecInfoAt(i3);
                 if (!isAlias(codecInfoAt)) {
                     String name = codecInfoAt.getName();
-                    if (isCodecUsableDecoder(codecInfoAt, name, secureDecodersExplicit, str3) && (codecMimeType = getCodecMimeType(codecInfoAt, name, str3)) != null) {
+                    if (isCodecUsableDecoder(codecInfoAt, name, secureDecodersExplicit, str4) && (codecMimeType = getCodecMimeType(codecInfoAt, name, str4)) != null) {
                         try {
                             capabilitiesForType = codecInfoAt.getCapabilitiesForType(codecMimeType);
                             isFeatureSupported = mediaCodecListCompat.isFeatureSupported("tunneled-playback", codecMimeType, capabilitiesForType);
@@ -557,8 +558,8 @@ public final class MediaCodecUtil {
                             boolean isFeatureRequired2 = mediaCodecListCompat.isFeatureRequired("secure-playback", codecMimeType, capabilitiesForType);
                             boolean z3 = codecKey2.secure;
                             if ((z3 || !isFeatureRequired2) && (!z3 || isFeatureSupported2)) {
-                                boolean isHardwareAccelerated = isHardwareAccelerated(codecInfoAt, str3);
-                                boolean isSoftwareOnly = isSoftwareOnly(codecInfoAt, str3);
+                                boolean isHardwareAccelerated = isHardwareAccelerated(codecInfoAt, str4);
+                                boolean isSoftwareOnly = isSoftwareOnly(codecInfoAt, str4);
                                 boolean isVendor = isVendor(codecInfoAt);
                                 if (!secureDecodersExplicit || codecKey2.secure != isFeatureSupported2) {
                                     if (!secureDecodersExplicit) {
@@ -566,10 +567,11 @@ public final class MediaCodecUtil {
                                         } catch (Exception e2) {
                                             e = e2;
                                             str = codecMimeType;
+                                            str3 = name;
                                             i = i3;
                                             z = secureDecodersExplicit;
                                             i2 = codecCount;
-                                            str2 = name;
+                                            str2 = str3;
                                             if (Util.SDK_INT <= 23) {
                                             }
                                             Log.e("MediaCodecUtil", "Failed to query codec " + str2 + " (" + str + ")");
@@ -591,7 +593,7 @@ public final class MediaCodecUtil {
                                             str2 = name;
                                         }
                                         try {
-                                            arrayList.add(MediaCodecInfo.newInstance(sb.toString(), str3, str, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, false, true));
+                                            arrayList.add(MediaCodecInfo.newInstance(sb.toString(), str4, str, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, false, true));
                                             return arrayList;
                                         } catch (Exception e4) {
                                             e = e4;
@@ -613,10 +615,11 @@ public final class MediaCodecUtil {
                                     secureDecodersExplicit = z;
                                 }
                                 str = codecMimeType;
+                                str3 = name;
                                 i = i3;
                                 z = secureDecodersExplicit;
                                 i2 = codecCount;
-                                arrayList.add(MediaCodecInfo.newInstance(name, str3, codecMimeType, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, false, false));
+                                arrayList.add(MediaCodecInfo.newInstance(name, str4, codecMimeType, capabilitiesForType, isHardwareAccelerated, isSoftwareOnly, isVendor, false, false));
                                 i3 = i + 1;
                                 codecKey2 = codecKey;
                                 codecCount = i2;
@@ -1294,7 +1297,7 @@ public final class MediaCodecUtil {
             case '\b':
                 return 64;
             case '\t':
-                return Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR);
+                return 256;
             case '\n':
                 return 2048;
             case 11:
@@ -1417,7 +1420,7 @@ public final class MediaCodecUtil {
             case 7:
                 return 128;
             case '\b':
-                return Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR);
+                return 256;
             case '\t':
                 return Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS);
             default:
@@ -1528,7 +1531,7 @@ public final class MediaCodecUtil {
             case 7:
                 return 128;
             case '\b':
-                return Integer.valueOf((int) LiteMode.FLAG_CHAT_BLUR);
+                return 256;
             case '\t':
                 return Integer.valueOf((int) LiteMode.FLAG_CALLS_ANIMATIONS);
             case '\n':

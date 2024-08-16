@@ -340,8 +340,8 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             canvas.restore();
             Drawable drawable = this.foreground;
             if (drawable != null) {
-                int i = this.outerPadding;
-                drawable.setBounds(-i, -i, getWidth() + this.outerPadding, getHeight() + this.outerPadding);
+                int i = -this.outerPadding;
+                drawable.setBounds(i, i, getWidth() + this.outerPadding, getHeight() + this.outerPadding);
                 this.foreground.draw(canvas);
             }
         }

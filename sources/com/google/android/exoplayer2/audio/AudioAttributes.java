@@ -116,7 +116,7 @@ public final class AudioAttributes implements Bundleable {
     }
 
     public int hashCode() {
-        return ((((((((527 + this.contentType) * 31) + this.flags) * 31) + this.usage) * 31) + this.allowedCapturePolicy) * 31) + this.spatializationBehavior;
+        return ((((((((this.contentType + 527) * 31) + this.flags) * 31) + this.usage) * 31) + this.allowedCapturePolicy) * 31) + this.spatializationBehavior;
     }
 
     @Override // com.google.android.exoplayer2.Bundleable

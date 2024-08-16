@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 /* loaded from: classes3.dex */
 public class LineProgressView extends View {
@@ -119,7 +120,7 @@ public class LineProgressView extends View {
         canvas.drawRoundRect(this.rect, getHeight() / 2.0f, getHeight() / 2.0f, progressPaint);
         if (this.animatedAlphaValue > 0.0f) {
             if (this.cellFlickerDrawable == null) {
-                CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable(160, 0);
+                CellFlickerDrawable cellFlickerDrawable = new CellFlickerDrawable(NotificationCenter.audioRouteChanged, 0);
                 this.cellFlickerDrawable = cellFlickerDrawable;
                 cellFlickerDrawable.drawFrame = false;
                 cellFlickerDrawable.animationSpeedScale = 0.8f;

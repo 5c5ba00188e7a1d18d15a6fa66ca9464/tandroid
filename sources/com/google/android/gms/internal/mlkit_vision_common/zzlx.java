@@ -66,10 +66,15 @@ public class zzlx implements Closeable {
         this.zzh = Math.max(this.zzh, j);
         if (this.zzc % 50 == 0) {
             Locale locale = Locale.US;
+            String str = this.zzb;
+            Long valueOf = Long.valueOf(j);
+            Integer valueOf2 = Integer.valueOf(this.zzc);
+            Long valueOf3 = Long.valueOf(this.zzg);
+            Long valueOf4 = Long.valueOf(this.zzh);
             double d3 = this.zzd;
             double d4 = this.zzc;
             Double.isNaN(d4);
-            String.format(locale, "[%s] cur=%dus, counts=%d, min=%dus, max=%dus, avg=%dus", this.zzb, Long.valueOf(j), Integer.valueOf(this.zzc), Long.valueOf(this.zzg), Long.valueOf(this.zzh), Integer.valueOf((int) (d3 / d4)));
+            String.format(locale, "[%s] cur=%dus, counts=%d, min=%dus, max=%dus, avg=%dus", str, valueOf, valueOf2, valueOf3, valueOf4, Integer.valueOf((int) (d3 / d4)));
             zzmw.zza();
         }
         if (this.zzc % 500 == 0) {

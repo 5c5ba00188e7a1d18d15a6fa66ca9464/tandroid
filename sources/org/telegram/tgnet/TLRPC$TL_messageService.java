@@ -14,7 +14,7 @@ public class TLRPC$TL_messageService extends TLRPC$Message {
         this.post = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0;
         this.legacy = (readInt32 & 524288) != 0;
         this.id = abstractSerializedData.readInt32(z);
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.from_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         this.peer_id = TLRPC$Peer.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
@@ -45,7 +45,7 @@ public class TLRPC$TL_messageService extends TLRPC$Message {
         this.flags = i6;
         abstractSerializedData.writeInt32(i6);
         abstractSerializedData.writeInt32(this.id);
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.from_id.serializeToStream(abstractSerializedData);
         }
         this.peer_id.serializeToStream(abstractSerializedData);

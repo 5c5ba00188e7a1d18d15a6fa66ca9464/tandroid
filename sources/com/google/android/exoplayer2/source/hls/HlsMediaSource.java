@@ -205,8 +205,9 @@ public final class HlsMediaSource extends BaseMediaSource implements HlsPlaylist
             }
             j3 = hlsMediaPlaylist.startOffsetUs;
         }
-        long j5 = hlsMediaPlaylist.durationUs;
-        return new SinglePeriodTimeline(j, j2, -9223372036854775807L, j5, j5, 0L, j3, true, false, true, hlsManifest, this.mediaItem, null);
+        long j5 = j3;
+        long j6 = hlsMediaPlaylist.durationUs;
+        return new SinglePeriodTimeline(j, j2, -9223372036854775807L, j6, j6, 0L, j5, true, false, true, hlsManifest, this.mediaItem, null);
     }
 
     private long getLiveEdgeOffsetUs(HlsMediaPlaylist hlsMediaPlaylist) {

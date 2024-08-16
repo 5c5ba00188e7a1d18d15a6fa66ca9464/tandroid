@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.Status;
-import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-auth@@20.4.0 */
 /* loaded from: classes.dex */
 public abstract class zbq extends com.google.android.gms.internal.auth-api.zbb implements zbr {
@@ -19,11 +18,11 @@ public abstract class zbq extends com.google.android.gms.internal.auth-api.zbb i
                 com.google.android.gms.internal.auth-api.zbc.zbb(parcel);
                 zbd((GoogleSignInAccount) com.google.android.gms.internal.auth-api.zbc.zba(parcel, GoogleSignInAccount.CREATOR), (Status) com.google.android.gms.internal.auth-api.zbc.zba(parcel, Status.CREATOR));
                 break;
-            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+            case 102:
                 com.google.android.gms.internal.auth-api.zbc.zbb(parcel);
                 zbc((Status) com.google.android.gms.internal.auth-api.zbc.zba(parcel, Status.CREATOR));
                 break;
-            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+            case 103:
                 com.google.android.gms.internal.auth-api.zbc.zbb(parcel);
                 zbb((Status) com.google.android.gms.internal.auth-api.zbc.zba(parcel, Status.CREATOR));
                 break;

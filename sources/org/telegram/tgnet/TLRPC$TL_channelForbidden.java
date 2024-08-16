@@ -1,6 +1,4 @@
 package org.telegram.tgnet;
-
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes3.dex */
 public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
     @Override // org.telegram.tgnet.TLObject
@@ -8,7 +6,7 @@ public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
         this.broadcast = (readInt32 & 32) != 0;
-        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.megagroup = (readInt32 & 256) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.access_hash = abstractSerializedData.readInt64(z);
         this.title = abstractSerializedData.readString(z);
@@ -22,7 +20,7 @@ public class TLRPC$TL_channelForbidden extends TLRPC$Chat {
         abstractSerializedData.writeInt32(399807445);
         int i = this.broadcast ? this.flags | 32 : this.flags & (-33);
         this.flags = i;
-        int i2 = this.megagroup ? i | LiteMode.FLAG_CHAT_BLUR : i & (-257);
+        int i2 = this.megagroup ? i | 256 : i & (-257);
         this.flags = i2;
         abstractSerializedData.writeInt32(i2);
         abstractSerializedData.writeInt64(this.id);

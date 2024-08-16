@@ -152,19 +152,23 @@ public class FragmentStore {
     /* JADX INFO: Access modifiers changed from: package-private */
     public ArrayList<String> saveAddedFragments() {
         synchronized (this.mAdded) {
-            if (this.mAdded.isEmpty()) {
-                return null;
-            }
-            ArrayList<String> arrayList = new ArrayList<>(this.mAdded.size());
-            Iterator<Fragment> it = this.mAdded.iterator();
-            while (it.hasNext()) {
-                Fragment next = it.next();
-                arrayList.add(next.mWho);
-                if (FragmentManager.isLoggingEnabled(2)) {
-                    Log.v("FragmentManager", "saveAllState: adding fragment (" + next.mWho + "): " + next);
+            try {
+                if (this.mAdded.isEmpty()) {
+                    return null;
                 }
+                ArrayList<String> arrayList = new ArrayList<>(this.mAdded.size());
+                Iterator<Fragment> it = this.mAdded.iterator();
+                while (it.hasNext()) {
+                    Fragment next = it.next();
+                    arrayList.add(next.mWho);
+                    if (FragmentManager.isLoggingEnabled(2)) {
+                        Log.v("FragmentManager", "saveAllState: adding fragment (" + next.mWho + "): " + next);
+                    }
+                }
+                return arrayList;
+            } catch (Throwable th) {
+                throw th;
             }
-            return arrayList;
         }
     }
 

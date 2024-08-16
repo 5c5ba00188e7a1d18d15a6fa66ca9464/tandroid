@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class ColorParser {
     private static final Map<String, Integer> COLOR_MAP;
@@ -186,7 +187,7 @@ public final class ColorParser {
                 return (-16777216) | parseLong;
             }
             if (replace.length() == 9) {
-                return ((parseLong & 255) << 24) | (parseLong >>> 8);
+                return ((parseLong & NotificationCenter.voipServiceCreated) << 24) | (parseLong >>> 8);
             }
             throw new IllegalArgumentException();
         }

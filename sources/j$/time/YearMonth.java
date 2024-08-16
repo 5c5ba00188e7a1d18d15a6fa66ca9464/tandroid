@@ -1,9 +1,7 @@
 package j$.time;
 
-import j$.time.format.r;
+import j$.time.format.q;
 import j$.time.format.y;
-import j$.time.temporal.p;
-import j$.time.temporal.q;
 import java.io.Serializable;
 import java.util.Locale;
 /* loaded from: classes2.dex */
@@ -12,11 +10,11 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
     private final int b;
 
     static {
-        r rVar = new r();
-        rVar.k(j$.time.temporal.a.YEAR, 4, 10, y.EXCEEDS_PAD);
-        rVar.e('-');
-        rVar.m(j$.time.temporal.a.MONTH_OF_YEAR, 2);
-        rVar.v(Locale.getDefault());
+        q qVar = new q();
+        qVar.m(j$.time.temporal.a.YEAR, 4, 10, y.EXCEEDS_PAD);
+        qVar.e('-');
+        qVar.l(j$.time.temporal.a.MONTH_OF_YEAR, 2);
+        qVar.v(Locale.getDefault());
     }
 
     private YearMonth(int i, int i2) {
@@ -25,28 +23,23 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
     }
 
     public static YearMonth of(int i, int i2) {
-        j$.time.temporal.a.YEAR.f(i);
-        j$.time.temporal.a.MONTH_OF_YEAR.f(i2);
+        j$.time.temporal.a.YEAR.g(i);
+        j$.time.temporal.a.MONTH_OF_YEAR.g(i2);
         return new YearMonth(i, i2);
     }
 
     @Override // j$.time.temporal.k
-    public final q a(j$.time.temporal.l lVar) {
+    public final j$.time.temporal.q a(j$.time.temporal.l lVar) {
         if (lVar == j$.time.temporal.a.YEAR_OF_ERA) {
-            return q.i(1L, this.a <= 0 ? 1000000000L : 999999999L);
+            return j$.time.temporal.q.i(1L, this.a <= 0 ? 1000000000L : 999999999L);
         }
         return j$.time.temporal.j.c(this, lVar);
     }
 
     @Override // j$.time.temporal.k
-    public final boolean b(j$.time.temporal.l lVar) {
-        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.YEAR || lVar == j$.time.temporal.a.MONTH_OF_YEAR || lVar == j$.time.temporal.a.PROLEPTIC_MONTH || lVar == j$.time.temporal.a.YEAR_OF_ERA || lVar == j$.time.temporal.a.ERA : lVar != null && lVar.a(this);
-    }
-
-    @Override // j$.time.temporal.k
-    public final long c(j$.time.temporal.l lVar) {
+    public final long b(j$.time.temporal.l lVar) {
         if (lVar instanceof j$.time.temporal.a) {
-            int i = m.a[((j$.time.temporal.a) lVar).ordinal()];
+            int i = l.a[((j$.time.temporal.a) lVar).ordinal()];
             int i2 = this.b;
             if (i != 1) {
                 int i3 = this.a;
@@ -60,7 +53,7 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
                         if (i == 5) {
                             return i3 < 1 ? 0 : 1;
                         }
-                        throw new p("Unsupported field: " + lVar);
+                        throw new j$.time.temporal.p("Unsupported field: " + lVar);
                     } else {
                         return i3;
                     }
@@ -69,7 +62,12 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
             }
             return i2;
         }
-        return lVar.d(this);
+        return lVar.b(this);
+    }
+
+    @Override // j$.time.temporal.k
+    public final Object c(j$.time.temporal.n nVar) {
+        return nVar == j$.time.temporal.j.d() ? j$.time.chrono.g.a : nVar == j$.time.temporal.j.h() ? j$.time.temporal.b.MONTHS : j$.time.temporal.j.b(this, nVar);
     }
 
     @Override // java.lang.Comparable
@@ -80,13 +78,13 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
     }
 
     @Override // j$.time.temporal.k
-    public final Object d(j$.time.temporal.n nVar) {
-        return nVar == j$.time.temporal.j.d() ? j$.time.chrono.e.a : nVar == j$.time.temporal.j.h() ? j$.time.temporal.b.MONTHS : j$.time.temporal.j.b(this, nVar);
+    public final int d(j$.time.temporal.a aVar) {
+        return a(aVar).a(b(aVar), aVar);
     }
 
     @Override // j$.time.temporal.k
-    public final int e(j$.time.temporal.a aVar) {
-        return a(aVar).a(c(aVar), aVar);
+    public final boolean e(j$.time.temporal.l lVar) {
+        return lVar instanceof j$.time.temporal.a ? lVar == j$.time.temporal.a.YEAR || lVar == j$.time.temporal.a.MONTH_OF_YEAR || lVar == j$.time.temporal.a.PROLEPTIC_MONTH || lVar == j$.time.temporal.a.YEAR_OF_ERA || lVar == j$.time.temporal.a.ERA : lVar != null && lVar.c(this);
     }
 
     public final boolean equals(Object obj) {
@@ -105,9 +103,9 @@ public final class YearMonth implements j$.time.temporal.k, Comparable<YearMonth
     }
 
     public int lengthOfMonth() {
-        l h = l.h(this.b);
-        j$.time.chrono.e.a.getClass();
-        return h.g(j$.time.chrono.e.a(this.a));
+        k h = k.h(this.b);
+        j$.time.chrono.g.a.getClass();
+        return h.g(j$.time.chrono.g.a(this.a));
     }
 
     public final String toString() {

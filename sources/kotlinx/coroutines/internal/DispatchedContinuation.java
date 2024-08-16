@@ -101,10 +101,11 @@ public final class DispatchedContinuation<T> extends DispatchedTask<T> implement
                 ThreadContextKt.restoreThreadContext(context2, updateThreadContext);
                 do {
                 } while (eventLoop$kotlinx_coroutines_core.processUnconfinedEvent());
-            } finally {
+            } catch (Throwable th) {
                 try {
-                    return;
+                    handleFatalException(th, null);
                 } finally {
+                    eventLoop$kotlinx_coroutines_core.decrementUseCount(true);
                 }
             }
             return;

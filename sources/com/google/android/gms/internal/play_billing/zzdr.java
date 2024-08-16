@@ -28,7 +28,7 @@ public final class zzdr {
         }
         if (cls2 != null) {
             try {
-                zzegVar = (zzeg) cls2.getConstructor(new Class[0]).newInstance(new Object[0]);
+                zzegVar = (zzeg) cls2.getConstructor(null).newInstance(null);
             } catch (Throwable unused3) {
             }
         }

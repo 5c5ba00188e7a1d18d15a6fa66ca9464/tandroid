@@ -51,7 +51,7 @@ import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.customview.view.AbsSavedState;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
-import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class SearchView extends LinearLayoutCompat implements CollapsibleActionView {
@@ -562,15 +562,18 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
 
     private void updateViewsVisibility(boolean z) {
         this.mIconified = z;
-        int i = 0;
+        int i = 8;
         int i2 = z ? 0 : 8;
-        boolean z2 = !TextUtils.isEmpty(this.mSearchSrcTextView.getText());
+        boolean isEmpty = TextUtils.isEmpty(this.mSearchSrcTextView.getText());
         this.mSearchButton.setVisibility(i2);
-        updateSubmitButton(z2);
+        updateSubmitButton(!isEmpty);
         this.mSearchEditFrame.setVisibility(z ? 8 : 0);
-        this.mCollapsedIcon.setVisibility((this.mCollapsedIcon.getDrawable() == null || this.mIconifiedByDefault) ? 8 : 8);
+        if (this.mCollapsedIcon.getDrawable() != null && !this.mIconifiedByDefault) {
+            i = 0;
+        }
+        this.mCollapsedIcon.setVisibility(i);
         updateCloseButton();
-        updateVoiceButton(!z2);
+        updateVoiceButton(isEmpty);
         updateSubmitArea();
     }
 
@@ -691,7 +694,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         if ((inputType & 15) == 1) {
             inputType &= -65537;
             if (this.mSearchable.getSuggestAuthority() != null) {
-                inputType = inputType | 65536 | 524288;
+                inputType |= 589824;
             }
         }
         this.mSearchSrcTextView.setInputType(inputType);
@@ -719,9 +722,9 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     void onTextChanged(CharSequence charSequence) {
         Editable text = this.mSearchSrcTextView.getText();
         this.mUserQuery = text;
-        boolean z = !TextUtils.isEmpty(text);
-        updateSubmitButton(z);
-        updateVoiceButton(!z);
+        boolean isEmpty = TextUtils.isEmpty(text);
+        updateSubmitButton(!isEmpty);
+        updateVoiceButton(isEmpty);
         updateCloseButton();
         updateSubmitArea();
         this.mOldQueryText = charSequence.toString();
@@ -991,6 +994,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     }
 
     private Intent createVoiceAppSearchIntent(Intent intent, SearchableInfo searchableInfo) {
+        String str;
         ComponentName searchActivity = searchableInfo.getSearchActivity();
         Intent intent2 = new Intent("android.intent.action.SEARCH");
         intent2.setComponent(searchActivity);
@@ -1002,13 +1006,17 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         }
         Intent intent3 = new Intent(intent);
         Resources resources = getResources();
-        String string = searchableInfo.getVoiceLanguageModeId() != 0 ? resources.getString(searchableInfo.getVoiceLanguageModeId()) : "free_form";
-        String string2 = searchableInfo.getVoicePromptTextId() != 0 ? resources.getString(searchableInfo.getVoicePromptTextId()) : null;
-        String string3 = searchableInfo.getVoiceLanguageId() != 0 ? resources.getString(searchableInfo.getVoiceLanguageId()) : null;
+        if (searchableInfo.getVoiceLanguageModeId() == 0) {
+            str = "free_form";
+        } else {
+            str = resources.getString(searchableInfo.getVoiceLanguageModeId());
+        }
+        String string = searchableInfo.getVoicePromptTextId() != 0 ? resources.getString(searchableInfo.getVoicePromptTextId()) : null;
+        String string2 = searchableInfo.getVoiceLanguageId() != 0 ? resources.getString(searchableInfo.getVoiceLanguageId()) : null;
         int voiceMaxResults = searchableInfo.getVoiceMaxResults() != 0 ? searchableInfo.getVoiceMaxResults() : 1;
-        intent3.putExtra("android.speech.extra.LANGUAGE_MODEL", string);
-        intent3.putExtra("android.speech.extra.PROMPT", string2);
-        intent3.putExtra("android.speech.extra.LANGUAGE", string3);
+        intent3.putExtra("android.speech.extra.LANGUAGE_MODEL", str);
+        intent3.putExtra("android.speech.extra.PROMPT", string);
+        intent3.putExtra("android.speech.extra.LANGUAGE", string2);
         intent3.putExtra("android.speech.extra.MAX_RESULTS", voiceMaxResults);
         intent3.putExtra("calling_package", searchActivity != null ? searchActivity.flattenToShortString() : null);
         intent3.putExtra("android.speech.extra.RESULTS_PENDINGINTENT", activity);
@@ -1236,12 +1244,9 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             int i = configuration.screenWidthDp;
             int i2 = configuration.screenHeightDp;
             if (i < 960 || i2 < 720 || configuration.orientation != 2) {
-                if (i < 600) {
-                    return (i < 640 || i2 < 480) ? 160 : 192;
-                }
-                return 192;
+                return i < 600 ? (i < 640 || i2 < 480) ? NotificationCenter.audioRouteChanged : NotificationCenter.dialogPhotosUpdate : NotificationCenter.dialogPhotosUpdate;
             }
-            return LiteMode.FLAG_CHAT_BLUR;
+            return 256;
         }
 
         @Override // androidx.appcompat.widget.AppCompatAutoCompleteTextView, android.widget.TextView, android.view.View
@@ -1303,13 +1308,13 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             this.mEnsureImeVisible = null;
             preApi29Check();
             try {
-                Method declaredMethod = AutoCompleteTextView.class.getDeclaredMethod("doBeforeTextChanged", new Class[0]);
+                Method declaredMethod = AutoCompleteTextView.class.getDeclaredMethod("doBeforeTextChanged", null);
                 this.mDoBeforeTextChanged = declaredMethod;
                 declaredMethod.setAccessible(true);
             } catch (NoSuchMethodException unused) {
             }
             try {
-                Method declaredMethod2 = AutoCompleteTextView.class.getDeclaredMethod("doAfterTextChanged", new Class[0]);
+                Method declaredMethod2 = AutoCompleteTextView.class.getDeclaredMethod("doAfterTextChanged", null);
                 this.mDoAfterTextChanged = declaredMethod2;
                 declaredMethod2.setAccessible(true);
             } catch (NoSuchMethodException unused2) {
@@ -1327,7 +1332,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             Method method = this.mDoBeforeTextChanged;
             if (method != null) {
                 try {
-                    method.invoke(autoCompleteTextView, new Object[0]);
+                    method.invoke(autoCompleteTextView, null);
                 } catch (Exception unused) {
                 }
             }
@@ -1338,7 +1343,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
             Method method = this.mDoAfterTextChanged;
             if (method != null) {
                 try {
-                    method.invoke(autoCompleteTextView, new Object[0]);
+                    method.invoke(autoCompleteTextView, null);
                 } catch (Exception unused) {
                 }
             }

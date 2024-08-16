@@ -20,7 +20,7 @@ public final class ExoPlaybackException extends PlaybackException {
     public static final Bundleable.Creator<ExoPlaybackException> CREATOR = new Bundleable.Creator() { // from class: com.google.android.exoplayer2.ExoPlaybackException$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.Bundleable.Creator
         public final Bundleable fromBundle(Bundle bundle) {
-            return ExoPlaybackException.$r8$lambda$mXbXdGG_PHMarv0ObcHmIhB4uIw(bundle);
+            return ExoPlaybackException.$r8$lambda$1XKy3W7SelM_FKalWARGEC-f72M(bundle);
         }
     };
     private static final String FIELD_TYPE = Util.intToStringMaxRadix(1001);
@@ -30,7 +30,7 @@ public final class ExoPlaybackException extends PlaybackException {
     private static final String FIELD_RENDERER_FORMAT_SUPPORT = Util.intToStringMaxRadix(1005);
     private static final String FIELD_IS_RECOVERABLE = Util.intToStringMaxRadix(1006);
 
-    public static /* synthetic */ ExoPlaybackException $r8$lambda$mXbXdGG_PHMarv0ObcHmIhB4uIw(Bundle bundle) {
+    public static /* synthetic */ ExoPlaybackException $r8$lambda$1XKy3W7SelM_FKalWARGEC-f72M(Bundle bundle) {
         return new ExoPlaybackException(bundle);
     }
 
@@ -94,10 +94,12 @@ public final class ExoPlaybackException extends PlaybackException {
         String str3;
         if (i == 0) {
             str3 = "Source error";
-        } else if (i != 1) {
-            str3 = i != 3 ? "Unexpected runtime error" : "Remote error";
-        } else {
+        } else if (i == 1) {
             str3 = str2 + " error, index=" + i2 + ", format=" + format + ", format_supported=" + Util.getFormatSupportString(i3);
+        } else if (i == 3) {
+            str3 = "Remote error";
+        } else {
+            str3 = "Unexpected runtime error";
         }
         if (TextUtils.isEmpty(str)) {
             return str3;

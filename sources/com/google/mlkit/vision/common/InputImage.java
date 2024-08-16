@@ -9,6 +9,7 @@ import com.google.android.gms.internal.mlkit_vision_common.zzms;
 import com.google.android.gms.internal.mlkit_vision_common.zzmu;
 import com.google.mlkit.common.sdkinternal.MLTaskInput;
 import java.nio.ByteBuffer;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.mlkit:vision-common@@17.3.0 */
 /* loaded from: classes.dex */
 public class InputImage implements MLTaskInput {
@@ -41,7 +42,7 @@ public class InputImage implements MLTaskInput {
         boolean z = true;
         if (i != 0 && i != 90 && i != 180) {
             if (i == 270) {
-                i = 270;
+                i = NotificationCenter.onRequestPermissionResultReceived;
             } else {
                 z = false;
             }

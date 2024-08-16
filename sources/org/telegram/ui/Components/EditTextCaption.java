@@ -30,7 +30,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.CodeHighlighting;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.R;
@@ -38,6 +37,7 @@ import org.telegram.messenger.utils.CopyUtilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.AlertDialogDecor;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.TextSelectionHelper$$ExternalSyntheticApiModelOutline4;
 import org.telegram.ui.Components.QuoteSpan;
 import org.telegram.ui.Components.TextStyleSpan;
 /* loaded from: classes3.dex */
@@ -137,7 +137,7 @@ public class EditTextCaption extends EditTextBoldCursor {
 
     public void makeSelectedSpoiler() {
         TextStyleSpan.TextStyleRun textStyleRun = new TextStyleSpan.TextStyleRun();
-        textStyleRun.flags |= LiteMode.FLAG_CHAT_BLUR;
+        textStyleRun.flags |= 256;
         applyTextStyleToSelection(new TextStyleSpan(textStyleRun));
         invalidateSpoilers();
     }
@@ -524,8 +524,8 @@ public class EditTextCaption extends EditTextBoldCursor {
             @Override // android.view.ActionMode.Callback2
             public void onGetContentRect(ActionMode actionMode, View view, android.graphics.Rect rect) {
                 ActionMode.Callback callback3 = callback;
-                if (callback3 instanceof ActionMode.Callback2) {
-                    ((ActionMode.Callback2) callback3).onGetContentRect(actionMode, view, rect);
+                if (EditTextBoldCursor$ActionModeCallback2Wrapper$$ExternalSyntheticApiModelOutline0.m(callback3)) {
+                    TextSelectionHelper$$ExternalSyntheticApiModelOutline4.m(callback3).onGetContentRect(actionMode, view, rect);
                 } else {
                     super.onGetContentRect(actionMode, view, rect);
                 }

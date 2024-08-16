@@ -583,8 +583,8 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return new UItem(getFactory(cls).viewType, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0048 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:21:0x0049  */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0045 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x0046  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -602,7 +602,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
         if (uItemFactory == null) {
             try {
                 hashMap = factoryInstances;
-                f = cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+                f = cls.getDeclaredConstructor(null).newInstance(null);
             } catch (Exception e2) {
                 f = uItemFactory;
                 e = e2;

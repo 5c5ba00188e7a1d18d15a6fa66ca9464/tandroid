@@ -67,45 +67,53 @@ public class FontRequestWorker {
             }
         };
         synchronized (LOCK) {
-            SimpleArrayMap<String, ArrayList<Consumer<TypefaceResult>>> simpleArrayMap = PENDING_REPLIES;
-            ArrayList<Consumer<TypefaceResult>> arrayList = simpleArrayMap.get(createCacheId);
-            if (arrayList != null) {
-                arrayList.add(consumer);
+            try {
+                SimpleArrayMap<String, ArrayList<Consumer<TypefaceResult>>> simpleArrayMap = PENDING_REPLIES;
+                ArrayList<Consumer<TypefaceResult>> arrayList = simpleArrayMap.get(createCacheId);
+                if (arrayList != null) {
+                    arrayList.add(consumer);
+                    return null;
+                }
+                ArrayList<Consumer<TypefaceResult>> arrayList2 = new ArrayList<>();
+                arrayList2.add(consumer);
+                simpleArrayMap.put(createCacheId, arrayList2);
+                Callable<TypefaceResult> callable = new Callable<TypefaceResult>() { // from class: androidx.core.provider.FontRequestWorker.3
+                    @Override // java.util.concurrent.Callable
+                    public TypefaceResult call() {
+                        try {
+                            return FontRequestWorker.getFontSync(createCacheId, context, fontRequest, i);
+                        } catch (Throwable unused) {
+                            return new TypefaceResult(-3);
+                        }
+                    }
+                };
+                if (executor == null) {
+                    executor = DEFAULT_EXECUTOR_SERVICE;
+                }
+                RequestExecutor.execute(executor, callable, new Consumer<TypefaceResult>() { // from class: androidx.core.provider.FontRequestWorker.4
+                    @Override // androidx.core.util.Consumer
+                    public void accept(TypefaceResult typefaceResult) {
+                        synchronized (FontRequestWorker.LOCK) {
+                            try {
+                                SimpleArrayMap<String, ArrayList<Consumer<TypefaceResult>>> simpleArrayMap2 = FontRequestWorker.PENDING_REPLIES;
+                                ArrayList<Consumer<TypefaceResult>> arrayList3 = simpleArrayMap2.get(createCacheId);
+                                if (arrayList3 == null) {
+                                    return;
+                                }
+                                simpleArrayMap2.remove(createCacheId);
+                                for (int i2 = 0; i2 < arrayList3.size(); i2++) {
+                                    arrayList3.get(i2).accept(typefaceResult);
+                                }
+                            } catch (Throwable th) {
+                                throw th;
+                            }
+                        }
+                    }
+                });
                 return null;
+            } catch (Throwable th) {
+                throw th;
             }
-            ArrayList<Consumer<TypefaceResult>> arrayList2 = new ArrayList<>();
-            arrayList2.add(consumer);
-            simpleArrayMap.put(createCacheId, arrayList2);
-            Callable<TypefaceResult> callable = new Callable<TypefaceResult>() { // from class: androidx.core.provider.FontRequestWorker.3
-                @Override // java.util.concurrent.Callable
-                public TypefaceResult call() {
-                    try {
-                        return FontRequestWorker.getFontSync(createCacheId, context, fontRequest, i);
-                    } catch (Throwable unused) {
-                        return new TypefaceResult(-3);
-                    }
-                }
-            };
-            if (executor == null) {
-                executor = DEFAULT_EXECUTOR_SERVICE;
-            }
-            RequestExecutor.execute(executor, callable, new Consumer<TypefaceResult>() { // from class: androidx.core.provider.FontRequestWorker.4
-                @Override // androidx.core.util.Consumer
-                public void accept(TypefaceResult typefaceResult) {
-                    synchronized (FontRequestWorker.LOCK) {
-                        SimpleArrayMap<String, ArrayList<Consumer<TypefaceResult>>> simpleArrayMap2 = FontRequestWorker.PENDING_REPLIES;
-                        ArrayList<Consumer<TypefaceResult>> arrayList3 = simpleArrayMap2.get(createCacheId);
-                        if (arrayList3 == null) {
-                            return;
-                        }
-                        simpleArrayMap2.remove(createCacheId);
-                        for (int i2 = 0; i2 < arrayList3.size(); i2++) {
-                            arrayList3.get(i2).accept(typefaceResult);
-                        }
-                    }
-                }
-            });
-            return null;
         }
     }
 

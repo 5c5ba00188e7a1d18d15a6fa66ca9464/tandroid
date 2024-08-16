@@ -21,6 +21,6 @@ public final class AuxEffectInfo {
     }
 
     public int hashCode() {
-        return ((527 + this.effectId) * 31) + Float.floatToIntBits(this.sendLevel);
+        return ((this.effectId + 527) * 31) + Float.floatToIntBits(this.sendLevel);
     }
 }

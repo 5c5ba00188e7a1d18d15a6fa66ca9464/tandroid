@@ -49,7 +49,13 @@ public final class ActivityResult implements Parcelable {
     }
 
     public static String resultCodeToString(int i) {
-        return i != -1 ? i != 0 ? String.valueOf(i) : "RESULT_CANCELED" : "RESULT_OK";
+        if (i != -1) {
+            if (i == 0) {
+                return "RESULT_CANCELED";
+            }
+            return String.valueOf(i);
+        }
+        return "RESULT_OK";
     }
 
     @Override // android.os.Parcelable

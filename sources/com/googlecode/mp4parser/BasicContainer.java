@@ -3,8 +3,6 @@ package com.googlecode.mp4parser;
 import com.coremedia.iso.boxes.Box;
 import com.coremedia.iso.boxes.Container;
 import com.googlecode.mp4parser.util.Logger;
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 /* loaded from: classes.dex */
-public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.util.Iterator {
+public class BasicContainer implements Container, Iterator<Box>, Closeable {
     private static final Box EOF = new AbstractBox("eof ") { // from class: com.googlecode.mp4parser.BasicContainer.1
         @Override // com.googlecode.mp4parser.AbstractBox
         protected void _parseDetails(ByteBuffer byteBuffer) {
@@ -35,16 +33,6 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
     long startPosition = 0;
     long endPosition = 0;
     private List<Box> boxes = new ArrayList();
-
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer<? super Box> consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
 
     @Override // com.coremedia.iso.boxes.Container
     public List<Box> getBoxes() {
@@ -68,12 +56,12 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         }
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public boolean hasNext() {
         Box box = this.lookahead;
         if (box == EOF) {
@@ -91,7 +79,7 @@ public class BasicContainer implements Container, Iterator<Box>, Closeable, j$.u
         }
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public Box next() {
         Box box = this.lookahead;
         if (box != null && box != EOF) {

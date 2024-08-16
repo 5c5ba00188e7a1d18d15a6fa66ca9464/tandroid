@@ -154,7 +154,10 @@ public class DataUsage2Activity extends BaseFragment {
             if (i != 0) {
                 if (i != 1) {
                     if (i != 2) {
-                        return i != 3 ? "" : LocaleController.getString("NetworkUsageRoamingTab", R.string.NetworkUsageRoamingTab);
+                        if (i == 3) {
+                            return LocaleController.getString("NetworkUsageRoamingTab", R.string.NetworkUsageRoamingTab);
+                        }
+                        return "";
                     }
                     return LocaleController.getString("NetworkUsageWiFiTab", R.string.NetworkUsageWiFiTab);
                 }
@@ -201,7 +204,7 @@ public class DataUsage2Activity extends BaseFragment {
             Adapter adapter = new Adapter();
             this.adapter = adapter;
             setAdapter(adapter);
-            setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda1
+            setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda0
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
                 public final void onItemClick(View view, int i) {
                     DataUsage2Activity.ListView.this.lambda$new$1(view, i);
@@ -299,7 +302,7 @@ public class DataUsage2Activity extends BaseFragment {
                 sizeArr[i] = size;
                 this.tempSizes[i] = ((float) bytesCount) / ((float) this.totalSize);
             }
-            Arrays.sort(this.segments, new Comparator() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda0
+            Arrays.sort(this.segments, new Comparator() { // from class: org.telegram.ui.DataUsage2Activity$ListView$$ExternalSyntheticLambda1
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$setup$2;
@@ -344,11 +347,13 @@ public class DataUsage2Activity extends BaseFragment {
             String formatString;
             String string;
             int i;
+            String str;
+            int i2;
+            CharSequence concat;
             this.oldItems.clear();
             this.oldItems.addAll(this.itemInners);
             this.itemInners.clear();
             this.itemInners.add(new ItemInner(0));
-            long j = 0;
             if (this.totalSize > 0) {
                 formatString = LocaleController.formatString("YourNetworkUsageSince", R.string.YourNetworkUsageSince, LocaleController.getInstance().getFormatterStats().format(getResetStatsDate()));
             } else {
@@ -356,81 +361,94 @@ public class DataUsage2Activity extends BaseFragment {
             }
             this.itemInners.add(ItemInner.asSubtitle(formatString));
             ArrayList arrayList = new ArrayList();
-            int i2 = 0;
+            int i3 = 0;
             while (true) {
                 Size[] sizeArr = this.segments;
-                if (i2 >= sizeArr.length) {
+                if (i3 >= sizeArr.length) {
                     break;
                 }
-                Size size = sizeArr[i2];
-                long j2 = size.size;
-                int i3 = size.index;
-                boolean z2 = this.empty || this.removedSegments.contains(Integer.valueOf(i3));
-                if (j2 > j || z2) {
-                    SpannableString spannableString = new SpannableString(formatPercent(this.tempPercents[i3]));
+                Size size = sizeArr[i3];
+                long j = size.size;
+                int i4 = size.index;
+                boolean z2 = this.empty || this.removedSegments.contains(Integer.valueOf(i4));
+                if (j > 0 || z2) {
+                    SpannableString spannableString = new SpannableString(formatPercent(this.tempPercents[i4]));
                     spannableString.setSpan(new TypefaceSpan(AndroidUtilities.bold()), 0, spannableString.length(), 33);
                     spannableString.setSpan(new RelativeSizeSpan(0.8f), 0, spannableString.length(), 33);
+                    str = formatString;
                     spannableString.setSpan(new CustomCharacterSpan(0.1d), 0, spannableString.length(), 33);
-                    arrayList.add(ItemInner.asCell(i2, DataUsage2Activity.particles[i3], getThemedColor(DataUsage2Activity.colors[i3]), j2 == 0 ? LocaleController.getString(DataUsage2Activity.titles[i3]) : TextUtils.concat(LocaleController.getString(DataUsage2Activity.titles[i3]), "  ", spannableString), AndroidUtilities.formatFileSize(j2)));
+                    int i5 = DataUsage2Activity.particles[i4];
+                    int themedColor = getThemedColor(DataUsage2Activity.colors[i4]);
+                    if (j == 0) {
+                        concat = LocaleController.getString(DataUsage2Activity.titles[i4]);
+                        i2 = 1;
+                    } else {
+                        i2 = 1;
+                        concat = TextUtils.concat(LocaleController.getString(DataUsage2Activity.titles[i4]), "  ", spannableString);
+                    }
+                    arrayList.add(ItemInner.asCell(i3, i5, themedColor, concat, AndroidUtilities.formatFileSize(j)));
+                } else {
+                    str = formatString;
+                    i2 = 1;
                 }
-                i2++;
-                j = 0;
+                i3 += i2;
+                formatString = str;
             }
+            String str2 = formatString;
             if (!arrayList.isEmpty()) {
                 SpannableString spannableString2 = new SpannableString("^");
                 Drawable mutate = getContext().getResources().getDrawable(R.drawable.msg_mini_upload).mutate();
-                int i4 = Theme.key_windowBackgroundWhiteBlackText;
-                mutate.setColorFilter(new PorterDuffColorFilter(getThemedColor(i4), PorterDuff.Mode.MULTIPLY));
+                int i6 = Theme.key_windowBackgroundWhiteBlackText;
+                int themedColor2 = getThemedColor(i6);
+                PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                mutate.setColorFilter(new PorterDuffColorFilter(themedColor2, mode));
                 mutate.setBounds(0, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(18.0f));
                 spannableString2.setSpan(new ImageSpan(mutate, 2), 0, 1, 33);
                 SpannableString spannableString3 = new SpannableString("v");
                 Drawable mutate2 = getContext().getResources().getDrawable(R.drawable.msg_mini_download).mutate();
-                mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i4), PorterDuff.Mode.MULTIPLY));
+                mutate2.setColorFilter(new PorterDuffColorFilter(getThemedColor(i6), mode));
                 mutate2.setBounds(0, AndroidUtilities.dp(2.0f), AndroidUtilities.dp(16.0f), AndroidUtilities.dp(18.0f));
                 spannableString3.setSpan(new ImageSpan(mutate2, 2), 0, 1, 33);
-                int i5 = 0;
-                while (i5 < arrayList.size()) {
-                    int i6 = ((ItemInner) arrayList.get(i5)).index;
-                    if (i6 >= 0 && !this.collapsed[i6]) {
-                        Size size2 = this.segments[i6];
+                int i7 = 0;
+                while (i7 < arrayList.size()) {
+                    int i8 = ((ItemInner) arrayList.get(i7)).index;
+                    if (i8 >= 0 && !this.collapsed[i8]) {
+                        Size size2 = this.segments[i8];
                         if (DataUsage2Activity.stats[size2.index] != 0) {
                             if (DataUsage2Activity.stats[size2.index] != 1) {
                                 if (size2.outSize > 0 || size2.outCount > 0) {
-                                    i5++;
-                                    arrayList.add(i5, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString2, " ", AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("FilesSentCount", size2.outCount))), AndroidUtilities.formatFileSize(size2.outSize)));
+                                    i7++;
+                                    arrayList.add(i7, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString2, " ", AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("FilesSentCount", size2.outCount))), AndroidUtilities.formatFileSize(size2.outSize)));
                                 }
                                 if (size2.inSize > 0 || size2.inCount > 0) {
-                                    i5++;
-                                    arrayList.add(i5, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString3, " ", AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("FilesReceivedCount", size2.inCount))), AndroidUtilities.formatFileSize(size2.inSize)));
+                                    i7++;
+                                    arrayList.add(i7, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString3, " ", AndroidUtilities.replaceTags(LocaleController.formatPluralStringComma("FilesReceivedCount", size2.inCount))), AndroidUtilities.formatFileSize(size2.inSize)));
                                 }
                             } else {
                                 if (size2.outSize > 0 || size2.outCount > 0) {
-                                    i5++;
-                                    arrayList.add(i5, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString2, " ", LocaleController.getString("BytesSent", R.string.BytesSent)), AndroidUtilities.formatFileSize(size2.outSize)));
+                                    i7++;
+                                    arrayList.add(i7, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString2, " ", LocaleController.getString("BytesSent", R.string.BytesSent)), AndroidUtilities.formatFileSize(size2.outSize)));
                                 }
                                 if (size2.inSize > 0 || size2.inCount > 0) {
-                                    i5++;
-                                    arrayList.add(i5, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString3, " ", LocaleController.getString("BytesReceived", R.string.BytesReceived)), AndroidUtilities.formatFileSize(size2.inSize)));
-                                } else {
                                     i = 1;
-                                    i5 += i;
+                                    i7++;
+                                    arrayList.add(i7, ItemInner.asCell(-1, 0, 0, TextUtils.concat(spannableString3, " ", LocaleController.getString("BytesReceived", R.string.BytesReceived)), AndroidUtilities.formatFileSize(size2.inSize)));
+                                    i7 += i;
                                 }
                             }
                         } else {
                             if (size2.outSize > 0 || size2.outCount > 0) {
-                                i5++;
-                                arrayList.add(i5, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("OutgoingCallsCount", size2.outCount), AndroidUtilities.formatFileSize(size2.outSize)));
+                                i7++;
+                                arrayList.add(i7, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("OutgoingCallsCount", size2.outCount), AndroidUtilities.formatFileSize(size2.outSize)));
                             }
                             if (size2.inSize > 0 || size2.inCount > 0) {
-                                i5++;
-                                arrayList.add(i5, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("IncomingCallsCount", size2.inCount), AndroidUtilities.formatFileSize(size2.inSize)));
+                                i7++;
+                                arrayList.add(i7, ItemInner.asCell(-1, 0, 0, LocaleController.formatPluralStringComma("IncomingCallsCount", size2.inCount), AndroidUtilities.formatFileSize(size2.inSize)));
                             }
                         }
-                        i = 1;
-                        i5 += i;
                     }
                     i = 1;
-                    i5 += i;
+                    i7 += i;
                 }
                 this.itemInners.addAll(arrayList);
                 if (!this.empty) {
@@ -443,17 +461,17 @@ public class DataUsage2Activity extends BaseFragment {
                 this.itemInners.add(ItemInner.asCell(-1, R.drawable.msg_filled_data_received, getThemedColor(Theme.key_statisticChartLine_green), LocaleController.getString("BytesReceived", R.string.BytesReceived), AndroidUtilities.formatFileSize(this.totalSizeIn)));
             }
             if (!arrayList.isEmpty()) {
-                this.itemInners.add(ItemInner.asSeparator(formatString));
+                this.itemInners.add(ItemInner.asSeparator(str2));
             }
             if (this.currentType != 0) {
                 if (arrayList.isEmpty()) {
                     this.itemInners.add(ItemInner.asSeparator());
                 }
                 this.itemInners.add(ItemInner.asCell(-2, R.drawable.msg_download_settings, getThemedColor(Theme.key_statisticChartLine_lightblue), LocaleController.getString("AutomaticDownloadSettings", R.string.AutomaticDownloadSettings), null));
-                int i7 = this.currentType;
-                if (i7 == 1) {
+                int i9 = this.currentType;
+                if (i9 == 1) {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoMobile", R.string.AutomaticDownloadSettingsInfoMobile);
-                } else if (i7 == 3) {
+                } else if (i9 == 3) {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoRoaming", R.string.AutomaticDownloadSettingsInfoRoaming);
                 } else {
                     string = LocaleController.getString("AutomaticDownloadSettingsInfoWiFi", R.string.AutomaticDownloadSettingsInfoWiFi);
@@ -489,7 +507,7 @@ public class DataUsage2Activity extends BaseFragment {
 
                 @Override // org.telegram.ui.Components.CacheChart
                 protected int heightDp() {
-                    return 216;
+                    return NotificationCenter.botStarsTransactionsLoaded;
                 }
 
                 @Override // org.telegram.ui.Components.CacheChart
@@ -614,9 +632,6 @@ public class DataUsage2Activity extends BaseFragment {
                     subtitleCell.setText(itemInner.text);
                     int i4 = i + 1;
                     if (i4 < ListView.this.itemInners.size() && (i3 = ((ItemInner) ListView.this.itemInners.get(i4)).viewType) != itemInner.viewType && i3 != 3 && i3 != 6) {
-                        z = true;
-                    }
-                    if (z) {
                         subtitleCell.setBackground(Theme.getThemedDrawableByKey(ListView.this.getContext(), R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         subtitleCell.setBackground(null);

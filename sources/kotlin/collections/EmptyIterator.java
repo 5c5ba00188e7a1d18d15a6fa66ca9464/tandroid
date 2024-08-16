@@ -1,12 +1,10 @@
 package kotlin.collections;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 /* compiled from: Collections.kt */
 /* loaded from: classes.dex */
-public final class EmptyIterator implements ListIterator, Iterator {
+public final class EmptyIterator implements ListIterator {
     public static final EmptyIterator INSTANCE = new EmptyIterator();
 
     @Override // java.util.ListIterator
@@ -14,17 +12,7 @@ public final class EmptyIterator implements ListIterator, Iterator {
         throw new UnsupportedOperationException("Operation is not supported for read-only collection");
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public boolean hasNext() {
         return false;
     }
@@ -44,7 +32,7 @@ public final class EmptyIterator implements ListIterator, Iterator {
         return -1;
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public void remove() {
         throw new UnsupportedOperationException("Operation is not supported for read-only collection");
     }
@@ -57,7 +45,7 @@ public final class EmptyIterator implements ListIterator, Iterator {
     private EmptyIterator() {
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public Void next() {
         throw new NoSuchElementException();
     }

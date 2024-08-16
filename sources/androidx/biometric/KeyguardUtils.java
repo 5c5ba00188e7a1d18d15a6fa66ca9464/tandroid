@@ -33,15 +33,11 @@ class KeyguardUtils {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static KeyguardManager getKeyguardManager(Context context) {
-            Object systemService;
-            systemService = context.getSystemService(KeyguardManager.class);
-            return (KeyguardManager) systemService;
+            return (KeyguardManager) context.getSystemService(KeyguardManager.class);
         }
 
         static boolean isDeviceSecure(KeyguardManager keyguardManager) {
-            boolean isDeviceSecure;
-            isDeviceSecure = keyguardManager.isDeviceSecure();
-            return isDeviceSecure;
+            return keyguardManager.isDeviceSecure();
         }
     }
 

@@ -18,10 +18,14 @@ public class PooledExecutorsProvider {
     public static synchronized PooledExecutorFactory getInstance() {
         PooledExecutorFactory pooledExecutorFactory;
         synchronized (PooledExecutorsProvider.class) {
-            if (zza == null) {
-                zza = new zza();
+            try {
+                if (zza == null) {
+                    zza = new zza();
+                }
+                pooledExecutorFactory = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            pooledExecutorFactory = zza;
         }
         return pooledExecutorFactory;
     }

@@ -129,7 +129,7 @@ public class DownloadController extends BaseController implements NotificationCe
             int[] iArr2 = new int[4];
             this.mask = iArr2;
             this.sizes = new long[4];
-            System.arraycopy(iArr, 0, iArr2, 0, Math.max(iArr.length, iArr2.length));
+            System.arraycopy(iArr, 0, iArr2, 0, Math.max(iArr.length, 4));
             long[] jArr = this.sizes;
             jArr[0] = j;
             jArr[1] = j2;
@@ -266,12 +266,15 @@ public class DownloadController extends BaseController implements NotificationCe
         DownloadController downloadController = Instance[i];
         if (downloadController == null) {
             synchronized (DownloadController.class) {
-                downloadController = Instance[i];
-                if (downloadController == null) {
-                    DownloadController[] downloadControllerArr = Instance;
-                    DownloadController downloadController2 = new DownloadController(i);
-                    downloadControllerArr[i] = downloadController2;
-                    downloadController = downloadController2;
+                try {
+                    downloadController = Instance[i];
+                    if (downloadController == null) {
+                        DownloadController[] downloadControllerArr = Instance;
+                        DownloadController downloadController2 = new DownloadController(i);
+                        downloadControllerArr[i] = downloadController2;
+                        downloadController = downloadController2;
+                    }
+                } finally {
                 }
             }
         }
@@ -386,7 +389,7 @@ public class DownloadController extends BaseController implements NotificationCe
             edit.putInt("currentRoamingPreset", 3);
             edit.commit();
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$new$0();
@@ -436,7 +439,7 @@ public class DownloadController extends BaseController implements NotificationCe
                 public void serializeToStream(AbstractSerializedData abstractSerializedData) {
                     abstractSerializedData.writeInt32(1457130303);
                 }
-            }, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda0
+            }, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda7
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     DownloadController.this.lambda$loadAutoDownloadConfig$2(tLObject, tLRPC$TL_error);
@@ -447,7 +450,7 @@ public class DownloadController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAutoDownloadConfig$2(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda13
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$loadAutoDownloadConfig$1(tLObject);
@@ -732,10 +735,10 @@ public class DownloadController extends BaseController implements NotificationCe
     /* JADX WARN: Code restructure failed: missing block: B:37:0x006e, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:44:0x0090, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:44:0x008f, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:58:0x00cf, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:57:0x00cc, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r18.from_id.user_id)) != false) goto L22;
      */
     /* JADX WARN: Removed duplicated region for block: B:100:0x0147  */
@@ -852,10 +855,10 @@ public class DownloadController extends BaseController implements NotificationCe
     /* JADX WARN: Code restructure failed: missing block: B:25:0x004a, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r5.user_id)) != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:32:0x006c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x006b, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:46:0x00ab, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:45:0x00a8, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r14.from_id.user_id)) != false) goto L14;
      */
     /* JADX WARN: Removed duplicated region for block: B:52:0x00b7  */
@@ -1063,7 +1066,7 @@ public class DownloadController extends BaseController implements NotificationCe
         tLRPC$TL_autoDownloadSettings2.photo_size_max = z2 ? (int) currentRoamingPreset.sizes[0] : 0;
         tLRPC$TL_autoDownloadSettings2.video_size_max = z3 ? currentRoamingPreset.sizes[1] : 0L;
         tLRPC$TL_autoDownloadSettings2.file_size_max = z4 ? currentRoamingPreset.sizes[2] : 0L;
-        getConnectionsManager().sendRequest(tLRPC$TL_account_saveAutoDownloadSettings, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda6
+        getConnectionsManager().sendRequest(tLRPC$TL_account_saveAutoDownloadSettings, new RequestDelegate() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda10
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 DownloadController.lambda$savePresetToServer$3(tLObject, tLRPC$TL_error);
@@ -1092,9 +1095,7 @@ public class DownloadController extends BaseController implements NotificationCe
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:30:0x0065  */
     /* JADX WARN: Removed duplicated region for block: B:38:0x008a  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x00a7  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00c5 A[SYNTHETIC] */
-    /* JADX WARN: Type inference failed for: r8v16, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r8v13, types: [java.lang.String] */
     /* JADX WARN: Type inference failed for: r8v4, types: [java.lang.String] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1102,7 +1103,6 @@ public class DownloadController extends BaseController implements NotificationCe
     public void processDownloadObjects(int i, ArrayList<DownloadObject> arrayList) {
         ArrayList<DownloadObject> arrayList2;
         TLRPC$PhotoSize tLRPC$PhotoSize;
-        boolean z;
         int i2;
         TLRPC$PhotoSize tLRPC$PhotoSize2;
         if (arrayList.isEmpty()) {
@@ -1141,18 +1141,11 @@ public class DownloadController extends BaseController implements NotificationCe
                         TLObject tLObject2 = downloadObject.object;
                         if (tLObject2 instanceof TLRPC$Document) {
                             getFileLoader().loadFile((TLRPC$Document) tLObject2, downloadObject.parent, 0, downloadObject.secret ? 2 : 0);
-                        } else {
-                            z = false;
-                            if (z) {
-                                arrayList2.add(downloadObject);
-                                this.downloadQueueKeys.put(tLRPC$PhotoSize3, downloadObject);
-                                this.downloadQueuePairs.put(new Pair<>(Long.valueOf(downloadObject.id), Integer.valueOf(downloadObject.type)), downloadObject);
-                            }
                         }
                     }
-                    z = true;
-                    if (z) {
-                    }
+                    arrayList2.add(downloadObject);
+                    this.downloadQueueKeys.put(tLRPC$PhotoSize3, downloadObject);
+                    this.downloadQueuePairs.put(new Pair<>(Long.valueOf(downloadObject.id), Integer.valueOf(downloadObject.type)), downloadObject);
                 }
             }
             TLRPC$PhotoSize tLRPC$PhotoSize4 = tLRPC$PhotoSize3;
@@ -1161,9 +1154,9 @@ public class DownloadController extends BaseController implements NotificationCe
             if (tLRPC$PhotoSize3 != null) {
                 if (tLRPC$PhotoSize == null) {
                 }
-                z = true;
-                if (z) {
-                }
+                arrayList2.add(downloadObject);
+                this.downloadQueueKeys.put(tLRPC$PhotoSize3, downloadObject);
+                this.downloadQueuePairs.put(new Pair<>(Long.valueOf(downloadObject.id), Integer.valueOf(downloadObject.type)), downloadObject);
             }
         }
     }
@@ -1386,18 +1379,18 @@ public class DownloadController extends BaseController implements NotificationCe
                             int i9 = delayedMessage.topMessageId;
                             Long l5 = this.typingTimes.get(j);
                             if (delayedMessage.type == 4) {
-                                if (l5 == null || l5.longValue() + 4000 < System.currentTimeMillis()) {
-                                    HashMap<Object, Object> hashMap = delayedMessage.extraHashMap;
-                                    MessageObject messageObject = (MessageObject) hashMap.get(str4 + "_i");
-                                    if (messageObject != null && messageObject.isVideo()) {
-                                        getMessagesController().sendTyping(j, i9, 5, 0);
-                                    } else if (messageObject != null && messageObject.getDocument() != null) {
-                                        getMessagesController().sendTyping(j, i9, 3, 0);
-                                    } else {
-                                        getMessagesController().sendTyping(j, i9, 4, 0);
-                                    }
-                                    this.typingTimes.put(j, Long.valueOf(System.currentTimeMillis()));
+                                if (l5 != null && l5.longValue() + 4000 >= System.currentTimeMillis()) {
                                 }
+                                HashMap<Object, Object> hashMap = delayedMessage.extraHashMap;
+                                MessageObject messageObject = (MessageObject) hashMap.get(str4 + "_i");
+                                if (messageObject != null && messageObject.isVideo()) {
+                                    getMessagesController().sendTyping(j, i9, 5, 0);
+                                } else if (messageObject != null && messageObject.getDocument() != null) {
+                                    getMessagesController().sendTyping(j, i9, 3, 0);
+                                } else {
+                                    getMessagesController().sendTyping(j, i9, 4, 0);
+                                }
+                                this.typingTimes.put(j, Long.valueOf(System.currentTimeMillis()));
                             } else {
                                 delayedMessage.obj.getDocument();
                                 if (l5 == null || l5.longValue() + 4000 < System.currentTimeMillis()) {
@@ -1440,7 +1433,7 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject == null || (document = messageObject.getDocument()) == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda10
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$startDownloadFile$5(document, messageObject);
@@ -1482,7 +1475,7 @@ public class DownloadController extends BaseController implements NotificationCe
         z = z2;
         if (!z) {
             this.downloadingFiles.add(0, messageObject);
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda5
+            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     DownloadController.this.lambda$startDownloadFile$4(messageObject);
@@ -1516,7 +1509,7 @@ public class DownloadController extends BaseController implements NotificationCe
             return;
         }
         final TLRPC$Document document = messageObject.getDocument();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$onDownloadComplete$7(document, messageObject);
@@ -1526,45 +1519,31 @@ public class DownloadController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadComplete$7(TLRPC$Document tLRPC$Document, final MessageObject messageObject) {
-        boolean z;
-        boolean z2;
-        int i = 0;
-        while (true) {
-            z = true;
-            if (i >= this.downloadingFiles.size()) {
-                z2 = false;
-                break;
-            } else if (this.downloadingFiles.get(i).getDocument() != null && this.downloadingFiles.get(i).getDocument().id == tLRPC$Document.id) {
+        for (int i = 0; i < this.downloadingFiles.size(); i++) {
+            if (this.downloadingFiles.get(i).getDocument() != null && this.downloadingFiles.get(i).getDocument().id == tLRPC$Document.id) {
                 this.downloadingFiles.remove(i);
-                z2 = true;
-                break;
-            } else {
-                i++;
-            }
-        }
-        if (z2) {
-            int i2 = 0;
-            while (true) {
-                if (i2 >= this.recentDownloadingFiles.size()) {
-                    z = false;
-                    break;
-                } else if (this.recentDownloadingFiles.get(i2).getDocument() != null && this.recentDownloadingFiles.get(i2).getDocument().id == tLRPC$Document.id) {
-                    break;
-                } else {
-                    i2++;
+                int i2 = 0;
+                while (true) {
+                    if (i2 < this.recentDownloadingFiles.size()) {
+                        if (this.recentDownloadingFiles.get(i2).getDocument() != null && this.recentDownloadingFiles.get(i2).getDocument().id == tLRPC$Document.id) {
+                            break;
+                        }
+                        i2++;
+                    } else {
+                        this.recentDownloadingFiles.add(0, messageObject);
+                        putToUnviewedDownloads(messageObject);
+                        break;
+                    }
                 }
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
+                getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda5
+                    @Override // java.lang.Runnable
+                    public final void run() {
+                        DownloadController.this.lambda$onDownloadComplete$6(messageObject);
+                    }
+                });
+                return;
             }
-            if (!z) {
-                this.recentDownloadingFiles.add(0, messageObject);
-                putToUnviewedDownloads(messageObject);
-            }
-            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-            getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda11
-                @Override // java.lang.Runnable
-                public final void run() {
-                    DownloadController.this.lambda$onDownloadComplete$6(messageObject);
-                }
-            });
         }
     }
 
@@ -1609,13 +1588,13 @@ public class DownloadController extends BaseController implements NotificationCe
         if (messageObject == null) {
             return;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$onDownloadFail$8(messageObject, i);
             }
         });
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda3
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$onDownloadFail$9(messageObject);
@@ -1625,23 +1604,21 @@ public class DownloadController extends BaseController implements NotificationCe
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$onDownloadFail$8(MessageObject messageObject, int i) {
-        boolean z;
         TLRPC$Document document = messageObject.getDocument();
         for (int i2 = 0; i2 < this.downloadingFiles.size(); i2++) {
             TLRPC$Document document2 = this.downloadingFiles.get(i2).getDocument();
             if (document2 == null || (document != null && document2.id == document.id)) {
                 this.downloadingFiles.remove(i2);
-                z = true;
-                break;
-            }
-        }
-        z = false;
-        if (z) {
-            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-            if (i == 0) {
-                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", R.string.MessageNotFound, new Object[0]));
-            } else if (i == -1) {
-                LaunchActivity.checkFreeDiscSpaceStatic(2);
+                getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
+                if (i == 0) {
+                    NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 1, LocaleController.formatString("MessageNotFound", R.string.MessageNotFound, new Object[0]));
+                    return;
+                } else if (i == -1) {
+                    LaunchActivity.checkFreeDiscSpaceStatic(2);
+                    return;
+                } else {
+                    return;
+                }
             }
         }
     }
@@ -1695,7 +1672,7 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public void loadDownloadingFiles() {
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda8
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$loadDownloadingFiles$11();
@@ -1734,7 +1711,7 @@ public class DownloadController extends BaseController implements NotificationCe
         }
         getFileLoader().checkMediaExistance(arrayList);
         getFileLoader().checkMediaExistance(arrayList2);
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$loadDownloadingFiles$10(arrayList, arrayList2);
@@ -1771,7 +1748,7 @@ public class DownloadController extends BaseController implements NotificationCe
     public void clearRecentDownloadedFiles() {
         this.recentDownloadingFiles.clear();
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda7
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$clearRecentDownloadedFiles$12();
@@ -1789,32 +1766,26 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public void deleteRecentFiles(final ArrayList<MessageObject> arrayList) {
-        boolean z;
         for (int i = 0; i < arrayList.size(); i++) {
             int i2 = 0;
             while (true) {
                 if (i2 >= this.recentDownloadingFiles.size()) {
-                    z = false;
-                    break;
+                    int i3 = 0;
+                    while (true) {
+                        if (i3 >= this.downloadingFiles.size()) {
+                            break;
+                        }
+                        if (arrayList.get(i).getId() == this.downloadingFiles.get(i3).getId() && this.downloadingFiles.get(i3).getDialogId() == arrayList.get(i).getDialogId()) {
+                            this.downloadingFiles.remove(i3);
+                            break;
+                        }
+                        i3++;
+                    }
                 } else if (arrayList.get(i).getId() == this.recentDownloadingFiles.get(i2).getId() && this.recentDownloadingFiles.get(i2).getDialogId() == arrayList.get(i).getDialogId()) {
                     this.recentDownloadingFiles.remove(i2);
-                    z = true;
                     break;
                 } else {
                     i2++;
-                }
-            }
-            if (!z) {
-                int i3 = 0;
-                while (true) {
-                    if (i3 >= this.downloadingFiles.size()) {
-                        break;
-                    }
-                    if (arrayList.get(i).getId() == this.downloadingFiles.get(i3).getId() && this.downloadingFiles.get(i3).getDialogId() == arrayList.get(i).getDialogId()) {
-                        this.downloadingFiles.remove(i3);
-                        break;
-                    }
-                    i3++;
                 }
             }
             arrayList.get(i).putInDownloadsStore = false;
@@ -1822,7 +1793,7 @@ public class DownloadController extends BaseController implements NotificationCe
             FileLoader.getInstance(this.currentAccount).cancelLoadFile(arrayList.get(i).getDocument(), true);
         }
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onDownloadingFilesChanged, new Object[0]);
-        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda9
+        getMessagesStorage().getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.messenger.DownloadController$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 DownloadController.this.lambda$deleteRecentFiles$13(arrayList);

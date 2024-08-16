@@ -23,7 +23,6 @@ public class FragmentAnim {
     public static AnimationOrAnimator loadAnimation(Context context, Fragment fragment, boolean z, boolean z2) {
         int nextTransition = fragment.getNextTransition();
         int nextAnim = getNextAnim(fragment, z, z2);
-        boolean z3 = false;
         fragment.setAnimations(0, 0, 0, 0);
         ViewGroup viewGroup = fragment.mContainer;
         if (viewGroup != null) {
@@ -53,26 +52,23 @@ public class FragmentAnim {
                         if (loadAnimation != null) {
                             return new AnimationOrAnimator(loadAnimation);
                         }
-                        z3 = true;
                     } catch (Resources.NotFoundException e) {
                         throw e;
                     } catch (RuntimeException unused) {
                     }
                 }
-                if (!z3) {
-                    try {
-                        Animator loadAnimator = AnimatorInflater.loadAnimator(context, nextAnim);
-                        if (loadAnimator != null) {
-                            return new AnimationOrAnimator(loadAnimator);
-                        }
-                    } catch (RuntimeException e2) {
-                        if (equals) {
-                            throw e2;
-                        }
-                        Animation loadAnimation2 = AnimationUtils.loadAnimation(context, nextAnim);
-                        if (loadAnimation2 != null) {
-                            return new AnimationOrAnimator(loadAnimation2);
-                        }
+                try {
+                    Animator loadAnimator = AnimatorInflater.loadAnimator(context, nextAnim);
+                    if (loadAnimator != null) {
+                        return new AnimationOrAnimator(loadAnimator);
+                    }
+                } catch (RuntimeException e2) {
+                    if (equals) {
+                        throw e2;
+                    }
+                    Animation loadAnimation2 = AnimationUtils.loadAnimation(context, nextAnim);
+                    if (loadAnimation2 != null) {
+                        return new AnimationOrAnimator(loadAnimation2);
                     }
                 }
             }

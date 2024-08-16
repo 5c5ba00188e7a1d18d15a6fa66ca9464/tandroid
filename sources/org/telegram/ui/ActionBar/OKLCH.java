@@ -16,22 +16,14 @@ public class OKLCH {
         double d = dArr[0];
         double d2 = dArr[1];
         double d3 = dArr[2];
-        double[] dArr2 = new double[3];
-        dArr2[0] = d;
-        dArr2[1] = Double.isNaN(d3) ? 0.0d : Math.cos((d3 * 3.141592653589793d) / 180.0d) * d2;
-        dArr2[2] = Double.isNaN(d3) ? 0.0d : d2 * Math.sin((d3 * 3.141592653589793d) / 180.0d);
-        return dArr2;
+        return new double[]{d, Double.isNaN(d3) ? 0.0d : Math.cos((d3 * 3.141592653589793d) / 180.0d) * d2, Double.isNaN(d3) ? 0.0d : d2 * Math.sin((d3 * 3.141592653589793d) / 180.0d)};
     }
 
     public static double[] oklab2oklch(double[] dArr) {
         double d = dArr[0];
         double d2 = dArr[1];
         double d3 = dArr[2];
-        double[] dArr2 = new double[3];
-        dArr2[0] = d;
-        dArr2[1] = Math.sqrt(Math.pow(d2, 2.0d) + Math.pow(d3, 2.0d));
-        dArr2[2] = (Math.abs(d2) >= 2.0E-4d || Math.abs(d3) >= 2.0E-4d) ? ((((Math.atan2(d3, d2) * 180.0d) / 3.141592653589793d) % 360.0d) + 360.0d) % 360.0d : Double.NaN;
-        return dArr2;
+        return new double[]{d, Math.sqrt(Math.pow(d2, 2.0d) + Math.pow(d3, 2.0d)), (Math.abs(d2) >= 2.0E-4d || Math.abs(d3) >= 2.0E-4d) ? ((((Math.atan2(d3, d2) * 180.0d) / 3.141592653589793d) % 360.0d) + 360.0d) % 360.0d : Double.NaN};
     }
 
     public static double[] oklab2xyz(double[] dArr) {
@@ -97,12 +89,12 @@ public class OKLCH {
     }
 
     private static double[] multiply(double[] dArr, double[] dArr2) {
-        double d = dArr[1];
-        double d2 = dArr2[1];
-        double d3 = dArr[2];
-        double d4 = dArr2[2];
-        double d5 = dArr[3];
-        double d6 = dArr2[0];
-        return new double[]{(dArr[0] * dArr2[0]) + (d * d2) + (d3 * d4), (d5 * d6) + (dArr[4] * d2) + (dArr[5] * d4), (dArr[6] * d6) + (dArr[7] * dArr2[1]) + (dArr[8] * d4)};
+        double d = dArr[0];
+        double d2 = dArr2[0];
+        double d3 = dArr[1];
+        double d4 = dArr2[1];
+        double d5 = dArr[2];
+        double d6 = dArr2[2];
+        return new double[]{(d * d2) + (d3 * d4) + (d5 * d6), (dArr[3] * d2) + (dArr[4] * d4) + (dArr[5] * d6), (dArr[6] * d2) + (dArr[7] * d4) + (dArr[8] * d6)};
     }
 }

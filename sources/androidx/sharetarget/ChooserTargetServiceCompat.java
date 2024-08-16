@@ -3,7 +3,6 @@ package androidx.sharetarget;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.service.chooser.ChooserTarget;
 import android.service.chooser.ChooserTargetService;
@@ -20,7 +19,8 @@ import java.util.List;
 public class ChooserTargetServiceCompat extends ChooserTargetService {
     @Override // android.service.chooser.ChooserTargetService
     public List<ChooserTarget> onGetChooserTargets(ComponentName componentName, IntentFilter intentFilter) {
-        Context applicationContext = getApplicationContext();
+        Context applicationContext;
+        applicationContext = getApplicationContext();
         ArrayList<ShareTargetCompat> shareTargets = ShareTargetXmlParser.getShareTargets(applicationContext);
         ArrayList arrayList = new ArrayList();
         for (ShareTargetCompat shareTargetCompat : shareTargets) {
@@ -80,7 +80,6 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
         float f = 1.0f;
         for (ShortcutHolder shortcutHolder : list) {
             ShortcutInfoCompat shortcut = shortcutHolder.getShortcut();
-            Icon icon = null;
             try {
                 iconCompat = shortcutInfoCompatSaverImpl.getShortcutIcon(shortcut.getId());
             } catch (Exception e) {
@@ -93,11 +92,7 @@ public class ChooserTargetServiceCompat extends ChooserTargetService {
                 f -= 0.01f;
                 rank = shortcut.getRank();
             }
-            CharSequence shortLabel = shortcut.getShortLabel();
-            if (iconCompat != null) {
-                icon = iconCompat.toIcon();
-            }
-            arrayList.add(new ChooserTarget(shortLabel, icon, f, shortcutHolder.getTargetClass(), bundle));
+            arrayList.add(new ChooserTarget(shortcut.getShortLabel(), iconCompat != null ? iconCompat.toIcon() : null, f, shortcutHolder.getTargetClass(), bundle));
         }
         return arrayList;
     }

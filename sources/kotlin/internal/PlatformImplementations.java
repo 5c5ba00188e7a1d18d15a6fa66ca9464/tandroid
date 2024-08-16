@@ -9,10 +9,9 @@ import kotlin.random.Random;
 /* loaded from: classes.dex */
 public class PlatformImplementations {
 
-    /* JADX INFO: Access modifiers changed from: private */
     /* compiled from: PlatformImplementations.kt */
     /* loaded from: classes.dex */
-    public static final class ReflectThrowable {
+    private static final class ReflectThrowable {
         public static final ReflectThrowable INSTANCE = new ReflectThrowable();
         public static final Method addSuppressed;
         public static final Method getSuppressed;
@@ -20,12 +19,9 @@ public class PlatformImplementations {
         private ReflectThrowable() {
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:13:0x0040 A[LOOP:0: B:3:0x0016->B:13:0x0040, LOOP_END] */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0044 A[EDGE_INSN: B:24:0x0044->B:15:0x0044 ?: BREAK  , SYNTHETIC] */
         static {
             Method method;
             Method method2;
-            boolean z;
             Method[] throwableMethods = Throwable.class.getMethods();
             Intrinsics.checkNotNullExpressionValue(throwableMethods, "throwableMethods");
             int length = throwableMethods.length;
@@ -42,16 +38,10 @@ public class PlatformImplementations {
                     Class<?>[] parameterTypes = method2.getParameterTypes();
                     Intrinsics.checkNotNullExpressionValue(parameterTypes, "it.parameterTypes");
                     if (Intrinsics.areEqual(ArraysKt.singleOrNull(parameterTypes), Throwable.class)) {
-                        z = true;
-                        if (!z) {
-                            break;
-                        }
-                        i2++;
+                        break;
                     }
                 }
-                z = false;
-                if (!z) {
-                }
+                i2++;
             }
             addSuppressed = method2;
             int length2 = throwableMethods.length;

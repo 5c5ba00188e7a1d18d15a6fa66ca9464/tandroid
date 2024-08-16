@@ -249,22 +249,17 @@ public class TextPaintView extends EntityView {
     }
 
     public void setTypeface(String str) {
-        boolean z;
         Iterator<PaintTypeface> it = PaintTypeface.get().iterator();
         while (true) {
             if (!it.hasNext()) {
-                z = false;
                 break;
             }
             PaintTypeface next = it.next();
             if (next.getKey().equals(str)) {
                 setTypeface(next);
-                z = true;
+                str = null;
                 break;
             }
-        }
-        if (z) {
-            str = null;
         }
         this.lastTypefaceKey = str;
         updateSelectionView();
@@ -380,7 +375,7 @@ public class TextPaintView extends EntityView {
         } else if (i2 == 1) {
             this.editText.setFrameColor(AndroidUtilities.computePerceivedBrightness(i) >= 0.25f ? -1728053248 : -1711276033);
         } else if (i2 == 2) {
-            this.editText.setFrameColor(AndroidUtilities.computePerceivedBrightness(i) < 0.25f ? -1 : -16777216);
+            this.editText.setFrameColor(AndroidUtilities.computePerceivedBrightness(i) >= 0.25f ? -16777216 : -1);
         } else {
             this.editText.setFrameColor(0);
         }
@@ -483,7 +478,7 @@ public class TextPaintView extends EntityView {
             canvas.drawCircle(dp, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
             canvas.drawCircle(f2, f11, dpf2, this.dotStrokePaint);
             canvas.drawCircle(f2, f11, (dpf2 - AndroidUtilities.dp(1.0f)) + 1.0f, this.dotPaint);
-            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
             float f12 = dp + min2;
             float f13 = f3 - min2;
             canvas.drawLine(dp, f12, dp, f13, this.paint);

@@ -40,7 +40,7 @@ public final class ListenerSet<T> {
         this.releasedLock = new Object();
         this.flushingEvents = new ArrayDeque<>();
         this.queuedEvents = new ArrayDeque<>();
-        this.handler = clock.createHandler(looper, new Handler.Callback() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda0
+        this.handler = clock.createHandler(looper, new Handler.Callback() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda1
             @Override // android.os.Handler.Callback
             public final boolean handleMessage(Message message) {
                 boolean handleMessage;
@@ -62,17 +62,21 @@ public final class ListenerSet<T> {
     public void add(T t) {
         Assertions.checkNotNull(t);
         synchronized (this.releasedLock) {
-            if (this.released) {
-                return;
+            try {
+                if (this.released) {
+                    return;
+                }
+                this.listeners.add(new ListenerHolder<>(t));
+            } catch (Throwable th) {
+                throw th;
             }
-            this.listeners.add(new ListenerHolder<>(t));
         }
     }
 
     public void queueEvent(final int i, final Event<T> event) {
         verifyCurrentThread();
         final CopyOnWriteArraySet copyOnWriteArraySet = new CopyOnWriteArraySet(this.listeners);
-        this.queuedEvents.add(new Runnable() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda1
+        this.queuedEvents.add(new Runnable() { // from class: com.google.android.exoplayer2.util.ListenerSet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 ListenerSet.lambda$queueEvent$0(copyOnWriteArraySet, i, event);

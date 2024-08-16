@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
@@ -49,7 +50,7 @@ public class SnowflakesEffect {
             }
             SnowflakesEffect snowflakesEffect = SnowflakesEffect.this;
             if (snowflakesEffect.particleBitmap == null) {
-                snowflakesEffect.particleThinPaint.setAlpha(255);
+                snowflakesEffect.particleThinPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 SnowflakesEffect.this.particleBitmap = Bitmap.createBitmap(AndroidUtilities.dp(16.0f), AndroidUtilities.dp(16.0f), Bitmap.Config.ARGB_8888);
                 Canvas canvas2 = new Canvas(SnowflakesEffect.this.particleBitmap);
                 float dpf2 = AndroidUtilities.dpf2(2.0f) * 2.0f;
@@ -114,13 +115,17 @@ public class SnowflakesEffect {
         Paint paint = new Paint(1);
         this.particlePaint = paint;
         paint.setStrokeWidth(AndroidUtilities.dp(1.5f));
-        this.particlePaint.setStrokeCap(Paint.Cap.ROUND);
-        this.particlePaint.setStyle(Paint.Style.STROKE);
-        Paint paint2 = new Paint(1);
-        this.particleThinPaint = paint2;
-        paint2.setStrokeWidth(AndroidUtilities.dp(0.5f));
-        this.particleThinPaint.setStrokeCap(Paint.Cap.ROUND);
-        this.particleThinPaint.setStyle(Paint.Style.STROKE);
+        Paint paint2 = this.particlePaint;
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint2.setStrokeCap(cap);
+        Paint paint3 = this.particlePaint;
+        Paint.Style style = Paint.Style.STROKE;
+        paint3.setStyle(style);
+        Paint paint4 = new Paint(1);
+        this.particleThinPaint = paint4;
+        paint4.setStrokeWidth(AndroidUtilities.dp(0.5f));
+        this.particleThinPaint.setStrokeCap(cap);
+        this.particleThinPaint.setStyle(style);
         updateColors();
         for (int i2 = 0; i2 < 20; i2++) {
             this.freeParticles.add(new Particle());
@@ -164,16 +169,19 @@ public class SnowflakesEffect {
                     }
                 } else if (f < 200.0f) {
                     particle.alpha = AndroidUtilities.accelerateInterpolator.getInterpolation(f / 200.0f);
-                } else if (f2 - f < 2000.0f) {
-                    particle.alpha = AndroidUtilities.decelerateInterpolator.getInterpolation((f2 - f) / 2000.0f);
+                } else {
+                    float f3 = f2 - f;
+                    if (f3 < 2000.0f) {
+                        particle.alpha = AndroidUtilities.decelerateInterpolator.getInterpolation(f3 / 2000.0f);
+                    }
                 }
-                float f3 = particle.x;
-                float f4 = particle.vx;
-                float f5 = particle.velocity;
-                float f6 = (float) j;
-                particle.x = f3 + (((f4 * f5) * f6) / 500.0f);
-                particle.y += ((particle.vy * f5) * f6) / 500.0f;
-                particle.currentTime += f6;
+                float f4 = particle.x;
+                float f5 = particle.vx;
+                float f6 = particle.velocity;
+                float f7 = (float) j;
+                particle.x = f4 + (((f5 * f6) * f7) / 500.0f);
+                particle.y += ((particle.vy * f6) * f7) / 500.0f;
+                particle.currentTime += f7;
             }
             i++;
         }
@@ -197,7 +205,7 @@ public class SnowflakesEffect {
                     int i6 = Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0;
                     float nextFloat = Utilities.random.nextFloat() * view.getMeasuredWidth();
                     float nextFloat2 = i6 + (Utilities.random.nextFloat() * ((view.getMeasuredHeight() - AndroidUtilities.dp(20.0f)) - i6));
-                    double nextInt = (Utilities.random.nextInt(40) - 20) + 90;
+                    double nextInt = Utilities.random.nextInt(40) + 70;
                     Double.isNaN(nextInt);
                     double d = nextInt * 0.017453292519943295d;
                     float cos = (float) Math.cos(d);

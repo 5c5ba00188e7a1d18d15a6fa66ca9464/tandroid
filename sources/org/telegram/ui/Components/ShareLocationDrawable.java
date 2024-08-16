@@ -74,8 +74,8 @@ public class ShareLocationDrawable extends Drawable {
         invalidateSelf();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x0184  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x0186  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x0185  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x0187  */
     @Override // android.graphics.drawable.Drawable
     /*
         Code decompiled incorrectly, please refer to instructions dump.

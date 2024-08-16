@@ -1,37 +1,24 @@
 package j$.util.stream;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class x extends i0 {
-    public final /* synthetic */ int l;
-    final /* synthetic */ Object m;
+final class x extends z {
+    public final /* synthetic */ int m;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ x(c cVar, int i, Object obj, int i2) {
-        super(cVar, i);
-        this.l = i2;
-        this.m = obj;
+    public /* synthetic */ x(b bVar, int i, int i2) {
+        super(bVar, i, 1);
+        this.m = i2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        switch (this.l) {
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        switch (this.m) {
             case 0:
-                return new t(this, f2Var, 3);
+                return e2Var;
             case 1:
-                return new X(this, f2Var, 5);
-            case 2:
-                return new f0(this, f2Var, 1);
-            case 3:
-                return new f0(this, f2Var, 5);
-            case 4:
-                return new f0(this, f2Var, 6);
-            case 5:
-                return new f0(this, f2Var, 7);
-            case 6:
-                return new p(this, f2Var);
+                return new V(1, e2Var);
             default:
-                return new R1(this, f2Var, 4);
+                return new d0(e2Var);
         }
     }
 }

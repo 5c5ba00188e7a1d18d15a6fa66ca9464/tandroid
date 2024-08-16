@@ -3,48 +3,48 @@ package j$.util.stream;
 import java.util.Arrays;
 /* loaded from: classes2.dex */
 final class D2 extends r2 {
-    private int[] c;
+    private long[] c;
     private int d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public D2(f2 f2Var) {
-        super(f2Var);
+    public D2(e2 e2Var) {
+        super(e2Var);
     }
 
-    @Override // j$.util.stream.d2, j$.util.stream.f2
-    public final void accept(int i) {
-        int[] iArr = this.c;
-        int i2 = this.d;
-        this.d = i2 + 1;
-        iArr[i2] = i;
+    @Override // j$.util.stream.e2
+    public final void accept(long j) {
+        long[] jArr = this.c;
+        int i = this.d;
+        this.d = i + 1;
+        jArr[i] = j;
     }
 
-    @Override // j$.util.stream.Z1, j$.util.stream.f2
-    public final void end() {
+    @Override // j$.util.stream.Z1, j$.util.stream.e2
+    public final void m() {
         int i = 0;
         Arrays.sort(this.c, 0, this.d);
-        f2 f2Var = this.a;
-        f2Var.f(this.d);
+        e2 e2Var = this.a;
+        e2Var.n(this.d);
         if (this.b) {
-            while (i < this.d && !f2Var.h()) {
-                f2Var.accept(this.c[i]);
+            while (i < this.d && !e2Var.q()) {
+                e2Var.accept(this.c[i]);
                 i++;
             }
         } else {
             while (i < this.d) {
-                f2Var.accept(this.c[i]);
+                e2Var.accept(this.c[i]);
                 i++;
             }
         }
-        f2Var.end();
+        e2Var.m();
         this.c = null;
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
+    @Override // j$.util.stream.Z1, j$.util.stream.e2
+    public final void n(long j) {
         if (j >= 2147483639) {
             throw new IllegalArgumentException("Stream size exceeds max array size");
         }
-        this.c = new int[(int) j];
+        this.c = new long[(int) j];
     }
 }

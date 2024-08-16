@@ -84,8 +84,10 @@ public final class RtspMessageChannel implements Closeable {
             if (socket != null) {
                 socket.close();
             }
-        } finally {
             this.closed = true;
+        } catch (Throwable th) {
+            this.closed = true;
+            throw th;
         }
     }
 

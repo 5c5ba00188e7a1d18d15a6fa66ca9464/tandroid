@@ -58,7 +58,8 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         ImageView imageView = new ImageView(context);
         this.addPhotoButton = imageView;
         imageView.setImageResource(R.drawable.filled_add_photo);
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView.setScaleType(scaleType);
         imageView.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.SRC_IN));
         imageView.setBackground(Theme.createSelectorDrawable(1090519039, 1, AndroidUtilities.dp(18.0f)));
         setAddPhotoVisible(false, false);
@@ -69,7 +70,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         this.timerDrawable = periodDrawable;
         imageView2.setImageDrawable(periodDrawable);
         imageView2.setBackground(Theme.createSelectorDrawable(1090519039, 1, AndroidUtilities.dp(18.0f)));
-        imageView2.setScaleType(ImageView.ScaleType.CENTER);
+        imageView2.setScaleType(scaleType);
         setTimerVisible(false, false);
         addView(imageView2, LayoutHelper.createFrame(44, 44.0f, 85, 0.0f, 0.0f, 11.0f, 10.0f));
         HintView2 hintView2 = new HintView2(context, 3);
@@ -79,7 +80,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         hintView2.setJoint(1.0f, -21.0f);
         hintView2.setMultilineText(true);
         addView(hintView2, LayoutHelper.createFrame(-1, 80, 85));
-        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda1
+        imageView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionPhotoViewer.this.lambda$new$1(frameLayout, view);
@@ -134,7 +135,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         int i = 0;
         if (z2) {
             this.addPhotoButton.setVisibility(0);
-            this.addPhotoButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(-8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda0
+            this.addPhotoButton.animate().alpha(z ? 1.0f : 0.0f).translationX(z ? 0.0f : AndroidUtilities.dp(-8.0f)).withEndAction(new Runnable() { // from class: org.telegram.ui.Components.CaptionPhotoViewer$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     CaptionPhotoViewer.this.lambda$setAddPhotoVisible$2(z);

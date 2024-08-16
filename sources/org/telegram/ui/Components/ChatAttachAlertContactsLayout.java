@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Property;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,7 +181,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
         public void setData(TLRPC$User tLRPC$User, CharSequence charSequence, final CharSequenceCallback charSequenceCallback, boolean z) {
             setData(tLRPC$User, charSequence, (CharSequence) null, z);
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda1
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatAttachAlertContactsLayout.UserCell.this.lambda$setData$1(charSequenceCallback);
@@ -240,7 +239,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 PhoneFormat phoneFormat = PhoneFormat.getInstance();
                 this.formattedPhoneNumber = phoneFormat.format("+" + this.currentUser.phone);
                 this.formattedPhoneNumberUser = this.currentUser;
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda2
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$UserCell$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatAttachAlertContactsLayout.UserCell.this.lambda$setStatus$2();
@@ -489,7 +488,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         this.listAdapter = shareAdapter;
         recyclerListView3.setAdapter(shareAdapter);
         this.listView.setGlowColor(getThemedColor(Theme.key_dialogScrollGlow));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda1
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 ChatAttachAlertContactsLayout.this.lambda$new$1(resourcesProvider, view, i);
@@ -503,7 +502,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 ChatAttachAlertContactsLayout.this.updateEmptyViewPosition();
             }
         });
-        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda2
+        this.listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i) {
                 boolean lambda$new$2;
@@ -646,11 +645,11 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString("AppName", R.string.AppName)).setMessage(str).setPositiveButton(LocaleController.getString("OK", R.string.OK), null).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:44:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0111  */
-    /* JADX WARN: Removed duplicated region for block: B:48:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0142  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00dd  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x010a  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x013b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -663,7 +662,6 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2;
         StringBuilder sb;
         int lastIndexOf;
-        boolean z;
         if (obj instanceof ContactsController.Contact) {
             contact = (ContactsController.Contact) obj;
             TLRPC$User tLRPC$User = contact.user;
@@ -710,20 +708,16 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
                 if (vcardItem2.type == 0) {
                     int i2 = 0;
                     while (true) {
-                        if (i2 >= arrayList4.size()) {
-                            z = false;
-                            break;
-                        } else if (((AndroidUtilities.VcardItem) arrayList4.get(i2)).getValue(false).equals(vcardItem2.getValue(false))) {
-                            z = true;
-                            break;
-                        } else {
+                        if (i2 < arrayList4.size()) {
+                            if (((AndroidUtilities.VcardItem) arrayList4.get(i2)).getValue(false).equals(vcardItem2.getValue(false))) {
+                                vcardItem2.checked = false;
+                                break;
+                            }
                             i2++;
+                        } else {
+                            arrayList4.add(vcardItem2);
+                            break;
                         }
-                    }
-                    if (z) {
-                        vcardItem2.checked = false;
-                    } else {
-                        arrayList4.add(vcardItem2);
                     }
                 } else {
                     arrayList5.add(vcardItem2);
@@ -910,13 +904,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
         }
         AnimatorSet animatorSet2 = new AnimatorSet();
         this.shadowAnimation = animatorSet2;
-        Animator[] animatorArr = new Animator[1];
-        View view = this.shadow;
-        Property property = View.ALPHA;
-        float[] fArr = new float[1];
-        fArr[0] = z ? 1.0f : 0.0f;
-        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-        animatorSet2.playTogether(animatorArr);
+        animatorSet2.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z ? 1.0f : 0.0f));
         this.shadowAnimation.setDuration(150L);
         this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout.5
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1494,7 +1482,7 @@ public class ChatAttachAlertContactsLayout extends ChatAttachAlert.AttachAlertLa
 
     @Override // org.telegram.ui.Components.ChatAttachAlert.AttachAlertLayout
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda0
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.ChatAttachAlertContactsLayout$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChatAttachAlertContactsLayout.this.lambda$getThemeDescriptions$3();

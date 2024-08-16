@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.TransitionManager;
+import android.util.Property;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,7 +28,6 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
-import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
@@ -216,7 +216,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.linearLayout = linearLayout;
         linearLayout.setOrientation(1);
         ((ScrollView) this.fragmentView).addView(this.linearLayout, LayoutHelper.createScroll(-1, -2, 51));
-        this.linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
+        this.linearLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda2
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -259,24 +259,26 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.nameTextView.setLines(1);
         this.nameTextView.setMaxLines(1);
         this.nameTextView.setSingleLine(true);
-        this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
+        TextView textView2 = this.nameTextView;
+        TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+        textView2.setEllipsize(truncateAt);
         this.nameTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         this.nameTextView.setTypeface(AndroidUtilities.bold());
-        TextView textView2 = this.nameTextView;
+        TextView textView3 = this.nameTextView;
         boolean z = LocaleController.isRTL;
-        frameLayout.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 0.0f : 80.0f, 3.0f, z ? 80.0f : 0.0f, 0.0f));
-        TextView textView3 = new TextView(context);
-        this.onlineTextView = textView3;
-        textView3.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, this.resourcesProvider));
+        frameLayout.addView(textView3, LayoutHelper.createFrame(-2, -2.0f, (z ? 5 : 3) | 48, z ? 0.0f : 80.0f, 3.0f, z ? 80.0f : 0.0f, 0.0f));
+        TextView textView4 = new TextView(context);
+        this.onlineTextView = textView4;
+        textView4.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, this.resourcesProvider));
         this.onlineTextView.setTextSize(1, 14.0f);
         this.onlineTextView.setLines(1);
         this.onlineTextView.setMaxLines(1);
         this.onlineTextView.setSingleLine(true);
-        this.onlineTextView.setEllipsize(TextUtils.TruncateAt.END);
+        this.onlineTextView.setEllipsize(truncateAt);
         this.onlineTextView.setGravity(LocaleController.isRTL ? 5 : 3);
-        TextView textView4 = this.onlineTextView;
+        TextView textView5 = this.onlineTextView;
         boolean z2 = LocaleController.isRTL;
-        frameLayout.addView(textView4, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 80.0f, 32.0f, z2 ? 80.0f : 0.0f, 0.0f));
+        frameLayout.addView(textView5, LayoutHelper.createFrame(-2, -2.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 80.0f, 32.0f, z2 ? 80.0f : 0.0f, 0.0f));
         EditTextBoldCursor editTextBoldCursor = new EditTextBoldCursor(context) { // from class: org.telegram.ui.ContactAddActivity.3
             @Override // org.telegram.ui.Components.EditTextBoldCursor
             protected Theme.ResourcesProvider getResourcesProvider() {
@@ -308,11 +310,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.firstNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 24.0f, 24.0f, 0.0f));
-        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
+        this.firstNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda3
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView6, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
-                lambda$createView$1 = ContactAddActivity.this.lambda$createView$1(textView5, i6, keyEvent);
+                lambda$createView$1 = ContactAddActivity.this.lambda$createView$1(textView6, i6, keyEvent);
                 return lambda$createView$1;
             }
         });
@@ -351,11 +353,11 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
         this.linearLayout.addView(this.lastNameField, LayoutHelper.createLinear(-1, 36, 24.0f, 16.0f, 24.0f, 0.0f));
-        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
+        this.lastNameField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda4
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView5, int i6, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView6, int i6, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
-                lambda$createView$2 = ContactAddActivity.this.lambda$createView$2(textView5, i6, keyEvent);
+                lambda$createView$2 = ContactAddActivity.this.lambda$createView$2(textView6, i6, keyEvent);
                 return lambda$createView$2;
             }
         });
@@ -370,9 +372,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             editTextBoldCursor5.setSelection(editTextBoldCursor5.length());
             this.lastNameField.setText(user.last_name);
         }
-        TextView textView5 = new TextView(context);
-        this.infoTextView = textView5;
-        textView5.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
+        TextView textView6 = new TextView(context);
+        this.infoTextView = textView6;
+        textView6.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4));
         this.infoTextView.setTextSize(1, 14.0f);
         this.infoTextView.setGravity(LocaleController.isRTL ? 5 : 3);
         if (this.addContact) {
@@ -385,7 +387,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 this.checkBoxCell.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString("SharePhoneNumberWith", R.string.SharePhoneNumberWith)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)), "", true, false);
                 this.checkBoxCell.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
-                this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda6
+                this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view2) {
                         ContactAddActivity.this.lambda$createView$3(view2);
@@ -406,7 +408,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             final RLottieDrawable rLottieDrawable = new RLottieDrawable(i9, "" + i9, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell.imageView.setAnimation(rLottieDrawable);
-            textCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda7
+            textCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$6(user, rLottieDrawable, textCell, view2);
@@ -421,7 +423,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             final RLottieDrawable rLottieDrawable2 = new RLottieDrawable(i10, "" + i10, AndroidUtilities.dp(50.0f), AndroidUtilities.dp(50.0f), false, null);
             textCell2.imageView.setTranslationX((float) (-AndroidUtilities.dp(8.0f)));
             textCell2.imageView.setAnimation(rLottieDrawable2);
-            textCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda8
+            textCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda7
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$9(user, rLottieDrawable2, textCell2, view2);
@@ -456,7 +458,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             this.oldPhotoCell.getImageView().setVisibility(0);
             this.oldPhotoCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             this.oldPhotoCell.setColors(i7, i8);
-            this.oldPhotoCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda9
+            this.oldPhotoCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda8
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view2) {
                     ContactAddActivity.this.lambda$createView$11(context, user, view2);
@@ -566,7 +568,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(Context context, final TLRPC$User tLRPC$User, View view) {
-        AlertsCreator.createSimpleAlert(context, LocaleController.getString("ResetToOriginalPhotoTitle", R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString("Reset", R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda13
+        AlertsCreator.createSimpleAlert(context, LocaleController.getString("ResetToOriginalPhotoTitle", R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString("Reset", R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$createView$10(tLRPC$User);
@@ -619,47 +621,54 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             animatorSet.cancel();
             this.avatarAnimation = null;
         }
-        if (z2) {
-            AnimatorSet animatorSet2 = new AnimatorSet();
-            this.avatarAnimation = animatorSet2;
+        if (!z2) {
             if (z) {
+                this.avatarProgressView.setAlpha(1.0f);
                 this.avatarProgressView.setVisibility(0);
+                this.avatarOverlay.setAlpha(1.0f);
                 this.avatarOverlay.setVisibility(0);
-                this.avatarAnimation.playTogether(ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.avatarOverlay, View.ALPHA, 1.0f));
-            } else {
-                animatorSet2.playTogether(ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.avatarOverlay, View.ALPHA, 0.0f));
+                return;
             }
-            this.avatarAnimation.setDuration(180L);
-            this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactAddActivity.7
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationEnd(Animator animator) {
-                    if (ContactAddActivity.this.avatarAnimation == null || ContactAddActivity.this.avatarProgressView == null) {
-                        return;
-                    }
-                    if (!z) {
-                        ContactAddActivity.this.avatarProgressView.setVisibility(4);
-                        ContactAddActivity.this.avatarOverlay.setVisibility(4);
-                    }
-                    ContactAddActivity.this.avatarAnimation = null;
-                }
-
-                @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
-                public void onAnimationCancel(Animator animator) {
-                    ContactAddActivity.this.avatarAnimation = null;
-                }
-            });
-            this.avatarAnimation.start();
-        } else if (z) {
-            this.avatarProgressView.setAlpha(1.0f);
-            this.avatarProgressView.setVisibility(0);
-            this.avatarOverlay.setAlpha(1.0f);
-            this.avatarOverlay.setVisibility(0);
-        } else {
             this.avatarProgressView.setAlpha(0.0f);
             this.avatarProgressView.setVisibility(4);
             this.avatarOverlay.setAlpha(0.0f);
             this.avatarOverlay.setVisibility(4);
+            return;
         }
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        this.avatarAnimation = animatorSet2;
+        if (z) {
+            this.avatarProgressView.setVisibility(0);
+            this.avatarOverlay.setVisibility(0);
+            AnimatorSet animatorSet3 = this.avatarAnimation;
+            RadialProgressView radialProgressView = this.avatarProgressView;
+            Property property = View.ALPHA;
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(radialProgressView, property, 1.0f), ObjectAnimator.ofFloat(this.avatarOverlay, property, 1.0f));
+        } else {
+            RadialProgressView radialProgressView2 = this.avatarProgressView;
+            Property property2 = View.ALPHA;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(radialProgressView2, property2, 0.0f), ObjectAnimator.ofFloat(this.avatarOverlay, property2, 0.0f));
+        }
+        this.avatarAnimation.setDuration(180L);
+        this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ContactAddActivity.7
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationEnd(Animator animator) {
+                if (ContactAddActivity.this.avatarAnimation == null || ContactAddActivity.this.avatarProgressView == null) {
+                    return;
+                }
+                if (!z) {
+                    ContactAddActivity.this.avatarProgressView.setVisibility(4);
+                    ContactAddActivity.this.avatarOverlay.setVisibility(4);
+                }
+                ContactAddActivity.this.avatarAnimation = null;
+            }
+
+            @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
+            public void onAnimationCancel(Animator animator) {
+                ContactAddActivity.this.avatarAnimation = null;
+            }
+        });
+        this.avatarAnimation.start();
     }
 
     public void setDelegate(ContactAddActivityDelegate contactAddActivityDelegate) {
@@ -772,7 +781,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, final boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$didUploadPhoto$13(tLRPC$PhotoSize2, tLRPC$InputFile, tLRPC$InputFile2, tLRPC$PhotoSize, tLRPC$VideoSize, d, z);
@@ -789,7 +798,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         if (i == 2) {
             this.avatar = tLRPC$PhotoSize.location;
         } else if (i == 1) {
-            NavigationExt.backToFragment(this, new NavigationExt.FragmentConsumer() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
+            NavigationExt.backToFragment(this, new NavigationExt.FragmentConsumer() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda13
                 @Override // org.telegram.ui.LNavigation.NavigationExt.FragmentConsumer
                 public final boolean consume(BaseFragment baseFragment) {
                     boolean lambda$didUploadPhoto$12;
@@ -835,7 +844,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadFailed() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$didUploadFailed$14();
@@ -865,7 +874,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         TLRPC$TL_peerUser tLRPC$TL_peerUser = new TLRPC$TL_peerUser();
         tLRPC$TL_messageService.from_id = tLRPC$TL_peerUser;
         tLRPC$TL_peerUser.user_id = getUserConfig().getClientUserId();
-        tLRPC$TL_messageService.flags |= LiteMode.FLAG_CHAT_BLUR;
+        tLRPC$TL_messageService.flags |= 256;
         TLRPC$TL_peerUser tLRPC$TL_peerUser2 = new TLRPC$TL_peerUser();
         tLRPC$TL_messageService.peer_id = tLRPC$TL_peerUser2;
         tLRPC$TL_peerUser2.user_id = this.user_id;
@@ -896,8 +905,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         }
         if (tLRPC$InputFile2 != null) {
             tLRPC$TL_photos_uploadContactProfilePhoto.video = tLRPC$InputFile2;
+            int i2 = tLRPC$TL_photos_uploadContactProfilePhoto.flags;
             tLRPC$TL_photos_uploadContactProfilePhoto.video_start_ts = d;
-            tLRPC$TL_photos_uploadContactProfilePhoto.flags = tLRPC$TL_photos_uploadContactProfilePhoto.flags | 2 | 4;
+            tLRPC$TL_photos_uploadContactProfilePhoto.flags = i2 | 6;
         }
         if (tLRPC$VideoSize != null) {
             tLRPC$TL_photos_uploadContactProfilePhoto.flags |= 32;
@@ -1001,7 +1011,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ContactAddActivity.this.lambda$getThemeDescriptions$17();

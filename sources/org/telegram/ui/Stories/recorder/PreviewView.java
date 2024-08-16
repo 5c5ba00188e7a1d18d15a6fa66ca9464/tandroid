@@ -43,6 +43,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatThemeController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ResultCallback;
 import org.telegram.tgnet.TLRPC$ChatFull;
@@ -244,7 +245,7 @@ public class PreviewView extends FrameLayout {
             if (storyEntry.gradientTopColor != 0 || storyEntry.gradientBottomColor != 0) {
                 setupGradient();
             } else {
-                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda1(this));
+                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda2(this));
             }
         } else {
             setupVideoPlayer(null, runnable, 0L);
@@ -272,7 +273,7 @@ public class PreviewView extends FrameLayout {
             if (storyEntry.gradientTopColor != 0 || storyEntry.gradientBottomColor != 0) {
                 setupGradient();
             } else {
-                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda1(this));
+                storyEntry.setupGradient(new PreviewView$$ExternalSyntheticLambda2(this));
             }
         } else {
             setupImage(storyEntry);
@@ -408,7 +409,7 @@ public class PreviewView extends FrameLayout {
                 }
                 StoryEntry storyEntry3 = this.entry;
                 storyEntry3.audioLeft = 0.0f;
-                long min = Math.min((storyEntry3 == null || !storyEntry3.isVideo) ? storyEntry3.audioDuration : getDuration(), 120000L);
+                long min = Math.min(storyEntry3.isVideo ? getDuration() : storyEntry3.audioDuration, 120000L);
                 StoryEntry storyEntry4 = this.entry;
                 storyEntry4.audioRight = storyEntry4.audioDuration != 0 ? Math.min(1.0f, ((float) Math.min(min, 59000L)) / ((float) this.entry.audioDuration)) : 1.0f;
             }
@@ -694,8 +695,8 @@ public class PreviewView extends FrameLayout {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:133:0x00af  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x00e5  */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x00b0  */
+    /* JADX WARN: Removed duplicated region for block: B:142:0x00e6  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -772,7 +773,7 @@ public class PreviewView extends FrameLayout {
                             return;
                         }
                         return;
-                    } else if (!storyEntry.isDraft && storyEntry.isVideo && bitmap != null) {
+                    } else if (!storyEntry.isDraft && storyEntry.isVideo) {
                         storyEntry.width = bitmap.getWidth();
                         storyEntry.height = this.bitmap.getHeight();
                         storyEntry.setupMatrix();
@@ -841,12 +842,13 @@ public class PreviewView extends FrameLayout {
             }
         } else {
             Paint paint = this.gradientPaint;
+            float f = measuredHeight;
             StoryEntry storyEntry2 = this.entry;
             int i = storyEntry2.gradientTopColor;
             this.gradientTop = i;
             int i2 = storyEntry2.gradientBottomColor;
             this.gradientBottom = i2;
-            paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, measuredHeight, new int[]{i, i2}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
+            paint.setShader(new LinearGradient(0.0f, 0.0f, 0.0f, f, new int[]{i, i2}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP));
             VideoEditTextureView videoEditTextureView = this.textureView;
             if (videoEditTextureView != null) {
                 videoEditTextureView.updateUiBlurGradient(this.gradientTop, this.gradientBottom);
@@ -1381,14 +1383,14 @@ public class PreviewView extends FrameLayout {
         if (storyEntry != null) {
             float f = (float) currentPosition;
             float f2 = storyEntry.audioLeft;
-            long j = storyEntry.audioDuration;
-            if ((f < f2 * ((float) j) || f > storyEntry.audioRight * ((float) j)) && System.currentTimeMillis() - this.seekedLastTime > 500) {
+            float f3 = (float) storyEntry.audioDuration;
+            if ((f < f2 * f3 || f > storyEntry.audioRight * f3) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
                 VideoPlayer videoPlayer2 = this.audioPlayer;
                 StoryEntry storyEntry2 = this.entry;
-                long j2 = storyEntry2.audioLeft * ((float) storyEntry2.audioDuration);
-                videoPlayer2.seekTo(j2);
-                currentPosition = j2;
+                long j = storyEntry2.audioLeft * ((float) storyEntry2.audioDuration);
+                videoPlayer2.seekTo(j);
+                currentPosition = j;
             }
         }
         this.timelineView.setProgress(currentPosition);
@@ -1408,15 +1410,15 @@ public class PreviewView extends FrameLayout {
         if (storyEntry != null) {
             float f = (float) currentPosition;
             float f2 = storyEntry.roundLeft;
-            long j = storyEntry.roundDuration;
-            if ((f < f2 * ((float) j) || f > storyEntry.roundRight * ((float) j)) && System.currentTimeMillis() - this.seekedLastTime > 500) {
+            float f3 = (float) storyEntry.roundDuration;
+            if ((f < f2 * f3 || f > storyEntry.roundRight * f3) && System.currentTimeMillis() - this.seekedLastTime > 500) {
                 this.seekedLastTime = System.currentTimeMillis();
                 VideoPlayer videoPlayer2 = this.roundPlayer;
                 StoryEntry storyEntry2 = this.entry;
-                long j2 = storyEntry2.roundLeft * ((float) storyEntry2.roundDuration);
-                videoPlayer2.seekTo(j2);
+                long j = storyEntry2.roundLeft * ((float) storyEntry2.roundDuration);
+                videoPlayer2.seekTo(j);
                 updateAudioPlayer(true);
-                currentPosition = j2;
+                currentPosition = j;
             }
         }
         this.timelineView.setProgress(currentPosition);
@@ -1541,7 +1543,7 @@ public class PreviewView extends FrameLayout {
         float f;
         StoryEntry storyEntry;
         VideoPlayer videoPlayer = this.videoPlayer;
-        float f2 = 1.0f;
+        float f2 = 0.0f;
         if (videoPlayer != null) {
             videoPlayer.setVolume((this.isMuted || ((storyEntry = this.entry) != null && storyEntry.muted)) ? 0.0f : storyEntry != null ? storyEntry.videoVolume : 1.0f);
         }
@@ -1557,13 +1559,9 @@ public class PreviewView extends FrameLayout {
         }
         VideoPlayer videoPlayer3 = this.audioPlayer;
         if (videoPlayer3 != null) {
-            if (this.isMuted) {
-                f2 = 0.0f;
-            } else {
+            if (!this.isMuted) {
                 StoryEntry storyEntry3 = this.entry;
-                if (storyEntry3 != null) {
-                    f2 = storyEntry3.audioVolume;
-                }
+                f2 = storyEntry3 != null ? storyEntry3.audioVolume : 1.0f;
             }
             videoPlayer3.setVolume(f2);
         }
@@ -1619,7 +1617,7 @@ public class PreviewView extends FrameLayout {
                 canvas.clipPath(path);
             }
             Drawable drawable = this.wallpaperDrawable;
-            float f = !(!(drawable instanceof MotionBackgroundDrawable) || ((MotionBackgroundDrawable) drawable).getPatternBitmap() != null) ? 0.0f : this.wallpaperDrawableCrossfade.set(1.0f);
+            float f = ((drawable instanceof MotionBackgroundDrawable) && ((MotionBackgroundDrawable) drawable).getPatternBitmap() == null) ? 0.0f : this.wallpaperDrawableCrossfade.set(1.0f);
             Drawable drawable2 = this.lastWallpaperDrawable;
             if (drawable2 != null && f < 1.0f) {
                 drawable2.setAlpha((int) ((1.0f - f) * 255.0f));
@@ -1639,7 +1637,7 @@ public class PreviewView extends FrameLayout {
                 this.matrix.set(this.entry.matrix);
                 this.matrix.preScale(this.entry.width / this.thumbBitmap.getWidth(), this.entry.height / this.thumbBitmap.getHeight());
                 this.matrix.postScale(getWidth() / this.entry.resultWidth, getHeight() / this.entry.resultHeight);
-                this.bitmapPaint.setAlpha(255);
+                this.bitmapPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawBitmap(this.thumbBitmap, this.matrix, this.bitmapPaint);
             }
             if (this.bitmap != null) {
@@ -1920,15 +1918,15 @@ public class PreviewView extends FrameLayout {
         return getBackgroundDrawable(drawable, i, tLRPC$WallPaper, z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:106:0x008c  */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:110:0x00a1  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x00a6  */
-    /* JADX WARN: Removed duplicated region for block: B:114:0x00b7  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x00c9  */
-    /* JADX WARN: Removed duplicated region for block: B:121:0x00cd  */
-    /* JADX WARN: Removed duplicated region for block: B:129:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:133:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:108:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x0094  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:113:0x00a9  */
+    /* JADX WARN: Removed duplicated region for block: B:116:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:122:0x00cc  */
+    /* JADX WARN: Removed duplicated region for block: B:123:0x00d0  */
+    /* JADX WARN: Removed duplicated region for block: B:131:0x00f2  */
+    /* JADX WARN: Removed duplicated region for block: B:135:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2111,7 +2109,7 @@ public class PreviewView extends FrameLayout {
         motionBackgroundDrawable.setColors(i4, i6, i8, i10, 0, true);
         motionBackgroundDrawable.setPhase(i2);
         final int patternColor = motionBackgroundDrawable.getPatternColor();
-        emojiThemes.loadWallpaper(z ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda2
+        emojiThemes.loadWallpaper(z ? 1 : 0, new ResultCallback() { // from class: org.telegram.ui.Stories.recorder.PreviewView$$ExternalSyntheticLambda1
             @Override // org.telegram.tgnet.ResultCallback
             public final void onComplete(Object obj) {
                 PreviewView.lambda$getBackgroundDrawableFromTheme$11(EmojiThemes.this, z, z, motionBackgroundDrawable, patternColor, (Pair) obj);

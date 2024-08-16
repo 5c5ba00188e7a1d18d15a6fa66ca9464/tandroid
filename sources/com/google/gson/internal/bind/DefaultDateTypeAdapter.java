@@ -1,11 +1,13 @@
 package com.google.gson.internal.bind;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.JavaVersion;
 import com.google.gson.internal.PreJava9DateFormatProvider;
 import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
@@ -19,8 +21,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 /* loaded from: classes.dex */
 public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T> {
+    public static final TypeAdapterFactory DEFAULT_STYLE_FACTORY = new TypeAdapterFactory() { // from class: com.google.gson.internal.bind.DefaultDateTypeAdapter.1
+        @Override // com.google.gson.TypeAdapterFactory
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+            if (typeToken.getRawType() == Date.class) {
+                return new DefaultDateTypeAdapter(DateType.DATE, 2, 2);
+            }
+            return null;
+        }
+
+        public String toString() {
+            return "DefaultDateTypeAdapter#DEFAULT_STYLE_FACTORY";
+        }
+    };
     private final List<DateFormat> dateFormats;
     private final DateType<T> dateType;
 
@@ -41,7 +57,7 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
             this.dateClass = cls;
         }
 
-        private final TypeAdapterFactory createFactory(DefaultDateTypeAdapter<T> defaultDateTypeAdapter) {
+        private TypeAdapterFactory createFactory(DefaultDateTypeAdapter<T> defaultDateTypeAdapter) {
             return TypeAdapters.newFactory(this.dateClass, defaultDateTypeAdapter);
         }
 
@@ -78,7 +94,7 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
             arrayList.add(DateFormat.getDateTimeInstance(i, i2));
         }
         if (JavaVersion.isJava9OrLater()) {
-            arrayList.add(PreJava9DateFormatProvider.getUSDateTimeFormat(i, i2));
+            arrayList.add(PreJava9DateFormatProvider.getUsDateTimeFormat(i, i2));
         }
     }
 
@@ -108,16 +124,24 @@ public final class DefaultDateTypeAdapter<T extends Date> extends TypeAdapter<T>
     private Date deserializeToDate(JsonReader jsonReader) throws IOException {
         String nextString = jsonReader.nextString();
         synchronized (this.dateFormats) {
-            for (DateFormat dateFormat : this.dateFormats) {
-                try {
-                    return dateFormat.parse(nextString);
-                } catch (ParseException unused) {
-                }
-            }
             try {
-                return ISO8601Utils.parse(nextString, new ParsePosition(0));
-            } catch (ParseException e) {
-                throw new JsonSyntaxException("Failed parsing '" + nextString + "' as Date; at path " + jsonReader.getPreviousPath(), e);
+                for (DateFormat dateFormat : this.dateFormats) {
+                    TimeZone timeZone = dateFormat.getTimeZone();
+                    try {
+                        Date parse = dateFormat.parse(nextString);
+                        dateFormat.setTimeZone(timeZone);
+                        return parse;
+                    } catch (ParseException unused) {
+                        dateFormat.setTimeZone(timeZone);
+                    }
+                }
+                try {
+                    return ISO8601Utils.parse(nextString, new ParsePosition(0));
+                } catch (ParseException e) {
+                    throw new JsonSyntaxException("Failed parsing '" + nextString + "' as Date; at path " + jsonReader.getPreviousPath(), e);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

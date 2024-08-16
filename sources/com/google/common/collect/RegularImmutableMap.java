@@ -188,12 +188,12 @@ public final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         this.size = i;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public int size() {
         return this.size;
     }
 
-    @Override // com.google.common.collect.ImmutableMap, java.util.Map, j$.util.Map
+    @Override // com.google.common.collect.ImmutableMap, java.util.Map
     public V get(Object obj) {
         V v = (V) get(this.hashTable, this.alternatingKeysAndValues, this.size, 0, obj);
         if (v == null) {

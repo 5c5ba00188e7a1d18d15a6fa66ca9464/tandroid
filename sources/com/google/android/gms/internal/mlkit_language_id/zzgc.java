@@ -81,7 +81,7 @@ final class zzgc<T> implements zzgp<T> {
     @Override // com.google.android.gms.internal.mlkit_language_id.zzgp
     public final int zzd(T t) {
         zzhh<?, ?> zzhhVar = this.zzb;
-        int zzc = zzhhVar.zzc(zzhhVar.zza(t)) + 0;
+        int zzc = zzhhVar.zzc(zzhhVar.zza(t));
         return this.zzc ? zzc + this.zzd.zza(t).zzg() : zzc;
     }
 }

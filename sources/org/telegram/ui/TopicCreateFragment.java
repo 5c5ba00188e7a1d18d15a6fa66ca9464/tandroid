@@ -316,7 +316,7 @@ public class TopicCreateFragment extends BaseFragment {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:42:0x0100, code lost:
-            if (r13.topicForEdit.icon_emoji_id != r13.selectedEmojiDocumentId) goto L58;
+            if (r12.topicForEdit.icon_emoji_id != r12.selectedEmojiDocumentId) goto L58;
          */
         @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
         /*

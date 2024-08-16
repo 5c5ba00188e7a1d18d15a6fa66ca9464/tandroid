@@ -43,17 +43,17 @@ final class VarintReader {
     }
 
     public static int parseUnsignedVarintLength(int i) {
-        int i2 = 0;
-        while (true) {
+        int i2;
+        int i3 = 0;
+        do {
             long[] jArr = VARINT_LENGTH_MASKS;
-            if (i2 >= jArr.length) {
+            if (i3 >= jArr.length) {
                 return -1;
             }
-            if ((jArr[i2] & i) != 0) {
-                return i2 + 1;
-            }
-            i2++;
-        }
+            i2 = ((jArr[i3] & i) > 0L ? 1 : ((jArr[i3] & i) == 0L ? 0 : -1));
+            i3++;
+        } while (i2 == 0);
+        return i3;
     }
 
     public static long assembleVarint(byte[] bArr, int i, boolean z) {

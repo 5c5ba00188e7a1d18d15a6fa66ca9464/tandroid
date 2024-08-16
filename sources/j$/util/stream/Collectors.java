@@ -10,13 +10,13 @@ public final class Collectors {
     static final Set a;
 
     static {
-        i iVar = i.CONCURRENT;
-        i iVar2 = i.UNORDERED;
-        i iVar3 = i.IDENTITY_FINISH;
-        Collections.unmodifiableSet(EnumSet.of(iVar, iVar2, iVar3));
-        Collections.unmodifiableSet(EnumSet.of(iVar, iVar2));
-        a = Collections.unmodifiableSet(EnumSet.of(iVar3));
-        Collections.unmodifiableSet(EnumSet.of(iVar2, iVar3));
+        h hVar = h.CONCURRENT;
+        h hVar2 = h.UNORDERED;
+        h hVar3 = h.IDENTITY_FINISH;
+        Collections.unmodifiableSet(EnumSet.of(hVar, hVar2, hVar3));
+        Collections.unmodifiableSet(EnumSet.of(hVar, hVar2));
+        a = Collections.unmodifiableSet(EnumSet.of(hVar3));
+        Collections.unmodifiableSet(EnumSet.of(hVar2, hVar3));
         Collections.emptySet();
     }
 
@@ -30,6 +30,6 @@ public final class Collectors {
     }
 
     public static <T, C extends Collection<T>> Collector<T, ?, C> toCollection(Supplier<C> supplier) {
-        return new m(supplier, new J0(9), new l(0), a);
+        return new m(supplier, new l(14), new k(0), a);
     }
 }

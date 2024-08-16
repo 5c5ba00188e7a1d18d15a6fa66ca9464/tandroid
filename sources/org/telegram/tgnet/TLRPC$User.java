@@ -1149,7 +1149,7 @@ public abstract class TLRPC$User extends TLObject {
                         } catch (Throwable th) {
                             FileLog.e(th);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1266,7 +1266,7 @@ public abstract class TLRPC$User extends TLObject {
                         if ((this.flags2 & 32) != 0) {
                             abstractSerializedData2.writeInt32(this.stories_max_id);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             if (this.color == null) {
                                 this.color = new TLRPC$TL_peerColor();
                             }
@@ -1781,7 +1781,7 @@ public abstract class TLRPC$User extends TLObject {
                         } catch (Throwable th) {
                             FileLog.e(th);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z2), z2);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1901,7 +1901,7 @@ public abstract class TLRPC$User extends TLObject {
                         if ((this.flags2 & 32) != 0) {
                             abstractSerializedData2.writeInt32(this.stories_max_id);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             if (this.color == null) {
                                 this.color = new TLRPC$TL_peerColor();
                             }

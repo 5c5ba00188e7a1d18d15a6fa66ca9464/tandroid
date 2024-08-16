@@ -114,13 +114,13 @@ final class BitMatrixParser {
                 for (int i8 = 0; i8 < 2; i8++) {
                     int i9 = i2 - i8;
                     if (!buildFunctionPattern.get(i9, i7)) {
-                        i4++;
-                        i5 <<= 1;
+                        i5++;
+                        i4 <<= 1;
                         if (this.bitMatrix.get(i9, i7)) {
-                            i5 |= 1;
+                            i4 |= 1;
                         }
-                        if (i4 == 8) {
-                            bArr[i3] = (byte) i5;
+                        if (i5 == 8) {
+                            bArr[i3] = (byte) i4;
                             i3++;
                             i4 = 0;
                             i5 = 0;

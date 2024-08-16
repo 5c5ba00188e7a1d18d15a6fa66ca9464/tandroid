@@ -42,7 +42,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 128) != 0) {
             this.duration = abstractSerializedData.readInt32(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.author = abstractSerializedData.readString(z);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -108,7 +108,7 @@ public class TLRPC$TL_webPage extends TLRPC$WebPage {
         if ((this.flags & 128) != 0) {
             abstractSerializedData.writeInt32(this.duration);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeString(this.author);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

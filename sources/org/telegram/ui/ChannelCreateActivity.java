@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Property;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -173,7 +174,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         super(bundle);
         this.adminedChannelCells = new ArrayList<>();
         this.canCreatePublic = true;
-        this.enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda9
+        this.enableDoneLoading = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$new$3();
@@ -190,7 +191,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
             tLRPC$TL_channels_checkUsername.username = "1";
             tLRPC$TL_channels_checkUsername.channel = new TLRPC$TL_inputChannelEmpty();
-            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda10
+            ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChannelCreateActivity.this.lambda$new$1(tLObject, tLRPC$TL_error);
@@ -216,7 +217,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$new$0(tLRPC$TL_error);
@@ -331,7 +332,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         builder.setTitle(LocaleController.getString("StopLoadingTitle", R.string.StopLoadingTitle));
         builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
         builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
-        builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda21
+        builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda20
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChannelCreateActivity.this.lambda$showDoneCancelDialog$2(dialogInterface, i);
@@ -367,12 +368,9 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.doneButtonDrawable.getProgress();
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.doneButtonDrawable.getProgress(), z ? 1.0f : 0.0f);
             this.doneButtonDrawableAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda11
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ChannelCreateActivity.this.lambda$updateDoneProgress$4(valueAnimator2);
@@ -392,10 +390,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         EditTextEmoji editTextEmoji = this.nameTextView;
         if (editTextEmoji != null) {
             editTextEmoji.onDestroy();
@@ -450,11 +448,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                 }
 
                 /* JADX INFO: Access modifiers changed from: protected */
-                /* JADX WARN: Removed duplicated region for block: B:28:0x0072  */
-                /* JADX WARN: Removed duplicated region for block: B:35:0x008c  */
+                /* JADX WARN: Removed duplicated region for block: B:28:0x0071  */
+                /* JADX WARN: Removed duplicated region for block: B:36:0x008d  */
                 /* JADX WARN: Removed duplicated region for block: B:39:0x00a1  */
                 /* JADX WARN: Removed duplicated region for block: B:43:0x00b3  */
-                /* JADX WARN: Removed duplicated region for block: B:44:0x00bc  */
+                /* JADX WARN: Removed duplicated region for block: B:45:0x00bd  */
                 @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
                 /*
                     Code decompiled incorrectly, please refer to instructions dump.
@@ -482,21 +480,20 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                             if (i16 == -1) {
                                 i16 = 51;
                             }
-                            int i17 = i16 & 7;
-                            int i18 = i16 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                            int i19 = i17 & 7;
-                            if (i19 == 1) {
+                            int i17 = i16 & 112;
+                            int i18 = i16 & 7;
+                            if (i18 == 1) {
                                 i9 = (((i7 - i5) - measuredWidth) / 2) + layoutParams.leftMargin;
                                 i10 = layoutParams.rightMargin;
-                            } else if (i19 == 5) {
+                            } else if (i18 == 5) {
                                 i9 = i7 - measuredWidth;
                                 i10 = layoutParams.rightMargin;
                             } else {
                                 i11 = layoutParams.leftMargin;
-                                if (i18 == 16) {
-                                    if (i18 == 48) {
+                                if (i17 == 16) {
+                                    if (i17 == 48) {
                                         i14 = layoutParams.topMargin + getPaddingTop();
-                                    } else if (i18 == 80) {
+                                    } else if (i17 == 80) {
                                         i12 = ((i8 - emojiPadding) - i6) - measuredHeight3;
                                         i13 = layoutParams.bottomMargin;
                                     } else {
@@ -526,7 +523,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                                 childAt.layout(i11, i14, measuredWidth + i11, measuredHeight3 + i14);
                             }
                             i11 = i9 - i10;
-                            if (i18 == 16) {
+                            if (i17 == 16) {
                             }
                             i14 = i12 - i13;
                             if (ChannelCreateActivity.this.nameTextView != null) {
@@ -545,7 +542,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
                     super.requestLayout();
                 }
             };
-            sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda2
+            sizeNotifierFrameLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda5
                 @Override // android.view.View.OnTouchListener
                 public final boolean onTouch(View view, MotionEvent motionEvent) {
                     boolean lambda$createView$5;
@@ -604,7 +601,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             View view2 = this.avatarOverlay;
             boolean z2 = LocaleController.isRTL;
             frameLayout.addView(view2, LayoutHelper.createFrame(64, 64.0f, (z2 ? 5 : 3) | 48, z2 ? 0.0f : 16.0f, 12.0f, z2 ? 16.0f : 0.0f, 12.0f));
-            this.avatarOverlay.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda3
+            this.avatarOverlay.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view3) {
                     ChannelCreateActivity.this.lambda$createView$8(view3);
@@ -660,7 +657,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.nameTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
             this.nameTextView.getEditText().setSingleLine(true);
             this.nameTextView.getEditText().setImeOptions(5);
-            this.nameTextView.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda4
+            this.nameTextView.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda7
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView, int i7, KeyEvent keyEvent) {
                     boolean lambda$createView$9;
@@ -690,7 +687,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.descriptionTextView.setCursorSize(AndroidUtilities.dp(20.0f));
             this.descriptionTextView.setCursorWidth(1.5f);
             this.linearLayout.addView(this.descriptionTextView, LayoutHelper.createLinear(-1, -2, 24.0f, 18.0f, 24.0f, 0.0f));
-            this.descriptionTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda5
+            this.descriptionTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda8
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView, int i8, KeyEvent keyEvent) {
                     boolean lambda$createView$10;
@@ -731,11 +728,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             this.isGroup = z6;
             ActionBar actionBar = this.actionBar;
             if (z6) {
-                str = "GroupSettingsTitle";
                 i = R.string.GroupSettingsTitle;
+                str = "GroupSettingsTitle";
             } else {
-                str = "ChannelSettingsTitle";
                 i = R.string.ChannelSettingsTitle;
+                str = "ChannelSettingsTitle";
             }
             actionBar.setTitle(LocaleController.getString(str, i));
             View view3 = this.fragmentView;
@@ -750,11 +747,11 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             headerCell2.setBackgroundColor(Theme.getColor(i9));
             HeaderCell headerCell3 = this.headerCell2;
             if (this.isGroup) {
-                str2 = "GroupTypeHeader";
                 i2 = R.string.GroupTypeHeader;
+                str2 = "GroupTypeHeader";
             } else {
-                str2 = "ChannelTypeHeader";
                 i2 = R.string.ChannelTypeHeader;
+                str2 = "ChannelTypeHeader";
             }
             headerCell3.setText(LocaleController.getString(str2, i2));
             this.linearLayout.addView(this.headerCell2);
@@ -775,7 +772,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             } else {
                 this.radioButtonCell1.setTextAndValue(LocaleController.getString("ChannelPublic", R.string.ChannelPublic), LocaleController.getString("ChannelPublicInfo", R.string.ChannelPublicInfo), false, !this.isPrivate);
             }
-            this.radioButtonCell1.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda6
+            this.radioButtonCell1.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view4) {
                     ChannelCreateActivity.this.lambda$createView$11(view4);
@@ -797,7 +794,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             } else {
                 this.radioButtonCell2.setTextAndValue(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate), LocaleController.getString("ChannelPrivateInfo", R.string.ChannelPrivateInfo), false, this.isPrivate);
             }
-            this.radioButtonCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda7
+            this.radioButtonCell2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view4) {
                     ChannelCreateActivity.this.lambda$createView$12(view4);
@@ -1060,12 +1057,12 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$8(View view) {
-        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda15
+        this.imageUpdater.openMenu(this.avatar != null, new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda16
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$createView$6();
             }
-        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda16
+        }, new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda17
             @Override // android.content.DialogInterface.OnDismissListener
             public final void onDismiss(DialogInterface dialogInterface) {
                 ChannelCreateActivity.this.lambda$createView$7(dialogInterface);
@@ -1155,7 +1152,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         tLRPC$TL_messages_getExportedChatInvites.peer = getMessagesController().getInputPeer(-this.chatId);
         tLRPC$TL_messages_getExportedChatInvites.admin_id = getMessagesController().getInputUser(getUserConfig().getCurrentUser());
         tLRPC$TL_messages_getExportedChatInvites.limit = 1;
-        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda0
+        ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_messages_getExportedChatInvites, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelCreateActivity.this.lambda$generateLink$14(tLObject, tLRPC$TL_error);
@@ -1165,7 +1162,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$generateLink$14(final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda17
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$generateLink$13(tLRPC$TL_error, tLObject);
@@ -1185,10 +1182,10 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     }
 
     private void updatePrivatePublic() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.sectionCell == null) {
             return;
         }
@@ -1229,22 +1226,22 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
             if (this.isGroup) {
                 TextInfoPrivacyCell textInfoPrivacyCell6 = this.typeInfoCell;
                 if (this.isPrivate) {
-                    str2 = "MegaPrivateLinkHelp";
                     i2 = R.string.MegaPrivateLinkHelp;
+                    str2 = "MegaPrivateLinkHelp";
                 } else {
-                    str2 = "MegaUsernameHelp";
                     i2 = R.string.MegaUsernameHelp;
+                    str2 = "MegaUsernameHelp";
                 }
                 textInfoPrivacyCell6.setText(LocaleController.getString(str2, i2));
                 this.headerCell.setText(this.isPrivate ? LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle) : LocaleController.getString("ChannelLinkTitle", R.string.ChannelLinkTitle));
             } else {
                 TextInfoPrivacyCell textInfoPrivacyCell7 = this.typeInfoCell;
                 if (this.isPrivate) {
-                    str = "ChannelPrivateLinkHelp";
                     i = R.string.ChannelPrivateLinkHelp;
+                    str = "ChannelPrivateLinkHelp";
                 } else {
-                    str = "ChannelUsernameHelp";
                     i = R.string.ChannelUsernameHelp;
+                    str = "ChannelUsernameHelp";
                 }
                 textInfoPrivacyCell7.setText(LocaleController.getString(str, i));
                 this.headerCell.setText(this.isPrivate ? LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle) : LocaleController.getString("ChannelLinkTitle", R.string.ChannelLinkTitle));
@@ -1287,7 +1284,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     @Override // org.telegram.ui.Components.ImageUpdater.ImageUpdaterDelegate
     public void didUploadPhoto(final TLRPC$InputFile tLRPC$InputFile, final TLRPC$InputFile tLRPC$InputFile2, final double d, final String str, final TLRPC$PhotoSize tLRPC$PhotoSize, final TLRPC$PhotoSize tLRPC$PhotoSize2, boolean z, final TLRPC$VideoSize tLRPC$VideoSize) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda8
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$didUploadPhoto$15(tLRPC$InputFile, tLRPC$InputFile2, tLRPC$VideoSize, str, d, tLRPC$PhotoSize2, tLRPC$PhotoSize);
@@ -1360,13 +1357,19 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.avatarAnimation = new AnimatorSet();
         if (z) {
             this.avatarProgressView.setVisibility(0);
-            this.avatarAnimation.playTogether(ObjectAnimator.ofFloat(this.avatarEditor, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 1.0f));
+            AnimatorSet animatorSet2 = this.avatarAnimation;
+            RLottieImageView rLottieImageView = this.avatarEditor;
+            Property property = View.ALPHA;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(rLottieImageView, property, 0.0f), ObjectAnimator.ofFloat(this.avatarProgressView, property, 1.0f));
         } else {
             if (this.avatarEditor.getVisibility() != 0) {
                 this.avatarEditor.setAlpha(0.0f);
             }
             this.avatarEditor.setVisibility(0);
-            this.avatarAnimation.playTogether(ObjectAnimator.ofFloat(this.avatarEditor, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.avatarProgressView, View.ALPHA, 0.0f));
+            AnimatorSet animatorSet3 = this.avatarAnimation;
+            RLottieImageView rLottieImageView2 = this.avatarEditor;
+            Property property2 = View.ALPHA;
+            animatorSet3.playTogether(ObjectAnimator.ofFloat(rLottieImageView2, property2, 1.0f), ObjectAnimator.ofFloat(this.avatarProgressView, property2, 0.0f));
         }
         this.avatarAnimation.setDuration(180L);
         this.avatarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ChannelCreateActivity.10
@@ -1502,7 +1505,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadAdminedChannels$21(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda20
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda19
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$loadAdminedChannels$20(tLObject);
@@ -1522,7 +1525,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         this.adminedChannelCells.clear();
         TLRPC$TL_messages_chats tLRPC$TL_messages_chats = (TLRPC$TL_messages_chats) tLObject;
         for (int i2 = 0; i2 < tLRPC$TL_messages_chats.chats.size(); i2++) {
-            AdminedChannelCell adminedChannelCell = new AdminedChannelCell(getParentActivity(), new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda22
+            AdminedChannelCell adminedChannelCell = new AdminedChannelCell(getParentActivity(), new View.OnClickListener() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda23
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ChannelCreateActivity.this.lambda$loadAdminedChannels$19(view);
@@ -1679,7 +1682,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         final TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername = new TLRPC$TL_channels_checkUsername();
         tLRPC$TL_channels_checkUsername.username = str;
         tLRPC$TL_channels_checkUsername.channel = MessagesController.getInstance(this.currentAccount).getInputChannel(this.chatId);
-        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda19
+        this.checkReqId = ConnectionsManager.getInstance(this.currentAccount).sendRequest(tLRPC$TL_channels_checkUsername, new RequestDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda21
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 ChannelCreateActivity.this.lambda$checkUserName$23(str, tLRPC$TL_channels_checkUsername, tLObject, tLRPC$TL_error);
@@ -1689,7 +1692,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$checkUserName$23(final String str, final TLRPC$TL_channels_checkUsername tLRPC$TL_channels_checkUsername, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda23
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$checkUserName$22(str, tLRPC$TL_error, tLObject, tLRPC$TL_channels_checkUsername);
@@ -1740,7 +1743,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
         }
         LimitReachedBottomSheet limitReachedBottomSheet = new LimitReachedBottomSheet(this, getParentActivity(), 2, this.currentAccount, null);
         limitReachedBottomSheet.parentIsChannel = true;
-        limitReachedBottomSheet.onSuccessRunnable = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda13
+        limitReachedBottomSheet.onSuccessRunnable = new Runnable() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda15
             @Override // java.lang.Runnable
             public final void run() {
                 ChannelCreateActivity.this.lambda$showPremiumIncreaseLimitDialog$25();
@@ -1758,7 +1761,7 @@ public class ChannelCreateActivity extends BaseFragment implements NotificationC
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda1
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ChannelCreateActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ChannelCreateActivity.this.lambda$getThemeDescriptions$26();

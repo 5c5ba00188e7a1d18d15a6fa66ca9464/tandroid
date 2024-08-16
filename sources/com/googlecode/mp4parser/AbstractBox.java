@@ -10,6 +10,7 @@ import com.googlecode.mp4parser.util.CastUtils;
 import com.googlecode.mp4parser.util.Logger;
 import com.googlecode.mp4parser.util.Path;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
@@ -35,14 +36,18 @@ public abstract class AbstractBox implements Box {
     protected abstract long getContentSize();
 
     private synchronized void readContent() {
-        if (!this.isRead) {
-            try {
-                Logger logger = LOG;
-                logger.logDebug("mem mapping " + getType());
-                throw null;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        try {
+            if (!this.isRead) {
+                try {
+                    Logger logger = LOG;
+                    logger.logDebug("mem mapping " + getType());
+                    throw null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -100,18 +105,22 @@ public abstract class AbstractBox implements Box {
     }
 
     public final synchronized void parseDetails() {
-        readContent();
-        Logger logger = LOG;
-        logger.logDebug("parsing details of " + getType());
-        ByteBuffer byteBuffer = this.content;
-        if (byteBuffer != null) {
-            this.isParsed = true;
-            byteBuffer.rewind();
-            _parseDetails(byteBuffer);
-            if (byteBuffer.remaining() > 0) {
-                this.deadBytes = byteBuffer.slice();
+        try {
+            readContent();
+            Logger logger = LOG;
+            logger.logDebug("parsing details of " + getType());
+            ByteBuffer byteBuffer = this.content;
+            if (byteBuffer != null) {
+                this.isParsed = true;
+                byteBuffer.rewind();
+                _parseDetails(byteBuffer);
+                if (byteBuffer.remaining() > 0) {
+                    this.deadBytes = byteBuffer.slice();
+                }
+                this.content = null;
             }
-            this.content = null;
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -187,8 +196,9 @@ public abstract class AbstractBox implements Box {
                 byte[] bArr2 = new byte[allocate.remaining()];
                 byteBuffer.get(bArr);
                 allocate.get(bArr2);
-                System.err.println("original      : " + Hex.encodeHex(bArr, 4));
-                System.err.println("reconstructed : " + Hex.encodeHex(bArr2, 4));
+                PrintStream printStream = System.err;
+                printStream.println("original      : " + Hex.encodeHex(bArr, 4));
+                printStream.println("reconstructed : " + Hex.encodeHex(bArr2, 4));
                 return false;
             }
             limit--;

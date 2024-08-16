@@ -63,11 +63,15 @@ public class zzcv {
             return this.zzlp;
         }
         synchronized (this) {
-            if (this.zzlp != null) {
+            try {
+                if (this.zzlp != null) {
+                    return this.zzlp;
+                }
+                this.zzlp = this.zzlo == null ? zzbb.zzfi : this.zzlo.zzr();
                 return this.zzlp;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzlp = this.zzlo == null ? zzbb.zzfi : this.zzlo.zzr();
-            return this.zzlp;
         }
     }
 }

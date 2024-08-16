@@ -39,16 +39,12 @@ public class QuickRepliesSettingsActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
-        int i = 0 + 1;
         this.reply1Row = 0;
-        int i2 = i + 1;
-        this.reply2Row = i;
-        int i3 = i2 + 1;
-        this.reply3Row = i2;
-        int i4 = i3 + 1;
-        this.reply4Row = i3;
-        this.rowCount = i4 + 1;
-        this.explanationRow = i4;
+        this.reply2Row = 1;
+        this.reply3Row = 2;
+        this.reply4Row = 3;
+        this.rowCount = 5;
+        this.explanationRow = 4;
         return true;
     }
 

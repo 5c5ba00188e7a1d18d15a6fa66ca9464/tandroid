@@ -55,12 +55,16 @@ public class DefaultHttpClient implements HttpClient, DefaultHttpClientCallTask.
 
     @Override // java.io.Closeable, java.lang.AutoCloseable
     public synchronized void close() {
-        if (this.mTasks.size() > 0) {
-            AppCenterLog.debug("AppCenter", "Cancelling " + this.mTasks.size() + " network call(s).");
-            for (DefaultHttpClientCallTask defaultHttpClientCallTask : this.mTasks) {
-                defaultHttpClientCallTask.cancel(true);
+        try {
+            if (this.mTasks.size() > 0) {
+                AppCenterLog.debug("AppCenter", "Cancelling " + this.mTasks.size() + " network call(s).");
+                for (DefaultHttpClientCallTask defaultHttpClientCallTask : this.mTasks) {
+                    defaultHttpClientCallTask.cancel(true);
+                }
+                this.mTasks.clear();
             }
-            this.mTasks.clear();
+        } catch (Throwable th) {
+            throw th;
         }
     }
 }

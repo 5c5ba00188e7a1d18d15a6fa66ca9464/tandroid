@@ -27,14 +27,18 @@ public final class zze implements ServiceConnection {
         }
         obj = baseGmsClient.zzq;
         synchronized (obj) {
-            BaseGmsClient baseGmsClient2 = this.zza;
-            IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.common.internal.IGmsServiceBroker");
-            if (queryLocalInterface != null && (queryLocalInterface instanceof IGmsServiceBroker)) {
-                zzacVar = (IGmsServiceBroker) queryLocalInterface;
-            } else {
-                zzacVar = new zzac(iBinder);
+            try {
+                BaseGmsClient baseGmsClient2 = this.zza;
+                IInterface queryLocalInterface = iBinder.queryLocalInterface("com.google.android.gms.common.internal.IGmsServiceBroker");
+                if (queryLocalInterface != null && (queryLocalInterface instanceof IGmsServiceBroker)) {
+                    zzacVar = (IGmsServiceBroker) queryLocalInterface;
+                } else {
+                    zzacVar = new zzac(iBinder);
+                }
+                baseGmsClient2.zzr = zzacVar;
+            } catch (Throwable th) {
+                throw th;
             }
-            baseGmsClient2.zzr = zzacVar;
         }
         this.zza.zzl(0, null, this.zzb);
     }

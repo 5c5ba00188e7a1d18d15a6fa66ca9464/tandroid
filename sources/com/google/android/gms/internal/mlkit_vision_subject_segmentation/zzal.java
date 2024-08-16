@@ -409,29 +409,29 @@ public final class zzal extends AbstractMap implements Serializable {
         objArr.getClass();
         Object[] objArr2 = this.zzc;
         objArr2.getClass();
-        int size = size() - 1;
-        if (i < size) {
-            int i3 = i + 1;
-            Object obj2 = objArr[size];
+        int size = size();
+        int i3 = size - 1;
+        if (i < i3) {
+            int i4 = i + 1;
+            Object obj2 = objArr[i3];
             objArr[i] = obj2;
-            objArr2[i] = objArr2[size];
-            objArr[size] = null;
-            objArr2[size] = null;
-            iArr[i] = iArr[size];
-            iArr[size] = 0;
+            objArr2[i] = objArr2[i3];
+            objArr[i3] = null;
+            objArr2[i3] = null;
+            iArr[i] = iArr[i3];
+            iArr[i3] = 0;
             int zza = zzan.zza(obj2) & i2;
             int zzc = zzam.zzc(obj, zza);
-            int i4 = size + 1;
-            if (zzc == i4) {
-                zzam.zze(obj, zza, i3);
+            if (zzc == size) {
+                zzam.zze(obj, zza, i4);
                 return;
             }
             while (true) {
                 int i5 = zzc - 1;
                 int i6 = iArr[i5];
                 int i7 = i6 & i2;
-                if (i7 == i4) {
-                    iArr[i5] = (i6 & (i2 ^ (-1))) | (i2 & i3);
+                if (i7 == size) {
+                    iArr[i5] = (i6 & (i2 ^ (-1))) | (i2 & i4);
                     return;
                 }
                 zzc = i7;

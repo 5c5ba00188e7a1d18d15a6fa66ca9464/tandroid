@@ -150,8 +150,8 @@ public class PremiumAppIconsPreviewView extends FrameLayout implements PagerHead
             float f = -dp;
             this.drawable.rect.set(f, f, getWidth() + dp, getHeight() + dp);
             canvas.save();
-            float f2 = this.particlesScale;
-            canvas.scale(1.0f - f2, 1.0f - f2, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
+            float f2 = 1.0f - this.particlesScale;
+            canvas.scale(f2, f2, getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f);
             this.drawable.onDraw(canvas);
             canvas.restore();
             invalidate();

@@ -188,8 +188,8 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         long j = this.mReleaseStart;
         float min = j < 0 ? 0.0f : Math.min(1.0f, Math.max(0.0f, ((float) ((elapsedRealtime - 75) - j)) / 100.0f));
         if (this.mSupportsLongPress) {
-            long j2 = this.mDuration;
-            float max = Math.max(0.0f, ((float) ((elapsedRealtime - this.mStart) - (j2 * 2))) / ((float) (this.mLongPressDuration - (j2 * 2))));
+            long j2 = this.mDuration * 2;
+            float max = Math.max(0.0f, ((float) ((elapsedRealtime - this.mStart) - j2)) / ((float) (this.mLongPressDuration - j2)));
             f = (max > 1.0f ? 1.0f - (((float) ((elapsedRealtime - this.mStart) - this.mLongPressDuration)) / ((float) this.mDuration)) : max * 0.5f) * (1.0f - min);
         } else {
             f = 1.0f;
@@ -312,7 +312,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                         public final void run() {
                             LinkSpanDrawable.LinkCollector.this.lambda$removeLink$0(linkSpanDrawable);
                         }
-                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
+                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 175));
                     return;
                 }
                 return;
@@ -338,12 +338,12 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 if (linkSpanDrawable.mReleaseStart < 0) {
                     linkSpanDrawable.release();
                     invalidate(pair.second);
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             LinkSpanDrawable.LinkCollector.this.lambda$removeLink$1(linkSpanDrawable);
                         }
-                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 75 + 100));
+                    }, Math.max(0L, (linkSpanDrawable.mReleaseStart - SystemClock.elapsedRealtime()) + 175));
                     return;
                 }
                 return;
@@ -382,7 +382,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                     if (!loadingDrawable.isDisappearing()) {
                         loadingDrawable.disappear();
                     }
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda2
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.LinkSpanDrawable$LinkCollector$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             LinkSpanDrawable.LinkCollector.this.lambda$removeLoadingAt$2(loadingDrawable);
@@ -678,35 +678,34 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
+        /* JADX WARN: Can't wrap try/catch for region: R(14:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|(4:21|22|(1:57)(1:25)|26)|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
         /* JADX WARN: Can't wrap try/catch for region: R(17:1|(5:3|(5:5|(1:7)(1:13)|8|(1:10)(1:12)|11)|14|(1:18)|19)|20|21|22|(1:57)(1:25)|26|(6:31|32|33|(1:35)|36|(2:38|39)(1:41))|49|51|52|53|32|33|(0)|36|(0)(0)) */
-        /* JADX WARN: Code restructure failed: missing block: B:41:0x00b7, code lost:
-            r0 = move-exception;
+        /* JADX WARN: Code restructure failed: missing block: B:41:0x00ad, code lost:
+            r0 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:42:0x00b8, code lost:
-            r13 = r1;
-            r1 = r0;
-            r0 = r13;
+        /* JADX WARN: Code restructure failed: missing block: B:42:0x00ae, code lost:
+            r2 = r14;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:43:0x00bc, code lost:
-            r1 = e;
+        /* JADX WARN: Code restructure failed: missing block: B:45:0x00c2, code lost:
+            r0 = e;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x00bd, code lost:
-            r0 = true;
+        /* JADX WARN: Code restructure failed: missing block: B:46:0x00c3, code lost:
+            r2 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:47:0x00c2, code lost:
-            if (r14.loggedError == false) goto L47;
+        /* JADX WARN: Code restructure failed: missing block: B:48:0x00c6, code lost:
+            if (r15.loggedError == false) goto L47;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:48:0x00c4, code lost:
-            org.telegram.messenger.FileLog.e((java.lang.Throwable) r1, true);
+        /* JADX WARN: Code restructure failed: missing block: B:49:0x00c8, code lost:
+            org.telegram.messenger.FileLog.e((java.lang.Throwable) r0, true);
          */
-        /* JADX WARN: Code restructure failed: missing block: B:49:0x00c7, code lost:
-            r14.loggedError = true;
-            r1 = r0;
+        /* JADX WARN: Code restructure failed: missing block: B:50:0x00cb, code lost:
+            r15.loggedError = true;
+            r14 = r2;
          */
-        /* JADX WARN: Removed duplicated region for block: B:38:0x0098 A[Catch: Exception -> 0x00b7, TryCatch #2 {Exception -> 0x00b7, blocks: (B:36:0x0080, B:38:0x0098, B:39:0x00a7), top: B:57:0x0080 }] */
-        /* JADX WARN: Removed duplicated region for block: B:48:0x00c4  */
-        /* JADX WARN: Removed duplicated region for block: B:51:0x00cc  */
-        /* JADX WARN: Removed duplicated region for block: B:59:? A[RETURN, SYNTHETIC] */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x009d A[Catch: Exception -> 0x00ad, TryCatch #0 {Exception -> 0x00ad, blocks: (B:38:0x0085, B:40:0x009d, B:43:0x00b0), top: B:54:0x0085 }] */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00c8  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x00d0  */
+        /* JADX WARN: Removed duplicated region for block: B:60:? A[RETURN, SYNTHETIC] */
         @Override // android.widget.TextView, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -715,6 +714,7 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
             boolean z;
             Layout layout;
             float paddingTop;
+            boolean z2 = false;
             if (!this.isCustomLinkCollector) {
                 canvas.save();
                 if (!this.disablePaddingsOffset) {
@@ -727,7 +727,6 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 canvas.restore();
             }
             super.onDraw(canvas);
-            boolean z2 = false;
             try {
                 layout = getLayout();
                 paddingTop = ((getGravity() & 16) == 0 || layout == null) ? 0.0f : getPaddingTop() + ((((getHeight() - getPaddingTop()) - getPaddingBottom()) - layout.getHeight()) / 2.0f);

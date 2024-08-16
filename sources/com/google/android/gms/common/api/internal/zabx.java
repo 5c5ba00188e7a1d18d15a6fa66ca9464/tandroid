@@ -28,10 +28,14 @@ public final class zabx extends BroadcastReceiver {
     }
 
     public final synchronized void zab() {
-        Context context = this.zaa;
-        if (context != null) {
-            context.unregisterReceiver(this);
+        try {
+            Context context = this.zaa;
+            if (context != null) {
+                context.unregisterReceiver(this);
+            }
+            this.zaa = null;
+        } catch (Throwable th) {
+            throw th;
         }
-        this.zaa = null;
     }
 }

@@ -8,7 +8,7 @@ import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-public final class zzer extends zzdi<Integer> implements zzgi, RandomAccess {
+public final class zzer extends zzdi<Integer> implements zzew<Integer>, zzgi, RandomAccess {
     private static final zzer zza;
     private int[] zzb;
     private int zzc;
@@ -223,7 +223,7 @@ public final class zzer extends zzdi<Integer> implements zzgi, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzew
-    public final /* synthetic */ zzew zzb(int i) {
+    public final /* synthetic */ zzew<Integer> zzb(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }

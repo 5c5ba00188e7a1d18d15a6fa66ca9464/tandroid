@@ -277,12 +277,11 @@ public class ChartPickerDelegate {
             z = true;
         }
         if (i4 == 4) {
-            float f10 = i5 - i;
-            float f11 = this.pickerWidth;
-            float f12 = f - (f10 / f11);
-            this.pickerStart = f12;
-            this.pickerEnd = f2 - (f10 / f11);
-            if (f12 < 0.0f) {
+            float f10 = (i5 - i) / this.pickerWidth;
+            float f11 = f - f10;
+            this.pickerStart = f11;
+            this.pickerEnd = f2 - f10;
+            if (f11 < 0.0f) {
                 this.pickerStart = 0.0f;
                 this.pickerEnd = f2 - f;
             }

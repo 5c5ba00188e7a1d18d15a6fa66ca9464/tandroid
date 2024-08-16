@@ -3,6 +3,7 @@ package com.google.android.gms.internal.clearcut;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 final class zzed {
@@ -110,17 +111,17 @@ final class zzed {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:39:0x00c6, code lost:
-        if (zzcz() != false) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00c2, code lost:
+        if (zzcz() != false) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:40:0x00c8, code lost:
-        r6.zzof = zzcw();
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x00c4, code lost:
+        r5.zzof = zzcw();
      */
-    /* JADX WARN: Code restructure failed: missing block: B:68:0x0152, code lost:
-        if (((r6.zznz & 2048) != 0) != false) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:65:0x014b, code lost:
+        if ((r5.zznz & 2048) != 0) goto L31;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:71:0x0159, code lost:
-        if (zzcz() != false) goto L32;
+    /* JADX WARN: Code restructure failed: missing block: B:68:0x0153, code lost:
+        if (zzcz() != false) goto L31;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -132,7 +133,7 @@ final class zzed {
             this.zzny = this.zznh.next();
             int next = this.zznh.next();
             this.zznz = next;
-            int i2 = next & 255;
+            int i2 = next & NotificationCenter.voipServiceCreated;
             this.zzoa = i2;
             int i3 = this.zzny;
             if (i3 < this.zznr) {
@@ -267,7 +268,7 @@ final class zzed {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final boolean zzdh() {
-        return (this.zznz & LiteMode.FLAG_CHAT_BLUR) != 0;
+        return (this.zznz & 256) != 0;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

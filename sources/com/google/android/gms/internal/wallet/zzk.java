@@ -10,15 +10,15 @@ public final class zzk extends AbstractSafeParcelable {
     public static final Parcelable.Creator<zzk> CREATOR = new zzl();
     final byte[] zza;
 
+    zzk() {
+        this.zza = new byte[0];
+    }
+
     @Override // android.os.Parcelable
     public final void writeToParcel(Parcel parcel, int i) {
         int beginObjectHeader = SafeParcelWriter.beginObjectHeader(parcel);
         SafeParcelWriter.writeByteArray(parcel, 2, this.zza, false);
         SafeParcelWriter.finishObjectHeader(parcel, beginObjectHeader);
-    }
-
-    zzk() {
-        this.zza = new byte[0];
     }
 
     public zzk(byte[] bArr) {

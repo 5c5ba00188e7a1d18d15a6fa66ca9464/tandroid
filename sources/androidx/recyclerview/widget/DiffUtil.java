@@ -422,9 +422,9 @@ public class DiffUtil {
                 }
                 for (int i6 = i3 - 1; i6 >= 0; i6--) {
                     int[] iArr = this.mOldItemStatuses;
-                    int i7 = snake.x;
-                    if ((iArr[i7 + i6] & 31) == 2) {
-                        batchingListUpdateCallback.onChanged(i7 + i6, 1, this.mCallback.getChangePayload(i7 + i6, snake.y + i6));
+                    int i7 = snake.x + i6;
+                    if ((iArr[i7] & 31) == 2) {
+                        batchingListUpdateCallback.onChanged(i7, 1, this.mCallback.getChangePayload(i7, snake.y + i6));
                     }
                 }
                 i = snake.x;

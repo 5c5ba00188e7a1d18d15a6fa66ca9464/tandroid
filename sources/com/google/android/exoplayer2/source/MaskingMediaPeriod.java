@@ -13,19 +13,10 @@ public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callba
     private final Allocator allocator;
     private MediaPeriod.Callback callback;
     public final MediaSource.MediaPeriodId id;
-    private PrepareListener listener;
     private MediaPeriod mediaPeriod;
     private MediaSource mediaSource;
-    private boolean notifiedPrepareError;
     private long preparePositionOverrideUs = -9223372036854775807L;
     private final long preparePositionUs;
-
-    /* loaded from: classes.dex */
-    public interface PrepareListener {
-        void onPrepareComplete(MediaSource.MediaPeriodId mediaPeriodId);
-
-        void onPrepareError(MediaSource.MediaPeriodId mediaPeriodId, IOException iOException);
-    }
 
     public MaskingMediaPeriod(MediaSource.MediaPeriodId mediaPeriodId, Allocator allocator, long j) {
         this.id = mediaPeriodId;
@@ -76,26 +67,14 @@ public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callba
 
     @Override // com.google.android.exoplayer2.source.MediaPeriod
     public void maybeThrowPrepareError() throws IOException {
-        try {
-            MediaPeriod mediaPeriod = this.mediaPeriod;
-            if (mediaPeriod != null) {
-                mediaPeriod.maybeThrowPrepareError();
-            } else {
-                MediaSource mediaSource = this.mediaSource;
-                if (mediaSource != null) {
-                    mediaSource.maybeThrowSourceInfoRefreshError();
-                }
-            }
-        } catch (IOException e) {
-            PrepareListener prepareListener = this.listener;
-            if (prepareListener == null) {
-                throw e;
-            }
-            if (this.notifiedPrepareError) {
-                return;
-            }
-            this.notifiedPrepareError = true;
-            prepareListener.onPrepareError(this.id, e);
+        MediaPeriod mediaPeriod = this.mediaPeriod;
+        if (mediaPeriod != null) {
+            mediaPeriod.maybeThrowPrepareError();
+            return;
+        }
+        MediaSource mediaSource = this.mediaSource;
+        if (mediaSource != null) {
+            mediaSource.maybeThrowSourceInfoRefreshError();
         }
     }
 
@@ -172,10 +151,6 @@ public final class MaskingMediaPeriod implements MediaPeriod, MediaPeriod.Callba
     @Override // com.google.android.exoplayer2.source.MediaPeriod.Callback
     public void onPrepared(MediaPeriod mediaPeriod) {
         ((MediaPeriod.Callback) Util.castNonNull(this.callback)).onPrepared(this);
-        PrepareListener prepareListener = this.listener;
-        if (prepareListener != null) {
-            prepareListener.onPrepareComplete(this.id);
-        }
     }
 
     private long getPreparePositionWithOverride(long j) {

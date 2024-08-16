@@ -447,10 +447,7 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             if (valueAnimator != null) {
                 valueAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.progressToCameraMini;
-            fArr[1] = this.callingUserIsVideo ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.progressToCameraMini, this.callingUserIsVideo ? 1.0f : 0.0f);
             this.animatorToCameraMini = ofFloat;
             ofFloat.addUpdateListener(this.animatorToCameraMiniUpdater);
             this.animatorToCameraMini.setDuration(300L).setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -539,8 +536,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             super.dispatchDraw(canvas);
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:15:0x0035, code lost:
-            if (r4 != 3) goto L14;
+        /* JADX WARN: Code restructure failed: missing block: B:14:0x0035, code lost:
+            if (r6 != 3) goto L13;
          */
         @Override // android.view.View
         /*
@@ -688,14 +685,14 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             }
             VoIPPiPView.instance.expanded = z;
             VoIPPiPView voIPPiPView = VoIPPiPView.this;
-            int i = voIPPiPView.parentWidth;
-            int i2 = voIPPiPView.xOffset;
-            float f = (i * 0.25f) + (i2 * 2);
-            int i3 = voIPPiPView.parentHeight;
-            int i4 = voIPPiPView.yOffset;
-            float f2 = (i3 * 0.25f) + (i4 * 2);
-            float f3 = (i * 0.4f) + (i2 * 2);
-            float f4 = (i3 * 0.4f) + (i4 * 2);
+            float f = voIPPiPView.parentWidth;
+            float f2 = voIPPiPView.xOffset * 2;
+            float f3 = (f * 0.25f) + f2;
+            float f4 = voIPPiPView.parentHeight;
+            float f5 = voIPPiPView.yOffset * 2;
+            float f6 = (0.25f * f4) + f5;
+            float f7 = (f * 0.4f) + f2;
+            float f8 = (f4 * 0.4f) + f5;
             voIPPiPView.expandedAnimationInProgress = true;
             if (z) {
                 Context context = VoIPPiPView.instance.windowView.getContext();
@@ -707,11 +704,11 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 getRelativePosition(VoIPPiPView.this.point);
                 VoIPPiPView voIPPiPView5 = VoIPPiPView.this;
                 float[] fArr = voIPPiPView5.point;
-                float f5 = fArr[0];
-                float f6 = fArr[1];
+                float f9 = fArr[0];
+                float f10 = fArr[1];
                 WindowManager.LayoutParams layoutParams = voIPPiPView5.windowLayoutParams;
-                createWindowLayoutParams.x = (int) (layoutParams.x - ((f3 - f) * f5));
-                createWindowLayoutParams.y = (int) (layoutParams.y - ((f4 - f2) * f6));
+                createWindowLayoutParams.x = (int) (layoutParams.x - ((f7 - f3) * f9));
+                createWindowLayoutParams.y = (int) (layoutParams.y - ((f8 - f6) * f10));
                 voIPPiPView5.windowManager.addView(voIPPiPView4.windowView, createWindowLayoutParams);
                 voIPPiPView4.windowView.setAlpha(1.0f);
                 voIPPiPView4.windowLayoutParams = createWindowLayoutParams;
@@ -719,8 +716,8 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
                 VoIPPiPView unused = VoIPPiPView.expandedInstance = voIPPiPView4;
                 swapRender(VoIPPiPView.instance, VoIPPiPView.expandedInstance);
                 final float scaleX = VoIPPiPView.this.floatingView.getScaleX() * 0.625f;
-                voIPPiPView4.floatingView.setPivotX(f5 * VoIPPiPView.this.parentWidth * 0.4f);
-                voIPPiPView4.floatingView.setPivotY(f6 * VoIPPiPView.this.parentHeight * 0.4f);
+                voIPPiPView4.floatingView.setPivotX(f9 * VoIPPiPView.this.parentWidth * 0.4f);
+                voIPPiPView4.floatingView.setPivotY(f10 * VoIPPiPView.this.parentHeight * 0.4f);
                 voIPPiPView4.floatingView.setScaleX(scaleX);
                 voIPPiPView4.floatingView.setScaleY(scaleX);
                 VoIPPiPView.expandedInstance.topShadow.setAlpha(0.0f);
@@ -736,13 +733,13 @@ public class VoIPPiPView implements VoIPService.StateListener, NotificationCente
             } else {
                 VoIPPiPView.expandedInstance.floatingView.getRelativePosition(VoIPPiPView.this.point);
                 float[] fArr2 = VoIPPiPView.this.point;
-                float f7 = fArr2[0];
-                float f8 = fArr2[1];
-                VoIPPiPView.instance.windowLayoutParams.x = (int) (VoIPPiPView.expandedInstance.windowLayoutParams.x + ((f3 - f) * f7));
-                VoIPPiPView.instance.windowLayoutParams.y = (int) (VoIPPiPView.expandedInstance.windowLayoutParams.y + ((f4 - f2) * f8));
+                float f11 = fArr2[0];
+                float f12 = fArr2[1];
+                VoIPPiPView.instance.windowLayoutParams.x = (int) (VoIPPiPView.expandedInstance.windowLayoutParams.x + ((f7 - f3) * f11));
+                VoIPPiPView.instance.windowLayoutParams.y = (int) (VoIPPiPView.expandedInstance.windowLayoutParams.y + ((f8 - f6) * f12));
                 final float scaleX2 = VoIPPiPView.this.floatingView.getScaleX() * 0.625f;
-                VoIPPiPView.expandedInstance.floatingView.setPivotX(f7 * VoIPPiPView.this.parentWidth * 0.4f);
-                VoIPPiPView.expandedInstance.floatingView.setPivotY(f8 * VoIPPiPView.this.parentHeight * 0.4f);
+                VoIPPiPView.expandedInstance.floatingView.setPivotX(f11 * VoIPPiPView.this.parentWidth * 0.4f);
+                VoIPPiPView.expandedInstance.floatingView.setPivotY(f12 * VoIPPiPView.this.parentHeight * 0.4f);
                 showUi(false);
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
                 ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPPiPView$FloatingView$$ExternalSyntheticLambda1

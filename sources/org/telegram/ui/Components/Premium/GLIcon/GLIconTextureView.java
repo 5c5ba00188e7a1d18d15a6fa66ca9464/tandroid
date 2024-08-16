@@ -24,6 +24,7 @@ import javax.microedition.khronos.opengles.GL10;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.EmuDetector;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView;
@@ -200,7 +201,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
             GLIconTextureView.this.animatorSet = new AnimatorSet();
             ValueAnimator ofFloat = ValueAnimator.ofFloat(GLIconTextureView.this.mRenderer.angleX, f);
             ofFloat.addUpdateListener(GLIconTextureView.this.xUpdater);
-            long j = 220;
+            long j = (long) NotificationCenter.pushMessagesUpdated;
             ofFloat.setDuration(j);
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             ofFloat.setInterpolator(cubicBezierInterpolator);
@@ -365,11 +366,7 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
                     if (GLIconTextureView.this.shouldSleep()) {
                         Thread.sleep(100L);
                     } else {
-                        long currentTimeMillis3 = System.currentTimeMillis();
-                        while (true) {
-                            if (currentTimeMillis3 - currentTimeMillis < GLIconTextureView.this.targetFrameDurationMillis) {
-                                currentTimeMillis3 = System.currentTimeMillis();
-                            }
+                        for (long currentTimeMillis3 = System.currentTimeMillis(); currentTimeMillis3 - currentTimeMillis < GLIconTextureView.this.targetFrameDurationMillis; currentTimeMillis3 = System.currentTimeMillis()) {
                         }
                     }
                 } catch (InterruptedException unused2) {
@@ -390,14 +387,18 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void drawSingleFrame(float f) {
-        checkCurrent();
-        GLIconRenderer gLIconRenderer = this.mRenderer;
-        if (gLIconRenderer != null) {
-            gLIconRenderer.setDeltaTime(f);
-            this.mRenderer.onDrawFrame(this.mGl);
+        try {
+            checkCurrent();
+            GLIconRenderer gLIconRenderer = this.mRenderer;
+            if (gLIconRenderer != null) {
+                gLIconRenderer.setDeltaTime(f);
+                this.mRenderer.onDrawFrame(this.mGl);
+            }
+            checkGlError();
+            this.mEgl.eglSwapBuffers(this.mEglDisplay, this.mEglSurface);
+        } catch (Throwable th) {
+            throw th;
         }
-        checkGlError();
-        this.mEgl.eglSwapBuffers(this.mEglDisplay, this.mEglSurface);
     }
 
     public void setDimensions(int i, int i2) {
@@ -441,42 +442,42 @@ public class GLIconTextureView extends TextureView implements TextureView.Surfac
         this.mEglDisplay = eglGetDisplay;
         if (eglGetDisplay == EGL10.EGL_NO_DISPLAY) {
             throw new RuntimeException("eglGetDisplay failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-        }
-        if (!this.mEgl.eglInitialize(eglGetDisplay, new int[2])) {
+        } else if (!this.mEgl.eglInitialize(eglGetDisplay, new int[2])) {
             throw new RuntimeException("eglInitialize failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-        }
-        int[] iArr = new int[1];
-        EGLConfig[] eGLConfigArr = new EGLConfig[1];
-        int[] iArr2 = EmuDetector.with(getContext()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12326, 0, 12338, 1, 12344};
-        this.eglConfig = null;
-        if (!this.mEgl.eglChooseConfig(this.mEglDisplay, iArr2, eGLConfigArr, 1, iArr)) {
-            throw new IllegalArgumentException("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
-        }
-        if (iArr[0] > 0) {
-            this.eglConfig = eGLConfigArr[0];
-        }
-        EGLConfig eGLConfig = this.eglConfig;
-        if (eGLConfig == null) {
-            throw new RuntimeException("eglConfig not initialized");
-        }
-        this.mEglContext = this.mEgl.eglCreateContext(this.mEglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
-        checkEglError();
-        this.mEglSurface = this.mEgl.eglCreateWindowSurface(this.mEglDisplay, this.eglConfig, this.mSurface, null);
-        checkEglError();
-        EGLSurface eGLSurface = this.mEglSurface;
-        if (eGLSurface == null || eGLSurface == EGL10.EGL_NO_SURFACE) {
-            int eglGetError = this.mEgl.eglGetError();
-            if (eglGetError == 12299) {
-                FileLog.e("eglCreateWindowSurface returned EGL10.EGL_BAD_NATIVE_WINDOW");
-                return;
-            }
-            throw new RuntimeException("eglCreateWindowSurface failed " + GLUtils.getEGLErrorString(eglGetError));
-        } else if (!this.mEgl.eglMakeCurrent(this.mEglDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
-            throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
         } else {
+            int[] iArr = new int[1];
+            EGLConfig[] eGLConfigArr = new EGLConfig[1];
+            int[] iArr2 = EmuDetector.with(getContext()).detect() ? new int[]{12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12344} : new int[]{12352, 4, 12324, 8, 12323, 8, 12322, 8, 12321, 8, 12325, 16, 12326, 0, 12338, 1, 12344};
+            this.eglConfig = null;
+            if (!this.mEgl.eglChooseConfig(this.mEglDisplay, iArr2, eGLConfigArr, 1, iArr)) {
+                throw new IllegalArgumentException("eglChooseConfig failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
+            }
+            if (iArr[0] > 0) {
+                this.eglConfig = eGLConfigArr[0];
+            }
+            EGLConfig eGLConfig = this.eglConfig;
+            if (eGLConfig == null) {
+                throw new RuntimeException("eglConfig not initialized");
+            }
+            this.mEglContext = this.mEgl.eglCreateContext(this.mEglDisplay, eGLConfig, EGL10.EGL_NO_CONTEXT, new int[]{12440, 2, 12344});
             checkEglError();
-            this.mGl = (GL10) this.mEglContext.getGL();
+            this.mEglSurface = this.mEgl.eglCreateWindowSurface(this.mEglDisplay, this.eglConfig, this.mSurface, null);
             checkEglError();
+            EGLSurface eGLSurface = this.mEglSurface;
+            if (eGLSurface == null || eGLSurface == EGL10.EGL_NO_SURFACE) {
+                int eglGetError = this.mEgl.eglGetError();
+                if (eglGetError == 12299) {
+                    FileLog.e("eglCreateWindowSurface returned EGL10.EGL_BAD_NATIVE_WINDOW");
+                    return;
+                }
+                throw new RuntimeException("eglCreateWindowSurface failed " + GLUtils.getEGLErrorString(eglGetError));
+            } else if (!this.mEgl.eglMakeCurrent(this.mEglDisplay, eGLSurface, eGLSurface, this.mEglContext)) {
+                throw new RuntimeException("eglMakeCurrent failed " + GLUtils.getEGLErrorString(this.mEgl.eglGetError()));
+            } else {
+                checkEglError();
+                this.mGl = (GL10) this.mEglContext.getGL();
+                checkEglError();
+            }
         }
     }
 

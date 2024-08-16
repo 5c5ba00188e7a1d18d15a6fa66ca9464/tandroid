@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class UnreadCounterTextView extends View {
@@ -285,7 +286,7 @@ public class UnreadCounterTextView extends View {
                 Drawable drawable6 = this.icon;
                 if (drawable6 != null) {
                     drawable6.setBounds((-drawable6.getIntrinsicWidth()) - AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() - this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(6.0f), ((this.textLayout.getHeight() + this.icon.getIntrinsicHeight()) / 2) + AndroidUtilities.dp(1.0f));
-                    this.icon.setAlpha(255);
+                    this.icon.setAlpha(NotificationCenter.voipServiceCreated);
                     this.icon.draw(canvas);
                 }
                 this.textLayout.draw(canvas);

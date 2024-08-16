@@ -88,13 +88,7 @@ public final class CodecSpecificDataUtil {
     }
 
     public static String buildHevcCodecString(int i, boolean z, int i2, int i3, int[] iArr, int i4) {
-        Object[] objArr = new Object[5];
-        objArr[0] = HEVC_GENERAL_PROFILE_SPACE_STRINGS[i];
-        objArr[1] = Integer.valueOf(i2);
-        objArr[2] = Integer.valueOf(i3);
-        objArr[3] = Character.valueOf(z ? 'H' : 'L');
-        objArr[4] = Integer.valueOf(i4);
-        StringBuilder sb = new StringBuilder(Util.formatInvariant("hvc1.%s%d.%X.%c%d", objArr));
+        StringBuilder sb = new StringBuilder(Util.formatInvariant("hvc1.%s%d.%X.%c%d", HEVC_GENERAL_PROFILE_SPACE_STRINGS[i], Integer.valueOf(i2), Integer.valueOf(i3), Character.valueOf(z ? 'H' : 'L'), Integer.valueOf(i4)));
         int length = iArr.length;
         while (length > 0 && iArr[length - 1] == 0) {
             length--;

@@ -1,32 +1,22 @@
 package j$.time.format;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public enum m implements h {
-    SENSITIVE,
-    INSENSITIVE,
-    STRICT,
-    LENIENT;
+public final class m implements g {
+    private final String a;
 
-    @Override // j$.time.format.h
-    public final boolean a(t tVar, StringBuilder sb) {
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public m(String str) {
+        this.a = str;
+    }
+
+    @Override // j$.time.format.g
+    public final boolean a(s sVar, StringBuilder sb) {
+        sb.append(this.a);
         return true;
     }
 
-    @Override // java.lang.Enum
     public final String toString() {
-        int ordinal = ordinal();
-        if (ordinal != 0) {
-            if (ordinal != 1) {
-                if (ordinal != 2) {
-                    if (ordinal == 3) {
-                        return "ParseStrict(false)";
-                    }
-                    throw new IllegalStateException("Unreachable");
-                }
-                return "ParseStrict(true)";
-            }
-            return "ParseCaseSensitive(false)";
-        }
-        return "ParseCaseSensitive(true)";
+        String replace = this.a.replace("'", "''");
+        return "'" + replace + "'";
     }
 }

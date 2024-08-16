@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.Paint.Swatch;
 /* loaded from: classes3.dex */
 public class ColorPicker extends FrameLayout {
@@ -103,7 +104,7 @@ public class ColorPicker extends FrameLayout {
         int green = Color.green(i);
         int green2 = Color.green(i2);
         int blue = Color.blue(i);
-        return Color.argb(255, Math.min(255, (int) (red + ((red2 - red) * min))), Math.min(255, (int) (green + ((green2 - green) * min))), Math.min(255, (int) (blue + ((Color.blue(i2) - blue) * min))));
+        return Color.argb((int) NotificationCenter.voipServiceCreated, Math.min((int) NotificationCenter.voipServiceCreated, (int) (red + ((red2 - red) * min))), Math.min((int) NotificationCenter.voipServiceCreated, (int) (green + ((green2 - green) * min))), Math.min((int) NotificationCenter.voipServiceCreated, (int) (blue + ((Color.blue(i2) - blue) * min))));
     }
 
     public void setLocation(float f) {
@@ -139,7 +140,6 @@ public class ColorPicker extends FrameLayout {
         if (this.interacting || y >= (-AndroidUtilities.dp(10.0f))) {
             int actionMasked = motionEvent.getActionMasked();
             if (actionMasked == 3 || actionMasked == 1 || actionMasked == 6) {
-                boolean z = this.interacting;
                 this.interacting = false;
                 this.wasChangingWeight = this.changingWeight;
                 this.changingWeight = false;

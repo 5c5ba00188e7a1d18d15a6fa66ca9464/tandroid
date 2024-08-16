@@ -24,10 +24,14 @@ final class zzh implements zzq {
     public final void zzd(Task task) {
         if (task.isCanceled()) {
             synchronized (this.zzb) {
-                if (this.zzc == null) {
-                    return;
+                try {
+                    if (this.zzc == null) {
+                        return;
+                    }
+                    this.zza.execute(new zzg(this));
+                } catch (Throwable th) {
+                    throw th;
                 }
-                this.zza.execute(new zzg(this));
             }
         }
     }

@@ -32,7 +32,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ClickableSpan;
-import android.util.Property;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -266,14 +265,14 @@ public class CameraScanActivity extends BaseFragment {
         if (activity == null) {
             return null;
         }
-        1 r8 = new 1(activity, false, new INavigationLayout[]{INavigationLayout.-CC.newLayout(activity, false)}, i, z, cameraScanActivityDelegate);
-        r8.setUseLightStatusBar(false);
-        AndroidUtilities.setLightNavigationBar(r8.getWindow(), false);
-        AndroidUtilities.setNavigationBarColor(r8.getWindow(), -16777216, false);
-        r8.setUseLightStatusBar(false);
-        r8.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
-        r8.show();
-        return r8;
+        1 r1 = new 1(activity, false, new INavigationLayout[]{INavigationLayout.-CC.newLayout(activity, false)}, i, z, cameraScanActivityDelegate);
+        r1.setUseLightStatusBar(false);
+        AndroidUtilities.setLightNavigationBar(r1.getWindow(), false);
+        AndroidUtilities.setNavigationBarColor(r1.getWindow(), -16777216, false);
+        r1.setUseLightStatusBar(false);
+        r1.getWindow().addFlags(LiteMode.FLAG_CALLS_ANIMATIONS);
+        r1.show();
+        return r1;
     }
 
     public CameraScanActivity(int i) {
@@ -301,7 +300,7 @@ public class CameraScanActivity extends BaseFragment {
         this.processTimesCount = 0L;
         this.currentType = i;
         if (isQr()) {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda5
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraScanActivity.this.lambda$new$0();
@@ -320,7 +319,7 @@ public class CameraScanActivity extends BaseFragment {
 
     public /* synthetic */ void lambda$new$0() {
         this.qrReader = new QRCodeReader();
-        this.visionQrReader = new BarcodeDetector.Builder(ApplicationLoader.applicationContext).setBarcodeFormats(LiteMode.FLAG_CHAT_BLUR).build();
+        this.visionQrReader = new BarcodeDetector.Builder(ApplicationLoader.applicationContext).setBarcodeFormats(256).build();
     }
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
@@ -411,7 +410,7 @@ public class CameraScanActivity extends BaseFragment {
                 int i6 = i4 - i2;
                 if (CameraScanActivity.this.currentType == 0) {
                     if (CameraScanActivity.this.cameraView != null) {
-                        CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight() + 0);
+                        CameraScanActivity.this.cameraView.layout(0, 0, CameraScanActivity.this.cameraView.getMeasuredWidth(), CameraScanActivity.this.cameraView.getMeasuredHeight());
                     }
                     CameraScanActivity.this.recognizedMrzView.setTextSize(0, i6 / 22);
                     CameraScanActivity.this.recognizedMrzView.setPadding(0, 0, 0, i6 / 15);
@@ -534,7 +533,7 @@ public class CameraScanActivity extends BaseFragment {
                 return rectF;
             }
         };
-        viewGroup.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda1
+        viewGroup.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$1;
@@ -544,7 +543,7 @@ public class CameraScanActivity extends BaseFragment {
         });
         this.fragmentView = viewGroup;
         if (isQr()) {
-            this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda2
+            this.fragmentView.postDelayed(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     CameraScanActivity.this.initCameraView();
@@ -705,12 +704,10 @@ public class CameraScanActivity extends BaseFragment {
                             break;
                         }
                         this.titleTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-                        int i7 = indexOf2 + 1;
-                        spannableStringBuilder.replace(indexOf2, i7, (CharSequence) " ");
+                        spannableStringBuilder.replace(indexOf2, indexOf2 + 1, (CharSequence) " ");
                         spannableStringBuilder.replace(indexOf, i6, (CharSequence) " ");
-                        int i8 = i7 - 1;
-                        spannableStringBuilder.setSpan(new URLSpanNoUnderline(strArr[i4], true), i6, i8, 33);
-                        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), i6, i8, 33);
+                        spannableStringBuilder.setSpan(new URLSpanNoUnderline(strArr[i4], true), i6, indexOf2, 33);
+                        spannableStringBuilder.setSpan(new TypefaceSpan(AndroidUtilities.bold()), i6, indexOf2, 33);
                         i4++;
                     }
                     this.titleTextView.setLinkTextColor(-1);
@@ -737,7 +734,7 @@ public class CameraScanActivity extends BaseFragment {
                 this.galleryButton.setImageResource(R.drawable.qr_gallery);
                 this.galleryButton.setBackgroundDrawable(Theme.createSelectorDrawableFromDrawables(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559), Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 1157627903)));
                 viewGroup.addView(this.galleryButton);
-                this.galleryButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda3
+                this.galleryButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         CameraScanActivity.this.lambda$createView$2(view);
@@ -750,7 +747,7 @@ public class CameraScanActivity extends BaseFragment {
             this.flashButton.setImageResource(R.drawable.qr_flashlight);
             this.flashButton.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(60.0f), 587202559));
             viewGroup.addView(this.flashButton);
-            this.flashButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda4
+            this.flashButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda3
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     CameraScanActivity.this.lambda$createView$4(view);
@@ -842,11 +839,8 @@ public class CameraScanActivity extends BaseFragment {
             this.flashAnimator = null;
         }
         this.flashAnimator = new AnimatorSet();
-        Property<ShapeDrawable, Integer> property = AnimationProperties.SHAPE_DRAWABLE_ALPHA;
-        int[] iArr = new int[1];
-        iArr[0] = this.flashButton.getTag() == null ? 68 : 34;
-        ObjectAnimator ofInt = ObjectAnimator.ofInt(shapeDrawable, property, iArr);
-        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda6
+        ObjectAnimator ofInt = ObjectAnimator.ofInt(shapeDrawable, AnimationProperties.SHAPE_DRAWABLE_ALPHA, this.flashButton.getTag() == null ? 68 : 34);
+        ofInt.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda7
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 CameraScanActivity.this.lambda$createView$3(valueAnimator);
@@ -890,7 +884,7 @@ public class CameraScanActivity extends BaseFragment {
             }
             ValueAnimator ofFloat = ValueAnimator.ofFloat(this.recognizedT, this.newRecognizedT);
             this.recognizedAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda19
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     CameraScanActivity.this.lambda$updateRecognized$5(valueAnimator2);
@@ -905,7 +899,7 @@ public class CameraScanActivity extends BaseFragment {
             }
             SpringAnimation springAnimation2 = new SpringAnimation(new FloatValueHolder((this.recognized ? this.useRecognizedBounds : 1.0f - this.useRecognizedBounds) * 500.0f));
             this.useRecognizedBoundsAnimator = springAnimation2;
-            springAnimation2.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda18
+            springAnimation2.addUpdateListener(new DynamicAnimation.OnAnimationUpdateListener() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda20
                 @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
                 public final void onAnimationUpdate(DynamicAnimation dynamicAnimation, float f3, float f4) {
                     CameraScanActivity.this.lambda$updateRecognized$6(dynamicAnimation, f3, f4);
@@ -931,7 +925,11 @@ public class CameraScanActivity extends BaseFragment {
     }
 
     public /* synthetic */ void lambda$updateRecognized$6(DynamicAnimation dynamicAnimation, float f, float f2) {
-        this.useRecognizedBounds = this.recognized ? f / 500.0f : 1.0f - (f / 500.0f);
+        float f3 = f / 500.0f;
+        if (!this.recognized) {
+            f3 = 1.0f - f3;
+        }
+        this.useRecognizedBounds = f3;
         this.fragmentView.invalidate();
     }
 
@@ -945,7 +943,7 @@ public class CameraScanActivity extends BaseFragment {
         this.cameraView = cameraView;
         cameraView.setUseMaxPreview(true);
         this.cameraView.setOptimizeForBarcode(true);
-        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda7
+        this.cameraView.setDelegate(new CameraView.CameraViewDelegate() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.camera.CameraView.CameraViewDelegate
             public final void onCameraInit() {
                 CameraScanActivity.this.lambda$initCameraView$9();
@@ -1007,6 +1005,12 @@ public class CameraScanActivity extends BaseFragment {
         pointFArr[3].set(rectF.left, rectF.bottom);
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:52:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00bc A[LOOP:2: B:53:0x00bc->B:54:0x00be, LOOP_START, PHI: r9 
+      PHI: (r9v1 int) = (r9v0 int), (r9v2 int) binds: [B:51:0x00b2, B:54:0x00be] A[DONT_GENERATE, DONT_INLINE]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void updateRecognizedBounds(RectF rectF, PointF[] pointFArr) {
         long elapsedRealtime = SystemClock.elapsedRealtime();
         long j = this.lastBoundsUpdate;
@@ -1031,32 +1035,38 @@ public class CameraScanActivity extends BaseFragment {
             }
         } else {
             RectF rectF2 = this.fromBounds;
-            if (rectF2 != null && elapsedRealtime - j < 75) {
-                float min = Math.min(1.0f, Math.max(0.0f, ((float) (elapsedRealtime - j)) / 75.0f));
-                RectF rectF3 = this.fromBounds;
-                AndroidUtilities.lerp(rectF3, this.bounds, min, rectF3);
-                for (int i2 = 0; i2 < 4; i2++) {
-                    PointF pointF5 = this.fromPoints[i2];
-                    pointF5.set(AndroidUtilities.lerp(pointF5.x, this.points[i2].x, min), AndroidUtilities.lerp(this.fromPoints[i2].y, this.points[i2].y, min));
-                }
-            } else {
-                rectF2.set(this.bounds);
-                for (int i3 = 0; i3 < 4; i3++) {
-                    PointF pointF6 = this.fromPoints[i3];
-                    PointF pointF7 = this.points[i3];
-                    pointF6.set(pointF7.x, pointF7.y);
+            if (rectF2 != null) {
+                long j2 = elapsedRealtime - j;
+                if (j2 < 75) {
+                    float min = Math.min(1.0f, Math.max(0.0f, ((float) j2) / 75.0f));
+                    RectF rectF3 = this.fromBounds;
+                    AndroidUtilities.lerp(rectF3, this.bounds, min, rectF3);
+                    for (int i2 = 0; i2 < 4; i2++) {
+                        PointF pointF5 = this.fromPoints[i2];
+                        pointF5.set(AndroidUtilities.lerp(pointF5.x, this.points[i2].x, min), AndroidUtilities.lerp(this.fromPoints[i2].y, this.points[i2].y, min));
+                    }
+                    this.bounds.set(rectF);
+                    if (pointFArr != null) {
+                        setPointsFromBounds(this.bounds, this.points);
+                    } else {
+                        while (i < 4) {
+                            PointF pointF6 = this.points[i];
+                            PointF pointF7 = pointFArr[i];
+                            pointF6.set(pointF7.x, pointF7.y);
+                            i++;
+                        }
+                    }
+                    this.lastBoundsUpdate = elapsedRealtime;
                 }
             }
+            rectF2.set(this.bounds);
+            for (int i3 = 0; i3 < 4; i3++) {
+                PointF pointF8 = this.fromPoints[i3];
+                PointF pointF9 = this.points[i3];
+                pointF8.set(pointF9.x, pointF9.y);
+            }
             this.bounds.set(rectF);
-            if (pointFArr == null) {
-                setPointsFromBounds(this.bounds, this.points);
-            } else {
-                while (i < 4) {
-                    PointF pointF8 = this.points[i];
-                    PointF pointF9 = pointFArr[i];
-                    pointF8.set(pointF9.x, pointF9.y);
-                    i++;
-                }
+            if (pointFArr != null) {
             }
             this.lastBoundsUpdate = elapsedRealtime;
         }
@@ -1169,7 +1179,7 @@ public class CameraScanActivity extends BaseFragment {
     }
 
     private void onNoQrFound() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 CameraScanActivity.this.lambda$onNoQrFound$10();
@@ -1296,7 +1306,7 @@ public class CameraScanActivity extends BaseFragment {
         if (cameraScanActivityDelegate != null) {
             cameraScanActivityDelegate.didFindMrzInfo(result);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda19
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda17
             @Override // java.lang.Runnable
             public final void run() {
                 CameraScanActivity.this.finishFragment();
@@ -1309,7 +1319,7 @@ public class CameraScanActivity extends BaseFragment {
         if (cameraView != null && cameraView.getCameraSession() != null) {
             CameraController.getInstance().stopPreview(this.cameraView.getCameraSession());
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda20
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CameraScanActivity$$ExternalSyntheticLambda18
             @Override // java.lang.Runnable
             public final void run() {
                 CameraScanActivity.this.lambda$processShot$12();
@@ -1419,6 +1429,7 @@ public class CameraScanActivity extends BaseFragment {
         LuminanceSource planarYUVLuminanceSource;
         ResultPoint[] resultPoints;
         Frame build;
+        String str2;
         try {
             RectF rectF = new RectF();
             BarcodeDetector barcodeDetector = this.visionQrReader;
@@ -1436,98 +1447,105 @@ public class CameraScanActivity extends BaseFragment {
                     i5 = size.getWidth();
                 }
                 SparseArray<Barcode> detect = this.visionQrReader.detect(build);
-                if (detect != null && detect.size() > 0) {
-                    Barcode valueAt = detect.valueAt(0);
-                    str = valueAt.rawValue;
-                    pointFArr = toPointF(valueAt.cornerPoints, i4, i5);
-                    Point[] pointArr = valueAt.cornerPoints;
-                    if (pointArr != null && pointArr.length != 0) {
-                        int length = pointArr.length;
-                        float f3 = Float.MIN_VALUE;
-                        float f4 = Float.MAX_VALUE;
-                        while (i6 < length) {
-                            Point point = pointArr[i6];
-                            f2 = Math.min(f2, point.x);
-                            f = Math.max(f, point.x);
-                            f4 = Math.min(f4, point.y);
-                            f3 = Math.max(f3, point.y);
-                            i6++;
-                        }
-                        rectF.set(f2, f4, f, f3);
-                    }
-                    rectF = null;
-                } else if (bitmap != null) {
-                    Bitmap invert = invert(bitmap);
-                    bitmap.recycle();
-                    Frame build2 = new Frame.Builder().setBitmap(invert).build();
-                    int width = invert.getWidth();
-                    int height = invert.getHeight();
-                    SparseArray<Barcode> detect2 = this.visionQrReader.detect(build2);
-                    if (detect2 != null && detect2.size() > 0) {
-                        Barcode valueAt2 = detect2.valueAt(0);
-                        String str2 = valueAt2.rawValue;
-                        pointFArr = toPointF(valueAt2.cornerPoints, width, height);
-                        Point[] pointArr2 = valueAt2.cornerPoints;
-                        if (pointArr2 != null && pointArr2.length != 0) {
-                            int length2 = pointArr2.length;
-                            float f5 = Float.MIN_VALUE;
-                            float f6 = Float.MAX_VALUE;
-                            while (i6 < length2) {
-                                Point point2 = pointArr2[i6];
-                                f2 = Math.min(f2, point2.x);
-                                f = Math.max(f, point2.x);
-                                f6 = Math.min(f6, point2.y);
-                                f5 = Math.max(f5, point2.y);
-                                i6++;
-                            }
-                            rectF.set(f2, f6, f, f5);
-                            str = str2;
-                            i4 = width;
-                            i5 = height;
-                        }
-                        rectF = null;
-                        str = str2;
-                        i4 = width;
-                        i5 = height;
-                    } else {
-                        Bitmap monochrome = monochrome(invert, 90);
-                        invert.recycle();
-                        Frame build3 = new Frame.Builder().setBitmap(monochrome).build();
-                        int width2 = invert.getWidth();
-                        int height2 = invert.getHeight();
-                        SparseArray<Barcode> detect3 = this.visionQrReader.detect(build3);
-                        if (detect3 == null || detect3.size() <= 0) {
-                            i4 = width2;
-                            str = null;
-                            pointFArr = null;
-                        } else {
-                            Barcode valueAt3 = detect3.valueAt(0);
-                            str = valueAt3.rawValue;
-                            pointFArr = toPointF(valueAt3.cornerPoints, width2, height2);
-                            Point[] pointArr3 = valueAt3.cornerPoints;
-                            if (pointArr3 != null && pointArr3.length != 0) {
-                                int length3 = pointArr3.length;
-                                float f7 = Float.MIN_VALUE;
-                                float f8 = Float.MAX_VALUE;
-                                while (i6 < length3) {
-                                    Point point3 = pointArr3[i6];
-                                    f2 = Math.min(f2, point3.x);
-                                    f = Math.max(f, point3.x);
-                                    f8 = Math.min(f8, point3.y);
-                                    f7 = Math.max(f7, point3.y);
+                if (detect == null || detect.size() <= 0) {
+                    if (bitmap != null) {
+                        Bitmap invert = invert(bitmap);
+                        bitmap.recycle();
+                        Frame build2 = new Frame.Builder().setBitmap(invert).build();
+                        int width = invert.getWidth();
+                        int height = invert.getHeight();
+                        SparseArray<Barcode> detect2 = this.visionQrReader.detect(build2);
+                        if (detect2 != null && detect2.size() > 0) {
+                            Barcode valueAt = detect2.valueAt(0);
+                            str2 = valueAt.rawValue;
+                            pointFArr = toPointF(valueAt.cornerPoints, width, height);
+                            Point[] pointArr = valueAt.cornerPoints;
+                            if (pointArr != null && pointArr.length != 0) {
+                                int length = pointArr.length;
+                                float f3 = Float.MIN_VALUE;
+                                float f4 = Float.MAX_VALUE;
+                                while (i6 < length) {
+                                    Point point = pointArr[i6];
+                                    f2 = Math.min(f2, point.x);
+                                    f = Math.max(f, point.x);
+                                    f4 = Math.min(f4, point.y);
+                                    f3 = Math.max(f3, point.y);
                                     i6++;
                                 }
-                                rectF.set(f2, f8, f, f7);
-                                i4 = width2;
+                                rectF.set(f2, f4, f, f3);
+                                int i7 = height;
+                                str = str2;
+                                i4 = width;
+                                i5 = i7;
                             }
                             rectF = null;
-                            i4 = width2;
+                            int i72 = height;
+                            str = str2;
+                            i4 = width;
+                            i5 = i72;
+                        } else {
+                            Bitmap monochrome = monochrome(invert, 90);
+                            invert.recycle();
+                            Frame build3 = new Frame.Builder().setBitmap(monochrome).build();
+                            width = invert.getWidth();
+                            height = invert.getHeight();
+                            SparseArray<Barcode> detect3 = this.visionQrReader.detect(build3);
+                            if (detect3 == null || detect3.size() <= 0) {
+                                i4 = width;
+                                i5 = height;
+                            } else {
+                                Barcode valueAt2 = detect3.valueAt(0);
+                                str2 = valueAt2.rawValue;
+                                pointFArr = toPointF(valueAt2.cornerPoints, width, height);
+                                Point[] pointArr2 = valueAt2.cornerPoints;
+                                if (pointArr2 != null && pointArr2.length != 0) {
+                                    int length2 = pointArr2.length;
+                                    float f5 = Float.MIN_VALUE;
+                                    float f6 = Float.MAX_VALUE;
+                                    while (i6 < length2) {
+                                        Point point2 = pointArr2[i6];
+                                        f2 = Math.min(f2, point2.x);
+                                        f = Math.max(f, point2.x);
+                                        f6 = Math.min(f6, point2.y);
+                                        f5 = Math.max(f5, point2.y);
+                                        i6++;
+                                    }
+                                    rectF.set(f2, f6, f, f5);
+                                    int i722 = height;
+                                    str = str2;
+                                    i4 = width;
+                                    i5 = i722;
+                                }
+                                rectF = null;
+                                int i7222 = height;
+                                str = str2;
+                                i4 = width;
+                                i5 = i7222;
+                            }
                         }
-                        i5 = height2;
                     }
-                } else {
                     str = null;
                     pointFArr = null;
+                } else {
+                    Barcode valueAt3 = detect.valueAt(0);
+                    str = valueAt3.rawValue;
+                    pointFArr = toPointF(valueAt3.cornerPoints, i4, i5);
+                    Point[] pointArr3 = valueAt3.cornerPoints;
+                    if (pointArr3 != null && pointArr3.length != 0) {
+                        int length3 = pointArr3.length;
+                        float f7 = Float.MIN_VALUE;
+                        float f8 = Float.MAX_VALUE;
+                        while (i6 < length3) {
+                            Point point3 = pointArr3[i6];
+                            f2 = Math.min(f2, point3.x);
+                            f = Math.max(f, point3.x);
+                            f8 = Math.min(f8, point3.y);
+                            f7 = Math.max(f7, point3.y);
+                            i6++;
+                        }
+                        rectF.set(f2, f8, f, f7);
+                    }
+                    rectF = null;
                 }
             } else if (this.qrReader != null) {
                 if (bitmap != null) {
@@ -1559,8 +1577,8 @@ public class CameraScanActivity extends BaseFragment {
                     rectF.set(f2, f10, f, f9);
                     if (decode.getResultPoints().length == 4) {
                         pointFArr = new PointF[4];
-                        for (int i7 = 0; i7 < 4; i7++) {
-                            pointFArr[i7] = new PointF(decode.getResultPoints()[i7].getX() / i4, decode.getResultPoints()[i7].getY() / i5);
+                        for (int i8 = 0; i8 < 4; i8++) {
+                            pointFArr[i8] = new PointF(decode.getResultPoints()[i8].getX() / i4, decode.getResultPoints()[i8].getY() / i5);
                         }
                     } else {
                         pointFArr = null;

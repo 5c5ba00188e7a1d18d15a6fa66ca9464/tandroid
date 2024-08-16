@@ -42,7 +42,7 @@ public class HistoryFragment extends UniversalFragment {
     private boolean searchLoading;
     private NumberTextView selectedCount;
     private final Utilities.Callback<BrowserHistory.Entry> whenClicked;
-    private ArrayList<BrowserHistory.Entry> history = BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.HistoryFragment$$ExternalSyntheticLambda1
+    private ArrayList<BrowserHistory.Entry> history = BrowserHistory.getHistory(new Utilities.Callback() { // from class: org.telegram.ui.web.HistoryFragment$$ExternalSyntheticLambda0
         @Override // org.telegram.messenger.Utilities.Callback
         public final void run(Object obj) {
             HistoryFragment.this.lambda$new$0((ArrayList) obj);
@@ -100,7 +100,7 @@ public class HistoryFragment extends UniversalFragment {
         numberTextView.setTextSize(18);
         this.selectedCount.setTypeface(AndroidUtilities.bold());
         this.selectedCount.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
-        this.selectedCount.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.web.HistoryFragment$$ExternalSyntheticLambda0
+        this.selectedCount.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.web.HistoryFragment$$ExternalSyntheticLambda1
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$1;

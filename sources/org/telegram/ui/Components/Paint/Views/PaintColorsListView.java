@@ -12,6 +12,7 @@ import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
 import org.telegram.ui.Components.RecyclerListView;
@@ -105,7 +106,7 @@ public class PaintColorsListView extends RecyclerListView {
         if (colorCirclePaint.getAlpha() != 255) {
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(f - f3, f2 - f3, f + f3, f2 + f3);
-            colorCirclePaint.setAlpha(255);
+            colorCirclePaint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawArc(rectF, -45.0f, -180.0f, true, colorCirclePaint);
             colorCirclePath.rewind();
             colorCirclePath.moveTo(rectF.centerX(), rectF.centerY());
@@ -213,7 +214,7 @@ public class PaintColorsListView extends RecyclerListView {
             if (this.selectProgress != 0.0f) {
                 float min2 = (Math.min((getWidth() - getPaddingLeft()) - getPaddingRight(), (getHeight() - getPaddingTop()) - getPaddingBottom()) / 2.0f) - AndroidUtilities.dp(2.0f);
                 PaintColorsListView.this.outlinePaint.setColor(this.mColor);
-                PaintColorsListView.this.outlinePaint.setAlpha(255);
+                PaintColorsListView.this.outlinePaint.setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawCircle(width, height, min2, PaintColorsListView.this.outlinePaint);
             }
         }

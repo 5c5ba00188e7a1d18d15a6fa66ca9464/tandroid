@@ -11,10 +11,14 @@ public final class zzb {
     public static synchronized ClassLoader zza() {
         ClassLoader classLoader;
         synchronized (zzb.class) {
-            if (zza == null) {
-                zza = zzb();
+            try {
+                if (zza == null) {
+                    zza = zzb();
+                }
+                classLoader = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            classLoader = zza;
         }
         return classLoader;
     }

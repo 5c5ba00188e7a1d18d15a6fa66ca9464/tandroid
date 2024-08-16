@@ -131,7 +131,7 @@ public class FilesMigrationService extends Service {
                 try {
                     path = file.toPath();
                     convert = Stream.VivifiedWrapper.convert(Files.list(path));
-                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda9
+                    convert.forEach(new Consumer() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda8
                         @Override // j$.util.function.Consumer
                         public final void accept(Object obj) {
                             FilesMigrationService.this.lambda$moveDirectory$0(file2, (Path) obj);
@@ -191,7 +191,7 @@ public class FilesMigrationService extends Service {
     private void updateProgress() {
         if (System.currentTimeMillis() - this.lastUpdateTime > 20 || this.movedFilesCount >= this.totalFilesCount - 1) {
             final int i = this.movedFilesCount;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda8
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.FilesMigrationService$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     FilesMigrationService.this.lambda$updateProgress$1(i);
@@ -273,7 +273,7 @@ public class FilesMigrationService extends Service {
             StickerImageView stickerImageView = new StickerImageView(parentActivity, this.currentAccount);
             stickerImageView.setStickerNum(7);
             stickerImageView.getImageReceiver().setAutoRepeat(1);
-            linearLayout.addView(stickerImageView, LayoutHelper.createLinear(144, 144, 1, 0, 16, 0, 0));
+            linearLayout.addView(stickerImageView, LayoutHelper.createLinear((int) NotificationCenter.messagePlayingProgressDidChanged, (int) NotificationCenter.messagePlayingProgressDidChanged, 1, 0, 16, 0, 0));
             TextView textView = new TextView(parentActivity);
             textView.setGravity(8388611);
             int i = Theme.key_dialogTextBlack;
@@ -297,7 +297,7 @@ public class FilesMigrationService extends Service {
             textView3.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
             textView3.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 6.0f));
             linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 16.0f, 15.0f, 16.0f, 16.0f));
-            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.FilesMigrationService$FilesMigrationBottomSheet$$ExternalSyntheticLambda1
+            textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.FilesMigrationService$FilesMigrationBottomSheet$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     FilesMigrationService.FilesMigrationBottomSheet.this.lambda$new$0(view);
@@ -314,10 +314,13 @@ public class FilesMigrationService extends Service {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:13:0x0031, code lost:
-            if (r11 != 0) goto L26;
+            if (r11 != 0) goto L27;
          */
         /* JADX WARN: Code restructure failed: missing block: B:16:0x0039, code lost:
             if (r11 == 0) goto L12;
+         */
+        /* JADX WARN: Code restructure failed: missing block: B:17:0x003b, code lost:
+            r3 = true;
          */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -330,7 +333,7 @@ public class FilesMigrationService extends Service {
             int checkSelfPermission5;
             Activity parentActivity = this.fragment.getParentActivity();
             checkSelfPermission = parentActivity.checkSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");
-            boolean z = true;
+            boolean z = false;
             boolean z2 = checkSelfPermission == 0;
             int i = Build.VERSION.SDK_INT;
             if (i >= 33) {
@@ -345,7 +348,6 @@ public class FilesMigrationService extends Service {
             if (i < 33) {
                 checkSelfPermission2 = parentActivity.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
             }
-            z = false;
             if (!z || !z2) {
                 ArrayList arrayList = new ArrayList();
                 if (!z) {

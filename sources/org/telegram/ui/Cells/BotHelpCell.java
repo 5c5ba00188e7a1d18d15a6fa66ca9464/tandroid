@@ -214,17 +214,15 @@ public class BotHelpCell extends View {
         return staticLayout.getText();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:100:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0120  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0178  */
+    /* JADX WARN: Removed duplicated region for block: B:101:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0122  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x017f  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public boolean onTouchEvent(MotionEvent motionEvent) {
         boolean z;
-        BotHelpCellDelegate botHelpCellDelegate;
-        boolean z2;
         float x = motionEvent.getX();
         float y = motionEvent.getY();
         if (this.textLayout != null) {
@@ -257,10 +255,9 @@ public class BotHelpCell extends View {
                                     z = true;
                                 } catch (Exception e2) {
                                     e = e2;
-                                    z2 = true;
+                                    z = true;
                                     resetPressedLink();
                                     FileLog.e(e);
-                                    z = z2;
                                     if (this.selectorDrawable != null) {
                                     }
                                     if (z) {
@@ -274,7 +271,7 @@ public class BotHelpCell extends View {
                         }
                     } catch (Exception e3) {
                         e = e3;
-                        z2 = false;
+                        z = false;
                     }
                 } else {
                     LinkSpanDrawable<ClickableSpan> linkSpanDrawable = this.pressedLink;
@@ -283,7 +280,14 @@ public class BotHelpCell extends View {
                             ClickableSpan span = linkSpanDrawable.getSpan();
                             if (span instanceof URLSpanNoUnderline) {
                                 String url = ((URLSpanNoUnderline) span).getURL();
-                                if ((url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) && (botHelpCellDelegate = this.delegate) != null) {
+                                if (!url.startsWith("@")) {
+                                    if (!url.startsWith("#")) {
+                                        if (url.startsWith("/")) {
+                                        }
+                                    }
+                                }
+                                BotHelpCellDelegate botHelpCellDelegate = this.delegate;
+                                if (botHelpCellDelegate != null) {
                                     botHelpCellDelegate.didPressUrl(url);
                                 }
                             } else if (span instanceof URLSpan) {

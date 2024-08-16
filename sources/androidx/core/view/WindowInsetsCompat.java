@@ -72,7 +72,7 @@ public class WindowInsetsCompat {
     }
 
     public static WindowInsetsCompat toWindowInsetsCompat(WindowInsets windowInsets, View view) {
-        WindowInsetsCompat windowInsetsCompat = new WindowInsetsCompat((WindowInsets) Preconditions.checkNotNull(windowInsets));
+        WindowInsetsCompat windowInsetsCompat = new WindowInsetsCompat(WindowInsetsCompat$$ExternalSyntheticApiModelOutline0.m(Preconditions.checkNotNull(windowInsets)));
         if (view != null && ViewCompat.isAttachedToWindow(view)) {
             windowInsetsCompat.setRootWindowInsets(ViewCompat.getRootWindowInsets(view));
             windowInsetsCompat.copyRootViewBounds(view.getRootView());
@@ -464,7 +464,7 @@ public class WindowInsetsCompat {
             Method method = sGetViewRootImplMethod;
             if (method != null && sAttachInfoClass != null && sVisibleInsetsField != null) {
                 try {
-                    Object invoke = method.invoke(view, new Object[0]);
+                    Object invoke = method.invoke(view, null);
                     if (invoke == null) {
                         Log.w("WindowInsetsCompat", "Failed to get visible insets. getViewRootImpl() returned null from the provided view. This means that the view is either not attached or the method has been overridden", new NullPointerException());
                         return null;
@@ -489,7 +489,7 @@ public class WindowInsetsCompat {
         @SuppressLint({"PrivateApi"})
         private static void loadReflectionField() {
             try {
-                sGetViewRootImplMethod = View.class.getDeclaredMethod("getViewRootImpl", new Class[0]);
+                sGetViewRootImplMethod = View.class.getDeclaredMethod("getViewRootImpl", null);
                 Class<?> cls = Class.forName("android.view.View$AttachInfo");
                 sAttachInfoClass = cls;
                 sVisibleInsetsField = cls.getDeclaredField("mVisibleInsets");
@@ -871,7 +871,7 @@ public class WindowInsetsCompat {
         private static WindowInsets createWindowInsetsInstance() {
             if (!sConsumedFieldFetched) {
                 try {
-                    sConsumedField = WindowInsets.class.getDeclaredField("CONSUMED");
+                    sConsumedField = WindowInsetsCompat$BuilderImpl20$$ExternalSyntheticApiModelOutline1.m().getDeclaredField("CONSUMED");
                 } catch (ReflectiveOperationException e) {
                     Log.i("WindowInsetsCompat", "Could not retrieve WindowInsets.CONSUMED field", e);
                 }
@@ -880,9 +880,9 @@ public class WindowInsetsCompat {
             Field field = sConsumedField;
             if (field != null) {
                 try {
-                    WindowInsets windowInsets = (WindowInsets) field.get(null);
-                    if (windowInsets != null) {
-                        return new WindowInsets(windowInsets);
+                    WindowInsets m = WindowInsetsCompat$$ExternalSyntheticApiModelOutline0.m(field.get(null));
+                    if (m != null) {
+                        return new WindowInsets(m);
                     }
                 } catch (ReflectiveOperationException e2) {
                     Log.i("WindowInsetsCompat", "Could not get value from WindowInsets.CONSUMED field", e2);
@@ -890,7 +890,7 @@ public class WindowInsetsCompat {
             }
             if (!sConstructorFetched) {
                 try {
-                    sConstructor = WindowInsets.class.getConstructor(Rect.class);
+                    sConstructor = WindowInsetsCompat$BuilderImpl20$$ExternalSyntheticApiModelOutline1.m().getConstructor(Rect.class);
                 } catch (ReflectiveOperationException e3) {
                     Log.i("WindowInsetsCompat", "Could not retrieve WindowInsets(Rect) constructor", e3);
                 }
@@ -899,7 +899,7 @@ public class WindowInsetsCompat {
             Constructor<WindowInsets> constructor = sConstructor;
             if (constructor != null) {
                 try {
-                    return constructor.newInstance(new Rect());
+                    return WindowInsetsCompat$$ExternalSyntheticApiModelOutline0.m(constructor.newInstance(new Rect()));
                 } catch (ReflectiveOperationException e4) {
                     Log.i("WindowInsetsCompat", "Could not invoke WindowInsets(Rect) constructor", e4);
                 }

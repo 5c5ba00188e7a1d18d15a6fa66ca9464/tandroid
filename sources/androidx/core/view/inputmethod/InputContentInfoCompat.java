@@ -78,23 +78,17 @@ public final class InputContentInfoCompat {
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl
         public Uri getContentUri() {
-            Uri contentUri;
-            contentUri = this.mObject.getContentUri();
-            return contentUri;
+            return this.mObject.getContentUri();
         }
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl
         public ClipDescription getDescription() {
-            ClipDescription description;
-            description = this.mObject.getDescription();
-            return description;
+            return this.mObject.getDescription();
         }
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl
         public Uri getLinkUri() {
-            Uri linkUri;
-            linkUri = this.mObject.getLinkUri();
-            return linkUri;
+            return this.mObject.getLinkUri();
         }
 
         @Override // androidx.core.view.inputmethod.InputContentInfoCompat.InputContentInfoCompatImpl

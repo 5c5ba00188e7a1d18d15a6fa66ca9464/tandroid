@@ -80,9 +80,12 @@ class TwilightManager {
         twilightCalculator.calculateTwilight(currentTimeMillis + 86400000, location.getLatitude(), location.getLongitude());
         long j4 = twilightCalculator.sunrise;
         if (j2 == -1 || j3 == -1) {
-            j = 43200000 + currentTimeMillis;
+            j = currentTimeMillis + 43200000;
         } else {
-            j = (currentTimeMillis > j3 ? j4 + 0 : currentTimeMillis > j2 ? j3 + 0 : j2 + 0) + 60000;
+            if (currentTimeMillis <= j3) {
+                j4 = currentTimeMillis > j2 ? j3 : j2;
+            }
+            j = j4 + 60000;
         }
         twilightState.isNight = z;
         twilightState.nextUpdate = j;

@@ -7,18 +7,18 @@ import kotlin.jvm.internal.Intrinsics;
 public final class JobCancellationException extends CancellationException {
     public final Job job;
 
+    @Override // java.lang.Throwable
+    public Throwable fillInStackTrace() {
+        setStackTrace(new StackTraceElement[0]);
+        return this;
+    }
+
     public JobCancellationException(String str, Throwable th, Job job) {
         super(str);
         this.job = job;
         if (th != null) {
             initCause(th);
         }
-    }
-
-    @Override // java.lang.Throwable
-    public Throwable fillInStackTrace() {
-        setStackTrace(new StackTraceElement[0]);
-        return this;
     }
 
     @Override // java.lang.Throwable

@@ -44,7 +44,6 @@ import android.provider.CallLog;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.system.ErrnoException;
 import android.system.OsConstants;
 import android.telephony.TelephonyManager;
 import android.text.Layout;
@@ -108,6 +107,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import com.android.internal.telephony.ITelephony;
+import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyntheticApiModelOutline52;
+import com.google.android.exoplayer2.analytics.MediaMetricsListener$$ExternalSyntheticApiModelOutline53;
 import com.google.android.exoplayer2.util.Consumer;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -271,7 +272,7 @@ public class AndroidUtilities {
     public static float density = 1.0f;
     public static Point displaySize = new Point();
     public static float screenRefreshRate = 60.0f;
-    public static float screenRefreshTime = 1000.0f / 60.0f;
+    public static float screenRefreshTime = 16.666666f;
     public static Integer photoSize = null;
     public static DisplayMetrics displayMetrics = new DisplayMetrics();
     public static DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator();
@@ -306,12 +307,18 @@ public class AndroidUtilities {
         return j > j2 ? 1 : -1;
     }
 
+    public static double fixLocationCoord(double d) {
+        double d2 = (long) (d * 1000000.0d);
+        Double.isNaN(d2);
+        return d2 / 1000000.0d;
+    }
+
     public static int getMyLayerVersion(int i) {
         return i & 65535;
     }
 
     public static int getWallpaperRotation(int i, boolean z) {
-        int i2 = z ? i + 180 : i - 180;
+        int i2 = z ? i + NotificationCenter.updateBotMenuButton : i - 180;
         while (i2 >= 360) {
             i2 -= 360;
         }
@@ -325,9 +332,10 @@ public class AndroidUtilities {
         return c == '-' || c == '~';
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ String lambda$formatSpannableSimple$13(Integer num) {
-        return "%s";
+    public static double lerp(double d, double d2, float f) {
+        double d3 = f;
+        Double.isNaN(d3);
+        return d + (d3 * (d2 - d));
     }
 
     public static float lerp(float f, float f2, float f3) {
@@ -379,7 +387,7 @@ public class AndroidUtilities {
         checkDisplaySize(ApplicationLoader.applicationContext, null);
         documentIcons = new int[]{R.drawable.media_doc_blue, R.drawable.media_doc_green, R.drawable.media_doc_red, R.drawable.media_doc_yellow};
         documentMediaIcons = new int[]{R.drawable.media_doc_blue_b, R.drawable.media_doc_green_b, R.drawable.media_doc_red_b, R.drawable.media_doc_yellow_b};
-        sUrlMatchFilter = new Linkify.MatchFilter() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda30
+        sUrlMatchFilter = new Linkify.MatchFilter() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda38
             @Override // android.text.util.Linkify.MatchFilter
             public final boolean acceptMatch(CharSequence charSequence, int i, int i2) {
                 boolean lambda$static$5;
@@ -617,7 +625,7 @@ public class AndroidUtilities {
             }
             spannableStringBuilder.delete(charSequenceIndexOf, i);
             int i2 = charSequenceIndexOf2 - 2;
-            spannableStringBuilder.delete(i2, i2 + 2);
+            spannableStringBuilder.delete(i2, charSequenceIndexOf2);
             spannableStringBuilder.setSpan(new ClickableSpan() { // from class: org.telegram.messenger.AndroidUtilities.3
                 @Override // android.text.style.ClickableSpan, android.text.style.CharacterStyle
                 public void updateDrawState(TextPaint textPaint) {
@@ -718,7 +726,7 @@ public class AndroidUtilities {
                 arrayList.add(new WeakReference(bitmap));
             }
         }
-        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda29
+        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda25
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.lambda$recycleBitmaps$1(arrayList);
@@ -728,7 +736,7 @@ public class AndroidUtilities {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$recycleBitmaps$1(final ArrayList arrayList) {
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda24
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda34
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.lambda$recycleBitmaps$0(arrayList);
@@ -753,7 +761,7 @@ public class AndroidUtilities {
 
     public static void googleVoiceClientService_performAction(final Intent intent, boolean z, Bundle bundle) {
         if (z) {
-            runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda19
+            runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda37
                 @Override // java.lang.Runnable
                 public final void run() {
                     AndroidUtilities.lambda$googleVoiceClientService_performAction$2(intent);
@@ -941,7 +949,7 @@ public class AndroidUtilities {
             return;
         }
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        PixelCopy.request(surfaceView, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda17
+        PixelCopy.request(surfaceView, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda36
             @Override // android.view.PixelCopy.OnPixelCopyFinishedListener
             public final void onPixelCopyFinished(int i) {
                 countDownLatch.countDown();
@@ -959,7 +967,7 @@ public class AndroidUtilities {
             return;
         }
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        PixelCopy.request(surface, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda22
+        PixelCopy.request(surface, bitmap, new PixelCopy.OnPixelCopyFinishedListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda41
             @Override // android.view.PixelCopy.OnPixelCopyFinishedListener
             public final void onPixelCopyFinished(int i) {
                 countDownLatch.countDown();
@@ -1088,7 +1096,7 @@ public class AndroidUtilities {
             return false;
         }
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(spannable);
-        boolean doSafe = doSafe(new Utilities.Callback0Return() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda33
+        boolean doSafe = doSafe(new Utilities.Callback0Return() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda32
             @Override // org.telegram.messenger.Utilities.Callback0Return
             public final Object run() {
                 Boolean lambda$addLinksSafe$6;
@@ -1115,7 +1123,7 @@ public class AndroidUtilities {
     }
 
     public static boolean doSafe(Utilities.Callback0Return<Boolean> callback0Return) {
-        return doSafe(callback0Return, 200);
+        return doSafe(callback0Return, NotificationCenter.storyQualityUpdate);
     }
 
     public static boolean doSafe(final Utilities.Callback0Return<Boolean> callback0Return, int i) {
@@ -1124,14 +1132,16 @@ public class AndroidUtilities {
         try {
             try {
                 try {
-                } finally {
+                } catch (Exception e) {
+                    FileLog.e(e);
                     newSingleThreadExecutor.shutdownNow();
+                    return false;
                 }
             } catch (TimeoutException unused) {
                 future = null;
             }
             try {
-                return ((Boolean) newSingleThreadExecutor.submit(new Callable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda18
+                return ((Boolean) newSingleThreadExecutor.submit(new Callable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda33
                     @Override // java.util.concurrent.Callable
                     public final Object call() {
                         Boolean lambda$doSafe$7;
@@ -1146,10 +1156,8 @@ public class AndroidUtilities {
                 newSingleThreadExecutor.shutdownNow();
                 return false;
             }
-        } catch (Exception e) {
-            FileLog.e(e);
+        } finally {
             newSingleThreadExecutor.shutdownNow();
-            return false;
         }
     }
 
@@ -1211,7 +1219,9 @@ public class AndroidUtilities {
 
     private static void pruneOverlaps(ArrayList<LinkSpec> arrayList) {
         int i;
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda21
+        int i2;
+        int i3;
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda23
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$pruneOverlaps$8;
@@ -1220,22 +1230,22 @@ public class AndroidUtilities {
             }
         });
         int size = arrayList.size();
-        int i2 = 0;
-        while (i2 < size - 1) {
-            LinkSpec linkSpec = arrayList.get(i2);
-            int i3 = i2 + 1;
-            LinkSpec linkSpec2 = arrayList.get(i3);
-            int i4 = linkSpec.start;
-            int i5 = linkSpec2.start;
-            if (i4 <= i5 && (i = linkSpec.end) > i5) {
-                int i6 = linkSpec2.end;
-                int i7 = (i6 > i && i - i4 <= i6 - i5) ? i - i4 < i6 - i5 ? i2 : -1 : i3;
-                if (i7 != -1) {
-                    arrayList.remove(i7);
+        int i4 = 0;
+        while (i4 < size - 1) {
+            LinkSpec linkSpec = arrayList.get(i4);
+            int i5 = i4 + 1;
+            LinkSpec linkSpec2 = arrayList.get(i5);
+            int i6 = linkSpec.start;
+            int i7 = linkSpec2.start;
+            if (i6 <= i7 && (i = linkSpec.end) > i7) {
+                int i8 = linkSpec2.end;
+                int i9 = (i8 > i && (i2 = i - i6) <= (i3 = i8 - i7)) ? i2 < i3 ? i4 : -1 : i5;
+                if (i9 != -1) {
+                    arrayList.remove(i9);
                     size--;
                 }
             }
-            i2 = i3;
+            i4 = i5;
         }
     }
 
@@ -1330,13 +1340,16 @@ public class AndroidUtilities {
             return calcDrawableColor(((ChatBackgroundDrawable) drawable).getDrawable(true));
         }
         int[] iArr = new int[4];
-        int i2 = -16777216;
         try {
-            if (drawable instanceof BitmapDrawable) {
-                i2 = calcBitmapColor(((BitmapDrawable) drawable).getBitmap());
-            } else if (drawable instanceof ColorDrawable) {
-                i2 = ((ColorDrawable) drawable).getColor();
-            } else if (drawable instanceof BackgroundGradientDrawable) {
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        if (drawable instanceof BitmapDrawable) {
+            i = calcBitmapColor(((BitmapDrawable) drawable).getBitmap());
+        } else if (drawable instanceof ColorDrawable) {
+            i = ((ColorDrawable) drawable).getColor();
+        } else {
+            if (drawable instanceof BackgroundGradientDrawable) {
                 int[] colorsList = ((BackgroundGradientDrawable) drawable).getColorsList();
                 if (colorsList != null) {
                     if (colorsList.length > 1) {
@@ -1344,7 +1357,6 @@ public class AndroidUtilities {
                     } else if (colorsList.length > 0) {
                         i = colorsList[0];
                     }
-                    i2 = i;
                 }
             } else if (drawable instanceof MotionBackgroundDrawable) {
                 int argb = Color.argb(45, 0, 0, 0);
@@ -1355,18 +1367,17 @@ public class AndroidUtilities {
                 iArr[1] = argb2;
                 return iArr;
             }
-        } catch (Exception e) {
-            FileLog.e(e);
+            i = -16777216;
         }
-        double[] rgbToHsv = rgbToHsv((i2 >> 16) & 255, (i2 >> 8) & 255, i2 & 255);
+        double[] rgbToHsv = rgbToHsv((i >> 16) & NotificationCenter.voipServiceCreated, (i >> 8) & NotificationCenter.voipServiceCreated, i & NotificationCenter.voipServiceCreated);
         double d = rgbToHsv[1];
         rgbToHsv[1] = Math.min(1.0d, 0.05d + d + ((1.0d - d) * 0.1d));
         int[] hsvToRgb = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.65d));
-        iArr[0] = Color.argb((int) R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
-        iArr[1] = Color.argb(136, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        iArr[0] = Color.argb(102, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        iArr[1] = Color.argb((int) NotificationCenter.fileUploadProgressChanged, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
         int[] hsvToRgb2 = hsvToRgb(rgbToHsv[0], rgbToHsv[1], Math.max(0.0d, rgbToHsv[2] * 0.72d));
-        iArr[2] = Color.argb((int) R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, hsvToRgb2[0], hsvToRgb2[1], hsvToRgb2[2]);
-        iArr[3] = Color.argb(136, hsvToRgb2[0], hsvToRgb2[1], hsvToRgb2[2]);
+        iArr[2] = Color.argb(102, hsvToRgb2[0], hsvToRgb2[1], hsvToRgb2[2]);
+        iArr[3] = Color.argb((int) NotificationCenter.fileUploadProgressChanged, hsvToRgb2[0], hsvToRgb2[1], hsvToRgb2[2]);
         return iArr;
     }
 
@@ -1412,47 +1423,44 @@ public class AndroidUtilities {
 
     public static int hsvToColor(double d, double d2, double d3) {
         int[] hsvToRgb = hsvToRgb(d, d2, d3);
-        return Color.argb(255, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
+        return Color.argb((int) NotificationCenter.voipServiceCreated, hsvToRgb[0], hsvToRgb[1], hsvToRgb[2]);
     }
 
     public static int[] hsvToRgb(double d, double d2, double d3) {
-        double d4;
-        double d5 = d * 6.0d;
-        double floor = (int) Math.floor(d5);
+        double d4 = d * 6.0d;
+        double floor = (int) Math.floor(d4);
         Double.isNaN(floor);
-        double d6 = d5 - floor;
-        double d7 = (1.0d - d2) * d3;
-        double d8 = (1.0d - (d6 * d2)) * d3;
-        double d9 = (1.0d - ((1.0d - d6) * d2)) * d3;
+        double d5 = d4 - floor;
+        double d6 = (1.0d - d2) * d3;
+        double d7 = (1.0d - (d5 * d2)) * d3;
+        double d8 = (1.0d - ((1.0d - d5) * d2)) * d3;
         int i = ((int) floor) % 6;
-        if (i != 0) {
-            if (i == 1) {
-                d9 = d7;
-                d7 = d3;
-                d3 = d8;
-            } else if (i == 2) {
-                d4 = d3;
-                d3 = d7;
-            } else if (i == 3) {
-                d9 = d3;
-                d3 = d7;
-                d7 = d8;
-            } else if (i == 4) {
-                d3 = d9;
-                d9 = d3;
-            } else if (i != 5) {
+        if (i == 0) {
+            d3 = d6;
+            d6 = d8;
+            d8 = d3;
+        } else if (i == 1) {
+            d8 = d7;
+            d3 = d6;
+            d6 = d3;
+        } else if (i == 2) {
+            d8 = d6;
+            d6 = d3;
+            d3 = d8;
+        } else if (i == 3) {
+            d8 = d6;
+            d6 = d7;
+        } else if (i != 4) {
+            if (i != 5) {
                 d3 = 0.0d;
-                d9 = 0.0d;
-                d7 = 0.0d;
+                d8 = 0.0d;
+                d6 = 0.0d;
             } else {
-                d9 = d8;
+                d8 = d3;
+                d3 = d7;
             }
-            return new int[]{(int) (d3 * 255.0d), (int) (d7 * 255.0d), (int) (d9 * 255.0d)};
         }
-        d4 = d9;
-        d9 = d7;
-        d7 = d4;
-        return new int[]{(int) (d3 * 255.0d), (int) (d7 * 255.0d), (int) (d9 * 255.0d)};
+        return new int[]{(int) (d8 * 255.0d), (int) (d6 * 255.0d), (int) (d3 * 255.0d)};
     }
 
     public static void adjustSaturationColorMatrix(ColorMatrix colorMatrix, float f) {
@@ -1464,7 +1472,7 @@ public class AndroidUtilities {
         float f4 = 0.3086f * f3;
         float f5 = 0.6094f * f3;
         float f6 = f3 * 0.082f;
-        colorMatrix.postConcat(new ColorMatrix(new float[]{f4 + f2, f5, f6, 0.0f, 0.0f, f4, f5 + f2, f6, 0.0f, 0.0f, f4, f5, f6 + f2, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}));
+        colorMatrix.postConcat(new ColorMatrix(new float[]{f4 + f2, f5, f6, 0.0f, 0.0f, f4, f5 + f2, f6, 0.0f, 0.0f, f4, f5, f2 + f6, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}));
     }
 
     public static void adjustBrightnessColorMatrix(ColorMatrix colorMatrix, float f) {
@@ -1608,7 +1616,7 @@ public class AndroidUtilities {
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
             builder.setMessage(LocaleController.getString(ApplicationLoader.getMapsProvider().getInstallMapsString()));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda37
+            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda31
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AndroidUtilities.lambda$isMapsInstalled$9(mapsAppPackageName, baseFragment, dialogInterface, i);
@@ -1702,10 +1710,7 @@ public class AndroidUtilities {
             return false;
         }
         String lowerCase = str.toLowerCase();
-        StringBuilder sb = new StringBuilder();
-        sb.append("/data/data/");
-        sb.append(ApplicationLoader.applicationContext.getPackageName());
-        return lowerCase.contains(sb.toString());
+        return lowerCase.contains("/data/data/" + ApplicationLoader.applicationContext.getPackageName());
     }
 
     @SuppressLint({"WrongConstant"})
@@ -2032,17 +2037,22 @@ public class AndroidUtilities {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r3v0 */
+    /* JADX WARN: Type inference failed for: r3v10 */
+    /* JADX WARN: Type inference failed for: r3v16 */
+    /* JADX WARN: Type inference failed for: r3v3 */
+    /* JADX WARN: Type inference failed for: r3v4, types: [org.telegram.messenger.AndroidUtilities$1] */
+    /* JADX WARN: Type inference failed for: r3v55 */
+    /* JADX WARN: Type inference failed for: r3v62 */
     public static ArrayList<TLRPC$User> loadVCardFromStream(Uri uri, int i, boolean z, ArrayList<VcardItem> arrayList, String str) {
         InputStream createInputStream;
-        char c;
         String[] strArr;
         String str2;
-        boolean z2;
         byte[] decodeQuotedPrintable;
         VcardItem vcardItem;
         ArrayList<VcardItem> arrayList2 = arrayList;
-        ArrayList<TLRPC$User> arrayList3 = null;
-        1 r3 = 0;
+        ArrayList<TLRPC$User> arrayList3 = 0;
+        arrayList3 = 0;
         if (z) {
             try {
                 createInputStream = ApplicationLoader.applicationContext.getContentResolver().openAssetFileDescriptor(uri, "r").createInputStream();
@@ -2067,12 +2077,12 @@ public class AndroidUtilities {
         VcardData vcardData = null;
         String str3 = null;
         VcardItem vcardItem2 = null;
-        boolean z3 = false;
+        boolean z2 = false;
         while (true) {
             String readLine = bufferedReader.readLine();
             if (readLine != null) {
                 if (readLine.startsWith("PHOTO")) {
-                    z3 = true;
+                    z2 = true;
                 } else {
                     if (readLine.indexOf(58) >= 0) {
                         if (readLine.startsWith("BEGIN:VCARD")) {
@@ -2102,16 +2112,11 @@ public class AndroidUtilities {
                                             if (readLine.startsWith("X-ANDROID")) {
                                                 vcardItem = new VcardItem();
                                                 vcardItem.type = -1;
+                                            } else if (!readLine.startsWith("X-PHONETIC") && readLine.startsWith("X-")) {
+                                                vcardItem = new VcardItem();
+                                                vcardItem.type = 20;
                                             } else {
-                                                if (!readLine.startsWith("X-PHONETIC") && readLine.startsWith("X-")) {
-                                                    vcardItem = new VcardItem();
-                                                    vcardItem.type = 20;
-                                                }
-                                                vcardItem2 = r3;
-                                                if (vcardItem2 != null && vcardItem2.type >= 0) {
-                                                    arrayList2.add(vcardItem2);
-                                                }
-                                                z3 = false;
+                                                vcardItem = arrayList3;
                                             }
                                         }
                                         vcardItem = new VcardItem();
@@ -2121,16 +2126,17 @@ public class AndroidUtilities {
                                 vcardItem = new VcardItem();
                                 vcardItem.type = 2;
                             }
-                            vcardItem2 = vcardItem;
-                            if (vcardItem2 != null) {
-                                arrayList2.add(vcardItem2);
+                            if (vcardItem != null && vcardItem.type >= 0) {
+                                arrayList2.add(vcardItem);
                             }
-                            z3 = false;
+                            vcardItem2 = vcardItem;
+                            z2 = false;
                         }
-                        vcardItem2 = r3;
-                        z3 = false;
+                        vcardItem = arrayList3;
+                        vcardItem2 = vcardItem;
+                        z2 = false;
                     }
-                    if (!z3 && vcardData != null) {
+                    if (!z2 && vcardData != null) {
                         if (vcardItem2 == null) {
                             if (vcardData.vcard.length() > 0) {
                                 vcardData.vcard.append('\n');
@@ -2146,69 +2152,62 @@ public class AndroidUtilities {
                     }
                     if (readLine.contains("=QUOTED-PRINTABLE") && readLine.endsWith("=")) {
                         str3 = readLine.substring(i2, readLine.length() - 1);
-                        r3 = 0;
+                        arrayList3 = 0;
                     } else {
-                        if (!z3 && vcardData != null && vcardItem2 != null) {
+                        if (!z2 && vcardData != null && vcardItem2 != null) {
                             vcardItem2.fullData = readLine;
                         }
                         int indexOf = readLine.indexOf(":");
                         if (indexOf >= 0) {
-                            strArr = new String[]{readLine.substring(0, indexOf), readLine.substring(indexOf + 1).trim()};
-                            c = 0;
+                            strArr = new String[]{readLine.substring(i2, indexOf), readLine.substring(indexOf + 1).trim()};
                         } else {
-                            c = 0;
                             strArr = new String[]{readLine.trim()};
                         }
                         if (strArr.length >= 2 && vcardData != null) {
-                            if (!strArr[c].startsWith("FN") && !strArr[c].startsWith("N") && (!strArr[c].startsWith("ORG") || !TextUtils.isEmpty(vcardData.name))) {
-                                if (strArr[0].startsWith("TEL")) {
+                            if (!strArr[i2].startsWith("FN") && !strArr[i2].startsWith("N") && (!strArr[i2].startsWith("ORG") || !TextUtils.isEmpty(vcardData.name))) {
+                                if (strArr[i2].startsWith("TEL")) {
                                     vcardData.phones.add(strArr[1]);
                                 }
                             }
-                            String[] split = strArr[0].split(";");
+                            String[] split = strArr[i2].split(";");
                             int length = split.length;
-                            str2 = str3;
-                            String str4 = null;
                             int i3 = 0;
+                            String str4 = null;
                             String str5 = null;
                             while (i3 < length) {
-                                int i4 = length;
                                 String[] split2 = split[i3].split("=");
                                 String[] strArr2 = split;
-                                boolean z4 = z3;
+                                String str6 = str3;
                                 if (split2.length == 2) {
                                     if (split2[0].equals("CHARSET")) {
-                                        str4 = split2[1];
-                                    } else if (split2[0].equals("ENCODING")) {
                                         str5 = split2[1];
+                                    } else if (split2[0].equals("ENCODING")) {
+                                        str4 = split2[1];
                                     }
                                 }
                                 i3++;
-                                length = i4;
                                 split = strArr2;
-                                z3 = z4;
+                                str3 = str6;
                             }
-                            z2 = z3;
+                            str2 = str3;
                             if (strArr[0].startsWith("N")) {
                                 vcardData.name = strArr[1].replace(';', ' ').trim();
                             } else {
                                 vcardData.name = strArr[1];
                             }
-                            if (str5 != null && str5.equalsIgnoreCase("QUOTED-PRINTABLE") && (decodeQuotedPrintable = decodeQuotedPrintable(getStringBytes(vcardData.name))) != null && decodeQuotedPrintable.length != 0) {
-                                vcardData.name = new String(decodeQuotedPrintable, str4);
+                            String str7 = str4;
+                            if (str7 != null && str7.equalsIgnoreCase("QUOTED-PRINTABLE") && (decodeQuotedPrintable = decodeQuotedPrintable(getStringBytes(vcardData.name))) != null && decodeQuotedPrintable.length != 0) {
+                                vcardData.name = new String(decodeQuotedPrintable, str5);
                             }
                             arrayList2 = arrayList;
                             str3 = str2;
-                            z3 = z2;
-                            r3 = 0;
+                            arrayList3 = 0;
                             i2 = 0;
                         }
                         str2 = str3;
-                        z2 = z3;
                         arrayList2 = arrayList;
                         str3 = str2;
-                        z3 = z2;
-                        r3 = 0;
+                        arrayList3 = 0;
                         i2 = 0;
                     }
                 }
@@ -2222,40 +2221,51 @@ public class AndroidUtilities {
         }
         bufferedReader.close();
         createInputStream.close();
-        arrayList3 = null;
-        for (int i5 = 0; i5 < arrayList4.size(); i5++) {
-            VcardData vcardData2 = (VcardData) arrayList4.get(i5);
-            if (vcardData2.name != null && !vcardData2.phones.isEmpty()) {
-                if (arrayList3 == null) {
-                    arrayList3 = new ArrayList<>();
-                }
-                String str6 = vcardData2.phones.get(0);
-                int i6 = 0;
-                while (true) {
-                    if (i6 >= vcardData2.phones.size()) {
-                        break;
+        ArrayList<TLRPC$User> arrayList5 = null;
+        for (int i4 = 0; i4 < arrayList4.size(); i4++) {
+            try {
+                VcardData vcardData2 = (VcardData) arrayList4.get(i4);
+                if (vcardData2.name != null && !vcardData2.phones.isEmpty()) {
+                    ArrayList<TLRPC$User> arrayList6 = arrayList5 == null ? new ArrayList<>() : arrayList5;
+                    try {
+                        String str8 = vcardData2.phones.get(0);
+                        int i5 = 0;
+                        while (true) {
+                            if (i5 >= vcardData2.phones.size()) {
+                                break;
+                            }
+                            String str9 = vcardData2.phones.get(i5);
+                            if (ContactsController.getInstance(i).contactsByShortPhone.get(str9.substring(Math.max(0, str9.length() - 7))) != null) {
+                                str8 = str9;
+                                break;
+                            }
+                            i5++;
+                        }
+                        TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
+                        tLRPC$TL_userContact_old2.phone = str8;
+                        tLRPC$TL_userContact_old2.first_name = vcardData2.name;
+                        tLRPC$TL_userContact_old2.last_name = "";
+                        tLRPC$TL_userContact_old2.id = 0L;
+                        TLRPC$RestrictionReason tLRPC$RestrictionReason = new TLRPC$RestrictionReason();
+                        tLRPC$RestrictionReason.text = vcardData2.vcard.toString();
+                        tLRPC$RestrictionReason.platform = "";
+                        tLRPC$RestrictionReason.reason = "";
+                        tLRPC$TL_userContact_old2.restriction_reason.add(tLRPC$RestrictionReason);
+                        arrayList6.add(tLRPC$TL_userContact_old2);
+                        arrayList5 = arrayList6;
+                    } catch (Throwable th3) {
+                        th = th3;
+                        arrayList3 = arrayList6;
+                        FileLog.e(th);
+                        return arrayList3;
                     }
-                    String str7 = vcardData2.phones.get(i6);
-                    if (ContactsController.getInstance(i).contactsByShortPhone.get(str7.substring(Math.max(0, str7.length() - 7))) != null) {
-                        str6 = str7;
-                        break;
-                    }
-                    i6++;
                 }
-                TLRPC$TL_userContact_old2 tLRPC$TL_userContact_old2 = new TLRPC$TL_userContact_old2();
-                tLRPC$TL_userContact_old2.phone = str6;
-                tLRPC$TL_userContact_old2.first_name = vcardData2.name;
-                tLRPC$TL_userContact_old2.last_name = "";
-                tLRPC$TL_userContact_old2.id = 0L;
-                TLRPC$RestrictionReason tLRPC$RestrictionReason = new TLRPC$RestrictionReason();
-                tLRPC$RestrictionReason.text = vcardData2.vcard.toString();
-                tLRPC$RestrictionReason.platform = "";
-                tLRPC$RestrictionReason.reason = "";
-                tLRPC$TL_userContact_old2.restriction_reason.add(tLRPC$RestrictionReason);
-                arrayList3.add(tLRPC$TL_userContact_old2);
+            } catch (Throwable th4) {
+                th = th4;
+                arrayList3 = arrayList5;
             }
         }
-        return arrayList3;
+        return arrayList5;
     }
 
     public static Typeface getTypeface(String str) {
@@ -2263,29 +2273,33 @@ public class AndroidUtilities {
         Typeface typeface;
         Hashtable<String, Typeface> hashtable = typefaceCache;
         synchronized (hashtable) {
-            if (!hashtable.containsKey(str)) {
-                try {
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        Typeface.Builder builder = new Typeface.Builder(ApplicationLoader.applicationContext.getAssets(), str);
-                        if (str.contains("medium")) {
-                            builder.setWeight(700);
+            try {
+                if (!hashtable.containsKey(str)) {
+                    try {
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            Typeface.Builder builder = new Typeface.Builder(ApplicationLoader.applicationContext.getAssets(), str);
+                            if (str.contains("medium")) {
+                                builder.setWeight(700);
+                            }
+                            if (str.contains("italic")) {
+                                builder.setItalic(true);
+                            }
+                            createFromAsset = builder.build();
+                        } else {
+                            createFromAsset = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), str);
                         }
-                        if (str.contains("italic")) {
-                            builder.setItalic(true);
+                        hashtable.put(str, createFromAsset);
+                    } catch (Exception e) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.e("Could not get typeface '" + str + "' because " + e.getMessage());
                         }
-                        createFromAsset = builder.build();
-                    } else {
-                        createFromAsset = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), str);
+                        return null;
                     }
-                    hashtable.put(str, createFromAsset);
-                } catch (Exception e) {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.e("Could not get typeface '" + str + "' because " + e.getMessage());
-                    }
-                    return null;
                 }
+                typeface = hashtable.get(str);
+            } catch (Throwable th) {
+                throw th;
             }
-            typeface = hashtable.get(str);
         }
         return typeface;
     }
@@ -2300,14 +2314,18 @@ public class AndroidUtilities {
 
     public static void setWaitingForSms(boolean z) {
         synchronized (smsLock) {
-            waitingForSms = z;
-            if (z) {
-                SmsRetriever.getClient(ApplicationLoader.applicationContext).startSmsRetriever().addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda27
-                    @Override // com.google.android.gms.tasks.OnSuccessListener
-                    public final void onSuccess(Object obj) {
-                        AndroidUtilities.lambda$setWaitingForSms$10((Void) obj);
-                    }
-                });
+            try {
+                waitingForSms = z;
+                if (z) {
+                    SmsRetriever.getClient(ApplicationLoader.applicationContext).startSmsRetriever().addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda35
+                        @Override // com.google.android.gms.tasks.OnSuccessListener
+                        public final void onSuccess(Object obj) {
+                            AndroidUtilities.lambda$setWaitingForSms$10((Void) obj);
+                        }
+                    });
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -2338,24 +2356,28 @@ public class AndroidUtilities {
     public static void setWaitingForCall(boolean z) {
         synchronized (callLock) {
             try {
-                if (z) {
-                    if (callReceiver == null) {
-                        IntentFilter intentFilter = new IntentFilter("android.intent.action.PHONE_STATE");
-                        if (Build.VERSION.SDK_INT >= 33) {
-                            Context context = ApplicationLoader.applicationContext;
-                            CallReceiver callReceiver2 = new CallReceiver();
-                            callReceiver = callReceiver2;
-                            context.registerReceiver(callReceiver2, intentFilter, 4);
-                        } else {
-                            Context context2 = ApplicationLoader.applicationContext;
-                            CallReceiver callReceiver3 = new CallReceiver();
-                            callReceiver = callReceiver3;
-                            context2.registerReceiver(callReceiver3, intentFilter);
+                try {
+                    if (z) {
+                        if (callReceiver == null) {
+                            IntentFilter intentFilter = new IntentFilter("android.intent.action.PHONE_STATE");
+                            if (Build.VERSION.SDK_INT >= 33) {
+                                Context context = ApplicationLoader.applicationContext;
+                                CallReceiver callReceiver2 = new CallReceiver();
+                                callReceiver = callReceiver2;
+                                context.registerReceiver(callReceiver2, intentFilter, 4);
+                            } else {
+                                Context context2 = ApplicationLoader.applicationContext;
+                                CallReceiver callReceiver3 = new CallReceiver();
+                                callReceiver = callReceiver3;
+                                context2.registerReceiver(callReceiver3, intentFilter);
+                            }
                         }
+                    } else if (callReceiver != null) {
+                        ApplicationLoader.applicationContext.unregisterReceiver(callReceiver);
+                        callReceiver = null;
                     }
-                } else if (callReceiver != null) {
-                    ApplicationLoader.applicationContext.unregisterReceiver(callReceiver);
-                    callReceiver = null;
+                } catch (Throwable th) {
+                    throw th;
                 }
             } catch (Exception unused) {
             }
@@ -2375,8 +2397,8 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:39:0x008a A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:34:0x007d, B:43:0x009f, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0096 A[Catch: Exception -> 0x00a8, TryCatch #0 {Exception -> 0x00a8, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0054, B:27:0x006a, B:28:0x006e, B:30:0x0074, B:37:0x0084, B:39:0x008a, B:41:0x0096, B:34:0x007d, B:43:0x009f, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0088 A[Catch: Exception -> 0x00a3, TryCatch #0 {Exception -> 0x00a3, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0052, B:27:0x0068, B:28:0x006c, B:30:0x0072, B:37:0x0082, B:39:0x0088, B:41:0x0091, B:34:0x007b, B:43:0x009a, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x0091 A[Catch: Exception -> 0x00a3, TryCatch #0 {Exception -> 0x00a3, blocks: (B:3:0x0002, B:5:0x0015, B:7:0x0019, B:9:0x001f, B:11:0x0025, B:23:0x0048, B:25:0x0052, B:27:0x0068, B:28:0x006c, B:30:0x0072, B:37:0x0082, B:39:0x0088, B:41:0x0091, B:34:0x007b, B:43:0x009a, B:12:0x002a, B:14:0x0030, B:16:0x0034, B:18:0x003a, B:20:0x0040), top: B:47:0x0002 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -2400,23 +2422,27 @@ public class AndroidUtilities {
                     str = null;
                 }
             }
-            if (!TextUtils.isEmpty(str)) {
+            if (TextUtils.isEmpty(str)) {
+                String systemLocaleStringIso639 = LocaleController.getSystemLocaleStringIso639();
+                LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
+                String baseLangCode = currentLocaleInfo.getBaseLangCode();
+                if (TextUtils.isEmpty(baseLangCode)) {
+                    baseLangCode = currentLocaleInfo.getLangCode();
+                }
+                if (!systemLocaleStringIso639.contains(baseLangCode) && !baseLangCode.contains(systemLocaleStringIso639)) {
+                    str2 = baseLangCode;
+                    if (TextUtils.isEmpty(str2)) {
+                        return new String[]{systemLocaleStringIso639.replace('_', '-'), str2};
+                    }
+                    return new String[]{systemLocaleStringIso639.replace('_', '-')};
+                }
+                if (!systemLocaleStringIso639.contains("en")) {
+                    str2 = "en";
+                }
+                if (TextUtils.isEmpty(str2)) {
+                }
+            } else {
                 return new String[]{str.replace('_', '-')};
-            }
-            String systemLocaleStringIso639 = LocaleController.getSystemLocaleStringIso639();
-            LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-            String baseLangCode = currentLocaleInfo.getBaseLangCode();
-            if (TextUtils.isEmpty(baseLangCode)) {
-                baseLangCode = currentLocaleInfo.getLangCode();
-            }
-            if (!systemLocaleStringIso639.contains(baseLangCode) && !baseLangCode.contains(systemLocaleStringIso639)) {
-                str2 = baseLangCode;
-                return TextUtils.isEmpty(str2) ? new String[]{systemLocaleStringIso639.replace('_', '-'), str2} : new String[]{systemLocaleStringIso639.replace('_', '-')};
-            }
-            if (!systemLocaleStringIso639.contains("en")) {
-                str2 = "en";
-            }
-            if (TextUtils.isEmpty(str2)) {
             }
         } catch (Exception unused) {
             return new String[]{"en"};
@@ -2651,12 +2677,6 @@ public class AndroidUtilities {
         }
     }
 
-    public static double fixLocationCoord(double d) {
-        double d2 = (long) (d * 1000000.0d);
-        Double.isNaN(d2);
-        return d2 / 1000000.0d;
-    }
-
     public static String formapMapUrl(int i, double d, double d2, int i2, int i3, boolean z, int i4, int i5) {
         int min = Math.min(2, (int) Math.ceil(density));
         int i6 = i5 == -1 ? MessagesController.getInstance(i).mapProvider : i5;
@@ -2784,10 +2804,10 @@ public class AndroidUtilities {
         if (hasCallPermissions) {
             try {
                 TelephonyManager telephonyManager = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService("phone");
-                Method declaredMethod = Class.forName(telephonyManager.getClass().getName()).getDeclaredMethod("getITelephony", new Class[0]);
+                Method declaredMethod = Class.forName(telephonyManager.getClass().getName()).getDeclaredMethod("getITelephony", null);
                 declaredMethod.setAccessible(true);
-                ITelephony iTelephony = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
-                ITelephony iTelephony2 = (ITelephony) declaredMethod.invoke(telephonyManager, new Object[0]);
+                ITelephony iTelephony = (ITelephony) declaredMethod.invoke(telephonyManager, null);
+                ITelephony iTelephony2 = (ITelephony) declaredMethod.invoke(telephonyManager, null);
                 iTelephony2.silenceRinger();
                 iTelephony2.endCall();
             } catch (Throwable th) {
@@ -2797,9 +2817,15 @@ public class AndroidUtilities {
     }
 
     public static String obtainLoginPhoneCall(String str) {
+        String str2;
         if (hasCallPermissions) {
+            if (Build.VERSION.SDK_INT >= 26) {
+                str2 = "date DESC";
+            } else {
+                str2 = "date DESC LIMIT 5";
+            }
             try {
-                Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[]{"number", "date"}, "type IN (3,1,5)", null, Build.VERSION.SDK_INT >= 26 ? "date DESC" : "date DESC LIMIT 5");
+                Cursor query = ApplicationLoader.applicationContext.getContentResolver().query(CallLog.Calls.CONTENT_URI, new String[]{"number", "date"}, "type IN (3,1,5)", null, str2);
                 while (query.moveToNext()) {
                     String string = query.getString(0);
                     long j = query.getLong(1);
@@ -2896,24 +2922,20 @@ public class AndroidUtilities {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x001e, code lost:
+        r5 = r5 + 1;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static int charSequenceIndexOf(CharSequence charSequence, CharSequence charSequence2, int i) {
         while (i < charSequence.length() - charSequence2.length()) {
-            boolean z = false;
-            int i2 = 0;
-            while (true) {
-                if (i2 >= charSequence2.length()) {
-                    z = true;
+            for (int i2 = 0; i2 < charSequence2.length(); i2++) {
+                if (charSequence2.charAt(i2) != charSequence.charAt(i + i2)) {
                     break;
-                } else if (charSequence2.charAt(i2) != charSequence.charAt(i + i2)) {
-                    break;
-                } else {
-                    i2++;
                 }
             }
-            if (z) {
-                return i;
-            }
-            i++;
+            return i;
         }
         return -1;
     }
@@ -3142,9 +3164,12 @@ public class AndroidUtilities {
         public boolean onTouchEvent(TextView textView, Spannable spannable, MotionEvent motionEvent) {
             try {
                 boolean onTouchEvent = super.onTouchEvent(textView, spannable, motionEvent);
-                if (motionEvent.getAction() == 1 || motionEvent.getAction() == 3) {
-                    Selection.removeSelection(spannable);
+                if (motionEvent.getAction() != 1) {
+                    if (motionEvent.getAction() == 3) {
+                    }
+                    return onTouchEvent;
                 }
+                Selection.removeSelection(spannable);
                 return onTouchEvent;
             } catch (Exception e) {
                 FileLog.e(e);
@@ -3179,7 +3204,7 @@ public class AndroidUtilities {
             ((ValueAnimator) tag).cancel();
         }
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda25
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AndroidUtilities.lambda$shakeView$11(view, valueAnimator);
@@ -3238,7 +3263,7 @@ public class AndroidUtilities {
         }
         view.setTag(i2, Float.valueOf(view.getTranslationX()));
         final float translationX = view.getTranslationX();
-        SpringAnimation addEndListener = new SpringAnimation(view, DynamicAnimation.TRANSLATION_X, translationX).setSpring(new SpringForce(translationX).setStiffness(600.0f)).setStartVelocity((-dp) * 100).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda23
+        SpringAnimation addEndListener = new SpringAnimation(view, DynamicAnimation.TRANSLATION_X, translationX).setSpring(new SpringForce(translationX).setStiffness(600.0f)).setStartVelocity((-dp) * 100).addEndListener(new DynamicAnimation.OnAnimationEndListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda21
             @Override // androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
             public final void onAnimationEnd(DynamicAnimation dynamicAnimation, boolean z, float f3, float f4) {
                 AndroidUtilities.lambda$shakeViewSpring$12(runnable, view, translationX, dynamicAnimation, z, f3, f4);
@@ -3342,17 +3367,17 @@ public class AndroidUtilities {
         return FileLoader.getDirectory(0);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00aa  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x00b6 A[Catch: Exception -> 0x00eb, TryCatch #0 {Exception -> 0x00eb, blocks: (B:3:0x0001, B:5:0x0009, B:8:0x0013, B:10:0x0025, B:12:0x0040, B:14:0x0046, B:16:0x0063, B:18:0x0069, B:42:0x00b8, B:39:0x00b0, B:40:0x00b3, B:41:0x00b6, B:25:0x0088, B:28:0x0093, B:31:0x009d, B:44:0x00c7, B:46:0x00d3, B:48:0x00da, B:50:0x00e6), top: B:55:0x0001 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00ac  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x00b8 A[Catch: Exception -> 0x0040, TryCatch #0 {Exception -> 0x0040, blocks: (B:3:0x0001, B:5:0x0009, B:8:0x0013, B:10:0x0025, B:14:0x0043, B:16:0x0049, B:18:0x0066, B:20:0x006c, B:44:0x00ba, B:41:0x00b2, B:42:0x00b5, B:43:0x00b8, B:27:0x008b, B:30:0x0096, B:33:0x009f, B:46:0x00c9, B:48:0x00d5, B:50:0x00dc, B:52:0x00e8), top: B:56:0x0001 }] */
     @SuppressLint({"NewApi"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static String getPath(Uri uri) {
-        char c;
         Uri uri2;
         try {
             if (DocumentsContract.isDocumentUri(ApplicationLoader.applicationContext, uri)) {
+                char c = 0;
                 if (isExternalStorageDocument(uri)) {
                     String[] split = DocumentsContract.getDocumentId(uri).split(":");
                     if ("primary".equalsIgnoreCase(split[0])) {
@@ -3360,50 +3385,47 @@ public class AndroidUtilities {
                     }
                 } else if (isDownloadsDocument(uri)) {
                     return getDataColumn(ApplicationLoader.applicationContext, ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(DocumentsContract.getDocumentId(uri)).longValue()), null, null);
-                } else {
-                    if (isMediaDocument(uri)) {
-                        String[] split2 = DocumentsContract.getDocumentId(uri).split(":");
-                        String str = split2[0];
-                        int hashCode = str.hashCode();
-                        if (hashCode == 93166550) {
-                            if (str.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
-                                c = 2;
-                                if (c != 0) {
-                                }
-                                return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
-                            }
-                            c = 65535;
-                            if (c != 0) {
-                            }
-                            return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
-                        } else if (hashCode != 100313435) {
-                            if (hashCode == 112202875 && str.equals(MediaStreamTrack.VIDEO_TRACK_KIND)) {
-                                c = 1;
-                                if (c != 0) {
-                                    uri2 = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                                } else if (c == 1) {
-                                    uri2 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                } else {
-                                    uri2 = c != 2 ? null : MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                                }
-                                return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
-                            }
-                            c = 65535;
-                            if (c != 0) {
-                            }
-                            return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
-                        } else {
-                            if (str.equals("image")) {
-                                c = 0;
-                                if (c != 0) {
-                                }
-                                return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
-                            }
-                            c = 65535;
+                } else if (isMediaDocument(uri)) {
+                    String[] split2 = DocumentsContract.getDocumentId(uri).split(":");
+                    String str = split2[0];
+                    int hashCode = str.hashCode();
+                    if (hashCode == 93166550) {
+                        if (str.equals(MediaStreamTrack.AUDIO_TRACK_KIND)) {
+                            c = 2;
                             if (c != 0) {
                             }
                             return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
                         }
+                        c = 65535;
+                        if (c != 0) {
+                        }
+                        return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
+                    } else if (hashCode != 100313435) {
+                        if (hashCode == 112202875 && str.equals(MediaStreamTrack.VIDEO_TRACK_KIND)) {
+                            c = 1;
+                            if (c != 0) {
+                                uri2 = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                            } else if (c == 1) {
+                                uri2 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                            } else {
+                                uri2 = c != 2 ? null : MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                            }
+                            return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
+                        }
+                        c = 65535;
+                        if (c != 0) {
+                        }
+                        return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
+                    } else {
+                        if (str.equals("image")) {
+                            if (c != 0) {
+                            }
+                            return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
+                        }
+                        c = 65535;
+                        if (c != 0) {
+                        }
+                        return getDataColumn(ApplicationLoader.applicationContext, uri2, "_id=?", new String[]{split2[1]});
                     }
                 }
             } else if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -3717,10 +3739,9 @@ public class AndroidUtilities {
         while (i < bArr.length) {
             byte b = bArr[i];
             if (b == 61) {
-                int i2 = i + 1;
                 try {
-                    int digit = Character.digit((char) bArr[i2], 16);
-                    i = i2 + 1;
+                    int digit = Character.digit((char) bArr[i + 1], 16);
+                    i += 2;
                     byteArrayOutputStream.write((char) ((digit << 4) + Character.digit((char) bArr[i], 16)));
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -3784,6 +3805,13 @@ public class AndroidUtilities {
         return bArr2;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:47:0x010c A[Catch: Exception -> 0x00fe, TRY_ENTER, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x012c A[Catch: Exception -> 0x00fe, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x016b A[Catch: Exception -> 0x00fe, TRY_LEAVE, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x013c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static void openDocument(MessageObject messageObject, Activity activity, BaseFragment baseFragment) {
         TLRPC$Document document;
         String str;
@@ -3822,29 +3850,42 @@ public class AndroidUtilities {
             intent.setFlags(1);
             MimeTypeMap singleton = MimeTypeMap.getSingleton();
             int lastIndexOf = attachFileName.lastIndexOf(46);
-            if (lastIndexOf == -1 || ((str = singleton.getMimeTypeFromExtension(attachFileName.substring(lastIndexOf + 1).toLowerCase())) == null && ((str = document.mime_type) == null || str.length() == 0))) {
-                str = null;
-            }
-            if (Build.VERSION.SDK_INT >= 24) {
-                intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file), str != null ? str : "text/plain");
-            } else {
-                intent.setDataAndType(Uri.fromFile(file), str != null ? str : "text/plain");
-            }
-            if (str != null) {
-                try {
-                    activity.startActivityForResult(intent, 500);
-                    return;
-                } catch (Exception unused) {
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file), "text/plain");
-                    } else {
-                        intent.setDataAndType(Uri.fromFile(file), "text/plain");
+            if (lastIndexOf != -1) {
+                str = singleton.getMimeTypeFromExtension(attachFileName.substring(lastIndexOf + 1).toLowerCase());
+                if (str == null) {
+                    str = document.mime_type;
+                    if (str != null) {
+                        if (str.length() == 0) {
+                        }
                     }
-                    activity.startActivityForResult(intent, 500);
-                    return;
                 }
+                if (Build.VERSION.SDK_INT < 24) {
+                    intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file), str != null ? str : "text/plain");
+                } else {
+                    intent.setDataAndType(Uri.fromFile(file), str != null ? str : "text/plain");
+                }
+                if (str == null) {
+                    try {
+                        activity.startActivityForResult(intent, 500);
+                        return;
+                    } catch (Exception unused) {
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", file), "text/plain");
+                        } else {
+                            intent.setDataAndType(Uri.fromFile(file), "text/plain");
+                        }
+                        activity.startActivityForResult(intent, 500);
+                        return;
+                    }
+                }
+                activity.startActivityForResult(intent, 500);
+                return;
             }
-            activity.startActivityForResult(intent, 500);
+            str = null;
+            if (Build.VERSION.SDK_INT < 24) {
+            }
+            if (str == null) {
+            }
         } catch (Exception unused2) {
             if (activity == null) {
                 return;
@@ -3865,12 +3906,12 @@ public class AndroidUtilities {
     /* JADX WARN: Code restructure failed: missing block: B:24:0x0059, code lost:
         if (r8.length() != 0) goto L25;
      */
-    /* JADX WARN: Removed duplicated region for block: B:32:0x006b A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x006c  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0091  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x00b1  */
-    /* JADX WARN: Removed duplicated region for block: B:60:0x00ef  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x00c1 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x006a A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x006b  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x008f  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00af  */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x00ed  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x00bf A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3959,7 +4000,7 @@ public class AndroidUtilities {
     }
 
     public static SpannableStringBuilder formatSpannableSimple(CharSequence charSequence, CharSequence... charSequenceArr) {
-        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda16
+        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda40
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 String lambda$formatSpannableSimple$13;
@@ -3969,11 +4010,16 @@ public class AndroidUtilities {
         }, charSequenceArr);
     }
 
+    /* JADX INFO: Access modifiers changed from: private */
+    public static /* synthetic */ String lambda$formatSpannableSimple$13(Integer num) {
+        return "%s";
+    }
+
     public static SpannableStringBuilder formatSpannable(CharSequence charSequence, CharSequence... charSequenceArr) {
         if (charSequence.toString().contains("%s")) {
             return formatSpannableSimple(charSequence, charSequenceArr);
         }
-        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda26
+        return formatSpannable(charSequence, new GenericProvider() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda22
             @Override // org.telegram.messenger.GenericProvider
             public final Object provide(Object obj) {
                 String lambda$formatSpannable$14;
@@ -4228,13 +4274,13 @@ public class AndroidUtilities {
         return accessibilityManager.isEnabled() && accessibilityManager.isTouchExplorationEnabled();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0112 A[Catch: Exception -> 0x012f, TRY_LEAVE, TryCatch #0 {Exception -> 0x012f, blocks: (B:5:0x000a, B:8:0x0014, B:10:0x001a, B:12:0x0022, B:15:0x0035, B:18:0x003e, B:20:0x0047, B:23:0x005a, B:25:0x0060, B:27:0x0066, B:29:0x006c, B:31:0x008a, B:32:0x008e, B:52:0x010c, B:54:0x0112, B:67:0x012b, B:33:0x00a4, B:35:0x00b5, B:37:0x00be, B:39:0x00c7, B:41:0x00cd, B:43:0x00d5, B:45:0x00dd, B:47:0x00e7, B:48:0x00eb), top: B:71:0x000a }] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x011c  */
-    /* JADX WARN: Removed duplicated region for block: B:59:0x011e  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0121  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0123  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x0126  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0128  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00fa A[Catch: Exception -> 0x0116, TRY_LEAVE, TryCatch #0 {Exception -> 0x0116, blocks: (B:5:0x0008, B:8:0x0012, B:10:0x0018, B:12:0x001f, B:15:0x0032, B:18:0x003b, B:20:0x0043, B:23:0x0053, B:25:0x0059, B:27:0x005f, B:29:0x0065, B:31:0x0083, B:32:0x0087, B:51:0x00f4, B:53:0x00fa, B:66:0x0112, B:33:0x0098, B:35:0x00a8, B:37:0x00b0, B:39:0x00b8, B:41:0x00be, B:43:0x00c6, B:45:0x00ce, B:47:0x00d8, B:48:0x00dc), top: B:70:0x0008 }] */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0106  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0109  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x010b  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x010e  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0110  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4244,37 +4290,34 @@ public class AndroidUtilities {
         String str2;
         String str3;
         String str4;
+        String str5;
         String path;
         String queryParameter;
         String queryParameter2;
-        String str5;
         if (intent == null) {
             return false;
         }
         try {
             if ((intent.getFlags() & FileLoaderPriorityQueue.PRIORITY_VALUE_MAX) == 0 && (data = intent.getData()) != null) {
                 String scheme = data.getScheme();
-                String str6 = null;
                 if (scheme != null) {
                     if (!scheme.equals("http") && !scheme.equals("https")) {
                         if (scheme.equals("tg")) {
                             String uri = data.toString();
                             if (uri.startsWith("tg:proxy") || uri.startsWith("tg://proxy") || uri.startsWith("tg:socks") || uri.startsWith("tg://socks")) {
                                 Uri parse = Uri.parse(uri.replace("tg:proxy", "tg://telegram.org").replace("tg://proxy", "tg://telegram.org").replace("tg://socks", "tg://telegram.org").replace("tg:socks", "tg://telegram.org"));
-                                String queryParameter3 = parse.getQueryParameter("server");
-                                if (checkHostForPunycode(queryParameter3)) {
-                                    queryParameter3 = IDN.toASCII(queryParameter3, 1);
+                                queryParameter = parse.getQueryParameter("server");
+                                if (checkHostForPunycode(queryParameter)) {
+                                    queryParameter = IDN.toASCII(queryParameter, 1);
                                 }
-                                String str7 = queryParameter3;
-                                String queryParameter4 = parse.getQueryParameter("port");
-                                String queryParameter5 = parse.getQueryParameter("user");
-                                str2 = parse.getQueryParameter("pass");
+                                queryParameter2 = parse.getQueryParameter("port");
+                                str2 = parse.getQueryParameter("user");
+                                str3 = parse.getQueryParameter("pass");
                                 str = parse.getQueryParameter("secret");
-                                str4 = queryParameter4;
-                                str3 = str7;
-                                str6 = queryParameter5;
-                                if (!TextUtils.isEmpty(str3) && !TextUtils.isEmpty(str4)) {
-                                    showProxyAlert(activity, str3, str4, str6 != null ? "" : str6, str2 != null ? "" : str2, str != null ? "" : str);
+                                str4 = queryParameter;
+                                str5 = queryParameter2;
+                                if (!TextUtils.isEmpty(str4) && !TextUtils.isEmpty(str5)) {
+                                    showProxyAlert(activity, str4, str5, str2 != null ? "" : str2, str3 != null ? "" : str3, str != null ? "" : str);
                                     return true;
                                 }
                             }
@@ -4282,36 +4325,28 @@ public class AndroidUtilities {
                     }
                     String lowerCase = data.getHost().toLowerCase();
                     if ((lowerCase.equals("telegram.me") || lowerCase.equals("t.me") || lowerCase.equals("telegram.dog")) && (path = data.getPath()) != null && (path.startsWith("/socks") || path.startsWith("/proxy"))) {
-                        String queryParameter6 = data.getQueryParameter("server");
-                        if (checkHostForPunycode(queryParameter6)) {
-                            queryParameter6 = IDN.toASCII(queryParameter6, 1);
+                        queryParameter = data.getQueryParameter("server");
+                        if (checkHostForPunycode(queryParameter)) {
+                            queryParameter = IDN.toASCII(queryParameter, 1);
                         }
-                        String str8 = queryParameter6;
-                        queryParameter = data.getQueryParameter("port");
-                        String queryParameter7 = data.getQueryParameter("user");
-                        str2 = data.getQueryParameter("pass");
-                        queryParameter2 = data.getQueryParameter("secret");
-                        str6 = queryParameter7;
-                        str5 = str8;
-                    } else {
-                        queryParameter = null;
-                        str5 = null;
-                        queryParameter2 = null;
-                        str2 = null;
-                    }
-                    str4 = queryParameter;
-                    str3 = str5;
-                    str = queryParameter2;
-                    if (!TextUtils.isEmpty(str3)) {
-                        showProxyAlert(activity, str3, str4, str6 != null ? "" : str6, str2 != null ? "" : str2, str != null ? "" : str);
-                        return true;
+                        queryParameter2 = data.getQueryParameter("port");
+                        str2 = data.getQueryParameter("user");
+                        str3 = data.getQueryParameter("pass");
+                        str = data.getQueryParameter("secret");
+                        str4 = queryParameter;
+                        str5 = queryParameter2;
+                        if (!TextUtils.isEmpty(str4)) {
+                            showProxyAlert(activity, str4, str5, str2 != null ? "" : str2, str3 != null ? "" : str3, str != null ? "" : str);
+                            return true;
+                        }
                     }
                 }
                 str = null;
                 str2 = null;
                 str3 = null;
                 str4 = null;
-                if (!TextUtils.isEmpty(str3)) {
+                str5 = null;
+                if (!TextUtils.isEmpty(str4)) {
                 }
             }
         } catch (Exception unused) {
@@ -4414,7 +4449,7 @@ public class AndroidUtilities {
                 linearLayout.addView(textDetailSettingsCell, LayoutHelper.createLinear(-1, -2));
                 if (i3 == 5) {
                     try {
-                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda34
+                        ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(str, Integer.parseInt(str2), str3, str4, str5, new RequestTimeDelegate() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda27
                             @Override // org.telegram.tgnet.RequestTimeDelegate
                             public final void run(long j) {
                                 AndroidUtilities.lambda$showProxyAlert$16(TextDetailSettingsCell.this, j);
@@ -4438,7 +4473,7 @@ public class AndroidUtilities {
         int i4 = Theme.key_dialogTextBlue2;
         textView2.setTextColor(Theme.getColor(i4));
         pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
-        pickerBottomLayout.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda35
+        pickerBottomLayout.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda28
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 dismissRunnable.run();
@@ -4448,7 +4483,7 @@ public class AndroidUtilities {
         pickerBottomLayout.doneButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
         pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", R.string.ConnectingConnectProxy).toUpperCase());
-        pickerBottomLayout.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda36
+        pickerBottomLayout.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda29
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 AndroidUtilities.lambda$showProxyAlert$18(str, str2, str5, str4, str3, activity, dismissRunnable, view2);
@@ -4459,7 +4494,7 @@ public class AndroidUtilities {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showProxyAlert$16(final TextDetailSettingsCell textDetailSettingsCell, final long j) {
-        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda31
+        runOnUIThread(new Runnable() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda24
             @Override // java.lang.Runnable
             public final void run() {
                 AndroidUtilities.lambda$showProxyAlert$15(j, textDetailSettingsCell);
@@ -4482,7 +4517,6 @@ public class AndroidUtilities {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$showProxyAlert$18(String str, String str2, String str3, String str4, String str5, Activity activity, Runnable runnable, View view) {
         SharedConfig.ProxyInfo proxyInfo;
-        boolean z;
         UndoView undoView;
         SharedPreferences.Editor edit = MessagesController.getGlobalMainSettings().edit();
         edit.putBoolean("proxy_enabled", true);
@@ -4514,13 +4548,9 @@ public class AndroidUtilities {
         NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.proxySettingsChanged, new Object[0]);
         if (activity instanceof LaunchActivity) {
             BaseFragment lastFragment = ((LaunchActivity) activity).getActionBarLayout().getLastFragment();
-            if (!(lastFragment instanceof ChatActivity) || (undoView = ((ChatActivity) lastFragment).getUndoView()) == null) {
-                z = false;
-            } else {
+            if ((lastFragment instanceof ChatActivity) && (undoView = ((ChatActivity) lastFragment).getUndoView()) != null) {
                 undoView.showWithAction(0L, 87, (Runnable) null);
-                z = true;
-            }
-            if (!z) {
+            } else {
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.showBulletin, 6, LocaleController.getString(R.string.ProxyAddedSuccess));
             }
         } else {
@@ -4552,38 +4582,27 @@ public class AndroidUtilities {
             return "";
         }
         int i = 0;
-        boolean z = true;
         if (charSequenceArr.length == 1) {
             return charSequenceArr[0];
         }
-        int length = charSequenceArr.length;
-        int i2 = 0;
-        while (true) {
-            if (i2 >= length) {
-                z = false;
-                break;
-            } else if (charSequenceArr[i2] instanceof Spanned) {
-                break;
-            } else {
-                i2++;
-            }
-        }
-        if (z) {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            int length2 = charSequenceArr.length;
-            while (i < length2) {
-                CharSequence charSequence = charSequenceArr[i];
-                if (charSequence == null) {
-                    charSequence = "null";
+        for (CharSequence charSequence : charSequenceArr) {
+            if (charSequence instanceof Spanned) {
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+                int length = charSequenceArr.length;
+                while (i < length) {
+                    CharSequence charSequence2 = charSequenceArr[i];
+                    if (charSequence2 == null) {
+                        charSequence2 = "null";
+                    }
+                    spannableStringBuilder.append(charSequence2);
+                    i++;
                 }
-                spannableStringBuilder.append(charSequence);
-                i++;
+                return new SpannedString(spannableStringBuilder);
             }
-            return new SpannedString(spannableStringBuilder);
         }
         StringBuilder sb = new StringBuilder();
-        int length3 = charSequenceArr.length;
-        while (i < length3) {
+        int length2 = charSequenceArr.length;
+        while (i < length2) {
             sb.append(charSequenceArr[i]);
             i++;
         }
@@ -4591,7 +4610,6 @@ public class AndroidUtilities {
     }
 
     public static float[] RGBtoHSB(int i, int i2, int i3) {
-        float[] fArr = new float[3];
         int max = Math.max(i, i2);
         if (i3 > max) {
             max = i3;
@@ -4612,16 +4630,14 @@ public class AndroidUtilities {
             float f9 = (i == max ? f8 - f7 : i2 == max ? (f6 + 2.0f) - f8 : (f7 + 4.0f) - f6) / 6.0f;
             f3 = f9 < 0.0f ? f9 + 1.0f : f9;
         }
-        fArr[0] = f3;
-        fArr[1] = f4;
-        fArr[2] = f2;
-        return fArr;
+        return new float[]{f3, f4, f2};
     }
 
     public static int HSBtoRGB(float f, float f2, float f3) {
         int i;
         int i2;
         int i3;
+        float f4;
         if (f2 == 0.0f) {
             i = (int) ((f3 * 255.0f) + 0.5f);
             i2 = i;
@@ -4629,41 +4645,42 @@ public class AndroidUtilities {
         } else {
             float floor = (f - ((float) Math.floor(f))) * 6.0f;
             float floor2 = floor - ((float) Math.floor(floor));
-            float f4 = (1.0f - f2) * f3;
-            float f5 = (1.0f - (f2 * floor2)) * f3;
-            float f6 = (1.0f - (f2 * (1.0f - floor2))) * f3;
+            float f5 = (1.0f - f2) * f3;
+            float f6 = (1.0f - (f2 * floor2)) * f3;
+            float f7 = (1.0f - (f2 * (1.0f - floor2))) * f3;
             int i4 = (int) floor;
             if (i4 == 0) {
-                i = (int) ((f3 * 255.0f) + 0.5f);
-                i2 = (int) ((f6 * 255.0f) + 0.5f);
-            } else if (i4 == 1) {
-                i = (int) ((f5 * 255.0f) + 0.5f);
-                i2 = (int) ((f3 * 255.0f) + 0.5f);
-            } else if (i4 != 2) {
-                if (i4 == 3) {
-                    i = (int) ((f4 * 255.0f) + 0.5f);
-                    i2 = (int) ((f5 * 255.0f) + 0.5f);
+                f5 = f7;
+                f7 = f5;
+            } else if (i4 != 1) {
+                if (i4 == 2) {
+                    f4 = f5;
+                    f5 = f3;
+                } else if (i4 == 3) {
+                    f7 = f3;
+                    f3 = f5;
+                    f5 = f6;
                 } else if (i4 == 4) {
-                    i = (int) ((f6 * 255.0f) + 0.5f);
-                    i2 = (int) ((f4 * 255.0f) + 0.5f);
+                    f4 = f7;
+                    f7 = f3;
                 } else if (i4 != 5) {
                     i = 0;
                     i2 = 0;
                     i3 = 0;
                 } else {
-                    i = (int) ((f3 * 255.0f) + 0.5f);
-                    i2 = (int) ((f4 * 255.0f) + 0.5f);
-                    i3 = (int) ((f5 * 255.0f) + 0.5f);
+                    f7 = f6;
                 }
-                i3 = (int) ((f3 * 255.0f) + 0.5f);
+                f3 = f4;
             } else {
-                i = (int) ((f4 * 255.0f) + 0.5f);
-                i2 = (int) ((f3 * 255.0f) + 0.5f);
-                i3 = (int) ((f6 * 255.0f) + 0.5f);
+                f7 = f5;
+                f5 = f3;
+                f3 = f6;
             }
-            i3 = (int) ((f4 * 255.0f) + 0.5f);
+            i = (int) ((f3 * 255.0f) + 0.5f);
+            i2 = (int) ((f5 * 255.0f) + 0.5f);
+            i3 = (int) ((f7 * 255.0f) + 0.5f);
         }
-        return ((i & 255) << 16) | (-16777216) | ((i2 & 255) << 8) | (i3 & 255);
+        return ((i & NotificationCenter.voipServiceCreated) << 16) | (-16777216) | ((i2 & NotificationCenter.voipServiceCreated) << 8) | (i3 & NotificationCenter.voipServiceCreated);
     }
 
     public static float computePerceivedBrightness(int i) {
@@ -4792,12 +4809,6 @@ public class AndroidUtilities {
         return -1;
     }
 
-    public static double lerp(double d, double d2, float f) {
-        double d3 = f;
-        Double.isNaN(d3);
-        return d + (d3 * (d2 - d));
-    }
-
     public static float lerp(float[] fArr, float f) {
         return lerp(fArr[0], fArr[1], f);
     }
@@ -4920,7 +4931,7 @@ public class AndroidUtilities {
     }
 
     public static int getAverageColor(int i, int i2) {
-        return Color.argb(255, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
+        return Color.argb((int) NotificationCenter.voipServiceCreated, (Color.red(i) / 2) + (Color.red(i2) / 2), (Color.green(i) / 2) + (Color.green(i2) / 2), (Color.blue(i) / 2) + (Color.blue(i2) / 2));
     }
 
     public static void setLightStatusBar(Window window, boolean z) {
@@ -5015,7 +5026,7 @@ public class AndroidUtilities {
         } else {
             navigationBarColor = window.getNavigationBarColor();
             ofArgb = ValueAnimator.ofArgb(navigationBarColor, i);
-            ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda32
+            ofArgb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda30
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     AndroidUtilities.lambda$setNavigationBarColor$19(AndroidUtilities.IntColorCallback.this, window, valueAnimator2);
@@ -5108,7 +5119,7 @@ public class AndroidUtilities {
             Field declaredField = baseFragment.getClass().getDeclaredField("listView");
             declaredField.setAccessible(true);
             final RecyclerListView recyclerListView = (RecyclerListView) declaredField.get(baseFragment);
-            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda28
+            recyclerListView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda26
                 @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
                 public final int run() {
                     int lambda$scrollToFragmentRow$20;
@@ -5123,16 +5134,20 @@ public class AndroidUtilities {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ int lambda$scrollToFragmentRow$20(BaseFragment baseFragment, String str, RecyclerListView recyclerListView) {
-        int i = -1;
         try {
             Field declaredField = baseFragment.getClass().getDeclaredField(str);
             declaredField.setAccessible(true);
-            i = declaredField.getInt(baseFragment);
-            ((LinearLayoutManager) recyclerListView.getLayoutManager()).scrollToPositionWithOffset(i, dp(60.0f));
-            declaredField.setAccessible(false);
-            return i;
-        } catch (Throwable unused) {
-            return i;
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerListView.getLayoutManager();
+            int i = declaredField.getInt(baseFragment);
+            try {
+                linearLayoutManager.scrollToPositionWithOffset(i, dp(60.0f));
+                declaredField.setAccessible(false);
+                return i;
+            } catch (Throwable unused) {
+                return i;
+            }
+        } catch (Throwable unused2) {
+            return -1;
         }
     }
 
@@ -5172,7 +5187,7 @@ public class AndroidUtilities {
         }
         ValueAnimator duration = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(150L);
         final AtomicBoolean atomicBoolean = new AtomicBoolean();
-        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda20
+        duration.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda39
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 AndroidUtilities.lambda$updateImageViewImageAnimated$21(imageView, atomicBoolean, drawable, valueAnimator);
@@ -5305,88 +5320,90 @@ public class AndroidUtilities {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0051 A[Catch: all -> 0x0073, TryCatch #1 {all -> 0x0073, blocks: (B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056, B:7:0x0015), top: B:56:0x0015 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x0056 A[Catch: all -> 0x0073, TRY_LEAVE, TryCatch #1 {all -> 0x0073, blocks: (B:8:0x0020, B:10:0x0024, B:16:0x0031, B:18:0x0041, B:20:0x004c, B:22:0x0051, B:23:0x0056, B:7:0x0015), top: B:56:0x0015 }] */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0064 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x0071, code lost:
+        if (r3 != null) goto L33;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0073, code lost:
+        r3.close();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0077, code lost:
+        r7 = move-exception;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:39:0x007d, code lost:
+        if (r3 == null) goto L32;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x0080, code lost:
+        org.telegram.messenger.FileLog.e(r7);
+     */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0055 A[Catch: all -> 0x0079, TryCatch #5 {all -> 0x0079, blocks: (B:10:0x0024, B:12:0x0028, B:18:0x0035, B:20:0x0045, B:22:0x0050, B:24:0x0055, B:25:0x005a, B:9:0x0019), top: B:61:0x0019 }] */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x005a A[Catch: all -> 0x0079, TRY_LEAVE, TryCatch #5 {all -> 0x0079, blocks: (B:10:0x0024, B:12:0x0028, B:18:0x0035, B:20:0x0045, B:22:0x0050, B:24:0x0055, B:25:0x005a, B:9:0x0019), top: B:61:0x0019 }] */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x0068 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static Bitmap getScaledBitmap(float f, float f2, String str, String str2, int i) {
         FileInputStream fileInputStream;
-        BitmapFactory.Options options;
         int i2;
-        int i3;
         Bitmap decodeStream;
-        int i4;
+        int i3;
         try {
-            try {
-                options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                if (str != null) {
-                    BitmapFactory.decodeFile(str, options);
-                    fileInputStream = null;
-                } else {
-                    fileInputStream = new FileInputStream(str2);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            if (str != null) {
+                BitmapFactory.decodeFile(str, options);
+                fileInputStream = null;
+            } else {
+                fileInputStream = new FileInputStream(str2);
+                try {
+                    fileInputStream.getChannel().position(i);
+                    BitmapFactory.decodeStream(fileInputStream, null, options);
+                } catch (Throwable th) {
+                    th = th;
                     try {
-                        fileInputStream.getChannel().position(i);
-                        BitmapFactory.decodeStream(fileInputStream, null, options);
-                    } catch (Throwable th) {
-                        th = th;
-                        try {
-                            FileLog.e(th);
-                            if (fileInputStream != null) {
+                        FileLog.e(th);
+                    } finally {
+                        if (fileInputStream != null) {
+                            try {
                                 fileInputStream.close();
-                            }
-                            return null;
-                        } finally {
-                            if (fileInputStream != null) {
-                                try {
-                                    fileInputStream.close();
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                }
+                            } catch (Exception e) {
+                                FileLog.e(e);
                             }
                         }
                     }
                 }
-                i2 = options.outWidth;
-            } catch (Exception e2) {
-                FileLog.e(e2);
+            }
+            int i4 = options.outWidth;
+            if (i4 > 0 && (i2 = options.outHeight) > 0) {
+                if (f > f2 && i4 < i2) {
+                    f2 = f;
+                    f = f2;
+                }
+                float min = Math.min(i4 / f, i2 / f2);
+                options.inSampleSize = 1;
+                if (min > 1.0f) {
+                    do {
+                        i3 = options.inSampleSize * 2;
+                        options.inSampleSize = i3;
+                    } while (i3 < min);
+                    options.inJustDecodeBounds = false;
+                    if (str == null) {
+                        decodeStream = BitmapFactory.decodeFile(str, options);
+                    } else {
+                        fileInputStream.getChannel().position(i);
+                        decodeStream = BitmapFactory.decodeStream(fileInputStream, null, options);
+                    }
+                    return decodeStream;
+                }
+                options.inJustDecodeBounds = false;
+                if (str == null) {
+                }
+                return decodeStream;
             }
         } catch (Throwable th2) {
             th = th2;
             fileInputStream = null;
         }
-        if (i2 <= 0 || (i3 = options.outHeight) <= 0) {
-            if (fileInputStream != null) {
-                fileInputStream.close();
-            }
-            return null;
-        }
-        if (f > f2 && i2 < i3) {
-            f2 = f;
-            f = f2;
-        }
-        float min = Math.min(i2 / f, i3 / f2);
-        options.inSampleSize = 1;
-        if (min <= 1.0f) {
-            options.inJustDecodeBounds = false;
-            if (str == null) {
-            }
-            return decodeStream;
-        }
-        do {
-            i4 = options.inSampleSize * 2;
-            options.inSampleSize = i4;
-        } while (i4 < min);
-        options.inJustDecodeBounds = false;
-        if (str == null) {
-            decodeStream = BitmapFactory.decodeFile(str, options);
-        } else {
-            fileInputStream.getChannel().position(i);
-            decodeStream = BitmapFactory.decodeStream(fileInputStream, null, options);
-        }
-        return decodeStream;
+        return null;
     }
 
     public static Uri getBitmapShareUri(Bitmap bitmap, String str, Bitmap.CompressFormat compressFormat) {
@@ -5445,7 +5462,7 @@ public class AndroidUtilities {
         return (i > 0 || length < charSequence.length()) ? charSequence.subSequence(i, length) : charSequence;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0020, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0024, code lost:
         if (r0 != r1) goto L11;
      */
     /*
@@ -5454,14 +5471,14 @@ public class AndroidUtilities {
     public static boolean isENOSPC(Exception exc) {
         int i;
         int i2;
-        if (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && (exc.getCause() instanceof ErrnoException)) {
-            i = ((ErrnoException) exc.getCause()).errno;
+        if (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(exc.getCause())) {
+            i = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(exc.getCause()).errno;
             i2 = OsConstants.ENOSPC;
         }
         return exc.getMessage() != null && exc.getMessage().equalsIgnoreCase("no space left on device");
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0020, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x0024, code lost:
         if (r0 != r1) goto L11;
      */
     /*
@@ -5470,8 +5487,8 @@ public class AndroidUtilities {
     public static boolean isEROFS(Exception exc) {
         int i;
         int i2;
-        if (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && (exc.getCause() instanceof ErrnoException)) {
-            i = ((ErrnoException) exc.getCause()).errno;
+        if (Build.VERSION.SDK_INT >= 21 && (exc instanceof IOException) && MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(exc.getCause())) {
+            i = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(exc.getCause()).errno;
             i2 = OsConstants.EROFS;
         }
         return exc.getMessage() != null && exc.getMessage().toLowerCase().contains("read-only file system");
@@ -5522,7 +5539,7 @@ public class AndroidUtilities {
         canvas.scale(f2, f2);
         canvas.drawColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         view.draw(canvas);
-        Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, height) / 180));
+        Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, height) / NotificationCenter.updateBotMenuButton));
         return createBitmap;
     }
 
@@ -5534,8 +5551,8 @@ public class AndroidUtilities {
                 return globalWindowViews;
             }
             Class<?> cls = Class.forName("android.view.WindowManagerGlobal");
-            Object invoke = cls.getMethod("getInstance", new Class[0]).invoke(null, null);
-            Method method = cls.getMethod("getViewRootNames", new Class[0]);
+            Object invoke = cls.getMethod("getInstance", null).invoke(null, null);
+            Method method = cls.getMethod("getViewRootNames", null);
             Method method2 = cls.getMethod("getRootView", String.class);
             String[] strArr = (String[]) method.invoke(invoke, null);
             ArrayList arrayList = new ArrayList();
@@ -5638,14 +5655,16 @@ public class AndroidUtilities {
                         canvas.restore();
                     }
                 }
-                Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, i2) / 180));
+                Utilities.stackBlurBitmap(createBitmap, Math.max(i, Math.max(width, i2) / NotificationCenter.updateBotMenuButton));
                 callback.run(createBitmap);
             } catch (Exception e2) {
                 FileLog.e(e2);
                 callback.run(null);
             }
-        } finally {
             makingGlobalBlurBitmap = false;
+        } catch (Throwable th) {
+            makingGlobalBlurBitmap = false;
+            throw th;
         }
     }
 
@@ -5749,8 +5768,8 @@ public class AndroidUtilities {
         return Math.max(i, i2) >= Math.min(i3, i4) && Math.max(i3, i4) >= Math.min(i, i2);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x0024, code lost:
-        if (r1 == null) goto L11;
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x0026, code lost:
+        if (r1 == null) goto L12;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5760,31 +5779,31 @@ public class AndroidUtilities {
         RandomAccessFile randomAccessFile2 = null;
         try {
             randomAccessFile = new RandomAccessFile(str, "r");
-            try {
-                String readLine = randomAccessFile.readLine();
-                if (readLine != null) {
-                    try {
-                        randomAccessFile.close();
-                    } catch (Exception unused) {
-                    }
-                    return readLine;
-                }
-            } catch (Exception unused2) {
-            } catch (Throwable th) {
-                th = th;
-                randomAccessFile2 = randomAccessFile;
-                if (randomAccessFile2 != null) {
-                    try {
-                        randomAccessFile2.close();
-                    } catch (Exception unused3) {
-                    }
-                }
-                throw th;
-            }
-        } catch (Exception unused4) {
+        } catch (Exception unused) {
             randomAccessFile = null;
+        } catch (Throwable th) {
+            th = th;
+        }
+        try {
+            String readLine = randomAccessFile.readLine();
+            if (readLine != null) {
+                try {
+                    randomAccessFile.close();
+                } catch (Exception unused2) {
+                }
+                return readLine;
+            }
+        } catch (Exception unused3) {
         } catch (Throwable th2) {
             th = th2;
+            randomAccessFile2 = randomAccessFile;
+            if (randomAccessFile2 != null) {
+                try {
+                    randomAccessFile2.close();
+                } catch (Exception unused4) {
+                }
+            }
+            throw th;
         }
         try {
             randomAccessFile.close();
@@ -5847,13 +5866,14 @@ public class AndroidUtilities {
     public static Pair<Integer, Integer> getImageOrientation(ExifInterface exifInterface) {
         try {
             int i = 1;
-            int i2 = 270;
-            switch (exifInterface.getAttributeInt("Orientation", 1)) {
+            int attributeInt = exifInterface.getAttributeInt("Orientation", 1);
+            int i2 = NotificationCenter.onRequestPermissionResultReceived;
+            switch (attributeInt) {
                 case 2:
                     i2 = 0;
                     break;
                 case 3:
-                    i2 = 180;
+                    i2 = NotificationCenter.updateBotMenuButton;
                     i = 0;
                     break;
                 case 4:
@@ -5928,9 +5948,9 @@ public class AndroidUtilities {
             for (int i6 = 0; i6 < 10; i6++) {
                 int pixel = bitmap.getPixel((int) (i5 * width), (int) (i6 * height));
                 if (Color.alpha(pixel) > 200) {
-                    i2 += Color.red(pixel);
+                    i4 += Color.red(pixel);
                     i3 += Color.green(pixel);
-                    i4 += Color.blue(pixel);
+                    i2 += Color.blue(pixel);
                     i++;
                 }
             }
@@ -5938,7 +5958,7 @@ public class AndroidUtilities {
         if (i == 0) {
             return 0;
         }
-        return Color.argb(255, i2 / i, i3 / i, i4 / i);
+        return Color.argb((int) NotificationCenter.voipServiceCreated, i4 / i, i3 / i, i2 / i);
     }
 
     public static String translitSafe(String str) {
@@ -6165,9 +6185,9 @@ public class AndroidUtilities {
         });
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:29:0x004e A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0078 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0079 A[Catch: Exception -> 0x01bf, TryCatch #0 {Exception -> 0x01bf, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:32:0x0054, B:34:0x005d, B:36:0x0066, B:38:0x0072, B:41:0x0079, B:43:0x0094, B:45:0x009d, B:48:0x00a8, B:51:0x00b9, B:53:0x00c5, B:54:0x00c8, B:56:0x00ce, B:58:0x00d5, B:61:0x00e0, B:63:0x00e6, B:66:0x00f3, B:67:0x00f7, B:111:0x0191, B:112:0x0194, B:114:0x019a, B:117:0x01a3, B:69:0x00fc, B:72:0x0107, B:75:0x0113, B:78:0x011e, B:81:0x0129, B:84:0x0133, B:87:0x013d, B:90:0x0148, B:93:0x0152, B:96:0x015d, B:99:0x0168, B:102:0x0173, B:105:0x017d, B:108:0x0188, B:121:0x01ad, B:123:0x01b3, B:18:0x002c, B:21:0x0036, B:24:0x0040), top: B:129:0x0004 }] */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x0050 A[ADDED_TO_REGION] */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0078 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x0079 A[Catch: Exception -> 0x0036, TryCatch #0 {Exception -> 0x0036, blocks: (B:5:0x0004, B:8:0x000f, B:11:0x0016, B:34:0x0056, B:36:0x005e, B:38:0x0066, B:40:0x0072, B:43:0x0079, B:45:0x0093, B:47:0x009b, B:50:0x00a5, B:53:0x00b6, B:55:0x00c2, B:56:0x00c5, B:58:0x00cb, B:60:0x00d2, B:63:0x00dd, B:65:0x00e3, B:68:0x00f0, B:69:0x00f4, B:113:0x018e, B:114:0x0191, B:117:0x019e, B:71:0x00f9, B:74:0x0104, B:77:0x0110, B:80:0x011b, B:83:0x0126, B:86:0x0130, B:89:0x013a, B:92:0x0145, B:95:0x014f, B:98:0x015a, B:101:0x0165, B:104:0x0170, B:107:0x017a, B:110:0x0185, B:122:0x01a9, B:124:0x01af, B:18:0x002c, B:23:0x0039, B:26:0x0043), top: B:129:0x0004 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6256,7 +6276,7 @@ public class AndroidUtilities {
                                         break;
                                     }
                                     break;
-                                case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                                case 99:
                                     if (str2.equals("c")) {
                                         c2 = '\n';
                                         break;

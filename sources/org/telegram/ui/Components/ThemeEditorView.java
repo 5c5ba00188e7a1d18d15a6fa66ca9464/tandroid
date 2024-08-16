@@ -22,7 +22,6 @@ import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -52,6 +51,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -155,13 +155,14 @@ public class ThemeEditorView {
                 view.setBackgroundDrawable(Theme.createRoundRectDrawable(AndroidUtilities.dp(18.0f), -854795));
                 addView(view, LayoutHelper.createFrame(-1, 36.0f, 51, 14.0f, 11.0f, 14.0f, 0.0f));
                 ImageView imageView = new ImageView(context);
-                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+                imageView.setScaleType(scaleType);
                 imageView.setImageResource(R.drawable.smiles_inputsearch);
                 imageView.setColorFilter(new PorterDuffColorFilter(-6182737, PorterDuff.Mode.MULTIPLY));
                 addView(imageView, LayoutHelper.createFrame(36, 36.0f, 51, 16.0f, 11.0f, 0.0f, 0.0f));
                 ImageView imageView2 = new ImageView(context);
                 this.clearSearchImageView = imageView2;
-                imageView2.setScaleType(ImageView.ScaleType.CENTER);
+                imageView2.setScaleType(scaleType);
                 ImageView imageView3 = this.clearSearchImageView;
                 CloseProgressDrawable2 closeProgressDrawable2 = new CloseProgressDrawable2() { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.SearchField.1
                     @Override // org.telegram.ui.Components.CloseProgressDrawable2
@@ -381,22 +382,22 @@ public class ThemeEditorView {
                                 intValue = 0;
                             } else if (intValue > 255) {
                                 EditTextBoldCursor editTextBoldCursor2 = ColorPicker.this.colorEditText[i];
-                                editTextBoldCursor2.setText("255");
+                                editTextBoldCursor2.setText("" + NotificationCenter.voipServiceCreated);
                                 ColorPicker.this.colorEditText[i].setSelection(ColorPicker.this.colorEditText[i].length());
-                                intValue = 255;
+                                intValue = NotificationCenter.voipServiceCreated;
                             }
                             int color = ColorPicker.this.getColor();
                             int i5 = i;
                             if (i5 == 2) {
                                 i2 = color & (-256);
-                                i3 = intValue & 255;
+                                i3 = intValue & NotificationCenter.voipServiceCreated;
                             } else if (i5 == 1) {
                                 i2 = color & (-65281);
-                                i3 = (intValue & 255) << 8;
+                                i3 = (intValue & NotificationCenter.voipServiceCreated) << 8;
                             } else if (i5 != 0) {
                                 if (i5 == 3) {
                                     i2 = color & 16777215;
-                                    i3 = (intValue & 255) << 24;
+                                    i3 = (intValue & NotificationCenter.voipServiceCreated) << 24;
                                 }
                                 ColorPicker.this.setColor(color);
                                 for (i4 = 0; i4 < ThemeEditorView.this.currentThemeDesription.size(); i4++) {
@@ -405,7 +406,7 @@ public class ThemeEditorView {
                                 EditorAlert.this.ignoreTextChange = false;
                             } else {
                                 i2 = color & (-16711681);
-                                i3 = (intValue & 255) << 16;
+                                i3 = (intValue & NotificationCenter.voipServiceCreated) << 16;
                             }
                             color = i2 | i3;
                             ColorPicker.this.setColor(color);
@@ -445,6 +446,7 @@ public class ThemeEditorView {
             @Override // android.view.View
             protected void onDraw(Canvas canvas) {
                 float f;
+                float f2;
                 int width = (getWidth() / 2) - (this.paramValueSliderWidth * 2);
                 int height = (getHeight() / 2) - AndroidUtilities.dp(8.0f);
                 Bitmap bitmap = this.colorWheelBitmap;
@@ -457,15 +459,15 @@ public class ThemeEditorView {
                 double d3 = this.colorWheelRadius;
                 Double.isNaN(d3);
                 float[] fArr = this.colorHSV;
-                float f2 = fArr[1];
-                double d4 = f2;
+                float f3 = fArr[1];
+                double d4 = f3;
                 Double.isNaN(d4);
                 double d5 = (-Math.sin(radians)) * d4;
                 double d6 = this.colorWheelRadius;
                 Double.isNaN(d6);
                 float[] fArr2 = this.hsvTemp;
                 fArr2[0] = fArr[0];
-                fArr2[1] = f2;
+                fArr2[1] = f3;
                 fArr2[2] = 1.0f;
                 drawPointerArrow(canvas, ((int) (d2 * d3)) + width, ((int) (d5 * d6)) + height, Color.HSVToColor(fArr2));
                 int i2 = this.colorWheelRadius;
@@ -477,24 +479,26 @@ public class ThemeEditorView {
                     this.colorGradient = new LinearGradient(i3, i4, i3 + dp, i4 + i5, new int[]{-16777216, Color.HSVToColor(this.hsvTemp)}, (float[]) null, Shader.TileMode.CLAMP);
                 }
                 this.valueSliderPaint.setShader(this.colorGradient);
-                float f3 = i4;
-                float f4 = i4 + i5;
-                canvas.drawRect(i3, f3, i3 + dp, f4, this.valueSliderPaint);
+                float f4 = i4;
+                float f5 = i4 + i5;
+                canvas.drawRect(i3, f4, i3 + dp, f5, this.valueSliderPaint);
                 int i6 = dp / 2;
                 float[] fArr3 = this.colorHSV;
-                float f5 = i5;
-                drawPointerArrow(canvas, i3 + i6, (int) ((fArr3[2] * f5) + f3), Color.HSVToColor(fArr3));
+                float f6 = i5;
+                drawPointerArrow(canvas, i3 + i6, (int) ((fArr3[2] * f6) + f4), Color.HSVToColor(fArr3));
                 int i7 = i3 + (this.paramValueSliderWidth * 2);
                 if (this.alphaGradient == null) {
                     int HSVToColor = Color.HSVToColor(this.hsvTemp);
-                    f = f4;
-                    this.alphaGradient = new LinearGradient(i7, f3, i7 + dp, f, new int[]{HSVToColor, HSVToColor & 16777215}, (float[]) null, Shader.TileMode.CLAMP);
+                    f = f5;
+                    f2 = f4;
+                    this.alphaGradient = new LinearGradient(i7, f4, i7 + dp, f, new int[]{HSVToColor, HSVToColor & 16777215}, (float[]) null, Shader.TileMode.CLAMP);
                 } else {
-                    f = f4;
+                    f = f5;
+                    f2 = f4;
                 }
                 this.valueSliderPaint.setShader(this.alphaGradient);
-                canvas.drawRect(i7, f3, dp + i7, f, this.valueSliderPaint);
-                drawPointerArrow(canvas, i7 + i6, (int) (f3 + ((1.0f - this.alpha) * f5)), (Color.HSVToColor(this.colorHSV) & 16777215) | (((int) (this.alpha * 255.0f)) << 24));
+                canvas.drawRect(i7, f2, dp + i7, f, this.valueSliderPaint);
+                drawPointerArrow(canvas, i7 + i6, (int) (f2 + ((1.0f - this.alpha) * f6)), (Color.HSVToColor(this.colorHSV) & 16777215) | (((int) (this.alpha * 255.0f)) << 24));
             }
 
             private void drawPointerArrow(Canvas canvas, int i, int i2, int i3) {
@@ -513,7 +517,8 @@ public class ThemeEditorView {
             protected void onSizeChanged(int i, int i2, int i3, int i4) {
                 int max = Math.max(1, ((i / 2) - (this.paramValueSliderWidth * 2)) - AndroidUtilities.dp(20.0f));
                 this.colorWheelRadius = max;
-                this.colorWheelBitmap = createColorWheelBitmap(max * 2, max * 2);
+                int i5 = max * 2;
+                this.colorWheelBitmap = createColorWheelBitmap(i5, i5);
                 this.colorGradient = null;
                 this.alphaGradient = null;
             }
@@ -523,7 +528,7 @@ public class ThemeEditorView {
                 int[] iArr = new int[13];
                 float[] fArr = {0.0f, 1.0f, 1.0f};
                 for (int i3 = 0; i3 < 13; i3++) {
-                    fArr[0] = ((i3 * 30) + 180) % 360;
+                    fArr[0] = ((i3 * 30) + NotificationCenter.updateBotMenuButton) % 360;
                     iArr[i3] = Color.HSVToColor(fArr);
                 }
                 iArr[12] = iArr[0];
@@ -543,39 +548,27 @@ public class ThemeEditorView {
                 }
                 EditorAlert.this.startedColorChange = z;
                 EditorAlert.this.colorChangeAnimation = new AnimatorSet();
-                AnimatorSet animatorSet = EditorAlert.this.colorChangeAnimation;
-                Animator[] animatorArr = new Animator[2];
-                ColorDrawable colorDrawable = ((BottomSheet) EditorAlert.this).backDrawable;
-                Property<ColorDrawable, Integer> property = AnimationProperties.COLOR_DRAWABLE_ALPHA;
-                int[] iArr = new int[1];
-                iArr[0] = z ? 0 : 51;
-                animatorArr[0] = ObjectAnimator.ofInt(colorDrawable, property, iArr);
-                ViewGroup viewGroup = ((BottomSheet) EditorAlert.this).containerView;
-                Property property2 = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = z ? 0.2f : 1.0f;
-                animatorArr[1] = ObjectAnimator.ofFloat(viewGroup, property2, fArr);
-                animatorSet.playTogether(animatorArr);
+                EditorAlert.this.colorChangeAnimation.playTogether(ObjectAnimator.ofInt(((BottomSheet) EditorAlert.this).backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, z ? 0 : 51), ObjectAnimator.ofFloat(((BottomSheet) EditorAlert.this).containerView, View.ALPHA, z ? 0.2f : 1.0f));
                 EditorAlert.this.colorChangeAnimation.setDuration(150L);
                 EditorAlert.this.colorChangeAnimation.setInterpolator(this.decelerateInterpolator);
                 EditorAlert.this.colorChangeAnimation.start();
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:35:0x00bd, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:35:0x00bb, code lost:
                 if (r5 <= (r8 + r7)) goto L89;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:56:0x0102, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:56:0x00fe, code lost:
                 if (r5 <= (r8 + r7)) goto L82;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:5:0x000d, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:5:0x000c, code lost:
                 if (r1 != 2) goto L5;
              */
-            /* JADX WARN: Removed duplicated region for block: B:45:0x00e4  */
-            /* JADX WARN: Removed duplicated region for block: B:59:0x0118  */
-            /* JADX WARN: Removed duplicated region for block: B:60:0x011b  */
-            /* JADX WARN: Removed duplicated region for block: B:66:0x0127  */
-            /* JADX WARN: Removed duplicated region for block: B:73:0x0145  */
-            /* JADX WARN: Removed duplicated region for block: B:91:0x01a0  */
+            /* JADX WARN: Removed duplicated region for block: B:45:0x00e2  */
+            /* JADX WARN: Removed duplicated region for block: B:59:0x0114  */
+            /* JADX WARN: Removed duplicated region for block: B:60:0x0117  */
+            /* JADX WARN: Removed duplicated region for block: B:66:0x0123  */
+            /* JADX WARN: Removed duplicated region for block: B:73:0x0141  */
+            /* JADX WARN: Removed duplicated region for block: B:91:0x019c  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -603,26 +596,27 @@ public class ThemeEditorView {
                 int i5 = y - height;
                 double sqrt = Math.sqrt((i4 * i4) + (i5 * i5));
                 if (this.circlePressed || (!this.alphaPressed && !this.colorPressed && sqrt <= this.colorWheelRadius)) {
-                    int i6 = this.colorWheelRadius;
-                    if (sqrt > i6) {
-                        sqrt = i6;
+                    double d = this.colorWheelRadius;
+                    if (sqrt > d) {
+                        sqrt = d;
                     }
                     this.circlePressed = true;
                     this.colorHSV[0] = (float) (Math.toDegrees(Math.atan2(i5, i4)) + 180.0d);
                     float[] fArr = this.colorHSV;
-                    double d = this.colorWheelRadius;
-                    Double.isNaN(d);
-                    fArr[1] = Math.max(0.0f, Math.min(1.0f, (float) (sqrt / d)));
+                    double d2 = this.colorWheelRadius;
+                    Double.isNaN(d2);
+                    fArr[1] = Math.max(0.0f, Math.min(1.0f, (float) (sqrt / d2)));
                     this.colorGradient = null;
                     this.alphaGradient = null;
                 }
                 if (!this.colorPressed) {
                     if (!this.circlePressed && !this.alphaPressed) {
-                        int i7 = this.colorWheelRadius;
+                        int i6 = this.colorWheelRadius;
+                        int i7 = width + i6;
                         int i8 = this.paramValueSliderWidth;
-                        if (x >= width + i7 + i8) {
-                            if (x <= width + i7 + (i8 * 2)) {
-                                if (y >= height - i7) {
+                        if (x >= i7 + i8) {
+                            if (x <= i7 + (i8 * 2)) {
+                                if (y >= height - i6) {
                                 }
                             }
                         }
@@ -630,9 +624,10 @@ public class ThemeEditorView {
                     if (!this.alphaPressed) {
                         if (!this.circlePressed && !this.colorPressed) {
                             int i9 = this.colorWheelRadius;
-                            int i10 = this.paramValueSliderWidth;
-                            if (x >= width + i9 + (i10 * 3)) {
-                                if (x <= width + i9 + (i10 * 4)) {
+                            int i10 = width + i9;
+                            int i11 = this.paramValueSliderWidth;
+                            if (x >= (i11 * 3) + i10) {
+                                if (x <= i10 + (i11 * 4)) {
                                     if (y >= height - i9) {
                                     }
                                 }
@@ -658,8 +653,8 @@ public class ThemeEditorView {
                                 this.colorEditText[1].setText("" + green);
                                 this.colorEditText[2].setText("" + blue);
                                 this.colorEditText[3].setText("" + alpha);
-                                for (int i11 = 0; i11 < 4; i11++) {
-                                    EditTextBoldCursor editTextBoldCursor = this.colorEditText[i11];
+                                for (int i12 = 0; i12 < 4; i12++) {
+                                    EditTextBoldCursor editTextBoldCursor = this.colorEditText[i12];
                                     editTextBoldCursor.setSelection(editTextBoldCursor.length());
                                 }
                                 EditorAlert.this.ignoreTextChange = false;
@@ -840,18 +835,19 @@ public class ThemeEditorView {
                         measuredHeight -= i2;
                         int i3 = ((BottomSheet) EditorAlert.this).backgroundPaddingTop + dp2;
                         int i4 = AndroidUtilities.statusBarHeight;
-                        if (i3 < i4 * 2) {
-                            int min = Math.min(i4, ((i4 * 2) - dp2) - ((BottomSheet) EditorAlert.this).backgroundPaddingTop);
+                        int i5 = i4 * 2;
+                        if (i3 < i5) {
+                            int min = Math.min(i4, (i5 - dp2) - ((BottomSheet) EditorAlert.this).backgroundPaddingTop);
                             dp2 -= min;
                             measuredHeight += min;
                             f = 1.0f - Math.min(1.0f, (min * 2) / AndroidUtilities.statusBarHeight);
                         } else {
                             f = 1.0f;
                         }
-                        int i5 = ((BottomSheet) EditorAlert.this).backgroundPaddingTop + dp2;
-                        int i6 = AndroidUtilities.statusBarHeight;
-                        if (i5 < i6) {
-                            i = Math.min(i6, (i6 - dp2) - ((BottomSheet) EditorAlert.this).backgroundPaddingTop);
+                        int i6 = ((BottomSheet) EditorAlert.this).backgroundPaddingTop + dp2;
+                        int i7 = AndroidUtilities.statusBarHeight;
+                        if (i6 < i7) {
+                            i = Math.min(i7, (i7 - dp2) - ((BottomSheet) EditorAlert.this).backgroundPaddingTop);
                             EditorAlert.this.shadowDrawable.setBounds(0, dp2, getMeasuredWidth(), measuredHeight);
                             EditorAlert.this.shadowDrawable.draw(canvas);
                             if (f != 1.0f) {
@@ -891,9 +887,8 @@ public class ThemeEditorView {
                     if (bool == null || bool.booleanValue() != z) {
                         boolean z2 = AndroidUtilities.computePerceivedBrightness(EditorAlert.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
                         boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(EditorAlert.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                        Boolean valueOf = Boolean.valueOf(z);
-                        this.statusBarOpen = valueOf;
-                        if (!valueOf.booleanValue()) {
+                        this.statusBarOpen = Boolean.valueOf(z);
+                        if (!z) {
                             z2 = z3;
                         }
                         AndroidUtilities.setLightStatusBar(EditorAlert.this.getWindow(), z2);
@@ -1135,14 +1130,7 @@ public class ThemeEditorView {
                 animatorSet.cancel();
             }
             this.shadowAnimation[i] = new AnimatorSet();
-            AnimatorSet animatorSet2 = this.shadowAnimation[i];
-            Animator[] animatorArr = new Animator[1];
-            View view = this.shadow[i];
-            Property property = View.ALPHA;
-            float[] fArr = new float[1];
-            fArr[0] = z ? 1.0f : 0.0f;
-            animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-            animatorSet2.playTogether(animatorArr);
+            this.shadowAnimation[i].playTogether(ObjectAnimator.ofFloat(this.shadow[i], View.ALPHA, z ? 1.0f : 0.0f));
             this.shadowAnimation[i].setDuration(150L);
             this.shadowAnimation[i].addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.4
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -1191,20 +1179,14 @@ public class ThemeEditorView {
                 this.searchField.setVisibility(0);
                 this.listView.setAlpha(0.0f);
                 AnimatorSet animatorSet = new AnimatorSet();
-                Animator[] animatorArr = new Animator[8];
-                animatorArr[0] = ObjectAnimator.ofFloat(this.colorPicker, View.ALPHA, 0.0f);
-                animatorArr[1] = ObjectAnimator.ofFloat(this.bottomLayout, View.ALPHA, 0.0f);
-                animatorArr[2] = ObjectAnimator.ofFloat(this.listView, View.ALPHA, 1.0f);
-                animatorArr[3] = ObjectAnimator.ofFloat(this.frameLayout, View.ALPHA, 1.0f);
-                View view = this.shadow[0];
+                ColorPicker colorPicker = this.colorPicker;
                 Property property = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = view.getTag() == null ? 1.0f : 0.0f;
-                animatorArr[4] = ObjectAnimator.ofFloat(view, property, fArr);
-                animatorArr[5] = ObjectAnimator.ofFloat(this.searchEmptyView, View.ALPHA, 1.0f);
-                animatorArr[6] = ObjectAnimator.ofFloat(this.bottomSaveLayout, View.ALPHA, 1.0f);
-                animatorArr[7] = ObjectAnimator.ofInt(this, "scrollOffsetY", this.previousScrollPosition);
-                animatorSet.playTogether(animatorArr);
+                ObjectAnimator ofFloat = ObjectAnimator.ofFloat(colorPicker, property, 0.0f);
+                ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(this.bottomLayout, property, 0.0f);
+                ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(this.listView, property, 1.0f);
+                ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(this.frameLayout, property, 1.0f);
+                View view = this.shadow[0];
+                animatorSet.playTogether(ofFloat, ofFloat2, ofFloat3, ofFloat4, ObjectAnimator.ofFloat(view, property, view.getTag() == null ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.searchEmptyView, property, 1.0f), ObjectAnimator.ofFloat(this.bottomSaveLayout, property, 1.0f), ObjectAnimator.ofInt(this, "scrollOffsetY", this.previousScrollPosition));
                 animatorSet.setDuration(150L);
                 animatorSet.setInterpolator(ThemeEditorView.this.decelerateInterpolator);
                 animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.6
@@ -1229,7 +1211,9 @@ public class ThemeEditorView {
             this.bottomLayout.setAlpha(0.0f);
             this.previousScrollPosition = this.scrollOffsetY;
             AnimatorSet animatorSet2 = new AnimatorSet();
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.colorPicker, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.bottomLayout, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.listView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.frameLayout, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.shadow[0], View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.searchEmptyView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.bottomSaveLayout, View.ALPHA, 0.0f), ObjectAnimator.ofInt(this, "scrollOffsetY", this.listView.getPaddingTop()));
+            ColorPicker colorPicker2 = this.colorPicker;
+            Property property2 = View.ALPHA;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(colorPicker2, property2, 1.0f), ObjectAnimator.ofFloat(this.bottomLayout, property2, 1.0f), ObjectAnimator.ofFloat(this.listView, property2, 0.0f), ObjectAnimator.ofFloat(this.frameLayout, property2, 0.0f), ObjectAnimator.ofFloat(this.shadow[0], property2, 0.0f), ObjectAnimator.ofFloat(this.searchEmptyView, property2, 0.0f), ObjectAnimator.ofFloat(this.bottomSaveLayout, property2, 0.0f), ObjectAnimator.ofInt(this, "scrollOffsetY", this.listView.getPaddingTop()));
             animatorSet2.setDuration(150L);
             animatorSet2.setInterpolator(ThemeEditorView.this.decelerateInterpolator);
             animatorSet2.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.ThemeEditorView.EditorAlert.5
@@ -1753,8 +1737,8 @@ public class ThemeEditorView {
                     }
                     if (ThemeEditorView.this.windowLayoutParams.y < 0) {
                         ThemeEditorView.this.windowLayoutParams.y = 0;
-                    } else if (ThemeEditorView.this.windowLayoutParams.y > (AndroidUtilities.displaySize.y - ThemeEditorView.this.windowLayoutParams.height) + 0) {
-                        ThemeEditorView.this.windowLayoutParams.y = (AndroidUtilities.displaySize.y - ThemeEditorView.this.windowLayoutParams.height) + 0;
+                    } else if (ThemeEditorView.this.windowLayoutParams.y > AndroidUtilities.displaySize.y - ThemeEditorView.this.windowLayoutParams.height) {
+                        ThemeEditorView.this.windowLayoutParams.y = AndroidUtilities.displaySize.y - ThemeEditorView.this.windowLayoutParams.height;
                     }
                     ThemeEditorView.this.windowManager.updateViewLayout(ThemeEditorView.this.windowView, ThemeEditorView.this.windowLayoutParams);
                     this.startX = rawX;
@@ -1873,8 +1857,8 @@ public class ThemeEditorView {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0110  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0113  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x017f  */
     /* JADX WARN: Removed duplicated region for block: B:58:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

@@ -48,11 +48,7 @@ public final class SavedStateRegistry {
                 bundle3.remove(key);
             }
             Bundle bundle4 = this.restoredState;
-            boolean z = false;
-            if (bundle4 != null && !bundle4.isEmpty()) {
-                z = true;
-            }
-            if (!z) {
+            if (bundle4 == null || bundle4.isEmpty()) {
                 this.restoredState = null;
             }
             return bundle2;
@@ -63,7 +59,7 @@ public final class SavedStateRegistry {
     public final void registerSavedStateProvider(String key, SavedStateProvider provider) {
         Intrinsics.checkNotNullParameter(key, "key");
         Intrinsics.checkNotNullParameter(provider, "provider");
-        if (!(this.components.putIfAbsent(key, provider) == null)) {
+        if (this.components.putIfAbsent(key, provider) != null) {
             throw new IllegalArgumentException("SavedStateProvider with the given key is already registered".toString());
         }
     }
@@ -93,7 +89,7 @@ public final class SavedStateRegistry {
         }
         this.recreatorProvider = savedStateProvider;
         try {
-            clazz.getDeclaredConstructor(new Class[0]);
+            clazz.getDeclaredConstructor(null);
             Recreator.SavedStateProvider savedStateProvider2 = this.recreatorProvider;
             if (savedStateProvider2 != null) {
                 String name = clazz.getName();

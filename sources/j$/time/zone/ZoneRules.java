@@ -3,7 +3,7 @@ package j$.time.zone;
 import j$.time.Instant;
 import j$.time.LocalDate;
 import j$.time.ZoneOffset;
-import j$.time.h;
+import j$.time.g;
 import j$.util.concurrent.ConcurrentHashMap;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public final class ZoneRules implements Serializable {
     /* JADX INFO: Access modifiers changed from: package-private */
     public ZoneRules(TimeZone timeZone) {
         this.b = r0;
-        ZoneOffset[] zoneOffsetArr = {e(timeZone.getRawOffset())};
+        ZoneOffset[] zoneOffsetArr = {f(timeZone.getRawOffset())};
         long[] jArr = h;
         this.a = jArr;
         this.c = jArr;
@@ -69,7 +69,7 @@ public final class ZoneRules implements Serializable {
         if (i2 < 1800) {
             return aVarArr3;
         }
-        long k = h.i(i2 - 1).k(this.b[0]);
+        long k = g.i(i2 - 1).k(this.b[0]);
         int offset = timeZone.getOffset(k * 1000);
         long j3 = 31968000 + k;
         while (k < j3) {
@@ -80,11 +80,11 @@ public final class ZoneRules implements Serializable {
                 while (j4 - k > 1) {
                     int i3 = offset;
                     long j6 = j3;
-                    long f = j$.time.a.f(j4 + k, 2L);
-                    if (timeZone.getOffset(f * 1000) == i3) {
-                        k = f;
+                    long j7 = j$.com.android.tools.r8.a.j(j4 + k, 2L);
+                    if (timeZone.getOffset(j7 * 1000) == i3) {
+                        k = j7;
                     } else {
-                        j4 = f;
+                        j4 = j7;
                     }
                     offset = i3;
                     j3 = j6;
@@ -94,12 +94,12 @@ public final class ZoneRules implements Serializable {
                 if (timeZone.getOffset(k * 1000) == i4) {
                     k = j4;
                 }
-                ZoneOffset e = e(i4);
+                ZoneOffset f = f(i4);
                 offset = timeZone.getOffset(k * 1000);
-                ZoneOffset e2 = e(offset);
-                if (b(k, e2) == i2) {
+                ZoneOffset f2 = f(offset);
+                if (b(k, f2) == i2) {
                     aVarArr3 = (a[]) Arrays.copyOf(aVarArr3, aVarArr3.length + 1);
-                    aVarArr3[aVarArr3.length - 1] = new a(k, e, e2);
+                    aVarArr3[aVarArr3.length - 1] = new a(k, f, f2);
                 }
             } else {
                 j2 = j3;
@@ -114,25 +114,23 @@ public final class ZoneRules implements Serializable {
     }
 
     private static int b(long j2, ZoneOffset zoneOffset) {
-        return LocalDate.o(j$.time.a.f(j2 + zoneOffset.getTotalSeconds(), 86400L)).l();
+        return LocalDate.p(j$.com.android.tools.r8.a.j(j2 + zoneOffset.getTotalSeconds(), 86400L)).m();
     }
 
-    public static ZoneRules d(ZoneOffset zoneOffset) {
-        if (zoneOffset != null) {
-            return new ZoneRules(zoneOffset);
-        }
-        throw new NullPointerException("offset");
+    public static ZoneRules e(ZoneOffset zoneOffset) {
+        j$.util.a.B(zoneOffset, "offset");
+        return new ZoneRules(zoneOffset);
     }
 
-    private static ZoneOffset e(int i2) {
-        return ZoneOffset.i(i2 / 1000);
+    private static ZoneOffset f(int i2) {
+        return ZoneOffset.j(i2 / 1000);
     }
 
     public final boolean c(Instant instant) {
         ZoneOffset zoneOffset;
         TimeZone timeZone = this.f;
         if (timeZone != null) {
-            zoneOffset = e(timeZone.getRawOffset());
+            zoneOffset = f(timeZone.getRawOffset());
         } else {
             int length = this.c.length;
             ZoneOffset[] zoneOffsetArr = this.b;
@@ -149,13 +147,78 @@ public final class ZoneRules implements Serializable {
         return !zoneOffset.equals(getOffset(instant));
     }
 
+    public final boolean d() {
+        a aVar;
+        TimeZone timeZone = this.f;
+        if (timeZone == null) {
+            return this.c.length == 0;
+        } else if (timeZone.useDaylightTime() || timeZone.getDSTSavings() != 0) {
+            return false;
+        } else {
+            Instant now = Instant.now();
+            long i2 = now.i();
+            if (now.j() > 0 && i2 < Long.MAX_VALUE) {
+                i2++;
+            }
+            int b = b(i2, getOffset(now));
+            a[] a = a(b);
+            int length = a.length - 1;
+            while (true) {
+                if (length < 0) {
+                    if (b > 1800) {
+                        a[] a2 = a(b - 1);
+                        int length2 = a2.length - 1;
+                        while (true) {
+                            if (length2 < 0) {
+                                int offset = timeZone.getOffset((i2 - 1) * 1000);
+                                long s = LocalDate.of(1800, 1, 1).s() * 86400;
+                                for (long min = Math.min(i2 - 31104000, (j$.time.b.b().a() / 1000) + 31968000); s <= min; min -= 7776000) {
+                                    int offset2 = timeZone.getOffset(min * 1000);
+                                    if (offset != offset2) {
+                                        int b2 = b(min, f(offset2));
+                                        a[] a3 = a(b2 + 1);
+                                        int length3 = a3.length - 1;
+                                        while (true) {
+                                            if (length3 < 0) {
+                                                a[] a4 = a(b2);
+                                                aVar = a4[a4.length - 1];
+                                                break;
+                                            } else if (i2 > a3[length3].c()) {
+                                                aVar = a3[length3];
+                                                break;
+                                            } else {
+                                                length3--;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (i2 > a2[length2].c()) {
+                                aVar = a2[length2];
+                                break;
+                            } else {
+                                length2--;
+                            }
+                        }
+                    }
+                    aVar = null;
+                } else if (i2 > a[length].c()) {
+                    aVar = a[length];
+                    break;
+                } else {
+                    length--;
+                }
+            }
+            return aVar == null;
+        }
+    }
+
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj instanceof ZoneRules) {
             ZoneRules zoneRules = (ZoneRules) obj;
-            return j$.util.a.r(this.f, zoneRules.f) && Arrays.equals(this.a, zoneRules.a) && Arrays.equals(this.b, zoneRules.b) && Arrays.equals(this.c, zoneRules.c) && Arrays.equals(this.d, zoneRules.d) && Arrays.equals(this.e, zoneRules.e);
+            return j$.util.a.A(this.f, zoneRules.f) && Arrays.equals(this.a, zoneRules.a) && Arrays.equals(this.b, zoneRules.b) && Arrays.equals(this.c, zoneRules.c) && Arrays.equals(this.d, zoneRules.d) && Arrays.equals(this.e, zoneRules.e);
         }
         return false;
     }
@@ -163,7 +226,7 @@ public final class ZoneRules implements Serializable {
     public ZoneOffset getOffset(Instant instant) {
         TimeZone timeZone = this.f;
         if (timeZone != null) {
-            return e(timeZone.getOffset(instant.l()));
+            return f(timeZone.getOffset(instant.m()));
         }
         long[] jArr = this.c;
         if (jArr.length == 0) {

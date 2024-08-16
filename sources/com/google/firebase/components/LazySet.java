@@ -24,9 +24,12 @@ public class LazySet<T> implements Provider<Set<T>> {
     public Set<T> get() {
         if (this.actualSet == null) {
             synchronized (this) {
-                if (this.actualSet == null) {
-                    this.actualSet = Collections.newSetFromMap(new ConcurrentHashMap());
-                    updateSet();
+                try {
+                    if (this.actualSet == null) {
+                        this.actualSet = Collections.newSetFromMap(new ConcurrentHashMap());
+                        updateSet();
+                    }
+                } finally {
                 }
             }
         }
@@ -35,17 +38,25 @@ public class LazySet<T> implements Provider<Set<T>> {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void add(Provider<T> provider) {
-        if (this.actualSet == null) {
-            this.providers.add(provider);
-        } else {
-            this.actualSet.add(provider.get());
+        try {
+            if (this.actualSet == null) {
+                this.providers.add(provider);
+            } else {
+                this.actualSet.add(provider.get());
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     private synchronized void updateSet() {
-        for (Provider<T> provider : this.providers) {
-            this.actualSet.add(provider.get());
+        try {
+            for (Provider<T> provider : this.providers) {
+                this.actualSet.add(provider.get());
+            }
+            this.providers = null;
+        } catch (Throwable th) {
+            throw th;
         }
-        this.providers = null;
     }
 }

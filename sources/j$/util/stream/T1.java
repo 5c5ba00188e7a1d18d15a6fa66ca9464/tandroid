@@ -2,25 +2,25 @@ package j$.util.stream;
 
 import j$.util.function.Function;
 /* loaded from: classes2.dex */
-final class T1 extends W1 {
-    public final /* synthetic */ int l;
-    final /* synthetic */ Function m;
+final class T1 extends V1 {
+    public final /* synthetic */ int m;
+    final /* synthetic */ Function n;
 
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ T1(c cVar, int i, Function function, int i2) {
-        super(cVar, i);
-        this.l = i2;
-        this.m = function;
+    public /* synthetic */ T1(b bVar, int i, Function function, int i2) {
+        super(bVar, i, 1);
+        this.m = i2;
+        this.n = function;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        switch (this.l) {
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        switch (this.m) {
             case 0:
-                return new R1(this, f2Var, 2);
+                return new o(this, e2Var, 3);
             default:
-                return new R1(this, f2Var, 6);
+                return new o(this, e2Var, 7);
         }
     }
 }

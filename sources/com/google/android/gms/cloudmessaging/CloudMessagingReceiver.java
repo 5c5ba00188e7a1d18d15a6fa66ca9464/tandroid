@@ -81,12 +81,12 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
         if ("com.google.firebase.messaging.NOTIFICATION_OPEN".equals(intent.getAction())) {
             onNotificationOpen(context, extras);
             return -1;
-        } else if ("com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
-            onNotificationDismissed(context, extras);
-            return -1;
-        } else {
+        } else if (!"com.google.firebase.messaging.NOTIFICATION_DISMISS".equals(intent.getAction())) {
             Log.e("CloudMessagingReceiver", "Unknown notification action");
             return 500;
+        } else {
+            onNotificationDismissed(context, extras);
+            return -1;
         }
     }
 
@@ -130,8 +130,10 @@ public abstract class CloudMessagingReceiver extends BroadcastReceiver {
             if (z) {
                 pendingResult.setResultCode(zzb);
             }
-        } finally {
             pendingResult.finish();
+        } catch (Throwable th) {
+            pendingResult.finish();
+            throw th;
         }
     }
 }

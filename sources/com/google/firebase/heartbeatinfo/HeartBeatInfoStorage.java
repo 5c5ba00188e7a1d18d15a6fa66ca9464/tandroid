@@ -21,10 +21,14 @@ public class HeartBeatInfoStorage {
     public static synchronized HeartBeatInfoStorage getInstance(Context context) {
         HeartBeatInfoStorage heartBeatInfoStorage;
         synchronized (HeartBeatInfoStorage.class) {
-            if (instance == null) {
-                instance = new HeartBeatInfoStorage(context);
+            try {
+                if (instance == null) {
+                    instance = new HeartBeatInfoStorage(context);
+                }
+                heartBeatInfoStorage = instance;
+            } catch (Throwable th) {
+                throw th;
             }
-            heartBeatInfoStorage = instance;
         }
         return heartBeatInfoStorage;
     }

@@ -4,6 +4,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 abstract class Atom {
     public final int type;
@@ -13,7 +14,7 @@ abstract class Atom {
     }
 
     public static int parseFullAtomVersion(int i) {
-        return (i >> 24) & 255;
+        return (i >> 24) & NotificationCenter.voipServiceCreated;
     }
 
     public Atom(int i) {
@@ -84,6 +85,6 @@ abstract class Atom {
     }
 
     public static String getAtomTypeString(int i) {
-        return "" + ((char) ((i >> 24) & 255)) + ((char) ((i >> 16) & 255)) + ((char) ((i >> 8) & 255)) + ((char) (i & 255));
+        return "" + ((char) ((i >> 24) & NotificationCenter.voipServiceCreated)) + ((char) ((i >> 16) & NotificationCenter.voipServiceCreated)) + ((char) ((i >> 8) & NotificationCenter.voipServiceCreated)) + ((char) (i & NotificationCenter.voipServiceCreated));
     }
 }

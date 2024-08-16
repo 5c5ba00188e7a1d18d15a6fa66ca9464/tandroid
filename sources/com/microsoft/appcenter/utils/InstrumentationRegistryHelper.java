@@ -9,7 +9,7 @@ public class InstrumentationRegistryHelper {
         Exception e = null;
         for (String str : LOCATIONS) {
             try {
-                return (Bundle) getClass(str).getMethod("getArguments", new Class[0]).invoke(null, new Object[0]);
+                return (Bundle) getClass(str).getMethod("getArguments", null).invoke(null, null);
             } catch (Exception e2) {
                 e = e2;
             }

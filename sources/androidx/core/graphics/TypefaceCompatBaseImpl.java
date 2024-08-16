@@ -103,23 +103,23 @@ public class TypefaceCompatBaseImpl {
         }
         try {
             inputStream = context.getContentResolver().openInputStream(findBestInfo(fontInfoArr, i).getUri());
-        } catch (IOException unused) {
-            inputStream = null;
-        } catch (Throwable th) {
-            th = th;
-        }
-        try {
-            Typeface createFromInputStream = createFromInputStream(context, inputStream);
-            TypefaceCompatUtil.closeQuietly(inputStream);
-            return createFromInputStream;
+            try {
+                Typeface createFromInputStream = createFromInputStream(context, inputStream);
+                TypefaceCompatUtil.closeQuietly(inputStream);
+                return createFromInputStream;
+            } catch (IOException unused) {
+                TypefaceCompatUtil.closeQuietly(inputStream);
+                return null;
+            } catch (Throwable th) {
+                th = th;
+                inputStream2 = inputStream;
+                TypefaceCompatUtil.closeQuietly(inputStream2);
+                throw th;
+            }
         } catch (IOException unused2) {
-            TypefaceCompatUtil.closeQuietly(inputStream);
-            return null;
+            inputStream = null;
         } catch (Throwable th2) {
             th = th2;
-            inputStream2 = inputStream;
-            TypefaceCompatUtil.closeQuietly(inputStream2);
-            throw th;
         }
     }
 

@@ -80,10 +80,14 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
         SystemMessage remove;
         List<SystemMessage> list = messagePool;
         synchronized (list) {
-            if (list.isEmpty()) {
-                remove = new SystemMessage();
-            } else {
-                remove = list.remove(list.size() - 1);
+            try {
+                if (list.isEmpty()) {
+                    remove = new SystemMessage();
+                } else {
+                    remove = list.remove(list.size() - 1);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return remove;
@@ -93,8 +97,12 @@ public final class SystemHandlerWrapper implements HandlerWrapper {
     public static void recycleMessage(SystemMessage systemMessage) {
         List<SystemMessage> list = messagePool;
         synchronized (list) {
-            if (list.size() < 50) {
-                list.add(systemMessage);
+            try {
+                if (list.size() < 50) {
+                    list.add(systemMessage);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

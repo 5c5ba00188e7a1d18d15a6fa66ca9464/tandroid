@@ -365,15 +365,12 @@ public class ViewCompat {
         }
 
         public static String[] getReceiveContentMimeTypes(View view) {
-            String[] receiveContentMimeTypes;
-            receiveContentMimeTypes = view.getReceiveContentMimeTypes();
-            return receiveContentMimeTypes;
+            return view.getReceiveContentMimeTypes();
         }
 
         public static ContentInfoCompat performReceiveContent(View view, ContentInfoCompat contentInfoCompat) {
-            ContentInfo performReceiveContent;
             ContentInfo contentInfo = contentInfoCompat.toContentInfo();
-            performReceiveContent = view.performReceiveContent(contentInfo);
+            ContentInfo performReceiveContent = view.performReceiveContent(contentInfo);
             if (performReceiveContent == null) {
                 return null;
             }
@@ -916,20 +913,24 @@ public class ViewCompat {
                 return;
             }
             synchronized (arrayList) {
-                if (this.mViewsContainingListeners == null) {
-                    this.mViewsContainingListeners = new WeakHashMap<>();
-                }
-                for (int size = arrayList.size() - 1; size >= 0; size--) {
-                    ArrayList<WeakReference<View>> arrayList2 = sViewsWithListeners;
-                    View view = arrayList2.get(size).get();
-                    if (view == null) {
-                        arrayList2.remove(size);
-                    } else {
-                        this.mViewsContainingListeners.put(view, Boolean.TRUE);
-                        for (ViewParent parent = view.getParent(); parent instanceof View; parent = parent.getParent()) {
-                            this.mViewsContainingListeners.put((View) parent, Boolean.TRUE);
+                try {
+                    if (this.mViewsContainingListeners == null) {
+                        this.mViewsContainingListeners = new WeakHashMap<>();
+                    }
+                    for (int size = arrayList.size() - 1; size >= 0; size--) {
+                        ArrayList<WeakReference<View>> arrayList2 = sViewsWithListeners;
+                        View view = arrayList2.get(size).get();
+                        if (view == null) {
+                            arrayList2.remove(size);
+                        } else {
+                            this.mViewsContainingListeners.put(view, Boolean.TRUE);
+                            for (ViewParent parent = view.getParent(); parent instanceof View; parent = parent.getParent()) {
+                                this.mViewsContainingListeners.put((View) parent, Boolean.TRUE);
+                            }
                         }
                     }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }
@@ -942,11 +943,9 @@ public class ViewCompat {
         }
 
         static WindowInsetsCompat computeSystemWindowInsets(View view, WindowInsetsCompat windowInsetsCompat, Rect rect) {
-            WindowInsets computeSystemWindowInsets;
             WindowInsets windowInsets = windowInsetsCompat.toWindowInsets();
             if (windowInsets != null) {
-                computeSystemWindowInsets = view.computeSystemWindowInsets(windowInsets, rect);
-                return WindowInsetsCompat.toWindowInsetsCompat(computeSystemWindowInsets, view);
+                return WindowInsetsCompat.toWindowInsetsCompat(view.computeSystemWindowInsets(windowInsets, rect), view);
             }
             rect.setEmpty();
             return windowInsetsCompat;
@@ -992,21 +991,15 @@ public class ViewCompat {
         }
 
         static boolean dispatchNestedFling(View view, float f, float f2, boolean z) {
-            boolean dispatchNestedFling;
-            dispatchNestedFling = view.dispatchNestedFling(f, f2, z);
-            return dispatchNestedFling;
+            return view.dispatchNestedFling(f, f2, z);
         }
 
         static boolean dispatchNestedPreFling(View view, float f, float f2) {
-            boolean dispatchNestedPreFling;
-            dispatchNestedPreFling = view.dispatchNestedPreFling(f, f2);
-            return dispatchNestedPreFling;
+            return view.dispatchNestedPreFling(f, f2);
         }
 
         static float getZ(View view) {
-            float z;
-            z = view.getZ();
-            return z;
+            return view.getZ();
         }
 
         static void setZ(View view, float f) {
@@ -1022,9 +1015,7 @@ public class ViewCompat {
         }
 
         static float getTranslationZ(View view) {
-            float translationZ;
-            translationZ = view.getTranslationZ();
-            return translationZ;
+            return view.getTranslationZ();
         }
 
         static void setTransitionName(View view, String str) {
@@ -1032,21 +1023,15 @@ public class ViewCompat {
         }
 
         static boolean isImportantForAccessibility(View view) {
-            boolean isImportantForAccessibility;
-            isImportantForAccessibility = view.isImportantForAccessibility();
-            return isImportantForAccessibility;
+            return view.isImportantForAccessibility();
         }
 
         static float getElevation(View view) {
-            float elevation;
-            elevation = view.getElevation();
-            return elevation;
+            return view.getElevation();
         }
 
         static String getTransitionName(View view) {
-            String transitionName;
-            transitionName = view.getTransitionName();
-            return transitionName;
+            return view.getTransitionName();
         }
 
         static void setBackgroundTintList(View view, ColorStateList colorStateList) {
@@ -1054,15 +1039,11 @@ public class ViewCompat {
         }
 
         static ColorStateList getBackgroundTintList(View view) {
-            ColorStateList backgroundTintList;
-            backgroundTintList = view.getBackgroundTintList();
-            return backgroundTintList;
+            return view.getBackgroundTintList();
         }
 
         static PorterDuff.Mode getBackgroundTintMode(View view) {
-            PorterDuff.Mode backgroundTintMode;
-            backgroundTintMode = view.getBackgroundTintMode();
-            return backgroundTintMode;
+            return view.getBackgroundTintMode();
         }
 
         static void setBackgroundTintMode(View view, PorterDuff.Mode mode) {
@@ -1074,15 +1055,11 @@ public class ViewCompat {
         }
 
         static boolean isNestedScrollingEnabled(View view) {
-            boolean isNestedScrollingEnabled;
-            isNestedScrollingEnabled = view.isNestedScrollingEnabled();
-            return isNestedScrollingEnabled;
+            return view.isNestedScrollingEnabled();
         }
 
         static boolean startNestedScroll(View view, int i) {
-            boolean startNestedScroll;
-            startNestedScroll = view.startNestedScroll(i);
-            return startNestedScroll;
+            return view.startNestedScroll(i);
         }
 
         static void stopNestedScroll(View view) {
@@ -1090,29 +1067,22 @@ public class ViewCompat {
         }
 
         static boolean hasNestedScrollingParent(View view) {
-            boolean hasNestedScrollingParent;
-            hasNestedScrollingParent = view.hasNestedScrollingParent();
-            return hasNestedScrollingParent;
+            return view.hasNestedScrollingParent();
         }
 
         static boolean dispatchNestedScroll(View view, int i, int i2, int i3, int i4, int[] iArr) {
-            boolean dispatchNestedScroll;
-            dispatchNestedScroll = view.dispatchNestedScroll(i, i2, i3, i4, iArr);
-            return dispatchNestedScroll;
+            return view.dispatchNestedScroll(i, i2, i3, i4, iArr);
         }
 
         static boolean dispatchNestedPreScroll(View view, int i, int i2, int[] iArr, int[] iArr2) {
-            boolean dispatchNestedPreScroll;
-            dispatchNestedPreScroll = view.dispatchNestedPreScroll(i, i2, iArr, iArr2);
-            return dispatchNestedPreScroll;
+            return view.dispatchNestedPreScroll(i, i2, iArr, iArr2);
         }
     }
 
     /* loaded from: classes.dex */
     private static class Api23Impl {
         public static WindowInsetsCompat getRootWindowInsets(View view) {
-            WindowInsets rootWindowInsets;
-            rootWindowInsets = view.getRootWindowInsets();
+            WindowInsets rootWindowInsets = view.getRootWindowInsets();
             if (rootWindowInsets == null) {
                 return null;
             }
@@ -1131,9 +1101,7 @@ public class ViewCompat {
         }
 
         static int getScrollIndicators(View view) {
-            int scrollIndicators;
-            scrollIndicators = view.getScrollIndicators();
-            return scrollIndicators;
+            return view.getScrollIndicators();
         }
     }
 
@@ -1145,9 +1113,7 @@ public class ViewCompat {
         }
 
         static View.AccessibilityDelegate getAccessibilityDelegate(View view) {
-            View.AccessibilityDelegate accessibilityDelegate;
-            accessibilityDelegate = view.getAccessibilityDelegate();
-            return accessibilityDelegate;
+            return view.getAccessibilityDelegate();
         }
 
         static void setSystemGestureExclusionRects(View view, List<Rect> list) {
@@ -1155,9 +1121,7 @@ public class ViewCompat {
         }
 
         static List<Rect> getSystemGestureExclusionRects(View view) {
-            List<Rect> systemGestureExclusionRects;
-            systemGestureExclusionRects = view.getSystemGestureExclusionRects();
-            return systemGestureExclusionRects;
+            return view.getSystemGestureExclusionRects();
         }
     }
 
@@ -1169,9 +1133,7 @@ public class ViewCompat {
         }
 
         static CharSequence getStateDescription(View view) {
-            CharSequence stateDescription;
-            stateDescription = view.getStateDescription();
-            return stateDescription;
+            return view.getStateDescription();
         }
     }
 
@@ -1186,9 +1148,7 @@ public class ViewCompat {
         }
 
         static int getNextClusterForwardId(View view) {
-            int nextClusterForwardId;
-            nextClusterForwardId = view.getNextClusterForwardId();
-            return nextClusterForwardId;
+            return view.getNextClusterForwardId();
         }
 
         static void setNextClusterForwardId(View view, int i) {
@@ -1196,9 +1156,7 @@ public class ViewCompat {
         }
 
         static boolean isKeyboardNavigationCluster(View view) {
-            boolean isKeyboardNavigationCluster;
-            isKeyboardNavigationCluster = view.isKeyboardNavigationCluster();
-            return isKeyboardNavigationCluster;
+            return view.isKeyboardNavigationCluster();
         }
 
         static void setKeyboardNavigationCluster(View view, boolean z) {
@@ -1206,9 +1164,7 @@ public class ViewCompat {
         }
 
         static boolean isFocusedByDefault(View view) {
-            boolean isFocusedByDefault;
-            isFocusedByDefault = view.isFocusedByDefault();
-            return isFocusedByDefault;
+            return view.isFocusedByDefault();
         }
 
         static void setFocusedByDefault(View view, boolean z) {
@@ -1216,9 +1172,7 @@ public class ViewCompat {
         }
 
         static View keyboardNavigationClusterSearch(View view, View view2, int i) {
-            View keyboardNavigationClusterSearch;
-            keyboardNavigationClusterSearch = view.keyboardNavigationClusterSearch(view2, i);
-            return keyboardNavigationClusterSearch;
+            return view.keyboardNavigationClusterSearch(view2, i);
         }
 
         static void addKeyboardNavigationClusters(View view, Collection<View> collection, int i) {
@@ -1226,21 +1180,15 @@ public class ViewCompat {
         }
 
         static boolean restoreDefaultFocus(View view) {
-            boolean restoreDefaultFocus;
-            restoreDefaultFocus = view.restoreDefaultFocus();
-            return restoreDefaultFocus;
+            return view.restoreDefaultFocus();
         }
 
         static boolean hasExplicitFocusable(View view) {
-            boolean hasExplicitFocusable;
-            hasExplicitFocusable = view.hasExplicitFocusable();
-            return hasExplicitFocusable;
+            return view.hasExplicitFocusable();
         }
 
         static int getImportantForAutofill(View view) {
-            int importantForAutofill;
-            importantForAutofill = view.getImportantForAutofill();
-            return importantForAutofill;
+            return view.getImportantForAutofill();
         }
 
         static void setImportantForAutofill(View view, int i) {
@@ -1248,9 +1196,7 @@ public class ViewCompat {
         }
 
         static boolean isImportantForAutofill(View view) {
-            boolean isImportantForAutofill;
-            isImportantForAutofill = view.isImportantForAutofill();
-            return isImportantForAutofill;
+            return view.isImportantForAutofill();
         }
     }
 
@@ -1424,15 +1370,11 @@ public class ViewCompat {
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static <T> T requireViewById(View view, int i) {
-            View requireViewById;
-            requireViewById = view.requireViewById(i);
-            return (T) requireViewById;
+            return (T) view.requireViewById(i);
         }
 
         static CharSequence getAccessibilityPaneTitle(View view) {
-            CharSequence accessibilityPaneTitle;
-            accessibilityPaneTitle = view.getAccessibilityPaneTitle();
-            return accessibilityPaneTitle;
+            return view.getAccessibilityPaneTitle();
         }
 
         static void setAccessibilityPaneTitle(View view, CharSequence charSequence) {
@@ -1444,15 +1386,11 @@ public class ViewCompat {
         }
 
         static boolean isAccessibilityHeading(View view) {
-            boolean isAccessibilityHeading;
-            isAccessibilityHeading = view.isAccessibilityHeading();
-            return isAccessibilityHeading;
+            return view.isAccessibilityHeading();
         }
 
         static boolean isScreenReaderFocusable(View view) {
-            boolean isScreenReaderFocusable;
-            isScreenReaderFocusable = view.isScreenReaderFocusable();
-            return isScreenReaderFocusable;
+            return view.isScreenReaderFocusable();
         }
 
         static void setScreenReaderFocusable(View view, boolean z) {
@@ -1467,7 +1405,7 @@ public class ViewCompat {
                 view.setTag(i, simpleArrayMap);
             }
             Objects.requireNonNull(onUnhandledKeyEventListenerCompat);
-            View.OnUnhandledKeyEventListener onUnhandledKeyEventListener = new View.OnUnhandledKeyEventListener() { // from class: androidx.core.view.ViewCompat$Api28Impl$$ExternalSyntheticLambda9
+            View.OnUnhandledKeyEventListener onUnhandledKeyEventListener = new View.OnUnhandledKeyEventListener() { // from class: androidx.core.view.ViewCompat$Api28Impl$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnUnhandledKeyEventListener
                 public final boolean onUnhandledKeyEvent(View view2, KeyEvent keyEvent) {
                     return ViewCompat.OnUnhandledKeyEventListenerCompat.this.onUnhandledKeyEvent(view2, keyEvent);
@@ -1495,15 +1433,11 @@ public class ViewCompat {
         }
 
         static WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-            WindowInsets onApplyWindowInsets;
-            onApplyWindowInsets = view.onApplyWindowInsets(windowInsets);
-            return onApplyWindowInsets;
+            return view.onApplyWindowInsets(windowInsets);
         }
 
         static WindowInsets dispatchApplyWindowInsets(View view, WindowInsets windowInsets) {
-            WindowInsets dispatchApplyWindowInsets;
-            dispatchApplyWindowInsets = view.dispatchApplyWindowInsets(windowInsets);
-            return dispatchApplyWindowInsets;
+            return view.dispatchApplyWindowInsets(windowInsets);
         }
     }
 }

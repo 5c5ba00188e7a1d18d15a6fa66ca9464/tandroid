@@ -71,28 +71,34 @@ public class SimpleArrayMap<K, V> {
     private void allocArrays(int i) {
         if (i == 8) {
             synchronized (SimpleArrayMap.class) {
-                Object[] objArr = mTwiceBaseCache;
-                if (objArr != null) {
-                    this.mArray = objArr;
-                    mTwiceBaseCache = (Object[]) objArr[0];
-                    this.mHashes = (int[]) objArr[1];
-                    objArr[1] = null;
-                    objArr[0] = null;
-                    mTwiceBaseCacheSize--;
-                    return;
+                try {
+                    Object[] objArr = mTwiceBaseCache;
+                    if (objArr != null) {
+                        this.mArray = objArr;
+                        mTwiceBaseCache = (Object[]) objArr[0];
+                        this.mHashes = (int[]) objArr[1];
+                        objArr[1] = null;
+                        objArr[0] = null;
+                        mTwiceBaseCacheSize--;
+                        return;
+                    }
+                } finally {
                 }
             }
         } else if (i == 4) {
             synchronized (SimpleArrayMap.class) {
-                Object[] objArr2 = mBaseCache;
-                if (objArr2 != null) {
-                    this.mArray = objArr2;
-                    mBaseCache = (Object[]) objArr2[0];
-                    this.mHashes = (int[]) objArr2[1];
-                    objArr2[1] = null;
-                    objArr2[0] = null;
-                    mBaseCacheSize--;
-                    return;
+                try {
+                    Object[] objArr2 = mBaseCache;
+                    if (objArr2 != null) {
+                        this.mArray = objArr2;
+                        mBaseCache = (Object[]) objArr2[0];
+                        this.mHashes = (int[]) objArr2[1];
+                        objArr2[1] = null;
+                        objArr2[0] = null;
+                        mBaseCacheSize--;
+                        return;
+                    }
+                } finally {
                 }
             }
         }
@@ -103,26 +109,32 @@ public class SimpleArrayMap<K, V> {
     private static void freeArrays(int[] iArr, Object[] objArr, int i) {
         if (iArr.length == 8) {
             synchronized (SimpleArrayMap.class) {
-                if (mTwiceBaseCacheSize < 10) {
-                    objArr[0] = mTwiceBaseCache;
-                    objArr[1] = iArr;
-                    for (int i2 = (i << 1) - 1; i2 >= 2; i2--) {
-                        objArr[i2] = null;
+                try {
+                    if (mTwiceBaseCacheSize < 10) {
+                        objArr[0] = mTwiceBaseCache;
+                        objArr[1] = iArr;
+                        for (int i2 = (i << 1) - 1; i2 >= 2; i2--) {
+                            objArr[i2] = null;
+                        }
+                        mTwiceBaseCache = objArr;
+                        mTwiceBaseCacheSize++;
                     }
-                    mTwiceBaseCache = objArr;
-                    mTwiceBaseCacheSize++;
+                } finally {
                 }
             }
         } else if (iArr.length == 4) {
             synchronized (SimpleArrayMap.class) {
-                if (mBaseCacheSize < 10) {
-                    objArr[0] = mBaseCache;
-                    objArr[1] = iArr;
-                    for (int i3 = (i << 1) - 1; i3 >= 2; i3--) {
-                        objArr[i3] = null;
+                try {
+                    if (mBaseCacheSize < 10) {
+                        objArr[0] = mBaseCache;
+                        objArr[1] = iArr;
+                        for (int i3 = (i << 1) - 1; i3 >= 2; i3--) {
+                            objArr[i3] = null;
+                        }
+                        mBaseCache = objArr;
+                        mBaseCacheSize++;
                     }
-                    mBaseCache = objArr;
-                    mBaseCacheSize++;
+                } finally {
                 }
             }
         }

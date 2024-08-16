@@ -5,7 +5,7 @@ import kotlin.coroutines.CoroutineContext;
 import kotlin.jvm.internal.Intrinsics;
 /* compiled from: AbstractCoroutine.kt */
 /* loaded from: classes.dex */
-public abstract class AbstractCoroutine<T> extends JobSupport implements Continuation<T> {
+public abstract class AbstractCoroutine<T> extends JobSupport implements Job, Continuation<T> {
     private final CoroutineContext context;
 
     protected void onCancelled(Throwable th, boolean z) {

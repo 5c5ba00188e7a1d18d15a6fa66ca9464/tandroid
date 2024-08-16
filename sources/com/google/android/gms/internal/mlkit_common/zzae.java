@@ -29,8 +29,10 @@ public final class zzae {
         if (i < 0 || i2 < i || i2 > i3) {
             if (i < 0 || i > i3) {
                 zzf = zzf(i, i3, "start index");
+            } else if (i2 < 0 || i2 > i3) {
+                zzf = zzf(i2, i3, "end index");
             } else {
-                zzf = (i2 < 0 || i2 > i3) ? zzf(i2, i3, "end index") : zzaf.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
+                zzf = zzaf.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
             }
             throw new IndexOutOfBoundsException(zzf);
         }

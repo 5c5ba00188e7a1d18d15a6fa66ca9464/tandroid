@@ -75,25 +75,24 @@ public final class BitMatrix implements Cloneable {
     public int[] getTopLeftOnBit() {
         int[] iArr;
         int i = 0;
+        int i2 = 0;
         while (true) {
             iArr = this.bits;
-            if (i >= iArr.length || iArr[i] != 0) {
+            if (i2 >= iArr.length || iArr[i2] != 0) {
                 break;
             }
-            i++;
+            i2++;
         }
-        if (i == iArr.length) {
+        if (i2 == iArr.length) {
             return null;
         }
-        int i2 = this.rowSize;
-        int i3 = i / i2;
-        int i4 = (i % i2) * 32;
-        int i5 = iArr[i];
-        int i6 = 0;
-        while ((i5 << (31 - i6)) == 0) {
-            i6++;
+        int i3 = this.rowSize;
+        int i4 = i2 / i3;
+        int i5 = (i2 % i3) * 32;
+        while ((iArr[i2] << (31 - i)) == 0) {
+            i++;
         }
-        return new int[]{i4 + i6, i3};
+        return new int[]{i5 + i, i4};
     }
 
     public int[] getBottomRightOnBit() {

@@ -290,8 +290,8 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
 
         public /* synthetic */ boolean lambda$createView$5(final RecyclerListView recyclerListView, final BaseFragment baseFragment, final View view, int i, float f, float f2) {
-            String str;
             int i2;
+            String str;
             final BaseAdapter baseAdapter = (BaseAdapter) recyclerListView.getAdapter();
             final ItemInner itemInner = baseAdapter.itemInners.get(i);
             if ((view instanceof CacheCell) || (view instanceof SharedPhotoVideoCell2)) {
@@ -329,11 +329,11 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 }
                 int i3 = R.drawable.msg_select;
                 if (CachedMediaLayout.this.cacheModel.selectedFiles.contains(itemInner.file)) {
-                    str = "Deselect";
                     i2 = R.string.Deselect;
+                    str = "Deselect";
                 } else {
-                    str = "Select";
                     i2 = R.string.Select;
+                    str = "Select";
                 }
                 ActionBarMenuItem.addItem(actionBarPopupWindowLayout, i3, LocaleController.getString(str, i2), false, null).setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CachedMediaLayout$1$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
@@ -492,13 +492,11 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         super.onMeasure(i, View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(i2), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:140:0x0127  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x0134  */
+    /* JADX WARN: Removed duplicated region for block: B:137:0x012f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void update() {
-        boolean z;
         ArrayList arrayList = new ArrayList();
         arrayList.addAll(this.pages);
         this.pages.clear();
@@ -538,19 +536,13 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
                 if (((Page) arrayList.get(i2)).type == this.pages.get(i2).type) {
                 }
             }
-            z = false;
-            if (z) {
-                this.viewPagerFixed.rebuild(true);
-            }
             for (int i3 = 0; i3 < this.pages.size(); i3++) {
                 if (this.pages.get(i3).adapter != null) {
                     this.pages.get(i3).adapter.update();
                 }
             }
         }
-        z = true;
-        if (z) {
-        }
+        this.viewPagerFixed.rebuild(true);
         while (i3 < this.pages.size()) {
         }
     }
@@ -810,13 +802,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             super.update();
             this.photoEntries.clear();
             for (int i = 0; i < this.itemInners.size(); i++) {
-                ArrayList<Object> arrayList = this.photoEntries;
-                String path = this.itemInners.get(i).file.file.getPath();
-                boolean z = true;
-                if (this.itemInners.get(i).file.type != 1) {
-                    z = false;
-                }
-                arrayList.add(new MediaController.PhotoEntry(0, 0, 0L, path, 0, z, 0, 0, 0L));
+                this.photoEntries.add(new MediaController.PhotoEntry(0, 0, 0L, this.itemInners.get(i).file.file.getPath(), 0, this.itemInners.get(i).file.type == 1, 0, 0, 0L));
             }
         }
 
@@ -903,13 +889,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
             super.update();
             this.photoEntries.clear();
             for (int i = 0; i < this.itemInners.size(); i++) {
-                ArrayList<Object> arrayList = this.photoEntries;
-                String path = this.itemInners.get(i).file.file.getPath();
-                boolean z = true;
-                if (this.itemInners.get(i).file.type != 1) {
-                    z = false;
-                }
-                arrayList.add(new MediaController.PhotoEntry(0, 0, 0L, path, 0, z, 0, 0, 0L));
+                this.photoEntries.add(new MediaController.PhotoEntry(0, 0, 0L, this.itemInners.get(i).file.file.getPath(), 0, this.itemInners.get(i).file.type == 1, 0, 0, 0L));
             }
         }
 
@@ -1069,96 +1049,78 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:85:0x0039 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public /* synthetic */ void lambda$checkMessageObjectForAudio$3(final CacheModel.FileInfo fileInfo, final TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio) {
-        String str;
         MediaMetadataRetriever mediaMetadataRetriever;
-        final String str2;
+        String str;
+        String str2;
         final String str3;
-        MediaMetadataRetriever mediaMetadataRetriever2;
-        String extractMetadata;
-        MediaMetadataRetriever mediaMetadataRetriever3 = null;
+        final String str4;
+        String str5 = "";
+        MediaMetadataRetriever mediaMetadataRetriever2 = null;
         try {
             try {
-                mediaMetadataRetriever2 = new MediaMetadataRetriever();
-            } catch (Throwable th) {
-                th = th;
-            }
-            try {
+                mediaMetadataRetriever = new MediaMetadataRetriever();
                 try {
-                    mediaMetadataRetriever2.setDataSource(getContext(), Uri.fromFile(fileInfo.file));
-                    extractMetadata = mediaMetadataRetriever2.extractMetadata(7);
+                    try {
+                        mediaMetadataRetriever.setDataSource(getContext(), Uri.fromFile(fileInfo.file));
+                        str2 = mediaMetadataRetriever.extractMetadata(7);
+                    } catch (Throwable th) {
+                        th = th;
+                        if (mediaMetadataRetriever != null) {
+                            try {
+                                mediaMetadataRetriever.release();
+                            } catch (Throwable unused) {
+                            }
+                        }
+                        throw th;
+                    }
                 } catch (Exception e) {
                     e = e;
-                    mediaMetadataRetriever3 = mediaMetadataRetriever2;
-                    str = "";
-                    mediaMetadataRetriever = mediaMetadataRetriever3;
-                    FileLog.e(e);
-                    if (mediaMetadataRetriever != null) {
-                        try {
-                            mediaMetadataRetriever.release();
-                        } catch (Throwable unused) {
-                        }
-                    }
                     str2 = "";
-                    str3 = str;
-                    mediaMetadataRetriever3 = mediaMetadataRetriever;
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CachedMediaLayout$$ExternalSyntheticLambda3
-                        @Override // java.lang.Runnable
-                        public final void run() {
-                            CachedMediaLayout.this.lambda$checkMessageObjectForAudio$2(fileInfo, tLRPC$TL_documentAttributeAudio, str3, str2);
-                        }
-                    });
                 }
                 try {
-                    String extractMetadata2 = mediaMetadataRetriever2.extractMetadata(2);
+                    str5 = mediaMetadataRetriever.extractMetadata(2);
                     try {
-                        mediaMetadataRetriever2.release();
+                        mediaMetadataRetriever.release();
                     } catch (Throwable unused2) {
                     }
-                    str2 = extractMetadata2;
-                    str3 = extractMetadata;
-                    mediaMetadataRetriever3 = extractMetadata;
+                    str3 = str5;
+                    str4 = str2;
                 } catch (Exception e2) {
                     e = e2;
-                    str = extractMetadata;
-                    mediaMetadataRetriever = mediaMetadataRetriever2;
+                    str = str2;
+                    mediaMetadataRetriever2 = mediaMetadataRetriever;
                     FileLog.e(e);
-                    if (mediaMetadataRetriever != null) {
+                    if (mediaMetadataRetriever2 != null) {
+                        try {
+                            mediaMetadataRetriever2.release();
+                        } catch (Throwable unused3) {
+                            str2 = str;
+                        }
                     }
-                    str2 = "";
-                    str3 = str;
-                    mediaMetadataRetriever3 = mediaMetadataRetriever;
+                    str3 = "";
+                    str4 = str;
                     AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CachedMediaLayout$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
-                            CachedMediaLayout.this.lambda$checkMessageObjectForAudio$2(fileInfo, tLRPC$TL_documentAttributeAudio, str3, str2);
+                            CachedMediaLayout.this.lambda$checkMessageObjectForAudio$2(fileInfo, tLRPC$TL_documentAttributeAudio, str4, str3);
                         }
                     });
                 }
-            } catch (Throwable th2) {
-                th = th2;
-                mediaMetadataRetriever3 = mediaMetadataRetriever2;
-                if (mediaMetadataRetriever3 != null) {
-                    try {
-                        mediaMetadataRetriever3.release();
-                    } catch (Throwable unused3) {
-                    }
+            } catch (Exception e3) {
+                e = e3;
+                str = "";
+            }
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CachedMediaLayout$$ExternalSyntheticLambda3
+                @Override // java.lang.Runnable
+                public final void run() {
+                    CachedMediaLayout.this.lambda$checkMessageObjectForAudio$2(fileInfo, tLRPC$TL_documentAttributeAudio, str4, str3);
                 }
-                throw th;
-            }
-        } catch (Exception e3) {
-            e = e3;
+            });
+        } catch (Throwable th2) {
+            th = th2;
+            mediaMetadataRetriever = mediaMetadataRetriever2;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.CachedMediaLayout$$ExternalSyntheticLambda3
-            @Override // java.lang.Runnable
-            public final void run() {
-                CachedMediaLayout.this.lambda$checkMessageObjectForAudio$2(fileInfo, tLRPC$TL_documentAttributeAudio, str3, str2);
-            }
-        });
     }
 
     public /* synthetic */ void lambda$checkMessageObjectForAudio$2(CacheModel.FileInfo fileInfo, TLRPC$TL_documentAttributeAudio tLRPC$TL_documentAttributeAudio, String str, String str2) {

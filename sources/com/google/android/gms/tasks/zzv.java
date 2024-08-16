@@ -26,13 +26,17 @@ final class zzv extends LifecycleCallback {
     @Override // com.google.android.gms.common.api.internal.LifecycleCallback
     public final void onStop() {
         synchronized (this.zza) {
-            for (WeakReference weakReference : this.zza) {
-                zzq zzqVar = (zzq) weakReference.get();
-                if (zzqVar != null) {
-                    zzqVar.zzc();
+            try {
+                for (WeakReference weakReference : this.zza) {
+                    zzq zzqVar = (zzq) weakReference.get();
+                    if (zzqVar != null) {
+                        zzqVar.zzc();
+                    }
                 }
+                this.zza.clear();
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zza.clear();
         }
     }
 

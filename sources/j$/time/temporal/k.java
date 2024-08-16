@@ -3,11 +3,11 @@ package j$.time.temporal;
 public interface k {
     q a(l lVar);
 
-    boolean b(l lVar);
+    long b(l lVar);
 
-    long c(l lVar);
+    Object c(n nVar);
 
-    Object d(n nVar);
+    int d(a aVar);
 
-    int e(a aVar);
+    boolean e(l lVar);
 }

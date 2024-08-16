@@ -64,6 +64,9 @@ public final class n {
     }
 
     public final String toString() {
-        return this.a ? String.format("OptionalLong[%s]", Long.valueOf(this.b)) : "OptionalLong.empty";
+        if (this.a) {
+            return "OptionalLong[" + this.b + "]";
+        }
+        return "OptionalLong.empty";
     }
 }

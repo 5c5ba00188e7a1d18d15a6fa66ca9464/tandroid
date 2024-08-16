@@ -4,8 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.util.Size;
-import android.util.SizeF;
 import java.io.Serializable;
 import kotlin.Pair;
 import kotlin.jvm.internal.Intrinsics;
@@ -81,10 +79,10 @@ public final class BundleKt {
                 int i = Build.VERSION.SDK_INT;
                 if (component2 instanceof IBinder) {
                     BundleApi18ImplKt.putBinder(bundle, component1, (IBinder) component2);
-                } else if (i >= 21 && (component2 instanceof Size)) {
-                    BundleApi21ImplKt.putSize(bundle, component1, (Size) component2);
-                } else if (i >= 21 && (component2 instanceof SizeF)) {
-                    BundleApi21ImplKt.putSizeF(bundle, component1, (SizeF) component2);
+                } else if (i >= 21 && BundleKt$$ExternalSyntheticApiModelOutline0.m(component2)) {
+                    BundleApi21ImplKt.putSize(bundle, component1, BundleKt$$ExternalSyntheticApiModelOutline1.m(component2));
+                } else if (i >= 21 && BundleKt$$ExternalSyntheticApiModelOutline2.m(component2)) {
+                    BundleApi21ImplKt.putSizeF(bundle, component1, BundleKt$$ExternalSyntheticApiModelOutline3.m(component2));
                 } else {
                     throw new IllegalArgumentException("Illegal value type " + component2.getClass().getCanonicalName() + " for key \"" + component1 + '\"');
                 }

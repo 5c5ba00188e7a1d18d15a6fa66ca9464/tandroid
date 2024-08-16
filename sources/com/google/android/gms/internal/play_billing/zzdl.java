@@ -6,11 +6,10 @@ final class zzdl {
     private static final zzdk zzb;
 
     static {
-        zzdk zzdkVar;
+        zzdk zzdkVar = null;
         try {
-            zzdkVar = (zzdk) Class.forName("com.google.protobuf.NewInstanceSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            zzdkVar = (zzdk) Class.forName("com.google.protobuf.NewInstanceSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
-            zzdkVar = null;
         }
         zza = zzdkVar;
         zzb = new zzdk();

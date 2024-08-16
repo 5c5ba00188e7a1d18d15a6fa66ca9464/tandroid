@@ -106,20 +106,27 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     public final void addStatusListener(PendingResult.StatusListener statusListener) {
         Preconditions.checkArgument(statusListener != null, "Callback cannot be null.");
         synchronized (this.zae) {
-            if (!isReady()) {
-                this.zag.add(statusListener);
-            } else {
-                statusListener.onComplete(this.zak);
+            try {
+                if (!isReady()) {
+                    this.zag.add(statusListener);
+                } else {
+                    statusListener.onComplete(this.zak);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
 
     public void cancel() {
         synchronized (this.zae) {
-            if (!this.zam && !this.zal) {
-                zal(this.zaj);
-                this.zam = true;
-                zab(createFailedResult(Status.RESULT_CANCELED));
+            try {
+                if (!this.zam && !this.zal) {
+                    zal(this.zaj);
+                    this.zam = true;
+                    zab(createFailedResult(Status.RESULT_CANCELED));
+                }
+            } finally {
             }
         }
     }
@@ -129,9 +136,13 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     @Deprecated
     public final void forceFailureUnlessReady(Status status) {
         synchronized (this.zae) {
-            if (!isReady()) {
-                setResult(createFailedResult(status));
-                this.zan = true;
+            try {
+                if (!isReady()) {
+                    setResult(createFailedResult(status));
+                    this.zan = true;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -159,10 +170,17 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
     public final boolean zam() {
         boolean isCanceled;
         synchronized (this.zae) {
-            if (((GoogleApiClient) this.zac.get()) == null || !this.zaq) {
+            try {
+                if (((GoogleApiClient) this.zac.get()) != null) {
+                    if (!this.zaq) {
+                    }
+                    isCanceled = isCanceled();
+                }
                 cancel();
+                isCanceled = isCanceled();
+            } catch (Throwable th) {
+                throw th;
             }
-            isCanceled = isCanceled();
         }
         return isCanceled;
     }
@@ -207,14 +225,18 @@ public abstract class BasePendingResult<R extends Result> extends PendingResult<
 
     public final void setResult(R r) {
         synchronized (this.zae) {
-            if (this.zan || this.zam) {
-                zal(r);
-                return;
+            try {
+                if (this.zan || this.zam) {
+                    zal(r);
+                    return;
+                }
+                isReady();
+                Preconditions.checkState(!isReady(), "Results have already been set");
+                Preconditions.checkState(!this.zal, "Result has already been consumed");
+                zab(r);
+            } catch (Throwable th) {
+                throw th;
             }
-            isReady();
-            Preconditions.checkState(!isReady(), "Results have already been set");
-            Preconditions.checkState(!this.zal, "Result has already been consumed");
-            zab(r);
         }
     }
 

@@ -12,12 +12,16 @@ public final class z {
     public static synchronized s a(Context context) {
         s sVar;
         synchronized (z.class) {
-            if (a == null) {
-                q qVar = new q(null);
-                qVar.a(ag.a(context));
-                a = qVar.b();
+            try {
+                if (a == null) {
+                    q qVar = new q(null);
+                    qVar.a(ag.a(context));
+                    a = qVar.b();
+                }
+                sVar = a;
+            } catch (Throwable th) {
+                throw th;
             }
-            sVar = a;
         }
         return sVar;
     }

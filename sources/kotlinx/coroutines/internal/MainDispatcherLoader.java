@@ -10,7 +10,6 @@ import kotlinx.coroutines.MainCoroutineDispatcher;
 /* compiled from: MainDispatchers.kt */
 /* loaded from: classes.dex */
 public final class MainDispatcherLoader {
-    private static final boolean FAST_SERVICE_LOADER_ENABLED;
     public static final MainDispatcherLoader INSTANCE;
     public static final MainCoroutineDispatcher dispatcher;
 
@@ -20,22 +19,18 @@ public final class MainDispatcherLoader {
     static {
         MainDispatcherLoader mainDispatcherLoader = new MainDispatcherLoader();
         INSTANCE = mainDispatcherLoader;
-        FAST_SERVICE_LOADER_ENABLED = SystemPropsKt.systemProp("kotlinx.coroutines.fast.service.loader", true);
+        SystemPropsKt.systemProp("kotlinx.coroutines.fast.service.loader", true);
         dispatcher = mainDispatcherLoader.loadMainDispatcher();
     }
 
     private final MainCoroutineDispatcher loadMainDispatcher() {
         Sequence asSequence;
-        List<MainDispatcherFactory> list;
+        List list;
         Object next;
         try {
-            if (FAST_SERVICE_LOADER_ENABLED) {
-                list = FastServiceLoader.INSTANCE.loadMainDispatcherFactory$kotlinx_coroutines_core();
-            } else {
-                asSequence = SequencesKt__SequencesKt.asSequence(ServiceLoader.load(MainDispatcherFactory.class, MainDispatcherFactory.class.getClassLoader()).iterator());
-                list = SequencesKt___SequencesKt.toList(asSequence);
-            }
-            Iterator<T> it = list.iterator();
+            asSequence = SequencesKt__SequencesKt.asSequence(ServiceLoader.load(MainDispatcherFactory.class, MainDispatcherFactory.class.getClassLoader()).iterator());
+            list = SequencesKt___SequencesKt.toList(asSequence);
+            Iterator it = list.iterator();
             if (it.hasNext()) {
                 next = it.next();
                 if (it.hasNext()) {

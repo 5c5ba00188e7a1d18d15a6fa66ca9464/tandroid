@@ -117,7 +117,7 @@ public class ChatObject {
     }
 
     private static boolean isAdminAction(int i) {
-        return i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 12 || i == 13 || i == 15;
+        return i == 12 || i == 13 || i == 15 || i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5;
     }
 
     private static boolean isBannableAction(int i) {
@@ -288,7 +288,7 @@ public class ChatObject {
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsBySources = new SparseArray<>();
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsByVideoSources = new SparseArray<>();
         public SparseArray<TLRPC$TL_groupCallParticipant> participantsByPresentationSources = new SparseArray<>();
-        private Runnable typingUpdateRunnable = new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda6
+        private Runnable typingUpdateRunnable = new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda9
             @Override // java.lang.Runnable
             public final void run() {
                 ChatObject.Call.this.lambda$new$0();
@@ -402,7 +402,7 @@ public class ChatObject {
                 tLRPC$TL_groupCallParticipant.videoEndpoint = "unified";
                 this.rtmpStreamParticipant = new VideoParticipant(tLRPC$TL_groupCallParticipant, false, false);
                 sortParticipants();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda4
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         ChatObject.Call.this.lambda$createRtmpStreamParticipant$1();
@@ -603,7 +603,7 @@ public class ChatObject {
         }
 
         public /* synthetic */ void lambda$loadMembers$3(final boolean z, final TLRPC$TL_phone_getGroupParticipants tLRPC$TL_phone_getGroupParticipants, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda13
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatObject.Call.this.lambda$loadMembers$2(z, tLObject, tLRPC$TL_phone_getGroupParticipants);
@@ -636,7 +636,7 @@ public class ChatObject {
             TLRPC$TL_phone_editGroupCallTitle tLRPC$TL_phone_editGroupCallTitle = new TLRPC$TL_phone_editGroupCallTitle();
             tLRPC$TL_phone_editGroupCallTitle.call = getInputGroupCall();
             tLRPC$TL_phone_editGroupCallTitle.title = str;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_editGroupCallTitle, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda2
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_editGroupCallTitle, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatObject.Call.this.lambda$setTitle$4(tLObject, tLRPC$TL_error);
@@ -843,86 +843,112 @@ public class ChatObject {
             }
         }
 
+        /* JADX WARN: Removed duplicated region for block: B:116:0x00ad  */
+        /* JADX WARN: Removed duplicated region for block: B:129:0x0124  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void processVoiceLevelsUpdate(int[] iArr, float[] fArr, boolean[] zArr) {
             boolean z;
             TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant;
             int i;
             long j;
-            int i2;
             ArrayList<Long> arrayList;
+            boolean z2;
+            int i2;
             int currentTime = this.currentAccount.getConnectionsManager().getCurrentTime();
             long elapsedRealtime = SystemClock.elapsedRealtime();
             long uptimeMillis = SystemClock.uptimeMillis();
+            int i3 = 1;
             this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.applyGroupCallVisibleParticipants, Long.valueOf(elapsedRealtime));
-            int i3 = 0;
+            int i4 = 0;
             ArrayList<Long> arrayList2 = null;
-            boolean z2 = false;
             boolean z3 = false;
-            while (i3 < iArr.length) {
-                int i4 = iArr[i3];
-                if (i4 == 0) {
-                    z = z3;
+            boolean z4 = false;
+            while (i4 < iArr.length) {
+                int i5 = iArr[i4];
+                if (i5 == 0) {
+                    z = z4;
                     tLRPC$TL_groupCallParticipant = this.participants.get(getSelfId());
                 } else {
-                    z = z3;
-                    tLRPC$TL_groupCallParticipant = this.participantsBySources.get(i4);
+                    z = z4;
+                    tLRPC$TL_groupCallParticipant = this.participantsBySources.get(i5);
                 }
                 if (tLRPC$TL_groupCallParticipant != null) {
-                    boolean z4 = zArr[i3];
-                    tLRPC$TL_groupCallParticipant.hasVoice = z4;
-                    arrayList = arrayList2;
-                    if (z4 || elapsedRealtime - tLRPC$TL_groupCallParticipant.lastVoiceUpdateTime > 500) {
-                        tLRPC$TL_groupCallParticipant.hasVoiceDelayed = z4;
+                    boolean z5 = zArr[i4];
+                    tLRPC$TL_groupCallParticipant.hasVoice = z5;
+                    int i6 = currentTime;
+                    if (z5 || elapsedRealtime - tLRPC$TL_groupCallParticipant.lastVoiceUpdateTime > 500) {
+                        tLRPC$TL_groupCallParticipant.hasVoiceDelayed = z5;
                         tLRPC$TL_groupCallParticipant.lastVoiceUpdateTime = elapsedRealtime;
                     }
                     long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
-                    float f = fArr[i3];
+                    float f = fArr[i4];
                     if (f > 0.1f) {
-                        if (!zArr[i3] || tLRPC$TL_groupCallParticipant.lastTypingDate + 1 >= currentTime) {
-                            i2 = i3;
-                        } else {
-                            i2 = i3;
-                            if (elapsedRealtime != tLRPC$TL_groupCallParticipant.lastVisibleDate) {
-                                tLRPC$TL_groupCallParticipant.active_date = currentTime;
+                        z2 = z3;
+                        if (zArr[i4]) {
+                            int i7 = tLRPC$TL_groupCallParticipant.lastTypingDate + i3;
+                            i = i6;
+                            if (i7 < i) {
+                                i2 = i4;
+                                arrayList = arrayList2;
+                                if (elapsedRealtime != tLRPC$TL_groupCallParticipant.lastVisibleDate) {
+                                    tLRPC$TL_groupCallParticipant.active_date = i;
+                                }
+                                tLRPC$TL_groupCallParticipant.lastTypingDate = i;
+                                z2 = true;
+                                tLRPC$TL_groupCallParticipant.lastSpeakTime = uptimeMillis;
+                                tLRPC$TL_groupCallParticipant.amplitude = f;
+                                if (this.currentSpeakingPeers.get(peerId, null) != null) {
+                                    if (peerId > 0) {
+                                        TLRPC$User user = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getUser(Long.valueOf(peerId));
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append("add to current speaking ");
+                                        sb.append(peerId);
+                                        sb.append(" ");
+                                        sb.append(user == null ? null : user.first_name);
+                                        Log.d("GroupCall", sb.toString());
+                                        j = elapsedRealtime;
+                                    } else {
+                                        j = elapsedRealtime;
+                                        TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getChat(Long.valueOf(-peerId));
+                                        StringBuilder sb2 = new StringBuilder();
+                                        sb2.append("add to current speaking ");
+                                        sb2.append(peerId);
+                                        sb2.append(" ");
+                                        sb2.append(chat == null ? null : chat.title);
+                                        Log.d("GroupCall", sb2.toString());
+                                    }
+                                    this.currentSpeakingPeers.put(peerId, tLRPC$TL_groupCallParticipant);
+                                    arrayList2 = arrayList;
+                                    z4 = true;
+                                    i4 = i2 + 1;
+                                    currentTime = i;
+                                    z3 = z2;
+                                    elapsedRealtime = j;
+                                    i3 = 1;
+                                } else {
+                                    j = elapsedRealtime;
+                                }
                             }
-                            tLRPC$TL_groupCallParticipant.lastTypingDate = currentTime;
-                            z2 = true;
+                        } else {
+                            i = i6;
                         }
+                        i2 = i4;
+                        arrayList = arrayList2;
                         tLRPC$TL_groupCallParticipant.lastSpeakTime = uptimeMillis;
                         tLRPC$TL_groupCallParticipant.amplitude = f;
-                        if (this.currentSpeakingPeers.get(peerId, null) == null) {
-                            if (peerId > 0) {
-                                TLRPC$User user = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getUser(Long.valueOf(peerId));
-                                StringBuilder sb = new StringBuilder();
-                                sb.append("add to current speaking ");
-                                sb.append(peerId);
-                                sb.append(" ");
-                                sb.append(user == null ? null : user.first_name);
-                                Log.d("GroupCall", sb.toString());
-                                i = currentTime;
-                                j = elapsedRealtime;
-                            } else {
-                                i = currentTime;
-                                j = elapsedRealtime;
-                                TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getChat(Long.valueOf(-peerId));
-                                StringBuilder sb2 = new StringBuilder();
-                                sb2.append("add to current speaking ");
-                                sb2.append(peerId);
-                                sb2.append(" ");
-                                sb2.append(chat == null ? null : chat.title);
-                                Log.d("GroupCall", sb2.toString());
-                            }
-                            this.currentSpeakingPeers.put(peerId, tLRPC$TL_groupCallParticipant);
-                            z = true;
-                        } else {
-                            i = currentTime;
-                            j = elapsedRealtime;
+                        if (this.currentSpeakingPeers.get(peerId, null) != null) {
                         }
                     } else {
-                        i = currentTime;
                         j = elapsedRealtime;
-                        i2 = i3;
-                        if (uptimeMillis - tLRPC$TL_groupCallParticipant.lastSpeakTime >= 500 && this.currentSpeakingPeers.get(peerId, null) != null) {
+                        z2 = z3;
+                        i = i6;
+                        i2 = i4;
+                        arrayList = arrayList2;
+                        if (uptimeMillis - tLRPC$TL_groupCallParticipant.lastSpeakTime < 500 || this.currentSpeakingPeers.get(peerId, null) == null) {
+                            z4 = z;
+                        } else {
                             this.currentSpeakingPeers.remove(peerId);
                             if (peerId > 0) {
                                 TLRPC$User user2 = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getUser(Long.valueOf(peerId));
@@ -941,40 +967,52 @@ public class ChatObject {
                                 sb4.append(chat2 == null ? null : chat2.title);
                                 Log.d("GroupCall", sb4.toString());
                             }
-                            z = true;
+                            z4 = true;
                         }
                         tLRPC$TL_groupCallParticipant.amplitude = 0.0f;
+                        arrayList2 = arrayList;
+                        i4 = i2 + 1;
+                        currentTime = i;
+                        z3 = z2;
+                        elapsedRealtime = j;
+                        i3 = 1;
                     }
                 } else {
                     i = currentTime;
                     j = elapsedRealtime;
-                    i2 = i3;
                     arrayList = arrayList2;
+                    z2 = z3;
+                    i2 = i4;
                     if (iArr[i2] != 0) {
                         arrayList2 = arrayList == null ? new ArrayList<>() : arrayList;
                         arrayList2.add(Long.valueOf(iArr[i2]));
-                        i3 = i2 + 1;
+                        z4 = z;
+                        i4 = i2 + 1;
                         currentTime = i;
-                        z3 = z;
+                        z3 = z2;
                         elapsedRealtime = j;
+                        i3 = 1;
                     }
                 }
+                z4 = z;
                 arrayList2 = arrayList;
-                i3 = i2 + 1;
+                i4 = i2 + 1;
                 currentTime = i;
-                z3 = z;
+                z3 = z2;
                 elapsedRealtime = j;
+                i3 = 1;
             }
             ArrayList<Long> arrayList3 = arrayList2;
-            boolean z5 = z3;
+            boolean z6 = z3;
+            boolean z7 = z4;
             if (arrayList3 != null) {
                 loadUnknownParticipants(arrayList3, false, null);
             }
-            if (z2) {
+            if (z6) {
                 sortParticipants();
                 this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallUpdated, Long.valueOf(this.chatId), Long.valueOf(this.call.id), Boolean.FALSE);
             }
-            if (z5) {
+            if (z7) {
                 if (this.currentSpeakingPeers.size() > 0) {
                     AndroidUtilities.cancelRunOnUIThread(this.updateCurrentSpeakingRunnable);
                     AndroidUtilities.runOnUIThread(this.updateCurrentSpeakingRunnable, 550L);
@@ -1047,7 +1085,7 @@ public class ChatObject {
         }
 
         private void processUpdatesQueue() {
-            Collections.sort(this.updatesQueue, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda5
+            Collections.sort(this.updatesQueue, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda14
                 @Override // java.util.Comparator
                 public final int compare(Object obj, Object obj2) {
                     int lambda$processUpdatesQueue$7;
@@ -1107,16 +1145,16 @@ public class ChatObject {
             if (this.updatesQueue.isEmpty()) {
                 return;
             }
-            ChatObject$Call$$ExternalSyntheticLambda1 chatObject$Call$$ExternalSyntheticLambda1 = new ChatObject$Call$$ExternalSyntheticLambda1(this);
-            this.checkQueueRunnable = chatObject$Call$$ExternalSyntheticLambda1;
-            AndroidUtilities.runOnUIThread(chatObject$Call$$ExternalSyntheticLambda1, 1000L);
+            ChatObject$Call$$ExternalSyntheticLambda0 chatObject$Call$$ExternalSyntheticLambda0 = new ChatObject$Call$$ExternalSyntheticLambda0(this);
+            this.checkQueueRunnable = chatObject$Call$$ExternalSyntheticLambda0;
+            AndroidUtilities.runOnUIThread(chatObject$Call$$ExternalSyntheticLambda0, 1000L);
         }
 
         public void reloadGroupCall() {
             TLRPC$TL_phone_getGroupCall tLRPC$TL_phone_getGroupCall = new TLRPC$TL_phone_getGroupCall();
             tLRPC$TL_phone_getGroupCall.call = getInputGroupCall();
             tLRPC$TL_phone_getGroupCall.limit = 100;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda3
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupCall, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda2
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatObject.Call.this.lambda$reloadGroupCall$9(tLObject, tLRPC$TL_error);
@@ -1125,7 +1163,7 @@ public class ChatObject {
         }
 
         public /* synthetic */ void lambda$reloadGroupCall$9(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda8
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatObject.Call.this.lambda$reloadGroupCall$8(tLObject);
@@ -1155,7 +1193,7 @@ public class ChatObject {
             tLRPC$TL_phone_getGroupParticipants.call = getInputGroupCall();
             tLRPC$TL_phone_getGroupParticipants.offset = "";
             tLRPC$TL_phone_getGroupParticipants.limit = 1;
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda9
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_getGroupParticipants, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatObject.Call.this.lambda$loadGroupCall$11(tLObject, tLRPC$TL_error);
@@ -1164,7 +1202,7 @@ public class ChatObject {
         }
 
         public /* synthetic */ void lambda$loadGroupCall$11(final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     ChatObject.Call.this.lambda$loadGroupCall$10(tLObject);
@@ -1192,14 +1230,14 @@ public class ChatObject {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:392:0x03e3  */
+        /* JADX WARN: Removed duplicated region for block: B:394:0x03ea  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
         public void processParticipantsUpdate(TLRPC$TL_updateGroupCallParticipants tLRPC$TL_updateGroupCallParticipants, boolean z) {
             int i;
-            long j;
             int i2;
+            long j;
             long j2;
             boolean z2;
             TLRPC$TL_groupCallParticipantVideo tLRPC$TL_groupCallParticipantVideo;
@@ -1229,9 +1267,9 @@ public class ChatObject {
                         }
                         this.updatesQueue.add(tLRPC$TL_updateGroupCallParticipants);
                         if (this.checkQueueRunnable == null) {
-                            ChatObject$Call$$ExternalSyntheticLambda1 chatObject$Call$$ExternalSyntheticLambda1 = new ChatObject$Call$$ExternalSyntheticLambda1(this);
-                            this.checkQueueRunnable = chatObject$Call$$ExternalSyntheticLambda1;
-                            AndroidUtilities.runOnUIThread(chatObject$Call$$ExternalSyntheticLambda1, 1500L);
+                            ChatObject$Call$$ExternalSyntheticLambda0 chatObject$Call$$ExternalSyntheticLambda0 = new ChatObject$Call$$ExternalSyntheticLambda0(this);
+                            this.checkQueueRunnable = chatObject$Call$$ExternalSyntheticLambda0;
+                            AndroidUtilities.runOnUIThread(chatObject$Call$$ExternalSyntheticLambda0, 1500L);
                             return;
                         }
                         return;
@@ -1258,12 +1296,13 @@ public class ChatObject {
             this.currentAccount.getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.applyGroupCallVisibleParticipants, Long.valueOf(elapsedRealtime));
             int size2 = tLRPC$TL_updateGroupCallParticipants.participants.size();
             long j3 = 0;
+            int i4 = 0;
             boolean z5 = false;
             boolean z6 = false;
             boolean z7 = false;
             boolean z8 = false;
             boolean z9 = false;
-            for (int i4 = 0; i4 < size2; i4 = i2 + 1) {
+            while (i4 < size2) {
                 TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = tLRPC$TL_updateGroupCallParticipants.participants.get(i4);
                 long peerId = MessageObject.getPeerId(tLRPC$TL_groupCallParticipant.peer);
                 if (BuildVars.LOGS_ENABLED) {
@@ -1293,10 +1332,10 @@ public class ChatObject {
                                 sb.append(" ");
                                 sb.append(user == null ? null : user.first_name);
                                 Log.d("GroupCall", sb.toString());
-                                j = selfId;
+                                i2 = i4;
                             } else {
                                 z3 = z5;
-                                j = selfId;
+                                i2 = i4;
                                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getChat(Long.valueOf(-peerId));
                                 StringBuilder sb2 = new StringBuilder();
                                 sb2.append("left remove from speaking ");
@@ -1308,7 +1347,7 @@ public class ChatObject {
                             this.currentSpeakingPeers.remove(peerId);
                             z8 = true;
                         } else {
-                            j = selfId;
+                            i2 = i4;
                             z3 = z5;
                         }
                         int i6 = 0;
@@ -1320,7 +1359,7 @@ public class ChatObject {
                             i6++;
                         }
                     } else {
-                        j = selfId;
+                        i2 = i4;
                         z3 = z5;
                     }
                     TLRPC$GroupCall tLRPC$GroupCall = this.call;
@@ -1329,11 +1368,11 @@ public class ChatObject {
                     if (i7 < 0) {
                         tLRPC$GroupCall.participants_count = 0;
                     }
-                    i2 = i4;
+                    j = selfId;
                     z5 = z3;
                     j2 = 0;
                 } else {
-                    j = selfId;
+                    i2 = i4;
                     if (this.invitedUsersMap.contains(Long.valueOf(peerId))) {
                         Long valueOf = Long.valueOf(peerId);
                         this.invitedUsersMap.remove(valueOf);
@@ -1345,11 +1384,12 @@ public class ChatObject {
                         }
                         tLRPC$TL_groupCallParticipant2.muted = tLRPC$TL_groupCallParticipant.muted;
                         if (!tLRPC$TL_groupCallParticipant.muted || this.currentSpeakingPeers.get(peerId, null) == null) {
-                            i2 = i4;
+                            j = selfId;
                             z2 = z5;
                         } else {
                             this.currentSpeakingPeers.remove(peerId);
                             if (peerId > 0) {
+                                z2 = z5;
                                 TLRPC$User user2 = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getUser(Long.valueOf(peerId));
                                 StringBuilder sb3 = new StringBuilder();
                                 sb3.append("muted remove from speaking ");
@@ -1357,11 +1397,10 @@ public class ChatObject {
                                 sb3.append(" ");
                                 sb3.append(user2 == null ? null : user2.first_name);
                                 Log.d("GroupCall", sb3.toString());
-                                i2 = i4;
-                                z2 = z5;
+                                j = selfId;
                             } else {
-                                i2 = i4;
                                 z2 = z5;
+                                j = selfId;
                                 TLRPC$Chat chat2 = MessagesController.getInstance(this.currentAccount.getCurrentAccount()).getChat(Long.valueOf(-peerId));
                                 StringBuilder sb4 = new StringBuilder();
                                 sb4.append("muted remove from speaking ");
@@ -1415,7 +1454,7 @@ public class ChatObject {
                         z5 = z2;
                         j2 = 0;
                     } else {
-                        i2 = i4;
+                        j = selfId;
                         boolean z10 = z5;
                         if (tLRPC$TL_groupCallParticipant.just_joined) {
                             if (peerId != j) {
@@ -1459,6 +1498,7 @@ public class ChatObject {
                 if (peerId == j) {
                     z9 = true;
                 }
+                i4 = i2 + 1;
                 size2 = i5;
                 selfId = j;
                 z6 = true;
@@ -1601,7 +1641,7 @@ public class ChatObject {
                 }
             }
             try {
-                Collections.sort(this.sortedParticipants, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda7
+                Collections.sort(this.sortedParticipants, new Comparator() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda3
                     @Override // java.util.Comparator
                     public final int compare(Object obj, Object obj2) {
                         int lambda$sortParticipants$12;
@@ -1812,7 +1852,7 @@ public class ChatObject {
                 tLRPC$TL_phone_toggleGroupCallRecord.video = true;
                 tLRPC$TL_phone_toggleGroupCallRecord.video_portrait = i == 1;
             }
-            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_toggleGroupCallRecord, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda14
+            this.currentAccount.getConnectionsManager().sendRequest(tLRPC$TL_phone_toggleGroupCallRecord, new RequestDelegate() { // from class: org.telegram.messenger.ChatObject$Call$$ExternalSyntheticLambda6
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     ChatObject.Call.this.lambda$toggleRecord$13(tLObject, tLRPC$TL_error);
@@ -2212,13 +2252,11 @@ public class ChatObject {
             long j = tLRPC$Peer.user_id;
             return j != 0 ? j : z ? -tLRPC$Peer.channel_id : tLRPC$Peer.channel_id;
         } else if (tLRPC$Chat != null && (tLRPC$TL_chatAdminRights = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights.anonymous) {
-            long j2 = tLRPC$Chat.id;
-            return z ? -j2 : j2;
-        } else if (tLRPC$Chat != null && isChannelAndNotMegaGroup(tLRPC$Chat) && !tLRPC$Chat.signatures) {
-            long j3 = tLRPC$Chat.id;
-            return z ? -j3 : j3;
-        } else {
+            return z ? -tLRPC$Chat.id : tLRPC$Chat.id;
+        } else if (tLRPC$Chat == null || !isChannelAndNotMegaGroup(tLRPC$Chat) || tLRPC$Chat.signatures) {
             return UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
+        } else {
+            return z ? -tLRPC$Chat.id : tLRPC$Chat.id;
         }
     }
 

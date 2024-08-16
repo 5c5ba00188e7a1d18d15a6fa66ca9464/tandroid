@@ -11,21 +11,21 @@ public final /* synthetic */ class F implements H {
         this.a = ofInt;
     }
 
-    public static /* synthetic */ H f(Spliterator.OfInt ofInt) {
+    public static /* synthetic */ H b(Spliterator.OfInt ofInt) {
         if (ofInt == null) {
             return null;
         }
         return ofInt instanceof G ? ((G) ofInt).a : new F(ofInt);
     }
 
-    @Override // j$.util.H, j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.H
-    public final /* synthetic */ void c(j$.util.function.K k) {
-        this.a.forEachRemaining(j$.util.function.J.a(k));
+    public final /* synthetic */ void c(j$.util.function.F f) {
+        this.a.forEachRemaining(j$.util.function.E.a(f));
     }
 
     @Override // j$.util.Q
@@ -34,10 +34,11 @@ public final /* synthetic */ class F implements H {
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        Spliterator.OfInt ofInt = this.a;
         if (obj instanceof F) {
             obj = ((F) obj).a;
         }
-        return this.a.equals(obj);
+        return ofInt.equals(obj);
     }
 
     @Override // j$.util.Q
@@ -45,14 +46,14 @@ public final /* synthetic */ class F implements H {
         return this.a.estimateSize();
     }
 
-    @Override // j$.util.H, j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
-    }
-
     @Override // j$.util.N
     public final /* synthetic */ void forEachRemaining(Object obj) {
         this.a.forEachRemaining((Spliterator.OfInt) obj);
+    }
+
+    @Override // j$.util.H
+    public final /* synthetic */ boolean g(j$.util.function.F f) {
+        return this.a.tryAdvance(j$.util.function.E.a(f));
     }
 
     @Override // j$.util.Q
@@ -74,9 +75,9 @@ public final /* synthetic */ class F implements H {
         return this.a.hashCode();
     }
 
-    @Override // j$.util.H
-    public final /* synthetic */ boolean j(j$.util.function.K k) {
-        return this.a.tryAdvance(j$.util.function.J.a(k));
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.N
@@ -86,16 +87,16 @@ public final /* synthetic */ class F implements H {
 
     @Override // j$.util.H, j$.util.N, j$.util.Q
     public final /* synthetic */ H trySplit() {
-        return f(this.a.trySplit());
+        return b(this.a.trySplit());
     }
 
     @Override // j$.util.N, j$.util.Q
     public final /* synthetic */ N trySplit() {
-        return L.f(this.a.trySplit());
+        return L.b(this.a.trySplit());
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ Q trySplit() {
-        return O.f(this.a.trySplit());
+        return O.b(this.a.trySplit());
     }
 }

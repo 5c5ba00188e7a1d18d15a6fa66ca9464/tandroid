@@ -24,11 +24,11 @@ public class HashUtils {
     private static String encodeHex(byte[] bArr) {
         char[] cArr = new char[bArr.length * 2];
         for (int i = 0; i < bArr.length; i++) {
-            int i2 = bArr[i] & 255;
-            int i3 = i * 2;
+            byte b = bArr[i];
+            int i2 = i * 2;
             char[] cArr2 = HEXADECIMAL_OUTPUT;
-            cArr[i3] = cArr2[i2 >>> 4];
-            cArr[i3 + 1] = cArr2[i2 & 15];
+            cArr[i2] = cArr2[(b & 255) >>> 4];
+            cArr[i2 + 1] = cArr2[b & 15];
         }
         return new String(cArr);
     }

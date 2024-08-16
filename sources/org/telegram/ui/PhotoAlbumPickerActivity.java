@@ -228,11 +228,11 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
             }
 
             /* JADX INFO: Access modifiers changed from: protected */
-            /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
-            /* JADX WARN: Removed duplicated region for block: B:42:0x00b6  */
-            /* JADX WARN: Removed duplicated region for block: B:46:0x00cb  */
-            /* JADX WARN: Removed duplicated region for block: B:50:0x00dd  */
-            /* JADX WARN: Removed duplicated region for block: B:51:0x00e6  */
+            /* JADX WARN: Removed duplicated region for block: B:35:0x009a  */
+            /* JADX WARN: Removed duplicated region for block: B:43:0x00b6  */
+            /* JADX WARN: Removed duplicated region for block: B:46:0x00ca  */
+            /* JADX WARN: Removed duplicated region for block: B:50:0x00dc  */
+            /* JADX WARN: Removed duplicated region for block: B:52:0x00e6  */
             @Override // org.telegram.ui.Components.SizeNotifierFrameLayout, android.widget.FrameLayout, android.view.ViewGroup, android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -266,21 +266,20 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                         if (i15 == -1) {
                             i15 = 51;
                         }
-                        int i16 = i15 & 7;
-                        int i17 = i15 & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-                        int i18 = i16 & 7;
-                        if (i18 == 1) {
+                        int i16 = i15 & 112;
+                        int i17 = i15 & 7;
+                        if (i17 == 1) {
                             i7 = ((i13 - measuredWidth) / 2) + layoutParams.leftMargin;
                             i8 = layoutParams.rightMargin;
-                        } else if (i18 == 5) {
+                        } else if (i17 == 5) {
                             i7 = (i13 - measuredWidth) - layoutParams.rightMargin;
                             i8 = getPaddingRight();
                         } else {
                             i9 = layoutParams.leftMargin + getPaddingLeft();
-                            if (i17 == 16) {
-                                if (i17 == 48) {
+                            if (i16 == 16) {
+                                if (i16 == 48) {
                                     i12 = layoutParams.topMargin + getPaddingTop();
-                                } else if (i17 == 80) {
+                                } else if (i16 == 80) {
                                     i10 = ((i6 - emojiPadding) - i4) - measuredHeight3;
                                     i11 = layoutParams.bottomMargin;
                                 } else {
@@ -291,7 +290,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                                         measuredHeight = getMeasuredHeight();
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     } else {
-                                        measuredHeight = getMeasuredHeight() + 0;
+                                        measuredHeight = getMeasuredHeight();
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     }
                                     i12 = measuredHeight - measuredHeight2;
@@ -310,7 +309,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                             childAt.layout(i9, i12, measuredWidth + i9, measuredHeight3 + i12);
                         }
                         i9 = i7 - i8;
-                        if (i17 == 16) {
+                        if (i16 == 16) {
                         }
                         i12 = i10 - i11;
                         if (PhotoAlbumPickerActivity.this.commentTextView != null) {
@@ -476,7 +475,7 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
                 int ceil = (int) Math.ceil(PhotoAlbumPickerActivity.this.textPaint.measureText(format));
                 int max = Math.max(AndroidUtilities.dp(16.0f) + ceil, AndroidUtilities.dp(24.0f));
                 int measuredWidth = getMeasuredWidth() / 2;
-                int measuredHeight = getMeasuredHeight() / 2;
+                getMeasuredHeight();
                 PhotoAlbumPickerActivity.this.textPaint.setColor(Theme.getColor(Theme.key_dialogRoundCheckBoxCheck));
                 PhotoAlbumPickerActivity.this.paint.setColor(Theme.getColor(Theme.key_dialogBackground));
                 int i5 = max / 2;

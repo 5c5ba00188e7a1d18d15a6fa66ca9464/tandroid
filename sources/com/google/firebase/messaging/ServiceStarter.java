@@ -58,10 +58,14 @@ public class ServiceStarter {
     public static synchronized ServiceStarter getInstance() {
         ServiceStarter serviceStarter;
         synchronized (ServiceStarter.class) {
-            if (instance == null) {
-                instance = new ServiceStarter();
+            try {
+                if (instance == null) {
+                    instance = new ServiceStarter();
+                }
+                serviceStarter = instance;
+            } catch (Throwable th) {
+                throw th;
             }
-            serviceStarter = instance;
         }
         return serviceStarter;
     }
@@ -69,34 +73,38 @@ public class ServiceStarter {
     private synchronized String resolveServiceClassName(Context context, Intent intent) {
         ServiceInfo serviceInfo;
         String str;
-        String str2 = this.firebaseMessagingServiceClassName;
-        if (str2 != null) {
-            return str2;
-        }
-        ResolveInfo resolveService = context.getPackageManager().resolveService(intent, 0);
-        if (resolveService != null && (serviceInfo = resolveService.serviceInfo) != null) {
-            if (context.getPackageName().equals(serviceInfo.packageName) && (str = serviceInfo.name) != null) {
-                if (str.startsWith(".")) {
-                    String valueOf = String.valueOf(context.getPackageName());
-                    String valueOf2 = String.valueOf(serviceInfo.name);
-                    this.firebaseMessagingServiceClassName = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
-                } else {
-                    this.firebaseMessagingServiceClassName = serviceInfo.name;
-                }
-                return this.firebaseMessagingServiceClassName;
+        try {
+            String str2 = this.firebaseMessagingServiceClassName;
+            if (str2 != null) {
+                return str2;
             }
-            String str3 = serviceInfo.packageName;
-            String str4 = serviceInfo.name;
-            StringBuilder sb = new StringBuilder(String.valueOf(str3).length() + 94 + String.valueOf(str4).length());
-            sb.append("Error resolving target intent service, skipping classname enforcement. Resolved service was: ");
-            sb.append(str3);
-            sb.append("/");
-            sb.append(str4);
-            Log.e("FirebaseMessaging", sb.toString());
+            ResolveInfo resolveService = context.getPackageManager().resolveService(intent, 0);
+            if (resolveService != null && (serviceInfo = resolveService.serviceInfo) != null) {
+                if (context.getPackageName().equals(serviceInfo.packageName) && (str = serviceInfo.name) != null) {
+                    if (str.startsWith(".")) {
+                        String valueOf = String.valueOf(context.getPackageName());
+                        String valueOf2 = String.valueOf(serviceInfo.name);
+                        this.firebaseMessagingServiceClassName = valueOf2.length() != 0 ? valueOf.concat(valueOf2) : new String(valueOf);
+                    } else {
+                        this.firebaseMessagingServiceClassName = serviceInfo.name;
+                    }
+                    return this.firebaseMessagingServiceClassName;
+                }
+                String str3 = serviceInfo.packageName;
+                String str4 = serviceInfo.name;
+                StringBuilder sb = new StringBuilder(String.valueOf(str3).length() + 94 + String.valueOf(str4).length());
+                sb.append("Error resolving target intent service, skipping classname enforcement. Resolved service was: ");
+                sb.append(str3);
+                sb.append("/");
+                sb.append(str4);
+                Log.e("FirebaseMessaging", sb.toString());
+                return null;
+            }
+            Log.e("FirebaseMessaging", "Failed to resolve target intent service, skipping classname enforcement");
             return null;
+        } catch (Throwable th) {
+            throw th;
         }
-        Log.e("FirebaseMessaging", "Failed to resolve target intent service, skipping classname enforcement");
-        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

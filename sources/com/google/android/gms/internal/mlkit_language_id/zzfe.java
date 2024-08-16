@@ -73,15 +73,19 @@ public class zzfe {
             return this.zzd;
         }
         synchronized (this) {
-            if (this.zzd != null) {
+            try {
+                if (this.zzd != null) {
+                    return this.zzd;
+                }
+                if (this.zzc == null) {
+                    this.zzd = zzdn.zza;
+                } else {
+                    this.zzd = this.zzc.zze();
+                }
                 return this.zzd;
+            } catch (Throwable th) {
+                throw th;
             }
-            if (this.zzc == null) {
-                this.zzd = zzdn.zza;
-            } else {
-                this.zzd = this.zzc.zze();
-            }
-            return this.zzd;
         }
     }
 }

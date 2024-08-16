@@ -63,6 +63,7 @@ public class DefaultRenderersFactory implements RenderersFactory {
     }
 
     protected void buildVideoRenderers(Context context, int i, MediaCodecSelector mediaCodecSelector, boolean z, Handler handler, VideoRendererEventListener videoRendererEventListener, long j, ArrayList<Renderer> arrayList) {
+        String str;
         int i2;
         arrayList.add(new MediaCodecVideoRenderer(context, getCodecAdapterFactory(), mediaCodecSelector, j, z, handler, videoRendererEventListener, 50));
         if (i == 0) {
@@ -77,24 +78,30 @@ public class DefaultRenderersFactory implements RenderersFactory {
                 i2 = size + 1;
                 try {
                     arrayList.add(size, (Renderer) Class.forName("com.google.android.exoplayer2.ext.vp9.LibvpxVideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
-                    Log.i("DefaultRenderersFactory", "Loaded LibvpxVideoRenderer.");
+                    str = "DefaultRenderersFactory";
                 } catch (ClassNotFoundException unused) {
-                    size = i2;
-                    i2 = size;
-                    arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
-                    Log.i("DefaultRenderersFactory", "Loaded Libgav1VideoRenderer.");
+                    str = "DefaultRenderersFactory";
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Error instantiating VP9 extension", e);
+            } catch (ClassNotFoundException unused2) {
+                str = "DefaultRenderersFactory";
             }
-        } catch (ClassNotFoundException unused2) {
-        }
-        try {
-            arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
-            Log.i("DefaultRenderersFactory", "Loaded Libgav1VideoRenderer.");
-        } catch (ClassNotFoundException unused3) {
+            try {
+                Log.i(str, "Loaded LibvpxVideoRenderer.");
+            } catch (ClassNotFoundException unused3) {
+                size = i2;
+                i2 = size;
+                arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
+                Log.i(str, "Loaded Libgav1VideoRenderer.");
+            }
+            try {
+                arrayList.add(i2, (Renderer) Class.forName("com.google.android.exoplayer2.ext.av1.Libgav1VideoRenderer").getConstructor(Long.TYPE, Handler.class, VideoRendererEventListener.class, Integer.TYPE).newInstance(Long.valueOf(j), handler, videoRendererEventListener, 50));
+                Log.i(str, "Loaded Libgav1VideoRenderer.");
+            } catch (ClassNotFoundException unused4) {
+            } catch (Exception e) {
+                throw new RuntimeException("Error instantiating AV1 extension", e);
+            }
         } catch (Exception e2) {
-            throw new RuntimeException("Error instantiating AV1 extension", e2);
+            throw new RuntimeException("Error instantiating VP9 extension", e2);
         }
     }
 
@@ -113,7 +120,7 @@ public class DefaultRenderersFactory implements RenderersFactory {
             try {
                 i2 = size + 1;
                 try {
-                    arrayList.add(size, (Renderer) Class.forName("com.google.android.exoplayer2.decoder.midi.MidiRenderer").getConstructor(new Class[0]).newInstance(new Object[0]));
+                    arrayList.add(size, (Renderer) Class.forName("com.google.android.exoplayer2.decoder.midi.MidiRenderer").getConstructor(null).newInstance(null));
                     Log.i("DefaultRenderersFactory", "Loaded MidiRenderer.");
                 } catch (ClassNotFoundException unused) {
                     size = i2;
@@ -126,55 +133,55 @@ public class DefaultRenderersFactory implements RenderersFactory {
                         } catch (ClassNotFoundException unused2) {
                             i2 = i3;
                             i3 = i2;
-                            int i4 = i3 + 1;
                             try {
+                                int i4 = i3 + 1;
                                 arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                                 Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
                             } catch (ClassNotFoundException unused3) {
-                                i3 = i4;
-                                i4 = i3;
-                                arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
-                                Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
                             }
                             arrayList.add(i4, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                             Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
                         }
+                    } catch (ClassNotFoundException unused4) {
+                    }
+                    try {
+                        int i42 = i3 + 1;
                         try {
-                            int i42 = i3 + 1;
                             arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                             Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
+                        } catch (ClassNotFoundException unused5) {
+                            i3 = i42;
+                            i42 = i3;
                             arrayList.add(i42, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
                             Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
-                        } catch (Exception e) {
-                            throw new RuntimeException("Error instantiating FLAC extension", e);
                         }
-                    } catch (Exception e2) {
-                        throw new RuntimeException("Error instantiating Opus extension", e2);
+                        arrayList.add(i42, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                        Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
+                    } catch (Exception e) {
+                        throw new RuntimeException("Error instantiating FLAC extension", e);
                     }
                 }
-            } catch (Exception e3) {
-                throw new RuntimeException("Error instantiating MIDI extension", e3);
+            } catch (Exception e2) {
+                throw new RuntimeException("Error instantiating MIDI extension", e2);
             }
-        } catch (ClassNotFoundException unused4) {
+        } catch (ClassNotFoundException unused6) {
         }
         try {
             i3 = i2 + 1;
             arrayList.add(i2, (Renderer) LibopusAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
             Log.i("DefaultRenderersFactory", "Loaded LibopusAudioRenderer.");
-        } catch (ClassNotFoundException unused5) {
-        }
-        try {
             int i422 = i3 + 1;
             arrayList.add(i3, (Renderer) LibflacAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
             Log.i("DefaultRenderersFactory", "Loaded LibflacAudioRenderer.");
-        } catch (ClassNotFoundException unused6) {
-        }
-        try {
-            arrayList.add(i422, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
-            Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
-        } catch (ClassNotFoundException unused7) {
+            try {
+                arrayList.add(i422, (Renderer) FfmpegAudioRenderer.class.getConstructor(Handler.class, AudioRendererEventListener.class, AudioSink.class).newInstance(handler, audioRendererEventListener, audioSink));
+                Log.i("DefaultRenderersFactory", "Loaded FfmpegAudioRenderer.");
+            } catch (ClassNotFoundException unused7) {
+            } catch (Exception e3) {
+                throw new RuntimeException("Error instantiating FFmpeg extension", e3);
+            }
         } catch (Exception e4) {
-            throw new RuntimeException("Error instantiating FFmpeg extension", e4);
+            throw new RuntimeException("Error instantiating Opus extension", e4);
         }
     }
 

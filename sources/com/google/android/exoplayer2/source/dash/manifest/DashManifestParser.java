@@ -33,7 +33,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.R;
 import org.webrtc.MediaStreamTrack;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlPullParser;
@@ -80,10 +79,10 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01c1  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x01e1  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01e8 A[LOOP:0: B:25:0x00a6->B:82:0x01e8, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:84:0x01a4 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01b7  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01d8  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x01df A[LOOP:0: B:24:0x00a1->B:80:0x01df, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x019a A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -95,7 +94,6 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         Throwable th;
         ArrayList arrayList3;
         long j3;
-        boolean z;
         long j4;
         DashManifestParser dashManifestParser = this;
         boolean isDvbProfileDeclared = dashManifestParser.isDvbProfileDeclared(dashManifestParser.parseProfiles(xmlPullParser, "profiles", new String[0]));
@@ -118,14 +116,14 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         UtcTimingElement utcTimingElement = null;
         Uri uri2 = null;
         ServiceDescriptionElement serviceDescriptionElement = null;
+        boolean z = false;
         boolean z2 = false;
-        boolean z3 = false;
         while (true) {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "BaseURL")) {
-                if (!z2) {
+                if (!z) {
                     j6 = dashManifestParser.parseAvailabilityTimeOffsetUs(xmlPullParser, j6);
-                    z2 = true;
+                    z = true;
                 }
                 arrayList5.addAll(dashManifestParser.parseBaseUrl(xmlPullParser, newArrayList, isDvbProfileDeclared));
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "ProgramInformation")) {
@@ -137,11 +135,11 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "ServiceDescription")) {
                 serviceDescriptionElement = parseServiceDescription(xmlPullParser);
             } else {
-                if (XmlPullParserUtil.isStartTag(xmlPullParser, "Period") && !z3) {
+                if (XmlPullParserUtil.isStartTag(xmlPullParser, "Period") && !z2) {
                     j = j6;
-                    ArrayList arrayList6 = arrayList4;
                     arrayList = arrayList5;
                     arrayList2 = newArrayList;
+                    ArrayList arrayList6 = arrayList4;
                     j2 = j5;
                     th = th2;
                     Pair<Period, Long> parsePeriod = parsePeriod(xmlPullParser, !arrayList5.isEmpty() ? arrayList5 : newArrayList, j7, j, parseDateTime, parseDuration4, isDvbProfileDeclared);
@@ -157,14 +155,36 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                         }
                         arrayList3.add(period);
                         j7 = j3;
-                        z = z3;
                     } else if (!equals) {
                         throw ParserException.createForMalformedManifest("Unable to determine start of period " + arrayList6.size(), th);
                     } else {
+                        j6 = j;
                         arrayList3 = arrayList6;
-                        z = true;
+                        z2 = true;
+                        if (XmlPullParserUtil.isEndTag(xmlPullParser, "MPD")) {
+                            if (parseDuration == j2) {
+                                if (j7 != j2) {
+                                    j4 = j7;
+                                    if (!arrayList3.isEmpty()) {
+                                        throw ParserException.createForMalformedManifest("No periods found.", th);
+                                    }
+                                    return buildMediaPresentationDescription(parseDateTime, j4, parseDuration2, equals, parseDuration3, parseDuration4, parseDuration5, parseDateTime2, programInformation, utcTimingElement, serviceDescriptionElement, uri2, arrayList3);
+                                } else if (!equals) {
+                                    throw ParserException.createForMalformedManifest("Unable to determine duration of static manifest.", th);
+                                }
+                            }
+                            j4 = parseDuration;
+                            if (!arrayList3.isEmpty()) {
+                            }
+                        } else {
+                            dashManifestParser = this;
+                            arrayList4 = arrayList3;
+                            th2 = th;
+                            arrayList5 = arrayList;
+                            newArrayList = arrayList2;
+                            j5 = j2;
+                        }
                     }
-                    z3 = z;
                 } else {
                     j = j6;
                     arrayList = arrayList5;
@@ -176,27 +196,6 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
                 }
                 j6 = j;
                 if (XmlPullParserUtil.isEndTag(xmlPullParser, "MPD")) {
-                    arrayList4 = arrayList3;
-                    th2 = th;
-                    arrayList5 = arrayList;
-                    newArrayList = arrayList2;
-                    j5 = j2;
-                    dashManifestParser = this;
-                } else {
-                    if (parseDuration == j2) {
-                        if (j7 != j2) {
-                            j4 = j7;
-                            if (!arrayList3.isEmpty()) {
-                                throw ParserException.createForMalformedManifest("No periods found.", th);
-                            }
-                            return buildMediaPresentationDescription(parseDateTime, j4, parseDuration2, equals, parseDuration3, parseDuration4, parseDuration5, parseDateTime2, programInformation, utcTimingElement, serviceDescriptionElement, uri2, arrayList3);
-                        } else if (!equals) {
-                            throw ParserException.createForMalformedManifest("Unable to determine duration of static manifest.", th);
-                        }
-                    }
-                    j4 = parseDuration;
-                    if (!arrayList3.isEmpty()) {
-                    }
                 }
             }
             arrayList = arrayList5;
@@ -602,24 +601,26 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
 
     protected int parseContentType(XmlPullParser xmlPullParser) {
         String attributeValue = xmlPullParser.getAttributeValue(null, "contentType");
-        if (TextUtils.isEmpty(attributeValue)) {
-            return -1;
+        if (!TextUtils.isEmpty(attributeValue)) {
+            if (MediaStreamTrack.AUDIO_TRACK_KIND.equals(attributeValue)) {
+                return 1;
+            }
+            if (MediaStreamTrack.VIDEO_TRACK_KIND.equals(attributeValue)) {
+                return 2;
+            }
+            if ("text".equals(attributeValue)) {
+                return 3;
+            }
+            if ("image".equals(attributeValue)) {
+                return 4;
+            }
         }
-        if (MediaStreamTrack.AUDIO_TRACK_KIND.equals(attributeValue)) {
-            return 1;
-        }
-        if (MediaStreamTrack.VIDEO_TRACK_KIND.equals(attributeValue)) {
-            return 2;
-        }
-        if ("text".equals(attributeValue)) {
-            return 3;
-        }
-        return "image".equals(attributeValue) ? 4 : -1;
+        return -1;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:49:0x00b9  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x00c0  */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x011e  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x00ba  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x011f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1010,25 +1011,26 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
     }
 
     protected SegmentBase.SegmentList parseSegmentList(XmlPullParser xmlPullParser, SegmentBase.SegmentList segmentList, long j, long j2, long j3, long j4, long j5) throws XmlPullParserException, IOException {
+        List<RangedUri> list;
         long parseLong = parseLong(xmlPullParser, "timescale", segmentList != null ? segmentList.timescale : 1L);
         long parseLong2 = parseLong(xmlPullParser, "presentationTimeOffset", segmentList != null ? segmentList.presentationTimeOffset : 0L);
         long parseLong3 = parseLong(xmlPullParser, "duration", segmentList != null ? segmentList.duration : -9223372036854775807L);
         long parseLong4 = parseLong(xmlPullParser, "startNumber", segmentList != null ? segmentList.startNumber : 1L);
         long finalAvailabilityTimeOffset = getFinalAvailabilityTimeOffset(j3, j4);
-        List<SegmentBase.SegmentTimelineElement> list = null;
-        List<RangedUri> list2 = null;
+        List<SegmentBase.SegmentTimelineElement> list2 = null;
+        ArrayList arrayList = null;
         RangedUri rangedUri = null;
         do {
             xmlPullParser.next();
             if (XmlPullParserUtil.isStartTag(xmlPullParser, "Initialization")) {
                 rangedUri = parseInitialization(xmlPullParser);
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentTimeline")) {
-                list = parseSegmentTimeline(xmlPullParser, parseLong, j2);
+                list2 = parseSegmentTimeline(xmlPullParser, parseLong, j2);
             } else if (XmlPullParserUtil.isStartTag(xmlPullParser, "SegmentURL")) {
-                if (list2 == null) {
-                    list2 = new ArrayList<>();
+                if (arrayList == null) {
+                    arrayList = new ArrayList();
                 }
-                list2.add(parseSegmentUrl(xmlPullParser));
+                arrayList.add(parseSegmentUrl(xmlPullParser));
             } else {
                 maybeSkipTag(xmlPullParser);
             }
@@ -1037,14 +1039,16 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             if (rangedUri == null) {
                 rangedUri = segmentList.initialization;
             }
-            if (list == null) {
-                list = segmentList.segmentTimeline;
-            }
             if (list2 == null) {
-                list2 = segmentList.mediaSegments;
+                list2 = segmentList.segmentTimeline;
+            }
+            if (arrayList == null) {
+                list = segmentList.mediaSegments;
+                return buildSegmentList(rangedUri, parseLong, parseLong2, parseLong4, parseLong3, list2, finalAvailabilityTimeOffset, list, j5, j);
             }
         }
-        return buildSegmentList(rangedUri, parseLong, parseLong2, parseLong4, parseLong3, list, finalAvailabilityTimeOffset, list2, j5, j);
+        list = arrayList;
+        return buildSegmentList(rangedUri, parseLong, parseLong2, parseLong4, parseLong3, list2, finalAvailabilityTimeOffset, list, j5, j);
     }
 
     protected SegmentBase.SegmentList buildSegmentList(RangedUri rangedUri, long j, long j2, long j3, long j4, List<SegmentBase.SegmentTimelineElement> list, long j5, List<RangedUri> list2, long j6, long j7) {
@@ -1489,7 +1493,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         int i = 0;
         for (int i2 = 0; i2 < list.size(); i2++) {
             if (Ascii.equalsIgnoreCase("http://dashif.org/guidelines/trickmode", list.get(i2).schemeIdUri)) {
-                i |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+                i = LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
             }
         }
         return i;
@@ -1596,7 +1600,7 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
             case 7:
                 return 1;
             case '\b':
-                return LiteMode.FLAG_CHAT_BLUR;
+                return 256;
             case '\t':
                 return 64;
             case '\n':
@@ -1616,31 +1620,31 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         }
         char c = 65535;
         switch (str.hashCode()) {
-            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+            case 49:
                 if (str.equals("1")) {
                     c = 0;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+            case 50:
                 if (str.equals("2")) {
                     c = 1;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+            case 51:
                 if (str.equals("3")) {
                     c = 2;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+            case 52:
                 if (str.equals("4")) {
                     c = 3;
                     break;
                 }
                 break;
-            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
+            case 54:
                 if (str.equals("6")) {
                     c = 4;
                     break;
@@ -1828,10 +1832,11 @@ public class DashManifestParser extends DefaultHandler implements ParsingLoadabl
         for (int i = 0; i < list.size(); i++) {
             Descriptor descriptor = list.get(i);
             String str = descriptor.schemeIdUri;
-            if ("tag:dolby.com,2018:dash:EC3_ExtensionType:2018".equals(str) && "JOC".equals(descriptor.value)) {
-                return "audio/eac3-joc";
-            }
-            if ("tag:dolby.com,2014:dash:DolbyDigitalPlusExtensionType:2014".equals(str) && "ec+3".equals(descriptor.value)) {
+            if (!"tag:dolby.com,2018:dash:EC3_ExtensionType:2018".equals(str) || !"JOC".equals(descriptor.value)) {
+                if ("tag:dolby.com,2014:dash:DolbyDigitalPlusExtensionType:2014".equals(str) && "ec+3".equals(descriptor.value)) {
+                    return "audio/eac3-joc";
+                }
+            } else {
                 return "audio/eac3-joc";
             }
         }

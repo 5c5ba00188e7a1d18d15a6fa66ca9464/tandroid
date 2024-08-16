@@ -387,7 +387,6 @@ public class InviteContactsActivity extends BaseFragment implements Notification
             }
         };
         this.fragmentView = viewGroup;
-        ViewGroup viewGroup2 = viewGroup;
         ScrollView scrollView = new ScrollView(context) { // from class: org.telegram.ui.InviteContactsActivity.3
             @Override // android.widget.ScrollView, android.view.ViewGroup, android.view.ViewParent
             public boolean requestChildRectangleOnScreen(View view, Rect rect, boolean z) {
@@ -404,7 +403,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.scrollView = scrollView;
         scrollView.setVerticalScrollBarEnabled(false);
         AndroidUtilities.setScrollViewEdgeEffectColor(this.scrollView, Theme.getColor(Theme.key_windowBackgroundWhite));
-        viewGroup2.addView(this.scrollView);
+        viewGroup.addView(this.scrollView);
         SpansContainer spansContainer = new SpansContainer(context);
         this.spansContainer = spansContainer;
         this.scrollView.addView(spansContainer, LayoutHelper.createFrame(-1, -2.0f));
@@ -512,7 +511,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.emptyView.title.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
         this.emptyView.subtitle.setText("");
         this.emptyView.showProgress(ContactsController.getInstance(this.currentAccount).isLoadingContacts());
-        viewGroup2.addView(this.emptyView);
+        viewGroup.addView(this.emptyView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 1, false);
         this.adapter = new InviteAdapter(context) { // from class: org.telegram.ui.InviteContactsActivity.8
             @Override // org.telegram.ui.InviteContactsActivity.InviteAdapter
@@ -539,8 +538,8 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         GroupCreateDividerItemDecoration groupCreateDividerItemDecoration = new GroupCreateDividerItemDecoration();
         this.decoration = groupCreateDividerItemDecoration;
         recyclerListView2.addItemDecoration(groupCreateDividerItemDecoration);
-        viewGroup2.addView(this.listView);
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda1
+        viewGroup.addView(this.listView);
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 InviteContactsActivity.this.lambda$createView$0(view, i);
@@ -566,13 +565,13 @@ public class InviteContactsActivity extends BaseFragment implements Notification
         this.infoTextView.setTextSize(1, 13.0f);
         this.infoTextView.setTypeface(AndroidUtilities.bold());
         this.infoTextView.setPadding(AndroidUtilities.dp(17.0f), AndroidUtilities.dp(9.0f), AndroidUtilities.dp(17.0f), AndroidUtilities.dp(9.0f));
-        viewGroup2.addView(this.infoTextView, LayoutHelper.createFrame(-1, -2, 83));
+        viewGroup.addView(this.infoTextView, LayoutHelper.createFrame(-1, -2, 83));
         FrameLayout frameLayout = new FrameLayout(context);
         this.counterView = frameLayout;
         frameLayout.setBackgroundColor(Theme.getColor(i));
         this.counterView.setVisibility(4);
-        viewGroup2.addView(this.counterView, LayoutHelper.createFrame(-1, 48, 83));
-        this.counterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda2
+        viewGroup.addView(this.counterView, LayoutHelper.createFrame(-1, 48, 83));
+        this.counterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 InviteContactsActivity.this.lambda$createView$1(view);
@@ -740,7 +739,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     private void fetchContacts() {
         ArrayList<ContactsController.Contact> arrayList = new ArrayList<>(ContactsController.getInstance(this.currentAccount).phoneBookContacts);
         this.phoneBookContacts = arrayList;
-        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda3
+        Collections.sort(arrayList, new Comparator() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda0
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$fetchContacts$2;
@@ -1001,7 +1000,7 @@ public class InviteContactsActivity extends BaseFragment implements Notification
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda0
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.InviteContactsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 InviteContactsActivity.this.lambda$getThemeDescriptions$3();

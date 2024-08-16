@@ -128,12 +128,12 @@ public class VideoPlayerRewinder {
         onRewindCanceled();
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x0046, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:28:0x0047, code lost:
         if (r0 != 2) goto L23;
      */
-    /* JADX WARN: Removed duplicated region for block: B:31:0x004d  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0072  */
-    /* JADX WARN: Removed duplicated region for block: B:39:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:32:0x004e  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0073  */
+    /* JADX WARN: Removed duplicated region for block: B:40:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

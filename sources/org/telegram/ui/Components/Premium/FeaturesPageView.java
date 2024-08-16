@@ -25,6 +25,7 @@ import java.util.Comparator;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
@@ -249,7 +250,7 @@ public class FeaturesPageView extends BaseListPageView {
                     }
                 };
                 this.starParticlesView = starParticlesView;
-                addView(starParticlesView, LayoutHelper.createFrame(-1, 190, 55));
+                addView(starParticlesView, LayoutHelper.createFrame(-1, (int) NotificationCenter.storiesSendAsUpdate, 55));
                 GLIconTextureView gLIconTextureView = new GLIconTextureView(context, 1, 1) { // from class: org.telegram.ui.Components.Premium.FeaturesPageView.HeaderView.2
                     /* JADX INFO: Access modifiers changed from: protected */
                     @Override // org.telegram.ui.Components.Premium.GLIcon.GLIconTextureView, android.view.TextureView, android.view.View
@@ -276,7 +277,7 @@ public class FeaturesPageView extends BaseListPageView {
                 gLIconRenderer.colorKey1 = i2;
                 gLIconRenderer.colorKey2 = Theme.key_premiumGradient1;
                 gLIconRenderer.updateColors();
-                addView(this.iconTextureView, LayoutHelper.createFrame(160, 160, 1));
+                addView(this.iconTextureView, LayoutHelper.createFrame((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 1));
                 GLIconTextureView gLIconTextureView2 = this.iconTextureView;
                 if (gLIconTextureView2 != null) {
                     gLIconTextureView2.startEnterAnimation(-360, 100L);

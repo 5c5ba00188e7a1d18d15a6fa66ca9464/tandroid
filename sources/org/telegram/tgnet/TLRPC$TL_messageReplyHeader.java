@@ -19,7 +19,7 @@ public class TLRPC$TL_messageReplyHeader extends TLRPC$MessageReplyHeader {
         if ((this.flags & 32) != 0) {
             this.reply_from = TLRPC$MessageFwdHeader.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.reply_media = TLRPC$MessageMedia.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags & 2) != 0) {
@@ -69,7 +69,7 @@ public class TLRPC$TL_messageReplyHeader extends TLRPC$MessageReplyHeader {
         if ((this.flags & 32) != 0) {
             this.reply_from.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.reply_media.serializeToStream(abstractSerializedData);
         }
         if ((this.flags & 2) != 0) {

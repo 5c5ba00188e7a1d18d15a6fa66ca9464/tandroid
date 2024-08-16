@@ -125,7 +125,7 @@ public final class AdtsExtractor implements Extractor {
         Assertions.checkStateNotNull(this.extractorOutput);
         long length = extractorInput.getLength();
         int i = this.flags;
-        if (((i & 2) == 0 && ((i & 1) == 0 || length == -1)) ? false : true) {
+        if ((i & 2) != 0 || ((i & 1) != 0 && length != -1)) {
             calculateAverageFrameSize(extractorInput);
         }
         int read = extractorInput.read(this.packetBuffer.getData(), 0, 2048);
@@ -235,6 +235,6 @@ public final class AdtsExtractor implements Extractor {
     }
 
     private static int getBitrateFromFrameSize(int i, long j) {
-        return (int) (((i * 8) * 1000000) / j);
+        return (int) ((i * 8000000) / j);
     }
 }

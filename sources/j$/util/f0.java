@@ -1,4 +1,6 @@
 package j$.util;
+
+import java.util.Iterator;
 /* loaded from: classes2.dex */
 public abstract class f0 {
     private static final Q a = new b0();
@@ -50,7 +52,7 @@ public abstract class f0 {
         return new U(k);
     }
 
-    public static java.util.Iterator i(Q q) {
+    public static Iterator i(Q q) {
         q.getClass();
         return new S(q);
     }

@@ -7,10 +7,10 @@ import com.google.gson.internal.bind.TreeTypeAdapter;
 import com.google.gson.internal.bind.TypeAdapters;
 import com.google.gson.internal.sql.SqlTypesSupport;
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,13 +29,13 @@ public final class GsonBuilder {
     private boolean complexMapKeySerialization = false;
     private boolean serializeSpecialFloatingPointValues = false;
     private boolean escapeHtmlChars = true;
-    private boolean prettyPrinting = false;
+    private FormattingStyle formattingStyle = Gson.DEFAULT_FORMATTING_STYLE;
     private boolean generateNonExecutableJson = false;
-    private boolean lenient = false;
+    private Strictness strictness = Gson.DEFAULT_STRICTNESS;
     private boolean useJdkUnsafe = true;
     private ToNumberStrategy objectToNumberStrategy = Gson.DEFAULT_OBJECT_TO_NUMBER_STRATEGY;
     private ToNumberStrategy numberToNumberStrategy = Gson.DEFAULT_NUMBER_TO_NUMBER_STRATEGY;
-    private final LinkedList<ReflectionAccessFilter> reflectionFilters = new LinkedList<>();
+    private final ArrayDeque<ReflectionAccessFilter> reflectionFilters = new ArrayDeque<>();
 
     public GsonBuilder addSerializationExclusionStrategy(ExclusionStrategy exclusionStrategy) {
         Objects.requireNonNull(exclusionStrategy);
@@ -53,6 +53,9 @@ public final class GsonBuilder {
         Objects.requireNonNull(cls);
         boolean z = obj instanceof JsonSerializer;
         $Gson$Preconditions.checkArgument(z || (obj instanceof JsonDeserializer) || (obj instanceof TypeAdapter));
+        if (JsonElement.class.isAssignableFrom(cls)) {
+            throw new IllegalArgumentException("Cannot override built-in adapter for " + cls);
+        }
         if ((obj instanceof JsonDeserializer) || z) {
             this.hierarchyFactories.add(TreeTypeAdapter.newTypeHierarchyFactory(cls, obj));
         }
@@ -63,17 +66,17 @@ public final class GsonBuilder {
     }
 
     public Gson create() {
-        List<TypeAdapterFactory> arrayList = new ArrayList<>(this.factories.size() + this.hierarchyFactories.size() + 3);
+        ArrayList arrayList = new ArrayList(this.factories.size() + this.hierarchyFactories.size() + 3);
         arrayList.addAll(this.factories);
         Collections.reverse(arrayList);
         ArrayList arrayList2 = new ArrayList(this.hierarchyFactories);
         Collections.reverse(arrayList2);
         arrayList.addAll(arrayList2);
         addTypeAdaptersForDate(this.datePattern, this.dateStyle, this.timeStyle, arrayList);
-        return new Gson(this.excluder, this.fieldNamingPolicy, new HashMap(this.instanceCreators), this.serializeNulls, this.complexMapKeySerialization, this.generateNonExecutableJson, this.escapeHtmlChars, this.prettyPrinting, this.lenient, this.serializeSpecialFloatingPointValues, this.useJdkUnsafe, this.longSerializationPolicy, this.datePattern, this.dateStyle, this.timeStyle, new ArrayList(this.factories), new ArrayList(this.hierarchyFactories), arrayList, this.objectToNumberStrategy, this.numberToNumberStrategy, new ArrayList(this.reflectionFilters));
+        return new Gson(this.excluder, this.fieldNamingPolicy, new HashMap(this.instanceCreators), this.serializeNulls, this.complexMapKeySerialization, this.generateNonExecutableJson, this.escapeHtmlChars, this.formattingStyle, this.strictness, this.serializeSpecialFloatingPointValues, this.useJdkUnsafe, this.longSerializationPolicy, this.datePattern, this.dateStyle, this.timeStyle, new ArrayList(this.factories), new ArrayList(this.hierarchyFactories), arrayList, this.objectToNumberStrategy, this.numberToNumberStrategy, new ArrayList(this.reflectionFilters));
     }
 
-    private void addTypeAdaptersForDate(String str, int i, int i2, List<TypeAdapterFactory> list) {
+    private static void addTypeAdaptersForDate(String str, int i, int i2, List<TypeAdapterFactory> list) {
         TypeAdapterFactory typeAdapterFactory;
         TypeAdapterFactory typeAdapterFactory2;
         boolean z = SqlTypesSupport.SUPPORTS_SQL_TYPES;
@@ -85,7 +88,7 @@ public final class GsonBuilder {
                 typeAdapterFactory2 = SqlTypesSupport.DATE_DATE_TYPE.createAdapterFactory(str);
             }
             typeAdapterFactory2 = null;
-        } else if (i == 2 || i2 == 2) {
+        } else if (i == 2 && i2 == 2) {
             return;
         } else {
             TypeAdapterFactory createAdapterFactory = DefaultDateTypeAdapter.DateType.DATE.createAdapterFactory(i, i2);

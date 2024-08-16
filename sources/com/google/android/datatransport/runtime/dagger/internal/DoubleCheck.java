@@ -17,11 +17,14 @@ public final class DoubleCheck<T> implements Provider<T> {
         Object obj = UNINITIALIZED;
         if (t == obj) {
             synchronized (this) {
-                t = this.instance;
-                if (t == obj) {
-                    t = this.provider.get();
-                    this.instance = reentrantCheck(this.instance, t);
-                    this.provider = null;
+                try {
+                    t = this.instance;
+                    if (t == obj) {
+                        t = this.provider.get();
+                        this.instance = reentrantCheck(this.instance, t);
+                        this.provider = null;
+                    }
+                } finally {
                 }
             }
         }
@@ -29,7 +32,7 @@ public final class DoubleCheck<T> implements Provider<T> {
     }
 
     public static Object reentrantCheck(Object obj, Object obj2) {
-        if (!(obj != UNINITIALIZED) || obj == obj2) {
+        if (obj == UNINITIALIZED || obj == obj2) {
             return obj2;
         }
         throw new IllegalStateException("Scoped provider was invoked recursively returning different results: " + obj + " & " + obj2 + ". This is likely due to a circular dependency.");

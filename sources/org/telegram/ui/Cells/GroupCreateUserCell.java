@@ -278,9 +278,10 @@ public class GroupCreateUserCell extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$setChecked$1(ValueAnimator valueAnimator) {
         float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
-        float f = this.isChecked ? 1.0f - (0.18f * floatValue) : 0.82f + (0.18f * floatValue);
-        this.avatarImageView.setScaleX(f);
-        this.avatarImageView.setScaleY(f);
+        float f = 0.18f * floatValue;
+        float f2 = this.isChecked ? 1.0f - f : 0.82f + f;
+        this.avatarImageView.setScaleX(f2);
+        this.avatarImageView.setScaleY(f2);
         if (!this.isChecked) {
             floatValue = 1.0f - floatValue;
         }

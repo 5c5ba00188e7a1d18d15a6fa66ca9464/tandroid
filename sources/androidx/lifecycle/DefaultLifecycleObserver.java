@@ -7,16 +7,16 @@ public interface DefaultLifecycleObserver extends FullLifecycleObserver {
         public static void $default$onCreate(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }
 
-        public static void $default$onDestroy(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
+        public static void $default$onStart(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }
 
         public static void $default$onPause(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }
 
-        public static void $default$onStart(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
+        public static void $default$onStop(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }
 
-        public static void $default$onStop(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
+        public static void $default$onDestroy(DefaultLifecycleObserver defaultLifecycleObserver, LifecycleOwner lifecycleOwner) {
         }
     }
 }

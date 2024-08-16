@@ -16,12 +16,12 @@ abstract class AbstractIndexedListIterator<E> extends UnmodifiableListIterator<E
         this.position = i2;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator, java.util.ListIterator
     public final boolean hasNext() {
         return this.position < this.size;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator, java.util.ListIterator
     public final E next() {
         if (!hasNext()) {
             throw new NoSuchElementException();

@@ -417,21 +417,21 @@ public class HintView extends FrameLayout {
     /* JADX WARN: Code restructure failed: missing block: B:59:0x0144, code lost:
         if (r1 < 0) goto L30;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:65:0x0162, code lost:
-        if (r1 >= 0) goto L56;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:67:0x0165, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x0147, code lost:
         r6 = r1;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:66:0x0164, code lost:
+        if (r1 >= 0) goto L56;
      */
     /* JADX WARN: Removed duplicated region for block: B:35:0x00b4  */
     /* JADX WARN: Removed duplicated region for block: B:36:0x00b7  */
     /* JADX WARN: Removed duplicated region for block: B:47:0x0108  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x0119  */
     /* JADX WARN: Removed duplicated region for block: B:56:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x0150  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x017d  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x018f  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01ae  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0152  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x017d  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x018f  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x01ae  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -467,16 +467,20 @@ public class HintView extends FrameLayout {
                 }
                 i2 = this.currentType;
                 int i8 = 0;
-                if (i2 != 8 && this.isTopArrow) {
-                    if (view instanceof SimpleTextView) {
-                        SimpleTextView simpleTextView = (SimpleTextView) view;
-                        Drawable rightDrawable = simpleTextView.getRightDrawable();
-                        measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
+                if (i2 == 8 || !this.isTopArrow) {
+                    if (i2 != 3) {
+                        measuredWidth = iArr[0];
                     } else {
-                        measuredWidth = view instanceof TextView ? (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f) : iArr[0];
+                        measuredWidth = iArr[0] + (view.getMeasuredWidth() / 2);
                     }
+                } else if (view instanceof SimpleTextView) {
+                    SimpleTextView simpleTextView = (SimpleTextView) view;
+                    Drawable rightDrawable = simpleTextView.getRightDrawable();
+                    measuredWidth = (iArr[0] + (rightDrawable != null ? rightDrawable.getBounds().centerX() : simpleTextView.getTextWidth() / 2)) - AndroidUtilities.dp(8.0f);
+                } else if (view instanceof TextView) {
+                    measuredWidth = (iArr[0] + ((TextView) view).getMeasuredWidth()) - AndroidUtilities.dp(16.5f);
                 } else {
-                    measuredWidth = i2 != 3 ? iArr[0] : iArr[0] + (view.getMeasuredWidth() / 2);
+                    measuredWidth = iArr[0];
                 }
                 view2 = (View) getParent();
                 view2.getLocationInWindow(iArr);
@@ -545,7 +549,7 @@ public class HintView extends FrameLayout {
         dp2 += i;
         i2 = this.currentType;
         int i82 = 0;
-        if (i2 != 8) {
+        if (i2 == 8) {
         }
         if (i2 != 3) {
         }

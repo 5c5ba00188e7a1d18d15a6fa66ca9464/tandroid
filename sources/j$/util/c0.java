@@ -2,7 +2,6 @@ package j$.util;
 
 import j$.util.function.Consumer;
 import java.util.Comparator;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes2.dex */
 final class c0 implements H {
     private final int[] a;
@@ -14,19 +13,19 @@ final class c0 implements H {
         this.a = iArr;
         this.b = i;
         this.c = i2;
-        this.d = i3 | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
+        this.d = i3 | 16448;
     }
 
-    @Override // j$.util.H, j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return a.p(this, consumer);
+    @Override // j$.util.Q
+    public final /* synthetic */ void a(Consumer consumer) {
+        a.f(this, consumer);
     }
 
     @Override // j$.util.N
     /* renamed from: c */
-    public final void forEachRemaining(j$.util.function.K k) {
+    public final void forEachRemaining(j$.util.function.F f) {
         int i;
-        k.getClass();
+        f.getClass();
         int[] iArr = this.a;
         int length = iArr.length;
         int i2 = this.c;
@@ -36,7 +35,7 @@ final class c0 implements H {
         this.b = i2;
         if (i < i2) {
             do {
-                k.accept(iArr[i]);
+                f.accept(iArr[i]);
                 i++;
             } while (i < i2);
         }
@@ -52,9 +51,17 @@ final class c0 implements H {
         return this.c - this.b;
     }
 
-    @Override // j$.util.H, j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        a.g(this, consumer);
+    @Override // j$.util.N
+    /* renamed from: g */
+    public final boolean tryAdvance(j$.util.function.F f) {
+        f.getClass();
+        int i = this.b;
+        if (i < 0 || i >= this.c) {
+            return false;
+        }
+        this.b = i + 1;
+        f.accept(this.a[i]);
+        return true;
     }
 
     @Override // j$.util.Q
@@ -67,7 +74,7 @@ final class c0 implements H {
 
     @Override // j$.util.Q
     public final /* synthetic */ long getExactSizeIfKnown() {
-        return a.i(this);
+        return a.j(this);
     }
 
     @Override // j$.util.Q
@@ -75,17 +82,9 @@ final class c0 implements H {
         return a.k(this, i);
     }
 
-    @Override // j$.util.N
-    /* renamed from: j */
-    public final boolean tryAdvance(j$.util.function.K k) {
-        k.getClass();
-        int i = this.b;
-        if (i < 0 || i >= this.c) {
-            return false;
-        }
-        this.b = i + 1;
-        k.accept(this.a[i]);
-        return true;
+    @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return a.o(this, consumer);
     }
 
     @Override // j$.util.Q

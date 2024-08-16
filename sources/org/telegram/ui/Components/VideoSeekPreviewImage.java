@@ -20,6 +20,7 @@ import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC$TL_document;
@@ -82,7 +83,7 @@ public class VideoSeekPreviewImage extends View {
         ImageReceiver imageReceiver = new ImageReceiver();
         this.youtubeBoardsReceiver = imageReceiver;
         imageReceiver.setParentView(this);
-        this.youtubeBoardsReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
+        this.youtubeBoardsReceiver.setDelegate(new ImageReceiver.ImageReceiverDelegate() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
             @Override // org.telegram.messenger.ImageReceiver.ImageReceiverDelegate
             public final void didSetImage(ImageReceiver imageReceiver2, boolean z, boolean z2, boolean z3) {
                 VideoSeekPreviewImage.this.lambda$new$0(imageReceiver2, z, z2, z3);
@@ -195,7 +196,7 @@ public class VideoSeekPreviewImage extends View {
             animatedFileDrawable.resetStream(false);
         }
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$setProgress$2(f, j);
@@ -212,7 +213,7 @@ public class VideoSeekPreviewImage extends View {
             this.pendingProgress = f;
             return;
         }
-        int max = Math.max(200, AndroidUtilities.dp(100.0f));
+        int max = Math.max((int) NotificationCenter.storyQualityUpdate, AndroidUtilities.dp(100.0f));
         final Bitmap frameAtTime = this.fileDrawable.getFrameAtTime(j);
         if (frameAtTime != null) {
             int width = frameAtTime.getWidth();
@@ -287,7 +288,7 @@ public class VideoSeekPreviewImage extends View {
         }
         this.videoUri = uri;
         DispatchQueue dispatchQueue = Utilities.globalQueue;
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda1
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$open$4(uri);
@@ -330,7 +331,7 @@ public class VideoSeekPreviewImage extends View {
             setProgress(f, this.pixelWidth);
             this.pendingProgress = 0.0f;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda4
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.VideoSeekPreviewImage$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 VideoSeekPreviewImage.this.lambda$open$3();

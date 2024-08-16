@@ -2,6 +2,7 @@ package com.google.android.datatransport.runtime.scheduling.jobscheduling;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
 import android.os.PersistableBundle;
 import android.util.Base64;
 import com.google.android.datatransport.runtime.TransportContext;
@@ -24,6 +25,7 @@ public class JobInfoSchedulerService extends JobService {
         int i;
         PersistableBundle extras4;
         int i2;
+        Context applicationContext;
         extras = jobParameters.getExtras();
         string = extras.getString("backendName");
         extras2 = jobParameters.getExtras();
@@ -32,12 +34,13 @@ public class JobInfoSchedulerService extends JobService {
         i = extras3.getInt("priority");
         extras4 = jobParameters.getExtras();
         i2 = extras4.getInt("attemptNumber");
-        TransportRuntime.initialize(getApplicationContext());
+        applicationContext = getApplicationContext();
+        TransportRuntime.initialize(applicationContext);
         TransportContext.Builder priority = TransportContext.builder().setBackendName(string).setPriority(PriorityMapping.valueOf(i));
         if (string2 != null) {
             priority.setExtras(Base64.decode(string2, 0));
         }
-        TransportRuntime.getInstance().getUploader().upload(priority.build(), i2, new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService$$ExternalSyntheticLambda1
+        TransportRuntime.getInstance().getUploader().upload(priority.build(), i2, new Runnable() { // from class: com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 JobInfoSchedulerService.this.lambda$onStartJob$0(jobParameters);

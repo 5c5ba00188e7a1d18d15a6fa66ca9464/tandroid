@@ -21,52 +21,56 @@ public class DeviceInfoHelper {
     public static synchronized Device getDeviceInfo(Context context) throws DeviceInfoException {
         Device device;
         synchronized (DeviceInfoHelper.class) {
-            device = new Device();
             try {
-                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-                device.setAppVersion(packageInfo.versionName);
-                device.setAppBuild(String.valueOf(getVersionCode(packageInfo)));
-                device.setAppNamespace(context.getPackageName());
+                device = new Device();
                 try {
-                    TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService("phone");
-                    String networkCountryIso = telephonyManager.getNetworkCountryIso();
-                    if (!TextUtils.isEmpty(networkCountryIso)) {
-                        device.setCarrierCountry(networkCountryIso);
+                    PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+                    device.setAppVersion(packageInfo.versionName);
+                    device.setAppBuild(String.valueOf(getVersionCode(packageInfo)));
+                    device.setAppNamespace(context.getPackageName());
+                    try {
+                        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService("phone");
+                        String networkCountryIso = telephonyManager.getNetworkCountryIso();
+                        if (!TextUtils.isEmpty(networkCountryIso)) {
+                            device.setCarrierCountry(networkCountryIso);
+                        }
+                        String networkOperatorName = telephonyManager.getNetworkOperatorName();
+                        if (!TextUtils.isEmpty(networkOperatorName)) {
+                            device.setCarrierName(networkOperatorName);
+                        }
+                    } catch (Exception e) {
+                        AppCenterLog.error("AppCenter", "Cannot retrieve carrier info", e);
                     }
-                    String networkOperatorName = telephonyManager.getNetworkOperatorName();
-                    if (!TextUtils.isEmpty(networkOperatorName)) {
-                        device.setCarrierName(networkOperatorName);
+                    device.setLocale(Locale.getDefault().toString());
+                    device.setModel(Build.MODEL);
+                    device.setOemName(Build.MANUFACTURER);
+                    device.setOsApiLevel(Integer.valueOf(Build.VERSION.SDK_INT));
+                    device.setOsName("Android");
+                    device.setOsVersion(Build.VERSION.RELEASE);
+                    device.setOsBuild(Build.ID);
+                    try {
+                        device.setScreenSize(getScreenSize(context));
+                    } catch (Exception e2) {
+                        AppCenterLog.error("AppCenter", "Cannot retrieve screen size", e2);
                     }
-                } catch (Exception e) {
-                    AppCenterLog.error("AppCenter", "Cannot retrieve carrier info", e);
+                    device.setSdkName("appcenter.android");
+                    device.setSdkVersion("3.3.1");
+                    device.setTimeZoneOffset(Integer.valueOf((TimeZone.getDefault().getOffset(System.currentTimeMillis()) / 60) / 1000));
+                    WrapperSdk wrapperSdk = sWrapperSdk;
+                    if (wrapperSdk != null) {
+                        device.setWrapperSdkVersion(wrapperSdk.getWrapperSdkVersion());
+                        device.setWrapperSdkName(sWrapperSdk.getWrapperSdkName());
+                        device.setWrapperRuntimeVersion(sWrapperSdk.getWrapperRuntimeVersion());
+                        device.setLiveUpdateReleaseLabel(sWrapperSdk.getLiveUpdateReleaseLabel());
+                        device.setLiveUpdateDeploymentKey(sWrapperSdk.getLiveUpdateDeploymentKey());
+                        device.setLiveUpdatePackageHash(sWrapperSdk.getLiveUpdatePackageHash());
+                    }
+                } catch (Exception e3) {
+                    AppCenterLog.error("AppCenter", "Cannot retrieve package info", e3);
+                    throw new DeviceInfoException("Cannot retrieve package info", e3);
                 }
-                device.setLocale(Locale.getDefault().toString());
-                device.setModel(Build.MODEL);
-                device.setOemName(Build.MANUFACTURER);
-                device.setOsApiLevel(Integer.valueOf(Build.VERSION.SDK_INT));
-                device.setOsName("Android");
-                device.setOsVersion(Build.VERSION.RELEASE);
-                device.setOsBuild(Build.ID);
-                try {
-                    device.setScreenSize(getScreenSize(context));
-                } catch (Exception e2) {
-                    AppCenterLog.error("AppCenter", "Cannot retrieve screen size", e2);
-                }
-                device.setSdkName("appcenter.android");
-                device.setSdkVersion("3.3.1");
-                device.setTimeZoneOffset(Integer.valueOf((TimeZone.getDefault().getOffset(System.currentTimeMillis()) / 60) / 1000));
-                WrapperSdk wrapperSdk = sWrapperSdk;
-                if (wrapperSdk != null) {
-                    device.setWrapperSdkVersion(wrapperSdk.getWrapperSdkVersion());
-                    device.setWrapperSdkName(sWrapperSdk.getWrapperSdkName());
-                    device.setWrapperRuntimeVersion(sWrapperSdk.getWrapperRuntimeVersion());
-                    device.setLiveUpdateReleaseLabel(sWrapperSdk.getLiveUpdateReleaseLabel());
-                    device.setLiveUpdateDeploymentKey(sWrapperSdk.getLiveUpdateDeploymentKey());
-                    device.setLiveUpdatePackageHash(sWrapperSdk.getLiveUpdatePackageHash());
-                }
-            } catch (Exception e3) {
-                AppCenterLog.error("AppCenter", "Cannot retrieve package info", e3);
-                throw new DeviceInfoException("Cannot retrieve package info", e3);
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return device;

@@ -32,7 +32,6 @@ public final class zzy$zzk extends zzeo<zzy$zzk, zza> implements zzgb {
     /* JADX WARN: Type inference failed for: r2v14, types: [com.google.android.gms.internal.mlkit_language_id.zzgj<com.google.android.gms.internal.mlkit_language_id.zzy$zzk>, com.google.android.gms.internal.mlkit_language_id.zzeo$zza] */
     @Override // com.google.android.gms.internal.mlkit_language_id.zzeo
     public final Object zza(int i, Object obj, Object obj2) {
-        zzgj<zzy$zzk> zzgjVar;
         switch (zzx.zza[i - 1]) {
             case 1:
                 return new zzy$zzk();
@@ -43,21 +42,23 @@ public final class zzy$zzk extends zzeo<zzy$zzk, zza> implements zzgb {
             case 4:
                 return zzi;
             case 5:
-                zzgj<zzy$zzk> zzgjVar2 = zzj;
-                zzgj<zzy$zzk> zzgjVar3 = zzgjVar2;
-                if (zzgjVar2 == null) {
+                zzgj<zzy$zzk> zzgjVar = zzj;
+                zzgj<zzy$zzk> zzgjVar2 = zzgjVar;
+                if (zzgjVar == null) {
                     synchronized (zzy$zzk.class) {
-                        zzgj<zzy$zzk> zzgjVar4 = zzj;
-                        zzgjVar = zzgjVar4;
-                        if (zzgjVar4 == null) {
-                            ?? zzaVar = new zzeo.zza(zzi);
-                            zzj = zzaVar;
-                            zzgjVar = zzaVar;
+                        try {
+                            zzgj<zzy$zzk> zzgjVar3 = zzj;
+                            zzgj<zzy$zzk> zzgjVar4 = zzgjVar3;
+                            if (zzgjVar3 == null) {
+                                ?? zzaVar = new zzeo.zza(zzi);
+                                zzj = zzaVar;
+                                zzgjVar4 = zzaVar;
+                            }
+                        } finally {
                         }
                     }
-                    zzgjVar3 = zzgjVar;
                 }
-                return zzgjVar3;
+                return zzgjVar2;
             case 6:
                 return (byte) 1;
             case 7:

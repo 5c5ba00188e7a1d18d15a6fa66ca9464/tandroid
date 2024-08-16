@@ -105,12 +105,7 @@ public abstract class zzht implements Serializable, Iterable<Byte> {
     }
 
     public final String toString() {
-        Locale locale = Locale.ROOT;
-        Object[] objArr = new Object[3];
-        objArr[0] = Integer.toHexString(System.identityHashCode(this));
-        objArr[1] = Integer.valueOf(zza());
-        objArr[2] = zza() <= 50 ? zzlq.zza(this) : String.valueOf(zzlq.zza(zza(0, 47))).concat("...");
-        return String.format(locale, "<ByteString@%s size=%d contents=\"%s\">", objArr);
+        return String.format(Locale.ROOT, "<ByteString@%s size=%d contents=\"%s\">", Integer.toHexString(System.identityHashCode(this)), Integer.valueOf(zza()), zza() <= 50 ? zzlq.zza(this) : String.valueOf(zzlq.zza(zza(0, 47))).concat("..."));
     }
 
     @Override // java.lang.Iterable

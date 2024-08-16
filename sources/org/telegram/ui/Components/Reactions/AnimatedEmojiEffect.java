@@ -10,6 +10,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -74,8 +75,8 @@ public class AnimatedEmojiEffect {
         } else {
             long currentTimeMillis = System.currentTimeMillis();
             if (this.particles.size() < 12) {
-                long j = this.startTime;
-                if (currentTimeMillis - j < 1500 && currentTimeMillis - j > 200 && currentTimeMillis - this.lastGenerateTime > 50 && Utilities.fastRandom.nextInt() % 6 == 0) {
+                long j = currentTimeMillis - this.startTime;
+                if (j < 1500 && j > 200 && currentTimeMillis - this.lastGenerateTime > 50 && Utilities.fastRandom.nextInt() % 6 == 0) {
                     Particle particle2 = new Particle();
                     particle2.generate();
                     this.particles.add(particle2);
@@ -84,16 +85,14 @@ public class AnimatedEmojiEffect {
             }
         }
         ImageReceiver imageReceiver = this.effectImageReceiver;
-        if (imageReceiver != null && this.showGeneric) {
-            if (!(imageReceiver.getLottieAnimation() != null && this.effectImageReceiver.getLottieAnimation().isLastFrame())) {
-                if (this.longAnimation) {
-                    canvas.save();
-                    canvas.translate(this.bounds.width() / 3.0f, 0.0f);
-                    this.effectImageReceiver.draw(canvas);
-                    canvas.restore();
-                } else {
-                    this.effectImageReceiver.draw(canvas);
-                }
+        if (imageReceiver != null && this.showGeneric && (imageReceiver.getLottieAnimation() == null || !this.effectImageReceiver.getLottieAnimation().isLastFrame())) {
+            if (this.longAnimation) {
+                canvas.save();
+                canvas.translate(this.bounds.width() / 3.0f, 0.0f);
+                this.effectImageReceiver.draw(canvas);
+                canvas.restore();
+            } else {
+                this.effectImageReceiver.draw(canvas);
             }
         }
         canvas.save();
@@ -323,7 +322,7 @@ public class AnimatedEmojiEffect {
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha((int) (f * 255.0f * Utilities.clamp(this.progress / 0.2f, 1.0f, 0.0f)));
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f3), (int) (lerp - f3), (int) (lerp2 + f3), (int) (lerp + f3));
                     AnimatedEmojiEffect.this.animatedEmojiDrawable.draw(canvas);
-                    AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(255);
+                    AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(NotificationCenter.voipServiceCreated);
                     canvas.restore();
                 }
             }
@@ -336,7 +335,7 @@ public class AnimatedEmojiEffect {
             AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha((int) (f * 255.0f * Utilities.clamp(this.progress / 0.2f, 1.0f, 0.0f)));
             AnimatedEmojiEffect.this.animatedEmojiDrawable.setBounds((int) (lerp2 - f32), (int) (lerp - f32), (int) (lerp2 + f32), (int) (lerp + f32));
             AnimatedEmojiEffect.this.animatedEmojiDrawable.draw(canvas);
-            AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(255);
+            AnimatedEmojiEffect.this.animatedEmojiDrawable.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.restore();
         }
     }

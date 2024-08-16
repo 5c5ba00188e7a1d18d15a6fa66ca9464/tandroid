@@ -1,6 +1,5 @@
 package j$.util;
 
-import j$.util.function.Consumer;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -45,12 +44,12 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator
     public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        this.a.a(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.Spliterator.OfInt
     public final /* synthetic */ void forEachRemaining(IntConsumer intConsumer) {
-        this.a.c(j$.util.function.I.a(intConsumer));
+        this.a.c(j$.util.function.D.a(intConsumer));
     }
 
     @Override // java.util.Spliterator
@@ -78,13 +77,13 @@ public final /* synthetic */ class G implements Spliterator.OfInt {
     }
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator
-    public final /* synthetic */ boolean tryAdvance(java.util.function.Consumer consumer) {
-        return this.a.a(Consumer.VivifiedWrapper.convert(consumer));
+    public final /* synthetic */ boolean tryAdvance(Consumer consumer) {
+        return this.a.s(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.Spliterator.OfInt
     public final /* synthetic */ boolean tryAdvance(IntConsumer intConsumer) {
-        return this.a.j(j$.util.function.I.a(intConsumer));
+        return this.a.g(j$.util.function.D.a(intConsumer));
     }
 
     @Override // java.util.Spliterator.OfInt, java.util.Spliterator.OfPrimitive, java.util.Spliterator

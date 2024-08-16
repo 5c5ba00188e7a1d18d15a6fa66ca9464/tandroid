@@ -34,6 +34,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -254,12 +255,12 @@ public class StoryEntry {
         drawable.setCallback(callback);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:24:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0101  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0165  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x016a A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x0137 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x0197 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x00ea  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x00fe  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0162  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0167 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0134 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0194 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -575,7 +576,7 @@ public class StoryEntry {
             Matrix matrix = new Matrix();
             int i = this.invert;
             final boolean z = true;
-            matrix.postScale(i == 1 ? -1.0f : 1.0f, i != 2 ? 1.0f : -1.0f, this.width / 2.0f, this.height / 2.0f);
+            matrix.postScale(i == 1 ? -1.0f : 1.0f, i == 2 ? -1.0f : 1.0f, this.width / 2.0f, this.height / 2.0f);
             matrix.postRotate(-this.orientation);
             final Bitmap createBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             this.matrix.preScale(this.width / createBitmap.getWidth(), this.height / createBitmap.getHeight());
@@ -1038,7 +1039,7 @@ public class StoryEntry {
         int i3 = this.height;
         int i4 = this.orientation + i;
         int i5 = this.invert;
-        matrix.postScale(i5 == 1 ? -1.0f : 1.0f, i5 != 2 ? 1.0f : -1.0f, i2 / 2.0f, i3 / 2.0f);
+        matrix.postScale(i5 == 1 ? -1.0f : 1.0f, i5 == 2 ? -1.0f : 1.0f, i2 / 2.0f, i3 / 2.0f);
         if (i4 != 0) {
             matrix.postTranslate((-i2) / 2.0f, (-i3) / 2.0f);
             matrix.postRotate(i4);
@@ -1072,7 +1073,7 @@ public class StoryEntry {
                         long parseInt = Integer.parseInt(this.thumbPath.substring(9));
                         options.inJustDecodeBounds = true;
                         MediaStore.Video.Thumbnails.getThumbnail(ApplicationLoader.applicationContext.getContentResolver(), parseInt, 1, options);
-                        options.inSampleSize = calculateInSampleSize(options, 240, 240);
+                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.reloadInterface, NotificationCenter.reloadInterface);
                         options.inJustDecodeBounds = false;
                         options.inPreferredConfig = Bitmap.Config.RGB_565;
                         options.inDither = true;
@@ -1080,7 +1081,7 @@ public class StoryEntry {
                     } else {
                         options.inJustDecodeBounds = true;
                         BitmapFactory.decodeFile(this.thumbPath);
-                        options.inSampleSize = calculateInSampleSize(options, 240, 240);
+                        options.inSampleSize = calculateInSampleSize(options, NotificationCenter.reloadInterface, NotificationCenter.reloadInterface);
                         options.inJustDecodeBounds = false;
                         options.inPreferredConfig = Bitmap.Config.RGB_565;
                         options.inDither = true;
@@ -1158,7 +1159,7 @@ public class StoryEntry {
         long maxMemory = runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory());
         int i3 = options.outWidth;
         int i4 = options.outHeight;
-        if (!((((long) (i3 * i4)) * 4) * 2 <= maxMemory) || Math.max(i3, i4) > 4200 || SharedConfig.getDevicePerformanceClass() <= 0) {
+        if (i3 * i4 * 8 > maxMemory || Math.max(i3, i4) > 4200 || SharedConfig.getDevicePerformanceClass() <= 0) {
             options.inScaled = true;
             options.inDensity = options.outWidth;
             options.inTargetDensity = i;
@@ -1180,7 +1181,7 @@ public class StoryEntry {
         File file = this.file;
         final String absolutePath = file != null ? file.getAbsolutePath() : null;
         final int[] iArr = new int[11];
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda9
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StoryEntry.this.lambda$getVideoEditedInfo$8(absolutePath, iArr, callback);
@@ -1189,7 +1190,7 @@ public class StoryEntry {
         if (this.file == null) {
             runnable.run();
         } else {
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda10
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryEntry.lambda$getVideoEditedInfo$9(absolutePath, iArr, runnable);
@@ -1243,9 +1244,10 @@ public class StoryEntry {
             long j = (long) iArr[4];
             this.duration = j;
             videoEditedInfo.originalDuration = j * 1000;
-            long j2 = ((long) (this.left * ((float) j))) * 1000;
+            float f = (float) j;
+            long j2 = this.left * f * 1000;
             videoEditedInfo.startTime = j2;
-            long j3 = this.right * ((float) j) * 1000;
+            long j3 = this.right * f * 1000;
             videoEditedInfo.endTime = j3;
             videoEditedInfo.estimatedDuration = j3 - j2;
             videoEditedInfo.volume = this.videoVolume;
@@ -1307,30 +1309,30 @@ public class StoryEntry {
         if (file7 != null) {
             MediaCodecVideoConvertor.MixedSoundInfo mixedSoundInfo = new MediaCodecVideoConvertor.MixedSoundInfo(file7.getAbsolutePath());
             mixedSoundInfo.volume = this.roundVolume;
-            float f = this.roundLeft;
-            long j7 = this.roundDuration;
-            mixedSoundInfo.audioOffset = ((float) j7) * f * 1000;
+            float f2 = this.roundLeft;
+            float f3 = (float) this.roundDuration;
+            mixedSoundInfo.audioOffset = f2 * f3 * 1000;
             if (this.isVideo) {
                 mixedSoundInfo.startTime = (((float) this.roundOffset) - (this.left * ((float) this.duration))) * 1000;
             } else {
                 mixedSoundInfo.startTime = 0L;
             }
-            mixedSoundInfo.duration = (this.roundRight - f) * ((float) j7) * 1000;
+            mixedSoundInfo.duration = (this.roundRight - f2) * f3 * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo);
         }
         String str2 = this.audioPath;
         if (str2 != null) {
             MediaCodecVideoConvertor.MixedSoundInfo mixedSoundInfo2 = new MediaCodecVideoConvertor.MixedSoundInfo(str2);
             mixedSoundInfo2.volume = this.audioVolume;
-            float f2 = this.audioLeft;
-            long j8 = this.audioDuration;
-            mixedSoundInfo2.audioOffset = ((float) j8) * f2 * 1000;
+            float f4 = this.audioLeft;
+            float f5 = (float) this.audioDuration;
+            mixedSoundInfo2.audioOffset = f4 * f5 * 1000;
             if (this.isVideo) {
                 mixedSoundInfo2.startTime = (((float) this.audioOffset) - (this.left * ((float) this.duration))) * 1000;
             } else {
                 mixedSoundInfo2.startTime = 0L;
             }
-            mixedSoundInfo2.duration = (this.audioRight - f2) * ((float) j8) * 1000;
+            mixedSoundInfo2.duration = (this.audioRight - f4) * f5 * 1000;
             videoEditedInfo.mixedSoundInfos.add(mixedSoundInfo2);
         }
         callback.run(videoEditedInfo);
@@ -1435,7 +1437,7 @@ public class StoryEntry {
                     hDRInfo.colorRange = trackFormat.getInteger("color-range");
                 }
                 this.hdrInfo = this.hdrInfo;
-                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
+                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryEntry.this.lambda$detectHDR$10(callback);
@@ -1444,7 +1446,7 @@ public class StoryEntry {
             } catch (Exception e) {
                 FileLog.e(e);
                 this.hdrInfo = this.hdrInfo;
-                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
+                runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda9
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryEntry.this.lambda$detectHDR$10(callback);
@@ -1454,7 +1456,7 @@ public class StoryEntry {
             AndroidUtilities.runOnUIThread(runnable);
         } catch (Throwable th) {
             this.hdrInfo = this.hdrInfo;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda11
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryEntry$$ExternalSyntheticLambda9
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryEntry.this.lambda$detectHDR$10(callback);

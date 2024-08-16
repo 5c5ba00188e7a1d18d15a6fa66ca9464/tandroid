@@ -50,11 +50,6 @@ public class BrightnessControlCell extends FrameLayout {
         seekBarView.setReportChanges(true);
         seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.Cells.BrightnessControlCell.2
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-            public CharSequence getContentDescription() {
-                return " ";
-            }
-
-            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public /* synthetic */ int getStepsCount() {
                 return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
             }
@@ -66,6 +61,11 @@ public class BrightnessControlCell extends FrameLayout {
             @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
             public void onSeekBarDrag(boolean z, float f) {
                 BrightnessControlCell.this.didChangedValue(f);
+            }
+
+            @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+            public CharSequence getContentDescription() {
+                return " ";
             }
         });
         seekBarView.setImportantForAccessibility(2);
@@ -89,8 +89,10 @@ public class BrightnessControlCell extends FrameLayout {
         super.onAttachedToWindow();
         ImageView imageView = this.leftImageView;
         int i = Theme.key_windowBackgroundWhiteGrayIcon;
-        imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-        this.rightImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        int color = Theme.getColor(i, this.resourcesProvider);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        imageView.setColorFilter(new PorterDuffColorFilter(color, mode));
+        this.rightImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), mode));
     }
 
     @Override // android.widget.FrameLayout, android.view.View

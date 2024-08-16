@@ -49,13 +49,17 @@ public class ConfigGetParameterHandler {
             return;
         }
         synchronized (this.listeners) {
-            for (final BiConsumer<String, ConfigContainer> biConsumer : this.listeners) {
-                this.executor.execute(new Runnable() { // from class: com.google.firebase.remoteconfig.internal.ConfigGetParameterHandler$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        BiConsumer.this.accept(str, configContainer);
-                    }
-                });
+            try {
+                for (final BiConsumer<String, ConfigContainer> biConsumer : this.listeners) {
+                    this.executor.execute(new Runnable() { // from class: com.google.firebase.remoteconfig.internal.ConfigGetParameterHandler$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            BiConsumer.this.accept(str, configContainer);
+                        }
+                    });
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

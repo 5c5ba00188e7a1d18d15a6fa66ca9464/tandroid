@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -72,7 +73,7 @@ public class GigagroupConvertAlert extends BottomSheet {
         rLottieImageView.setAutoRepeat(true);
         rLottieImageView.setAnimation(R.raw.utyan_gigagroup, 120, 120);
         rLottieImageView.playAnimation();
-        linearLayout.addView(rLottieImageView, LayoutHelper.createLinear(160, 160, 49, 17, 30, 17, 0));
+        linearLayout.addView(rLottieImageView, LayoutHelper.createLinear((int) NotificationCenter.audioRouteChanged, (int) NotificationCenter.audioRouteChanged, 49, 17, 30, 17, 0));
         TextView textView = new TextView(context);
         textView.setTypeface(AndroidUtilities.bold());
         textView.setTextSize(1, 24.0f);

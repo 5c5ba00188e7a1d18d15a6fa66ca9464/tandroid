@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 @SuppressLint({"ViewConstructor"})
@@ -154,14 +155,14 @@ public class VoIpCoverView extends View {
                 voipCoverEmoji2.onDraw(canvas);
             }
             int alpha = this.backgroundProvider.getDarkPaint().getAlpha();
-            this.saveLayerPaint.setAlpha(255);
+            this.saveLayerPaint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.saveLayer(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.saveLayerPaint, 31);
-            this.backgroundProvider.getDarkPaint().setAlpha(255);
+            this.backgroundProvider.getDarkPaint().setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawRect(this.bgRect, this.backgroundProvider.getDarkPaint());
             this.backgroundProvider.getDarkPaint().setAlpha(alpha);
             if (this.backgroundProvider.isReveal()) {
                 int alpha2 = this.backgroundProvider.getRevealDarkPaint().getAlpha();
-                this.backgroundProvider.getRevealDarkPaint().setAlpha(255);
+                this.backgroundProvider.getRevealDarkPaint().setAlpha(NotificationCenter.voipServiceCreated);
                 canvas.drawRect(this.bgRect, this.backgroundProvider.getRevealDarkPaint());
                 this.backgroundProvider.getRevealDarkPaint().setAlpha(alpha2);
             }

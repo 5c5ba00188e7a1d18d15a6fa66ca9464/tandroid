@@ -18,7 +18,6 @@ import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -32,6 +31,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import org.telegram.messenger.NotificationCenter;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 /* loaded from: classes.dex */
@@ -645,14 +645,14 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
         @Override // android.graphics.drawable.Drawable.ConstantState
         public Drawable newDrawable() {
             VectorDrawableCompat vectorDrawableCompat = new VectorDrawableCompat();
-            vectorDrawableCompat.mDelegateDrawable = (VectorDrawable) this.mDelegateState.newDrawable();
+            vectorDrawableCompat.mDelegateDrawable = VectorDrawableCompat$VectorDrawableDelegateState$$ExternalSyntheticApiModelOutline0.m(this.mDelegateState.newDrawable());
             return vectorDrawableCompat;
         }
 
         @Override // android.graphics.drawable.Drawable.ConstantState
         public Drawable newDrawable(Resources resources) {
             VectorDrawableCompat vectorDrawableCompat = new VectorDrawableCompat();
-            vectorDrawableCompat.mDelegateDrawable = (VectorDrawable) this.mDelegateState.newDrawable(resources);
+            vectorDrawableCompat.mDelegateDrawable = VectorDrawableCompat$VectorDrawableDelegateState$$ExternalSyntheticApiModelOutline0.m(this.mDelegateState.newDrawable(resources));
             return vectorDrawableCompat;
         }
 
@@ -661,7 +661,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
             Drawable newDrawable;
             VectorDrawableCompat vectorDrawableCompat = new VectorDrawableCompat();
             newDrawable = this.mDelegateState.newDrawable(resources, theme);
-            vectorDrawableCompat.mDelegateDrawable = (VectorDrawable) newDrawable;
+            vectorDrawableCompat.mDelegateDrawable = VectorDrawableCompat$VectorDrawableDelegateState$$ExternalSyntheticApiModelOutline0.m(newDrawable);
             return vectorDrawableCompat;
         }
 
@@ -826,7 +826,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
             this.mBaseHeight = 0.0f;
             this.mViewportWidth = 0.0f;
             this.mViewportHeight = 0.0f;
-            this.mRootAlpha = 255;
+            this.mRootAlpha = NotificationCenter.voipServiceCreated;
             this.mRootName = null;
             this.mIsStateful = null;
             this.mVGTargetsMap = new ArrayMap<>();
@@ -857,7 +857,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
             this.mBaseHeight = 0.0f;
             this.mViewportWidth = 0.0f;
             this.mViewportHeight = 0.0f;
-            this.mRootAlpha = 255;
+            this.mRootAlpha = NotificationCenter.voipServiceCreated;
             this.mRootName = null;
             this.mIsStateful = null;
             ArrayMap<String, Object> arrayMap = new ArrayMap<>();
@@ -956,7 +956,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
                     paint2.setAlpha(Math.round(vFullPath.mFillAlpha * 255.0f));
                 } else {
                     paint2.setShader(null);
-                    paint2.setAlpha(255);
+                    paint2.setAlpha(NotificationCenter.voipServiceCreated);
                     paint2.setColor(VectorDrawableCompat.applyAlpha(complexColorCompat.getColor(), vFullPath.mFillAlpha));
                 }
                 paint2.setColorFilter(colorFilter);
@@ -987,7 +987,7 @@ public class VectorDrawableCompat extends VectorDrawableCommon {
                     paint4.setAlpha(Math.round(vFullPath.mStrokeAlpha * 255.0f));
                 } else {
                     paint4.setShader(null);
-                    paint4.setAlpha(255);
+                    paint4.setAlpha(NotificationCenter.voipServiceCreated);
                     paint4.setColor(VectorDrawableCompat.applyAlpha(complexColorCompat2.getColor(), vFullPath.mStrokeAlpha));
                 }
                 paint4.setColorFilter(colorFilter);

@@ -47,13 +47,17 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized void setDownloadedReleaseFilePath(String str) {
-        if (isCancelled()) {
-            return;
-        }
-        if (str != null) {
-            SharedPreferencesManager.putString("Distribute.downloaded_release_file", str);
-        } else {
-            SharedPreferencesManager.remove("Distribute.downloaded_release_file");
+        try {
+            if (isCancelled()) {
+                return;
+            }
+            if (str != null) {
+                SharedPreferencesManager.putString("Distribute.downloaded_release_file", str);
+            } else {
+                SharedPreferencesManager.remove("Distribute.downloaded_release_file");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -87,26 +91,30 @@ public class HttpConnectionReleaseDownloader extends AbstractReleaseDownloader {
 
     @Override // com.microsoft.appcenter.distribute.download.AbstractReleaseDownloader, com.microsoft.appcenter.distribute.download.ReleaseDownloader
     public synchronized void cancel() {
-        if (isCancelled()) {
-            return;
+        try {
+            if (isCancelled()) {
+                return;
+            }
+            super.cancel();
+            HttpConnectionCheckTask httpConnectionCheckTask = this.mCheckTask;
+            if (httpConnectionCheckTask != null) {
+                httpConnectionCheckTask.cancel(true);
+                this.mCheckTask = null;
+            }
+            HttpConnectionDownloadFileTask httpConnectionDownloadFileTask = this.mDownloadTask;
+            if (httpConnectionDownloadFileTask != null) {
+                httpConnectionDownloadFileTask.cancel(true);
+                this.mDownloadTask = null;
+            }
+            String downloadedReleaseFilePath = getDownloadedReleaseFilePath();
+            if (downloadedReleaseFilePath != null) {
+                removeFile(new File(downloadedReleaseFilePath));
+                SharedPreferencesManager.remove("Distribute.downloaded_release_file");
+            }
+            cancelProgressNotification();
+        } catch (Throwable th) {
+            throw th;
         }
-        super.cancel();
-        HttpConnectionCheckTask httpConnectionCheckTask = this.mCheckTask;
-        if (httpConnectionCheckTask != null) {
-            httpConnectionCheckTask.cancel(true);
-            this.mCheckTask = null;
-        }
-        HttpConnectionDownloadFileTask httpConnectionDownloadFileTask = this.mDownloadTask;
-        if (httpConnectionDownloadFileTask != null) {
-            httpConnectionDownloadFileTask.cancel(true);
-            this.mDownloadTask = null;
-        }
-        String downloadedReleaseFilePath = getDownloadedReleaseFilePath();
-        if (downloadedReleaseFilePath != null) {
-            removeFile(new File(downloadedReleaseFilePath));
-            SharedPreferencesManager.remove("Distribute.downloaded_release_file");
-        }
-        cancelProgressNotification();
     }
 
     private synchronized void check() {

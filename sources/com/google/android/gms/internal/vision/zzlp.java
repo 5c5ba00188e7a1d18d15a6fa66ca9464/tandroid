@@ -1,13 +1,11 @@
 package com.google.android.gms.internal.vision;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzlp implements Iterator, j$.util.Iterator {
+final class zzlp implements Iterator {
     private int zza;
     private boolean zzb;
     private Iterator zzc;
@@ -18,17 +16,7 @@ final class zzlp implements Iterator, j$.util.Iterator {
         this.zza = -1;
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         List list;
         Map map;
@@ -43,7 +31,7 @@ final class zzlp implements Iterator, j$.util.Iterator {
         return true;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         List list;
         if (!this.zzb) {
@@ -63,7 +51,7 @@ final class zzlp implements Iterator, j$.util.Iterator {
         zza().remove();
     }
 
-    private final java.util.Iterator zza() {
+    private final Iterator zza() {
         Map map;
         if (this.zzc == null) {
             map = this.zzd.zzc;
@@ -72,7 +60,7 @@ final class zzlp implements Iterator, j$.util.Iterator {
         return this.zzc;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final /* synthetic */ Object next() {
         List list;
         List list2;

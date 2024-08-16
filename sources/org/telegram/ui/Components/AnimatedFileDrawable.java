@@ -328,7 +328,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         this(file, z, j, i, tLRPC$Document, imageLocation, obj, j2, i2, z2, i3, i4, cacheOptions, tLRPC$Document != null ? 1 : 0);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x014f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0150, code lost:
         if (r13[1] > 3840) goto L32;
      */
     /*
@@ -788,23 +788,27 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     public void seekTo(long j, boolean z, boolean z2) {
         AnimatedFileDrawableStream animatedFileDrawableStream;
         synchronized (this.sync) {
-            this.pendingSeekTo = j;
-            this.pendingSeekToUI = j;
-            if (this.nativePtr != 0) {
-                prepareToSeek(this.nativePtr);
-            }
-            if (this.decoderCreated && (animatedFileDrawableStream = this.stream) != null) {
-                animatedFileDrawableStream.cancel(z);
-                this.pendingRemoveLoading = z;
-                this.pendingRemoveLoadingFramesReset = z ? 0 : 10;
-            }
-            if (z2 && this.decodeSingleFrame) {
-                this.singleFrameDecoded = false;
-                if (this.loadFrameTask == null) {
-                    scheduleNextGetFrame();
-                } else {
-                    this.forceDecodeAfterNextFrame = true;
+            try {
+                this.pendingSeekTo = j;
+                this.pendingSeekToUI = j;
+                if (this.nativePtr != 0) {
+                    prepareToSeek(this.nativePtr);
                 }
+                if (this.decoderCreated && (animatedFileDrawableStream = this.stream) != null) {
+                    animatedFileDrawableStream.cancel(z);
+                    this.pendingRemoveLoading = z;
+                    this.pendingRemoveLoadingFramesReset = z ? 0 : 10;
+                }
+                if (z2 && this.decodeSingleFrame) {
+                    this.singleFrameDecoded = false;
+                    if (this.loadFrameTask == null) {
+                        scheduleNextGetFrame();
+                    } else {
+                        this.forceDecodeAfterNextFrame = true;
+                    }
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -940,8 +944,8 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                 if ((this.parents.size() != 0 || this.ignoreNoParent) && !this.generatingCache) {
                     long j = 0;
                     if (this.lastFrameDecodeTime != 0) {
-                        int i = this.invalidateAfter;
-                        j = Math.min(i, Math.max(0L, i - (System.currentTimeMillis() - this.lastFrameDecodeTime)));
+                        long j2 = this.invalidateAfter;
+                        j = Math.min(j2, Math.max(0L, j2 - (System.currentTimeMillis() - this.lastFrameDecodeTime)));
                     }
                     if (this.useSharedQueue) {
                         if (this.limitFps) {
@@ -1036,7 +1040,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     /* JADX WARN: Removed duplicated region for block: B:40:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x017b  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1136,9 +1140,9 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
                         }
                         float[] fArr = radii;
                         int i7 = i2 * 2;
-                        int i8 = iArr[i2];
-                        fArr[i7] = i8;
-                        fArr[i7 + 1] = i8;
+                        float f5 = iArr[i2];
+                        fArr[i7] = f5;
+                        fArr[i7 + 1] = f5;
                         i2++;
                     }
                     path.rewind();

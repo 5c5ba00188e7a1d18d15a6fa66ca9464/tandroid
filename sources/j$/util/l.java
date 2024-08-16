@@ -64,6 +64,9 @@ public final class l {
     }
 
     public final String toString() {
-        return this.a ? String.format("OptionalDouble[%s]", Double.valueOf(this.b)) : "OptionalDouble.empty";
+        if (this.a) {
+            return "OptionalDouble[" + this.b + "]";
+        }
+        return "OptionalDouble.empty";
     }
 }

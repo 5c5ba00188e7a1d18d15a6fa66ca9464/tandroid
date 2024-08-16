@@ -65,18 +65,16 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                                     float[] fArr2 = lineViewData.linesPath;
                                     int i7 = i5 + 1;
                                     fArr2[i5] = f8;
-                                    i5 = i7 + 1;
+                                    i5 += 2;
                                     fArr2[i7] = measuredHeight;
                                 } else {
                                     float[] fArr3 = lineViewData.linesPath;
-                                    int i8 = i5 + 1;
                                     fArr3[i5] = f8;
-                                    int i9 = i8 + 1;
+                                    fArr3[i5 + 1] = measuredHeight;
+                                    int i8 = i5 + 3;
+                                    fArr3[i5 + 2] = f8;
+                                    i5 += 4;
                                     fArr3[i8] = measuredHeight;
-                                    int i10 = i9 + 1;
-                                    fArr3[i9] = f8;
-                                    i5 = i10 + 1;
-                                    fArr3[i10] = measuredHeight;
                                 }
                             } else if (z) {
                                 lineViewData.chartPath.moveTo(f8, measuredHeight);
@@ -90,13 +88,13 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                     }
                     i = i3;
                     canvas.save();
-                    int i11 = this.transitionMode;
-                    if (i11 == 2) {
+                    int i9 = this.transitionMode;
+                    if (i9 == 2) {
                         TransitionParams transitionParams = this.transitionParams;
                         float f11 = transitionParams.progress;
                         f = f11 > 0.5f ? 0.0f : 1.0f - (f11 * 2.0f);
                         canvas.scale((f11 * 2.0f) + 1.0f, 1.0f, transitionParams.pX, transitionParams.pY);
-                    } else if (i11 == 1) {
+                    } else if (i9 == 1) {
                         float f12 = this.transitionParams.progress;
                         f = f12 < 0.3f ? 0.0f : f12;
                         canvas.save();
@@ -104,7 +102,7 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                         float f13 = transitionParams2.progress;
                         canvas.scale(f13, transitionParams2.needScaleY ? f13 : 1.0f, transitionParams2.pX, transitionParams2.pY);
                     } else {
-                        if (i11 == 3) {
+                        if (i9 == 3) {
                             r5 = this.transitionParams.progress;
                         }
                         lineViewData.paint.setAlpha((int) (lineViewData.alpha * 255.0f * r5));
@@ -186,18 +184,16 @@ public class LinearChartView extends BaseChartView<ChartData, LineViewData> {
                                     float[] fArr = lineViewData.linesPathBottom;
                                     int i6 = i5 + 1;
                                     fArr[i5] = f3;
-                                    i5 = i6 + 1;
+                                    i5 += 2;
                                     fArr[i6] = f4;
                                 } else {
                                     float[] fArr2 = lineViewData.linesPathBottom;
-                                    int i7 = i5 + 1;
                                     fArr2[i5] = f3;
-                                    int i8 = i7 + 1;
+                                    fArr2[i5 + 1] = f4;
+                                    int i7 = i5 + 3;
+                                    fArr2[i5 + 2] = f3;
+                                    i5 += 4;
                                     fArr2[i7] = f4;
-                                    int i9 = i8 + 1;
-                                    fArr2[i8] = f3;
-                                    i5 = i9 + 1;
-                                    fArr2[i9] = f4;
                                 }
                             } else if (i4 == 0) {
                                 lineViewData.bottomLinePath.moveTo(f3, f4);

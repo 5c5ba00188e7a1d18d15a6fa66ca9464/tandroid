@@ -110,31 +110,35 @@ public final class zzj extends MLTask {
 
     @Override // com.google.mlkit.common.sdkinternal.ModelResource
     public final synchronized void load() throws MlKitException {
-        long elapsedRealtime = SystemClock.elapsedRealtime();
-        Context context = this.zzc;
-        Feature[] featureArr = zza;
-        if (!OptionalModuleUtils.areAllRequiredModulesAvailable(context, featureArr)) {
-            if (!this.zzh) {
-                OptionalModuleUtils.requestDownload(this.zzc, featureArr);
-                this.zzh = true;
-            }
-            zzf(zzoa.zzB, elapsedRealtime);
-            throw new MlKitException("Waiting for the subject segmentation optional module to be downloaded. Please wait.", 14);
-        }
         try {
-            if (this.zzi == null) {
-                this.zzi = zzud.zza(DynamiteModule.load(this.zzc, DynamiteModule.PREFER_REMOTE, "com.google.android.gms.mlkit_subject_segmentation").instantiate("com.google.android.gms.mlkit.segmentation.subject.SubjectSegmenterCreator")).zzd(ObjectWrapper.wrap(this.zzc), new zzuj(this.zzd.zzd(), this.zzd.zzc(), this.zzd.zze(), this.zzd.zzg(), this.zzd.zzf()));
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            Context context = this.zzc;
+            Feature[] featureArr = zza;
+            if (!OptionalModuleUtils.areAllRequiredModulesAvailable(context, featureArr)) {
+                if (!this.zzh) {
+                    OptionalModuleUtils.requestDownload(this.zzc, featureArr);
+                    this.zzh = true;
+                }
+                zzf(zzoa.zzB, elapsedRealtime);
+                throw new MlKitException("Waiting for the subject segmentation optional module to be downloaded. Please wait.", 14);
             }
             try {
-                this.zzi.zze();
-                zzf(zzoa.zza, elapsedRealtime);
-            } catch (RemoteException e) {
-                zzf(zzoa.zzC, elapsedRealtime);
-                throw new MlKitException("Failed to init module subject segmenter", 13, e);
+                if (this.zzi == null) {
+                    this.zzi = zzud.zza(DynamiteModule.load(this.zzc, DynamiteModule.PREFER_REMOTE, "com.google.android.gms.mlkit_subject_segmentation").instantiate("com.google.android.gms.mlkit.segmentation.subject.SubjectSegmenterCreator")).zzd(ObjectWrapper.wrap(this.zzc), new zzuj(this.zzd.zzd(), this.zzd.zzc(), this.zzd.zze(), this.zzd.zzg(), this.zzd.zzf()));
+                }
+                try {
+                    this.zzi.zze();
+                    zzf(zzoa.zza, elapsedRealtime);
+                } catch (RemoteException e) {
+                    zzf(zzoa.zzC, elapsedRealtime);
+                    throw new MlKitException("Failed to init module subject segmenter", 13, e);
+                }
+            } catch (Exception e2) {
+                zzf(zzoa.zzH, elapsedRealtime);
+                throw new MlKitException("Failed to load subject segmentation module", 13, e2);
             }
-        } catch (Exception e2) {
-            zzf(zzoa.zzH, elapsedRealtime);
-            throw new MlKitException("Failed to load subject segmentation module", 13, e2);
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -229,21 +233,25 @@ public final class zzj extends MLTask {
     public final synchronized SubjectSegmentationResult run(InputImage inputImage) throws MlKitException {
         zzuh zzd;
         ArrayList arrayList;
-        Preconditions.checkNotNull(inputImage, "Input image can not be null");
-        long elapsedRealtime = SystemClock.elapsedRealtime();
         try {
-            zzd = ((zzub) Preconditions.checkNotNull(this.zzi)).zzd(ImageUtils.getInstance().getImageDataWrapper(inputImage), new zztz(inputImage.getFormat(), inputImage.getWidth(), inputImage.getHeight(), CommonConvertUtils.convertToMVRotation(inputImage.getRotationDegrees()), SystemClock.elapsedRealtime()));
-            arrayList = new ArrayList();
-            if (this.zzd.zze()) {
-                for (zzuf zzufVar : zzd.zzc()) {
-                    arrayList.add(new Subject(zzh(zzufVar.zzf()), zzufVar.zze(), zzufVar.zzd(), zzufVar.zza(), zzufVar.zzb(), zzufVar.zzc()));
+            Preconditions.checkNotNull(inputImage, "Input image can not be null");
+            long elapsedRealtime = SystemClock.elapsedRealtime();
+            try {
+                zzd = ((zzub) Preconditions.checkNotNull(this.zzi)).zzd(ImageUtils.getInstance().getImageDataWrapper(inputImage), new zztz(inputImage.getFormat(), inputImage.getWidth(), inputImage.getHeight(), CommonConvertUtils.convertToMVRotation(inputImage.getRotationDegrees()), SystemClock.elapsedRealtime()));
+                arrayList = new ArrayList();
+                if (this.zzd.zze()) {
+                    for (zzuf zzufVar : zzd.zzc()) {
+                        arrayList.add(new Subject(zzh(zzufVar.zzf()), zzufVar.zze(), zzufVar.zzd(), zzufVar.zza(), zzufVar.zzb(), zzufVar.zzc()));
+                    }
                 }
+                zzg(zzoa.zza, elapsedRealtime, this.zzg, inputImage, zzd);
+                this.zzg = false;
+            } catch (RemoteException e) {
+                zzg(zzoa.zzD, elapsedRealtime, this.zzg, inputImage, null);
+                throw new MlKitException("Failed to run thin subject segmenter.", 13, e);
             }
-            zzg(zzoa.zza, elapsedRealtime, this.zzg, inputImage, zzd);
-            this.zzg = false;
-        } catch (RemoteException e) {
-            zzg(zzoa.zzD, elapsedRealtime, this.zzg, inputImage, null);
-            throw new MlKitException("Failed to run thin subject segmenter.", 13, e);
+        } catch (Throwable th) {
+            throw th;
         }
         return new SubjectSegmentationResult(arrayList, zzh(zzd.zzd()), zzd.zza());
     }

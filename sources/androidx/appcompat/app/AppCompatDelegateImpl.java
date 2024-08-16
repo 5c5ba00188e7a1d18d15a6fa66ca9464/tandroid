@@ -95,7 +95,7 @@ import java.util.Locale;
 import java.util.Objects;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 import org.webrtc.MediaStreamTrack;
 import org.xmlpull.v1.XmlPullParser;
 /* JADX INFO: Access modifiers changed from: package-private */
@@ -227,7 +227,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
                 }
                 AppCompatDelegateImpl appCompatDelegateImpl2 = AppCompatDelegateImpl.this;
                 if ((appCompatDelegateImpl2.mInvalidatePanelMenuFeatures & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0) {
-                    appCompatDelegateImpl2.doInvalidatePanelMenu(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle);
+                    appCompatDelegateImpl2.doInvalidatePanelMenu(108);
                 }
                 AppCompatDelegateImpl appCompatDelegateImpl3 = AppCompatDelegateImpl.this;
                 appCompatDelegateImpl3.mInvalidatePanelMenuPosted = false;
@@ -317,13 +317,11 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         Configuration createOverrideAppConfiguration = createOverrideAppConfiguration(context, mapNightMode, calculateApplicationLocales, !configuration2.equals(configuration3) ? generateConfigDelta(configuration2, configuration3) : null, true);
         androidx.appcompat.view.ContextThemeWrapper contextThemeWrapper = new androidx.appcompat.view.ContextThemeWrapper(context, R$style.Theme_AppCompat_Empty);
         contextThemeWrapper.applyOverrideConfiguration(createOverrideAppConfiguration);
-        boolean z = false;
         try {
-            z = context.getTheme() != null;
+            if (context.getTheme() != null) {
+                ResourcesCompat.ThemeCompat.rebase(contextThemeWrapper.getTheme());
+            }
         } catch (NullPointerException unused3) {
-        }
-        if (z) {
-            ResourcesCompat.ThemeCompat.rebase(contextThemeWrapper.getTheme());
         }
         return super.attachBaseContext2(contextThemeWrapper);
     }
@@ -596,7 +594,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             return;
         }
         if (panelState == null || panelState.menu == null) {
-            invalidatePanelMenu(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle);
+            invalidatePanelMenu(108);
         }
     }
 
@@ -612,10 +610,10 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         if (obtainStyledAttributes.getBoolean(R$styleable.AppCompatTheme_windowNoTitle, false)) {
             requestWindowFeature(1);
         } else if (obtainStyledAttributes.getBoolean(i, false)) {
-            requestWindowFeature(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle);
+            requestWindowFeature(108);
         }
         if (obtainStyledAttributes.getBoolean(R$styleable.AppCompatTheme_windowActionBarOverlay, false)) {
-            requestWindowFeature(R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu);
+            requestWindowFeature(109);
         }
         if (obtainStyledAttributes.getBoolean(R$styleable.AppCompatTheme_windowActionModeOverlay, false)) {
             requestWindowFeature(10);
@@ -643,7 +641,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
                 this.mDecorContentParent = decorContentParent;
                 decorContentParent.setWindowCallback(getWindowCallback());
                 if (this.mOverlayActionBar) {
-                    this.mDecorContentParent.initFeature(R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu);
+                    this.mDecorContentParent.initFeature(109);
                 }
                 if (this.mFeatureProgress) {
                     this.mDecorContentParent.initFeature(2);
@@ -1125,22 +1123,22 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
 
     public View createView(View view, String str, Context context, AttributeSet attributeSet) {
         boolean z;
-        boolean z2 = false;
         if (this.mAppCompatViewInflater == null) {
             String string = this.mContext.obtainStyledAttributes(R$styleable.AppCompatTheme).getString(R$styleable.AppCompatTheme_viewInflaterClass);
             if (string == null) {
                 this.mAppCompatViewInflater = new AppCompatViewInflater();
             } else {
                 try {
-                    this.mAppCompatViewInflater = (AppCompatViewInflater) this.mContext.getClassLoader().loadClass(string).getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+                    this.mAppCompatViewInflater = (AppCompatViewInflater) this.mContext.getClassLoader().loadClass(string).getDeclaredConstructor(null).newInstance(null);
                 } catch (Throwable th) {
                     Log.i("AppCompatDelegate", "Failed to instantiate custom view inflater " + string + ". Falling back to default.", th);
                     this.mAppCompatViewInflater = new AppCompatViewInflater();
                 }
             }
         }
-        boolean z3 = IS_PRE_LOLLIPOP;
-        if (z3) {
+        boolean z2 = IS_PRE_LOLLIPOP;
+        boolean z3 = false;
+        if (z2) {
             if (this.mLayoutIncludeDetector == null) {
                 this.mLayoutIncludeDetector = new LayoutIncludeDetector();
             }
@@ -1149,17 +1147,17 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             } else {
                 if (attributeSet instanceof XmlPullParser) {
                     if (((XmlPullParser) attributeSet).getDepth() > 1) {
-                        z2 = true;
+                        z3 = true;
                     }
                 } else {
-                    z2 = shouldInheritContext((ViewParent) view);
+                    z3 = shouldInheritContext((ViewParent) view);
                 }
-                z = z2;
+                z = z3;
             }
         } else {
             z = false;
         }
-        return this.mAppCompatViewInflater.createView(view, str, context, attributeSet, z, z3, true, VectorEnabledTintResources.shouldBeUsed());
+        return this.mAppCompatViewInflater.createView(view, str, context, attributeSet, z, z2, true, VectorEnabledTintResources.shouldBeUsed());
     }
 
     private boolean shouldInheritContext(ViewParent viewParent) {
@@ -1209,8 +1207,8 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:67:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:72:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x00ee  */
+    /* JADX WARN: Removed duplicated region for block: B:69:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1220,10 +1218,8 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         if (panelFeatureState.isOpen || this.mDestroyed) {
             return;
         }
-        if (panelFeatureState.featureId == 0) {
-            if ((this.mContext.getResources().getConfiguration().screenLayout & 15) == 4) {
-                return;
-            }
+        if (panelFeatureState.featureId == 0 && (this.mContext.getResources().getConfiguration().screenLayout & 15) == 4) {
+            return;
         }
         Window.Callback windowCallback = getWindowCallback();
         if (windowCallback != null && !windowCallback.onMenuOpened(panelFeatureState.featureId, panelFeatureState.menu)) {
@@ -1312,7 +1308,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
                 if (menuBuilder == null || panelState.refreshMenuContent || !windowCallback.onPreparePanel(0, panelState.createdPanelView, menuBuilder)) {
                     return;
                 }
-                windowCallback.onMenuOpened(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, panelState.menu);
+                windowCallback.onMenuOpened(108, panelState.menu);
                 this.mDecorContentParent.showOverflowMenu();
                 return;
             }
@@ -1320,7 +1316,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             if (this.mDestroyed) {
                 return;
             }
-            windowCallback.onPanelClosed(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, getPanelState(0, true).menu);
+            windowCallback.onPanelClosed(108, getPanelState(0, true).menu);
             return;
         }
         PanelFeatureState panelState2 = getPanelState(0, true);
@@ -1462,7 +1458,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         this.mDecorContentParent.dismissPopups();
         Window.Callback windowCallback = getWindowCallback();
         if (windowCallback != null && !this.mDestroyed) {
-            windowCallback.onPanelClosed(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, menuBuilder);
+            windowCallback.onPanelClosed(108, menuBuilder);
         }
         this.mClosingActionMenu = false;
     }
@@ -1760,10 +1756,10 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     private int sanitizeWindowFeatureId(int i) {
         if (i == 8) {
             Log.i("AppCompatDelegate", "You should now use the AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR id when requesting this feature.");
-            return R.styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+            return 108;
         } else if (i == 9) {
             Log.i("AppCompatDelegate", "You should now use the AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY id when requesting this feature.");
-            return R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+            return 109;
         } else {
             return i;
         }
@@ -1930,7 +1926,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         return configuration2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0083  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x0081  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1948,7 +1944,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         LocaleListCompat configurationLocales2 = localeListCompat == null ? null : getConfigurationLocales(createOverrideAppConfiguration);
         int i4 = i2 != i3 ? LiteMode.FLAG_CALLS_ANIMATIONS : 0;
         if (configurationLocales2 != null && !configurationLocales.equals(configurationLocales2)) {
-            i4 = i4 | 4 | LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS_NOT_PREMIUM;
+            i4 |= 8196;
         }
         boolean z3 = true;
         if (((activityHandlesConfigChangesFlags ^ (-1)) & i4) != 0 && z && this.mBaseContextAttached && (sCanReturnDifferentContext || this.mCreated)) {
@@ -2165,7 +2161,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
                 if (!appCompatDelegateImpl.mHasActionBar || (windowCallback = appCompatDelegateImpl.getWindowCallback()) == null || AppCompatDelegateImpl.this.mDestroyed) {
                     return true;
                 }
-                windowCallback.onMenuOpened(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, menuBuilder);
+                windowCallback.onMenuOpened(108, menuBuilder);
                 return true;
             }
             return true;
@@ -2182,7 +2178,7 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
         public boolean onOpenSubMenu(MenuBuilder menuBuilder) {
             Window.Callback windowCallback = AppCompatDelegateImpl.this.getWindowCallback();
             if (windowCallback != null) {
-                windowCallback.onMenuOpened(R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, menuBuilder);
+                windowCallback.onMenuOpened(108, menuBuilder);
                 return true;
             }
             return true;
@@ -2622,10 +2618,10 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
             if (i18 != (i19 & 15)) {
                 configuration3.screenLayout |= i19 & 15;
             }
-            int i20 = configuration.screenLayout & 192;
+            int i20 = configuration.screenLayout & NotificationCenter.dialogPhotosUpdate;
             int i21 = configuration2.screenLayout;
-            if (i20 != (i21 & 192)) {
-                configuration3.screenLayout |= i21 & 192;
+            if (i20 != (i21 & NotificationCenter.dialogPhotosUpdate)) {
+                configuration3.screenLayout |= i21 & NotificationCenter.dialogPhotosUpdate;
             }
             int i22 = configuration.screenLayout & 48;
             int i23 = configuration2.screenLayout;
@@ -2784,21 +2780,23 @@ public class AppCompatDelegateImpl extends AppCompatDelegate implements MenuBuil
     public static class Api33Impl {
         static OnBackInvokedCallback registerOnBackPressedCallback(Object obj, final AppCompatDelegateImpl appCompatDelegateImpl) {
             Objects.requireNonNull(appCompatDelegateImpl);
-            OnBackInvokedCallback onBackInvokedCallback = new OnBackInvokedCallback() { // from class: androidx.appcompat.app.AppCompatDelegateImpl$Api33Impl$$ExternalSyntheticLambda0
+            OnBackInvokedCallback onBackInvokedCallback = new OnBackInvokedCallback() { // from class: androidx.appcompat.app.AppCompatDelegateImpl$Api33Impl$$ExternalSyntheticLambda5
                 public final void onBackInvoked() {
                     AppCompatDelegateImpl.this.onBackPressed();
                 }
             };
-            ((OnBackInvokedDispatcher) obj).registerOnBackInvokedCallback((int) MediaController.VIDEO_BITRATE_480, onBackInvokedCallback);
+            AppCompatDelegateImpl$Api33Impl$$ExternalSyntheticApiModelOutline1.m(obj).registerOnBackInvokedCallback(MediaController.VIDEO_BITRATE_480, onBackInvokedCallback);
             return onBackInvokedCallback;
         }
 
         static void unregisterOnBackInvokedCallback(Object obj, Object obj2) {
-            ((OnBackInvokedDispatcher) obj).unregisterOnBackInvokedCallback((OnBackInvokedCallback) obj2);
+            AppCompatDelegateImpl$Api33Impl$$ExternalSyntheticApiModelOutline1.m(obj).unregisterOnBackInvokedCallback(AppCompatDelegateImpl$Api33Impl$$ExternalSyntheticApiModelOutline0.m(obj2));
         }
 
         static OnBackInvokedDispatcher getOnBackInvokedDispatcher(Activity activity) {
-            return activity.getOnBackInvokedDispatcher();
+            OnBackInvokedDispatcher onBackInvokedDispatcher;
+            onBackInvokedDispatcher = activity.getOnBackInvokedDispatcher();
+            return onBackInvokedDispatcher;
         }
     }
 }

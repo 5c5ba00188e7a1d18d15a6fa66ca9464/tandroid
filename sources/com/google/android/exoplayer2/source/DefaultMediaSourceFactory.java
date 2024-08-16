@@ -163,15 +163,13 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ Extractor[] lambda$createMediaSource$0(Format format) {
         Extractor unknownSubtitlesExtractor;
-        Extractor[] extractorArr = new Extractor[1];
         SubtitleDecoderFactory subtitleDecoderFactory = SubtitleDecoderFactory.DEFAULT;
         if (subtitleDecoderFactory.supportsFormat(format)) {
             unknownSubtitlesExtractor = new SubtitleExtractor(subtitleDecoderFactory.createDecoder(format), format);
         } else {
             unknownSubtitlesExtractor = new UnknownSubtitlesExtractor(format);
         }
-        extractorArr[0] = unknownSubtitlesExtractor;
-        return extractorArr;
+        return new Extractor[]{unknownSubtitlesExtractor};
     }
 
     private static MediaSource maybeClipMediaSource(MediaItem mediaItem, MediaSource mediaSource) {
@@ -250,7 +248,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0077  */
+        /* JADX WARN: Removed duplicated region for block: B:27:0x0075  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -261,10 +259,13 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 return this.mediaSourceFactorySuppliers.get(Integer.valueOf(i));
             }
             final DataSource.Factory factory = (DataSource.Factory) Assertions.checkNotNull(this.dataSourceFactory);
-            Supplier<MediaSource.Factory> supplier3 = null;
+            try {
+            } catch (ClassNotFoundException unused) {
+                supplier = null;
+            }
             if (i == 0) {
                 final Class asSubclass = DashMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
+                supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda4
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -274,7 +275,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 };
             } else if (i == 1) {
                 final Class asSubclass2 = SsMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
+                supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda3
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -284,7 +285,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                 };
             } else if (i == 2) {
                 final Class asSubclass3 = HlsMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda2
+                supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda2
                     @Override // com.google.common.base.Supplier
                     public final Object get() {
                         MediaSource.Factory access$100;
@@ -293,19 +294,9 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                     }
                 };
             } else {
-                if (i == 3) {
-                    final Class asSubclass4 = RtspMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
-                    supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda3
-                        @Override // com.google.common.base.Supplier
-                        public final Object get() {
-                            MediaSource.Factory access$000;
-                            access$000 = DefaultMediaSourceFactory.access$000(asSubclass4);
-                            return access$000;
-                        }
-                    };
-                } else {
+                if (i != 3) {
                     if (i == 4) {
-                        supplier2 = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda4
+                        supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda0
                             @Override // com.google.common.base.Supplier
                             public final Object get() {
                                 MediaSource.Factory lambda$maybeLoadSupplier$4;
@@ -314,23 +305,29 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
                             }
                         };
                     }
-                    this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
-                    if (supplier3 != null) {
-                        this.supportedTypes.add(Integer.valueOf(i));
-                    }
-                    return supplier3;
+                    supplier = null;
+                } else {
+                    final Class asSubclass4 = RtspMediaSource.Factory.class.asSubclass(MediaSource.Factory.class);
+                    supplier = new Supplier() { // from class: com.google.android.exoplayer2.source.DefaultMediaSourceFactory$DelegateFactoryLoader$$ExternalSyntheticLambda1
+                        @Override // com.google.common.base.Supplier
+                        public final Object get() {
+                            MediaSource.Factory access$000;
+                            access$000 = DefaultMediaSourceFactory.access$000(asSubclass4);
+                            return access$000;
+                        }
+                    };
                 }
-                supplier3 = supplier2;
-                this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
-                if (supplier3 != null) {
+                this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier);
+                if (supplier != null) {
+                    this.supportedTypes.add(Integer.valueOf(i));
                 }
-                return supplier3;
+                return supplier;
             }
-            supplier3 = supplier;
-            this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier3);
-            if (supplier3 != null) {
+            supplier = supplier2;
+            this.mediaSourceFactorySuppliers.put(Integer.valueOf(i), supplier);
+            if (supplier != null) {
             }
-            return supplier3;
+            return supplier;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -387,7 +384,7 @@ public final class DefaultMediaSourceFactory implements MediaSource.Factory {
     /* JADX INFO: Access modifiers changed from: private */
     public static MediaSource.Factory newInstance(Class<? extends MediaSource.Factory> cls) {
         try {
-            return cls.getConstructor(new Class[0]).newInstance(new Object[0]);
+            return cls.getConstructor(null).newInstance(null);
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

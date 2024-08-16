@@ -31,11 +31,7 @@ public abstract class TransportContext {
     }
 
     public final String toString() {
-        Object[] objArr = new Object[3];
-        objArr[0] = getBackendName();
-        objArr[1] = getPriority();
-        objArr[2] = getExtras() == null ? "" : Base64.encodeToString(getExtras(), 2);
-        return String.format("TransportContext(%s, %s, %s)", objArr);
+        return String.format("TransportContext(%s, %s, %s)", getBackendName(), getPriority(), getExtras() == null ? "" : Base64.encodeToString(getExtras(), 2));
     }
 
     public static Builder builder() {

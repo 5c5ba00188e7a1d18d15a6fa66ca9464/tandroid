@@ -1,8 +1,19 @@
 package j$.util.stream;
-/* loaded from: classes2.dex */
-abstract class Z2 extends b3 {
-    int b;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public abstract void a(Object obj, long j);
+import j$.util.function.Consumer;
+/* loaded from: classes2.dex */
+final class Z2 extends a3 implements Consumer {
+    final Object[] b = new Object[128];
+
+    @Override // j$.util.function.Consumer
+    public final void accept(Object obj) {
+        int i = this.a;
+        this.a = i + 1;
+        this.b[i] = obj;
+    }
+
+    @Override // j$.util.function.Consumer
+    public final /* synthetic */ Consumer andThen(Consumer consumer) {
+        return Consumer.-CC.$default$andThen(this, consumer);
+    }
 }

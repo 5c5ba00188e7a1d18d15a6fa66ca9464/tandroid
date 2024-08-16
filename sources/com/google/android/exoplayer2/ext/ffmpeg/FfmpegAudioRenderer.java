@@ -20,11 +20,6 @@ public final class FfmpegAudioRenderer extends DecoderAudioRenderer<FfmpegAudioD
     private static final int NUM_BUFFERS = 16;
     private static final String TAG = "FfmpegAudioRenderer";
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return TAG;
-    }
-
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public /* bridge */ /* synthetic */ void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException {
         Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
@@ -45,6 +40,11 @@ public final class FfmpegAudioRenderer extends DecoderAudioRenderer<FfmpegAudioD
 
     public FfmpegAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, AudioSink audioSink) {
         super(handler, audioRendererEventListener, audioSink);
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return TAG;
     }
 
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer

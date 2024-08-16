@@ -2,6 +2,7 @@ package org.telegram.messenger.time;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class SunDate {
     private static final double DEGRAD = 0.017453292519943295d;
@@ -9,7 +10,7 @@ public class SunDate {
     private static final double RADEG = 57.29577951308232d;
 
     private static long days_since_2000_Jan_0(int i, int i2, int i3) {
-        return ((((i * 367) - (((i + ((i2 + 9) / 12)) * 7) / 4)) + ((i2 * 275) / 9)) + i3) - 730530;
+        return ((((i * 367) - (((i + ((i2 + 9) / 12)) * 7) / 4)) + ((i2 * NotificationCenter.currentUserShowLimitReachedDialog) / 9)) + i3) - 730530;
     }
 
     private static double revolution(double d) {

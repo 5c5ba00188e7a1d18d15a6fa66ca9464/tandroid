@@ -32,8 +32,11 @@ public class DefaultTaskExecutor extends TaskExecutor {
     public void postToMainThread(Runnable runnable) {
         if (this.mMainHandler == null) {
             synchronized (this.mLock) {
-                if (this.mMainHandler == null) {
-                    this.mMainHandler = createAsync(Looper.getMainLooper());
+                try {
+                    if (this.mMainHandler == null) {
+                        this.mMainHandler = createAsync(Looper.getMainLooper());
+                    }
+                } finally {
                 }
             }
         }

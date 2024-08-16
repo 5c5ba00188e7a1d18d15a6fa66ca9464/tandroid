@@ -591,10 +591,11 @@ final class zzle {
             int size = list.size();
             int i2 = 0;
             for (int i3 = 0; i3 < size; i3++) {
-                int intValue = list.get(i3).intValue();
+                Integer num = list.get(i3);
+                int intValue = num.intValue();
                 if (zzjgVar.zza(intValue)) {
                     if (i3 != i2) {
-                        list.set(i2, Integer.valueOf(intValue));
+                        list.set(i2, num);
                     }
                     i2++;
                 } else {

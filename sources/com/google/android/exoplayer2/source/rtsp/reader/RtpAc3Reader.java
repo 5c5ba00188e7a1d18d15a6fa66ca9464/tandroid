@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableBitArray;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class RtpAc3Reader implements RtpPayloadReader {
     private int numBytesPendingMetadataOutput;
@@ -38,7 +39,7 @@ public final class RtpAc3Reader implements RtpPayloadReader {
     @Override // com.google.android.exoplayer2.source.rtsp.reader.RtpPayloadReader
     public void consume(ParsableByteArray parsableByteArray, long j, int i, boolean z) {
         int readUnsignedByte = parsableByteArray.readUnsignedByte() & 3;
-        int readUnsignedByte2 = parsableByteArray.readUnsignedByte() & 255;
+        int readUnsignedByte2 = parsableByteArray.readUnsignedByte() & NotificationCenter.voipServiceCreated;
         long sampleTimeUs = RtpReaderUtils.toSampleTimeUs(this.startTimeOffsetUs, j, this.firstReceivedTimestamp, this.payloadFormat.clockRate);
         if (readUnsignedByte == 0) {
             maybeOutputSampleMetadata();

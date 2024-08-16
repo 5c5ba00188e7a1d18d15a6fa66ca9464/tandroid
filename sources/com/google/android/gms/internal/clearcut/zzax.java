@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.clearcut;
 
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class zzax {
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -112,47 +113,45 @@ final class zzax {
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zza(int i, byte[] bArr, int i2, zzay zzayVar) {
         int i3;
-        int i4;
-        int i5 = i & 127;
-        int i6 = i2 + 1;
+        int i4 = i & NotificationCenter.dialogTranslate;
+        int i5 = i2 + 1;
         byte b = bArr[i2];
-        if (b < 0) {
-            int i7 = i5 | ((b & Byte.MAX_VALUE) << 7);
-            int i8 = i6 + 1;
-            byte b2 = bArr[i6];
+        if (b >= 0) {
+            i3 = b << 7;
+        } else {
+            int i6 = i4 | ((b & Byte.MAX_VALUE) << 7);
+            int i7 = i2 + 2;
+            byte b2 = bArr[i5];
             if (b2 >= 0) {
-                i3 = b2 << 14;
+                zzayVar.zzfd = i6 | (b2 << 14);
+                return i7;
+            }
+            i4 = i6 | ((b2 & Byte.MAX_VALUE) << 14);
+            i5 = i2 + 3;
+            byte b3 = bArr[i7];
+            if (b3 >= 0) {
+                i3 = b3 << 21;
             } else {
-                i5 = i7 | ((b2 & Byte.MAX_VALUE) << 14);
-                i6 = i8 + 1;
-                byte b3 = bArr[i8];
-                if (b3 >= 0) {
-                    i4 = b3 << 21;
-                } else {
-                    i7 = i5 | ((b3 & Byte.MAX_VALUE) << 21);
-                    i8 = i6 + 1;
-                    byte b4 = bArr[i6];
-                    if (b4 >= 0) {
-                        i3 = b4 << 28;
-                    } else {
-                        int i9 = i7 | ((b4 & Byte.MAX_VALUE) << 28);
-                        while (true) {
-                            int i10 = i8 + 1;
-                            if (bArr[i8] >= 0) {
-                                zzayVar.zzfd = i9;
-                                return i10;
-                            }
-                            i8 = i10;
-                        }
+                int i8 = i4 | ((b3 & Byte.MAX_VALUE) << 21);
+                int i9 = i2 + 4;
+                byte b4 = bArr[i5];
+                if (b4 >= 0) {
+                    zzayVar.zzfd = i8 | (b4 << 28);
+                    return i9;
+                }
+                int i10 = i8 | ((b4 & Byte.MAX_VALUE) << 28);
+                while (true) {
+                    int i11 = i9 + 1;
+                    if (bArr[i9] >= 0) {
+                        zzayVar.zzfd = i10;
+                        return i11;
                     }
+                    i9 = i11;
                 }
             }
-            zzayVar.zzfd = i7 | i3;
-            return i8;
         }
-        i4 = b << 7;
-        zzayVar.zzfd = i5 | i4;
-        return i6;
+        zzayVar.zzfd = i4 | i3;
+        return i5;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -190,7 +189,7 @@ final class zzax {
             zzayVar.zzfe = j;
             return i2;
         }
-        int i3 = i2 + 1;
+        int i3 = i + 2;
         byte b2 = bArr[i2];
         long j2 = (j & 127) | ((b2 & Byte.MAX_VALUE) << 7);
         int i4 = 7;

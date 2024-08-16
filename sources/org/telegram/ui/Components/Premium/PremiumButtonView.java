@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedFloat;
 import org.telegram.ui.Components.AnimatedTextView;
@@ -182,13 +183,11 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
                 valueAnimator.cancel();
                 this.loadingAnimator = null;
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.loadingT;
+            float f = this.loadingT;
             this.loading = z;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(f, z ? 1.0f : 0.0f);
             this.loadingAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     PremiumButtonView.this.lambda$setLoading$0(valueAnimator2);
@@ -228,8 +227,8 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
 
     @Override // android.view.ViewGroup, android.view.View
     protected void dispatchDraw(Canvas canvas) {
-        CounterView counterView = this.counterView;
-        if (counterView != null) {
+        CounterView counterView;
+        if (this.counterView != null) {
             this.counterOffset.set(((counterView.counterDrawable.getWidth() * 0.85f) + AndroidUtilities.dp(3.0f)) / 2.0f);
             this.counterOffset2.set((getMeasuredWidth() / 2.0f) + (this.overlayTextView.getDrawable().getWidth() / 2.0f) + AndroidUtilities.dp(3.0f));
             this.overlayTextView.setTranslationX(-this.counterOffset.get());
@@ -258,12 +257,12 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
             }
             if (this.drawGradient) {
                 PremiumGradient.getInstance().updateMainGradientMatrix(0, 0, getMeasuredWidth(), getMeasuredHeight(), (-getMeasuredWidth()) * 0.1f * this.progress, 0.0f);
-                int i = this.radius;
-                canvas.drawRoundRect(rectF, i, i, PremiumGradient.getInstance().getMainGradientPaint());
+                float f3 = this.radius;
+                canvas.drawRoundRect(rectF, f3, f3, PremiumGradient.getInstance().getMainGradientPaint());
             } else {
-                this.paintOverlayPaint.setAlpha(255);
-                int i2 = this.radius;
-                canvas.drawRoundRect(rectF, i2, i2, this.paintOverlayPaint);
+                this.paintOverlayPaint.setAlpha(NotificationCenter.voipServiceCreated);
+                float f4 = this.radius;
+                canvas.drawRoundRect(rectF, f4, f4, this.paintOverlayPaint);
             }
             invalidate();
         }
@@ -271,20 +270,20 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
             this.flickerDrawable.setParentWidth(getMeasuredWidth());
             this.flickerDrawable.draw(canvas, rectF, this.radius, null);
         }
-        float f3 = this.overlayProgress;
-        if (f3 != 0.0f && this.drawOverlayColor) {
-            this.paintOverlayPaint.setAlpha((int) (f3 * 255.0f));
+        float f5 = this.overlayProgress;
+        if (f5 != 0.0f && this.drawOverlayColor) {
+            this.paintOverlayPaint.setAlpha((int) (f5 * 255.0f));
             if (this.overlayProgress != 1.0f) {
                 this.path.rewind();
                 this.path.addCircle(getMeasuredWidth() / 2.0f, getMeasuredHeight() / 2.0f, Math.max(getMeasuredWidth(), getMeasuredHeight()) * 1.4f * this.overlayProgress, Path.Direction.CW);
                 canvas.save();
                 canvas.clipPath(this.path);
-                int i3 = this.radius;
-                canvas.drawRoundRect(rectF, i3, i3, this.paintOverlayPaint);
+                float f6 = this.radius;
+                canvas.drawRoundRect(rectF, f6, f6, this.paintOverlayPaint);
                 canvas.restore();
             } else {
-                int i4 = this.radius;
-                canvas.drawRoundRect(rectF, i4, i4, this.paintOverlayPaint);
+                float f7 = this.radius;
+                canvas.drawRoundRect(rectF, f7, f7, this.paintOverlayPaint);
             }
         }
         super.dispatchDraw(canvas);
@@ -308,10 +307,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
             updateOverlayProgress();
             return;
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.overlayProgress;
-        fArr[1] = this.showOverlay ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.overlayProgress, this.showOverlay ? 1.0f : 0.0f);
         this.overlayAnimator = ofFloat;
         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView.4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -340,7 +336,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         this.buttonLayout.setAlpha(1.0f - this.overlayProgress);
         this.buttonLayout.setTranslationY((-AndroidUtilities.dp(12.0f)) * this.overlayProgress);
         this.buttonLayout.setVisibility(this.overlayProgress == 1.0f ? 4 : 0);
-        this.overlayTextView.setVisibility(this.overlayProgress != 0.0f ? 0 : 4);
+        this.overlayTextView.setVisibility(this.overlayProgress == 0.0f ? 4 : 0);
         invalidate();
     }
 
@@ -353,7 +349,7 @@ public class PremiumButtonView extends FrameLayout implements Loadable {
         this.iconView.setAnimation(i, 24, 24);
         CellFlickerDrawable cellFlickerDrawable = this.flickerDrawable;
         cellFlickerDrawable.progress = 2.0f;
-        cellFlickerDrawable.setOnRestartCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda0
+        cellFlickerDrawable.setOnRestartCallback(new Runnable() { // from class: org.telegram.ui.Components.Premium.PremiumButtonView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 PremiumButtonView.this.lambda$setIcon$1();

@@ -99,7 +99,7 @@ public class BitmapsCache {
     public void cancelCreate() {
     }
 
-    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:53:0x0128 -> B:68:0x013c). Please submit an issue!!! */
+    /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:45:0x010f -> B:73:0x013c). Please submit an issue!!! */
     public BitmapsCache(File file, Cacheable cacheable, CacheOptions cacheOptions, int i, int i2, boolean z) {
         RandomAccessFile randomAccessFile;
         Throwable th;
@@ -134,8 +134,9 @@ public class BitmapsCache {
                 try {
                     try {
                         randomAccessFile = new RandomAccessFile(file3, "r");
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } catch (Throwable th2) {
+                        randomAccessFile = null;
+                        th = th2;
                     }
                     try {
                         this.cacheCreated = randomAccessFile.readBoolean();
@@ -158,8 +159,8 @@ public class BitmapsCache {
                         if (this.cachedFile != randomAccessFile) {
                             randomAccessFile.close();
                         }
-                    } catch (Throwable th2) {
-                        th = th2;
+                    } catch (Throwable th3) {
+                        th = th3;
                         try {
                             th.printStackTrace();
                             this.file.delete();
@@ -170,20 +171,19 @@ public class BitmapsCache {
                             }
                             this.checked = true;
                             return;
-                        } catch (Throwable th3) {
+                        } catch (Throwable th4) {
                             try {
                                 if (this.cachedFile != randomAccessFile && randomAccessFile != null) {
                                     randomAccessFile.close();
                                 }
-                            } catch (IOException e2) {
-                                e2.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                            throw th3;
+                            throw th4;
                         }
                     }
-                } catch (Throwable th4) {
-                    randomAccessFile = null;
-                    th = th4;
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
             }
             this.checked = true;
@@ -220,22 +220,19 @@ public class BitmapsCache {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:27:0x006b, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x0074, code lost:
         if (r24.cachedFile != r0) goto L113;
      */
-    /* JADX WARN: Removed duplicated region for block: B:124:0x00c6 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x00e9 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x008b A[Catch: all -> 0x0206, IOException -> 0x0208, FileNotFoundException -> 0x020d, TryCatch #12 {FileNotFoundException -> 0x020d, IOException -> 0x0208, blocks: (B:3:0x0002, B:17:0x004d, B:26:0x0069, B:32:0x0077, B:36:0x007e, B:38:0x008b, B:39:0x0092, B:40:0x00c2, B:42:0x00c6, B:47:0x00cf, B:49:0x00d7, B:52:0x00df, B:55:0x00ea, B:57:0x00ee, B:59:0x00f2, B:64:0x00fb, B:63:0x00f8, B:65:0x00fe, B:66:0x011e, B:68:0x0124, B:69:0x0141, B:70:0x017e, B:74:0x01b8, B:75:0x01cd, B:77:0x01d8, B:78:0x01dd, B:79:0x01e1, B:81:0x01e5, B:83:0x01e9, B:88:0x01f2, B:87:0x01ef, B:92:0x01fc, B:46:0x00cc), top: B:117:0x0002, outer: #5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x017e A[Catch: all -> 0x0206, IOException -> 0x0208, FileNotFoundException -> 0x020d, TryCatch #12 {FileNotFoundException -> 0x020d, IOException -> 0x0208, blocks: (B:3:0x0002, B:17:0x004d, B:26:0x0069, B:32:0x0077, B:36:0x007e, B:38:0x008b, B:39:0x0092, B:40:0x00c2, B:42:0x00c6, B:47:0x00cf, B:49:0x00d7, B:52:0x00df, B:55:0x00ea, B:57:0x00ee, B:59:0x00f2, B:64:0x00fb, B:63:0x00f8, B:65:0x00fe, B:66:0x011e, B:68:0x0124, B:69:0x0141, B:70:0x017e, B:74:0x01b8, B:75:0x01cd, B:77:0x01d8, B:78:0x01dd, B:79:0x01e1, B:81:0x01e5, B:83:0x01e9, B:88:0x01f2, B:87:0x01ef, B:92:0x01fc, B:46:0x00cc), top: B:117:0x0002, outer: #5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:77:0x01d8 A[Catch: all -> 0x0206, IOException -> 0x0208, FileNotFoundException -> 0x020d, TryCatch #12 {FileNotFoundException -> 0x020d, IOException -> 0x0208, blocks: (B:3:0x0002, B:17:0x004d, B:26:0x0069, B:32:0x0077, B:36:0x007e, B:38:0x008b, B:39:0x0092, B:40:0x00c2, B:42:0x00c6, B:47:0x00cf, B:49:0x00d7, B:52:0x00df, B:55:0x00ea, B:57:0x00ee, B:59:0x00f2, B:64:0x00fb, B:63:0x00f8, B:65:0x00fe, B:66:0x011e, B:68:0x0124, B:69:0x0141, B:70:0x017e, B:74:0x01b8, B:75:0x01cd, B:77:0x01d8, B:78:0x01dd, B:79:0x01e1, B:81:0x01e5, B:83:0x01e9, B:88:0x01f2, B:87:0x01ef, B:92:0x01fc, B:46:0x00cc), top: B:117:0x0002, outer: #5 }] */
-    /* JADX WARN: Removed duplicated region for block: B:81:0x01e5 A[Catch: all -> 0x0206, IOException -> 0x0208, FileNotFoundException -> 0x020d, TRY_LEAVE, TryCatch #12 {FileNotFoundException -> 0x020d, IOException -> 0x0208, blocks: (B:3:0x0002, B:17:0x004d, B:26:0x0069, B:32:0x0077, B:36:0x007e, B:38:0x008b, B:39:0x0092, B:40:0x00c2, B:42:0x00c6, B:47:0x00cf, B:49:0x00d7, B:52:0x00df, B:55:0x00ea, B:57:0x00ee, B:59:0x00f2, B:64:0x00fb, B:63:0x00f8, B:65:0x00fe, B:66:0x011e, B:68:0x0124, B:69:0x0141, B:70:0x017e, B:74:0x01b8, B:75:0x01cd, B:77:0x01d8, B:78:0x01dd, B:79:0x01e1, B:81:0x01e5, B:83:0x01e9, B:88:0x01f2, B:87:0x01ef, B:92:0x01fc, B:46:0x00cc), top: B:117:0x0002, outer: #5 }] */
+    /* JADX WARN: Removed duplicated region for block: B:118:0x00cf A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x0094 A[Catch: all -> 0x005a, IOException -> 0x005d, FileNotFoundException -> 0x0060, TryCatch #12 {FileNotFoundException -> 0x0060, IOException -> 0x005d, blocks: (B:3:0x0002, B:17:0x004d, B:32:0x0072, B:38:0x0080, B:42:0x0087, B:44:0x0094, B:45:0x009b, B:46:0x00cb, B:48:0x00cf, B:53:0x00d8, B:55:0x00e0, B:58:0x00ef, B:61:0x00fa, B:63:0x00fe, B:65:0x0102, B:70:0x010b, B:69:0x0108, B:71:0x010e, B:72:0x012e, B:74:0x0134, B:75:0x0151, B:76:0x018e, B:80:0x01c8, B:81:0x01dd, B:83:0x01e1, B:84:0x01e6, B:85:0x01ea, B:87:0x01ee, B:89:0x01f2, B:94:0x01fb, B:93:0x01f8, B:98:0x0205, B:52:0x00d5), top: B:126:0x0002, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x01e1 A[Catch: all -> 0x005a, IOException -> 0x005d, FileNotFoundException -> 0x0060, TryCatch #12 {FileNotFoundException -> 0x0060, IOException -> 0x005d, blocks: (B:3:0x0002, B:17:0x004d, B:32:0x0072, B:38:0x0080, B:42:0x0087, B:44:0x0094, B:45:0x009b, B:46:0x00cb, B:48:0x00cf, B:53:0x00d8, B:55:0x00e0, B:58:0x00ef, B:61:0x00fa, B:63:0x00fe, B:65:0x0102, B:70:0x010b, B:69:0x0108, B:71:0x010e, B:72:0x012e, B:74:0x0134, B:75:0x0151, B:76:0x018e, B:80:0x01c8, B:81:0x01dd, B:83:0x01e1, B:84:0x01e6, B:85:0x01ea, B:87:0x01ee, B:89:0x01f2, B:94:0x01fb, B:93:0x01f8, B:98:0x0205, B:52:0x00d5), top: B:126:0x0002, outer: #8 }] */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01ee A[Catch: all -> 0x005a, IOException -> 0x005d, FileNotFoundException -> 0x0060, TRY_LEAVE, TryCatch #12 {FileNotFoundException -> 0x0060, IOException -> 0x005d, blocks: (B:3:0x0002, B:17:0x004d, B:32:0x0072, B:38:0x0080, B:42:0x0087, B:44:0x0094, B:45:0x009b, B:46:0x00cb, B:48:0x00cf, B:53:0x00d8, B:55:0x00e0, B:58:0x00ef, B:61:0x00fa, B:63:0x00fe, B:65:0x0102, B:70:0x010b, B:69:0x0108, B:71:0x010e, B:72:0x012e, B:74:0x0134, B:75:0x0151, B:76:0x018e, B:80:0x01c8, B:81:0x01dd, B:83:0x01e1, B:84:0x01e6, B:85:0x01ea, B:87:0x01ee, B:89:0x01f2, B:94:0x01fb, B:93:0x01f8, B:98:0x0205, B:52:0x00d5), top: B:126:0x0002, outer: #8 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void createCache() {
         RandomAccessFile randomAccessFile;
         RandomAccessFile randomAccessFile2;
-        final Bitmap[] bitmapArr;
         ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr;
         CountDownLatch[] countDownLatchArr;
         ArrayList arrayList;
@@ -271,7 +268,7 @@ public class BitmapsCache {
                         if (sharedTools == null) {
                         }
                         sharedTools.allocate(this.h, this.w);
-                        bitmapArr = sharedTools.bitmap;
+                        final Bitmap[] bitmapArr = sharedTools.bitmap;
                         immutableByteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
                         countDownLatchArr = new CountDownLatch[N];
                         arrayList = new ArrayList();
@@ -287,8 +284,8 @@ public class BitmapsCache {
                             }
                             if (!this.cancelled.get()) {
                                 break;
-                            } else if (this.source.getNextFrame(bitmapArr[i]) != 1) {
                             }
+                            break;
                             this.framesProcessed.set(r1);
                             i2 = r1;
                             atomicBoolean = r13;
@@ -346,7 +343,7 @@ public class BitmapsCache {
                     sharedTools = new CacheGeneratorSharedTools();
                 }
                 sharedTools.allocate(this.h, this.w);
-                bitmapArr = sharedTools.bitmap;
+                final Bitmap[] bitmapArr2 = sharedTools.bitmap;
                 immutableByteArrayOutputStreamArr = sharedTools.byteArrayOutputStream;
                 countDownLatchArr = new CountDownLatch[N];
                 arrayList = new ArrayList();
@@ -367,8 +364,7 @@ public class BitmapsCache {
                     }
                     if (!this.cancelled.get() || atomicBoolean.get()) {
                         break;
-                        break;
-                    } else if (this.source.getNextFrame(bitmapArr[i]) != 1) {
+                    } else if (this.source.getNextFrame(bitmapArr2[i]) == 1) {
                         countDownLatchArr[i] = new CountDownLatch(1);
                         final AtomicBoolean atomicBoolean3 = atomicBoolean;
                         AtomicBoolean atomicBoolean4 = atomicBoolean;
@@ -380,10 +376,10 @@ public class BitmapsCache {
                         ImmutableByteArrayOutputStream[] immutableByteArrayOutputStreamArr3 = immutableByteArrayOutputStreamArr;
                         final RandomAccessFile randomAccessFile4 = randomAccessFile2;
                         RandomAccessFile randomAccessFile5 = randomAccessFile2;
-                        bitmapCompressExecutor.execute(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda1
+                        bitmapCompressExecutor.execute(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda2
                             @Override // java.lang.Runnable
                             public final void run() {
-                                BitmapsCache.this.lambda$createCache$1(atomicBoolean3, bitmapArr, i5, immutableByteArrayOutputStreamArr2, i6, randomAccessFile4, arrayList2, countDownLatchArr3);
+                                BitmapsCache.this.lambda$createCache$1(atomicBoolean3, bitmapArr2, i5, immutableByteArrayOutputStreamArr2, i6, randomAccessFile4, arrayList2, countDownLatchArr3);
                             }
                         });
                         int i7 = i + 1;
@@ -410,7 +406,7 @@ public class BitmapsCache {
                             }
                         }
                         int length = (int) randomAccessFile2.length();
-                        Collections.sort(arrayList, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda2
+                        Collections.sort(arrayList, Comparator$-CC.comparingInt(new ToIntFunction() { // from class: org.telegram.messenger.utils.BitmapsCache$$ExternalSyntheticLambda1
                             @Override // j$.util.function.ToIntFunction
                             public final int applyAsInt(Object obj) {
                                 int i10;
@@ -457,7 +453,7 @@ public class BitmapsCache {
                             e3.printStackTrace();
                         }
                     }
-                    Bitmap bitmap = bitmapArr[i3];
+                    Bitmap bitmap = bitmapArr2[i3];
                     if (bitmap != null) {
                         try {
                             bitmap.recycle();
@@ -539,8 +535,14 @@ public class BitmapsCache {
         return frame;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:56:0x00d1  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x00d9 A[ADDED_TO_REGION] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public int getFrame(int i, Bitmap bitmap) {
         RandomAccessFile randomAccessFile;
+        int i2;
         if (this.error) {
             return -1;
         }
@@ -564,10 +566,9 @@ public class BitmapsCache {
                             return -1;
                         }
                     } catch (FileNotFoundException unused) {
-                        randomAccessFile2 = randomAccessFile;
-                        if (this.error && randomAccessFile2 != null) {
+                        if (this.error && randomAccessFile != null) {
                             try {
-                                randomAccessFile2.close();
+                                randomAccessFile.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -575,48 +576,67 @@ public class BitmapsCache {
                         return -1;
                     } catch (Throwable th) {
                         th = th;
-                        randomAccessFile2 = randomAccessFile;
                         FileLog.e(th, false);
-                        int i2 = this.tryCount + 1;
+                        i2 = this.tryCount + 1;
                         this.tryCount = i2;
                         if (i2 > 10) {
                             this.error = true;
                         }
                         if (this.error) {
-                            randomAccessFile2.close();
+                            randomAccessFile.close();
                         }
                         return -1;
                     }
                 }
-                if (this.frameOffsets.size() == 0) {
+                try {
+                    if (this.frameOffsets.size() == 0) {
+                        return -1;
+                    }
+                    FrameOffset frameOffset = this.frameOffsets.get(Utilities.clamp(i, this.frameOffsets.size() - 1, 0));
+                    randomAccessFile.seek(frameOffset.frameOffset);
+                    byte[] buffer = getBuffer(frameOffset);
+                    randomAccessFile.readFully(buffer, 0, frameOffset.frameSize);
+                    if (!this.recycled) {
+                        if (this.cachedFile != randomAccessFile) {
+                            closeCachedFile();
+                        }
+                        this.cachedFile = randomAccessFile;
+                    } else {
+                        this.cachedFile = null;
+                        randomAccessFile.close();
+                    }
+                    if (this.options == null) {
+                        this.options = new BitmapFactory.Options();
+                    }
+                    BitmapFactory.Options options = this.options;
+                    options.inBitmap = bitmap;
+                    BitmapFactory.decodeByteArray(buffer, 0, frameOffset.frameSize, options);
+                    this.options.inBitmap = null;
+                    return 0;
+                } catch (FileNotFoundException unused2) {
+                    randomAccessFile2 = randomAccessFile;
+                    randomAccessFile = randomAccessFile2;
+                    if (this.error) {
+                    }
+                    return -1;
+                } catch (Throwable th2) {
+                    th = th2;
+                    randomAccessFile2 = randomAccessFile;
+                    randomAccessFile = randomAccessFile2;
+                    FileLog.e(th, false);
+                    i2 = this.tryCount + 1;
+                    this.tryCount = i2;
+                    if (i2 > 10) {
+                    }
+                    if (this.error) {
+                    }
                     return -1;
                 }
-                FrameOffset frameOffset = this.frameOffsets.get(Utilities.clamp(i, this.frameOffsets.size() - 1, 0));
-                randomAccessFile.seek(frameOffset.frameOffset);
-                byte[] buffer = getBuffer(frameOffset);
-                randomAccessFile.readFully(buffer, 0, frameOffset.frameSize);
-                if (!this.recycled) {
-                    if (this.cachedFile != randomAccessFile) {
-                        closeCachedFile();
-                    }
-                    this.cachedFile = randomAccessFile;
-                } else {
-                    this.cachedFile = null;
-                    randomAccessFile.close();
-                }
-                if (this.options == null) {
-                    this.options = new BitmapFactory.Options();
-                }
-                BitmapFactory.Options options = this.options;
-                options.inBitmap = bitmap;
-                BitmapFactory.decodeByteArray(buffer, 0, frameOffset.frameSize, options);
-                this.options.inBitmap = null;
-                return 0;
             }
             return -1;
-        } catch (FileNotFoundException unused2) {
-        } catch (Throwable th2) {
-            th = th2;
+        } catch (FileNotFoundException unused3) {
+        } catch (Throwable th3) {
+            th = th3;
         }
     }
 
@@ -707,7 +727,7 @@ public class BitmapsCache {
                 if (z || this.bitmap[i4] == null) {
                     final Bitmap bitmap = this.bitmap[i4];
                     if (bitmap != null) {
-                        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$CacheGeneratorSharedTools$$ExternalSyntheticLambda0
+                        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$CacheGeneratorSharedTools$$ExternalSyntheticLambda1
                             @Override // java.lang.Runnable
                             public final void run() {
                                 BitmapsCache.CacheGeneratorSharedTools.lambda$allocate$0(bitmap);
@@ -746,7 +766,7 @@ public class BitmapsCache {
             if (arrayList.isEmpty()) {
                 return;
             }
-            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$CacheGeneratorSharedTools$$ExternalSyntheticLambda1
+            Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.utils.BitmapsCache$CacheGeneratorSharedTools$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     BitmapsCache.CacheGeneratorSharedTools.lambda$release$1(arrayList);

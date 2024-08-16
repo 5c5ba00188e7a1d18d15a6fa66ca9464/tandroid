@@ -77,13 +77,13 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             TooManyCommunitiesActivity.this.progressBar.animate().alpha(1.0f).start();
         }
     };
-    RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda1
+    RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
         public final void onItemClick(View view, int i) {
             TooManyCommunitiesActivity.this.lambda$new$0(view, i);
         }
     };
-    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda2
+    RecyclerListView.OnItemLongClickListener onItemLongClickListener = new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda3
         @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
         public final boolean onItemClick(View view, int i) {
             boolean lambda$new$1;
@@ -263,7 +263,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.buttonLayout.setBackgroundColor(Theme.getColor(i2));
         this.buttonLayout.addView(this.buttonTextView, LayoutHelper.createFrame(-1, -1.0f, 0, 16.0f, 12.0f, 16.0f, 12.0f));
         this.buttonLayout.setVisibility(8);
-        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda3
+        this.buttonTextView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
                 TooManyCommunitiesActivity.this.lambda$createView$2(view2);
@@ -458,20 +458,19 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             this.inactiveChatsStartRow = -1;
             this.inactiveChatsEndRow = -1;
             this.endPaddingPosition = -1;
-            int i = 0 + 1;
             this.hintPosition = 0;
-            this.rowCount = i + 1;
-            this.shadowPosition = i;
+            this.rowCount = 2;
+            this.shadowPosition = 1;
             if (TooManyCommunitiesActivity.this.inactiveChats.isEmpty()) {
                 return;
             }
-            int i2 = this.rowCount;
-            int i3 = i2 + 1;
-            this.headerPosition = i2;
-            int i4 = i3 + 1;
-            this.rowCount = i4;
-            this.inactiveChatsStartRow = i3;
-            int size = i4 + (TooManyCommunitiesActivity.this.inactiveChats.size() - 1);
+            int i = this.rowCount;
+            int i2 = i + 1;
+            this.headerPosition = i;
+            int i3 = i + 2;
+            this.rowCount = i3;
+            this.inactiveChatsStartRow = i2;
+            int size = i3 + (TooManyCommunitiesActivity.this.inactiveChats.size() - 1);
             this.inactiveChatsEndRow = size;
             this.rowCount = size + 1;
             this.endPaddingPosition = size;
@@ -712,7 +711,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda0
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.TooManyCommunitiesActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 TooManyCommunitiesActivity.this.lambda$getThemeDescriptions$6();

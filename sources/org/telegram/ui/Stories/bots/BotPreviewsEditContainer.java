@@ -189,11 +189,13 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
         if (cachedLists == null) {
             cachedLists = new LongSparseArray<>();
         }
-        LongSparseArray<StoriesController.BotPreviewsList> longSparseArray = cachedLists.get(currentAccount);
+        long j2 = currentAccount;
+        LongSparseArray<StoriesController.BotPreviewsList> longSparseArray = cachedLists.get(j2);
         if (longSparseArray == null) {
-            LongSparseArray<StoriesController.BotPreviewsList> longSparseArray2 = new LongSparseArray<>();
-            cachedLists.put(currentAccount, longSparseArray2);
-            longSparseArray = longSparseArray2;
+            LongSparseArray<LongSparseArray<StoriesController.BotPreviewsList>> longSparseArray2 = cachedLists;
+            LongSparseArray<StoriesController.BotPreviewsList> longSparseArray3 = new LongSparseArray<>();
+            longSparseArray2.put(j2, longSparseArray3);
+            longSparseArray = longSparseArray3;
         }
         StoriesController.BotPreviewsList botPreviewsList = longSparseArray.get(j);
         if (botPreviewsList == null) {
@@ -399,7 +401,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
     }
 
     public boolean canScroll(boolean z) {
-        return z ? this.viewPager.getCurrentPosition() == (this.langLists.size() + 1) - 1 : this.viewPager.getCurrentPosition() == 0;
+        return z ? this.viewPager.getCurrentPosition() == this.langLists.size() : this.viewPager.getCurrentPosition() == 0;
     }
 
     public boolean isSelectedAll() {
@@ -539,8 +541,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             int length2 = viewPages3.length;
             while (i3 < length2) {
                 View view3 = viewPages3[i3];
-                boolean z = view3 instanceof BotPreviewsEditLangContainer;
-                if (z && z) {
+                if ((view3 instanceof BotPreviewsEditLangContainer) && (view3 instanceof BotPreviewsEditLangContainer)) {
                     ((BotPreviewsEditLangContainer) view3).adapter.notifyDataSetChanged();
                 }
                 i3++;
@@ -656,10 +657,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 this.viewPager.setTranslationY(AndroidUtilities.dp(z ? 42.0f : 0.0f));
                 return;
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.tabsAlpha;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.tabsAlpha, z ? 1.0f : 0.0f);
             this.tabsAnimator = ofFloat;
             ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -1278,7 +1276,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
             textView.setTextAlignment(4);
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.bold());
-            stickerEmptyView.linearLayout.addView(textView, LayoutHelper.createLinear(165, -2, 17, 0, 17, 0, 12));
+            stickerEmptyView.linearLayout.addView(textView, LayoutHelper.createLinear((int) NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
             ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, false, BotPreviewsEditContainer.this.resourcesProvider);
             this.emptyViewButton2 = buttonWithCounterView;
             buttonWithCounterView.setMinWidth(AndroidUtilities.dp(200.0f));
@@ -1856,10 +1854,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                         return;
                     }
                     final boolean z = f > 0.2f;
-                    float[] fArr = new float[2];
-                    fArr[0] = f;
-                    fArr[1] = z ? 1.0f : 0.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(f, z ? 1.0f : 0.0f);
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.bots.BotPreviewsEditContainer.BotPreviewsEditLangContainer.12
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                         public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -1995,7 +1990,7 @@ public class BotPreviewsEditContainer extends FrameLayout implements Notificatio
                 textView2.setTextAlignment(4);
                 textView2.setGravity(17);
                 textView2.setTypeface(AndroidUtilities.bold());
-                addView(textView2, LayoutHelper.createLinear(165, -2, 17, 0, 17, 0, 12));
+                addView(textView2, LayoutHelper.createLinear((int) NotificationCenter.activeGroupCallsUpdated, -2, 17, 0, 17, 0, 12));
                 ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, false, resourcesProvider);
                 this.button2View = buttonWithCounterView2;
                 buttonWithCounterView2.setMinWidth(AndroidUtilities.dp(200.0f));

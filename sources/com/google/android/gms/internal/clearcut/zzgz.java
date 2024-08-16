@@ -123,7 +123,7 @@ public final class zzgz extends zzfu<zzgz> implements Cloneable {
                 }
                 i++;
             }
-            zzen = zzen + i2 + (i3 * 1);
+            zzen = zzen + i2 + i3;
         }
         String str = this.zzbjc;
         return (str == null || str.equals("")) ? zzen : zzen + zzfs.zzb(4, this.zzbjc);

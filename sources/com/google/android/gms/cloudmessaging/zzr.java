@@ -57,8 +57,12 @@ public final class zzr {
 
     public final synchronized int zzb() {
         PackageInfo zza;
-        if (this.zzb == 0 && (zza = zza("com.google.android.gms")) != null) {
-            this.zzb = zza.versionCode;
+        try {
+            if (this.zzb == 0 && (zza = zza("com.google.android.gms")) != null) {
+                this.zzb = zza.versionCode;
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.zzb;
     }

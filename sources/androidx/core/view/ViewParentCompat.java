@@ -136,9 +136,7 @@ public final class ViewParentCompat {
     /* loaded from: classes.dex */
     static class Api21Impl {
         static boolean onStartNestedScroll(ViewParent viewParent, View view, View view2, int i) {
-            boolean onStartNestedScroll;
-            onStartNestedScroll = viewParent.onStartNestedScroll(view, view2, i);
-            return onStartNestedScroll;
+            return viewParent.onStartNestedScroll(view, view2, i);
         }
 
         static void onNestedScrollAccepted(ViewParent viewParent, View view, View view2, int i) {
@@ -158,15 +156,11 @@ public final class ViewParentCompat {
         }
 
         static boolean onNestedFling(ViewParent viewParent, View view, float f, float f2, boolean z) {
-            boolean onNestedFling;
-            onNestedFling = viewParent.onNestedFling(view, f, f2, z);
-            return onNestedFling;
+            return viewParent.onNestedFling(view, f, f2, z);
         }
 
         static boolean onNestedPreFling(ViewParent viewParent, View view, float f, float f2) {
-            boolean onNestedPreFling;
-            onNestedPreFling = viewParent.onNestedPreFling(view, f, f2);
-            return onNestedPreFling;
+            return viewParent.onNestedPreFling(view, f, f2);
         }
     }
 }

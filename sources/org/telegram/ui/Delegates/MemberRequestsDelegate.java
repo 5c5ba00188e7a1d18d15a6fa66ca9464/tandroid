@@ -44,6 +44,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MemberRequestsController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
@@ -110,7 +111,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
     private boolean hasMore = true;
     private boolean isFirstLoading = true;
     private boolean isShowLastItemDivider = true;
-    private final Runnable loadMembersRunnable = new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda0
+    private final Runnable loadMembersRunnable = new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda1
         @Override // java.lang.Runnable
         public final void run() {
             MemberRequestsDelegate.this.lambda$new$8();
@@ -198,29 +199,29 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
     }
 
     public StickerEmptyView getEmptyView() {
-        String str;
         int i;
-        String str2;
+        String str;
         int i2;
+        String str2;
         if (this.emptyView == null) {
             StickerEmptyView stickerEmptyView = new StickerEmptyView(this.fragment.getParentActivity(), null, 16, this.fragment.getResourceProvider());
             this.emptyView = stickerEmptyView;
             SpoilersTextView spoilersTextView = stickerEmptyView.title;
             if (this.isChannel) {
-                str = "NoSubscribeRequests";
                 i = R.string.NoSubscribeRequests;
+                str = "NoSubscribeRequests";
             } else {
-                str = "NoMemberRequests";
                 i = R.string.NoMemberRequests;
+                str = "NoMemberRequests";
             }
             spoilersTextView.setText(LocaleController.getString(str, i));
             LinkSpanDrawable.LinksTextView linksTextView = this.emptyView.subtitle;
             if (this.isChannel) {
-                str2 = "NoSubscribeRequestsDescription";
                 i2 = R.string.NoSubscribeRequestsDescription;
+                str2 = "NoSubscribeRequestsDescription";
             } else {
-                str2 = "NoMemberRequestsDescription";
                 i2 = R.string.NoMemberRequestsDescription;
+                str2 = "NoMemberRequestsDescription";
             }
             linksTextView.setText(LocaleController.getString(str2, i2));
             this.emptyView.setAnimateLayoutChange(true);
@@ -275,7 +276,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 AndroidUtilities.hideKeyboard(this.fragment.getParentActivity().getCurrentFocus());
             }
             final MemberRequestCell memberRequestCell = (MemberRequestCell) view;
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda6
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     MemberRequestsDelegate.this.lambda$onItemClick$1(memberRequestCell);
@@ -294,7 +295,8 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         }
         this.fragment.getMessagesController().putUser(tLRPC$User, false);
         Point point = AndroidUtilities.displaySize;
-        if (tLRPC$User.photo == null || (point.x > point.y)) {
+        boolean z = point.x > point.y;
+        if (tLRPC$User.photo == null || z) {
             this.isNeedRestoreList = true;
             this.fragment.dismissCurrentDialog();
             Bundle bundle = new Bundle();
@@ -306,7 +308,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             PreviewDialog previewDialog = new PreviewDialog(this.fragment.getParentActivity(), (RecyclerListView) memberRequestCell.getParent(), this.fragment.getResourceProvider(), this.isChannel);
             this.previewDialog = previewDialog;
             previewDialog.setImporter(this.importer, memberRequestCell.getAvatarImageView());
-            this.previewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda8
+            this.previewDialog.setOnDismissListener(new DialogInterface.OnDismissListener() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnDismissListener
                 public final void onDismiss(DialogInterface dialogInterface) {
                     MemberRequestsDelegate.this.lambda$onItemClick$0(dialogInterface);
@@ -364,7 +366,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             setViewVisible(this.recyclerView, false, false);
             setViewVisible(this.loadingView, true, true);
             DispatchQueue dispatchQueue = Utilities.searchQueue;
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda3
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     MemberRequestsDelegate.this.lambda$new$8();
@@ -394,7 +396,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             onImportersLoaded(cachedImporters, null, true, true);
             z = false;
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 MemberRequestsDelegate.this.lambda$loadMembers$5(z);
@@ -416,7 +418,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             tLRPC$TL_chatInviteImporter = list.get(list.size() - 1);
         }
         final boolean z2 = tLRPC$TL_chatInviteImporter == null;
-        final Runnable runnable = (isEmpty && z2 && z) ? new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda4
+        final Runnable runnable = (isEmpty && z2 && z) ? new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 MemberRequestsDelegate.this.lambda$loadMembers$2();
@@ -425,7 +427,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         if (isEmpty) {
             AndroidUtilities.runOnUIThread(runnable, 300L);
         }
-        this.searchRequestId = this.controller.getImporters(this.chatId, str, tLRPC$TL_chatInviteImporter, this.users, new RequestDelegate() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda5
+        this.searchRequestId = this.controller.getImporters(this.chatId, str, tLRPC$TL_chatInviteImporter, this.users, new RequestDelegate() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 MemberRequestsDelegate.this.lambda$loadMembers$4(isEmpty, runnable, str, z2, tLObject, tLRPC$TL_error);
@@ -440,7 +442,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$loadMembers$4(final boolean z, final Runnable runnable, final String str, final boolean z2, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda7
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 MemberRequestsDelegate.this.lambda$loadMembers$3(z, runnable, str, tLRPC$TL_error, tLObject, z2);
@@ -866,8 +868,8 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
 
         public PreviewDialog(Context context, RecyclerListView recyclerListView, Theme.ResourcesProvider resourcesProvider, boolean z) {
             super(context, R.style.TransparentDialog2);
-            String str;
             int i;
+            String str;
             Drawable mutate = getContext().getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
             this.pagerShadowDrawable = mutate;
             TextView textView = new TextView(getContext());
@@ -883,7 +885,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
 
                     @Override // android.view.GestureDetector.SimpleOnGestureListener, android.view.GestureDetector.OnGestureListener
                     public boolean onSingleTapUp(MotionEvent motionEvent) {
-                        if (!(PreviewDialog.this.pagerShadowDrawable.getBounds().contains((int) motionEvent.getX(), (int) motionEvent.getY()) || (((float) PreviewDialog.this.popupLayout.getLeft()) < motionEvent.getX() && motionEvent.getX() < ((float) PreviewDialog.this.popupLayout.getRight()) && ((float) PreviewDialog.this.popupLayout.getTop()) < motionEvent.getY() && motionEvent.getY() < ((float) PreviewDialog.this.popupLayout.getBottom())))) {
+                        if (!PreviewDialog.this.pagerShadowDrawable.getBounds().contains((int) motionEvent.getX(), (int) motionEvent.getY()) && (PreviewDialog.this.popupLayout.getLeft() >= motionEvent.getX() || motionEvent.getX() >= PreviewDialog.this.popupLayout.getRight() || PreviewDialog.this.popupLayout.getTop() >= motionEvent.getY() || motionEvent.getY() >= PreviewDialog.this.popupLayout.getBottom())) {
                             PreviewDialog.this.dismiss();
                         }
                         return super.onSingleTapUp(motionEvent);
@@ -937,10 +939,13 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                     int dp3 = AndroidUtilities.dp(6.0f);
                     this.rectF.set(PreviewDialog.this.viewPager.getLeft(), PreviewDialog.this.viewPager.getTop(), PreviewDialog.this.viewPager.getRight(), PreviewDialog.this.viewPager.getTop() + (dp3 * 2));
                     this.clipPath.reset();
+                    Path path = this.clipPath;
+                    RectF rectF = this.rectF;
                     float f = dp3;
-                    this.clipPath.addRoundRect(this.rectF, f, f, Path.Direction.CW);
+                    Path.Direction direction = Path.Direction.CW;
+                    path.addRoundRect(rectF, f, f, direction);
                     this.rectF.set(i2, PreviewDialog.this.viewPager.getTop() + dp3, i4, i5);
-                    this.clipPath.addRect(this.rectF, Path.Direction.CW);
+                    this.clipPath.addRect(this.rectF, direction);
                 }
 
                 @Override // android.view.View
@@ -1024,11 +1029,11 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             int i4 = Theme.key_dialogButtonSelector;
             actionBarMenuSubItem.setSelectorColor(Theme.getColor(i4, resourcesProvider));
             if (z) {
-                str = "AddToChannel";
                 i = R.string.AddToChannel;
+                str = "AddToChannel";
             } else {
-                str = "AddToGroup";
                 i = R.string.AddToGroup;
+                str = "AddToGroup";
             }
             actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i), R.drawable.msg_requests);
             actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda2
@@ -1135,7 +1140,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
         @Override // android.app.Dialog
         public void show() {
             super.show();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     MemberRequestsDelegate.PreviewDialog.this.lambda$show$3();
@@ -1167,12 +1172,9 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             final float left = iArr[0] - (this.viewPager.getLeft() + ((int) ((getContentWidth() * f) / 2.0f)));
             final float top = iArr[1] - (this.viewPager.getTop() + ((int) ((getContentHeight() * f) / 2.0f)));
             final int i = (-this.popupLayout.getTop()) / 2;
-            float[] fArr = new float[2];
-            fArr[0] = z ? 0.0f : 1.0f;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(z ? 0.0f : 1.0f, z ? 1.0f : 0.0f);
             this.animator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda1
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Delegates.MemberRequestsDelegate$PreviewDialog$$ExternalSyntheticLambda0
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     MemberRequestsDelegate.PreviewDialog.this.lambda$runAnimation$4(width, left, top, width2, i, valueAnimator2);
@@ -1240,14 +1242,14 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
             if (visibleDialog != null) {
                 visibleDialog.getWindow().getDecorView().draw(canvas);
             }
-            Utilities.stackBlurBitmap(createBitmap, Math.max(7, Math.max(measuredWidth, measuredHeight) / 180));
+            Utilities.stackBlurBitmap(createBitmap, Math.max(7, Math.max(measuredWidth, measuredHeight) / NotificationCenter.updateBotMenuButton));
             return createBitmap;
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public void updateBackgroundBitmap() {
             BitmapDrawable bitmapDrawable = this.backgroundDrawable;
-            int alpha = bitmapDrawable != null ? bitmapDrawable.getAlpha() : 255;
+            int alpha = bitmapDrawable != null ? bitmapDrawable.getAlpha() : NotificationCenter.voipServiceCreated;
             BitmapDrawable bitmapDrawable2 = new BitmapDrawable(getContext().getResources(), getBlurredBitmap());
             this.backgroundDrawable = bitmapDrawable2;
             bitmapDrawable2.setAlpha(alpha);

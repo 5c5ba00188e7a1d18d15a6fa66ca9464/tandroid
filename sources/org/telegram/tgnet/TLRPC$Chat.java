@@ -76,7 +76,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -144,7 +144,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -224,7 +224,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -313,7 +313,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -399,7 +399,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
                         this.flags = readInt32;
                         this.broadcast = (readInt32 & 32) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
                         this.access_hash = abstractSerializedData2.readInt64(z3);
                         this.title = abstractSerializedData2.readString(z3);
@@ -410,7 +410,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         abstractSerializedData2.writeInt32(-2059962289);
                         int i2 = this.broadcast ? this.flags | 32 : this.flags & (-33);
                         this.flags = i2;
-                        int i3 = this.megagroup ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
+                        int i3 = this.megagroup ? i2 | 256 : i2 & (-257);
                         this.flags = i3;
                         abstractSerializedData2.writeInt32(i3);
                         abstractSerializedData2.writeInt32((int) this.id);
@@ -429,7 +429,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -525,7 +525,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -622,7 +622,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -715,7 +715,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -826,7 +826,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.moderator = (readInt32 & 16) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -861,7 +861,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i6;
                         int i7 = this.verified ? i6 | 128 : i6 & (-129);
                         this.flags = i7;
-                        int i8 = this.megagroup ? i7 | LiteMode.FLAG_CHAT_BLUR : i7 & (-257);
+                        int i8 = this.megagroup ? i7 | 256 : i7 & (-257);
                         this.flags = i8;
                         int i9 = this.restricted ? i8 | LiteMode.FLAG_CALLS_ANIMATIONS : i8 & (-513);
                         this.flags = i9;
@@ -897,7 +897,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -980,7 +980,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                     }
@@ -996,7 +996,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -1080,7 +1080,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color.serializeToStream(abstractSerializedData2);
                         }
                     }
@@ -1096,7 +1096,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -1140,7 +1140,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -1185,7 +1185,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -1250,7 +1250,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -1401,7 +1401,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -1484,7 +1484,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1506,7 +1506,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -1590,7 +1590,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1612,7 +1612,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -1655,7 +1655,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i5;
                         int i6 = this.verified ? i5 | 128 : i5 & (-129);
                         this.flags = i6;
-                        int i7 = this.megagroup ? i6 | LiteMode.FLAG_CHAT_BLUR : i6 & (-257);
+                        int i7 = this.megagroup ? i6 | 256 : i6 & (-257);
                         this.flags = i7;
                         int i8 = this.restricted ? i7 | LiteMode.FLAG_CALLS_ANIMATIONS : i7 & (-513);
                         this.flags = i8;
@@ -1697,7 +1697,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -1780,7 +1780,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData2, abstractSerializedData2.readInt32(z3), z3);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1799,7 +1799,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -1883,7 +1883,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         if ((this.flags2 & 128) != 0) {
                             this.color.serializeToStream(abstractSerializedData2);
                         }
-                        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags2 & 256) != 0) {
                             this.profile_color.serializeToStream(abstractSerializedData2);
                         }
                         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -1905,7 +1905,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -2009,7 +2009,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -2108,7 +2108,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         int readInt32 = abstractSerializedData2.readInt32(z3);
                         this.flags = readInt32;
                         this.broadcast = (readInt32 & 32) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
                         this.access_hash = abstractSerializedData2.readInt64(z3);
                         this.title = abstractSerializedData2.readString(z3);
@@ -2122,7 +2122,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         abstractSerializedData2.writeInt32(681420594);
                         int i2 = this.broadcast ? this.flags | 32 : this.flags & (-33);
                         this.flags = i2;
-                        int i3 = this.megagroup ? i2 | LiteMode.FLAG_CHAT_BLUR : i2 & (-257);
+                        int i3 = this.megagroup ? i2 | 256 : i2 & (-257);
                         this.flags = i3;
                         abstractSerializedData2.writeInt32(i3);
                         abstractSerializedData2.writeInt32((int) this.id);
@@ -2231,7 +2231,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -2275,7 +2275,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -2322,7 +2322,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.moderator = (readInt32 & 16) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
@@ -2354,7 +2354,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i6;
                         int i7 = this.verified ? i6 | 128 : i6 & (-129);
                         this.flags = i7;
-                        int i8 = this.megagroup ? i7 | LiteMode.FLAG_CHAT_BLUR : i7 & (-257);
+                        int i8 = this.megagroup ? i7 | 256 : i7 & (-257);
                         this.flags = i8;
                         int i9 = this.restricted ? i8 | LiteMode.FLAG_CALLS_ANIMATIONS : i8 & (-513);
                         this.flags = i9;
@@ -2386,7 +2386,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.left = (readInt32 & 4) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.signatures = (readInt32 & 2048) != 0;
                         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -2433,7 +2433,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i4;
                         int i5 = this.verified ? i4 | 128 : i4 & (-129);
                         this.flags = i5;
-                        int i6 = this.megagroup ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+                        int i6 = this.megagroup ? i5 | 256 : i5 & (-257);
                         this.flags = i6;
                         int i7 = this.restricted ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
                         this.flags = i7;
@@ -2494,7 +2494,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.moderator = (readInt32 & 16) != 0;
                         this.broadcast = (readInt32 & 32) != 0;
                         this.verified = (readInt32 & 128) != 0;
-                        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+                        this.megagroup = (readInt32 & 256) != 0;
                         this.explicit_content = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
                         this.id = abstractSerializedData2.readInt32(z3);
                         this.access_hash = abstractSerializedData2.readInt64(z3);
@@ -2522,7 +2522,7 @@ public abstract class TLRPC$Chat extends TLObject {
                         this.flags = i6;
                         int i7 = this.verified ? i6 | 128 : i6 & (-129);
                         this.flags = i7;
-                        int i8 = this.megagroup ? i7 | LiteMode.FLAG_CHAT_BLUR : i7 & (-257);
+                        int i8 = this.megagroup ? i7 | 256 : i7 & (-257);
                         this.flags = i8;
                         int i9 = this.explicit_content ? i8 | LiteMode.FLAG_CALLS_ANIMATIONS : i8 & (-513);
                         this.flags = i9;

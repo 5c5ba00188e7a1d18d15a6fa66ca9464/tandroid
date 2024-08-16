@@ -30,6 +30,7 @@ import java.util.Objects;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
@@ -198,9 +199,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
                 }
                 storyReactionWidgetView.setOnClickListener(this);
                 addView(storyReactionWidgetView);
-                TL_stories$MediaAreaCoordinates tL_stories$MediaAreaCoordinates = tL_stories$MediaArea.coordinates;
-                double d = tL_stories$MediaAreaCoordinates.w;
-                double d2 = tL_stories$MediaAreaCoordinates.h;
+                double d = tL_stories$MediaArea.coordinates.w;
             }
         }
         this.malicious = false;
@@ -572,7 +571,7 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
         boolean z = areaView3 != null && areaView3.scaleOnTap;
         float f2 = this.parentHighlightScaleAlpha.set(z);
         if (f > 0.0f) {
-            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), 255, 31);
+            canvas.saveLayerAlpha(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), NotificationCenter.voipServiceCreated, 31);
             canvas.drawColor(Theme.multAlpha(402653184, f));
             for (int i = 0; i < getChildCount(); i++) {
                 View childAt = getChildAt(i);
@@ -889,8 +888,9 @@ public class StoryMediaAreasView extends FrameLayout implements View.OnClickList
             if (this.supportsShining) {
                 this.shining = true;
                 this.startTime = System.currentTimeMillis();
-                this.gradient = new LinearGradient(0.0f, 0.0f, 40.0f, 0.0f, new int[]{16777215, 771751935, 771751935, 16777215}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
-                this.strokeGradient = new LinearGradient(0.0f, 0.0f, 40.0f, 0.0f, new int[]{16777215, 553648127, 553648127, 16777215}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, Shader.TileMode.CLAMP);
+                Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+                this.gradient = new LinearGradient(0.0f, 0.0f, 40.0f, 0.0f, new int[]{16777215, 771751935, 771751935, 16777215}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, tileMode);
+                this.strokeGradient = new LinearGradient(0.0f, 0.0f, 40.0f, 0.0f, new int[]{16777215, 553648127, 553648127, 16777215}, new float[]{0.0f, 0.4f, 0.6f, 1.0f}, tileMode);
                 invalidate();
             }
         }

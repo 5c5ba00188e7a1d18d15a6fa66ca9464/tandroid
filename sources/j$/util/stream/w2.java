@@ -2,51 +2,25 @@ package j$.util.stream;
 
 import java.util.Arrays;
 /* loaded from: classes2.dex */
-final class w2 extends s2 {
-    private M2 c;
-
+final class w2 extends z {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public w2(f2 f2Var) {
-        super(f2Var);
+    public w2(b bVar) {
+        super(bVar, S2.q | S2.o, 0);
     }
 
-    @Override // j$.util.stream.e2, j$.util.stream.f2
-    public final void accept(long j) {
-        this.c.accept(j);
-    }
-
-    @Override // j$.util.stream.a2, j$.util.stream.f2
-    public final void end() {
-        long[] jArr = (long[]) this.c.b();
-        Arrays.sort(jArr);
-        f2 f2Var = this.a;
-        f2Var.f(jArr.length);
-        int i = 0;
-        if (this.b) {
-            int length = jArr.length;
-            while (i < length) {
-                long j = jArr[i];
-                if (f2Var.h()) {
-                    break;
-                }
-                f2Var.accept(j);
-                i++;
-            }
-        } else {
-            int length2 = jArr.length;
-            while (i < length2) {
-                f2Var.accept(jArr[i]);
-                i++;
-            }
+    @Override // j$.util.stream.b
+    public final F0 w0(j$.util.Q q, j$.util.function.I i, b bVar) {
+        if (S2.SORTED.d(bVar.s0())) {
+            return bVar.k0(q, false, i);
         }
-        f2Var.end();
+        double[] dArr = (double[]) ((z0) bVar.k0(q, true, i)).e();
+        Arrays.sort(dArr);
+        return new R0(dArr);
     }
 
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
-        if (j >= 2147483639) {
-            throw new IllegalArgumentException("Stream size exceeds max array size");
-        }
-        this.c = j > 0 ? new M2((int) j) : new M2();
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        e2Var.getClass();
+        return S2.SORTED.d(i) ? e2Var : S2.SIZED.d(i) ? new B2(e2Var) : new t2(e2Var);
     }
 }

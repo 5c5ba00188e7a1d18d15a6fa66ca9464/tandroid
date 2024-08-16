@@ -5,14 +5,14 @@ import j$.util.function.Predicate;
 public interface Predicate<T> {
 
     /* loaded from: classes2.dex */
-    public final /* synthetic */ class -CC<T> {
+    public final /* synthetic */ class -CC {
         public static Predicate $default$and(Predicate predicate, Predicate predicate2) {
             predicate2.getClass();
-            return new G0(predicate, predicate2, 0);
+            return new p0(predicate, predicate2, 0);
         }
 
         public static Predicate $default$negate(final Predicate predicate) {
-            return new Predicate() { // from class: j$.util.function.H0
+            return new Predicate() { // from class: j$.util.function.q0
                 @Override // j$.util.function.Predicate
                 public final /* synthetic */ Predicate and(Predicate predicate2) {
                     return Predicate.-CC.$default$and(this, predicate2);
@@ -37,7 +37,7 @@ public interface Predicate<T> {
 
         public static Predicate $default$or(Predicate predicate, Predicate predicate2) {
             predicate2.getClass();
-            return new G0(predicate, predicate2, 1);
+            return new p0(predicate, predicate2, 1);
         }
     }
 

@@ -21,10 +21,8 @@ public enum b implements o {
     private final String a;
 
     static {
-        j$.time.e.b(1L);
-        j$.time.e.b(1000L);
-        j$.time.e.b(1000000L);
-        j$.time.e.c();
+        j$.time.d dVar = j$.time.d.c;
+        j$.time.d.b();
     }
 
     b(String str) {

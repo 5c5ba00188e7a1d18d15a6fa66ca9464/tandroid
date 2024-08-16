@@ -28,7 +28,7 @@ public final class Optional<T> {
             return true;
         }
         if (obj instanceof Optional) {
-            return a.r(this.a, ((Optional) obj).a);
+            return a.A(this.a, ((Optional) obj).a);
         }
         return false;
     }

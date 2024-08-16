@@ -20,7 +20,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.telegram.messenger.R;
 /* loaded from: classes3.dex */
 public class FastDateParser implements DateParser, Serializable {
     private static final long serialVersionUID = 2;
@@ -334,49 +333,49 @@ public class FastDateParser implements DateParser, Serializable {
         }
         if (charAt != 'z') {
             switch (charAt) {
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case '\'':
                     if (str.length() > 2) {
                         return new CopyQuotedStrategy(str.substring(1, str.length() - 1));
                     }
                     return new CopyQuotedStrategy(str);
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
+                case 'S':
                     return MILLISECOND_STRATEGY;
-                case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
+                case 'W':
                     return WEEK_OF_MONTH_STRATEGY;
-                case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                case 'Z':
                     break;
-                case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                case 'a':
                     return getLocaleSpecificStrategy(9, calendar);
                 case 'd':
                     return DAY_OF_MONTH_STRATEGY;
-                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                case 'h':
                     return MODULO_HOUR_STRATEGY;
-                case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
+                case 'k':
                     return HOUR_OF_DAY_STRATEGY;
-                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                case 'm':
                     return MINUTE_STRATEGY;
-                case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                case 's':
                     return SECOND_STRATEGY;
                 case 'w':
                     return WEEK_OF_YEAR_STRATEGY;
                 default:
                     switch (charAt) {
-                        case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+                        case 'D':
                             return DAY_OF_YEAR_STRATEGY;
-                        case R.styleable.AppCompatTheme_editTextColor /* 69 */:
+                        case 'E':
                             return getLocaleSpecificStrategy(7, calendar);
-                        case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
+                        case 'F':
                             return DAY_OF_WEEK_IN_MONTH_STRATEGY;
-                        case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
+                        case 'G':
                             return getLocaleSpecificStrategy(0, calendar);
-                        case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                        case 'H':
                             return MODULO_HOUR_OF_DAY_STRATEGY;
                         default:
                             switch (charAt) {
-                                case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
+                                case 'K':
                                     return HOUR_STRATEGY;
-                                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
+                                case 'L':
+                                case 'M':
                                     return str.length() >= 3 ? getLocaleSpecificStrategy(2, calendar) : NUMBER_MONTH_STRATEGY;
                             }
                             return new CopyQuotedStrategy(str);
@@ -390,10 +389,14 @@ public class FastDateParser implements DateParser, Serializable {
         ConcurrentMap<Locale, Strategy> concurrentMap;
         ConcurrentMap<Locale, Strategy>[] concurrentMapArr = caches;
         synchronized (concurrentMapArr) {
-            if (concurrentMapArr[i] == null) {
-                concurrentMapArr[i] = new ConcurrentHashMap(3);
+            try {
+                if (concurrentMapArr[i] == null) {
+                    concurrentMapArr[i] = new ConcurrentHashMap(3);
+                }
+                concurrentMap = concurrentMapArr[i];
+            } catch (Throwable th) {
+                throw th;
             }
-            concurrentMap = concurrentMapArr[i];
         }
         return concurrentMap;
     }

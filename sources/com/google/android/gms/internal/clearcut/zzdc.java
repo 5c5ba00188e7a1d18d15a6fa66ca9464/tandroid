@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
-final class zzdc extends zzav<Long> implements RandomAccess {
+final class zzdc extends zzav<Long> implements zzcn<Long>, RandomAccess {
     private static final zzdc zzlw;
     private int size;
     private long[] zzlx;
@@ -193,7 +193,7 @@ final class zzdc extends zzav<Long> implements RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.clearcut.zzcn
-    public final /* synthetic */ zzcn zzi(int i) {
+    public final /* synthetic */ zzcn<Long> zzi(int i) {
         if (i >= this.size) {
             return new zzdc(Arrays.copyOf(this.zzlx, i), this.size);
         }

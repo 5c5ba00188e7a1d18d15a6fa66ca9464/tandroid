@@ -1,112 +1,73 @@
 package j$.util.stream;
 
-import java.util.concurrent.CountedCompleter;
-import java.util.concurrent.ForkJoinPool;
-/* JADX INFO: Access modifiers changed from: package-private */
+import j$.util.stream.IntStream;
+import j$.util.stream.Stream;
+import java.util.Iterator;
+import java.util.stream.DoubleStream;
 /* loaded from: classes2.dex */
-public abstract class f extends CountedCompleter {
-    static final int g = ForkJoinPool.getCommonPoolParallelism() << 2;
-    protected final u0 a;
-    protected j$.util.Q b;
-    protected long c;
-    protected f d;
-    protected f e;
-    private Object f;
+public final /* synthetic */ class f implements BaseStream {
+    public final /* synthetic */ java.util.stream.BaseStream a;
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public f(f fVar, j$.util.Q q) {
-        super(fVar);
-        this.b = q;
-        this.a = fVar.a;
-        this.c = fVar.c;
+    private /* synthetic */ f(java.util.stream.BaseStream baseStream) {
+        this.a = baseStream;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public f(u0 u0Var, j$.util.Q q) {
-        super(null);
-        this.a = u0Var;
-        this.b = q;
-        this.c = 0L;
-    }
-
-    public static long f(long j) {
-        long j2 = j / g;
-        if (j2 > 0) {
-            return j2;
+    public static /* synthetic */ BaseStream i0(java.util.stream.BaseStream baseStream) {
+        if (baseStream == null) {
+            return null;
         }
-        return 1L;
+        return baseStream instanceof g ? ((g) baseStream).a : baseStream instanceof DoubleStream ? B.i0((DoubleStream) baseStream) : baseStream instanceof java.util.stream.IntStream ? IntStream.VivifiedWrapper.convert((java.util.stream.IntStream) baseStream) : baseStream instanceof java.util.stream.LongStream ? i0.i0((java.util.stream.LongStream) baseStream) : baseStream instanceof java.util.stream.Stream ? Stream.VivifiedWrapper.convert((java.util.stream.Stream) baseStream) : new f(baseStream);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract Object a();
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public Object b() {
-        return this.f;
+    @Override // j$.util.stream.BaseStream, java.lang.AutoCloseable
+    public final /* synthetic */ void close() {
+        this.a.close();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public final f c() {
-        return (f) getCompleter();
-    }
-
-    @Override // java.util.concurrent.CountedCompleter
-    public void compute() {
-        j$.util.Q trySplit;
-        j$.util.Q q = this.b;
-        long estimateSize = q.estimateSize();
-        long j = this.c;
-        if (j == 0) {
-            j = f(estimateSize);
-            this.c = j;
+    public final /* synthetic */ boolean equals(Object obj) {
+        java.util.stream.BaseStream baseStream = this.a;
+        if (obj instanceof f) {
+            obj = ((f) obj).a;
         }
-        boolean z = false;
-        f fVar = this;
-        while (estimateSize > j && (trySplit = q.trySplit()) != null) {
-            f d = fVar.d(trySplit);
-            fVar.d = d;
-            f d2 = fVar.d(q);
-            fVar.e = d2;
-            fVar.setPendingCount(1);
-            if (z) {
-                q = trySplit;
-                fVar = d;
-                d = d2;
-            } else {
-                fVar = d2;
-            }
-            z = !z;
-            d.fork();
-            estimateSize = q.estimateSize();
-        }
-        fVar.e(fVar.a());
-        fVar.tryComplete();
+        return baseStream.equals(obj);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public abstract f d(j$.util.Q q);
-
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void e(Object obj) {
-        this.f = obj;
+    public final /* synthetic */ int hashCode() {
+        return this.a.hashCode();
     }
 
-    @Override // java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
-    public Object getRawResult() {
-        return this.f;
+    @Override // j$.util.stream.BaseStream
+    public final /* synthetic */ boolean isParallel() {
+        return this.a.isParallel();
     }
 
-    @Override // java.util.concurrent.CountedCompleter
-    public void onCompletion(CountedCompleter countedCompleter) {
-        this.b = null;
-        this.e = null;
-        this.d = null;
+    @Override // j$.util.stream.BaseStream, j$.util.stream.D
+    public final /* synthetic */ Iterator iterator() {
+        return this.a.iterator();
     }
 
-    @Override // java.util.concurrent.CountedCompleter, java.util.concurrent.ForkJoinTask
-    protected final void setRawResult(Object obj) {
-        if (obj != null) {
-            throw new IllegalStateException();
-        }
+    @Override // j$.util.stream.BaseStream
+    public final /* synthetic */ BaseStream onClose(Runnable runnable) {
+        return i0(this.a.onClose(runnable));
+    }
+
+    @Override // j$.util.stream.BaseStream
+    public final /* synthetic */ BaseStream parallel() {
+        return i0(this.a.parallel());
+    }
+
+    @Override // j$.util.stream.BaseStream
+    public final /* synthetic */ BaseStream sequential() {
+        return i0(this.a.sequential());
+    }
+
+    @Override // j$.util.stream.BaseStream, j$.util.stream.D
+    public final /* synthetic */ j$.util.Q spliterator() {
+        return j$.util.O.b(this.a.spliterator());
+    }
+
+    @Override // j$.util.stream.BaseStream
+    public final /* synthetic */ BaseStream unordered() {
+        return i0(this.a.unordered());
     }
 }

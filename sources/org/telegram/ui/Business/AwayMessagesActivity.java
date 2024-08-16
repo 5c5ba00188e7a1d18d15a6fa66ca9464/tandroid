@@ -153,10 +153,11 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             if (tLRPC$BusinessAwayMessageSchedule instanceof TLRPC$TL_businessAwayMessageScheduleCustom) {
                 this.currentValueScheduleType = 2;
                 this.schedule = 2;
-                int i = ((TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule).start_date;
+                TLRPC$TL_businessAwayMessageScheduleCustom tLRPC$TL_businessAwayMessageScheduleCustom = (TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule;
+                int i = tLRPC$TL_businessAwayMessageScheduleCustom.start_date;
                 this.currentScheduleCustomStart = i;
                 this.scheduleCustomStart = i;
-                int i2 = ((TLRPC$TL_businessAwayMessageScheduleCustom) tLRPC$BusinessAwayMessageSchedule).end_date;
+                int i2 = tLRPC$TL_businessAwayMessageScheduleCustom.end_date;
                 this.currentScheduleCustomEnd = i2;
                 this.scheduleCustomEnd = i2;
                 universalRecyclerView = this.listView;
@@ -286,7 +287,7 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
                 userFull.flags2 &= -9;
                 userFull.business_away_message = null;
             }
-            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
+            getConnectionsManager().sendRequest(tLRPC$TL_account_updateBusinessAwayMessage, new RequestDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     AwayMessagesActivity.this.lambda$processDone$2(tLObject, tLRPC$TL_error);
@@ -436,14 +437,14 @@ public class AwayMessagesActivity extends BaseFragment implements NotificationCe
             this.listView.adapter.update(true);
             checkDone(true);
         } else if (i2 == 8) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomStart, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda5
+            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomStartTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomStart, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i3) {
                     AwayMessagesActivity.this.lambda$onClick$5(view, z, i3);
                 }
             });
         } else if (i2 == 9) {
-            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomEnd, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda6
+            AlertsCreator.createDatePickerDialog(getContext(), LocaleController.getString(R.string.BusinessAwayScheduleCustomEndTitle), LocaleController.getString(R.string.BusinessAwayScheduleCustomSetButton), this.scheduleCustomEnd, new AlertsCreator.ScheduleDatePickerDelegate() { // from class: org.telegram.ui.Business.AwayMessagesActivity$$ExternalSyntheticLambda7
                 @Override // org.telegram.ui.Components.AlertsCreator.ScheduleDatePickerDelegate
                 public final void didSelectDate(boolean z, int i3) {
                     AwayMessagesActivity.this.lambda$onClick$6(view, z, i3);

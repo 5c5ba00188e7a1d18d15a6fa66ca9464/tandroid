@@ -16,11 +16,6 @@ public final class CameraMotionRenderer extends BaseRenderer {
     private long offsetUs;
     private final ParsableByteArray scratch;
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "CameraMotionRenderer";
-    }
-
     @Override // com.google.android.exoplayer2.Renderer
     public boolean isReady() {
         return true;
@@ -30,6 +25,11 @@ public final class CameraMotionRenderer extends BaseRenderer {
         super(6);
         this.buffer = new DecoderInputBuffer(1);
         this.scratch = new ParsableByteArray();
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "CameraMotionRenderer";
     }
 
     @Override // com.google.android.exoplayer2.RendererCapabilities

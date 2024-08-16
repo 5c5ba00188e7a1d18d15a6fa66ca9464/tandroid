@@ -12,7 +12,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.left = (readInt32 & 4) != 0;
         this.broadcast = (readInt32 & 32) != 0;
         this.verified = (readInt32 & 128) != 0;
-        this.megagroup = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.megagroup = (readInt32 & 256) != 0;
         this.restricted = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.signatures = (readInt32 & 2048) != 0;
         this.min = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -96,7 +96,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         if ((this.flags2 & 128) != 0) {
             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
-        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags2 & 256) != 0) {
             this.profile_color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -121,7 +121,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         this.flags = i3;
         int i4 = this.verified ? i3 | 128 : i3 & (-129);
         this.flags = i4;
-        int i5 = this.megagroup ? i4 | LiteMode.FLAG_CHAT_BLUR : i4 & (-257);
+        int i5 = this.megagroup ? i4 | 256 : i4 & (-257);
         this.flags = i5;
         int i6 = this.restricted ? i5 | LiteMode.FLAG_CALLS_ANIMATIONS : i5 & (-513);
         this.flags = i6;
@@ -207,7 +207,7 @@ public class TLRPC$TL_channel extends TLRPC$Chat {
         if ((this.flags2 & 128) != 0) {
             this.color.serializeToStream(abstractSerializedData);
         }
-        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags2 & 256) != 0) {
             this.profile_color.serializeToStream(abstractSerializedData);
         }
         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

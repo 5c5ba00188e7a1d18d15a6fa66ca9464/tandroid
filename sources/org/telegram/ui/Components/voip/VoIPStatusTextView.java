@@ -119,7 +119,7 @@ public class VoIPStatusTextView extends FrameLayout {
         } else {
             this.textView[1].setText(str);
             TextView[] textViewArr = this.textView;
-            replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda0
+            replaceViews(textViewArr[0], textViewArr[1], new Runnable() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     VoIPStatusTextView.this.lambda$setText$0();
@@ -171,7 +171,7 @@ public class VoIPStatusTextView extends FrameLayout {
         this.animationInProgress = true;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.voip.VoIPStatusTextView$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoIPStatusTextView.lambda$replaceViews$1(view2, view, valueAnimator);

@@ -25,16 +25,16 @@ public class WorkSourceUtil {
     private static final Method zzi;
 
     /* JADX WARN: Can't wrap try/catch for region: R(24:1|(2:2|3)|4|(21:49|50|7|8|9|10|11|12|13|(12:41|42|16|(9:36|37|19|(6:31|32|22|(2:27|28)|24|25)|21|22|(0)|24|25)|18|19|(0)|21|22|(0)|24|25)|15|16|(0)|18|19|(0)|21|22|(0)|24|25)|6|7|8|9|10|11|12|13|(0)|15|16|(0)|18|19|(0)|21|22|(0)|24|25) */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x003e, code lost:
-        r0 = null;
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x003c, code lost:
+        r3 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:18:0x004e, code lost:
-        r0 = null;
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x004c, code lost:
+        r3 = null;
      */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x0089 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0071 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x00ad A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x0058 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x0085 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x006f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0056 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x00a9 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     static {
         Method method;
         Method method2;
@@ -54,7 +54,7 @@ public class WorkSourceUtil {
             } catch (Exception unused2) {
             }
             zzc = method2;
-            Method method7 = WorkSource.class.getMethod("size", new Class[0]);
+            Method method7 = WorkSource.class.getMethod("size", null);
             zzd = method7;
             Method method8 = WorkSource.class.getMethod("get", Integer.TYPE);
             zze = method8;
@@ -66,7 +66,7 @@ public class WorkSourceUtil {
                 zzf = method3;
                 if (PlatformVersion.isAtLeastP()) {
                     try {
-                        method4 = WorkSource.class.getMethod("createWorkChain", new Class[0]);
+                        method4 = WorkSource.class.getMethod("createWorkChain", null);
                     } catch (Exception e) {
                         Log.w("WorkSourceUtil", "Missing WorkChain API createWorkChain", e);
                     }
@@ -80,7 +80,7 @@ public class WorkSourceUtil {
                         zzh = method5;
                         if (PlatformVersion.isAtLeastP()) {
                             try {
-                                method6 = WorkSource.class.getMethod("isEmpty", new Class[0]);
+                                method6 = WorkSource.class.getMethod("isEmpty", null);
                                 method6.setAccessible(true);
                             } catch (Exception unused4) {
                             }
@@ -119,7 +119,7 @@ public class WorkSourceUtil {
         }
         method2 = null;
         zzc = method2;
-        Method method72 = WorkSource.class.getMethod("size", new Class[0]);
+        Method method72 = WorkSource.class.getMethod("size", null);
         zzd = method72;
         Method method82 = WorkSource.class.getMethod("get", Integer.TYPE);
         zze = method82;
@@ -220,7 +220,7 @@ public class WorkSourceUtil {
         Method method = zzi;
         if (method != null) {
             try {
-                Object invoke = method.invoke(workSource, new Object[0]);
+                Object invoke = method.invoke(workSource, null);
                 Preconditions.checkNotNull(invoke);
                 return ((Boolean) invoke).booleanValue();
             } catch (Exception e) {
@@ -234,11 +234,12 @@ public class WorkSourceUtil {
         Method method = zzd;
         if (method != null) {
             try {
-                Object invoke = method.invoke(workSource, new Object[0]);
+                Object invoke = method.invoke(workSource, null);
                 Preconditions.checkNotNull(invoke);
                 return ((Integer) invoke).intValue();
             } catch (Exception e) {
                 Log.wtf("WorkSourceUtil", "Unable to assign blame through WorkSource", e);
+                return 0;
             }
         }
         return 0;

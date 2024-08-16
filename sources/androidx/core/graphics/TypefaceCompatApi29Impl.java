@@ -16,36 +16,16 @@ import java.io.InputStream;
 /* loaded from: classes.dex */
 public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
     private static int getMatchScore(FontStyle fontStyle, FontStyle fontStyle2) {
-        int weight;
-        int weight2;
-        int slant;
-        int slant2;
-        weight = fontStyle.getWeight();
-        weight2 = fontStyle2.getWeight();
-        int abs = Math.abs(weight - weight2) / 100;
-        slant = fontStyle.getSlant();
-        slant2 = fontStyle2.getSlant();
-        return abs + (slant == slant2 ? 0 : 2);
+        return (Math.abs(fontStyle.getWeight() - fontStyle2.getWeight()) / 100) + (fontStyle.getSlant() == fontStyle2.getSlant() ? 0 : 2);
     }
 
-    /* JADX WARN: Incorrect condition in loop: B:12:0x0027 */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     private Font findBaseFont(FontFamily fontFamily, int i) {
-        Font font;
-        FontStyle style;
-        int size;
-        Font font2;
-        FontStyle style2;
         FontStyle fontStyle = new FontStyle((i & 1) != 0 ? 700 : 400, (i & 2) != 0 ? 1 : 0);
-        font = fontFamily.getFont(0);
-        style = font.getStyle();
-        int matchScore = getMatchScore(fontStyle, style);
-        for (int i2 = 1; i2 < size; i2++) {
-            font2 = fontFamily.getFont(i2);
-            style2 = font2.getStyle();
-            int matchScore2 = getMatchScore(fontStyle, style2);
+        Font font = fontFamily.getFont(0);
+        int matchScore = getMatchScore(fontStyle, font.getStyle());
+        for (int i2 = 1; i2 < fontFamily.getSize(); i2++) {
+            Font font2 = fontFamily.getFont(i2);
+            int matchScore2 = getMatchScore(fontStyle, font2.getStyle());
             if (matchScore2 < matchScore) {
                 font = font2;
                 matchScore = matchScore2;
@@ -69,15 +49,7 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontInfo(Context context, CancellationSignal cancellationSignal, FontsContractCompat.FontInfo[] fontInfoArr, int i) {
         int i2;
-        FontFamily build;
-        FontStyle style;
-        Typeface.CustomFallbackBuilder style2;
-        Typeface build2;
         ParcelFileDescriptor openFileDescriptor;
-        Font.Builder weight;
-        Font.Builder slant;
-        Font.Builder ttcIndex;
-        Font build3;
         ContentResolver contentResolver = context.getContentResolver();
         try {
             int length = fontInfoArr.length;
@@ -90,14 +62,11 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
                 }
                 if (openFileDescriptor != null) {
                     try {
-                        weight = new Font.Builder(openFileDescriptor).setWeight(fontInfo.getWeight());
-                        slant = weight.setSlant(fontInfo.isItalic() ? 1 : 0);
-                        ttcIndex = slant.setTtcIndex(fontInfo.getTtcIndex());
-                        build3 = ttcIndex.build();
+                        Font build = new Font.Builder(openFileDescriptor).setWeight(fontInfo.getWeight()).setSlant(fontInfo.isItalic() ? 1 : 0).setTtcIndex(fontInfo.getTtcIndex()).build();
                         if (builder == null) {
-                            builder = new FontFamily.Builder(build3);
+                            builder = new FontFamily.Builder(build);
                         } else {
-                            builder.addFont(build3);
+                            builder.addFont(build);
                         }
                     } catch (Throwable th) {
                         try {
@@ -116,12 +85,8 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
             if (builder == null) {
                 return null;
             }
-            build = builder.build();
-            Typeface.CustomFallbackBuilder customFallbackBuilder = new Typeface.CustomFallbackBuilder(build);
-            style = findBaseFont(build, i).getStyle();
-            style2 = customFallbackBuilder.setStyle(style);
-            build2 = style2.build();
-            return build2;
+            FontFamily build2 = builder.build();
+            return new Typeface.CustomFallbackBuilder(build2).setStyle(findBaseFont(build2, i).getStyle()).build();
         } catch (Exception unused2) {
             return null;
         }
@@ -130,28 +95,15 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromFontFamilyFilesResourceEntry(Context context, FontResourcesParserCompat.FontFamilyFilesResourceEntry fontFamilyFilesResourceEntry, Resources resources, int i) {
         FontResourcesParserCompat.FontFileResourceEntry[] entries;
-        FontFamily build;
-        FontStyle style;
-        Typeface.CustomFallbackBuilder style2;
-        Typeface build2;
-        Font.Builder weight;
-        Font.Builder slant;
-        Font.Builder ttcIndex;
-        Font.Builder fontVariationSettings;
-        Font build3;
         try {
             FontFamily.Builder builder = null;
             for (FontResourcesParserCompat.FontFileResourceEntry fontFileResourceEntry : fontFamilyFilesResourceEntry.getEntries()) {
                 try {
-                    weight = new Font.Builder(resources, fontFileResourceEntry.getResourceId()).setWeight(fontFileResourceEntry.getWeight());
-                    slant = weight.setSlant(fontFileResourceEntry.isItalic() ? 1 : 0);
-                    ttcIndex = slant.setTtcIndex(fontFileResourceEntry.getTtcIndex());
-                    fontVariationSettings = ttcIndex.setFontVariationSettings(fontFileResourceEntry.getVariationSettings());
-                    build3 = fontVariationSettings.build();
+                    Font build = new Font.Builder(resources, fontFileResourceEntry.getResourceId()).setWeight(fontFileResourceEntry.getWeight()).setSlant(fontFileResourceEntry.isItalic() ? 1 : 0).setTtcIndex(fontFileResourceEntry.getTtcIndex()).setFontVariationSettings(fontFileResourceEntry.getVariationSettings()).build();
                     if (builder == null) {
-                        builder = new FontFamily.Builder(build3);
+                        builder = new FontFamily.Builder(build);
                     } else {
-                        builder.addFont(build3);
+                        builder.addFont(build);
                     }
                 } catch (IOException unused) {
                 }
@@ -159,12 +111,8 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
             if (builder == null) {
                 return null;
             }
-            build = builder.build();
-            Typeface.CustomFallbackBuilder customFallbackBuilder = new Typeface.CustomFallbackBuilder(build);
-            style = findBaseFont(build, i).getStyle();
-            style2 = customFallbackBuilder.setStyle(style);
-            build2 = style2.build();
-            return build2;
+            FontFamily build2 = builder.build();
+            return new Typeface.CustomFallbackBuilder(build2).setStyle(findBaseFont(build2, i).getStyle()).build();
         } catch (Exception unused2) {
             return null;
         }
@@ -172,19 +120,9 @@ public class TypefaceCompatApi29Impl extends TypefaceCompatBaseImpl {
 
     @Override // androidx.core.graphics.TypefaceCompatBaseImpl
     public Typeface createFromResourcesFontFile(Context context, Resources resources, int i, String str, int i2) {
-        Font build;
-        FontFamily build2;
-        FontStyle style;
-        Typeface.CustomFallbackBuilder style2;
-        Typeface build3;
         try {
-            build = new Font.Builder(resources, i).build();
-            build2 = new FontFamily.Builder(build).build();
-            Typeface.CustomFallbackBuilder customFallbackBuilder = new Typeface.CustomFallbackBuilder(build2);
-            style = build.getStyle();
-            style2 = customFallbackBuilder.setStyle(style);
-            build3 = style2.build();
-            return build3;
+            Font build = new Font.Builder(resources, i).build();
+            return new Typeface.CustomFallbackBuilder(new FontFamily.Builder(build).build()).setStyle(build.getStyle()).build();
         } catch (Exception unused) {
             return null;
         }

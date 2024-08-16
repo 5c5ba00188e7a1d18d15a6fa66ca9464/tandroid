@@ -98,7 +98,7 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
     public PremiumFeatureBottomSheet(final BaseFragment baseFragment, Context context, int i, boolean z, int i2, final boolean z2, PremiumPreviewFragment.SubscriptionTier subscriptionTier) {
         super(context, false, getResourceProvider(baseFragment));
         this.premiumFeatures = new ArrayList<>();
-        this.gradientAlpha = 255;
+        this.gradientAlpha = NotificationCenter.voipServiceCreated;
         this.baseFragment = baseFragment;
         if (baseFragment == null) {
             throw new RuntimeException("fragmnet can't be null");
@@ -230,9 +230,9 @@ public class PremiumFeatureBottomSheet extends BottomSheet implements Notificati
                                 setCurrentItem(PremiumFeatureBottomSheet.this.selectedPosition + 1, true);
                             }
                         } else {
-                            int i4 = PremiumFeatureBottomSheet.this.selectedPosition;
-                            if (i4 - 1 >= 0) {
-                                setCurrentItem(i4 - 1, true);
+                            int i4 = PremiumFeatureBottomSheet.this.selectedPosition - 1;
+                            if (i4 >= 0) {
+                                setCurrentItem(i4, true);
                             }
                         }
                         this.smoothScroll = false;

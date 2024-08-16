@@ -3,16 +3,14 @@ package j$.util;
 import j$.util.function.BiConsumer;
 import j$.util.function.BiFunction;
 import j$.util.function.Function;
-import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 /* loaded from: classes2.dex */
 public interface Map<K, V> {
 
     /* loaded from: classes2.dex */
-    public final /* synthetic */ class -CC<K, V> {
+    public final /* synthetic */ class -CC {
         /* JADX WARN: Multi-variable type inference failed */
         public static Object $default$compute(java.util.Map map, Object obj, BiFunction biFunction) {
             biFunction.getClass();
@@ -90,7 +88,7 @@ public interface Map<K, V> {
 
         public static boolean $default$remove(java.util.Map map, Object obj, Object obj2) {
             Object obj3 = map.get(obj);
-            if (a.r(obj3, obj2)) {
+            if (a.A(obj3, obj2)) {
                 if (obj3 != null || map.containsKey(obj)) {
                     map.remove(obj);
                     return true;
@@ -107,7 +105,7 @@ public interface Map<K, V> {
 
         public static boolean $default$replace(java.util.Map map, Object obj, Object obj2, Object obj3) {
             Object obj4 = map.get(obj);
-            if (a.r(obj4, obj2)) {
+            if (a.A(obj4, obj2)) {
                 if (obj4 != null || map.containsKey(obj)) {
                     map.put(obj, obj3);
                     return true;
@@ -135,7 +133,42 @@ public interface Map<K, V> {
 
     /* loaded from: classes2.dex */
     public final /* synthetic */ class -EL {
-        public static /* synthetic */ Object a(java.util.Map map, Object obj, Object obj2) {
+        /* JADX WARN: Multi-variable type inference failed */
+        public static Object a(java.util.Map map, Object obj, BiFunction biFunction) {
+            Object apply;
+            if (map instanceof Map) {
+                return ((Map) map).compute(obj, biFunction);
+            }
+            if (map instanceof ConcurrentMap) {
+                ConcurrentMap concurrentMap = (ConcurrentMap) map;
+                biFunction.getClass();
+                loop0: while (true) {
+                    Object obj2 = concurrentMap.get(obj);
+                    while (true) {
+                        apply = biFunction.apply(obj, obj2);
+                        if (apply != null) {
+                            if (obj2 == null) {
+                                obj2 = concurrentMap.putIfAbsent(obj, apply);
+                                if (obj2 == null) {
+                                    break loop0;
+                                }
+                            } else if (concurrentMap.replace(obj, obj2, apply)) {
+                                break;
+                            }
+                        } else {
+                            apply = null;
+                            if ((obj2 == null && !concurrentMap.containsKey(obj)) || concurrentMap.remove(obj, obj2)) {
+                                break;
+                            }
+                        }
+                    }
+                }
+                return apply;
+            }
+            return -CC.$default$compute(map, obj, biFunction);
+        }
+
+        public static /* synthetic */ Object b(java.util.Map map, Object obj, Object obj2) {
             return map instanceof Map ? ((Map) map).putIfAbsent(obj, obj2) : -CC.$default$putIfAbsent(map, obj, obj2);
         }
 
@@ -143,7 +176,7 @@ public interface Map<K, V> {
             if (map instanceof Map) {
                 ((Map) map).forEach(biConsumer);
             } else if (map instanceof ConcurrentMap) {
-                j$.time.a.a((ConcurrentMap) map, biConsumer);
+                j$.com.android.tools.r8.a.e((ConcurrentMap) map, biConsumer);
             } else {
                 -CC.$default$forEach(map, biConsumer);
             }
@@ -162,56 +195,19 @@ public interface Map<K, V> {
         }
     }
 
-    /* loaded from: classes2.dex */
-    public interface Entry<K, V> {
-        boolean equals(Object obj);
-
-        K getKey();
-
-        V getValue();
-
-        int hashCode();
-
-        V setValue(V v);
-    }
-
-    void clear();
-
     V compute(K k, BiFunction<? super K, ? super V, ? extends V> biFunction);
 
     V computeIfAbsent(K k, Function<? super K, ? extends V> function);
 
     V computeIfPresent(K k, BiFunction<? super K, ? super V, ? extends V> biFunction);
 
-    boolean containsKey(Object obj);
-
-    boolean containsValue(Object obj);
-
-    Set<Map.Entry<K, V>> entrySet();
-
-    boolean equals(Object obj);
-
     void forEach(BiConsumer<? super K, ? super V> biConsumer);
-
-    V get(Object obj);
 
     V getOrDefault(Object obj, V v);
 
-    int hashCode();
-
-    boolean isEmpty();
-
-    Set<K> keySet();
-
     V merge(K k, V v, BiFunction<? super V, ? super V, ? extends V> biFunction);
 
-    V put(K k, V v);
-
-    void putAll(java.util.Map<? extends K, ? extends V> map);
-
     V putIfAbsent(K k, V v);
-
-    V remove(Object obj);
 
     boolean remove(Object obj, Object obj2);
 
@@ -220,8 +216,4 @@ public interface Map<K, V> {
     boolean replace(K k, V v, V v2);
 
     void replaceAll(BiFunction<? super K, ? super V, ? extends V> biFunction);
-
-    int size();
-
-    Collection<V> values();
 }

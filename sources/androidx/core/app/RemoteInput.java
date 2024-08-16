@@ -136,15 +136,11 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api26Impl {
         static Map<String, Uri> getDataResultsFromIntent(Intent intent, String str) {
-            Map<String, Uri> dataResultsFromIntent;
-            dataResultsFromIntent = android.app.RemoteInput.getDataResultsFromIntent(intent, str);
-            return dataResultsFromIntent;
+            return android.app.RemoteInput.getDataResultsFromIntent(intent, str);
         }
 
         static Set<String> getAllowedDataTypes(Object obj) {
-            Set<String> allowedDataTypes;
-            allowedDataTypes = ((android.app.RemoteInput) obj).getAllowedDataTypes();
-            return allowedDataTypes;
+            return ((android.app.RemoteInput) obj).getAllowedDataTypes();
         }
 
         static void addDataResultToIntent(RemoteInput remoteInput, Intent intent, Map<String, Uri> map) {
@@ -152,9 +148,7 @@ public final class RemoteInput {
         }
 
         static RemoteInput.Builder setAllowDataType(RemoteInput.Builder builder, String str, boolean z) {
-            RemoteInput.Builder allowDataType;
-            allowDataType = builder.setAllowDataType(str, z);
-            return allowDataType;
+            return builder.setAllowDataType(str, z);
         }
     }
 
@@ -162,9 +156,7 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api20Impl {
         static Bundle getResultsFromIntent(Intent intent) {
-            Bundle resultsFromIntent;
-            resultsFromIntent = android.app.RemoteInput.getResultsFromIntent(intent);
-            return resultsFromIntent;
+            return android.app.RemoteInput.getResultsFromIntent(intent);
         }
 
         static void addResultsToIntent(Object obj, Intent intent, Bundle bundle) {
@@ -172,16 +164,8 @@ public final class RemoteInput {
         }
 
         public static android.app.RemoteInput fromCompat(RemoteInput remoteInput) {
-            RemoteInput.Builder label;
-            RemoteInput.Builder choices;
-            RemoteInput.Builder allowFreeFormInput;
-            RemoteInput.Builder addExtras;
-            android.app.RemoteInput build;
             Set<String> allowedDataTypes;
-            label = new RemoteInput.Builder(remoteInput.getResultKey()).setLabel(remoteInput.getLabel());
-            choices = label.setChoices(remoteInput.getChoices());
-            allowFreeFormInput = choices.setAllowFreeFormInput(remoteInput.getAllowFreeFormInput());
-            addExtras = allowFreeFormInput.addExtras(remoteInput.getExtras());
+            RemoteInput.Builder addExtras = new RemoteInput.Builder(remoteInput.getResultKey()).setLabel(remoteInput.getLabel()).setChoices(remoteInput.getChoices()).setAllowFreeFormInput(remoteInput.getAllowFreeFormInput()).addExtras(remoteInput.getExtras());
             if (Build.VERSION.SDK_INT >= 26 && (allowedDataTypes = remoteInput.getAllowedDataTypes()) != null) {
                 for (String str : allowedDataTypes) {
                     Api26Impl.setAllowDataType(addExtras, str, true);
@@ -190,8 +174,7 @@ public final class RemoteInput {
             if (Build.VERSION.SDK_INT >= 29) {
                 Api29Impl.setEditChoicesBeforeSending(addExtras, remoteInput.getEditChoicesBeforeSending());
             }
-            build = addExtras.build();
-            return build;
+            return addExtras.build();
         }
     }
 
@@ -211,15 +194,11 @@ public final class RemoteInput {
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static int getEditChoicesBeforeSending(Object obj) {
-            int editChoicesBeforeSending;
-            editChoicesBeforeSending = ((android.app.RemoteInput) obj).getEditChoicesBeforeSending();
-            return editChoicesBeforeSending;
+            return ((android.app.RemoteInput) obj).getEditChoicesBeforeSending();
         }
 
         static RemoteInput.Builder setEditChoicesBeforeSending(RemoteInput.Builder builder, int i) {
-            RemoteInput.Builder editChoicesBeforeSending;
-            editChoicesBeforeSending = builder.setEditChoicesBeforeSending(i);
-            return editChoicesBeforeSending;
+            return builder.setEditChoicesBeforeSending(i);
         }
     }
 }

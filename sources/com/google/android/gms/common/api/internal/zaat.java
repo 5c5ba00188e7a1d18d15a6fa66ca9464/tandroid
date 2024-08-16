@@ -31,6 +31,7 @@ final class zaat implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
         Lock lock;
         Lock lock2;
         boolean zaI;
+        Lock lock3;
         lock = this.zaa.zab;
         lock.lock();
         try {
@@ -41,9 +42,12 @@ final class zaat implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient
             } else {
                 this.zaa.zaD(connectionResult);
             }
-        } finally {
+            lock3 = this.zaa.zab;
+            lock3.unlock();
+        } catch (Throwable th) {
             lock2 = this.zaa.zab;
             lock2.unlock();
+            throw th;
         }
     }
 

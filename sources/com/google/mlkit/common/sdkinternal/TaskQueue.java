@@ -17,12 +17,16 @@ public class TaskQueue {
     /* JADX INFO: Access modifiers changed from: private */
     public final void zzc() {
         synchronized (this.zza) {
-            if (this.zzc.isEmpty()) {
-                this.zzb = false;
-                return;
+            try {
+                if (this.zzc.isEmpty()) {
+                    this.zzb = false;
+                    return;
+                }
+                zzv zzvVar = (zzv) this.zzc.remove();
+                zzd(zzvVar.zza, zzvVar.zzb);
+            } catch (Throwable th) {
+                throw th;
             }
-            zzv zzvVar = (zzv) this.zzc.remove();
-            zzd(zzvVar.zza, zzvVar.zzb);
         }
     }
 
@@ -59,12 +63,16 @@ public class TaskQueue {
 
     public void submit(Executor executor, Runnable runnable) {
         synchronized (this.zza) {
-            if (this.zzb) {
-                this.zzc.add(new zzv(executor, runnable, null));
-                return;
+            try {
+                if (this.zzb) {
+                    this.zzc.add(new zzv(executor, runnable, null));
+                    return;
+                }
+                this.zzb = true;
+                zzd(executor, runnable);
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzb = true;
-            zzd(executor, runnable);
         }
     }
 }

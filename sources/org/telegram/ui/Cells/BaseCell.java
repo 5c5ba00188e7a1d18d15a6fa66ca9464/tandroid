@@ -177,12 +177,18 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
     }
 
     public void setCaching(boolean z, boolean z2) {
-        boolean z3 = true;
+        boolean z3 = false;
         if (z) {
-            this.cachingTop = (SharedConfig.useNewBlur && z2) ? false : false;
-        } else {
-            this.cachingBottom = (SharedConfig.useNewBlur && z2) ? false : false;
+            if (SharedConfig.useNewBlur && z2) {
+                z3 = true;
+            }
+            this.cachingTop = z3;
+            return;
         }
+        if (SharedConfig.useNewBlur && z2) {
+            z3 = true;
+        }
+        this.cachingBottom = z3;
     }
 
     public void forceNotCacheNextFrame() {
@@ -240,8 +246,12 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
 
         @Override // android.graphics.drawable.Drawable
         public boolean setState(int[] iArr) {
-            if (getCallback() instanceof BaseCell) {
-                ((BaseCell) getCallback()).forceNotCacheNextFrame();
+            Drawable.Callback callback;
+            Drawable.Callback callback2;
+            callback = getCallback();
+            if (callback instanceof BaseCell) {
+                callback2 = getCallback();
+                ((BaseCell) callback2).forceNotCacheNextFrame();
             }
             return super.setState(iArr);
         }

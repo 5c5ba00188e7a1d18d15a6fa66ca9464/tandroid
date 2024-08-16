@@ -6,8 +6,6 @@ import kotlinx.coroutines.MainCoroutineDispatcher;
 /* compiled from: MainDispatchers.kt */
 /* loaded from: classes.dex */
 public final class MainDispatchersKt {
-    private static final boolean SUPPORT_MISSING = true;
-
     public static final MainCoroutineDispatcher tryCreateDispatcher(MainDispatcherFactory mainDispatcherFactory, List<? extends MainDispatcherFactory> list) {
         try {
             return mainDispatcherFactory.createDispatcher(list);
@@ -32,9 +30,6 @@ public final class MainDispatchersKt {
     }
 
     private static final MissingMainCoroutineDispatcher createMissingDispatcher(Throwable th, String str) {
-        if (SUPPORT_MISSING) {
-            return new MissingMainCoroutineDispatcher(th, str);
-        }
         if (th == null) {
             throwMissingMainDispatcherException();
             throw new KotlinNothingValueException();

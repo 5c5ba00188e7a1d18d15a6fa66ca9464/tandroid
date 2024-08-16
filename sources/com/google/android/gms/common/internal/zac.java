@@ -155,31 +155,35 @@ public final class zac {
     private static String zai(Context context, String str) {
         SimpleArrayMap simpleArrayMap = zaa;
         synchronized (simpleArrayMap) {
-            Locale locale = ConfigurationCompat.getLocales(context.getResources().getConfiguration()).get(0);
-            if (!locale.equals(zab)) {
-                simpleArrayMap.clear();
-                zab = locale;
+            try {
+                Locale locale = ConfigurationCompat.getLocales(context.getResources().getConfiguration()).get(0);
+                if (!locale.equals(zab)) {
+                    simpleArrayMap.clear();
+                    zab = locale;
+                }
+                String str2 = (String) simpleArrayMap.get(str);
+                if (str2 != null) {
+                    return str2;
+                }
+                Resources remoteResource = GooglePlayServicesUtil.getRemoteResource(context);
+                if (remoteResource == null) {
+                    return null;
+                }
+                int identifier = remoteResource.getIdentifier(str, "string", "com.google.android.gms");
+                if (identifier == 0) {
+                    Log.w("GoogleApiAvailability", "Missing resource: " + str);
+                    return null;
+                }
+                String string = remoteResource.getString(identifier);
+                if (TextUtils.isEmpty(string)) {
+                    Log.w("GoogleApiAvailability", "Got empty resource: " + str);
+                    return null;
+                }
+                simpleArrayMap.put(str, string);
+                return string;
+            } catch (Throwable th) {
+                throw th;
             }
-            String str2 = (String) simpleArrayMap.get(str);
-            if (str2 != null) {
-                return str2;
-            }
-            Resources remoteResource = GooglePlayServicesUtil.getRemoteResource(context);
-            if (remoteResource == null) {
-                return null;
-            }
-            int identifier = remoteResource.getIdentifier(str, "string", "com.google.android.gms");
-            if (identifier == 0) {
-                Log.w("GoogleApiAvailability", "Missing resource: " + str);
-                return null;
-            }
-            String string = remoteResource.getString(identifier);
-            if (TextUtils.isEmpty(string)) {
-                Log.w("GoogleApiAvailability", "Got empty resource: " + str);
-                return null;
-            }
-            simpleArrayMap.put(str, string);
-            return string;
         }
     }
 

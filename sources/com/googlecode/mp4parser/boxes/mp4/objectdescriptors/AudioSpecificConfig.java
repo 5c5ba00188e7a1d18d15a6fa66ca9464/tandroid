@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.R;
 @Descriptor(objectTypeIndication = 64, tags = {5})
 /* loaded from: classes.dex */
 public class AudioSpecificConfig extends BaseDescriptor {
@@ -196,22 +195,22 @@ public class AudioSpecificConfig extends BaseDescriptor {
                 this.sacPayloadEmbedding = bitReaderBuffer.readBits(1);
                 throw new UnsupportedOperationException("can't parse SpatialSpecificConfig yet");
             case 32:
-            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
+            case 33:
+            case 34:
                 throw new UnsupportedOperationException("can't parse MPEG_1_2_SpecificConfig yet");
-            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+            case 35:
                 throw new UnsupportedOperationException("can't parse DSTSpecificConfig yet");
-            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
+            case 36:
                 this.fillBits = bitReaderBuffer.readBits(5);
                 throw new UnsupportedOperationException("can't parse ALSSpecificConfig yet");
-            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+            case 37:
+            case 38:
                 throw new UnsupportedOperationException("can't parse SLSSpecificConfig yet");
-            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+            case 39:
                 this.eldSpecificConfig = new ELDSpecificConfig(this.channelConfiguration, bitReaderBuffer);
                 break;
-            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+            case 40:
+            case 41:
                 throw new UnsupportedOperationException("can't parse SymbolicMusicSpecificConfig yet");
         }
         int i3 = this.audioObjectType;

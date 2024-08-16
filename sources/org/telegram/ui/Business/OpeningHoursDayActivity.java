@@ -178,22 +178,22 @@ public class OpeningHoursDayActivity extends BaseFragment {
             final OpeningHoursActivity.Period period2 = this.periods.get(i2);
             int i6 = i2 + 1;
             OpeningHoursActivity.Period period3 = i6 < this.periods.size() ? this.periods.get(i6) : null;
-            int i7 = uItem.id;
-            if (i7 % 3 == 0) {
+            int i7 = uItem.id % 3;
+            if (i7 == 0) {
                 AlertsCreator.createTimePickerDialog(getContext(), LocaleController.getString(R.string.BusinessHoursDayOpenHourPicker), period2.start, period == null ? this.min : period.end + 1, period2.end - 1, new Utilities.Callback() { // from class: org.telegram.ui.Business.OpeningHoursDayActivity$$ExternalSyntheticLambda2
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         OpeningHoursDayActivity.this.lambda$onClick$0(view, period2, (Integer) obj);
                     }
                 });
-            } else if (i7 % 3 == 1) {
+            } else if (i7 == 1) {
                 AlertsCreator.createTimePickerDialog(getContext(), LocaleController.getString(R.string.BusinessHoursDayCloseHourPicker), period2.end, period2.start + 1, period3 == null ? this.max : period3.start - 1, new Utilities.Callback() { // from class: org.telegram.ui.Business.OpeningHoursDayActivity$$ExternalSyntheticLambda3
                     @Override // org.telegram.messenger.Utilities.Callback
                     public final void run(Object obj) {
                         OpeningHoursDayActivity.this.lambda$onClick$1(view, period2, (Integer) obj);
                     }
                 });
-            } else if (i7 % 3 == 2) {
+            } else if (i7 == 2) {
                 this.periods.remove(i2);
                 if (this.periods.isEmpty()) {
                     this.periods.add(new OpeningHoursActivity.Period(0, 1439));

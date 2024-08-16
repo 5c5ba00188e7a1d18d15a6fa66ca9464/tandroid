@@ -40,13 +40,11 @@ class HttpConnectionDownloadFileTask extends AsyncTask<Void, Void, Void> {
             }
             if (downloadFile(createConnection()) > 0) {
                 this.mDownloader.onDownloadComplete(this.mTargetFile);
-                TrafficStats.clearThreadStatsTag();
                 return null;
             }
             throw new IOException("The content of downloaded file is empty");
-        } catch (Throwable th) {
+        } finally {
             TrafficStats.clearThreadStatsTag();
-            throw th;
         }
     }
 

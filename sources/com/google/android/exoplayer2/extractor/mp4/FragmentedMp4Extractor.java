@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public class FragmentedMp4Extractor implements Extractor {
@@ -74,7 +75,7 @@ public class FragmentedMp4Extractor implements Extractor {
     private final Track sideloadedTrack;
     private final TimestampAdjuster timestampAdjuster;
     private final SparseArray<TrackBundle> trackBundles;
-    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda1
+    public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda0
         @Override // com.google.android.exoplayer2.extractor.ExtractorsFactory
         public final Extractor[] createExtractors() {
             Extractor[] lambda$static$0;
@@ -357,7 +358,7 @@ public class FragmentedMp4Extractor implements Extractor {
                 j = parseMehd(leafAtom.data);
             }
         }
-        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, new GaplessInfoHolder(), j, drmInitDataFromAtoms, (this.flags & 16) != 0, false, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda0
+        List<TrackSampleTable> parseTraks = AtomParsers.parseTraks(containerAtom, new GaplessInfoHolder(), j, drmInitDataFromAtoms, (this.flags & 16) != 0, false, new Function() { // from class: com.google.android.exoplayer2.extractor.mp4.FragmentedMp4Extractor$$ExternalSyntheticLambda1
             @Override // com.google.common.base.Function
             public final Object apply(Object obj) {
                 return FragmentedMp4Extractor.this.modifyTrack((Track) obj);
@@ -621,7 +622,7 @@ public class FragmentedMp4Extractor implements Extractor {
                 zArr[i3] = readUnsignedByte2 > i2;
             }
         } else {
-            i = (readUnsignedByte * readUnsignedIntToInt) + 0;
+            i = readUnsignedByte * readUnsignedIntToInt;
             Arrays.fill(trackFragment.sampleHasSubsampleEncryptionTable, 0, readUnsignedIntToInt, readUnsignedByte > i2);
         }
         Arrays.fill(trackFragment.sampleHasSubsampleEncryptionTable, readUnsignedIntToInt, trackFragment.sampleCount, false);
@@ -725,7 +726,7 @@ public class FragmentedMp4Extractor implements Extractor {
         if (z6) {
             i9 = parsableByteArray.readInt();
         }
-        boolean z7 = (parseFullAtomFlags & LiteMode.FLAG_CHAT_BLUR) != 0;
+        boolean z7 = (parseFullAtomFlags & 256) != 0;
         boolean z8 = (parseFullAtomFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         boolean z9 = (parseFullAtomFlags & 1024) != 0;
         boolean z10 = (parseFullAtomFlags & 2048) != 0;
@@ -900,7 +901,7 @@ public class FragmentedMp4Extractor implements Extractor {
         }
         parsableByteArray2.skipBytes(1);
         int readUnsignedByte = parsableByteArray2.readUnsignedByte();
-        int i3 = (readUnsignedByte & 240) >> 4;
+        int i3 = (readUnsignedByte & NotificationCenter.reloadInterface) >> 4;
         int i4 = readUnsignedByte & 15;
         boolean z = parsableByteArray2.readUnsignedByte() == 1;
         if (z) {
@@ -1332,14 +1333,14 @@ public class FragmentedMp4Extractor implements Extractor {
                     byte[] data = this.scratch.getData();
                     data[0] = 0;
                     data[1] = 1;
-                    data[2] = (byte) ((i2 >> 8) & 255);
-                    data[3] = (byte) (i2 & 255);
-                    data[4] = (byte) ((i >> 24) & 255);
-                    data[5] = (byte) ((i >> 16) & 255);
-                    data[6] = (byte) ((i >> 8) & 255);
-                    data[7] = (byte) (i & 255);
+                    data[2] = (byte) ((i2 >> 8) & NotificationCenter.voipServiceCreated);
+                    data[3] = (byte) (i2 & NotificationCenter.voipServiceCreated);
+                    data[4] = (byte) ((i >> 24) & NotificationCenter.voipServiceCreated);
+                    data[5] = (byte) ((i >> 16) & NotificationCenter.voipServiceCreated);
+                    data[6] = (byte) ((i >> 8) & NotificationCenter.voipServiceCreated);
+                    data[7] = (byte) (i & NotificationCenter.voipServiceCreated);
                     this.output.sampleData(this.scratch, 8, 1);
-                    return i3 + 1 + 8;
+                    return i3 + 9;
                 }
                 ParsableByteArray parsableByteArray3 = this.fragment.sampleEncryptionData;
                 int readUnsignedShort = parsableByteArray3.readUnsignedShort();
@@ -1350,8 +1351,8 @@ public class FragmentedMp4Extractor implements Extractor {
                     byte[] data2 = this.scratch.getData();
                     parsableByteArray3.readBytes(data2, 0, i4);
                     int i5 = (((data2[2] & 255) << 8) | (data2[3] & 255)) + i2;
-                    data2[2] = (byte) ((i5 >> 8) & 255);
-                    data2[3] = (byte) (i5 & 255);
+                    data2[2] = (byte) ((i5 >> 8) & NotificationCenter.voipServiceCreated);
+                    data2[3] = (byte) (i5 & NotificationCenter.voipServiceCreated);
                     parsableByteArray3 = this.scratch;
                 }
                 this.output.sampleData(parsableByteArray3, i4, 1);

@@ -25,10 +25,11 @@ public final class ChunkIndex implements SeekMap {
         int length = iArr.length;
         this.length = length;
         if (length > 0) {
-            this.durationUs = jArr2[length - 1] + jArr3[length - 1];
-        } else {
-            this.durationUs = 0L;
+            int i = length - 1;
+            this.durationUs = jArr2[i] + jArr3[i];
+            return;
         }
+        this.durationUs = 0L;
     }
 
     public int getChunkIndex(long j) {

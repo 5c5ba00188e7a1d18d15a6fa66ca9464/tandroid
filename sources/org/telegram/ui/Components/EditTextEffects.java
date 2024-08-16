@@ -68,7 +68,7 @@ public class EditTextEffects extends EditText {
         if (this.spoilers.isEmpty()) {
             return;
         }
-        this.spoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda3
+        this.spoilers.get(0).setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextEffects.this.lambda$new$1();
@@ -104,7 +104,7 @@ public class EditTextEffects extends EditText {
         this.path = new Path();
         this.drawAnimatedEmojiDrawables = true;
         this.lastLayout = null;
-        this.spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
+        this.spoilerTimeout = new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextEffects.this.lambda$new$2();
@@ -113,7 +113,7 @@ public class EditTextEffects extends EditText {
         this.rect = new android.graphics.Rect();
         this.wrapCanvasToFixClipping = allowHackingTextCanvas();
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-            this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda6
+            this.clickDetector = new SpoilersClickDetector(this, this.spoilers, new SpoilersClickDetector.OnSpoilerClickedListener() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
                 @Override // org.telegram.ui.Components.spoilers.SpoilersClickDetector.OnSpoilerClickedListener
                 public final void onSpoilerClicked(SpoilerEffect spoilerEffect, float f, float f2) {
                     EditTextEffects.this.onSpoilerClicked(spoilerEffect, f, f2);
@@ -132,7 +132,7 @@ public class EditTextEffects extends EditText {
         this.postedSpoilerTimeout = false;
         removeCallbacks(this.spoilerTimeout);
         setSpoilersRevealed(true, false);
-        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda4
+        spoilerEffect.setOnRippleEndCallback(new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextEffects.this.lambda$onSpoilerClicked$4();
@@ -304,7 +304,7 @@ public class EditTextEffects extends EditText {
     public boolean dispatchTouchEvent(MotionEvent motionEvent) {
         boolean z;
         SpoilersClickDetector spoilersClickDetector;
-        if (QuoteSpan.onTouch(motionEvent, getPaddingTop() - getScrollY(), this.quoteBlocks, new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda1
+        if (QuoteSpan.onTouch(motionEvent, getPaddingTop() - getScrollY(), this.quoteBlocks, new Runnable() { // from class: org.telegram.ui.Components.EditTextEffects$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 EditTextEffects.this.lambda$dispatchTouchEvent$5();

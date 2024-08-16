@@ -138,7 +138,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0111  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x010f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -150,8 +150,7 @@ public abstract class SearchActionVerificationClientService extends IntentServic
                 Log.d(TAG, String.format("Unsupported package %s for verification.", packageName));
             }
             return false;
-        }
-        if (!(isDebugMode() || SearchActionVerificationClientUtil.isPackageGoogleSigned(this, packageName))) {
+        } else if (!isDebugMode() && !SearchActionVerificationClientUtil.isPackageGoogleSigned(this, packageName)) {
             if (this.dbg) {
                 Log.d(TAG, String.format("Cannot verify the intent with package %s in unsafe mode.", packageName));
             }

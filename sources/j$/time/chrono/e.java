@@ -1,14 +1,18 @@
 package j$.time.chrono;
-
-import java.io.Serializable;
 /* loaded from: classes2.dex */
-public final class e extends a implements Serializable {
-    public static final e a = new e();
+abstract /* synthetic */ class e {
+    static final /* synthetic */ int[] a;
 
-    private e() {
-    }
-
-    public static boolean a(long j) {
-        return (3 & j) == 0 && (j % 100 != 0 || j % 400 == 0);
+    static {
+        int[] iArr = new int[j$.time.temporal.a.values().length];
+        a = iArr;
+        try {
+            iArr[j$.time.temporal.a.INSTANT_SECONDS.ordinal()] = 1;
+        } catch (NoSuchFieldError unused) {
+        }
+        try {
+            a[j$.time.temporal.a.OFFSET_SECONDS.ordinal()] = 2;
+        } catch (NoSuchFieldError unused2) {
+        }
     }
 }

@@ -10,6 +10,6 @@ public final /* synthetic */ class GiftInfoAdapter$$ExternalSyntheticLambda2 imp
 
     @Override // java.lang.Runnable
     public final void run() {
-        GiftInfoAdapter.$r8$lambda$8zwq8tHRswrqJTqJ8_Z2N-xcnGQ(this.f$0);
+        GiftInfoAdapter.$r8$lambda$dE2HXMwgZgPVa0eVZfBLONxI0BQ(this.f$0);
     }
 }

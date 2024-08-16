@@ -55,10 +55,10 @@ public class SegmentTree {
             if (i < 0) {
                 i = 0;
             }
+            long j = Long.MIN_VALUE;
             if (i2 > jArr.length - 1) {
                 i2 = jArr.length - 1;
             }
-            long j = Long.MIN_VALUE;
             while (i <= i2) {
                 long j2 = this.array[i];
                 if (j2 > j) {
@@ -93,10 +93,10 @@ public class SegmentTree {
             if (i < 0) {
                 i = 0;
             }
+            long j = Long.MAX_VALUE;
             if (i2 > jArr.length - 1) {
                 i2 = jArr.length - 1;
             }
-            long j = Long.MAX_VALUE;
             while (i <= i2) {
                 long j2 = this.array[i];
                 if (j2 < j) {

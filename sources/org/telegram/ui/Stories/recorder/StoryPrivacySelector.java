@@ -140,7 +140,7 @@ public class StoryPrivacySelector extends View {
     }
 
     public void open() {
-        onPopupOpen(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda2
+        onPopupOpen(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 StoryPrivacySelector.this.lambda$open$3();
@@ -329,7 +329,7 @@ public class StoryPrivacySelector extends View {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$getSaved$5(MessagesStorage messagesStorage, HashSet hashSet, final int i) {
         final ArrayList<TLRPC$User> users = messagesStorage.getUsers(new ArrayList<>(hashSet));
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacySelector$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 StoryPrivacySelector.lambda$getSaved$4(i, users);

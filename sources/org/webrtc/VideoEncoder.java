@@ -248,13 +248,13 @@ public interface VideoEncoder {
         }
 
         @CalledByNative
-        public static ResolutionBitrateLimits[] $default$getResolutionBitrateLimits(VideoEncoder videoEncoder) {
-            return new ResolutionBitrateLimits[0];
+        public static boolean $default$isHardwareEncoder(VideoEncoder videoEncoder) {
+            return true;
         }
 
         @CalledByNative
-        public static boolean $default$isHardwareEncoder(VideoEncoder videoEncoder) {
-            return true;
+        public static ResolutionBitrateLimits[] $default$getResolutionBitrateLimits(VideoEncoder videoEncoder) {
+            return new ResolutionBitrateLimits[0];
         }
 
         @CalledByNative

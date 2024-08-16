@@ -18,7 +18,6 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
-import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -34,6 +33,7 @@ import java.io.FileOutputStream;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.VideoCapturerDevice;
@@ -202,10 +202,12 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueViolet.setBounds(0, 0, 80, 80);
                 PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(0.0f, 0.0f, 80.0f, 80.0f);
-                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(255);
-                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(255);
-                PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.getCanvas().drawColor(0, PorterDuff.Mode.CLEAR);
-                PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.getCanvas().drawColor(0, PorterDuff.Mode.CLEAR);
+                PrivateVideoPreviewDialogNew.this.bgGreen.setAlpha(NotificationCenter.voipServiceCreated);
+                PrivateVideoPreviewDialogNew.this.bgBlueViolet.setAlpha(NotificationCenter.voipServiceCreated);
+                Canvas canvas = PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.getCanvas();
+                PorterDuff.Mode mode = PorterDuff.Mode.CLEAR;
+                canvas.drawColor(0, mode);
+                PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.getCanvas().drawColor(0, mode);
                 PrivateVideoPreviewDialogNew.this.bgGreen.draw(PrivateVideoPreviewDialogNew.this.bgGreenShaderTools.getCanvas());
                 PrivateVideoPreviewDialogNew.this.bgBlueViolet.draw(PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.getCanvas());
                 paint.setColor(-1);
@@ -237,7 +239,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
                 PrivateVideoPreviewDialogNew.this.bgBlueVioletShaderTools.setBounds(-getX(), -getY(), PrivateVideoPreviewDialogNew.this.getWidth() - getX(), PrivateVideoPreviewDialogNew.this.getHeight() - getY());
                 RectF rectF = AndroidUtilities.rectTmp;
                 rectF.set(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight());
-                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(255);
+                this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage].setAlpha(NotificationCenter.voipServiceCreated);
                 float dp = AndroidUtilities.dp(8.0f) + ((int) ((AndroidUtilities.dp(26.0f) - AndroidUtilities.dp(8.0f)) * (1.0f - PrivateVideoPreviewDialogNew.this.openProgress1)));
                 canvas.drawRoundRect(rectF, dp, dp, this.gradientPaint[PrivateVideoPreviewDialogNew.this.strangeCurrentPage]);
                 if (PrivateVideoPreviewDialogNew.this.pageOffset > 0.0f) {
@@ -455,7 +457,7 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             return;
         }
         if (this.realCurrentPage == 0) {
-            createScreenCaptureIntent = ((MediaProjectionManager) getContext().getSystemService("media_projection")).createScreenCaptureIntent();
+            createScreenCaptureIntent = PrivateVideoPreviewDialog$$ExternalSyntheticApiModelOutline0.m(getContext().getSystemService("media_projection")).createScreenCaptureIntent();
             ((Activity) getContext()).startActivityForResult(createScreenCaptureIntent, 520);
             return;
         }
@@ -632,14 +634,15 @@ public abstract class PrivateVideoPreviewDialogNew extends FrameLayout implement
             int i2 = point.y + AndroidUtilities.statusBarHeight + AndroidUtilities.navigationBarHeight;
             float dp = AndroidUtilities.dp(28.0f) - (AndroidUtilities.dp(28.0f) * this.openProgress1);
             this.clipPath.reset();
-            this.clipPath.addCircle(this.startLocationX + AndroidUtilities.dp(33.5f), this.startLocationY + AndroidUtilities.dp(26.6f), AndroidUtilities.dp(26.0f), Path.Direction.CW);
+            Path.Direction direction = Path.Direction.CW;
+            this.clipPath.addCircle(this.startLocationX + AndroidUtilities.dp(33.5f), this.startLocationY + AndroidUtilities.dp(26.6f), AndroidUtilities.dp(26.0f), direction);
             int dp2 = AndroidUtilities.dp(52.0f);
             int dp3 = AndroidUtilities.dp(52.0f);
             int lerp = AndroidUtilities.lerp(dp2, i, this.openProgress1);
             int lerp2 = AndroidUtilities.lerp(dp3, i2, this.openProgress1);
             float dp4 = this.openTranslationX - ((1.0f - this.openProgress1) * AndroidUtilities.dp(20.0f));
             float dp5 = this.openTranslationY - ((1.0f - this.openProgress1) * AndroidUtilities.dp(51.0f));
-            this.clipPath.addRoundRect(dp4, dp5, dp4 + lerp, dp5 + lerp2, dp, dp, Path.Direction.CW);
+            this.clipPath.addRoundRect(dp4, dp5, dp4 + lerp, dp5 + lerp2, dp, dp, direction);
             canvas.clipPath(this.clipPath);
         }
         if (this.closeProgress > 0.0f) {

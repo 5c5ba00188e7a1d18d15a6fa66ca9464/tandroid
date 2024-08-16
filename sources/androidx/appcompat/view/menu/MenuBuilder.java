@@ -67,11 +67,6 @@ public class MenuBuilder implements SupportMenu {
         boolean invokeItem(MenuItemImpl menuItemImpl);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String getActionViewStatesKey() {
-        return "android:menu:actionviewstates";
-    }
-
     public MenuBuilder getRootMenu() {
         return this;
     }
@@ -190,6 +185,11 @@ public class MenuBuilder implements SupportMenu {
             return;
         }
         findItem.expandActionView();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public String getActionViewStatesKey() {
+        return "android:menu:actionviewstates";
     }
 
     public void setCallback(Callback callback) {
@@ -551,7 +551,7 @@ public class MenuBuilder implements SupportMenu {
                     ((MenuBuilder) menuItemImpl.getSubMenu()).findItemsWithShortcutForKey(list, i, keyEvent);
                 }
                 char alphabeticShortcut = isQwertyMode ? menuItemImpl.getAlphabeticShortcut() : menuItemImpl.getNumericShortcut();
-                if (((modifiers & 69647) == ((isQwertyMode ? menuItemImpl.getAlphabeticModifiers() : menuItemImpl.getNumericModifiers()) & 69647)) && alphabeticShortcut != 0) {
+                if ((modifiers & 69647) == ((isQwertyMode ? menuItemImpl.getAlphabeticModifiers() : menuItemImpl.getNumericModifiers()) & 69647) && alphabeticShortcut != 0) {
                     char[] cArr = keyData.meta;
                     if ((alphabeticShortcut == cArr[0] || alphabeticShortcut == cArr[2] || (isQwertyMode && alphabeticShortcut == '\b' && i == 67)) && menuItemImpl.isEnabled()) {
                         list.add(menuItemImpl);

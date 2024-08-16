@@ -1,31 +1,27 @@
 package j$.util.function;
 
-import java.util.function.DoubleToLongFunction;
+import java.util.function.DoubleUnaryOperator;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class w implements y {
-    public final /* synthetic */ DoubleToLongFunction a;
+public final /* synthetic */ class w {
+    public final /* synthetic */ DoubleUnaryOperator a;
 
-    private /* synthetic */ w(DoubleToLongFunction doubleToLongFunction) {
-        this.a = doubleToLongFunction;
+    private /* synthetic */ w(DoubleUnaryOperator doubleUnaryOperator) {
+        this.a = doubleUnaryOperator;
     }
 
-    public static /* synthetic */ y a(DoubleToLongFunction doubleToLongFunction) {
-        if (doubleToLongFunction == null) {
+    public static /* synthetic */ w a(DoubleUnaryOperator doubleUnaryOperator) {
+        if (doubleUnaryOperator == null) {
             return null;
         }
-        return doubleToLongFunction instanceof x ? ((x) doubleToLongFunction).a : new w(doubleToLongFunction);
-    }
-
-    @Override // j$.util.function.y
-    public final /* synthetic */ long applyAsLong(double d) {
-        return this.a.applyAsLong(d);
+        return new w(doubleUnaryOperator);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        DoubleUnaryOperator doubleUnaryOperator = this.a;
         if (obj instanceof w) {
             obj = ((w) obj).a;
         }
-        return this.a.equals(obj);
+        return doubleUnaryOperator.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

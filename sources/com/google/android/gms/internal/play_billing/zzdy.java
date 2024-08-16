@@ -1,13 +1,11 @@
 package com.google.android.gms.internal.play_billing;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
-final class zzdy implements Iterator, j$.util.Iterator {
+final class zzdy implements Iterator {
     final /* synthetic */ zzec zza;
     private int zzb = -1;
     private boolean zzc;
@@ -27,17 +25,7 @@ final class zzdy implements Iterator, j$.util.Iterator {
         return this.zzd;
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
     @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.Iterator, j$.util.Iterator
     public final boolean hasNext() {
         List list;
         Map map;
@@ -50,7 +38,7 @@ final class zzdy implements Iterator, j$.util.Iterator {
         return true;
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final /* bridge */ /* synthetic */ Object next() {
         List list;
         List list2;
@@ -65,7 +53,7 @@ final class zzdy implements Iterator, j$.util.Iterator {
         return (Map.Entry) zza().next();
     }
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     public final void remove() {
         List list;
         if (!this.zzc) {

@@ -173,7 +173,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
                 }
                 i2++;
             }
-            zzen = zzen + i3 + (i4 * 1);
+            zzen = zzen + i3 + i4;
         }
         String[] strArr3 = this.zzbix;
         if (strArr3 != null && strArr3.length > 0) {
@@ -192,7 +192,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
                 }
                 i5++;
             }
-            zzen = zzen + i6 + (i7 * 1);
+            zzen = zzen + i6 + i7;
         }
         int[] iArr2 = this.zzbiy;
         if (iArr2 != null && iArr2.length > 0) {
@@ -206,7 +206,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
                 i9 += zzfs.zzs(iArr[i8]);
                 i8++;
             }
-            zzen = zzen + i9 + (iArr.length * 1);
+            zzen = zzen + i9 + iArr.length;
         }
         long[] jArr2 = this.zzbiz;
         if (jArr2 != null && jArr2.length > 0) {
@@ -220,7 +220,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
                 i11 += zzfs.zzo(jArr[i10]);
                 i10++;
             }
-            zzen = zzen + i11 + (jArr.length * 1);
+            zzen = zzen + i11 + jArr.length;
         }
         long[] jArr3 = this.zzbja;
         if (jArr3 == null || jArr3.length <= 0) {
@@ -230,7 +230,7 @@ public final class zzgy extends zzfu<zzgy> implements Cloneable {
         while (true) {
             long[] jArr4 = this.zzbja;
             if (i >= jArr4.length) {
-                return zzen + i12 + (jArr4.length * 1);
+                return zzen + i12 + jArr4.length;
             }
             i12 += zzfs.zzo(jArr4[i]);
             i++;

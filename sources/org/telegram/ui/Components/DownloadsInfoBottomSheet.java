@@ -54,7 +54,7 @@ public class DownloadsInfoBottomSheet extends BottomSheet {
         StickerImageView stickerImageView = new StickerImageView(context, this.currentAccount);
         stickerImageView.setStickerNum(9);
         stickerImageView.getImageReceiver().setAutoRepeat(1);
-        linearLayout.addView(stickerImageView, LayoutHelper.createLinear((int) R.styleable.AppCompatTheme_textColorAlertDialogListItem, (int) R.styleable.AppCompatTheme_textColorAlertDialogListItem, 1, 0, 26, 0, 0));
+        linearLayout.addView(stickerImageView, LayoutHelper.createLinear(110, 110, 1, 0, 26, 0, 0));
         TextView textView = new TextView(context);
         textView.setGravity(1);
         int i2 = Theme.key_dialogTextBlack;
@@ -71,7 +71,8 @@ public class DownloadsInfoBottomSheet extends BottomSheet {
         linearLayout.addView(textView2, LayoutHelper.createFrame(-1, -2.0f, 0, 28.0f, 7.0f, 28.0f, 0.0f));
         TextView textView3 = new TextView(context);
         textView3.setGravity(17);
-        textView3.setEllipsize(TextUtils.TruncateAt.END);
+        TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+        textView3.setEllipsize(truncateAt);
         textView3.setSingleLine(true);
         textView3.setTextSize(1, 14.0f);
         textView3.setTypeface(AndroidUtilities.bold());
@@ -83,7 +84,7 @@ public class DownloadsInfoBottomSheet extends BottomSheet {
         linearLayout.addView(textView3, LayoutHelper.createFrame(-1, 48.0f, 0, 14.0f, 28.0f, 14.0f, 6.0f));
         TextView textView4 = new TextView(context);
         textView4.setGravity(17);
-        textView4.setEllipsize(TextUtils.TruncateAt.END);
+        textView4.setEllipsize(truncateAt);
         textView4.setSingleLine(true);
         textView4.setTextSize(1, 14.0f);
         textView4.setTypeface(AndroidUtilities.bold());

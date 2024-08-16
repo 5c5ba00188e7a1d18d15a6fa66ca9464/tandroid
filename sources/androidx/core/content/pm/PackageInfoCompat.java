@@ -17,33 +17,23 @@ public final class PackageInfoCompat {
     /* loaded from: classes.dex */
     private static class Api28Impl {
         static boolean hasSigningCertificate(PackageManager packageManager, String str, byte[] bArr, int i) {
-            boolean hasSigningCertificate;
-            hasSigningCertificate = packageManager.hasSigningCertificate(str, bArr, i);
-            return hasSigningCertificate;
+            return packageManager.hasSigningCertificate(str, bArr, i);
         }
 
         static boolean hasMultipleSigners(SigningInfo signingInfo) {
-            boolean hasMultipleSigners;
-            hasMultipleSigners = signingInfo.hasMultipleSigners();
-            return hasMultipleSigners;
+            return signingInfo.hasMultipleSigners();
         }
 
         static Signature[] getApkContentsSigners(SigningInfo signingInfo) {
-            Signature[] apkContentsSigners;
-            apkContentsSigners = signingInfo.getApkContentsSigners();
-            return apkContentsSigners;
+            return signingInfo.getApkContentsSigners();
         }
 
         static Signature[] getSigningCertificateHistory(SigningInfo signingInfo) {
-            Signature[] signingCertificateHistory;
-            signingCertificateHistory = signingInfo.getSigningCertificateHistory();
-            return signingCertificateHistory;
+            return signingInfo.getSigningCertificateHistory();
         }
 
         static long getLongVersionCode(PackageInfo packageInfo) {
-            long longVersionCode;
-            longVersionCode = packageInfo.getLongVersionCode();
-            return longVersionCode;
+            return packageInfo.getLongVersionCode();
         }
     }
 }

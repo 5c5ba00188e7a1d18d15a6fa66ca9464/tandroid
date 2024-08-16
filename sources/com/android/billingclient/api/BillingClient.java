@@ -21,7 +21,6 @@ public abstract class BillingClient {
             if (this.zzc != null) {
                 if (this.zzd != null) {
                     if (this.zzb != null) {
-                        PurchasesUpdatedListener purchasesUpdatedListener = this.zzd;
                         if (this.zzd != null) {
                             return new BillingClientImpl(null, this.zzb, this.zzc, this.zzd, null, null);
                         }

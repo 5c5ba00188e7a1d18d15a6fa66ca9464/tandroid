@@ -11,6 +11,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import androidx.annotation.Keep;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class CallSwipeView extends View {
     private Path arrow;
@@ -45,7 +46,7 @@ public class CallSwipeView extends View {
 
     public void setColor(int i) {
         this.pullBgPaint.setColor(i);
-        this.pullBgPaint.setAlpha(178);
+        this.pullBgPaint.setAlpha(NotificationCenter.filterSettingsUpdated);
     }
 
     private int getDraggedViewWidth() {

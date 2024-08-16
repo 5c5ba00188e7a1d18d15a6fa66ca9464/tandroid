@@ -22,10 +22,6 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
     private final Continuation<T> delegate;
     private DisposableHandle parentHandle;
 
-    protected String nameString() {
-        return "CancellableContinuation";
-    }
-
     @Override // kotlinx.coroutines.DispatchedTask
     public final Continuation<T> getDelegate$kotlinx_coroutines_core() {
         return this.delegate;
@@ -153,6 +149,10 @@ public class CancellableContinuationImpl<T> extends DispatchedTask<T> implements
 
     public String toString() {
         return nameString() + '(' + DebugStringsKt.toDebugString(this.delegate) + "){" + getStateDebugRepresentation() + "}@" + DebugStringsKt.getHexAddress(this);
+    }
+
+    protected String nameString() {
+        return "CancellableContinuation";
     }
 
     @Override // kotlinx.coroutines.DispatchedTask

@@ -27,18 +27,22 @@ public class EventBus implements Subscriber, Publisher {
     public void publish(final Event<?> event) {
         Preconditions.checkNotNull(event);
         synchronized (this) {
-            Queue<Event<?>> queue = this.pendingEvents;
-            if (queue != null) {
-                queue.add(event);
-                return;
-            }
-            for (final Map.Entry<EventHandler<Object>, Executor> entry : getHandlers(event)) {
-                entry.getValue().execute(new Runnable() { // from class: com.google.firebase.components.EventBus$$ExternalSyntheticLambda0
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        EventBus.lambda$publish$0(entry, event);
-                    }
-                });
+            try {
+                Queue<Event<?>> queue = this.pendingEvents;
+                if (queue != null) {
+                    queue.add(event);
+                    return;
+                }
+                for (final Map.Entry<EventHandler<Object>, Executor> entry : getHandlers(event)) {
+                    entry.getValue().execute(new Runnable() { // from class: com.google.firebase.components.EventBus$$ExternalSyntheticLambda0
+                        @Override // java.lang.Runnable
+                        public final void run() {
+                            EventBus.lambda$publish$0(entry, event);
+                        }
+                    });
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -50,18 +54,26 @@ public class EventBus implements Subscriber, Publisher {
 
     private synchronized Set<Map.Entry<EventHandler<Object>, Executor>> getHandlers(Event<?> event) {
         ConcurrentHashMap<EventHandler<Object>, Executor> concurrentHashMap;
-        concurrentHashMap = this.handlerMap.get(event.getType());
+        try {
+            concurrentHashMap = this.handlerMap.get(event.getType());
+        } catch (Throwable th) {
+            throw th;
+        }
         return concurrentHashMap == null ? Collections.emptySet() : concurrentHashMap.entrySet();
     }
 
     public synchronized <T> void subscribe(Class<T> cls, Executor executor, EventHandler<? super T> eventHandler) {
-        Preconditions.checkNotNull(cls);
-        Preconditions.checkNotNull(eventHandler);
-        Preconditions.checkNotNull(executor);
-        if (!this.handlerMap.containsKey(cls)) {
-            this.handlerMap.put(cls, new ConcurrentHashMap<>());
+        try {
+            Preconditions.checkNotNull(cls);
+            Preconditions.checkNotNull(eventHandler);
+            Preconditions.checkNotNull(executor);
+            if (!this.handlerMap.containsKey(cls)) {
+                this.handlerMap.put(cls, new ConcurrentHashMap<>());
+            }
+            this.handlerMap.get(cls).put(eventHandler, executor);
+        } catch (Throwable th) {
+            throw th;
         }
-        this.handlerMap.get(cls).put(eventHandler, executor);
     }
 
     @Override // com.google.firebase.events.Subscriber
@@ -73,11 +85,15 @@ public class EventBus implements Subscriber, Publisher {
     public void enablePublishingAndFlushPending() {
         Queue<Event<?>> queue;
         synchronized (this) {
-            queue = this.pendingEvents;
-            if (queue != null) {
-                this.pendingEvents = null;
-            } else {
-                queue = null;
+            try {
+                queue = this.pendingEvents;
+                if (queue != null) {
+                    this.pendingEvents = null;
+                } else {
+                    queue = null;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         if (queue != null) {

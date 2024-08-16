@@ -9,6 +9,7 @@ import android.util.SparseIntArray;
 import androidx.core.graphics.ColorUtils;
 import java.util.HashSet;
 import java.util.Objects;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
@@ -103,7 +104,7 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
         this.sparseIntArray.put(Theme.key_chat_emojiPanelBackground, -1073741824);
         this.sparseIntArray.put(i, ColorUtils.blendARGB(-16777216, -1, 0.5f));
         this.sparseIntArray.put(i2, ColorUtils.setAlphaComponent(-1, 17));
-        this.sparseIntArray.put(Theme.key_windowBackgroundWhiteGrayText, ColorUtils.setAlphaComponent(-1, 127));
+        this.sparseIntArray.put(Theme.key_windowBackgroundWhiteGrayText, ColorUtils.setAlphaComponent(-1, NotificationCenter.dialogTranslate));
         this.sparseIntArray.put(Theme.key_chat_messagePanelVoiceLockBackground, -14606046);
         this.sparseIntArray.put(Theme.key_chat_messagePanelVoiceLock, -1);
         this.sparseIntArray.put(Theme.key_chat_recordedVoiceDot, -1221292);

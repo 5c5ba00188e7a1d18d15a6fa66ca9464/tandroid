@@ -69,28 +69,34 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     private void allocArrays(int i) {
         if (i == 8) {
             synchronized (ArraySet.class) {
-                Object[] objArr = sTwiceBaseCache;
-                if (objArr != null) {
-                    this.mArray = objArr;
-                    sTwiceBaseCache = (Object[]) objArr[0];
-                    this.mHashes = (int[]) objArr[1];
-                    objArr[1] = null;
-                    objArr[0] = null;
-                    sTwiceBaseCacheSize--;
-                    return;
+                try {
+                    Object[] objArr = sTwiceBaseCache;
+                    if (objArr != null) {
+                        this.mArray = objArr;
+                        sTwiceBaseCache = (Object[]) objArr[0];
+                        this.mHashes = (int[]) objArr[1];
+                        objArr[1] = null;
+                        objArr[0] = null;
+                        sTwiceBaseCacheSize--;
+                        return;
+                    }
+                } finally {
                 }
             }
         } else if (i == 4) {
             synchronized (ArraySet.class) {
-                Object[] objArr2 = sBaseCache;
-                if (objArr2 != null) {
-                    this.mArray = objArr2;
-                    sBaseCache = (Object[]) objArr2[0];
-                    this.mHashes = (int[]) objArr2[1];
-                    objArr2[1] = null;
-                    objArr2[0] = null;
-                    sBaseCacheSize--;
-                    return;
+                try {
+                    Object[] objArr2 = sBaseCache;
+                    if (objArr2 != null) {
+                        this.mArray = objArr2;
+                        sBaseCache = (Object[]) objArr2[0];
+                        this.mHashes = (int[]) objArr2[1];
+                        objArr2[1] = null;
+                        objArr2[0] = null;
+                        sBaseCacheSize--;
+                        return;
+                    }
+                } finally {
                 }
             }
         }
@@ -101,26 +107,32 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     private static void freeArrays(int[] iArr, Object[] objArr, int i) {
         if (iArr.length == 8) {
             synchronized (ArraySet.class) {
-                if (sTwiceBaseCacheSize < 10) {
-                    objArr[0] = sTwiceBaseCache;
-                    objArr[1] = iArr;
-                    for (int i2 = i - 1; i2 >= 2; i2--) {
-                        objArr[i2] = null;
+                try {
+                    if (sTwiceBaseCacheSize < 10) {
+                        objArr[0] = sTwiceBaseCache;
+                        objArr[1] = iArr;
+                        for (int i2 = i - 1; i2 >= 2; i2--) {
+                            objArr[i2] = null;
+                        }
+                        sTwiceBaseCache = objArr;
+                        sTwiceBaseCacheSize++;
                     }
-                    sTwiceBaseCache = objArr;
-                    sTwiceBaseCacheSize++;
+                } finally {
                 }
             }
         } else if (iArr.length == 4) {
             synchronized (ArraySet.class) {
-                if (sBaseCacheSize < 10) {
-                    objArr[0] = sBaseCache;
-                    objArr[1] = iArr;
-                    for (int i3 = i - 1; i3 >= 2; i3--) {
-                        objArr[i3] = null;
+                try {
+                    if (sBaseCacheSize < 10) {
+                        objArr[0] = sBaseCache;
+                        objArr[1] = iArr;
+                        for (int i3 = i - 1; i3 >= 2; i3--) {
+                            objArr[i3] = null;
+                        }
+                        sBaseCache = objArr;
+                        sBaseCacheSize++;
                     }
-                    sBaseCache = objArr;
-                    sBaseCacheSize++;
+                } finally {
                 }
             }
         }

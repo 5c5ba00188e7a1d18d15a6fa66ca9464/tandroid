@@ -1,37 +1,27 @@
 package j$.util.function;
 
-import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class J implements IntConsumer {
-    public final /* synthetic */ K a;
+public final /* synthetic */ class J {
+    public final /* synthetic */ IntPredicate a;
 
-    private /* synthetic */ J(K k) {
-        this.a = k;
+    private /* synthetic */ J(IntPredicate intPredicate) {
+        this.a = intPredicate;
     }
 
-    public static /* synthetic */ IntConsumer a(K k) {
-        if (k == null) {
+    public static /* synthetic */ J a(IntPredicate intPredicate) {
+        if (intPredicate == null) {
             return null;
         }
-        return k instanceof I ? ((I) k).a : new J(k);
-    }
-
-    @Override // java.util.function.IntConsumer
-    public final /* synthetic */ void accept(int i) {
-        this.a.accept(i);
-    }
-
-    @Override // java.util.function.IntConsumer
-    public final /* synthetic */ IntConsumer andThen(IntConsumer intConsumer) {
-        return a(this.a.n(I.a(intConsumer)));
+        return new J(intPredicate);
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
-        K k = this.a;
+        IntPredicate intPredicate = this.a;
         if (obj instanceof J) {
             obj = ((J) obj).a;
         }
-        return k.equals(obj);
+        return intPredicate.equals(obj);
     }
 
     public final /* synthetic */ int hashCode() {

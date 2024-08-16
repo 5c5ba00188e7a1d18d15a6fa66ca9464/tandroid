@@ -127,8 +127,8 @@ public class StripeApiHandler {
         return httpURLConnection;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:47:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x0095  */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0026 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -286,9 +286,9 @@ public class StripeApiHandler {
         return URLEncoder.encode(str, "UTF-8");
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0029  */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0040 A[Catch: all -> 0x006f, IOException -> 0x0071, TryCatch #0 {IOException -> 0x0071, blocks: (B:3:0x0003, B:17:0x002b, B:21:0x0044, B:25:0x0051, B:27:0x0062, B:26:0x005a, B:18:0x0030, B:19:0x003f, B:20:0x0040, B:8:0x0012, B:11:0x001c), top: B:38:0x0003, outer: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:23:0x004d  */
+    /* JADX WARN: Removed duplicated region for block: B:20:0x002e  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0046 A[Catch: all -> 0x001c, IOException -> 0x001f, TryCatch #0 {IOException -> 0x001f, blocks: (B:3:0x0003, B:21:0x0030, B:26:0x004b, B:30:0x0057, B:32:0x0068, B:31:0x0060, B:23:0x0036, B:24:0x0045, B:25:0x0046, B:8:0x0012, B:15:0x0021), top: B:42:0x0003, outer: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0053  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

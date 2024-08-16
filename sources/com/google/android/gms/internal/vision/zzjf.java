@@ -60,10 +60,7 @@ public final class zzjf {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza(zzkk zzkkVar) {
-        if (zzkkVar instanceof zzhh) {
-            zzhh zzhhVar = (zzhh) zzkkVar;
-            return false;
-        }
+        boolean z = zzkkVar instanceof zzhh;
         return false;
     }
 

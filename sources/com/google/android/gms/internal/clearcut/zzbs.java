@@ -15,7 +15,7 @@ final class zzbs {
         Class<?> cls = zzgl;
         if (cls != null) {
             try {
-                return (zzbt) cls.getDeclaredMethod("getEmptyRegistry", new Class[0]).invoke(null, new Object[0]);
+                return (zzbt) cls.getDeclaredMethod("getEmptyRegistry", null).invoke(null, null);
             } catch (Exception unused) {
             }
         }

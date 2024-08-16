@@ -1,18 +1,41 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public interface f2 extends Consumer {
-    void accept(double d);
+final class f2 extends a2 {
+    long b;
+    long c;
+    final /* synthetic */ g2 d;
 
-    void accept(int i);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public f2(g2 g2Var, e2 e2Var) {
+        super(e2Var);
+        this.d = g2Var;
+        this.b = g2Var.m;
+        long j = g2Var.n;
+        this.c = j < 0 ? Long.MAX_VALUE : j;
+    }
 
-    void accept(long j);
+    @Override // j$.util.function.Consumer
+    public final void accept(Object obj) {
+        long j = this.b;
+        if (j != 0) {
+            this.b = j - 1;
+            return;
+        }
+        long j2 = this.c;
+        if (j2 > 0) {
+            this.c = j2 - 1;
+            this.a.accept((e2) obj);
+        }
+    }
 
-    void end();
+    @Override // j$.util.stream.a2, j$.util.stream.e2
+    public final void n(long j) {
+        this.a.n(t0.z(j, this.d.m, this.c));
+    }
 
-    void f(long j);
-
-    boolean h();
+    @Override // j$.util.stream.a2, j$.util.stream.e2
+    public final boolean q() {
+        return this.c == 0 || this.a.q();
+    }
 }

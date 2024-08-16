@@ -17,7 +17,7 @@ final class zzgg {
 
     private static zzge zzc() {
         try {
-            return (zzge) Class.forName("com.google.protobuf.NewInstanceSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            return (zzge) Class.forName("com.google.protobuf.NewInstanceSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
             return null;
         }

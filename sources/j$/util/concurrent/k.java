@@ -1,146 +1,69 @@
 package j$.util.concurrent;
 
-import j$.util.Q;
-import j$.util.function.Consumer;
-import java.util.Comparator;
+import java.util.Map;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class k extends q implements Q {
-    public final /* synthetic */ int i;
-    long j;
+public class k implements Map.Entry {
+    final int a;
+    final Object b;
+    volatile Object c;
+    volatile k d;
 
-    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public /* synthetic */ k(m[] mVarArr, int i, int i2, int i3, long j, int i4) {
-        super(mVarArr, i, i2, i3);
-        this.i = i4;
-        this.j = j;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public k(int i, Object obj, Object obj2, k kVar) {
+        this.a = i;
+        this.b = obj;
+        this.c = obj2;
+        this.d = kVar;
     }
 
-    @Override // j$.util.Q
-    public final boolean a(Consumer consumer) {
-        switch (this.i) {
-            case 0:
-                consumer.getClass();
-                m f = f();
-                if (f == null) {
-                    return false;
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public k a(Object obj, int i) {
+        Object obj2;
+        if (obj != null) {
+            k kVar = this;
+            do {
+                if (kVar.a == i && ((obj2 = kVar.b) == obj || (obj2 != null && obj.equals(obj2)))) {
+                    return kVar;
                 }
-                consumer.accept(f.b);
-                return true;
-            default:
-                consumer.getClass();
-                m f2 = f();
-                if (f2 == null) {
-                    return false;
-                }
-                consumer.accept(f2.c);
-                return true;
+                kVar = kVar.d;
+            } while (kVar != null);
+            return null;
         }
+        return null;
     }
 
-    @Override // j$.util.Q
-    public final int characteristics() {
-        switch (this.i) {
-            case 0:
-                return 4353;
-            default:
-                return 4352;
-        }
+    @Override // java.util.Map.Entry
+    public final boolean equals(Object obj) {
+        Map.Entry entry;
+        Object key;
+        Object value;
+        Object obj2;
+        Object obj3;
+        return (obj instanceof Map.Entry) && (key = (entry = (Map.Entry) obj).getKey()) != null && (value = entry.getValue()) != null && (key == (obj2 = this.b) || key.equals(obj2)) && (value == (obj3 = this.c) || value.equals(obj3));
     }
 
-    @Override // j$.util.Q
-    public final long estimateSize() {
-        switch (this.i) {
-            case 0:
-                return this.j;
-            default:
-                return this.j;
-        }
+    @Override // java.util.Map.Entry
+    public final Object getKey() {
+        return this.b;
     }
 
-    @Override // j$.util.Q
-    public final void forEachRemaining(Consumer consumer) {
-        switch (this.i) {
-            case 0:
-                consumer.getClass();
-                while (true) {
-                    m f = f();
-                    if (f == null) {
-                        return;
-                    }
-                    consumer.accept(f.b);
-                }
-            default:
-                consumer.getClass();
-                while (true) {
-                    m f2 = f();
-                    if (f2 == null) {
-                        return;
-                    }
-                    consumer.accept(f2.c);
-                }
-        }
+    @Override // java.util.Map.Entry
+    public final Object getValue() {
+        return this.c;
     }
 
-    @Override // j$.util.Q
-    public final Comparator getComparator() {
-        switch (this.i) {
-            case 0:
-                throw new IllegalStateException();
-            default:
-                throw new IllegalStateException();
-        }
+    @Override // java.util.Map.Entry
+    public final int hashCode() {
+        return this.b.hashCode() ^ this.c.hashCode();
     }
 
-    @Override // j$.util.Q
-    public final /* synthetic */ long getExactSizeIfKnown() {
-        switch (this.i) {
-            case 0:
-                return j$.util.a.i(this);
-            default:
-                return j$.util.a.i(this);
-        }
+    @Override // java.util.Map.Entry
+    public final Object setValue(Object obj) {
+        throw new UnsupportedOperationException();
     }
 
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean hasCharacteristics(int i) {
-        switch (this.i) {
-            case 0:
-                return j$.util.a.k(this, i);
-            default:
-                return j$.util.a.k(this, i);
-        }
-    }
-
-    @Override // j$.util.Q
-    public final Q trySplit() {
-        switch (this.i) {
-            case 0:
-                int i = this.f;
-                int i2 = this.g;
-                int i3 = (i + i2) >>> 1;
-                if (i3 <= i) {
-                    return null;
-                }
-                m[] mVarArr = this.a;
-                int i4 = this.h;
-                this.g = i3;
-                long j = this.j >>> 1;
-                this.j = j;
-                return new k(mVarArr, i4, i3, i2, j, 0);
-            default:
-                int i5 = this.f;
-                int i6 = this.g;
-                int i7 = (i5 + i6) >>> 1;
-                if (i7 <= i5) {
-                    return null;
-                }
-                m[] mVarArr2 = this.a;
-                int i8 = this.h;
-                this.g = i7;
-                long j2 = this.j >>> 1;
-                this.j = j2;
-                return new k(mVarArr2, i8, i7, i6, j2, 1);
-        }
+    public final String toString() {
+        return this.b + "=" + this.c;
     }
 }

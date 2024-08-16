@@ -17,17 +17,13 @@ public final /* synthetic */ class d implements Comparator, Serializable {
 
     @Override // java.util.Comparator
     public final int compare(Object obj, Object obj2) {
-        int i = this.a;
-        Comparator comparator = this.b;
-        Object obj3 = this.c;
-        switch (i) {
+        switch (this.a) {
             case 0:
-                Comparator comparator2 = (Comparator) obj3;
-                int compare = comparator.compare(obj, obj2);
-                return compare != 0 ? compare : comparator2.compare(obj, obj2);
+                int compare = this.b.compare(obj, obj2);
+                return compare != 0 ? compare : ((Comparator) this.c).compare(obj, obj2);
             default:
-                Function function = (Function) obj3;
-                return comparator.compare(function.apply(obj), function.apply(obj2));
+                Function function = (Function) this.c;
+                return this.b.compare(function.apply(obj), function.apply(obj2));
         }
     }
 }

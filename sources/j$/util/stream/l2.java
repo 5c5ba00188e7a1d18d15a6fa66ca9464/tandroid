@@ -1,53 +1,41 @@
 package j$.util.stream;
-
-import org.telegram.messenger.LiteMode;
-/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class l2 extends h0 {
-    final /* synthetic */ long l;
-    final /* synthetic */ long m;
+final class l2 extends X1 {
+    long b;
+    long c;
+    final /* synthetic */ m2 d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
-    public l2(c cVar, int i, long j, long j2) {
-        super(cVar, i);
-        this.l = j;
-        this.m = j2;
+    public l2(m2 m2Var, e2 e2Var) {
+        super(e2Var);
+        this.d = m2Var;
+        this.b = m2Var.m;
+        long j = m2Var.n;
+        this.c = j < 0 ? Long.MAX_VALUE : j;
     }
 
-    static j$.util.K s1(j$.util.K k, long j, long j2, long j3) {
-        long j4;
-        long j5;
-        if (j <= j3) {
-            long j6 = j3 - j;
-            j5 = j2 >= 0 ? Math.min(j2, j6) : j6;
-            j4 = 0;
-        } else {
-            j4 = j;
-            j5 = j2;
+    @Override // j$.util.stream.e2, j$.util.function.n
+    public final void accept(double d) {
+        long j = this.b;
+        if (j != 0) {
+            this.b = j - 1;
+            return;
         }
-        return new u3(k, j4, j5);
-    }
-
-    @Override // j$.util.stream.c
-    final D0 i1(j$.util.Q q, j$.util.function.N n, c cVar) {
-        long I0 = cVar.I0(q);
-        return (I0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) ? !T2.ORDERED.d(cVar.K0()) ? u1.k(this, s1((j$.util.K) cVar.p1(q), this.l, this.m, I0), true) : (D0) new p2(this, cVar, q, n, this.l, this.m).invoke() : u1.k(cVar, u0.D0(cVar.f1(), q, this.l, this.m), true);
-    }
-
-    @Override // j$.util.stream.c
-    final j$.util.Q j1(c cVar, j$.util.Q q) {
-        long I0 = cVar.I0(q);
-        if (I0 <= 0 || !q.hasCharacteristics(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM)) {
-            return !T2.ORDERED.d(cVar.K0()) ? s1((j$.util.K) cVar.p1(q), this.l, this.m, I0) : ((D0) new p2(this, cVar, q, new J0(5), this.l, this.m).invoke()).spliterator();
+        long j2 = this.c;
+        if (j2 > 0) {
+            this.c = j2 - 1;
+            this.a.accept(d);
         }
-        long j = this.l;
-        return new o3((j$.util.K) cVar.p1(q), j, u0.C0(j, this.m));
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        return new k2(this, f2Var);
+    @Override // j$.util.stream.X1, j$.util.stream.e2
+    public final void n(long j) {
+        this.a.n(t0.z(j, this.d.m, this.c));
+    }
+
+    @Override // j$.util.stream.X1, j$.util.stream.e2
+    public final boolean q() {
+        return this.c == 0 || this.a.q();
     }
 }

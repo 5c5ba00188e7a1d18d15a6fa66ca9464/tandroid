@@ -321,10 +321,7 @@ public class TrendingStickersAlert extends BottomSheet {
                 if (z2) {
                     ValueAnimator valueAnimator2 = this.statusBarAnimator;
                     if (valueAnimator2 == null) {
-                        float[] fArr = new float[2];
-                        fArr[0] = this.statusBarAlpha;
-                        fArr[1] = z ? 1.0f : 0.0f;
-                        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.statusBarAlpha, z ? 1.0f : 0.0f);
                         this.statusBarAnimator = ofFloat;
                         ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TrendingStickersAlert$AlertContainerView$$ExternalSyntheticLambda0
                             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -334,10 +331,7 @@ public class TrendingStickersAlert extends BottomSheet {
                         });
                         this.statusBarAnimator.setDuration(200L);
                     } else {
-                        float[] fArr2 = new float[2];
-                        fArr2[0] = this.statusBarAlpha;
-                        fArr2[1] = z ? 1.0f : 0.0f;
-                        valueAnimator2.setFloatValues(fArr2);
+                        valueAnimator2.setFloatValues(this.statusBarAlpha, z ? 1.0f : 0.0f);
                     }
                     this.statusBarAnimator.start();
                     return;

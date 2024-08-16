@@ -17,35 +17,43 @@ public final class CopyOnWriteMultiset<E> implements Iterable<E> {
 
     public void add(E e) {
         synchronized (this.lock) {
-            ArrayList arrayList = new ArrayList(this.elements);
-            arrayList.add(e);
-            this.elements = Collections.unmodifiableList(arrayList);
-            Integer num = this.elementCounts.get(e);
-            if (num == null) {
-                HashSet hashSet = new HashSet(this.elementSet);
-                hashSet.add(e);
-                this.elementSet = Collections.unmodifiableSet(hashSet);
+            try {
+                ArrayList arrayList = new ArrayList(this.elements);
+                arrayList.add(e);
+                this.elements = Collections.unmodifiableList(arrayList);
+                Integer num = this.elementCounts.get(e);
+                if (num == null) {
+                    HashSet hashSet = new HashSet(this.elementSet);
+                    hashSet.add(e);
+                    this.elementSet = Collections.unmodifiableSet(hashSet);
+                }
+                this.elementCounts.put(e, Integer.valueOf(num != null ? 1 + num.intValue() : 1));
+            } catch (Throwable th) {
+                throw th;
             }
-            this.elementCounts.put(e, Integer.valueOf(num != null ? 1 + num.intValue() : 1));
         }
     }
 
     public void remove(E e) {
         synchronized (this.lock) {
-            Integer num = this.elementCounts.get(e);
-            if (num == null) {
-                return;
-            }
-            ArrayList arrayList = new ArrayList(this.elements);
-            arrayList.remove(e);
-            this.elements = Collections.unmodifiableList(arrayList);
-            if (num.intValue() == 1) {
-                this.elementCounts.remove(e);
-                HashSet hashSet = new HashSet(this.elementSet);
-                hashSet.remove(e);
-                this.elementSet = Collections.unmodifiableSet(hashSet);
-            } else {
-                this.elementCounts.put(e, Integer.valueOf(num.intValue() - 1));
+            try {
+                Integer num = this.elementCounts.get(e);
+                if (num == null) {
+                    return;
+                }
+                ArrayList arrayList = new ArrayList(this.elements);
+                arrayList.remove(e);
+                this.elements = Collections.unmodifiableList(arrayList);
+                if (num.intValue() == 1) {
+                    this.elementCounts.remove(e);
+                    HashSet hashSet = new HashSet(this.elementSet);
+                    hashSet.remove(e);
+                    this.elementSet = Collections.unmodifiableSet(hashSet);
+                } else {
+                    this.elementCounts.put(e, Integer.valueOf(num.intValue() - 1));
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -70,7 +78,11 @@ public final class CopyOnWriteMultiset<E> implements Iterable<E> {
     public int count(E e) {
         int intValue;
         synchronized (this.lock) {
-            intValue = this.elementCounts.containsKey(e) ? this.elementCounts.get(e).intValue() : 0;
+            try {
+                intValue = this.elementCounts.containsKey(e) ? this.elementCounts.get(e).intValue() : 0;
+            } catch (Throwable th) {
+                throw th;
+            }
         }
         return intValue;
     }

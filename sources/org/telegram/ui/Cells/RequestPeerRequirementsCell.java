@@ -114,8 +114,8 @@ public class RequestPeerRequirementsCell extends LinearLayout {
     }
 
     public static CharSequence rightsToString(TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, boolean z) {
-        String str;
         int i;
+        String str;
         String string;
         ArrayList arrayList = new ArrayList();
         if (tLRPC$TL_chatAdminRights.change_info) {
@@ -134,11 +134,11 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         }
         if (tLRPC$TL_chatAdminRights.delete_messages) {
             if (z) {
-                str = "EditAdminDeleteMessages";
                 i = R.string.EditAdminDeleteMessages;
+                str = "EditAdminDeleteMessages";
             } else {
-                str = "EditAdminGroupDeleteMessages";
                 i = R.string.EditAdminGroupDeleteMessages;
+                str = "EditAdminGroupDeleteMessages";
             }
             arrayList.add(Requirement.make(1, LocaleController.getString(str, i)));
         }
@@ -166,22 +166,22 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         if (arrayList.size() == 1) {
             return ((Requirement) arrayList.get(0)).text.toString().toLowerCase();
         }
-        if (arrayList.isEmpty()) {
-            return "";
-        }
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            if (i2 > 0) {
-                spannableStringBuilder.append((CharSequence) ", ");
+        if (!arrayList.isEmpty()) {
+            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+            for (int i2 = 0; i2 < arrayList.size(); i2++) {
+                if (i2 > 0) {
+                    spannableStringBuilder.append((CharSequence) ", ");
+                }
+                spannableStringBuilder.append((CharSequence) ((Requirement) arrayList.get(i2)).text.toString().toLowerCase());
             }
-            spannableStringBuilder.append((CharSequence) ((Requirement) arrayList.get(i2)).text.toString().toLowerCase());
+            return spannableStringBuilder;
         }
-        return spannableStringBuilder;
+        return "";
     }
 
     private void checkAdminRights(TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights, boolean z, CharSequence charSequence, CharSequence charSequence2) {
-        String str;
         int i;
+        String str;
         String string;
         if (tLRPC$TL_chatAdminRights == null) {
             return;
@@ -203,11 +203,11 @@ public class RequestPeerRequirementsCell extends LinearLayout {
         }
         if (tLRPC$TL_chatAdminRights.delete_messages) {
             if (z) {
-                str = "EditAdminDeleteMessages";
                 i = R.string.EditAdminDeleteMessages;
+                str = "EditAdminDeleteMessages";
             } else {
-                str = "EditAdminGroupDeleteMessages";
                 i = R.string.EditAdminGroupDeleteMessages;
+                str = "EditAdminGroupDeleteMessages";
             }
             arrayList.add(Requirement.make(1, LocaleController.getString(str, i)));
         }

@@ -366,10 +366,7 @@ public class CacheModel {
     }
 
     private void incSize(FileInfo fileInfo, boolean z) {
-        long j = fileInfo.size;
-        if (!z) {
-            j = -j;
-        }
+        long j = z ? fileInfo.size : -fileInfo.size;
         int i = fileInfo.type;
         if (i == 0) {
             this.photosSelectedSize += j;

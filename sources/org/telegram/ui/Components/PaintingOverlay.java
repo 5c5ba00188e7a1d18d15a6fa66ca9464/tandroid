@@ -264,10 +264,7 @@ public class PaintingOverlay extends FrameLayout {
                 int i5 = Build.VERSION.SDK_INT;
                 int i6 = mediaEntity.textAlign;
                 if (i6 != 1) {
-                    i = 3;
-                    if (i6 == 2 ? LocaleController.isRTL : !LocaleController.isRTL) {
-                        i = 2;
-                    }
+                    i = (i6 == 2 ? !LocaleController.isRTL : LocaleController.isRTL) ? 3 : 2;
                 } else {
                     i = 4;
                 }
@@ -289,7 +286,7 @@ public class PaintingOverlay extends FrameLayout {
                 } else if (b2 == 1) {
                     editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(i7) >= 0.25f ? -1728053248 : -1711276033);
                 } else if (b2 == 2) {
-                    editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(i7) < 0.25f ? -1 : -16777216);
+                    editTextOutline.setFrameColor(AndroidUtilities.computePerceivedBrightness(i7) >= 0.25f ? -16777216 : -1);
                 } else {
                     editTextOutline.setFrameColor(0);
                 }

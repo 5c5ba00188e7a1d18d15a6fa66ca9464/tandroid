@@ -48,10 +48,10 @@ public final class Recreator implements LifecycleEventObserver {
             Class<? extends U> asSubclass = Class.forName(str, false, Recreator.class.getClassLoader()).asSubclass(SavedStateRegistry.AutoRecreated.class);
             Intrinsics.checkNotNullExpressionValue(asSubclass, "{\n                Class.…class.java)\n            }");
             try {
-                Constructor declaredConstructor = asSubclass.getDeclaredConstructor(new Class[0]);
+                Constructor declaredConstructor = asSubclass.getDeclaredConstructor(null);
                 declaredConstructor.setAccessible(true);
                 try {
-                    Object newInstance = declaredConstructor.newInstance(new Object[0]);
+                    Object newInstance = declaredConstructor.newInstance(null);
                     Intrinsics.checkNotNullExpressionValue(newInstance, "{\n                constr…wInstance()\n            }");
                     ((SavedStateRegistry.AutoRecreated) newInstance).onRecreated(this.owner);
                 } catch (Exception e) {

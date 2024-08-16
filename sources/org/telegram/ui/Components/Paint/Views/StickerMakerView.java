@@ -179,12 +179,14 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         this.exclusionRect = new Rect();
         this.resourcesProvider = resourcesProvider;
         paint.setColor(-1);
-        paint.setStyle(Paint.Style.STROKE);
+        Paint.Style style = Paint.Style.STROKE;
+        paint.setStyle(style);
         paint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-        paint.setStrokeCap(Paint.Cap.ROUND);
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint.setStrokeCap(cap);
         paint.setPathEffect(new DashPathEffect(new float[]{AndroidUtilities.dp(5.0f), AndroidUtilities.dp(10.0f)}, 0.5f));
         paint.setShadowLayer(AndroidUtilities.dpf2(0.75f), 0.0f, 0.0f, 1342177280);
-        paint.setAlpha(140);
+        paint.setAlpha(NotificationCenter.filePreparingStarted);
         TextView textView = new TextView(context);
         this.actionTextView = textView;
         textView.setTextSize(1, 13.0f);
@@ -195,16 +197,17 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         addView(textView, LayoutHelper.createFrame(-2, -2, 17));
         paint3.setColor(-1);
         paint3.setStrokeWidth(AndroidUtilities.dp(3.0f));
-        paint3.setStyle(Paint.Style.STROKE);
-        paint3.setStrokeCap(Paint.Cap.ROUND);
+        paint3.setStyle(style);
+        paint3.setStrokeCap(cap);
         paint3.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(20.0f)));
-        paint3.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(4.0f), BlurMaskFilter.Blur.NORMAL));
+        BlurMaskFilter.Blur blur = BlurMaskFilter.Blur.NORMAL;
+        paint3.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(4.0f), blur));
         paint4.setColor(-1);
         paint4.setStrokeWidth(AndroidUtilities.dp(3.0f));
-        paint4.setStyle(Paint.Style.STROKE);
-        paint4.setStrokeCap(Paint.Cap.ROUND);
+        paint4.setStyle(style);
+        paint4.setStrokeCap(cap);
         paint4.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(20.0f)));
-        paint4.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(4.0f), BlurMaskFilter.Blur.NORMAL));
+        paint4.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(4.0f), blur));
         paint2.setColor(1711276032);
         setLayerType(2, null);
         PaintWeightChooserView paintWeightChooserView = new PaintWeightChooserView(context);
@@ -244,7 +247,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     public ThanosEffect getThanosEffect() {
         if (ThanosEffect.supports()) {
             if (this.thanosEffect == null) {
-                ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda0
+                ThanosEffect thanosEffect = new ThanosEffect(getContext(), new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickerMakerView.this.lambda$getThanosEffect$0();
@@ -335,25 +338,33 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 } else {
                     this.bordersFillPaint.setStyle(Paint.Style.FILL);
                     this.bordersFillPaint.setColor(-1);
-                    this.bordersFillPaint.setStrokeJoin(Paint.Join.ROUND);
-                    this.bordersFillPaint.setStrokeCap(Paint.Cap.ROUND);
+                    Paint paint = this.bordersFillPaint;
+                    Paint.Join join = Paint.Join.ROUND;
+                    paint.setStrokeJoin(join);
+                    Paint paint2 = this.bordersFillPaint;
+                    Paint.Cap cap = Paint.Cap.ROUND;
+                    paint2.setStrokeCap(cap);
                     this.bordersFillPaint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(10.0f)));
-                    this.bordersStrokePaint.setStyle(Paint.Style.STROKE);
+                    Paint paint3 = this.bordersStrokePaint;
+                    Paint.Style style = Paint.Style.STROKE;
+                    paint3.setStyle(style);
                     this.bordersStrokePaint.setColor(-1);
-                    this.bordersStrokePaint.setStrokeJoin(Paint.Join.ROUND);
-                    this.bordersStrokePaint.setStrokeCap(Paint.Cap.ROUND);
+                    this.bordersStrokePaint.setStrokeJoin(join);
+                    this.bordersStrokePaint.setStrokeCap(cap);
                     this.bordersStrokePaint.setPathEffect(new CornerPathEffect(AndroidUtilities.dp(10.0f)));
-                    this.pointsPaint.setStyle(Paint.Style.STROKE);
+                    this.pointsPaint.setStyle(style);
                     this.pointsPaint.setStrokeWidth(AndroidUtilities.dp(4.0f));
                     this.pointsPaint.setColor(-1);
-                    this.pointsPaint.setStrokeCap(Paint.Cap.ROUND);
-                    this.pointsPaint.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(0.33f), BlurMaskFilter.Blur.NORMAL));
-                    this.pointsHighlightPaint.setStyle(Paint.Style.STROKE);
+                    this.pointsPaint.setStrokeCap(cap);
+                    Paint paint4 = this.pointsPaint;
+                    BlurMaskFilter.Blur blur = BlurMaskFilter.Blur.NORMAL;
+                    paint4.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(0.33f), blur));
+                    this.pointsHighlightPaint.setStyle(style);
                     this.pointsHighlightPaint.setColor(Theme.multAlpha(-1, 0.04f));
-                    this.pointsHighlightPaint.setStrokeCap(Paint.Cap.ROUND);
+                    this.pointsHighlightPaint.setStrokeCap(cap);
                     this.pointsHighlightPaint.setStrokeWidth(AndroidUtilities.dp(20.0f));
                     this.pointsHighlightPaint.setColor(Theme.multAlpha(-1, 0.04f));
-                    this.pointsHighlightPaint.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(60.0f), BlurMaskFilter.Blur.NORMAL));
+                    this.pointsHighlightPaint.setMaskFilter(new BlurMaskFilter(AndroidUtilities.dp(60.0f), blur));
                     return;
                 }
             }
@@ -401,17 +412,17 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             float f6 = this.borderImageHeight;
             canvas.scale(lerp, lerp, ((this.rotatedBounds.centerX() / f3) * f4) - (f4 / 2.0f), ((this.rotatedBounds.centerY() / f5) * f6) - (f6 / 2.0f));
             if (this.points != null) {
-                int i = this.pointsCount;
-                int i2 = (int) (i * f);
-                int min = Math.min(500, (int) (i * 0.6f)) + i2;
+                float f7 = this.pointsCount;
+                int i = (int) (f * f7);
+                int min = Math.min(500, (int) (f7 * 0.6f)) + i;
                 if (this.pointsCount > 0) {
-                    while (i2 <= min) {
-                        float f7 = 1.0f - ((min - i2) / this.pointsCount);
-                        if (f7 > 0.0f) {
-                            this.pointsHighlightPaint.setAlpha((int) (f7 * 10.2f * f2));
-                            canvas.drawPoints(this.points, (i2 % this.pointsCount) * 2, 2, this.pointsHighlightPaint);
+                    while (i <= min) {
+                        float f8 = 1.0f - ((min - i) / this.pointsCount);
+                        if (f8 > 0.0f) {
+                            this.pointsHighlightPaint.setAlpha((int) (f8 * 10.2f * f2));
+                            canvas.drawPoints(this.points, (i % this.pointsCount) * 2, 2, this.pointsHighlightPaint);
                         }
-                        i2++;
+                        i++;
                     }
                 }
             }
@@ -432,26 +443,26 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 StickerMakerView.this.segmentBorderPaint.setAlpha((int) (255.0f * f2));
                 StickerMakerView.this.borderPaint.setAlpha((int) (f2 * 64.0f));
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.borderPaint);
-                float f8 = f + 0.2f;
-                StickerMakerView.this.bordersPathMeasure.getSegment(length * f, length * f8, this.partSegmentBorderPath, true);
+                float f9 = f + 0.2f;
+                StickerMakerView.this.bordersPathMeasure.getSegment(length * f, length * f9, this.partSegmentBorderPath, true);
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                 canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
-                if (f8 > 1.0f) {
+                if (f9 > 1.0f) {
                     this.partSegmentBorderPath.reset();
                     StickerMakerView.this.bordersPathMeasure.setPath(this.segmentBorderPath, false);
-                    StickerMakerView.this.bordersPathMeasure.getSegment(0.0f, (f8 - 1.0f) * length, this.partSegmentBorderPath, true);
+                    StickerMakerView.this.bordersPathMeasure.getSegment(0.0f, (f9 - 1.0f) * length, this.partSegmentBorderPath, true);
                     canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                     canvas.drawPath(this.partSegmentBorderPath, StickerMakerView.this.segmentBorderPaint);
                 }
             } else {
-                int i3 = this.pointsCount;
-                int i4 = (int) (i3 * f);
-                int min2 = Math.min(500, (int) (i3 * 0.6f)) + i4;
+                float f10 = this.pointsCount;
+                int i2 = (int) (f * f10);
+                int min2 = Math.min(500, (int) (f10 * 0.6f)) + i2;
                 if (this.pointsCount > 0) {
-                    for (int i5 = i4; i5 <= min2; i5++) {
-                        float f9 = (i5 - i4) / (min2 - i4);
-                        this.pointsPaint.setAlpha((int) (Math.min(1.0f, Math.min(f9, 1.0f - f9) * 4.0f) * 255.0f * f2));
-                        canvas.drawPoints(this.points, (i5 % this.pointsCount) * 2, 2, this.pointsPaint);
+                    for (int i3 = i2; i3 <= min2; i3++) {
+                        float f11 = (i3 - i2) / (min2 - i2);
+                        this.pointsPaint.setAlpha((int) (Math.min(1.0f, Math.min(f11, 1.0f - f11) * 4.0f) * 255.0f * f2));
+                        canvas.drawPoints(this.points, (i3 % this.pointsCount) * 2, 2, this.pointsPaint);
                     }
                 }
             }
@@ -618,7 +629,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     }
 
     public void enableClippingMode(final Utilities.Callback<SegmentedObject> callback) {
-        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda14
+        setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 StickerMakerView.this.lambda$enableClippingMode$1(callback, view);
@@ -634,7 +645,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         this.bordersAnimatorValueStart = this.bordersAnimatorValue;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.bordersAnimator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda15
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda9
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                 StickerMakerView.this.lambda$enableClippingMode$2(valueAnimator2);
@@ -867,14 +878,16 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         rectF.set(dp, dp, f3, f3);
         rectF.offset(0.0f, (measuredHeight - rectF.height()) / 2.0f);
         this.areaPath.rewind();
-        this.areaPath.addRoundRect(rectF, f2, f2, Path.Direction.CW);
+        Path path = this.areaPath;
+        Path.Direction direction = Path.Direction.CW;
+        path.addRoundRect(rectF, f2, f2, direction);
         this.bgPath.rewind();
-        this.bgPath.addRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), Path.Direction.CW);
+        this.bgPath.addRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), direction);
         this.screenPath.reset();
         this.screenPath.op(this.bgPath, this.areaPath, Path.Op.DIFFERENCE);
         this.dashPath.rewind();
         rectF.inset(AndroidUtilities.dp(-1.0f), AndroidUtilities.dp(-1.0f));
-        this.dashPath.addRoundRect(rectF, f2, f2, Path.Direction.CW);
+        this.dashPath.addRoundRect(rectF, f2, f2, direction);
     }
 
     @Override // android.view.ViewGroup, android.view.View
@@ -890,7 +903,10 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             return null;
         }
         Paint paint = new Paint(3);
-        Bitmap createBitmap = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        int width = sourceBitmap.getWidth();
+        int height = sourceBitmap.getHeight();
+        Bitmap.Config config = Bitmap.Config.ARGB_8888;
+        Bitmap createBitmap = Bitmap.createBitmap(width, height, config);
         Canvas canvas = new Canvas(createBitmap);
         if (z) {
             canvas.scale(createBitmap.getWidth() / bitmap.getWidth(), createBitmap.getHeight() / bitmap.getHeight());
@@ -899,7 +915,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             canvas.drawBitmap(bitmap, i, i2, paint);
         }
         Utilities.stackBlurBitmap(createBitmap, 5);
-        Bitmap createBitmap2 = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap createBitmap2 = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), config);
         Canvas canvas2 = new Canvas(createBitmap2);
         canvas2.drawBitmap(sourceBitmap, 0.0f, 0.0f, paint);
         Paint paint2 = new Paint(3);
@@ -924,7 +940,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         this.sourceBitmap = bitmap;
         this.orientation = i;
         this.detectedEmoji = null;
-        segment(bitmap, i, new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda3
+        segment(bitmap, i, new Utilities.Callback() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 StickerMakerView.this.lambda$segmentImage$6(i, callback, (List) obj);
@@ -935,7 +951,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$segmentImage$6(final int i, final Utilities.Callback callback, final List list) {
         final ArrayList arrayList = new ArrayList();
-        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda4
+        Utilities.themeQueue.postRunnable(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$segmentImage$5(i, list, arrayList, callback);
@@ -1082,24 +1098,24 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             return;
         }
         InputImage fromBitmap = InputImage.fromBitmap(bitmap, i);
-        client.process(fromBitmap).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda5
+        client.process(fromBitmap).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda4
             @Override // com.google.android.gms.tasks.OnSuccessListener
             public final void onSuccess(Object obj) {
                 StickerMakerView.lambda$segment$7(Utilities.Callback.this, (SubjectSegmentationResult) obj);
             }
-        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda6
+        }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda5
             @Override // com.google.android.gms.tasks.OnFailureListener
             public final void onFailure(Exception exc) {
                 StickerMakerView.this.lambda$segment$9(bitmap, i, callback2, callback, exc);
             }
         });
         if (this.detectedEmoji == null) {
-            ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS).process(fromBitmap).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda7
+            ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS).process(fromBitmap).addOnSuccessListener(new OnSuccessListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda6
                 @Override // com.google.android.gms.tasks.OnSuccessListener
                 public final void onSuccess(Object obj) {
                     StickerMakerView.this.lambda$segment$10((List) obj);
                 }
-            }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda8
+            }).addOnFailureListener(new OnFailureListener() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda7
                 @Override // com.google.android.gms.tasks.OnFailureListener
                 public final void onFailure(Exception exc) {
                     StickerMakerView.lambda$segment$11(exc);
@@ -1126,7 +1142,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         this.segmentingLoading = false;
         FileLog.e(exc);
         if (isWaitingMlKitError(exc) && isAttachedToWindow()) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda22
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda19
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickerMakerView.this.lambda$segment$8(bitmap, i, callback);
@@ -1527,9 +1543,10 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
                 String str4 = (String) objArr[1];
                 long longValue3 = ((Long) objArr[2]).longValue();
                 long longValue4 = ((Long) objArr[3]).longValue();
-                float floatValue = ((Float) objArr[4]).floatValue();
+                Float f = (Float) objArr[4];
+                float floatValue = f.floatValue();
                 this.stickerUploader.messageObject.videoEditedInfo.needUpdateProgress = true;
-                FileLoader.getInstance(this.currentAccount).checkUploadNewDataAvailable(str4, false, Math.max(1L, longValue3), longValue4, Float.valueOf(floatValue));
+                FileLoader.getInstance(this.currentAccount).checkUploadNewDataAvailable(str4, false, Math.max(1L, longValue3), longValue4, f);
                 StickerUploader stickerUploader8 = this.stickerUploader;
                 stickerUploader8.convertingProgress = Math.max(stickerUploader8.convertingProgress, floatValue);
                 DownloadButton.PreparingVideoToast preparingVideoToast2 = this.loadingToast;
@@ -1543,7 +1560,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     }
 
     public void uploadStickerFile(final String str, final VideoEditedInfo videoEditedInfo, final String str2, final CharSequence charSequence, final boolean z, final TLRPC$StickerSet tLRPC$StickerSet, final TLRPC$Document tLRPC$Document, final String str3, final Utilities.Callback<Boolean> callback, final Utilities.Callback2<String, TLRPC$InputDocument> callback2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda16
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$uploadStickerFile$12(callback, str2, str, charSequence, z, tLRPC$StickerSet, tLRPC$Document, videoEditedInfo, str3, callback2);
@@ -1599,7 +1616,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         if (this.loadingToast == null) {
             this.loadingToast = new DownloadButton.PreparingVideoToast(getContext());
         }
-        this.loadingToast.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda19
+        this.loadingToast.setOnCancelListener(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda21
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$showLoadingDialog$13();
@@ -1656,7 +1673,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         tLRPC$TL_documentAttributeSticker.alt = stickerUploader.emoji;
         tLRPC$TL_documentAttributeSticker.stickerset = new TLRPC$TL_inputStickerSetEmpty();
         tLRPC$TL_messages_uploadMedia.media.attributes.add(tLRPC$TL_documentAttributeSticker);
-        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_uploadMedia, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda1
+        ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_uploadMedia, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda0
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 StickerMakerView.this.lambda$uploadMedia$15(stickerUploader, tLObject, tLRPC$TL_error);
@@ -1666,7 +1683,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$uploadMedia$15(final StickerUploader stickerUploader, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$uploadMedia$14(tLObject, stickerUploader, tLRPC$TL_error);
@@ -1704,7 +1721,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         if (stickerUploader.customHandler != null) {
             hideLoadingDialog();
             stickerUploader.customHandler.run(stickerUploader.finalPath, stickerUploader.tlInputStickerSetItem.document);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda9
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda12
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickerMakerView.lambda$afterUploadingMedia$16();
@@ -1714,7 +1731,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             TLRPC$TL_stickers_replaceSticker tLRPC$TL_stickers_replaceSticker = new TLRPC$TL_stickers_replaceSticker();
             tLRPC$TL_stickers_replaceSticker.sticker = MediaDataController.getInputStickerSetItem(stickerUploader.replacedSticker, stickerUploader.emoji).document;
             tLRPC$TL_stickers_replaceSticker.new_sticker = stickerUploader.tlInputStickerSetItem;
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_replaceSticker, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda10
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_replaceSticker, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda13
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StickerMakerView.this.lambda$afterUploadingMedia$19(i, stickerUploader, tLObject, tLRPC$TL_error);
@@ -1726,7 +1743,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             tLRPC$TL_stickers_createStickerSet.title = stickerUploader.stickerPackName.toString();
             tLRPC$TL_stickers_createStickerSet.short_name = "";
             tLRPC$TL_stickers_createStickerSet.stickers.add(stickerUploader.tlInputStickerSetItem);
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_createStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda11
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_createStickerSet, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda14
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StickerMakerView.this.lambda$afterUploadingMedia$22(i, stickerUploader, tLObject, tLRPC$TL_error);
@@ -1735,7 +1752,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
         } else if (stickerUploader.addToFavorite) {
             hideLoadingDialog();
             NotificationCenter.getInstance(i).postNotificationNameOnUIThread(NotificationCenter.customStickerCreated, Boolean.FALSE);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda12
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda15
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickerMakerView.lambda$afterUploadingMedia$23(StickerMakerView.StickerUploader.this);
@@ -1749,7 +1766,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
             TLRPC$TL_stickers_addStickerToSet tLRPC$TL_stickers_addStickerToSet = new TLRPC$TL_stickers_addStickerToSet();
             tLRPC$TL_stickers_addStickerToSet.stickerset = MediaDataController.getInputStickerSet(stickerUploader.stickerSet);
             tLRPC$TL_stickers_addStickerToSet.sticker = stickerUploader.tlInputStickerSetItem;
-            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda13
+            ConnectionsManager.getInstance(i).sendRequest(tLRPC$TL_stickers_addStickerToSet, new RequestDelegate() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda16
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     StickerMakerView.this.lambda$afterUploadingMedia$26(i, stickerUploader, tLObject, tLRPC$TL_error);
@@ -1765,7 +1782,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$afterUploadingMedia$19(final int i, final StickerUploader stickerUploader, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda21
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda20
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$afterUploadingMedia$18(tLObject, i, stickerUploader, tLRPC$TL_error);
@@ -1813,7 +1830,7 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$afterUploadingMedia$22(final int i, final StickerUploader stickerUploader, final TLObject tLObject, final TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda20
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.Paint.Views.StickerMakerView$$ExternalSyntheticLambda22
             @Override // java.lang.Runnable
             public final void run() {
                 StickerMakerView.this.lambda$afterUploadingMedia$21(tLObject, i, stickerUploader, tLRPC$TL_error);
@@ -1854,8 +1871,10 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$afterUploadingMedia$20(TLObject tLObject, StickerUploader stickerUploader) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
         int i = NotificationCenter.customStickerCreated;
+        TLRPC$Document tLRPC$Document = stickerUploader.mediaDocument.document;
+        String str = stickerUploader.thumbPath;
         Boolean bool = Boolean.FALSE;
-        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, stickerUploader.mediaDocument.document, stickerUploader.thumbPath, bool);
+        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, tLRPC$Document, str, bool);
         hideLoadingDialog();
     }
 
@@ -1910,8 +1929,10 @@ public class StickerMakerView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$afterUploadingMedia$24(TLObject tLObject, StickerUploader stickerUploader) {
         NotificationCenter notificationCenter = NotificationCenter.getInstance(UserConfig.selectedAccount);
         int i = NotificationCenter.customStickerCreated;
+        TLRPC$Document tLRPC$Document = stickerUploader.mediaDocument.document;
+        String str = stickerUploader.thumbPath;
         Boolean bool = Boolean.FALSE;
-        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, stickerUploader.mediaDocument.document, stickerUploader.thumbPath, bool);
+        notificationCenter.postNotificationNameOnUIThread(i, bool, tLObject, tLRPC$Document, str, bool);
         hideLoadingDialog();
     }
 

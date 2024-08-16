@@ -394,60 +394,64 @@ public class LocationMarker extends View {
             return;
         }
         RectF rectF = this.bounds;
-        int i = this.padx;
-        int i2 = this.pady;
-        rectF.set(i, i2, i + this.w, i2 + this.h);
+        float f = this.padx;
+        float f2 = this.pady;
+        rectF.set(f, f2, this.w + f, this.h + f2);
         RectF rectF2 = this.bounds;
-        float f = this.h;
-        canvas.drawRoundRect(rectF2, f * 0.2f, f * 0.2f, this.outlinePaint);
-        float f2 = 0.0f;
+        float f3 = this.h * 0.2f;
+        canvas.drawRoundRect(rectF2, f3, f3, this.outlinePaint);
+        float f4 = 0.0f;
         if (this.hasFlag) {
-            float f3 = this.animatedVideo.set(this.isVideo);
-            if (f3 > 0.0f) {
+            float f5 = this.animatedVideo.set(this.isVideo);
+            if (f5 > 0.0f) {
                 ImageReceiver imageReceiver = this.flagAnimatedImageReceiver;
-                float f4 = this.density;
-                imageReceiver.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f4), this.pady + ((this.h - (f4 * 21.33f)) / 2.0f), f4 * 21.33f, f4 * 21.33f);
+                float f6 = this.density;
+                float f7 = f6 * 21.33f;
+                imageReceiver.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f6), this.pady + ((this.h - f7) / 2.0f), f7, f7);
                 canvas.save();
                 canvas.scale(1.2f, 1.2f, this.flagAnimatedImageReceiver.getCenterX(), this.flagAnimatedImageReceiver.getCenterY());
-                this.flagAnimatedImageReceiver.setAlpha(f3);
+                this.flagAnimatedImageReceiver.setAlpha(f5);
                 this.flagAnimatedImageReceiver.draw(canvas);
                 canvas.restore();
             }
-            if (f3 < 1.0f) {
+            if (f5 < 1.0f) {
                 ImageReceiver imageReceiver2 = this.flagImageReceiver;
-                float f5 = this.density;
-                imageReceiver2.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f5), this.pady + ((this.h - (f5 * 21.33f)) / 2.0f), f5 * 21.33f, f5 * 21.33f);
+                float f8 = this.density;
+                float f9 = f8 * 21.33f;
+                imageReceiver2.setImageCoords(this.padx + ((this.padding.left + 2.25f) * f8), this.pady + ((this.h - f9) / 2.0f), f9, f9);
                 canvas.save();
                 canvas.scale(1.2f, 1.2f, this.flagImageReceiver.getCenterX(), this.flagImageReceiver.getCenterY());
-                this.flagImageReceiver.setAlpha(1.0f - f3);
+                this.flagImageReceiver.setAlpha(1.0f - f5);
                 this.flagImageReceiver.draw(canvas);
                 canvas.restore();
             }
         } else if (!this.forceEmoji) {
             Drawable drawable = this.icon;
-            int i3 = this.padx;
-            float f6 = this.padding.left;
-            float f7 = this.density;
-            int i4 = this.pady;
-            float f8 = this.h;
-            drawable.setBounds(((int) (f6 * f7)) + i3, ((int) ((f8 - (f7 * 21.33f)) / 2.0f)) + i4, i3 + ((int) ((f6 + 21.33f) * f7)), i4 + ((int) ((f8 + (f7 * 21.33f)) / 2.0f)));
+            int i = this.padx;
+            float f10 = this.padding.left;
+            float f11 = this.density;
+            int i2 = this.pady;
+            float f12 = this.h;
+            float f13 = f11 * 21.33f;
+            drawable.setBounds(((int) (f10 * f11)) + i, ((int) ((f12 - f13) / 2.0f)) + i2, i + ((int) ((f10 + 21.33f) * f11)), i2 + ((int) ((f12 + f13) / 2.0f)));
             this.icon.draw(canvas);
         }
         canvas.save();
         canvas.translate(this.padx + ((this.padding.left + ((this.hasFlag || this.forceEmoji) ? 2.25f : 2.25f) + 21.33f + 3.25f) * this.density), this.pady + (this.h / 2.0f));
-        float f9 = this.textScale;
-        canvas.scale(f9, f9);
+        float f14 = this.textScale;
+        canvas.scale(f14, f14);
         canvas.translate(-this.layoutLeft, (-this.layout.getHeight()) / 2.0f);
         this.layout.draw(canvas);
         canvas.restore();
     }
 
     public void getEmojiBounds(RectF rectF) {
-        int i = this.padx;
-        float f = this.padding.left;
-        float f2 = this.density;
-        int i2 = this.pady;
-        float f3 = this.h;
-        rectF.set(i + ((f + 2.25f) * f2), i2 + ((f3 - (f2 * 21.33f)) / 2.0f), i + ((f + 2.25f + 21.33f) * f2), i2 + ((f3 + (f2 * 21.33f)) / 2.0f));
+        float f = this.padx;
+        float f2 = this.padding.left + 2.25f;
+        float f3 = this.density;
+        float f4 = this.pady;
+        float f5 = this.h;
+        float f6 = f3 * 21.33f;
+        rectF.set((f2 * f3) + f, ((f5 - f6) / 2.0f) + f4, f + ((f2 + 21.33f) * f3), f4 + ((f5 + f6) / 2.0f));
     }
 }

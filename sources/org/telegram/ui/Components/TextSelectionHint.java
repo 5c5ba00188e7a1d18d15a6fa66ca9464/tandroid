@@ -143,6 +143,7 @@ public class TextSelectionHint extends View {
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         int i;
+        Path.Direction direction;
         float f;
         if (this.textLayout == null) {
             return;
@@ -171,8 +172,10 @@ public class TextSelectionHint extends View {
         float f3 = f2 / 2.0f;
         canvas.scale(interpolation, interpolation, f3, f3);
         this.path.reset();
-        this.path.addCircle(f3, f3, f3, Path.Direction.CCW);
-        this.path.addRect(0.0f, 0.0f, f3, f3, Path.Direction.CCW);
+        Path path = this.path;
+        Path.Direction direction2 = Path.Direction.CCW;
+        path.addCircle(f3, f3, f3, direction2);
+        this.path.addRect(0.0f, 0.0f, f3, f3, direction2);
         canvas.drawPath(this.path, this.textPaint);
         canvas.restore();
         int lineForOffset2 = this.textLayout.getLineForOffset(this.currentStart);
@@ -180,11 +183,13 @@ public class TextSelectionHint extends View {
         int lineBottom2 = this.textLayout.getLineBottom(lineForOffset2);
         if (this.currentStart == this.animateToStart) {
             i = lineBottom2;
+            direction = direction2;
             f = f3;
             roundedRect(this.path, -AndroidUtilities.dp(4.0f), this.textLayout.getLineTop(lineForOffset2), 0.0f, this.textLayout.getLineBottom(lineForOffset2), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(4.0f), true, false);
             canvas.drawPath(this.path, this.selectionPaint);
         } else {
             i = lineBottom2;
+            direction = direction2;
             f = f3;
         }
         canvas.save();
@@ -192,8 +197,9 @@ public class TextSelectionHint extends View {
         float f4 = f;
         canvas.scale(interpolation, interpolation, f4, f4);
         this.path.reset();
-        this.path.addCircle(f4, f4, f4, Path.Direction.CCW);
-        this.path.addRect(f4, 0.0f, f2, f4, Path.Direction.CCW);
+        Path.Direction direction3 = direction;
+        this.path.addCircle(f4, f4, f4, direction3);
+        this.path.addRect(f4, 0.0f, f2, f4, direction3);
         canvas.drawPath(this.path, this.textPaint);
         canvas.restore();
         canvas.restore();
@@ -286,7 +292,7 @@ public class TextSelectionHint extends View {
         this.endOffsetValue = 1.0f;
         invalidate();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda0
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$0(valueAnimator);
@@ -295,7 +301,7 @@ public class TextSelectionHint extends View {
         ofFloat.setDuration(210L);
         ofFloat.setInterpolator(new DecelerateInterpolator());
         ValueAnimator ofFloat2 = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda1
+        ofFloat2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda2
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$1(valueAnimator);
@@ -305,7 +311,7 @@ public class TextSelectionHint extends View {
         ofFloat2.setDuration(250L);
         ValueAnimator ofFloat3 = ValueAnimator.ofFloat(1.0f, 0.0f);
         ofFloat3.setStartDelay(500L);
-        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda2
+        ofFloat3.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda3
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$2(valueAnimator);
@@ -316,7 +322,7 @@ public class TextSelectionHint extends View {
         ofFloat3.setDuration(500L);
         ValueAnimator ofFloat4 = ValueAnimator.ofFloat(1.0f, 0.0f);
         ofFloat4.setStartDelay(400L);
-        ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda3
+        ofFloat4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda4
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$show$3(valueAnimator);
@@ -375,7 +381,7 @@ public class TextSelectionHint extends View {
         }
         this.showing = false;
         ValueAnimator ofFloat = ValueAnimator.ofFloat(this.prepareProgress, 0.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda4
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.TextSelectionHint$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 TextSelectionHint.this.lambda$hideInternal$4(valueAnimator);

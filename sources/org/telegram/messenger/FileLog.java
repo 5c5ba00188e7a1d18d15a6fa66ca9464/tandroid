@@ -52,10 +52,13 @@ public class FileLog {
         FileLog fileLog = Instance;
         if (fileLog == null) {
             synchronized (FileLog.class) {
-                fileLog = Instance;
-                if (fileLog == null) {
-                    fileLog = new FileLog();
-                    Instance = fileLog;
+                try {
+                    fileLog = Instance;
+                    if (fileLog == null) {
+                        fileLog = new FileLog();
+                        Instance = fileLog;
+                    }
+                } finally {
                 }
             }
         }
@@ -129,7 +132,7 @@ public class FileLog {
                 sb.append(gsonDisabled ? tLObject : gson.toJson(tLObject));
                 final String sb2 = sb.toString();
                 final long currentTimeMillis = System.currentTimeMillis();
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$dumpUnparsedMessage$1(currentTimeMillis, j, i, sb2);
@@ -323,7 +326,7 @@ public class FileLog {
             ensureInitied();
             Log.e(tag, str, th);
             if (getInstance().streamWriter != null) {
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$e$2(str, th);
@@ -350,7 +353,7 @@ public class FileLog {
             ensureInitied();
             Log.e(tag, str);
             if (getInstance().streamWriter != null) {
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda0
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$e$3(str);
@@ -397,7 +400,7 @@ public class FileLog {
             ensureInitied();
             th.printStackTrace();
             if (getInstance().streamWriter != null) {
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda3
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$e$4(th);
@@ -480,7 +483,7 @@ public class FileLog {
             ensureInitied();
             Log.d(tag, str);
             if (getInstance().streamWriter != null) {
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda7
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$d$6(str);
@@ -509,7 +512,7 @@ public class FileLog {
             ensureInitied();
             Log.w(tag, str);
             if (getInstance().streamWriter != null) {
-                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda7
+                getInstance().logQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.FileLog$$ExternalSyntheticLambda1
                     @Override // java.lang.Runnable
                     public final void run() {
                         FileLog.lambda$w$7(str);

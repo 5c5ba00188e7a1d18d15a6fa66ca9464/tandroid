@@ -21,11 +21,15 @@ public final class PlaceholderSurface extends Surface {
     public static synchronized boolean isSecureSupported(Context context) {
         boolean z;
         synchronized (PlaceholderSurface.class) {
-            if (!secureModeInitialized) {
-                secureMode = getSecureMode(context);
-                secureModeInitialized = true;
+            try {
+                if (!secureModeInitialized) {
+                    secureMode = getSecureMode(context);
+                    secureModeInitialized = true;
+                }
+                z = secureMode != 0;
+            } catch (Throwable th) {
+                throw th;
             }
-            z = secureMode != 0;
         }
         return z;
     }
@@ -45,9 +49,13 @@ public final class PlaceholderSurface extends Surface {
     public void release() {
         super.release();
         synchronized (this.thread) {
-            if (!this.threadReleased) {
-                this.thread.release();
-                this.threadReleased = true;
+            try {
+                if (!this.threadReleased) {
+                    this.thread.release();
+                    this.threadReleased = true;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -126,15 +134,17 @@ public final class PlaceholderSurface extends Surface {
                     return true;
                 }
                 try {
-                    initInternal(message.arg1);
-                    synchronized (this) {
-                        notify();
-                    }
-                } catch (GlUtil.GlException e) {
-                    Log.e("PlaceholderSurface", "Failed to initialize placeholder surface", e);
-                    this.initException = new IllegalStateException(e);
-                    synchronized (this) {
-                        notify();
+                    try {
+                        initInternal(message.arg1);
+                        synchronized (this) {
+                            notify();
+                        }
+                    } catch (GlUtil.GlException e) {
+                        Log.e("PlaceholderSurface", "Failed to initialize placeholder surface", e);
+                        this.initException = new IllegalStateException(e);
+                        synchronized (this) {
+                            notify();
+                        }
                     }
                 } catch (Error e2) {
                     Log.e("PlaceholderSurface", "Failed to initialize placeholder surface", e2);

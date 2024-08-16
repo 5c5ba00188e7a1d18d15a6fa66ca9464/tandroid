@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
-public class SampleDescriptionBox extends AbstractContainerBox {
+public class SampleDescriptionBox extends AbstractContainerBox implements Box {
     private int flags;
     private int version;
 
@@ -27,7 +27,7 @@ public class SampleDescriptionBox extends AbstractContainerBox {
 
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
     public long getSize() {
-        long containerSize = getContainerSize() + 8;
-        return containerSize + ((this.largeBox || 8 + containerSize >= 4294967296L) ? 16 : 8);
+        long containerSize = getContainerSize();
+        return 8 + containerSize + ((this.largeBox || containerSize + 16 >= 4294967296L) ? 16 : 8);
     }
 }

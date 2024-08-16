@@ -65,10 +65,10 @@ public class RestrictedDomainsList {
         if (num == null) {
             num = 0;
         }
-        Integer valueOf = Integer.valueOf(num.intValue() + 1);
-        this.openedDomains.put(str, valueOf);
+        int intValue = num.intValue() + 1;
+        this.openedDomains.put(str, Integer.valueOf(intValue));
         scheduleSave();
-        return valueOf.intValue();
+        return intValue;
     }
 
     public boolean isRestricted(String... strArr) {

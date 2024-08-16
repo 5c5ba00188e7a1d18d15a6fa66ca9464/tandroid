@@ -7,7 +7,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.MotionEvent;
@@ -16,10 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -142,7 +143,7 @@ public class CaptionStory extends CaptionContainerView {
         blobDrawable2.maxRadius = AndroidUtilities.dp(55.0f);
         blobDrawable2.generateBlob();
         this.roundDrawable = getContext().getResources().getDrawable(R.drawable.input_video_pressed).mutate();
-        this.animatedAmplitude = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
+        this.animatedAmplitude = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
@@ -156,7 +157,7 @@ public class CaptionStory extends CaptionContainerView {
         Paint paint3 = new Paint(1);
         this.lockHandlePaint = paint3;
         paint3.setStyle(Paint.Style.STROKE);
-        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
+        Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
@@ -169,20 +170,20 @@ public class CaptionStory extends CaptionContainerView {
         this.lockRect = new RectF();
         this.lockHandle = new Path();
         this.cancelT = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator2);
-        this.cancel2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
+        this.cancel2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
             }
         }, 0L, 420L, cubicBezierInterpolator2);
         this.lockT = new AnimatedFloat(this, 0L, 350L, cubicBezierInterpolator2);
-        this.lock2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda0
+        this.lock2T = new AnimatedFloat(new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.invalidateDrawOver2();
             }
         }, 0L, 350L, cubicBezierInterpolator2);
-        this.doneCancel = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda1
+        this.doneCancel = new Runnable() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 CaptionStory.this.lambda$new$6();
@@ -193,24 +194,26 @@ public class CaptionStory extends CaptionContainerView {
         this.roundButtonBounce = new ButtonBounce(imageView);
         this.roundButton.setImageResource(R.drawable.input_video_story);
         this.roundButton.setBackground(Theme.createSelectorDrawable(1090519039, 1, AndroidUtilities.dp(18.0f)));
-        this.roundButton.setScaleType(ImageView.ScaleType.CENTER);
+        ImageView imageView2 = this.roundButton;
+        ImageView.ScaleType scaleType = ImageView.ScaleType.CENTER;
+        imageView2.setScaleType(scaleType);
         addView(this.roundButton, LayoutHelper.createFrame(44, 44.0f, 85, 0.0f, 0.0f, 11.0f, 10.0f));
-        this.roundButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda2
+        this.roundButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionStory.this.lambda$new$0(view);
             }
         });
-        ImageView imageView2 = new ImageView(context);
-        this.periodButton = imageView2;
+        ImageView imageView3 = new ImageView(context);
+        this.periodButton = imageView3;
         CaptionContainerView.PeriodDrawable periodDrawable = new CaptionContainerView.PeriodDrawable();
         this.periodDrawable = periodDrawable;
-        imageView2.setImageDrawable(periodDrawable);
+        imageView3.setImageDrawable(periodDrawable);
         this.periodButton.setBackground(Theme.createSelectorDrawable(1090519039, 1, AndroidUtilities.dp(18.0f)));
-        this.periodButton.setScaleType(ImageView.ScaleType.CENTER);
+        this.periodButton.setScaleType(scaleType);
         setPeriod(86400, false);
         addView(this.periodButton, LayoutHelper.createFrame(44, 44.0f, 85, 0.0f, 0.0f, 51.0f, 10.0f));
-        this.periodButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda3
+        this.periodButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 CaptionStory.this.lambda$new$5(frameLayout, resourcesProvider, view);
@@ -312,7 +315,7 @@ public class CaptionStory extends CaptionContainerView {
             return;
         }
         if (Build.VERSION.SDK_INT >= 21) {
-            this.flipButton = (AnimatedVectorDrawable) ContextCompat.getDrawable(getContext(), R.drawable.avd_flip);
+            this.flipButton = AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(ContextCompat.getDrawable(getContext(), R.drawable.avd_flip));
         } else {
             this.flipButton = getContext().getResources().getDrawable(R.drawable.vd_flip).mutate();
         }
@@ -353,7 +356,7 @@ public class CaptionStory extends CaptionContainerView {
             if (paint3 != null) {
                 paint = paint3;
                 f = f7;
-                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, 255, 31);
+                canvas.saveLayerAlpha(rectF.left, rectF.top, rectF.right, rectF.bottom, NotificationCenter.voipServiceCreated, 31);
             } else {
                 paint = paint3;
                 f = f7;
@@ -398,7 +401,7 @@ public class CaptionStory extends CaptionContainerView {
                 }
                 this.cancelText.ellipsize((int) ((rectF.width() - AndroidUtilities.dp(116.0f)) - this.timerTextDrawable.getCurrentWidth()));
                 float centerX2 = (rectF.centerX() - (this.cancelText.getWidth() / 2.0f)) + ((rectF.width() / 4.0f) * f6);
-                this.cancelText.draw(canvas, centerX2, rectF.centerY(), Theme.multAlpha(paint2 == null ? -2130706433 : -1, f5), 1.0f);
+                this.cancelText.draw(canvas, centerX2, rectF.centerY(), Theme.multAlpha(paint2 != null ? -1 : -2130706433, f5), 1.0f);
                 this.cancelBounds.set(centerX2 - AndroidUtilities.dp(12.0f), rectF.top, centerX2 + this.cancelText.getWidth() + AndroidUtilities.dp(12.0f), rectF.bottom);
             }
             if (paint2 != null) {
@@ -455,7 +458,9 @@ public class CaptionStory extends CaptionContainerView {
         canvas.drawCircle(lerp, dp2, min, this.roundPaint);
         canvas.save();
         this.circlePath.rewind();
-        this.circlePath.addCircle(lerp, dp2, min, Path.Direction.CW);
+        Path path = this.circlePath;
+        Path.Direction direction = Path.Direction.CW;
+        path.addCircle(lerp, dp2, min, direction);
         canvas.clipPath(this.circlePath);
         this.roundDrawable.setBounds((int) (lerp - (((drawable.getIntrinsicWidth() / 2.0f) * f5) * (this.stopping ? f : 1.0f))), (int) (dp2 - (((this.roundDrawable.getIntrinsicHeight() / 2.0f) * f5) * (this.stopping ? f : 1.0f))), (int) (((this.roundDrawable.getIntrinsicWidth() / 2.0f) * f5 * (this.stopping ? f : 1.0f)) + lerp), (int) (((this.roundDrawable.getIntrinsicHeight() / 2.0f) * f5 * (this.stopping ? f : 1.0f)) + dp2));
         this.roundDrawable.setAlpha((int) (f5 * 255.0f * (this.stopping ? f : 1.0f)));
@@ -471,7 +476,7 @@ public class CaptionStory extends CaptionContainerView {
         if (this.cancelling && (this.roundButton.getVisibility() == 4 || this.periodButton.getVisibility() == 4 || this.collapsedT.get() > 0.0f)) {
             canvas.saveLayerAlpha(rectF, (int) ((1.0f - this.keyboardT) * 255.0f), 31);
             this.boundsPath.rewind();
-            this.boundsPath.addRoundRect(rectF, AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), Path.Direction.CW);
+            this.boundsPath.addRoundRect(rectF, AndroidUtilities.dp(21.0f), AndroidUtilities.dp(21.0f), direction);
             canvas.clipPath(this.boundsPath);
             if (this.roundButton.getVisibility() == 4 || this.collapsedT.get() > 0.0f) {
                 canvas.save();
@@ -649,8 +654,8 @@ public class CaptionStory extends CaptionContainerView {
                         this.currentRecorder.cameraView.switchCamera();
                         if (Build.VERSION.SDK_INT >= 21) {
                             Drawable drawable2 = this.flipButton;
-                            if (drawable2 instanceof AnimatedVectorDrawable) {
-                                ((AnimatedVectorDrawable) drawable2).start();
+                            if (CaptionStory$$ExternalSyntheticApiModelOutline0.m(drawable2)) {
+                                AnimatedVectorDrawableCompat$$ExternalSyntheticApiModelOutline0.m(drawable2).start();
                             }
                         }
                     }
@@ -803,7 +808,7 @@ public class CaptionStory extends CaptionContainerView {
 
     public void showRemoveRoundAlert() {
         TextView textView;
-        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda4
+        if (this.hasRoundVideo && (textView = (TextView) new AlertDialog.Builder(getContext(), this.resourcesProvider).setTitle(LocaleController.getString(R.string.StoryRemoveRoundTitle)).setMessage(LocaleController.getString(R.string.StoryRemoveRoundMessage)).setPositiveButton(LocaleController.getString(R.string.Remove), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.CaptionStory$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 CaptionStory.this.lambda$showRemoveRoundAlert$7(dialogInterface, i);

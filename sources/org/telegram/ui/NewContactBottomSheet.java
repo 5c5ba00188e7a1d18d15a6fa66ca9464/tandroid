@@ -115,10 +115,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         setTitle(LocaleController.getString(R.string.NewContactTitle), true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:57:0x03fc  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0419 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x03fd  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x041c  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x042b  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0419 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -137,7 +137,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         linearLayout.setPadding(AndroidUtilities.dp(20.0f), 0, AndroidUtilities.dp(20.0f), 0);
         this.contentLayout.setOrientation(1);
         scrollView.addView(this.contentLayout, LayoutHelper.createScroll(-1, -2, 51));
-        this.contentLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda1
+        this.contentLayout.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createView$0;
@@ -157,7 +157,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             this.initialFirstName = null;
         }
         frameLayout.addView(this.firstNameField, LayoutHelper.createFrame(-1, 58.0f, 51, 0.0f, 0.0f, 0.0f, 0.0f));
-        this.firstNameField.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda2
+        this.firstNameField.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda3
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
                 boolean lambda$createView$1;
@@ -176,7 +176,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
             this.initialLastName = null;
         }
         frameLayout.addView(this.lastNameField, LayoutHelper.createFrame(-1, 58.0f, 51, 0.0f, 68.0f, 0.0f, 0.0f));
-        this.lastNameField.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda3
+        this.lastNameField.getEditText().setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda4
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView, int i2, KeyEvent keyEvent) {
                 boolean lambda$createView$2;
@@ -199,7 +199,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         r12.setTextSize(1, 16.0f);
         this.countryFlag.setFocusable(false);
         this.countryFlag.setGravity(17);
-        frameLayout2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda4
+        frameLayout2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 NewContactBottomSheet.this.lambda$createView$3(view);
@@ -372,7 +372,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 NewContactBottomSheet.this.ignoreOnTextChange = false;
             }
         });
-        this.codeField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda5
+        this.codeField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda6
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                 boolean lambda$createView$4;
@@ -494,7 +494,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 NewContactBottomSheet.this.ignoreOnPhoneChange = false;
             }
         });
-        this.phoneField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda6
+        this.phoneField.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda7
             @Override // android.widget.TextView.OnEditorActionListener
             public final boolean onEditorAction(TextView textView2, int i4, KeyEvent keyEvent) {
                 boolean lambda$createView$5;
@@ -534,7 +534,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         } catch (Exception e) {
             FileLog.e(e);
         }
-        Collections.sort(this.countriesArray, Comparator$-CC.comparing(new Function() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda7
+        Collections.sort(this.countriesArray, Comparator$-CC.comparing(new Function() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda8
             @Override // j$.util.function.Function
             public /* synthetic */ Function andThen(Function function) {
                 return Function.-CC.$default$andThen(this, function);
@@ -642,7 +642,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         AndroidUtilities.updateViewVisibilityAnimated(this.doneButton, true, 1.0f, false);
         AndroidUtilities.updateViewVisibilityAnimated(this.progressView, false, 1.0f, false);
         this.doneButtonContainer.setBackground(Theme.AdaptiveRipple.filledRect(this.parentFragment.getThemedColor(Theme.key_featuredStickers_addButton), 6.0f));
-        this.doneButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda8
+        this.doneButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda9
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 NewContactBottomSheet.this.lambda$createView$7(view);
@@ -842,7 +842,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         super.show();
         this.firstNameField.getEditText().requestFocus();
         this.firstNameField.getEditText().setSelection(this.firstNameField.getEditText().length());
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 NewContactBottomSheet.this.lambda$show$10();
@@ -893,7 +893,6 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     }
 
     public NewContactBottomSheet setInitialPhoneNumber(String str, boolean z) {
-        boolean z2;
         String country;
         Object systemService;
         this.initialPhoneNumber = str;
@@ -908,33 +907,29 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
                 String str2 = currentUser.phone;
                 int i = 4;
                 while (true) {
-                    z2 = false;
-                    if (i < 1) {
-                        break;
-                    }
-                    List<CountrySelectActivity.Country> list = this.codesMap.get(str2.substring(0, i));
-                    if (list == null || list.size() <= 0) {
-                        i--;
-                    } else {
-                        String str3 = list.get(0).code;
-                        this.codeField.setText(str3);
-                        if (str3.endsWith("0") && this.initialPhoneNumber.startsWith("0")) {
+                    if (i >= 1) {
+                        List<CountrySelectActivity.Country> list = this.codesMap.get(str2.substring(0, i));
+                        if (list == null || list.size() <= 0) {
+                            i--;
+                        } else {
+                            String str3 = list.get(0).code;
+                            this.codeField.setText(str3);
+                            if (str3.endsWith("0") && this.initialPhoneNumber.startsWith("0")) {
+                                this.initialPhoneNumber = this.initialPhoneNumber.substring(1);
+                            }
+                        }
+                    } else if (Build.VERSION.SDK_INT >= 23) {
+                        Context context = ApplicationLoader.applicationContext;
+                        if (context != null) {
+                            systemService = context.getSystemService(TelephonyManager.class);
+                            country = ((TelephonyManager) systemService).getSimCountryIso().toUpperCase(Locale.US);
+                        } else {
+                            country = Locale.getDefault().getCountry();
+                        }
+                        this.codeField.setText(country);
+                        if (country.endsWith("0") && this.initialPhoneNumber.startsWith("0")) {
                             this.initialPhoneNumber = this.initialPhoneNumber.substring(1);
                         }
-                        z2 = true;
-                    }
-                }
-                if (!z2 && Build.VERSION.SDK_INT >= 23) {
-                    Context context = ApplicationLoader.applicationContext;
-                    if (context != null) {
-                        systemService = context.getSystemService(TelephonyManager.class);
-                        country = ((TelephonyManager) systemService).getSimCountryIso().toUpperCase(Locale.US);
-                    } else {
-                        country = Locale.getDefault().getCountry();
-                    }
-                    this.codeField.setText(country);
-                    if (country.endsWith("0") && this.initialPhoneNumber.startsWith("0")) {
-                        this.initialPhoneNumber = this.initialPhoneNumber.substring(1);
                     }
                 }
                 this.phoneField.setText(this.initialPhoneNumber);
@@ -1095,7 +1090,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog, android.content.DialogInterface, org.telegram.ui.ActionBar.BaseFragment.AttachedSheet
     public void dismiss() {
         super.dismiss();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda9
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.NewContactBottomSheet$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 NewContactBottomSheet.this.lambda$dismiss$11();

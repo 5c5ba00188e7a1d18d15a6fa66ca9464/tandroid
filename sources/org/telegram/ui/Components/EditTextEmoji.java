@@ -1034,8 +1034,10 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
-            } finally {
                 EditTextEmoji.this.innerTextChange = 0;
+            } catch (Throwable th) {
+                EditTextEmoji.this.innerTextChange = 0;
+                throw th;
             }
         }
 

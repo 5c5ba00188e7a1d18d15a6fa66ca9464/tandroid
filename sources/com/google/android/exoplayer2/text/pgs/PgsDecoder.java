@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.zip.Inflater;
-import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class PgsDecoder extends SimpleSubtitleDecoder {
     private final ParsableByteArray buffer;
@@ -94,7 +94,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
         private int planeHeight;
         private int planeWidth;
         private final ParsableByteArray bitmapData = new ParsableByteArray();
-        private final int[] colors = new int[LiteMode.FLAG_CHAT_BLUR];
+        private final int[] colors = new int[256];
 
         /* JADX INFO: Access modifiers changed from: private */
         public void parsePaletteSection(ParsableByteArray parsableByteArray, int i) {
@@ -120,7 +120,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 Double.isNaN(d2);
                 Double.isNaN(d3);
                 Double.isNaN(d);
-                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, 255) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, 255) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, 255);
+                this.colors[readUnsignedByte] = (Util.constrainValue((int) ((d - (0.34414d * d3)) - (d2 * 0.71414d)), 0, (int) NotificationCenter.voipServiceCreated) << 8) | (readUnsignedByte5 << 24) | (Util.constrainValue((int) ((1.402d * d2) + d), 0, (int) NotificationCenter.voipServiceCreated) << 16) | Util.constrainValue((int) (d + (d3 * 1.772d)), 0, (int) NotificationCenter.voipServiceCreated);
             }
             this.colorsSet = true;
         }
@@ -140,7 +140,7 @@ public final class PgsDecoder extends SimpleSubtitleDecoder {
                 this.bitmapWidth = parsableByteArray.readUnsignedShort();
                 this.bitmapHeight = parsableByteArray.readUnsignedShort();
                 this.bitmapData.reset(readUnsignedInt24 - 4);
-                i2 -= 7;
+                i2 = i - 11;
             }
             int position = this.bitmapData.getPosition();
             int limit = this.bitmapData.limit();

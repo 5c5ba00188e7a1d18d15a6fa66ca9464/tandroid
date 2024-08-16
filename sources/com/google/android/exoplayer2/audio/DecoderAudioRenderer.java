@@ -1,6 +1,5 @@
 package com.google.android.exoplayer2.audio;
 
-import android.media.AudioDeviceInfo;
 import android.os.Handler;
 import android.os.SystemClock;
 import com.google.android.exoplayer2.BaseRenderer;
@@ -595,7 +594,7 @@ public abstract class DecoderAudioRenderer<T extends Decoder<DecoderInputBuffer,
     /* loaded from: classes.dex */
     private static final class Api23 {
         public static void setAudioSinkPreferredDevice(AudioSink audioSink, Object obj) {
-            audioSink.setPreferredDevice((AudioDeviceInfo) obj);
+            audioSink.setPreferredDevice(DecoderAudioRenderer$Api23$$ExternalSyntheticApiModelOutline0.m(obj));
         }
     }
 }

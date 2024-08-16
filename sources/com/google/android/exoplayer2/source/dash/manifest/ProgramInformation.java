@@ -30,7 +30,7 @@ public final class ProgramInformation {
 
     public int hashCode() {
         String str = this.title;
-        int hashCode = (527 + (str != null ? str.hashCode() : 0)) * 31;
+        int hashCode = ((str != null ? str.hashCode() : 0) + 527) * 31;
         String str2 = this.source;
         int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
         String str3 = this.copyright;

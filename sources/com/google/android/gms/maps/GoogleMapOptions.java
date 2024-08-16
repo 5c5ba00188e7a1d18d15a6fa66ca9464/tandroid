@@ -13,11 +13,12 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelWriter;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.android.gms:play-services-maps@@18.1.0 */
 /* loaded from: classes.dex */
 public final class GoogleMapOptions extends AbstractSafeParcelable implements ReflectedParcelable {
     public static final Parcelable.Creator<GoogleMapOptions> CREATOR = new zzab();
-    private static final Integer zza = Integer.valueOf(Color.argb(255, 236, 233, 225));
+    private static final Integer zza = Integer.valueOf(Color.argb((int) NotificationCenter.voipServiceCreated, (int) NotificationCenter.needSetDayNightTheme, (int) NotificationCenter.themeAccentListUpdated, (int) NotificationCenter.emojiLoaded));
     private Boolean zzb;
     private Boolean zzc;
     private int zzd;

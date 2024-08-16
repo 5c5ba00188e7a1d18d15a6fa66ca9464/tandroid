@@ -641,9 +641,7 @@ public class ListPopupWindow implements ShowableListMenu {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static int getMaxAvailableHeight(PopupWindow popupWindow, View view, int i, boolean z) {
-            int maxAvailableHeight;
-            maxAvailableHeight = popupWindow.getMaxAvailableHeight(view, i, z);
-            return maxAvailableHeight;
+            return popupWindow.getMaxAvailableHeight(view, i, z);
         }
     }
 }

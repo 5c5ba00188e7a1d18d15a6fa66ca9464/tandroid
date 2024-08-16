@@ -66,8 +66,8 @@ public class InfiniteProgress {
 
     public void draw(Canvas canvas, float f, float f2, float f3) {
         RectF rectF = this.cicleRect;
-        int i = this.radius;
-        rectF.set(f - (i * f3), f2 - (i * f3), f + (i * f3), f2 + (i * f3));
+        float f4 = this.radius * f3;
+        rectF.set(f - f4, f2 - f4, f + f4, f2 + f4);
         this.progressPaint.setStrokeWidth(AndroidUtilities.dp(2.0f) * f3);
         canvas.drawArc(this.cicleRect, this.radOffset, this.currentCircleLength, false, this.progressPaint);
         updateAnimation();

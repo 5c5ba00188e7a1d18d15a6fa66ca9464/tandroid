@@ -164,6 +164,7 @@ public abstract class LiveData<T> {
             try {
                 int i3 = this.mActiveCount;
                 if (i2 == i3) {
+                    this.mChangingActiveState = false;
                     return;
                 }
                 boolean z = i2 == 0 && i3 > 0;
@@ -174,8 +175,9 @@ public abstract class LiveData<T> {
                     onInactive();
                 }
                 i2 = i3;
-            } finally {
+            } catch (Throwable th) {
                 this.mChangingActiveState = false;
+                throw th;
             }
         }
     }

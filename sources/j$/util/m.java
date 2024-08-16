@@ -63,6 +63,9 @@ public final class m {
     }
 
     public final String toString() {
-        return this.a ? String.format("OptionalInt[%s]", Integer.valueOf(this.b)) : "OptionalInt.empty";
+        if (this.a) {
+            return "OptionalInt[" + this.b + "]";
+        }
+        return "OptionalInt.empty";
     }
 }

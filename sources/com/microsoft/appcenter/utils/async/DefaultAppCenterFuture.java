@@ -33,19 +33,23 @@ public class DefaultAppCenterFuture<T> implements AppCenterFuture<T> {
 
     @Override // com.microsoft.appcenter.utils.async.AppCenterFuture
     public synchronized void thenAccept(final AppCenterConsumer<T> appCenterConsumer) {
-        if (isDone()) {
-            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.1
-                /* JADX WARN: Multi-variable type inference failed */
-                @Override // java.lang.Runnable
-                public void run() {
-                    appCenterConsumer.accept(DefaultAppCenterFuture.this.mResult);
+        try {
+            if (isDone()) {
+                HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.utils.async.DefaultAppCenterFuture.1
+                    /* JADX WARN: Multi-variable type inference failed */
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        appCenterConsumer.accept(DefaultAppCenterFuture.this.mResult);
+                    }
+                });
+            } else {
+                if (this.mConsumers == null) {
+                    this.mConsumers = new LinkedList();
                 }
-            });
-        } else {
-            if (this.mConsumers == null) {
-                this.mConsumers = new LinkedList();
+                this.mConsumers.add(appCenterConsumer);
             }
-            this.mConsumers.add(appCenterConsumer);
+        } catch (Throwable th) {
+            throw th;
         }
     }
 

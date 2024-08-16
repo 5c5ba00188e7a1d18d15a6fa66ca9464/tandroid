@@ -21,12 +21,12 @@ public final class JsonTreeReader extends JsonReader {
     private int stackSize;
     private static final Reader UNREADABLE_READER = new Reader() { // from class: com.google.gson.internal.bind.JsonTreeReader.1
         @Override // java.io.Reader
-        public int read(char[] cArr, int i, int i2) throws IOException {
+        public int read(char[] cArr, int i, int i2) {
             throw new AssertionError();
         }
 
         @Override // java.io.Reader, java.io.Closeable, java.lang.AutoCloseable
-        public void close() throws IOException {
+        public void close() {
             throw new AssertionError();
         }
     };
@@ -392,13 +392,13 @@ public final class JsonTreeReader extends JsonReader {
     }
 
     @Override // com.google.gson.stream.JsonReader
-    public String getPreviousPath() {
-        return getPath(true);
+    public String getPath() {
+        return getPath(false);
     }
 
     @Override // com.google.gson.stream.JsonReader
-    public String getPath() {
-        return getPath(false);
+    public String getPreviousPath() {
+        return getPath(true);
     }
 
     private String locationString() {

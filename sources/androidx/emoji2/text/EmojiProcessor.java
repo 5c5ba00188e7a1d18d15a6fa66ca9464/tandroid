@@ -34,15 +34,12 @@ public final class EmojiProcessor {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    /* JADX WARN: Code restructure failed: missing block: B:79:0x0122, code lost:
-        ((androidx.emoji2.text.SpannableBuilder) r11).endBatchEdit();
-     */
-    /* JADX WARN: Removed duplicated region for block: B:101:0x00d4 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:104:0x009f A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0046 A[Catch: all -> 0x0129, TryCatch #0 {all -> 0x0129, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:19:0x0037, B:21:0x003f, B:23:0x0042, B:25:0x0046, B:27:0x0052, B:28:0x0055, B:30:0x0062, B:36:0x0071, B:37:0x007d, B:41:0x0098, B:49:0x00a8, B:52:0x00b4, B:53:0x00be, B:54:0x00c8, B:56:0x00cf, B:57:0x00d4, B:59:0x00df, B:61:0x00e6, B:65:0x00f0, B:68:0x00fc, B:69:0x0102, B:71:0x010b, B:16:0x002c), top: B:87:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x00fc A[Catch: all -> 0x0129, TryCatch #0 {all -> 0x0129, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:19:0x0037, B:21:0x003f, B:23:0x0042, B:25:0x0046, B:27:0x0052, B:28:0x0055, B:30:0x0062, B:36:0x0071, B:37:0x007d, B:41:0x0098, B:49:0x00a8, B:52:0x00b4, B:53:0x00be, B:54:0x00c8, B:56:0x00cf, B:57:0x00d4, B:59:0x00df, B:61:0x00e6, B:65:0x00f0, B:68:0x00fc, B:69:0x0102, B:71:0x010b, B:16:0x002c), top: B:87:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:71:0x010b A[Catch: all -> 0x0129, TRY_LEAVE, TryCatch #0 {all -> 0x0129, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:19:0x0037, B:21:0x003f, B:23:0x0042, B:25:0x0046, B:27:0x0052, B:28:0x0055, B:30:0x0062, B:36:0x0071, B:37:0x007d, B:41:0x0098, B:49:0x00a8, B:52:0x00b4, B:53:0x00be, B:54:0x00c8, B:56:0x00cf, B:57:0x00d4, B:59:0x00df, B:61:0x00e6, B:65:0x00f0, B:68:0x00fc, B:69:0x0102, B:71:0x010b, B:16:0x002c), top: B:87:0x000e }] */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x0117  */
+    /* JADX WARN: Removed duplicated region for block: B:100:0x00d7 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x00a2 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:27:0x0049 A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x00ff A[Catch: all -> 0x002a, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x010d A[Catch: all -> 0x002a, TRY_LEAVE, TryCatch #0 {all -> 0x002a, blocks: (B:7:0x000e, B:10:0x0013, B:12:0x0017, B:14:0x0024, B:21:0x003a, B:23:0x0042, B:25:0x0045, B:27:0x0049, B:29:0x0055, B:30:0x0058, B:32:0x0065, B:38:0x0074, B:39:0x0080, B:43:0x009b, B:51:0x00ab, B:54:0x00b7, B:55:0x00c1, B:56:0x00cb, B:58:0x00d2, B:59:0x00d7, B:61:0x00e2, B:63:0x00e9, B:67:0x00f3, B:70:0x00ff, B:71:0x0104, B:73:0x010d, B:18:0x002f), top: B:88:0x000e }] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0119  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -113,13 +110,17 @@ public final class EmojiProcessor {
                             }
                             addEmoji(unprecomputeTextOnModificationSpannable2, processorSm.getCurrentMetadata(), i4, i);
                         }
-                        if (unprecomputeTextOnModificationSpannable2 == null) {
-                            return unprecomputeTextOnModificationSpannable2.getUnwrappedSpannable();
+                        if (unprecomputeTextOnModificationSpannable2 != null) {
+                            if (z2) {
+                                ((SpannableBuilder) charSequence).endBatchEdit();
+                            }
+                            return charSequence;
                         }
+                        Spannable unwrappedSpannable = unprecomputeTextOnModificationSpannable2.getUnwrappedSpannable();
                         if (z2) {
                             ((SpannableBuilder) charSequence).endBatchEdit();
                         }
-                        return charSequence;
+                        return unwrappedSpannable;
                     }
                     return charSequence;
                 }
@@ -155,7 +156,7 @@ public final class EmojiProcessor {
                 }
                 addEmoji(unprecomputeTextOnModificationSpannable2, processorSm.getCurrentMetadata(), i4, i);
             }
-            if (unprecomputeTextOnModificationSpannable2 == null) {
+            if (unprecomputeTextOnModificationSpannable2 != null) {
             }
         }
         return charSequence;

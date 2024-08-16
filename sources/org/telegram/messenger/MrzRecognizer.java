@@ -125,7 +125,6 @@ public class MrzRecognizer {
                 result.number = driverLicense.licenseNumber;
                 String str2 = driverLicense.gender;
                 if (str2 != null) {
-                    str2.hashCode();
                     if (str2.equals("1")) {
                         result.gender = 1;
                     } else if (str2.equals("2")) {
@@ -183,103 +182,78 @@ public class MrzRecognizer {
         return null;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x03f5  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0253 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:192:0x0272 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x022d  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x023e  */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x03c7  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x0278 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01f7  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static Result recognizeMRZ(Bitmap bitmap) {
         float max;
         Bitmap createScaledBitmap;
+        String str;
+        String str2;
         int i;
         int i2;
         int i3;
         int i4;
-        int i5;
-        String trim;
-        String replace;
-        String replace2;
         Matrix matrix;
-        Matrix matrix2;
+        int i5;
         Bitmap bitmap2 = bitmap;
         if (bitmap.getWidth() > 512 || bitmap.getHeight() > 512) {
             max = 512.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
             createScaledBitmap = Bitmap.createScaledBitmap(bitmap2, Math.round(bitmap.getWidth() * max), Math.round(bitmap.getHeight() * max), true);
         } else {
-            max = 1.0f;
             createScaledBitmap = bitmap2;
+            max = 1.0f;
         }
         int[] findCornerPoints = findCornerPoints(createScaledBitmap);
         float f = 1.0f / max;
-        if (findCornerPoints != null) {
-            Point point = new Point(findCornerPoints[0], findCornerPoints[1]);
-            Point point2 = new Point(findCornerPoints[2], findCornerPoints[3]);
-            Point point3 = new Point(findCornerPoints[4], findCornerPoints[5]);
-            Point point4 = new Point(findCornerPoints[6], findCornerPoints[7]);
-            if (point2.x >= point.x) {
-                point2 = point;
-                point = point2;
-                point4 = point3;
-                point3 = point4;
-            }
-            double hypot = Math.hypot(point.x - point2.x, point.y - point2.y);
-            double hypot2 = Math.hypot(point3.x - point4.x, point3.y - point4.y);
-            double hypot3 = Math.hypot(point4.x - point2.x, point4.y - point2.y);
-            Point point5 = point3;
-            Point point6 = point4;
-            double hypot4 = Math.hypot(point3.x - point.x, point3.y - point.y);
-            double d = hypot / hypot3;
-            double d2 = hypot / hypot4;
-            double d3 = hypot2 / hypot3;
-            double d4 = hypot2 / hypot4;
-            if (d >= 1.35d && d <= 1.75d && d3 >= 1.35d && d3 <= 1.75d && d2 >= 1.35d && d2 <= 1.75d && d4 >= 1.35d && d4 <= 1.75d) {
-                Bitmap createBitmap = Bitmap.createBitmap(1024, (int) Math.round(1024.0d / ((((d + d2) + d3) + d4) / 4.0d)), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(createBitmap);
-                float[] fArr = {point2.x * f, point2.y * f, point.x * f, point.y * f, point5.x * f, point5.y * f, point6.x * f, point6.y * f};
-                Matrix matrix3 = new Matrix();
-                matrix3.setPolyToPoly(fArr, 0, new float[]{0.0f, 0.0f, createBitmap.getWidth(), 0.0f, createBitmap.getWidth(), createBitmap.getHeight(), 0.0f, createBitmap.getHeight()}, 0, 4);
-                canvas.drawBitmap(bitmap2, matrix3, new Paint(2));
-                bitmap2 = createBitmap;
-            }
-        } else if (bitmap.getWidth() > 1500 || bitmap.getHeight() > 1500) {
-            float max2 = 1500.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
-            i = 1;
-            bitmap2 = Bitmap.createScaledBitmap(bitmap2, Math.round(bitmap.getWidth() * max2), Math.round(bitmap.getHeight() * max2), true);
-            Bitmap bitmap3 = null;
-            Rect[][] rectArr = null;
-            i2 = 0;
-            i3 = 0;
-            int i6 = 0;
-            while (true) {
-                if (i2 < 3) {
-                    i4 = 2;
-                    break;
-                }
-                if (i2 == i) {
-                    matrix = new Matrix();
-                    matrix.setRotate(1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
-                } else if (i2 == 2) {
-                    matrix = new Matrix();
-                    matrix.setRotate(-1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
-                } else {
-                    matrix2 = null;
-                    Bitmap createBitmap2 = matrix2 == null ? Bitmap.createBitmap(bitmap2, 0, 0, bitmap2.getWidth(), bitmap2.getHeight(), matrix2, true) : bitmap2;
-                    bitmap3 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
-                    rectArr = binarizeAndFindCharacters(createBitmap2, bitmap3);
-                    if (rectArr != null) {
+        if (findCornerPoints == null) {
+            str = "   ";
+            str2 = "\n";
+            if (bitmap.getWidth() > 1500 || bitmap.getHeight() > 1500) {
+                float max2 = 1500.0f / Math.max(bitmap.getWidth(), bitmap.getHeight());
+                i = 1;
+                bitmap2 = Bitmap.createScaledBitmap(bitmap2, Math.round(bitmap.getWidth() * max2), Math.round(bitmap.getHeight() * max2), true);
+                Bitmap bitmap3 = null;
+                Rect[][] rectArr = null;
+                i2 = 0;
+                i3 = 0;
+                int i6 = 0;
+                while (true) {
+                    if (i2 < 3) {
+                        i4 = 2;
+                        break;
+                    }
+                    if (i2 == i) {
+                        Matrix matrix2 = new Matrix();
+                        matrix2.setRotate(1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
+                        matrix = matrix2;
+                    } else if (i2 != 2) {
+                        matrix = null;
+                    } else {
+                        Matrix matrix3 = new Matrix();
+                        matrix3.setRotate(-1.0f, bitmap2.getWidth() / 2, bitmap2.getHeight() / 2);
+                        matrix = matrix3;
+                    }
+                    Bitmap createBitmap = matrix != null ? Bitmap.createBitmap(bitmap2, 0, 0, bitmap2.getWidth(), bitmap2.getHeight(), matrix, true) : bitmap2;
+                    bitmap3 = Bitmap.createBitmap(createBitmap.getWidth(), createBitmap.getHeight(), Bitmap.Config.ALPHA_8);
+                    rectArr = binarizeAndFindCharacters(createBitmap, bitmap3);
+                    if (rectArr == null) {
                         return null;
                     }
-                    for (Rect[] rectArr2 : rectArr) {
+                    int length = rectArr.length;
+                    int i7 = 0;
+                    while (i7 < length) {
+                        Rect[] rectArr2 = rectArr[i7];
                         i3 = Math.max(rectArr2.length, i3);
                         if (rectArr2.length > 0) {
+                            i5 = 1;
                             i6++;
+                        } else {
+                            i5 = 1;
                         }
+                        i7 += i5;
                     }
                     i4 = 2;
                     if (i6 >= 2 && i3 >= 30) {
@@ -288,193 +262,200 @@ public class MrzRecognizer {
                     i2++;
                     i = 1;
                 }
-                matrix2 = matrix;
-                if (matrix2 == null) {
+                if (i3 >= 30 || i6 < i4) {
+                    return null;
                 }
-                bitmap3 = Bitmap.createBitmap(createBitmap2.getWidth(), createBitmap2.getHeight(), Bitmap.Config.ALPHA_8);
-                rectArr = binarizeAndFindCharacters(createBitmap2, bitmap3);
-                if (rectArr != null) {
+                Bitmap createBitmap2 = Bitmap.createBitmap(rectArr[0].length * 10, rectArr.length * 15, Bitmap.Config.ALPHA_8);
+                Canvas canvas = new Canvas(createBitmap2);
+                Paint paint = new Paint(2);
+                Rect rect = new Rect(0, 0, 10, 15);
+                int length2 = rectArr.length;
+                int i8 = 0;
+                for (int i9 = 0; i9 < length2; i9++) {
+                    Rect[] rectArr3 = rectArr[i9];
+                    int length3 = rectArr3.length;
+                    int i10 = 0;
+                    int i11 = 0;
+                    while (i10 < length3) {
+                        Rect rect2 = rectArr3[i10];
+                        int i12 = i11 * 10;
+                        int i13 = length2;
+                        int i14 = i8 * 15;
+                        rect.set(i12, i14, i12 + 10, i14 + 15);
+                        canvas.drawBitmap(bitmap3, rect2, rect, paint);
+                        i11++;
+                        i10++;
+                        length2 = i13;
+                        rectArr3 = rectArr3;
+                    }
+                    i8++;
                 }
-            }
-            if (i3 >= 30 || i6 < i4) {
-                return null;
-            }
-            Bitmap createBitmap3 = Bitmap.createBitmap(rectArr[0].length * 10, rectArr.length * 15, Bitmap.Config.ALPHA_8);
-            Canvas canvas2 = new Canvas(createBitmap3);
-            Paint paint = new Paint(2);
-            Rect rect = new Rect(0, 0, 10, 15);
-            int length = rectArr.length;
-            int i7 = 0;
-            for (int i8 = 0; i8 < length; i8++) {
-                Rect[] rectArr3 = rectArr[i8];
-                int length2 = rectArr3.length;
-                int i9 = 0;
-                int i10 = 0;
-                while (i9 < length2) {
-                    Rect rect2 = rectArr3[i9];
-                    int i11 = i10 * 10;
-                    int i12 = i7 * 15;
-                    rect.set(i11, i12, i11 + 10, i12 + 15);
-                    canvas2.drawBitmap(bitmap3, rect2, rect, paint);
-                    i10++;
-                    i9++;
-                    length = length;
+                String performRecognition = performRecognition(createBitmap2, rectArr.length, rectArr[0].length, ApplicationLoader.applicationContext.getAssets());
+                if (performRecognition == null) {
+                    return null;
                 }
-                i7++;
-            }
-            String performRecognition = performRecognition(createBitmap3, rectArr.length, rectArr[0].length, ApplicationLoader.applicationContext.getAssets());
-            if (performRecognition == null) {
-                return null;
-            }
-            String[] split = TextUtils.split(performRecognition, "\n");
-            Result result = new Result();
-            if (split.length < 2 || split[0].length() < 30 || split[1].length() != split[0].length()) {
-                return null;
-            }
-            result.rawMRZ = TextUtils.join("\n", split);
-            HashMap<String, String> countriesMap = getCountriesMap();
-            char charAt = split[0].charAt(0);
-            if (charAt == 'P') {
-                result.type = 1;
-                if (split[0].length() == 44) {
-                    result.issuingCountry = split[0].substring(2, 5);
-                    int indexOf = split[0].indexOf("<<", 6);
-                    if (indexOf != -1) {
-                        result.lastName = split[0].substring(5, indexOf).replace('<', ' ').replace('0', 'O').trim();
-                        String trim2 = split[0].substring(indexOf + 2).replace('<', ' ').replace('0', 'O').trim();
-                        result.firstName = trim2;
-                        if (trim2.contains("   ")) {
-                            String str = result.firstName;
-                            i5 = 0;
-                            result.firstName = str.substring(0, str.indexOf("   "));
-                            trim = split[1].substring(i5, 9).replace('<', ' ').replace('O', '0').trim();
-                            if (checksum(trim) == getNumber(split[1].charAt(9))) {
-                                result.number = trim;
-                            }
-                            result.nationality = split[1].substring(10, 13);
-                            replace = split[1].substring(13, 19).replace('O', '0').replace('I', '1');
-                            if (checksum(replace) == getNumber(split[1].charAt(19))) {
-                                parseBirthDate(replace, result);
-                            }
-                            result.gender = parseGender(split[1].charAt(20));
-                            replace2 = split[1].substring(21, 27).replace('O', '0').replace('I', '1');
-                            if (checksum(replace2) != getNumber(split[1].charAt(27)) || split[1].charAt(27) == '<') {
-                                parseExpiryDate(replace2, result);
-                            }
-                            if (!"RUS".equals(result.issuingCountry) && split[0].charAt(1) == 'N') {
-                                result.type = 3;
-                                String[] split2 = result.firstName.split(" ");
-                                result.firstName = cyrillicToLatin(russianPassportTranslit(split2[0]));
-                                if (split2.length > 1) {
-                                    result.middleName = cyrillicToLatin(russianPassportTranslit(split2[1]));
-                                }
-                                result.lastName = cyrillicToLatin(russianPassportTranslit(result.lastName));
-                                if (result.number != null) {
-                                    result.number = result.number.substring(0, 3) + split[1].charAt(28) + result.number.substring(3);
-                                }
-                            } else {
-                                result.firstName = result.firstName.replace('8', 'B');
-                                result.lastName = result.lastName.replace('8', 'B');
-                            }
-                            result.lastName = capitalize(result.lastName);
-                            result.firstName = capitalize(result.firstName);
-                            result.middleName = capitalize(result.middleName);
-                        }
-                    }
-                    i5 = 0;
-                    trim = split[1].substring(i5, 9).replace('<', ' ').replace('O', '0').trim();
-                    if (checksum(trim) == getNumber(split[1].charAt(9))) {
-                    }
-                    result.nationality = split[1].substring(10, 13);
-                    replace = split[1].substring(13, 19).replace('O', '0').replace('I', '1');
-                    if (checksum(replace) == getNumber(split[1].charAt(19))) {
-                    }
-                    result.gender = parseGender(split[1].charAt(20));
-                    replace2 = split[1].substring(21, 27).replace('O', '0').replace('I', '1');
-                    if (checksum(replace2) != getNumber(split[1].charAt(27))) {
-                    }
-                    parseExpiryDate(replace2, result);
-                    if (!"RUS".equals(result.issuingCountry)) {
-                    }
-                    result.firstName = result.firstName.replace('8', 'B');
-                    result.lastName = result.lastName.replace('8', 'B');
-                    result.lastName = capitalize(result.lastName);
-                    result.firstName = capitalize(result.firstName);
-                    result.middleName = capitalize(result.middleName);
+                String str3 = str2;
+                String[] split = TextUtils.split(performRecognition, str3);
+                Result result = new Result();
+                if (split.length < 2 || split[0].length() < 30 || split[1].length() != split[0].length()) {
+                    return null;
                 }
-            } else if (charAt != 'I' && charAt != 'A' && charAt != 'C') {
-                return null;
-            } else {
-                result.type = 2;
-                if (split.length == 3 && split[0].length() == 30 && split[2].length() == 30) {
-                    result.issuingCountry = split[0].substring(2, 5);
-                    String trim3 = split[0].substring(5, 14).replace('<', ' ').replace('O', '0').trim();
-                    if (checksum(trim3) == split[0].charAt(14) - '0') {
-                        result.number = trim3;
-                    }
-                    String replace3 = split[1].substring(0, 6).replace('O', '0').replace('I', '1');
-                    if (checksum(replace3) == getNumber(split[1].charAt(6))) {
-                        parseBirthDate(replace3, result);
-                    }
-                    result.gender = parseGender(split[1].charAt(7));
-                    String replace4 = split[1].substring(8, 14).replace('O', '0').replace('I', '1');
-                    if (checksum(replace4) == getNumber(split[1].charAt(14)) || split[1].charAt(14) == '<') {
-                        parseExpiryDate(replace4, result);
-                    }
-                    result.nationality = split[1].substring(15, 18);
-                    int indexOf2 = split[2].indexOf("<<");
-                    if (indexOf2 != -1) {
-                        result.lastName = split[2].substring(0, indexOf2).replace('<', ' ').trim();
-                        result.firstName = split[2].substring(indexOf2 + 2).replace('<', ' ').trim();
-                    }
-                } else if (split.length == 2 && split[0].length() == 36) {
-                    String substring = split[0].substring(2, 5);
-                    result.issuingCountry = substring;
-                    if ("FRA".equals(substring) && charAt == 'I' && split[0].charAt(1) == 'D') {
-                        result.nationality = "FRA";
-                        result.lastName = split[0].substring(5, 30).replace('<', ' ').trim();
-                        result.firstName = split[1].substring(13, 27).replace("<<", ", ").replace('<', ' ').trim();
-                        String replace5 = split[1].substring(0, 12).replace('O', '0');
-                        if (checksum(replace5) == getNumber(split[1].charAt(12))) {
-                            result.number = replace5;
+                result.rawMRZ = TextUtils.join(str3, split);
+                HashMap<String, String> countriesMap = getCountriesMap();
+                char charAt = split[0].charAt(0);
+                if (charAt == 'P') {
+                    result.type = 1;
+                    if (split[0].length() == 44) {
+                        result.issuingCountry = split[0].substring(2, 5);
+                        int indexOf = split[0].indexOf("<<", 6);
+                        if (indexOf != -1) {
+                            result.lastName = split[0].substring(5, indexOf).replace('<', ' ').replace('0', 'O').trim();
+                            String trim = split[0].substring(indexOf + 2).replace('<', ' ').replace('0', 'O').trim();
+                            result.firstName = trim;
+                            String str4 = str;
+                            if (trim.contains(str4)) {
+                                String str5 = result.firstName;
+                                result.firstName = str5.substring(0, str5.indexOf(str4));
+                            }
                         }
-                        String replace6 = split[1].substring(27, 33).replace('O', '0').replace('I', '1');
-                        if (checksum(replace6) == getNumber(split[1].charAt(33))) {
-                            parseBirthDate(replace6, result);
-                        }
-                        result.gender = parseGender(split[1].charAt(34));
-                        result.doesNotExpire = true;
-                    } else {
-                        int indexOf3 = split[0].indexOf("<<");
-                        if (indexOf3 != -1) {
-                            result.lastName = split[0].substring(5, indexOf3).replace('<', ' ').trim();
-                            result.firstName = split[0].substring(indexOf3 + 2).replace('<', ' ').trim();
-                        }
-                        String trim4 = split[1].substring(0, 9).replace('<', ' ').replace('O', '0').trim();
-                        if (checksum(trim4) == getNumber(split[1].charAt(9))) {
-                            result.number = trim4;
+                        String trim2 = split[1].substring(0, 9).replace('<', ' ').replace('O', '0').trim();
+                        if (checksum(trim2) == getNumber(split[1].charAt(9))) {
+                            result.number = trim2;
                         }
                         result.nationality = split[1].substring(10, 13);
-                        String replace7 = split[1].substring(13, 19).replace('O', '0').replace('I', '1');
-                        if (checksum(replace7) == getNumber(split[1].charAt(19))) {
-                            parseBirthDate(replace7, result);
+                        String replace = split[1].substring(13, 19).replace('O', '0').replace('I', '1');
+                        if (checksum(replace) == getNumber(split[1].charAt(19))) {
+                            parseBirthDate(replace, result);
                         }
                         result.gender = parseGender(split[1].charAt(20));
-                        String replace8 = split[1].substring(21, 27).replace('O', '0').replace('I', '1');
-                        if (checksum(replace8) == getNumber(split[1].charAt(27)) || split[1].charAt(27) == '<') {
-                            parseExpiryDate(replace8, result);
+                        String replace2 = split[1].substring(21, 27).replace('O', '0').replace('I', '1');
+                        if (checksum(replace2) == getNumber(split[1].charAt(27)) || split[1].charAt(27) == '<') {
+                            parseExpiryDate(replace2, result);
+                        }
+                        if ("RUS".equals(result.issuingCountry) && split[0].charAt(1) == 'N') {
+                            result.type = 3;
+                            String[] split2 = result.firstName.split(" ");
+                            result.firstName = cyrillicToLatin(russianPassportTranslit(split2[0]));
+                            if (split2.length > 1) {
+                                result.middleName = cyrillicToLatin(russianPassportTranslit(split2[1]));
+                            }
+                            result.lastName = cyrillicToLatin(russianPassportTranslit(result.lastName));
+                            if (result.number != null) {
+                                result.number = result.number.substring(0, 3) + split[1].charAt(28) + result.number.substring(3);
+                            }
+                        } else {
+                            result.firstName = result.firstName.replace('8', 'B');
+                            result.lastName = result.lastName.replace('8', 'B');
+                        }
+                        result.lastName = capitalize(result.lastName);
+                        result.firstName = capitalize(result.firstName);
+                        result.middleName = capitalize(result.middleName);
+                    }
+                } else if (charAt != 'I' && charAt != 'A' && charAt != 'C') {
+                    return null;
+                } else {
+                    result.type = 2;
+                    if (split.length == 3 && split[0].length() == 30 && split[2].length() == 30) {
+                        result.issuingCountry = split[0].substring(2, 5);
+                        String trim3 = split[0].substring(5, 14).replace('<', ' ').replace('O', '0').trim();
+                        if (checksum(trim3) == split[0].charAt(14) - '0') {
+                            result.number = trim3;
+                        }
+                        String replace3 = split[1].substring(0, 6).replace('O', '0').replace('I', '1');
+                        if (checksum(replace3) == getNumber(split[1].charAt(6))) {
+                            parseBirthDate(replace3, result);
+                        }
+                        result.gender = parseGender(split[1].charAt(7));
+                        String replace4 = split[1].substring(8, 14).replace('O', '0').replace('I', '1');
+                        if (checksum(replace4) == getNumber(split[1].charAt(14)) || split[1].charAt(14) == '<') {
+                            parseExpiryDate(replace4, result);
+                        }
+                        result.nationality = split[1].substring(15, 18);
+                        int indexOf2 = split[2].indexOf("<<");
+                        if (indexOf2 != -1) {
+                            result.lastName = split[2].substring(0, indexOf2).replace('<', ' ').trim();
+                            result.firstName = split[2].substring(indexOf2 + 2).replace('<', ' ').trim();
+                        }
+                    } else if (split.length == 2 && split[0].length() == 36) {
+                        String substring = split[0].substring(2, 5);
+                        result.issuingCountry = substring;
+                        if ("FRA".equals(substring) && charAt == 'I' && split[0].charAt(1) == 'D') {
+                            result.nationality = "FRA";
+                            result.lastName = split[0].substring(5, 30).replace('<', ' ').trim();
+                            result.firstName = split[1].substring(13, 27).replace("<<", ", ").replace('<', ' ').trim();
+                            String replace5 = split[1].substring(0, 12).replace('O', '0');
+                            if (checksum(replace5) == getNumber(split[1].charAt(12))) {
+                                result.number = replace5;
+                            }
+                            String replace6 = split[1].substring(27, 33).replace('O', '0').replace('I', '1');
+                            if (checksum(replace6) == getNumber(split[1].charAt(33))) {
+                                parseBirthDate(replace6, result);
+                            }
+                            result.gender = parseGender(split[1].charAt(34));
+                            result.doesNotExpire = true;
+                        } else {
+                            int indexOf3 = split[0].indexOf("<<");
+                            if (indexOf3 != -1) {
+                                result.lastName = split[0].substring(5, indexOf3).replace('<', ' ').trim();
+                                result.firstName = split[0].substring(indexOf3 + 2).replace('<', ' ').trim();
+                            }
+                            String trim4 = split[1].substring(0, 9).replace('<', ' ').replace('O', '0').trim();
+                            if (checksum(trim4) == getNumber(split[1].charAt(9))) {
+                                result.number = trim4;
+                            }
+                            result.nationality = split[1].substring(10, 13);
+                            String replace7 = split[1].substring(13, 19).replace('O', '0').replace('I', '1');
+                            if (checksum(replace7) == getNumber(split[1].charAt(19))) {
+                                parseBirthDate(replace7, result);
+                            }
+                            result.gender = parseGender(split[1].charAt(20));
+                            String replace8 = split[1].substring(21, 27).replace('O', '0').replace('I', '1');
+                            if (checksum(replace8) == getNumber(split[1].charAt(27)) || split[1].charAt(27) == '<') {
+                                parseExpiryDate(replace8, result);
+                            }
                         }
                     }
+                    result.firstName = capitalize(result.firstName.replace('0', 'O').replace('8', 'B'));
+                    result.lastName = capitalize(result.lastName.replace('0', 'O').replace('8', 'B'));
                 }
-                result.firstName = capitalize(result.firstName.replace('0', 'O').replace('8', 'B'));
-                result.lastName = capitalize(result.lastName.replace('0', 'O').replace('8', 'B'));
+                if (TextUtils.isEmpty(result.firstName) && TextUtils.isEmpty(result.lastName)) {
+                    return null;
+                }
+                result.issuingCountry = countriesMap.get(result.issuingCountry);
+                result.nationality = countriesMap.get(result.nationality);
+                return result;
             }
-            if (TextUtils.isEmpty(result.firstName) && TextUtils.isEmpty(result.lastName)) {
-                return null;
+        } else {
+            Point point = new Point(findCornerPoints[0], findCornerPoints[1]);
+            Point point2 = new Point(findCornerPoints[2], findCornerPoints[3]);
+            Point point3 = new Point(findCornerPoints[4], findCornerPoints[5]);
+            Point point4 = new Point(findCornerPoints[6], findCornerPoints[7]);
+            if (point2.x < point.x) {
+                point3 = point4;
+                point4 = point3;
+            } else {
+                point2 = point;
+                point = point2;
             }
-            result.issuingCountry = countriesMap.get(result.issuingCountry);
-            result.nationality = countriesMap.get(result.nationality);
-            return result;
+            double hypot = Math.hypot(point.x - point2.x, point.y - point2.y);
+            double hypot2 = Math.hypot(point4.x - point3.x, point4.y - point3.y);
+            str = "   ";
+            str2 = "\n";
+            double hypot3 = Math.hypot(point3.x - point2.x, point3.y - point2.y);
+            double hypot4 = Math.hypot(point4.x - point.x, point4.y - point.y);
+            double d = hypot / hypot3;
+            double d2 = hypot / hypot4;
+            double d3 = hypot2 / hypot3;
+            double d4 = hypot2 / hypot4;
+            if (d >= 1.35d && d <= 1.75d && d3 >= 1.35d && d3 <= 1.75d && d2 >= 1.35d && d2 <= 1.75d && d4 >= 1.35d && d4 <= 1.75d) {
+                Bitmap createBitmap3 = Bitmap.createBitmap(1024, (int) Math.round(1024.0d / ((((d + d2) + d3) + d4) / 4.0d)), Bitmap.Config.ARGB_8888);
+                Canvas canvas2 = new Canvas(createBitmap3);
+                float[] fArr = {point2.x * f, point2.y * f, point.x * f, point.y * f, point4.x * f, point4.y * f, point3.x * f, point3.y * f};
+                Matrix matrix4 = new Matrix();
+                matrix4.setPolyToPoly(fArr, 0, new float[]{0.0f, 0.0f, createBitmap3.getWidth(), 0.0f, createBitmap3.getWidth(), createBitmap3.getHeight(), 0.0f, createBitmap3.getHeight()}, 0, 4);
+                canvas2.drawBitmap(bitmap2, matrix4, new Paint(2));
+                bitmap2 = createBitmap3;
+            }
         }
         i = 1;
         Bitmap bitmap32 = null;
@@ -526,7 +507,7 @@ public class MrzRecognizer {
         int i = 0;
         for (int i2 = 0; i2 < charArray.length; i2++) {
             char c = charArray[i2];
-            i += ((c < '0' || c > '9') ? (c < 'A' || c > 'Z') ? 0 : (c - 'A') + 10 : c - '0') * iArr[i2 % 3];
+            i += ((c < '0' || c > '9') ? (c < 'A' || c > 'Z') ? 0 : c - '7' : c - '0') * iArr[i2 % 3];
         }
         return i % 10;
     }
@@ -535,7 +516,7 @@ public class MrzRecognizer {
         try {
             int parseInt = Integer.parseInt(str.substring(0, 2));
             result.birthYear = parseInt;
-            result.birthYear = parseInt < (Calendar.getInstance().get(1) % 100) + (-5) ? result.birthYear + 2000 : result.birthYear + 1900;
+            result.birthYear += parseInt < (Calendar.getInstance().get(1) % 100) + (-5) ? 2000 : 1900;
             result.birthMonth = Integer.parseInt(str.substring(2, 4));
             result.birthDay = Integer.parseInt(str.substring(4));
         } catch (NumberFormatException unused) {

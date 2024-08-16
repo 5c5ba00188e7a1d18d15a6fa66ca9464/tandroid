@@ -257,9 +257,7 @@ public class FontResourcesParserCompat {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static int getType(TypedArray typedArray, int i) {
-            int type;
-            type = typedArray.getType(i);
-            return type;
+            return typedArray.getType(i);
         }
     }
 }

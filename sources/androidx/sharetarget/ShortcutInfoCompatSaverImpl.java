@@ -50,8 +50,11 @@ public class ShortcutInfoCompatSaverImpl extends ShortcutInfoCompatSaver<Listena
     public static ShortcutInfoCompatSaverImpl getInstance(Context context) {
         if (sInstance == null) {
             synchronized (GET_INSTANCE_LOCK) {
-                if (sInstance == null) {
-                    sInstance = new ShortcutInfoCompatSaverImpl(context, createExecutorService(), createExecutorService());
+                try {
+                    if (sInstance == null) {
+                        sInstance = new ShortcutInfoCompatSaverImpl(context, createExecutorService(), createExecutorService());
+                    }
+                } finally {
                 }
             }
         }

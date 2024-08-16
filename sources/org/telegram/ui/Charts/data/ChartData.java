@@ -218,17 +218,17 @@ public class ChartData {
     }
 
     public int findEndIndex(int i, float f) {
-        int length = this.xPercentage.length;
-        if (f == 1.0f) {
-            return length - 1;
+        int i2 = (f > 1.0f ? 1 : (f == 1.0f ? 0 : -1));
+        int length = this.xPercentage.length - 1;
+        if (i2 == 0) {
+            return length;
         }
-        int i2 = length - 1;
-        int i3 = i2;
+        int i3 = length;
         while (i <= i3) {
             int i4 = (i3 + i) >> 1;
             float[] fArr = this.xPercentage;
             float f2 = fArr[i4];
-            if ((f > f2 && (i4 == i2 || f < fArr[i4 + 1])) || f == f2) {
+            if ((f > f2 && (i4 == length || f < fArr[i4 + 1])) || f == f2) {
                 return i4;
             }
             if (f < f2) {

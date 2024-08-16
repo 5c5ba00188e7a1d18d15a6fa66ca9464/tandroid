@@ -49,6 +49,9 @@ public class ThanosEffect extends TextureView {
     private final ArrayList<ToSet> toSet;
     private Runnable whenDone;
 
+    public void scroll(int i, int i2) {
+    }
+
     /* JADX INFO: Access modifiers changed from: package-private */
     public static /* synthetic */ void access$500(ThanosEffect thanosEffect) {
         thanosEffect.destroy();
@@ -228,13 +231,6 @@ public class ThanosEffect extends TextureView {
         }
     }
 
-    public void scroll(int i, int i2) {
-        DrawingThread drawingThread = this.drawThread;
-        if (drawingThread != null) {
-            boolean z = drawingThread.running;
-        }
-    }
-
     public void animateGroup(ArrayList<View> arrayList, Runnable runnable) {
         DrawingThread drawingThread = this.drawThread;
         if (drawingThread != null) {
@@ -403,7 +399,7 @@ public class ThanosEffect extends TextureView {
                     i++;
                 }
                 this.toAddAnimations.clear();
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda24
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda23
                     @Override // java.lang.Runnable
                     public final void run() {
                         ThanosEffect.DrawingThread.lambda$run$0();
@@ -692,7 +688,7 @@ public class ThanosEffect extends TextureView {
                         i++;
                     }
                     this.pendingAnimations.clear();
-                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda22
+                    AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda24
                         @Override // java.lang.Runnable
                         public final void run() {
                             ThanosEffect.DrawingThread.lambda$draw$1();
@@ -726,7 +722,7 @@ public class ThanosEffect extends TextureView {
             }
             final Animation animation = new Animation(this, arrayList, runnable);
             this.running = true;
-            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda25
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda22
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThanosEffect.DrawingThread.this.lambda$animateGroup$2(animation);
@@ -753,7 +749,7 @@ public class ThanosEffect extends TextureView {
             final Animation animation = new Animation(view, f, runnable);
             getHandler();
             this.running = true;
-            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda23
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda27
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThanosEffect.DrawingThread.this.lambda$animate$3(animation);
@@ -800,7 +796,7 @@ public class ThanosEffect extends TextureView {
 
         public void animate(Matrix matrix, Bitmap bitmap, final Runnable runnable, final Runnable runnable2) {
             if (!this.alive) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda26
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda25
                     @Override // java.lang.Runnable
                     public final void run() {
                         ThanosEffect.DrawingThread.lambda$animate$4(runnable, runnable2);
@@ -817,7 +813,7 @@ public class ThanosEffect extends TextureView {
             final Animation animation = new Animation(matrix, bitmap, runnable, runnable2);
             getHandler();
             this.running = true;
-            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda27
+            postRunnable(new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$$ExternalSyntheticLambda26
                 @Override // java.lang.Runnable
                 public final void run() {
                     ThanosEffect.DrawingThread.this.lambda$animate$5(animation);
@@ -946,10 +942,10 @@ public class ThanosEffect extends TextureView {
                 this.bitmap = bitmap;
             }
 
-            /* JADX WARN: Code restructure failed: missing block: B:88:0x0220, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:90:0x0228, code lost:
                 if ((r2 & 1) != 0) goto L79;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:93:0x0230, code lost:
+            /* JADX WARN: Code restructure failed: missing block: B:95:0x0238, code lost:
                 if (r12.messages.size() != 1) goto L97;
              */
             /*
@@ -1004,17 +1000,17 @@ public class ThanosEffect extends TextureView {
                 int i7 = Integer.MIN_VALUE;
                 for (int i8 = 0; i8 < arrayList.size(); i8++) {
                     View view = arrayList.get(i8);
-                    i5 = Math.min(i5, (int) view.getX());
-                    i6 = Math.max(i6, ((int) view.getX()) + view.getWidth());
-                    i4 = Math.min(i4, (int) view.getY());
-                    i7 = Math.max(i7, ((int) view.getY()) + view.getHeight());
+                    i4 = Math.min(i4, (int) view.getX());
+                    i7 = Math.max(i7, ((int) view.getX()) + view.getWidth());
+                    i5 = Math.min(i5, (int) view.getY());
+                    i6 = Math.max(i6, ((int) view.getY()) + view.getHeight());
                 }
-                float f5 = i4;
+                float f5 = i5;
                 animation.top = f5;
-                float f6 = i5;
+                float f6 = i4;
                 animation.left = f6;
-                animation.viewWidth = i6 - i5;
-                animation.viewHeight = i7 - i4;
+                animation.viewWidth = i7 - i4;
+                animation.viewHeight = i6 - i5;
                 animation.doneCallback = runnable;
                 animation.startCallback = new Runnable() { // from class: org.telegram.ui.Components.ThanosEffect$DrawingThread$Animation$$ExternalSyntheticLambda17
                     @Override // java.lang.Runnable
@@ -1282,8 +1278,8 @@ public class ThanosEffect extends TextureView {
                                 ChatMessageCell chatMessageCell3 = (ChatMessageCell) arrayList26.get(i22);
                                 drawChildElement(recyclerListView, chatActivity6, canvas2, y, chatMessageCell3, 0, chatMessageCell3.getX() - f18, chatMessageCell3.getY() - f17);
                                 i22++;
-                                chatActivity6 = chatActivity6;
                                 canvas2 = canvas2;
+                                chatActivity6 = chatActivity6;
                                 arrayList23 = arrayList26;
                             }
                             chatActivity = chatActivity6;
@@ -1374,13 +1370,14 @@ public class ThanosEffect extends TextureView {
             public void calcParticlesGrid(float f) {
                 int i;
                 int i2;
+                int i3;
                 int devicePerformanceClass = SharedConfig.getDevicePerformanceClass();
-                int i3 = DrawingThread.this.isEmulator ? 120000 : devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 120000 : 60000;
+                int i4 = DrawingThread.this.isEmulator ? 120000 : devicePerformanceClass != 1 ? devicePerformanceClass != 2 ? 30000 : 120000 : 60000;
                 if (this.isPhotoEditor) {
-                    i3 /= 2;
+                    i4 /= 2;
                 }
                 float max = Math.max(AndroidUtilities.dpf2(0.4f), 1.0f);
-                int clamp = Utilities.clamp((int) ((this.viewWidth * this.viewHeight) / (max * max)), (int) (i3 * f), 10);
+                int clamp = Utilities.clamp((int) ((this.viewWidth * this.viewHeight) / (max * max)), (int) (i4 * f), 10);
                 this.particlesCount = clamp;
                 float f2 = this.viewWidth / this.viewHeight;
                 int round = (int) Math.round(Math.sqrt(clamp / f2));
@@ -1389,7 +1386,8 @@ public class ThanosEffect extends TextureView {
                 while (true) {
                     i = this.gridWidth;
                     i2 = this.gridHeight;
-                    if (i * i2 >= this.particlesCount) {
+                    i3 = i * i2;
+                    if (i3 >= this.particlesCount) {
                         break;
                     } else if (i / i2 < f2) {
                         this.gridWidth = i + 1;
@@ -1397,11 +1395,11 @@ public class ThanosEffect extends TextureView {
                         this.gridHeight = i2 + 1;
                     }
                 }
-                this.particlesCount = i * i2;
+                this.particlesCount = i3;
                 this.gridSize = Math.max(this.viewWidth / i, this.viewHeight / i2);
                 GLES31.glGenBuffers(2, this.buffer, 0);
-                for (int i4 = 0; i4 < 2; i4++) {
-                    GLES31.glBindBuffer(34962, this.buffer[i4]);
+                for (int i5 = 0; i5 < 2; i5++) {
+                    GLES31.glBindBuffer(34962, this.buffer[i5]);
                     GLES31.glBufferData(34962, this.particlesCount * 28, null, 35048);
                 }
             }

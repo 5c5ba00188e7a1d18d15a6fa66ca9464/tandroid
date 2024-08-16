@@ -469,7 +469,7 @@ public final class Format implements Bundleable {
     public int hashCode() {
         if (this.hashCode == 0) {
             String str = this.id;
-            int hashCode = (527 + (str == null ? 0 : str.hashCode())) * 31;
+            int hashCode = ((str == null ? 0 : str.hashCode()) + 527) * 31;
             String str2 = this.label;
             int hashCode2 = (hashCode + (str2 != null ? str2.hashCode() : 0)) * 31;
             String str3 = this.language;
@@ -623,7 +623,7 @@ public final class Format implements Bundleable {
             if ((format.roleFlags & 128) != 0) {
                 arrayList2.add("subtitle");
             }
-            if ((format.roleFlags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+            if ((format.roleFlags & 256) != 0) {
                 arrayList2.add("sign");
             }
             if ((format.roleFlags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

@@ -1,52 +1,93 @@
 package j$.util.stream;
 
-import j$.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicLong;
 /* loaded from: classes2.dex */
-final class u3 extends v3 implements j$.util.K, j$.util.function.h0 {
-    long e;
+abstract class u3 {
+    protected final j$.util.Q a;
+    protected final boolean b;
+    private final long c;
+    private final AtomicLong d;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public u3(j$.util.K k, long j, long j2) {
-        super(k, j, j2);
+    public u3(j$.util.Q q, long j, long j2) {
+        this.a = q;
+        this.b = j2 < 0;
+        this.c = j2 >= 0 ? j2 : 0L;
+        this.d = new AtomicLong(j2 >= 0 ? j + j2 : j);
     }
 
-    u3(j$.util.K k, u3 u3Var) {
-        super(k, u3Var);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public u3(j$.util.Q q, u3 u3Var) {
+        this.a = q;
+        this.b = u3Var.b;
+        this.d = u3Var.d;
+        this.c = u3Var.c;
     }
 
-    @Override // j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return j$.util.a.q(this, consumer);
+    public final int characteristics() {
+        return this.a.characteristics() & (-16465);
     }
 
-    @Override // j$.util.function.h0
-    public final void accept(long j) {
-        this.e = j;
+    public final long estimateSize() {
+        return this.a.estimateSize();
     }
 
-    @Override // j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        j$.util.a.h(this, consumer);
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final long t(long j) {
+        AtomicLong atomicLong;
+        long j2;
+        boolean z;
+        long min;
+        do {
+            atomicLong = this.d;
+            j2 = atomicLong.get();
+            z = this.b;
+            if (j2 != 0) {
+                min = Math.min(j2, j);
+                if (min <= 0) {
+                    break;
+                }
+            } else if (z) {
+                return j;
+            } else {
+                return 0L;
+            }
+        } while (!atomicLong.compareAndSet(j2, j2 - min));
+        if (z) {
+            return Math.max(j - min, 0L);
+        }
+        long j3 = this.c;
+        return j2 > j3 ? Math.max(min - (j2 - j3), 0L) : min;
     }
 
-    @Override // j$.util.function.h0
-    public final j$.util.function.h0 i(j$.util.function.h0 h0Var) {
-        h0Var.getClass();
-        return new j$.util.function.e0(this, h0Var);
+    public /* bridge */ /* synthetic */ j$.util.E trySplit() {
+        return (j$.util.E) trySplit();
     }
 
-    @Override // j$.util.stream.y3
-    protected final j$.util.Q r(j$.util.Q q) {
-        return new u3((j$.util.K) q, this);
+    public /* bridge */ /* synthetic */ j$.util.H trySplit() {
+        return (j$.util.H) trySplit();
     }
 
-    @Override // j$.util.stream.v3
-    protected final void t(Object obj) {
-        ((j$.util.function.h0) obj).accept(this.e);
+    public /* bridge */ /* synthetic */ j$.util.K trySplit() {
+        return (j$.util.K) trySplit();
     }
 
-    @Override // j$.util.stream.v3
-    protected final Z2 u() {
-        return new Y2();
+    public /* bridge */ /* synthetic */ j$.util.N trySplit() {
+        return (j$.util.N) trySplit();
+    }
+
+    public final j$.util.Q trySplit() {
+        j$.util.Q trySplit;
+        if (this.d.get() == 0 || (trySplit = this.a.trySplit()) == null) {
+            return null;
+        }
+        return u(trySplit);
+    }
+
+    protected abstract j$.util.Q u(j$.util.Q q);
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public final t3 v() {
+        return this.d.get() > 0 ? t3.MAYBE_MORE : this.b ? t3.UNLIMITED : t3.NO_MORE;
     }
 }

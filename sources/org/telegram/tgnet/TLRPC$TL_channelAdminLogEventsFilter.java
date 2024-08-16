@@ -33,7 +33,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.kick = (readInt32 & 32) != 0;
         this.unkick = (readInt32 & 64) != 0;
         this.promote = (readInt32 & 128) != 0;
-        this.demote = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.demote = (readInt32 & 256) != 0;
         this.info = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.settings = (readInt32 & 1024) != 0;
         this.pinned = (readInt32 & 2048) != 0;
@@ -62,7 +62,7 @@ public class TLRPC$TL_channelAdminLogEventsFilter extends TLObject {
         this.flags = i7;
         int i8 = this.promote ? i7 | 128 : i7 & (-129);
         this.flags = i8;
-        int i9 = this.demote ? i8 | LiteMode.FLAG_CHAT_BLUR : i8 & (-257);
+        int i9 = this.demote ? i8 | 256 : i8 & (-257);
         this.flags = i9;
         int i10 = this.info ? i9 | LiteMode.FLAG_CALLS_ANIMATIONS : i9 & (-513);
         this.flags = i10;

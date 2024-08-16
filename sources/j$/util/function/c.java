@@ -12,26 +12,22 @@ public final /* synthetic */ class c implements f {
     }
 
     @Override // j$.util.function.BiFunction
-    public final BiFunction andThen(Function function) {
+    public final /* synthetic */ BiFunction andThen(Function function) {
         switch (this.a) {
             case 0:
-                function.getClass();
-                return new j$.util.concurrent.u(this, function);
+                return j$.com.android.tools.r8.a.a(this, function);
             default:
-                function.getClass();
-                return new j$.util.concurrent.u(this, function);
+                return j$.com.android.tools.r8.a.a(this, function);
         }
     }
 
     @Override // j$.util.function.BiFunction
     public final Object apply(Object obj, Object obj2) {
-        int i = this.a;
-        Comparator comparator = this.b;
-        switch (i) {
+        switch (this.a) {
             case 0:
-                return comparator.compare(obj, obj2) >= 0 ? obj : obj2;
+                return this.b.compare(obj, obj2) >= 0 ? obj : obj2;
             default:
-                return comparator.compare(obj, obj2) <= 0 ? obj : obj2;
+                return this.b.compare(obj, obj2) <= 0 ? obj : obj2;
         }
     }
 }

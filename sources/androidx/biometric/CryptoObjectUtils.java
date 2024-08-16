@@ -144,9 +144,7 @@ public class CryptoObjectUtils {
         }
 
         static IdentityCredential getIdentityCredential(BiometricPrompt.CryptoObject cryptoObject) {
-            IdentityCredential identityCredential;
-            identityCredential = cryptoObject.getIdentityCredential();
-            return identityCredential;
+            return cryptoObject.getIdentityCredential();
         }
     }
 
@@ -166,21 +164,15 @@ public class CryptoObjectUtils {
         }
 
         static Cipher getCipher(BiometricPrompt.CryptoObject cryptoObject) {
-            Cipher cipher;
-            cipher = cryptoObject.getCipher();
-            return cipher;
+            return cryptoObject.getCipher();
         }
 
         static Signature getSignature(BiometricPrompt.CryptoObject cryptoObject) {
-            Signature signature;
-            signature = cryptoObject.getSignature();
-            return signature;
+            return cryptoObject.getSignature();
         }
 
         static Mac getMac(BiometricPrompt.CryptoObject cryptoObject) {
-            Mac mac;
-            mac = cryptoObject.getMac();
-            return mac;
+            return cryptoObject.getMac();
         }
     }
 
@@ -200,9 +192,7 @@ public class CryptoObjectUtils {
         }
 
         static KeyGenParameterSpec buildKeyGenParameterSpec(KeyGenParameterSpec.Builder builder) {
-            KeyGenParameterSpec build;
-            build = builder.build();
-            return build;
+            return builder.build();
         }
 
         static void initKeyGenerator(KeyGenerator keyGenerator, KeyGenParameterSpec keyGenParameterSpec) throws InvalidAlgorithmParameterException {

@@ -87,7 +87,7 @@ public class BotBiometry {
     }
 
     public void requestToken(String str, final Utilities.Callback2<Boolean, String> callback2) {
-        prompt(str, true, null, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda3
+        prompt(str, true, null, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda2
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 BotBiometry.this.lambda$requestToken$0(callback2, (Boolean) obj, (BiometricPrompt.AuthenticationResult) obj2);
@@ -131,7 +131,7 @@ public class BotBiometry {
     }
 
     public void updateToken(String str, final String str2, final Utilities.Callback<Boolean> callback) {
-        prompt(str, false, str2, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda4
+        prompt(str, false, str2, new Utilities.Callback2() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback2
             public final void run(Object obj, Object obj2) {
                 BotBiometry.this.lambda$updateToken$1(str2, callback, (Boolean) obj, (BiometricPrompt.AuthenticationResult) obj2);
@@ -393,16 +393,16 @@ public class BotBiometry {
         final HashMap hashMap = new HashMap();
         Iterator it = arrayList.iterator();
         while (it.hasNext()) {
-            long longValue = ((Long) it.next()).longValue();
-            BotBiometry botBiometry = new BotBiometry(context, i, longValue);
+            Long l = (Long) it.next();
+            BotBiometry botBiometry = new BotBiometry(context, i, l.longValue());
             if (botBiometry.access_granted && botBiometry.access_requested) {
-                hashMap.put(Long.valueOf(longValue), Boolean.valueOf(!botBiometry.disabled));
+                hashMap.put(l, Boolean.valueOf(!botBiometry.disabled));
             }
         }
         if (arrayList.isEmpty()) {
             callback.run(new ArrayList<>());
         } else {
-            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda2
+            MessagesStorage.getInstance(i).getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.bots.BotBiometry$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     BotBiometry.lambda$getBots$3(i, arrayList, hashMap, callback);

@@ -7,10 +7,14 @@ public final class zztd {
     public static synchronized zzss zza(zzsm zzsmVar) {
         zzss zzssVar;
         synchronized (zztd.class) {
-            if (zza == null) {
-                zza = new zztc(null);
+            try {
+                if (zza == null) {
+                    zza = new zztc(null);
+                }
+                zzssVar = (zzss) zza.get(zzsmVar);
+            } catch (Throwable th) {
+                throw th;
             }
-            zzssVar = (zzss) zza.get(zzsmVar);
         }
         return zzssVar;
     }

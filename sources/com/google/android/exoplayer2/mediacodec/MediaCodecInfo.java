@@ -357,7 +357,7 @@ public final class MediaCodecInfo {
         return new Point(Util.ceilDivide(i, widthAlignment) * widthAlignment, Util.ceilDivide(i2, heightAlignment) * heightAlignment);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:4:0x0003, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:4:0x0004, code lost:
         r3 = r3.getVideoCapabilities();
      */
     /*
@@ -375,7 +375,7 @@ public final class MediaCodecInfo {
             upper = bitrateRange.getUpper();
             i = ((Integer) upper).intValue();
         }
-        int i2 = i >= 180000000 ? 1024 : i >= 120000000 ? LiteMode.FLAG_CALLS_ANIMATIONS : i >= 60000000 ? LiteMode.FLAG_CHAT_BLUR : i >= 30000000 ? 128 : i >= 18000000 ? 64 : i >= 12000000 ? 32 : i >= 7200000 ? 16 : i >= 3600000 ? 8 : i >= 1800000 ? 4 : i >= 800000 ? 2 : 1;
+        int i2 = i >= 180000000 ? 1024 : i >= 120000000 ? LiteMode.FLAG_CALLS_ANIMATIONS : i >= 60000000 ? 256 : i >= 30000000 ? 128 : i >= 18000000 ? 64 : i >= 12000000 ? 32 : i >= 7200000 ? 16 : i >= 3600000 ? 8 : i >= 1800000 ? 4 : i >= 800000 ? 2 : 1;
         MediaCodecInfo.CodecProfileLevel codecProfileLevel = new MediaCodecInfo.CodecProfileLevel();
         codecProfileLevel.profile = 1;
         codecProfileLevel.level = i2;
@@ -426,7 +426,7 @@ public final class MediaCodecInfo {
             }
             MediaCodecInfo.VideoCapabilities.PerformancePoint performancePoint = new MediaCodecInfo.VideoCapabilities.PerformancePoint(i, i2, (int) d);
             for (int i3 = 0; i3 < supportedPerformancePoints.size(); i3++) {
-                covers = ((MediaCodecInfo.VideoCapabilities.PerformancePoint) supportedPerformancePoints.get(i3)).covers(performancePoint);
+                covers = MediaCodecInfo$Api29$$ExternalSyntheticApiModelOutline1.m(supportedPerformancePoints.get(i3)).covers(performancePoint);
                 if (covers) {
                     return 2;
                 }

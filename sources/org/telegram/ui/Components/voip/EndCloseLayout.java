@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -61,10 +62,11 @@ public class EndCloseLayout extends FrameLayout {
             super.captureStartValues(transitionValues);
             View view = transitionValues.view;
             if (view instanceof EndCloseView) {
-                int i = ((EndCloseView) view).backColor;
-                int i2 = ((EndCloseView) view).round;
-                int i3 = ((EndCloseView) view).callDeclineAlpha;
-                int i4 = ((EndCloseView) view).closeTextAlpha;
+                EndCloseView endCloseView = (EndCloseView) view;
+                int i = endCloseView.backColor;
+                int i2 = endCloseView.round;
+                int i3 = endCloseView.callDeclineAlpha;
+                int i4 = endCloseView.closeTextAlpha;
                 transitionValues.values.put("back_color_end_close", Integer.valueOf(i));
                 transitionValues.values.put("round_end_close", Integer.valueOf(i2));
                 transitionValues.values.put("decline_call_alpha_end_close", Integer.valueOf(i3));
@@ -77,10 +79,11 @@ public class EndCloseLayout extends FrameLayout {
             super.captureEndValues(transitionValues);
             View view = transitionValues.view;
             if (view instanceof EndCloseView) {
-                int i = ((EndCloseView) view).backColor;
-                int i2 = ((EndCloseView) view).round;
-                int i3 = ((EndCloseView) view).callDeclineAlpha;
-                int i4 = ((EndCloseView) view).closeTextAlpha;
+                EndCloseView endCloseView = (EndCloseView) view;
+                int i = endCloseView.backColor;
+                int i2 = endCloseView.round;
+                int i3 = endCloseView.callDeclineAlpha;
+                int i4 = endCloseView.closeTextAlpha;
                 transitionValues.values.put("back_color_end_close", Integer.valueOf(i));
                 transitionValues.values.put("round_end_close", Integer.valueOf(i2));
                 transitionValues.values.put("decline_call_alpha_end_close", Integer.valueOf(i3));
@@ -185,7 +188,7 @@ public class EndCloseLayout extends FrameLayout {
             TransitionManager.beginDelayedTransition(this, this.transitionSet);
         }
         EndCloseView endCloseView = this.endCloseView;
-        endCloseView.closeTextAlpha = 255;
+        endCloseView.closeTextAlpha = NotificationCenter.voipServiceCreated;
         endCloseView.backColor = -1;
         endCloseView.callDeclineAlpha = 0;
         endCloseView.round = AndroidUtilities.dp(8.0f);
@@ -230,19 +233,20 @@ public class EndCloseLayout extends FrameLayout {
             this.backgroundRect = new RectF();
             this.backColor = -761748;
             this.round = AndroidUtilities.dp(26.0f);
-            this.callDeclineAlpha = 255;
+            this.callDeclineAlpha = NotificationCenter.voipServiceCreated;
             this.closeTextAlpha = 0;
             Drawable mutate = ContextCompat.getDrawable(getContext(), R.drawable.calls_decline).mutate();
             this.callDeclineDrawable = mutate;
             mutate.setColorFilter(new PorterDuffColorFilter(-1, PorterDuff.Mode.MULTIPLY));
             paint.setTextSize(AndroidUtilities.dp(18.0f));
             paint.setTypeface(AndroidUtilities.bold());
-            paint.setTextAlign(Paint.Align.CENTER);
+            Paint.Align align = Paint.Align.CENTER;
+            paint.setTextAlign(align);
             paint.setColor(-16777216);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
             paint2.setTextSize(AndroidUtilities.dp(18.0f));
             paint2.setTypeface(AndroidUtilities.bold());
-            paint2.setTextAlign(Paint.Align.CENTER);
+            paint2.setTextAlign(align);
             paint2.setColor(-16777216);
             setLayerType(2, null);
             setClickable(true);
@@ -282,19 +286,19 @@ public class EndCloseLayout extends FrameLayout {
 
         @Override // android.view.View
         protected void onDraw(Canvas canvas) {
+            Drawable drawable;
             float width = getWidth() / 2.0f;
             float height = getHeight() / 2.0f;
             this.backgroundPaint.setColor(this.backColor);
             this.backgroundRect.set(0.0f, 0.0f, getWidth(), getHeight());
             RectF rectF = this.backgroundRect;
-            int i = this.round;
-            canvas.drawRoundRect(rectF, i, i, this.backgroundPaint);
-            Drawable drawable = this.callDeclineDrawable;
-            drawable.setBounds((int) (width - (drawable.getIntrinsicWidth() / 2.0f)), (int) (height - (this.callDeclineDrawable.getIntrinsicHeight() / 2)), (int) ((this.callDeclineDrawable.getIntrinsicWidth() / 2) + width), (int) ((this.callDeclineDrawable.getIntrinsicHeight() / 2) + height));
+            float f = this.round;
+            canvas.drawRoundRect(rectF, f, f, this.backgroundPaint);
+            this.callDeclineDrawable.setBounds((int) (width - (drawable.getIntrinsicWidth() / 2.0f)), (int) (height - (this.callDeclineDrawable.getIntrinsicHeight() / 2)), (int) ((this.callDeclineDrawable.getIntrinsicWidth() / 2) + width), (int) ((this.callDeclineDrawable.getIntrinsicHeight() / 2) + height));
             this.callDeclineDrawable.setAlpha(this.callDeclineAlpha);
             this.callDeclineDrawable.draw(canvas);
             this.textPaintMask.setAlpha(this.closeTextAlpha);
-            this.textPaint.setAlpha((this.closeTextAlpha / 255) * 38);
+            this.textPaint.setAlpha((this.closeTextAlpha / NotificationCenter.voipServiceCreated) * 38);
             canvas.drawText(this.closeText, width, AndroidUtilities.dp(6.0f) + height, this.textPaintMask);
             canvas.drawText(this.closeText, width, height + AndroidUtilities.dp(6.0f), this.textPaint);
             if (this.rippleDrawable == null) {

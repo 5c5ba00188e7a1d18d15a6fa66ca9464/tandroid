@@ -202,9 +202,7 @@ public class AdapterHelper implements OpReorderer.Callback {
         for (int i6 = 1; i6 < updateOp.itemCount; i6++) {
             int updatePositionWithPostponed2 = updatePositionWithPostponed(updateOp.positionStart + (i * i6), updateOp.cmd);
             int i7 = updateOp.cmd;
-            if (i7 == 2 ? updatePositionWithPostponed2 == updatePositionWithPostponed : i7 == 4 && updatePositionWithPostponed2 == updatePositionWithPostponed + 1) {
-                i5++;
-            } else {
+            if (i7 == 2 ? updatePositionWithPostponed2 != updatePositionWithPostponed : !(i7 == 4 && updatePositionWithPostponed2 == updatePositionWithPostponed + 1)) {
                 UpdateOp obtainUpdateOp = obtainUpdateOp(i7, updatePositionWithPostponed, i5, updateOp.payload);
                 dispatchFirstPassAndUpdateViewHolders(obtainUpdateOp, i3);
                 recycleUpdateOp(obtainUpdateOp);
@@ -213,6 +211,8 @@ public class AdapterHelper implements OpReorderer.Callback {
                 }
                 updatePositionWithPostponed = updatePositionWithPostponed2;
                 i5 = 1;
+            } else {
+                i5++;
             }
         }
         Object obj = updateOp.payload;
@@ -536,7 +536,19 @@ public class AdapterHelper implements OpReorderer.Callback {
 
         String cmdToString() {
             int i = this.cmd;
-            return i != 1 ? i != 2 ? i != 4 ? i != 8 ? "??" : "mv" : "up" : "rm" : "add";
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 4) {
+                        if (i == 8) {
+                            return "mv";
+                        }
+                        return "??";
+                    }
+                    return "up";
+                }
+                return "rm";
+            }
+            return "add";
         }
 
         public String toString() {

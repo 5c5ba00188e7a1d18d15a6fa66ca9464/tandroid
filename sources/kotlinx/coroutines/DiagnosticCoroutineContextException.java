@@ -6,6 +6,12 @@ import kotlin.coroutines.CoroutineContext;
 final class DiagnosticCoroutineContextException extends RuntimeException {
     private final CoroutineContext context;
 
+    @Override // java.lang.Throwable
+    public Throwable fillInStackTrace() {
+        setStackTrace(new StackTraceElement[0]);
+        return this;
+    }
+
     public DiagnosticCoroutineContextException(CoroutineContext coroutineContext) {
         this.context = coroutineContext;
     }
@@ -13,11 +19,5 @@ final class DiagnosticCoroutineContextException extends RuntimeException {
     @Override // java.lang.Throwable
     public String getLocalizedMessage() {
         return this.context.toString();
-    }
-
-    @Override // java.lang.Throwable
-    public Throwable fillInStackTrace() {
-        setStackTrace(new StackTraceElement[0]);
-        return this;
     }
 }

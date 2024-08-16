@@ -102,7 +102,7 @@ public class NotificationsSettingsFacade {
         if (tLRPC$PeerNotifySettings == null) {
             return;
         }
-        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda1
+        Utilities.globalQueue.postRunnable(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 NotificationsSettingsFacade.this.lambda$applyDialogNotificationsSettings$1(j, j2, tLRPC$PeerNotifySettings);
@@ -111,7 +111,7 @@ public class NotificationsSettingsFacade {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:55:0x0195  */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x0198  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -212,7 +212,7 @@ public class NotificationsSettingsFacade {
         applySoundSettings(tLRPC$PeerNotifySettings.android_sound, edit, j, j2, 0, false);
         edit.apply();
         if (z2) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.NotificationsSettingsFacade$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     NotificationsSettingsFacade.this.lambda$applyDialogNotificationsSettings$0();

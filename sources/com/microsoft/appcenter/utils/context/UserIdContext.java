@@ -19,10 +19,14 @@ public class UserIdContext {
     public static synchronized UserIdContext getInstance() {
         UserIdContext userIdContext;
         synchronized (UserIdContext.class) {
-            if (sInstance == null) {
-                sInstance = new UserIdContext();
+            try {
+                if (sInstance == null) {
+                    sInstance = new UserIdContext();
+                }
+                userIdContext = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            userIdContext = sInstance;
         }
         return userIdContext;
     }

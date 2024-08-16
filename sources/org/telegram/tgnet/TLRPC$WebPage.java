@@ -76,7 +76,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
                     }
@@ -118,7 +118,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
                     }
@@ -181,7 +181,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -226,7 +226,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -294,7 +294,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -362,7 +362,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -420,7 +420,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             this.duration = abstractSerializedData2.readInt32(z2);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             this.author = abstractSerializedData2.readString(z2);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -469,7 +469,7 @@ public abstract class TLRPC$WebPage extends TLObject {
                         if ((this.flags & 128) != 0) {
                             abstractSerializedData2.writeInt32(this.duration);
                         }
-                        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                        if ((this.flags & 256) != 0) {
                             abstractSerializedData2.writeString(this.author);
                         }
                         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

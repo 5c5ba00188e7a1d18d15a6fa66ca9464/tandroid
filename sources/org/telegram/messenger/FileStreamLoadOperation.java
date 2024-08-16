@@ -132,15 +132,19 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         return 3;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x0019, code lost:
-        if (r12.opened == false) goto L13;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0031 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:14:0x0017, B:21:0x0023, B:23:0x0031, B:25:0x0054, B:26:0x0059, B:28:0x005d, B:29:0x0063, B:31:0x006d, B:33:0x0075, B:35:0x0079, B:36:0x008d, B:39:0x0094, B:19:0x001f, B:46:0x00c0, B:49:0x00c5, B:51:0x00cb), top: B:57:0x0017 }] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0079 A[Catch: Exception -> 0x001c, TryCatch #0 {Exception -> 0x001c, blocks: (B:14:0x0017, B:21:0x0023, B:23:0x0031, B:25:0x0054, B:26:0x0059, B:28:0x005d, B:29:0x0063, B:31:0x006d, B:33:0x0075, B:35:0x0079, B:36:0x008d, B:39:0x0094, B:19:0x001f, B:46:0x00c0, B:49:0x00c5, B:51:0x00cb), top: B:57:0x0017 }] */
+    /* JADX WARN: Removed duplicated region for block: B:59:0x0091 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0098 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x0015 A[SYNTHETIC] */
     @Override // com.google.android.exoplayer2.upstream.DataReader
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public int read(byte[] bArr, int i, int i2) throws IOException {
+        File currentFileFast;
         RandomAccessFile randomAccessFile;
+        RandomAccessFile randomAccessFile2;
         if (i2 == 0) {
             return 0;
         }
@@ -155,57 +159,73 @@ public class FileStreamLoadOperation extends BaseDataSource implements FileLoadO
         while (true) {
             if (i3 == 0) {
                 try {
+                    if (!this.opened) {
+                    }
+                    i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
+                    if (i3 == 0) {
+                        this.countDownLatch = new CountDownLatch(1);
+                        FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
+                        FileLoadOperation fileLoadOperation = this.loadOperation;
+                        if (fileLoadOperation != loadStreamFile) {
+                            fileLoadOperation.removeStreamListener(this);
+                            this.loadOperation = loadStreamFile;
+                        }
+                        CountDownLatch countDownLatch = this.countDownLatch;
+                        if (countDownLatch != null) {
+                            countDownLatch.await();
+                            this.countDownLatch = null;
+                        }
+                    }
+                    currentFileFast = this.loadOperation.getCurrentFileFast();
+                    if (this.file != null || !Objects.equals(this.currentFile, currentFileFast)) {
+                        if (BuildVars.LOGS_ENABLED) {
+                            FileLog.d("check stream file " + currentFileFast);
+                        }
+                        randomAccessFile = this.file;
+                        if (randomAccessFile != null) {
+                            try {
+                                randomAccessFile.close();
+                            } catch (Exception unused) {
+                            }
+                        }
+                        this.currentFile = currentFileFast;
+                        if (currentFileFast == null) {
+                            try {
+                                RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
+                                this.file = randomAccessFile3;
+                                randomAccessFile3.seek(this.currentOffset);
+                                if (this.loadOperation.isFinished()) {
+                                    this.bytesRemaining = this.currentFile.length() - this.currentOffset;
+                                }
+                            } catch (Throwable unused2) {
+                            }
+                        }
+                    }
                 } catch (Exception e) {
                     throw new IOException(e);
                 }
             }
-            randomAccessFile = this.file;
-            if (randomAccessFile != null) {
+            randomAccessFile2 = this.file;
+            if (randomAccessFile2 != null) {
                 break;
             }
             i3 = (int) this.loadOperation.getDownloadedLengthFromOffset(this.currentOffset, i2)[0];
             if (i3 == 0) {
-                this.countDownLatch = new CountDownLatch(1);
-                FileLoadOperation loadStreamFile = FileLoader.getInstance(this.currentAccount).loadStreamFile(this, this.document, null, this.parentObject, this.currentOffset, false, getCurrentPriority());
-                FileLoadOperation fileLoadOperation = this.loadOperation;
-                if (fileLoadOperation != loadStreamFile) {
-                    fileLoadOperation.removeStreamListener(this);
-                    this.loadOperation = loadStreamFile;
-                }
-                CountDownLatch countDownLatch = this.countDownLatch;
-                if (countDownLatch != null) {
-                    countDownLatch.await();
-                    this.countDownLatch = null;
-                }
             }
-            File currentFileFast = this.loadOperation.getCurrentFileFast();
-            if (this.file == null || !Objects.equals(this.currentFile, currentFileFast)) {
-                if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("check stream file " + currentFileFast);
-                }
-                RandomAccessFile randomAccessFile2 = this.file;
-                if (randomAccessFile2 != null) {
-                    try {
-                        randomAccessFile2.close();
-                    } catch (Exception unused) {
-                    }
-                }
-                this.currentFile = currentFileFast;
-                if (currentFileFast != null) {
-                    try {
-                        RandomAccessFile randomAccessFile3 = new RandomAccessFile(this.currentFile, "r");
-                        this.file = randomAccessFile3;
-                        randomAccessFile3.seek(this.currentOffset);
-                        if (this.loadOperation.isFinished()) {
-                            this.bytesRemaining = this.currentFile.length() - this.currentOffset;
-                        }
-                    } catch (Throwable unused2) {
-                    }
-                }
+            currentFileFast = this.loadOperation.getCurrentFileFast();
+            if (this.file != null) {
+            }
+            if (BuildVars.LOGS_ENABLED) {
+            }
+            randomAccessFile = this.file;
+            if (randomAccessFile != null) {
+            }
+            this.currentFile = currentFileFast;
+            if (currentFileFast == null) {
             }
         }
         if (this.opened) {
-            int read = randomAccessFile.read(bArr, i, i3);
+            int read = randomAccessFile2.read(bArr, i, i3);
             if (read > 0) {
                 long j2 = read;
                 this.currentOffset += j2;

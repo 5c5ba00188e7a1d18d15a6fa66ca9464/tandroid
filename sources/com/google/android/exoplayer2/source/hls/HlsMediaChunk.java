@@ -212,7 +212,6 @@ public final class HlsMediaChunk extends MediaChunk {
     private void feedDataToExtractor(DataSource dataSource, DataSpec dataSpec, boolean z, boolean z2) throws IOException {
         DataSpec subrange;
         long position;
-        long j;
         if (z) {
             r0 = this.nextLoadPosition != 0;
             subrange = dataSpec;
@@ -233,15 +232,13 @@ public final class HlsMediaChunk extends MediaChunk {
                     if ((this.trackFormat.roleFlags & LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM) != 0) {
                         this.extractor.onTruncatedSegmentParsed();
                         position = prepareExtraction.getPosition();
-                        j = dataSpec.position;
                     } else {
                         throw e;
                     }
                 }
             } while (this.extractor.read(prepareExtraction));
             position = prepareExtraction.getPosition();
-            j = dataSpec.position;
-            this.nextLoadPosition = (int) (position - j);
+            this.nextLoadPosition = (int) (position - dataSpec.position);
         } finally {
             DataSourceUtil.closeQuietly(dataSource);
         }

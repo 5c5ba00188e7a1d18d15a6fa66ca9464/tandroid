@@ -71,30 +71,50 @@ public final class ResourcesCompat {
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x003c, code lost:
+        if (r2.mThemeHash == r5.hashCode()) goto L17;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private static ColorStateList getCachedColorStateList(ColorStateListCacheKey colorStateListCacheKey, int i) {
         ColorStateListCacheEntry colorStateListCacheEntry;
-        Resources.Theme theme;
         synchronized (sColorStateCacheLock) {
-            SparseArray<ColorStateListCacheEntry> sparseArray = sColorStateCaches.get(colorStateListCacheKey);
-            if (sparseArray != null && sparseArray.size() > 0 && (colorStateListCacheEntry = sparseArray.get(i)) != null) {
-                if (colorStateListCacheEntry.mConfiguration.equals(colorStateListCacheKey.mResources.getConfiguration()) && (((theme = colorStateListCacheKey.mTheme) == null && colorStateListCacheEntry.mThemeHash == 0) || (theme != null && colorStateListCacheEntry.mThemeHash == theme.hashCode()))) {
-                    return colorStateListCacheEntry.mValue;
+            try {
+                SparseArray<ColorStateListCacheEntry> sparseArray = sColorStateCaches.get(colorStateListCacheKey);
+                if (sparseArray != null && sparseArray.size() > 0 && (colorStateListCacheEntry = sparseArray.get(i)) != null) {
+                    if (colorStateListCacheEntry.mConfiguration.equals(colorStateListCacheKey.mResources.getConfiguration())) {
+                        Resources.Theme theme = colorStateListCacheKey.mTheme;
+                        if (theme == null) {
+                            if (colorStateListCacheEntry.mThemeHash != 0) {
+                            }
+                            return colorStateListCacheEntry.mValue;
+                        }
+                        if (theme != null) {
+                        }
+                    }
+                    sparseArray.remove(i);
                 }
-                sparseArray.remove(i);
+                return null;
+            } catch (Throwable th) {
+                throw th;
             }
-            return null;
         }
     }
 
     private static void addColorStateListToCache(ColorStateListCacheKey colorStateListCacheKey, int i, ColorStateList colorStateList, Resources.Theme theme) {
         synchronized (sColorStateCacheLock) {
-            WeakHashMap<ColorStateListCacheKey, SparseArray<ColorStateListCacheEntry>> weakHashMap = sColorStateCaches;
-            SparseArray<ColorStateListCacheEntry> sparseArray = weakHashMap.get(colorStateListCacheKey);
-            if (sparseArray == null) {
-                sparseArray = new SparseArray<>();
-                weakHashMap.put(colorStateListCacheKey, sparseArray);
+            try {
+                WeakHashMap<ColorStateListCacheKey, SparseArray<ColorStateListCacheEntry>> weakHashMap = sColorStateCaches;
+                SparseArray<ColorStateListCacheEntry> sparseArray = weakHashMap.get(colorStateListCacheKey);
+                if (sparseArray == null) {
+                    sparseArray = new SparseArray<>();
+                    weakHashMap.put(colorStateListCacheKey, sparseArray);
+                }
+                sparseArray.append(i, new ColorStateListCacheEntry(colorStateList, colorStateListCacheKey.mResources.getConfiguration(), theme));
+            } catch (Throwable th) {
+                throw th;
             }
-            sparseArray.append(i, new ColorStateListCacheEntry(colorStateList, colorStateListCacheKey.mResources.getConfiguration(), theme));
         }
     }
 
@@ -205,7 +225,8 @@ public final class ResourcesCompat {
         return loadFont;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:37:0x00b7  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00c1  */
+    /* JADX WARN: Removed duplicated region for block: B:52:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -215,6 +236,7 @@ public final class ResourcesCompat {
             throw new Resources.NotFoundException("Resource \"" + resources.getResourceName(i) + "\" (" + Integer.toHexString(i) + ") is not a Font: " + typedValue);
         }
         String charSequence2 = charSequence.toString();
+        int i3 = 0;
         if (!charSequence2.startsWith("res/")) {
             if (fontCallback != null) {
                 fontCallback.callbackFailAsync(-3, handler);
@@ -230,6 +252,14 @@ public final class ResourcesCompat {
         } else if (z2) {
             return null;
         } else {
+            try {
+            } catch (IOException e) {
+                e = e;
+                i3 = -3;
+            } catch (XmlPullParserException e2) {
+                e = e2;
+                i3 = -3;
+            }
             try {
                 if (charSequence2.toLowerCase().endsWith(".xml")) {
                     FontResourcesParserCompat.FamilyResourceEntry parse = FontResourcesParserCompat.parse(resources.getXml(i), resources);
@@ -251,17 +281,19 @@ public final class ResourcesCompat {
                     }
                 }
                 return createFromResourcesFontFile;
-            } catch (IOException e) {
+            } catch (IOException e3) {
+                e = e3;
                 Log.e("ResourcesCompat", "Failed to read xml resource " + charSequence2, e);
-                if (fontCallback != null) {
-                    fontCallback.callbackFailAsync(-3, handler);
+                if (fontCallback == null) {
+                    fontCallback.callbackFailAsync(i3, handler);
+                    return null;
                 }
                 return null;
-            } catch (XmlPullParserException e2) {
-                Log.e("ResourcesCompat", "Failed to parse xml resource " + charSequence2, e2);
-                if (fontCallback != null) {
+            } catch (XmlPullParserException e4) {
+                e = e4;
+                Log.e("ResourcesCompat", "Failed to parse xml resource " + charSequence2, e);
+                if (fontCallback == null) {
                 }
-                return null;
             }
         }
     }
@@ -269,30 +301,22 @@ public final class ResourcesCompat {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static ColorStateList getColorStateList(Resources resources, int i, Resources.Theme theme) {
-            ColorStateList colorStateList;
-            colorStateList = resources.getColorStateList(i, theme);
-            return colorStateList;
+            return resources.getColorStateList(i, theme);
         }
 
         static int getColor(Resources resources, int i, Resources.Theme theme) {
-            int color;
-            color = resources.getColor(i, theme);
-            return color;
+            return resources.getColor(i, theme);
         }
     }
 
     /* loaded from: classes.dex */
     static class Api21Impl {
         static Drawable getDrawable(Resources resources, int i, Resources.Theme theme) {
-            Drawable drawable;
-            drawable = resources.getDrawable(i, theme);
-            return drawable;
+            return resources.getDrawable(i, theme);
         }
 
         static Drawable getDrawableForDensity(Resources resources, int i, int i2, Resources.Theme theme) {
-            Drawable drawableForDensity;
-            drawableForDensity = resources.getDrawableForDensity(i, i2, theme);
-            return drawableForDensity;
+            return resources.getDrawableForDensity(i, i2, theme);
         }
     }
 
@@ -332,7 +356,7 @@ public final class ResourcesCompat {
                 synchronized (sRebaseMethodLock) {
                     if (!sRebaseMethodFetched) {
                         try {
-                            Method declaredMethod = Resources.Theme.class.getDeclaredMethod("rebase", new Class[0]);
+                            Method declaredMethod = Resources.Theme.class.getDeclaredMethod("rebase", null);
                             sRebaseMethod = declaredMethod;
                             declaredMethod.setAccessible(true);
                         } catch (NoSuchMethodException e) {
@@ -343,7 +367,7 @@ public final class ResourcesCompat {
                     Method method = sRebaseMethod;
                     if (method != null) {
                         try {
-                            method.invoke(theme, new Object[0]);
+                            method.invoke(theme, null);
                         } catch (IllegalAccessException | InvocationTargetException e2) {
                             Log.i("ResourcesCompat", "Failed to invoke rebase() method via reflection", e2);
                             sRebaseMethod = null;

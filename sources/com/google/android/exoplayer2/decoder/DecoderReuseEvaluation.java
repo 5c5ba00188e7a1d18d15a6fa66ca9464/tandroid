@@ -31,6 +31,6 @@ public final class DecoderReuseEvaluation {
     }
 
     public int hashCode() {
-        return ((((((((527 + this.result) * 31) + this.discardReasons) * 31) + this.decoderName.hashCode()) * 31) + this.oldFormat.hashCode()) * 31) + this.newFormat.hashCode();
+        return ((((((((this.result + 527) * 31) + this.discardReasons) * 31) + this.decoderName.hashCode()) * 31) + this.oldFormat.hashCode()) * 31) + this.newFormat.hashCode();
     }
 }

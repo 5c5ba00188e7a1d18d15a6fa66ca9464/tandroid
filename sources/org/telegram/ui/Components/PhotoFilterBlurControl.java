@@ -177,11 +177,12 @@ public class PhotoFilterBlurControl extends FrameLayout {
                         this.isMoving = true;
                     } else {
                         float f5 = BlurViewRadiusInset;
-                        if (abs > actualInnerRadius - f5 && abs < f3 + actualInnerRadius) {
+                        float f6 = actualInnerRadius - f5;
+                        if (abs > f6 && abs < actualInnerRadius + f3) {
                             this.isMoving = true;
                         } else if (abs > actualOuterRadius - f4 && abs < actualOuterRadius + f5) {
                             this.isMoving = true;
-                        } else if (abs <= actualInnerRadius - f5 || abs >= actualOuterRadius + f5) {
+                        } else if (abs <= f6 || abs >= actualOuterRadius + f5) {
                             this.isMoving = true;
                         }
                     }
@@ -189,10 +190,10 @@ public class PhotoFilterBlurControl extends FrameLayout {
                     if (sqrt < BlurViewCenterInset) {
                         this.isMoving = true;
                     } else {
-                        float f6 = BlurViewRadiusInset;
-                        if (sqrt > actualInnerRadius - f6 && sqrt < actualInnerRadius + f3) {
+                        float f7 = BlurViewRadiusInset;
+                        if (sqrt > actualInnerRadius - f7 && sqrt < actualInnerRadius + f3) {
                             this.isMoving = true;
-                        } else if (sqrt > actualOuterRadius - f4 && sqrt < actualOuterRadius + f6) {
+                        } else if (sqrt > actualOuterRadius - f4 && sqrt < actualOuterRadius + f7) {
                             this.isMoving = true;
                         }
                     }
@@ -258,7 +259,8 @@ public class PhotoFilterBlurControl extends FrameLayout {
                     this.startCenterPoint = actualCenterPoint;
                 } else {
                     float f7 = BlurViewRadiusInset;
-                    if (abs > f3 - f7 && abs < f5 + f3) {
+                    float f8 = f3 - f7;
+                    if (abs > f8 && abs < f5 + f3) {
                         this.activeControl = BlurViewActiveControl.BlurViewActiveControlInnerRadius;
                         this.startDistance = abs;
                         this.startRadius = f3;
@@ -266,7 +268,7 @@ public class PhotoFilterBlurControl extends FrameLayout {
                         this.activeControl = BlurViewActiveControl.BlurViewActiveControlOuterRadius;
                         this.startDistance = abs;
                         this.startRadius = f4;
-                    } else if (abs <= f3 - f7 || abs >= f4 + f7) {
+                    } else if (abs <= f8 || abs >= f4 + f7) {
                         this.activeControl = BlurViewActiveControl.BlurViewActiveControlRotation;
                     }
                 }
@@ -275,12 +277,12 @@ public class PhotoFilterBlurControl extends FrameLayout {
                     this.activeControl = BlurViewActiveControl.BlurViewActiveControlCenter;
                     this.startCenterPoint = actualCenterPoint;
                 } else {
-                    float f8 = BlurViewRadiusInset;
-                    if (sqrt > f3 - f8 && sqrt < f5 + f3) {
+                    float f9 = BlurViewRadiusInset;
+                    if (sqrt > f3 - f9 && sqrt < f5 + f3) {
                         this.activeControl = BlurViewActiveControl.BlurViewActiveControlInnerRadius;
                         this.startDistance = sqrt;
                         this.startRadius = f3;
-                    } else if (sqrt > f4 - f6 && sqrt < f8 + f4) {
+                    } else if (sqrt > f4 - f6 && sqrt < f9 + f4) {
                         this.activeControl = BlurViewActiveControl.BlurViewActiveControlOuterRadius;
                         this.startDistance = sqrt;
                         this.startRadius = f4;
@@ -298,60 +300,60 @@ public class PhotoFilterBlurControl extends FrameLayout {
             if (i3 == 0) {
                 int i4 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
                 if (i4 == 1) {
-                    float f9 = x - this.pointerStartX;
-                    float f10 = y - this.pointerStartY;
+                    float f10 = x - this.pointerStartX;
+                    float f11 = y - this.pointerStartY;
                     float width = (getWidth() - this.actualAreaSize.width) / 2.0f;
                     if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
                         r6 = AndroidUtilities.statusBarHeight;
                     }
                     Size size2 = this.actualAreaSize;
-                    float f11 = size2.height;
-                    Rect rect = new Rect(width, r6 + ((getHeight() - f11) / 2.0f), size2.width, f11);
-                    float f12 = rect.x;
-                    float max = Math.max(f12, Math.min(rect.width + f12, this.startCenterPoint.x + f9));
-                    float f13 = rect.y;
-                    Point point = new Point(max, Math.max(f13, Math.min(rect.height + f13, this.startCenterPoint.y + f10)));
-                    float f14 = point.x - rect.x;
+                    float f12 = size2.height;
+                    Rect rect = new Rect(width, r6 + ((getHeight() - f12) / 2.0f), size2.width, f12);
+                    float f13 = rect.x;
+                    float max = Math.max(f13, Math.min(rect.width + f13, this.startCenterPoint.x + f10));
+                    float f14 = rect.y;
+                    Point point = new Point(max, Math.max(f14, Math.min(rect.height + f14, this.startCenterPoint.y + f11)));
+                    float f15 = point.x - rect.x;
                     Size size3 = this.actualAreaSize;
-                    float f15 = size3.width;
-                    this.centerPoint = new Point(f14 / f15, ((point.y - rect.y) + ((f15 - size3.height) / 2.0f)) / f15);
+                    float f16 = size3.width;
+                    this.centerPoint = new Point(f15 / f16, ((point.y - rect.y) + ((f16 - size3.height) / 2.0f)) / f16);
                 } else if (i4 == 2) {
                     this.falloff = Math.min(Math.max(0.1f, (this.startRadius + (abs - this.startDistance)) / min), this.size - 0.02f);
                 } else if (i4 == 3) {
                     this.size = Math.max(this.falloff + 0.02f, (this.startRadius + (abs - this.startDistance)) / min);
                 } else if (i4 == 4) {
-                    float f16 = x - this.pointerStartX;
-                    float f17 = y - this.pointerStartY;
+                    float f17 = x - this.pointerStartX;
+                    float f18 = y - this.pointerStartY;
                     boolean z = x > actualCenterPoint.x;
                     boolean z2 = y > actualCenterPoint.y;
-                    boolean z3 = Math.abs(f17) > Math.abs(f16);
-                    if (z || z2 ? !(!z || z2 ? !z || !z2 ? !z3 ? f16 >= 0.0f : f17 >= 0.0f : !z3 ? f16 >= 0.0f : f17 <= 0.0f : !z3 ? f16 <= 0.0f : f17 <= 0.0f) : !(!z3 ? f16 <= 0.0f : f17 >= 0.0f)) {
+                    boolean z3 = Math.abs(f18) > Math.abs(f17);
+                    if (z || z2 ? !(!z || z2 ? !z || !z2 ? !z3 ? f17 >= 0.0f : f18 >= 0.0f : !z3 ? f17 >= 0.0f : f18 <= 0.0f : !z3 ? f17 <= 0.0f : f18 <= 0.0f) : !(!z3 ? f17 <= 0.0f : f18 >= 0.0f)) {
                         r6 = 1;
                     }
-                    this.angle += ((((float) Math.sqrt((f16 * f16) + (f17 * f17))) * ((r6 * 2) - 1)) / 3.1415927f) / 1.15f;
+                    this.angle += ((((float) Math.sqrt((f17 * f17) + (f18 * f18))) * ((r6 * 2) - 1)) / 3.1415927f) / 1.15f;
                     this.pointerStartX = x;
                     this.pointerStartY = y;
                 }
             } else if (i3 == 1) {
                 int i5 = 1.$SwitchMap$org$telegram$ui$Components$PhotoFilterBlurControl$BlurViewActiveControl[this.activeControl.ordinal()];
                 if (i5 == 1) {
-                    float f18 = x - this.pointerStartX;
-                    float f19 = y - this.pointerStartY;
+                    float f19 = x - this.pointerStartX;
+                    float f20 = y - this.pointerStartY;
                     float width2 = (getWidth() - this.actualAreaSize.width) / 2.0f;
                     if (Build.VERSION.SDK_INT >= 21 && !this.inBubbleMode) {
                         r6 = AndroidUtilities.statusBarHeight;
                     }
                     Size size4 = this.actualAreaSize;
-                    float f20 = size4.height;
-                    Rect rect2 = new Rect(width2, r6 + ((getHeight() - f20) / 2.0f), size4.width, f20);
-                    float f21 = rect2.x;
-                    float max2 = Math.max(f21, Math.min(rect2.width + f21, this.startCenterPoint.x + f18));
-                    float f22 = rect2.y;
-                    Point point2 = new Point(max2, Math.max(f22, Math.min(rect2.height + f22, this.startCenterPoint.y + f19)));
-                    float f23 = point2.x - rect2.x;
+                    float f21 = size4.height;
+                    Rect rect2 = new Rect(width2, r6 + ((getHeight() - f21) / 2.0f), size4.width, f21);
+                    float f22 = rect2.x;
+                    float max2 = Math.max(f22, Math.min(rect2.width + f22, this.startCenterPoint.x + f19));
+                    float f23 = rect2.y;
+                    Point point2 = new Point(max2, Math.max(f23, Math.min(rect2.height + f23, this.startCenterPoint.y + f20)));
+                    float f24 = point2.x - rect2.x;
                     Size size5 = this.actualAreaSize;
-                    float f24 = size5.width;
-                    this.centerPoint = new Point(f23 / f24, ((point2.y - rect2.y) + ((f24 - size5.height) / 2.0f)) / f24);
+                    float f25 = size5.width;
+                    this.centerPoint = new Point(f24 / f25, ((point2.y - rect2.y) + ((f25 - size5.height) / 2.0f)) / f25);
                 } else if (i5 == 2) {
                     this.falloff = Math.min(Math.max(0.1f, (this.startRadius + (sqrt - this.startDistance)) / min), this.size - 0.02f);
                 } else if (i5 == 3) {

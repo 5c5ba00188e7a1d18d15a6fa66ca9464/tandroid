@@ -1,6 +1,4 @@
 package com.google.android.gms.internal.mlkit_vision_label;
-
-import org.telegram.messenger.R;
 /* compiled from: com.google.android.gms:play-services-mlkit-image-labeling@@16.0.8 */
 /* loaded from: classes.dex */
 public final class zzki {
@@ -33,12 +31,12 @@ public final class zzki {
         this.zzf = zzdjVar;
     }
 
-    @zzcm(zza = R.styleable.AppCompatTheme_activityChooserViewStyle)
+    @zzcm(zza = 34)
     public final zzdj zza() {
         return this.zzf;
     }
 
-    @zzcm(zza = R.styleable.AppCompatTheme_dialogCornerRadius)
+    @zzcm(zza = 61)
     public final zzkd zzb() {
         return this.zzc;
     }
@@ -53,7 +51,7 @@ public final class zzki {
         return this.zze;
     }
 
-    @zzcm(zza = R.styleable.AppCompatTheme_checkedTextViewStyle)
+    @zzcm(zza = 49)
     public final zzld zze() {
         return this.zzd;
     }

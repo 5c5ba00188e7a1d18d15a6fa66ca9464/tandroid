@@ -65,10 +65,10 @@ public class SupportMenuInflater extends MenuInflater {
                 try {
                     xmlResourceParser = this.mContext.getResources().getLayout(i);
                     parseMenu(xmlResourceParser, Xml.asAttributeSet(xmlResourceParser), menu);
-                } catch (XmlPullParserException e) {
+                } catch (IOException e) {
                     throw new InflateException("Error inflating menu XML", e);
                 }
-            } catch (IOException e2) {
+            } catch (XmlPullParserException e2) {
                 throw new InflateException("Error inflating menu XML", e2);
             }
         } finally {

@@ -47,7 +47,7 @@ public class RingtoneDataStore {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda2
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 RingtoneDataStore.this.lambda$new$0();
@@ -134,7 +134,7 @@ public class RingtoneDataStore {
             }
         }
         if (z) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda1
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ringtone.RingtoneDataStore$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     RingtoneDataStore.this.lambda$loadFromPrefs$3();

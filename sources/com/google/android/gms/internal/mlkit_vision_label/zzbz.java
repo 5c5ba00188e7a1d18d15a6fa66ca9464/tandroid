@@ -24,7 +24,7 @@ public final class zzbz extends zzbg {
 
     /* JADX WARN: Removed duplicated region for block: B:11:0x001f A[RETURN] */
     /* JADX WARN: Removed duplicated region for block: B:12:0x0020 A[RETURN] */
-    @Override // com.google.android.gms.internal.mlkit_vision_label.zzbg, java.util.Map, j$.util.Map
+    @Override // com.google.android.gms.internal.mlkit_vision_label.zzbg, java.util.Map
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -49,7 +49,7 @@ public final class zzbz extends zzbg {
         }
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public final int size() {
         return this.zzc;
     }

@@ -60,10 +60,7 @@ public final class zzeq {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static boolean zza(zzfz zzfzVar) {
-        if (zzfzVar instanceof zzdg) {
-            zzdg zzdgVar = (zzdg) zzfzVar;
-            return false;
-        }
+        boolean z = zzfzVar instanceof zzdg;
         return false;
     }
 

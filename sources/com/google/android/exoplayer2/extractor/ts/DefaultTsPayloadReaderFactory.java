@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Factory {
     private final List<Format> closedCaptionFormats;
@@ -63,9 +64,9 @@ public final class DefaultTsPayloadReaderFactory implements TsPayloadReader.Fact
                                                     switch (i) {
                                                         case 128:
                                                             break;
-                                                        case 129:
+                                                        case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
                                                             break;
-                                                        case 130:
+                                                        case NotificationCenter.walletSyncProgressChanged /* 130 */:
                                                             if (!isSet(64)) {
                                                                 return null;
                                                             }

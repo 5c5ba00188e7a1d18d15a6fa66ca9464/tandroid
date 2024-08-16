@@ -35,11 +35,32 @@ public final class ContentInfoCompat {
     }
 
     static String sourceToString(int i) {
-        return i != 0 ? i != 1 ? i != 2 ? i != 3 ? i != 4 ? i != 5 ? String.valueOf(i) : "SOURCE_PROCESS_TEXT" : "SOURCE_AUTOFILL" : "SOURCE_DRAG_AND_DROP" : "SOURCE_INPUT_METHOD" : "SOURCE_CLIPBOARD" : "SOURCE_APP";
+        if (i != 0) {
+            if (i != 1) {
+                if (i != 2) {
+                    if (i != 3) {
+                        if (i != 4) {
+                            if (i == 5) {
+                                return "SOURCE_PROCESS_TEXT";
+                            }
+                            return String.valueOf(i);
+                        }
+                        return "SOURCE_AUTOFILL";
+                    }
+                    return "SOURCE_DRAG_AND_DROP";
+                }
+                return "SOURCE_INPUT_METHOD";
+            }
+            return "SOURCE_CLIPBOARD";
+        }
+        return "SOURCE_APP";
     }
 
     static String flagsToString(int i) {
-        return (i & 1) != 0 ? "FLAG_CONVERT_TO_PLAIN_TEXT" : String.valueOf(i);
+        if ((i & 1) != 0) {
+            return "FLAG_CONVERT_TO_PLAIN_TEXT";
+        }
+        return String.valueOf(i);
     }
 
     ContentInfoCompat(Compat compat) {
@@ -53,7 +74,7 @@ public final class ContentInfoCompat {
     public ContentInfo toContentInfo() {
         ContentInfo wrapped = this.mCompat.getWrapped();
         Objects.requireNonNull(wrapped);
-        return wrapped;
+        return ContentInfoCompat$$ExternalSyntheticApiModelOutline0.m(wrapped);
     }
 
     public String toString() {
@@ -135,7 +156,7 @@ public final class ContentInfoCompat {
         private final ContentInfo mWrapped;
 
         Compat31Impl(ContentInfo contentInfo) {
-            this.mWrapped = (ContentInfo) Preconditions.checkNotNull(contentInfo);
+            this.mWrapped = ContentInfoCompat$$ExternalSyntheticApiModelOutline0.m(Preconditions.checkNotNull(contentInfo));
         }
 
         @Override // androidx.core.view.ContentInfoCompat.Compat

@@ -49,7 +49,9 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                         break;
                     }
                     Matcher matcher = SUBRIP_TIMING_LINE.matcher(readLine2);
-                    if (matcher.matches()) {
+                    if (!matcher.matches()) {
+                        Log.w("SubripDecoder", "Skipping invalid timing: " + readLine2);
+                    } else {
                         longArray.add(parseTimecode(matcher, 1));
                         longArray.add(parseTimecode(matcher, 6));
                         this.textBuilder.setLength(0);
@@ -74,8 +76,6 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
                         }
                         arrayList.add(buildCue(fromHtml, str));
                         arrayList.add(Cue.EMPTY);
-                    } else {
-                        Log.w("SubripDecoder", "Skipping invalid timing: " + readLine2);
                     }
                 } catch (NumberFormatException unused) {
                     Log.w("SubripDecoder", "Skipping invalid index: " + readLine);
@@ -269,7 +269,7 @@ public final class SubripDecoder extends SimpleSubtitleDecoder {
 
     private static long parseTimecode(Matcher matcher, int i) {
         String group = matcher.group(i + 1);
-        long parseLong = (group != null ? Long.parseLong(group) * 60 * 60 * 1000 : 0L) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 2))) * 60 * 1000) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 3))) * 1000);
+        long parseLong = (group != null ? Long.parseLong(group) * 3600000 : 0L) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 2))) * 60000) + (Long.parseLong((String) Assertions.checkNotNull(matcher.group(i + 3))) * 1000);
         String group2 = matcher.group(i + 4);
         if (group2 != null) {
             parseLong += Long.parseLong(group2);

@@ -154,22 +154,22 @@ public class BotCommandsMenuView extends View {
         super.onMeasure(View.MeasureSpec.makeMeasureSpec(dp, 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(32.0f), 1073741824));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:22:0x0045  */
-    /* JADX WARN: Removed duplicated region for block: B:27:0x0059  */
-    /* JADX WARN: Removed duplicated region for block: B:30:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00d5  */
-    /* JADX WARN: Removed duplicated region for block: B:36:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x0119  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0045  */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x0059  */
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00a4  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00d5  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0119  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     protected void dispatchDraw(Canvas canvas) {
+        boolean z;
         float interpolation;
         if (this.menuTextLayout != null) {
-            boolean z = this.expanded;
-            boolean z2 = true;
-            if (z) {
+            boolean z2 = this.expanded;
+            if (z2) {
                 float f = this.expandProgress;
                 if (f != 1.0f) {
                     float f2 = f + 0.10666667f;
@@ -179,8 +179,9 @@ public class BotCommandsMenuView extends View {
                     } else {
                         invalidate();
                     }
+                    z = true;
                     interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.expandProgress);
-                    if (z2 && interpolation > 0.0f) {
+                    if (z && interpolation > 0.0f) {
                         this.textPaint.setAlpha((int) (255.0f * interpolation));
                     }
                     if (this.drawBackgroundDrawable) {
@@ -213,12 +214,12 @@ public class BotCommandsMenuView extends View {
                         this.menuTextLayout.draw(canvas);
                         canvas.restore();
                     }
-                    if (z2) {
+                    if (z) {
                         onTranslationChanged((this.menuTextWidth + AndroidUtilities.dp(4.0f)) * interpolation);
                     }
                 }
             }
-            if (!z) {
+            if (!z2) {
                 float f3 = this.expandProgress;
                 if (f3 != 0.0f) {
                     float f4 = f3 - 0.10666667f;
@@ -228,8 +229,9 @@ public class BotCommandsMenuView extends View {
                     } else {
                         invalidate();
                     }
+                    z = true;
                     interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.expandProgress);
-                    if (z2) {
+                    if (z) {
                         this.textPaint.setAlpha((int) (255.0f * interpolation));
                     }
                     if (this.drawBackgroundDrawable) {
@@ -238,13 +240,13 @@ public class BotCommandsMenuView extends View {
                     }
                     if (interpolation > 0.0f) {
                     }
-                    if (z2) {
+                    if (z) {
                     }
                 }
             }
-            z2 = false;
+            z = false;
             interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(this.expandProgress);
-            if (z2) {
+            if (z) {
             }
             if (this.drawBackgroundDrawable) {
             }
@@ -252,7 +254,7 @@ public class BotCommandsMenuView extends View {
             }
             if (interpolation > 0.0f) {
             }
-            if (z2) {
+            if (z) {
             }
         }
         super.dispatchDraw(canvas);

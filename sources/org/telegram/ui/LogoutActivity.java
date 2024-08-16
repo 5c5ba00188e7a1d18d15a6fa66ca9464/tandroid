@@ -51,7 +51,7 @@ public class LogoutActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.alternativeHeaderRow = 0;
         if (UserConfig.getActivatedAccountsCount() < 4) {
             int i = this.rowCount;
@@ -68,18 +68,13 @@ public class LogoutActivity extends BaseFragment {
             this.passcodeRow = -1;
         }
         int i3 = this.rowCount;
-        int i4 = i3 + 1;
         this.cacheRow = i3;
-        int i5 = i4 + 1;
-        this.phoneRow = i4;
-        int i6 = i5 + 1;
-        this.supportRow = i5;
-        int i7 = i6 + 1;
-        this.alternativeSectionRow = i6;
-        int i8 = i7 + 1;
-        this.logoutRow = i7;
-        this.rowCount = i8 + 1;
-        this.logoutSectionRow = i8;
+        this.phoneRow = i3 + 1;
+        this.supportRow = i3 + 2;
+        this.alternativeSectionRow = i3 + 3;
+        this.logoutRow = i3 + 4;
+        this.rowCount = i3 + 6;
+        this.logoutSectionRow = i3 + 5;
         return true;
     }
 

@@ -31,7 +31,6 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
-import org.telegram.messenger.LiteMode;
 /* loaded from: classes.dex */
 public class ErrorLogHelper {
     private static File sErrorLogDirectory;
@@ -92,12 +91,16 @@ public class ErrorLogHelper {
     public static synchronized File getErrorStorageDirectory() {
         File file;
         synchronized (ErrorLogHelper.class) {
-            if (sErrorLogDirectory == null) {
-                File file2 = new File(Constants.FILES_PATH, "error");
-                sErrorLogDirectory = file2;
-                FileManager.mkdir(file2.getAbsolutePath());
+            try {
+                if (sErrorLogDirectory == null) {
+                    File file2 = new File(Constants.FILES_PATH, "error");
+                    sErrorLogDirectory = file2;
+                    FileManager.mkdir(file2.getAbsolutePath());
+                }
+                file = sErrorLogDirectory;
+            } catch (Throwable th) {
+                throw th;
             }
-            file = sErrorLogDirectory;
         }
         return file;
     }
@@ -113,12 +116,16 @@ public class ErrorLogHelper {
     public static synchronized File getNewMinidumpSubfolder() {
         File file;
         synchronized (ErrorLogHelper.class) {
-            if (sNewMinidumpDirectory == null) {
-                File file2 = new File(getNewMinidumpDirectory(), UUID.randomUUID().toString());
-                sNewMinidumpDirectory = file2;
-                FileManager.mkdir(file2.getPath());
+            try {
+                if (sNewMinidumpDirectory == null) {
+                    File file2 = new File(getNewMinidumpDirectory(), UUID.randomUUID().toString());
+                    sNewMinidumpDirectory = file2;
+                    FileManager.mkdir(file2.getPath());
+                }
+                file = sNewMinidumpDirectory;
+            } catch (Throwable th) {
+                throw th;
             }
-            file = sNewMinidumpDirectory;
         }
         return file;
     }
@@ -147,12 +154,16 @@ public class ErrorLogHelper {
     public static synchronized File getPendingMinidumpDirectory() {
         File file;
         synchronized (ErrorLogHelper.class) {
-            if (sPendingMinidumpDirectory == null) {
-                File file2 = new File(new File(getErrorStorageDirectory().getAbsolutePath(), "minidump"), "pending");
-                sPendingMinidumpDirectory = file2;
-                FileManager.mkdir(file2.getPath());
+            try {
+                if (sPendingMinidumpDirectory == null) {
+                    File file2 = new File(new File(getErrorStorageDirectory().getAbsolutePath(), "minidump"), "pending");
+                    sPendingMinidumpDirectory = file2;
+                    FileManager.mkdir(file2.getPath());
+                }
+                file = sPendingMinidumpDirectory;
+            } catch (Throwable th) {
+                throw th;
             }
-            file = sPendingMinidumpDirectory;
         }
         return file;
     }
@@ -312,11 +323,11 @@ public class ErrorLogHelper {
     private static List<StackFrame> getModelFramesFromStackTrace(Throwable th) {
         StackTraceElement[] stackTrace = th.getStackTrace();
         if (stackTrace.length > 256) {
-            StackTraceElement[] stackTraceElementArr = new StackTraceElement[LiteMode.FLAG_CHAT_BLUR];
+            StackTraceElement[] stackTraceElementArr = new StackTraceElement[256];
             System.arraycopy(stackTrace, 0, stackTraceElementArr, 0, 128);
             System.arraycopy(stackTrace, stackTrace.length - 128, stackTraceElementArr, 128, 128);
             th.setStackTrace(stackTraceElementArr);
-            AppCenterLog.warn("AppCenterCrashes", "Crash frames truncated from " + stackTrace.length + " to " + LiteMode.FLAG_CHAT_BLUR + " frames.");
+            AppCenterLog.warn("AppCenterCrashes", "Crash frames truncated from " + stackTrace.length + " to 256 frames.");
             stackTrace = stackTraceElementArr;
         }
         return getModelFramesFromStackTrace(stackTrace);

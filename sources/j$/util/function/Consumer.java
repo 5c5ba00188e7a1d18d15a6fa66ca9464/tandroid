@@ -3,47 +3,10 @@ package j$.util.function;
 public interface Consumer<T> {
 
     /* loaded from: classes2.dex */
-    public final /* synthetic */ class -CC<T> {
+    public final /* synthetic */ class -CC {
         public static Consumer $default$andThen(Consumer consumer, Consumer consumer2) {
             consumer2.getClass();
-            return new j$.util.concurrent.u(3, consumer, consumer2);
-        }
-    }
-
-    /* loaded from: classes2.dex */
-    public final /* synthetic */ class VivifiedWrapper implements Consumer {
-        public final /* synthetic */ java.util.function.Consumer a;
-
-        private /* synthetic */ VivifiedWrapper(java.util.function.Consumer consumer) {
-            this.a = consumer;
-        }
-
-        public static /* synthetic */ Consumer convert(java.util.function.Consumer consumer) {
-            if (consumer == null) {
-                return null;
-            }
-            return consumer instanceof Wrapper ? Consumer.this : new VivifiedWrapper(consumer);
-        }
-
-        @Override // j$.util.function.Consumer
-        public final /* synthetic */ void accept(Object obj) {
-            this.a.accept(obj);
-        }
-
-        @Override // j$.util.function.Consumer
-        public final /* synthetic */ Consumer andThen(Consumer consumer) {
-            return convert(this.a.andThen(Wrapper.convert(consumer)));
-        }
-
-        public final /* synthetic */ boolean equals(Object obj) {
-            if (obj instanceof VivifiedWrapper) {
-                obj = ((VivifiedWrapper) obj).a;
-            }
-            return this.a.equals(obj);
-        }
-
-        public final /* synthetic */ int hashCode() {
-            return this.a.hashCode();
+            return new j$.util.concurrent.s(3, consumer, consumer2);
         }
     }
 
@@ -57,7 +20,7 @@ public interface Consumer<T> {
             if (consumer == null) {
                 return null;
             }
-            return consumer instanceof VivifiedWrapper ? ((VivifiedWrapper) consumer).a : new Wrapper();
+            return consumer instanceof g ? ((g) consumer).a : new Wrapper();
         }
 
         @Override // java.util.function.Consumer
@@ -67,7 +30,7 @@ public interface Consumer<T> {
 
         @Override // java.util.function.Consumer
         public final /* synthetic */ java.util.function.Consumer andThen(java.util.function.Consumer consumer) {
-            return convert(Consumer.this.andThen(VivifiedWrapper.convert(consumer)));
+            return convert(Consumer.this.andThen(g.a(consumer)));
         }
 
         public final /* synthetic */ boolean equals(Object obj) {

@@ -35,25 +35,33 @@ public class SessionContext {
     public static synchronized SessionContext getInstance() {
         SessionContext sessionContext;
         synchronized (SessionContext.class) {
-            if (sInstance == null) {
-                sInstance = new SessionContext();
+            try {
+                if (sInstance == null) {
+                    sInstance = new SessionContext();
+                }
+                sessionContext = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            sessionContext = sInstance;
         }
         return sessionContext;
     }
 
     public synchronized void addSession(UUID uuid) {
-        long currentTimeMillis = System.currentTimeMillis();
-        this.mSessions.put(Long.valueOf(currentTimeMillis), new SessionInfo(currentTimeMillis, uuid, this.mAppLaunchTimestamp));
-        if (this.mSessions.size() > 10) {
-            this.mSessions.pollFirstEntry();
+        try {
+            long currentTimeMillis = System.currentTimeMillis();
+            this.mSessions.put(Long.valueOf(currentTimeMillis), new SessionInfo(currentTimeMillis, uuid, this.mAppLaunchTimestamp));
+            if (this.mSessions.size() > 10) {
+                this.mSessions.pollFirstEntry();
+            }
+            LinkedHashSet linkedHashSet = new LinkedHashSet();
+            for (SessionInfo sessionInfo : this.mSessions.values()) {
+                linkedHashSet.add(sessionInfo.toString());
+            }
+            SharedPreferencesManager.putStringSet("sessions", linkedHashSet);
+        } catch (Throwable th) {
+            throw th;
         }
-        LinkedHashSet linkedHashSet = new LinkedHashSet();
-        for (SessionInfo sessionInfo : this.mSessions.values()) {
-            linkedHashSet.add(sessionInfo.toString());
-        }
-        SharedPreferencesManager.putStringSet("sessions", linkedHashSet);
     }
 
     public synchronized SessionInfo getSessionAt(long j) {

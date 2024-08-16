@@ -1,77 +1,28 @@
 package j$.util.stream;
-
-import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-final class y1 implements O1, c2 {
-    private double a;
-    final /* synthetic */ double b;
-    final /* synthetic */ j$.util.function.i c;
+public final class y1 extends t0 {
+    public final /* synthetic */ int h;
+    final /* synthetic */ Object i;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public y1(double d, j$.util.function.i iVar) {
-        this.b = d;
-        this.c = iVar;
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    public /* synthetic */ y1(T2 t2, Object obj, int i) {
+        super(t2);
+        this.h = i;
+        this.i = obj;
     }
 
-    @Override // j$.util.stream.f2, j$.util.stream.c2, j$.util.function.m
-    public final void accept(double d) {
-        this.a = this.c.applyAsDouble(this.a, d);
-    }
-
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void accept(int i) {
-        u0.p0();
-        throw null;
-    }
-
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void accept(long j) {
-        u0.q0();
-        throw null;
-    }
-
-    @Override // j$.util.function.Consumer
-    public final /* bridge */ /* synthetic */ void accept(Object obj) {
-        p((Double) obj);
-    }
-
-    @Override // j$.util.function.Consumer
-    public final /* synthetic */ Consumer andThen(Consumer consumer) {
-        return Consumer.-CC.$default$andThen(this, consumer);
-    }
-
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ void end() {
-    }
-
-    @Override // j$.util.stream.f2
-    public final void f(long j) {
-        this.a = this.b;
-    }
-
-    @Override // j$.util.function.Supplier
-    public final Object get() {
-        return Double.valueOf(this.a);
-    }
-
-    @Override // j$.util.stream.f2
-    public final /* synthetic */ boolean h() {
-        return false;
-    }
-
-    @Override // j$.util.stream.O1
-    public final void k(O1 o1) {
-        accept(((y1) o1).a);
-    }
-
-    @Override // j$.util.function.m
-    public final j$.util.function.m m(j$.util.function.m mVar) {
-        mVar.getClass();
-        return new j$.util.function.j(this, mVar);
-    }
-
-    @Override // j$.util.stream.c2
-    public final /* synthetic */ void p(Double d) {
-        u0.j0(this, d);
+    @Override // j$.util.stream.t0
+    public final N1 d0() {
+        switch (this.h) {
+            case 0:
+                return new z1((j$.util.function.j) this.i);
+            case 1:
+                return new C1((j$.util.function.f) this.i);
+            case 2:
+                return new I1((j$.util.function.B) this.i);
+            default:
+                return new M1((j$.util.function.S) this.i);
+        }
     }
 }

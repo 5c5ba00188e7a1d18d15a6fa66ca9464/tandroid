@@ -39,7 +39,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
 
     @Override // org.telegram.messenger.ILocationServiceProvider
     public void getLastLocation(final Consumer<Location> consumer) {
-        this.locationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.messenger.GoogleLocationProvider$$ExternalSyntheticLambda0
+        this.locationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener() { // from class: org.telegram.messenger.GoogleLocationProvider$$ExternalSyntheticLambda1
             @Override // com.google.android.gms.tasks.OnCompleteListener
             public final void onComplete(Task task) {
                 GoogleLocationProvider.lambda$getLastLocation$0(Consumer.this, task);
@@ -113,7 +113,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
             public void onConnectionSuspended(int i) {
                 iAPIConnectionCallbacks.onConnectionSuspended(i);
             }
-        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() { // from class: org.telegram.messenger.GoogleLocationProvider$$ExternalSyntheticLambda1
+        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() { // from class: org.telegram.messenger.GoogleLocationProvider$$ExternalSyntheticLambda0
             @Override // com.google.android.gms.common.api.internal.OnConnectionFailedListener
             public final void onConnectionFailed(ConnectionResult connectionResult) {
                 ILocationServiceProvider.IAPIOnConnectionFailedListener.this.onConnectionFailed();
@@ -136,7 +136,7 @@ public class GoogleLocationProvider implements ILocationServiceProvider {
 
         @Override // org.telegram.messenger.ILocationServiceProvider.ILocationRequest
         public void setPriority(int i) {
-            this.request.setPriority(i != 1 ? i != 2 ? i != 3 ? 100 : R.styleable.AppCompatTheme_textAppearanceListItemSmall : R.styleable.AppCompatTheme_textAppearanceListItemSecondary : R.styleable.AppCompatTheme_textAppearanceLargePopupMenu);
+            this.request.setPriority(i != 1 ? i != 2 ? i != 3 ? 100 : 105 : 104 : 102);
         }
 
         @Override // org.telegram.messenger.ILocationServiceProvider.ILocationRequest

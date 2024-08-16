@@ -25,6 +25,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC$Chat;
 import org.telegram.tgnet.TLRPC$TL_groupCallParticipant;
@@ -266,7 +267,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 this.avatarImageView.setTranslationY(0.0f);
                 this.avatarImageView.setScaleX(1.0f);
                 this.avatarImageView.setScaleY(1.0f);
-                this.backgroundPaint.setAlpha(255);
+                this.backgroundPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 invalidate();
                 GroupCallMiniTextureView groupCallMiniTextureView = this.renderer;
                 if (groupCallMiniTextureView != null) {
@@ -450,7 +451,7 @@ public class GroupCallFullscreenAdapter extends RecyclerListView.SelectionAdapte
                 if (this.muteButton.getDrawable() != null) {
                     this.muteButton.getDrawable().setAlpha((int) (this.progress * 255.0f * getAlpha()));
                     this.muteButton.draw(canvas);
-                    this.muteButton.getDrawable().setAlpha(255);
+                    this.muteButton.getDrawable().setAlpha(NotificationCenter.voipServiceCreated);
                 }
                 canvas.restore();
             }

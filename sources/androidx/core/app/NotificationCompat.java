@@ -392,35 +392,26 @@ public class NotificationCompat {
             return this.mColor;
         }
 
-        /* JADX INFO: Access modifiers changed from: package-private */
         /* loaded from: classes.dex */
-        public static class Api21Impl {
+        static class Api21Impl {
             static AudioAttributes.Builder createBuilder() {
                 return new AudioAttributes.Builder();
             }
 
             static AudioAttributes.Builder setContentType(AudioAttributes.Builder builder, int i) {
-                AudioAttributes.Builder contentType;
-                contentType = builder.setContentType(i);
-                return contentType;
+                return builder.setContentType(i);
             }
 
             static AudioAttributes.Builder setUsage(AudioAttributes.Builder builder, int i) {
-                AudioAttributes.Builder usage;
-                usage = builder.setUsage(i);
-                return usage;
+                return builder.setUsage(i);
             }
 
             static AudioAttributes.Builder setLegacyStreamType(AudioAttributes.Builder builder, int i) {
-                AudioAttributes.Builder legacyStreamType;
-                legacyStreamType = builder.setLegacyStreamType(i);
-                return legacyStreamType;
+                return builder.setLegacyStreamType(i);
             }
 
             static AudioAttributes build(AudioAttributes.Builder builder) {
-                AudioAttributes build;
-                build = builder.build();
-                return build;
+                return builder.build();
             }
         }
     }
@@ -480,11 +471,6 @@ public class NotificationCompat {
         private IconCompat mPictureIcon;
         private boolean mShowBigPictureWhenCollapsed;
 
-        @Override // androidx.core.app.NotificationCompat.Style
-        protected String getClassName() {
-            return "androidx.core.app.NotificationCompat$BigPictureStyle";
-        }
-
         public BigPictureStyle bigPicture(Bitmap bitmap) {
             this.mPictureIcon = bitmap == null ? null : IconCompat.createWithBitmap(bitmap);
             return this;
@@ -494,6 +480,11 @@ public class NotificationCompat {
             this.mBigLargeIcon = bitmap == null ? null : IconCompat.createWithBitmap(bitmap);
             this.mBigLargeIconSet = true;
             return this;
+        }
+
+        @Override // androidx.core.app.NotificationCompat.Style
+        protected String getClassName() {
+            return "androidx.core.app.NotificationCompat$BigPictureStyle";
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
@@ -579,14 +570,14 @@ public class NotificationCompat {
     public static class BigTextStyle extends Style {
         private CharSequence mBigText;
 
-        @Override // androidx.core.app.NotificationCompat.Style
-        protected String getClassName() {
-            return "androidx.core.app.NotificationCompat$BigTextStyle";
-        }
-
         public BigTextStyle bigText(CharSequence charSequence) {
             this.mBigText = Builder.limitCharSequenceLength(charSequence);
             return this;
+        }
+
+        @Override // androidx.core.app.NotificationCompat.Style
+        protected String getClassName() {
+            return "androidx.core.app.NotificationCompat$BigTextStyle";
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
@@ -632,11 +623,6 @@ public class NotificationCompat {
         private Person mUser;
         private final List<Message> mMessages = new ArrayList();
         private final List<Message> mHistoricMessages = new ArrayList();
-
-        @Override // androidx.core.app.NotificationCompat.Style
-        protected String getClassName() {
-            return "androidx.core.app.NotificationCompat$MessagingStyle";
-        }
 
         @Deprecated
         public MessagingStyle(CharSequence charSequence) {
@@ -692,6 +678,11 @@ public class NotificationCompat {
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
+        protected String getClassName() {
+            return "androidx.core.app.NotificationCompat$MessagingStyle";
+        }
+
+        @Override // androidx.core.app.NotificationCompat.Style
         public void apply(NotificationBuilderWithBuilderAccessor notificationBuilderWithBuilderAccessor) {
             CharSequence text;
             Notification.MessagingStyle createMessagingStyle;
@@ -704,18 +695,18 @@ public class NotificationCompat {
                     createMessagingStyle = Api24Impl.createMessagingStyle(this.mUser.getName());
                 }
                 for (Message message : this.mMessages) {
-                    Api24Impl.addMessage(createMessagingStyle, message.toAndroidMessage());
+                    Api24Impl.addMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), message.toAndroidMessage());
                 }
                 if (Build.VERSION.SDK_INT >= 26) {
                     for (Message message2 : this.mHistoricMessages) {
-                        Api26Impl.addHistoricMessage(createMessagingStyle, message2.toAndroidMessage());
+                        Api26Impl.addHistoricMessage(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), message2.toAndroidMessage());
                     }
                 }
                 if (this.mIsGroupConversation.booleanValue() || Build.VERSION.SDK_INT >= 28) {
-                    Api24Impl.setConversationTitle(createMessagingStyle, this.mConversationTitle);
+                    Api24Impl.setConversationTitle(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), this.mConversationTitle);
                 }
                 if (Build.VERSION.SDK_INT >= 28) {
-                    Api28Impl.setGroupConversation(createMessagingStyle, this.mIsGroupConversation.booleanValue());
+                    Api28Impl.setGroupConversation(NotificationCompat$MessagingStyle$$ExternalSyntheticApiModelOutline0.m(createMessagingStyle), this.mIsGroupConversation.booleanValue());
                 }
                 Api16Impl.setBuilder(createMessagingStyle, notificationBuilderWithBuilderAccessor.getBuilder());
                 return;
@@ -922,9 +913,7 @@ public class NotificationCompat {
                 }
 
                 static Notification.MessagingStyle.Message setData(Notification.MessagingStyle.Message message, String str, Uri uri) {
-                    Notification.MessagingStyle.Message data;
-                    data = message.setData(str, uri);
-                    return data;
+                    return message.setData(str, uri);
                 }
             }
 
@@ -963,24 +952,18 @@ public class NotificationCompat {
             }
 
             static Notification.MessagingStyle addMessage(Notification.MessagingStyle messagingStyle, Notification.MessagingStyle.Message message) {
-                Notification.MessagingStyle addMessage;
-                addMessage = messagingStyle.addMessage(message);
-                return addMessage;
+                return messagingStyle.addMessage(message);
             }
 
             static Notification.MessagingStyle setConversationTitle(Notification.MessagingStyle messagingStyle, CharSequence charSequence) {
-                Notification.MessagingStyle conversationTitle;
-                conversationTitle = messagingStyle.setConversationTitle(charSequence);
-                return conversationTitle;
+                return messagingStyle.setConversationTitle(charSequence);
             }
         }
 
         /* loaded from: classes.dex */
         static class Api26Impl {
             static Notification.MessagingStyle addHistoricMessage(Notification.MessagingStyle messagingStyle, Notification.MessagingStyle.Message message) {
-                Notification.MessagingStyle addHistoricMessage;
-                addHistoricMessage = messagingStyle.addHistoricMessage(message);
-                return addHistoricMessage;
+                return messagingStyle.addHistoricMessage(message);
             }
         }
 
@@ -991,9 +974,7 @@ public class NotificationCompat {
             }
 
             static Notification.MessagingStyle setGroupConversation(Notification.MessagingStyle messagingStyle, boolean z) {
-                Notification.MessagingStyle groupConversation;
-                groupConversation = messagingStyle.setGroupConversation(z);
-                return groupConversation;
+                return messagingStyle.setGroupConversation(z);
             }
         }
     }
@@ -1001,11 +982,6 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class InboxStyle extends Style {
         private ArrayList<CharSequence> mTexts = new ArrayList<>();
-
-        @Override // androidx.core.app.NotificationCompat.Style
-        protected String getClassName() {
-            return "androidx.core.app.NotificationCompat$InboxStyle";
-        }
 
         public InboxStyle setBigContentTitle(CharSequence charSequence) {
             this.mBigContentTitle = Builder.limitCharSequenceLength(charSequence);
@@ -1023,6 +999,11 @@ public class NotificationCompat {
                 this.mTexts.add(Builder.limitCharSequenceLength(charSequence));
             }
             return this;
+        }
+
+        @Override // androidx.core.app.NotificationCompat.Style
+        protected String getClassName() {
+            return "androidx.core.app.NotificationCompat$InboxStyle";
         }
 
         @Override // androidx.core.app.NotificationCompat.Style
@@ -1230,8 +1211,7 @@ public class NotificationCompat {
                         }
                     }
                 }
-                RemoteInput[] remoteInputArr = arrayList.isEmpty() ? null : (RemoteInput[]) arrayList.toArray(new RemoteInput[arrayList.size()]);
-                return new Action(this.mIcon, this.mTitle, this.mIntent, this.mExtras, arrayList2.isEmpty() ? null : (RemoteInput[]) arrayList2.toArray(new RemoteInput[arrayList2.size()]), remoteInputArr, this.mAllowGeneratedReplies, this.mSemanticAction, this.mShowsUserInterface, this.mIsContextual, this.mAuthenticationRequired);
+                return new Action(this.mIcon, this.mTitle, this.mIntent, this.mExtras, arrayList2.isEmpty() ? null : (RemoteInput[]) arrayList2.toArray(new RemoteInput[arrayList2.size()]), arrayList.isEmpty() ? null : (RemoteInput[]) arrayList.toArray(new RemoteInput[arrayList.size()]), this.mAllowGeneratedReplies, this.mSemanticAction, this.mShowsUserInterface, this.mIsContextual, this.mAuthenticationRequired);
             }
         }
     }
@@ -1400,21 +1380,15 @@ public class NotificationCompat {
             }
 
             static Notification.Action.Builder addExtras(Notification.Action.Builder builder, Bundle bundle) {
-                Notification.Action.Builder addExtras;
-                addExtras = builder.addExtras(bundle);
-                return addExtras;
+                return builder.addExtras(bundle);
             }
 
             static Notification.Action.Builder addRemoteInput(Notification.Action.Builder builder, android.app.RemoteInput remoteInput) {
-                Notification.Action.Builder addRemoteInput;
-                addRemoteInput = builder.addRemoteInput(remoteInput);
-                return addRemoteInput;
+                return builder.addRemoteInput(remoteInput);
             }
 
             static Notification.Action build(Notification.Action.Builder builder) {
-                Notification.Action build;
-                build = builder.build();
-                return build;
+                return builder.build();
             }
 
             public static Action getActionCompatFromAction(ArrayList<Parcelable> arrayList, int i) {
@@ -1434,9 +1408,7 @@ public class NotificationCompat {
         /* loaded from: classes.dex */
         public static class Api24Impl {
             static Notification.Action.Builder setAllowGeneratedReplies(Notification.Action.Builder builder, boolean z) {
-                Notification.Action.Builder allowGeneratedReplies;
-                allowGeneratedReplies = builder.setAllowGeneratedReplies(z);
-                return allowGeneratedReplies;
+                return builder.setAllowGeneratedReplies(z);
             }
         }
 
@@ -1444,9 +1416,7 @@ public class NotificationCompat {
         /* loaded from: classes.dex */
         public static class Api31Impl {
             static Notification.Action.Builder setAuthenticationRequired(Notification.Action.Builder builder, boolean z) {
-                Notification.Action.Builder authenticationRequired;
-                authenticationRequired = builder.setAuthenticationRequired(z);
-                return authenticationRequired;
+                return builder.setAuthenticationRequired(z);
             }
         }
     }
@@ -1584,41 +1554,29 @@ public class NotificationCompat {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        private static class Api29Impl {
+        public static class Api29Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
-                Notification.BubbleMetadata.Builder icon;
-                Notification.BubbleMetadata.Builder intent;
-                Notification.BubbleMetadata.Builder deleteIntent;
-                Notification.BubbleMetadata.Builder autoExpandBubble;
-                Notification.BubbleMetadata.Builder suppressNotification;
-                Notification.BubbleMetadata build;
                 if (bubbleMetadata == null || bubbleMetadata.getIntent() == null) {
                     return null;
                 }
-                icon = new Notification.BubbleMetadata.Builder().setIcon(bubbleMetadata.getIcon().toIcon());
-                intent = icon.setIntent(bubbleMetadata.getIntent());
-                deleteIntent = intent.setDeleteIntent(bubbleMetadata.getDeleteIntent());
-                autoExpandBubble = deleteIntent.setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble());
-                suppressNotification = autoExpandBubble.setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
+                Notification.BubbleMetadata.Builder suppressNotification = new Notification.BubbleMetadata.Builder().setIcon(bubbleMetadata.getIcon().toIcon()).setIntent(bubbleMetadata.getIntent()).setDeleteIntent(bubbleMetadata.getDeleteIntent()).setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble()).setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
                 if (bubbleMetadata.getDesiredHeight() != 0) {
                     suppressNotification.setDesiredHeight(bubbleMetadata.getDesiredHeight());
                 }
                 if (bubbleMetadata.getDesiredHeightResId() != 0) {
                     suppressNotification.setDesiredHeightResId(bubbleMetadata.getDesiredHeightResId());
                 }
-                build = suppressNotification.build();
-                return build;
+                return suppressNotification.build();
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        private static class Api30Impl {
+        public static class Api30Impl {
             static Notification.BubbleMetadata toPlatform(BubbleMetadata bubbleMetadata) {
                 Notification.BubbleMetadata.Builder builder;
-                Notification.BubbleMetadata.Builder deleteIntent;
-                Notification.BubbleMetadata.Builder autoExpandBubble;
-                Notification.BubbleMetadata build;
                 if (bubbleMetadata == null) {
                     return null;
                 }
@@ -1627,17 +1585,14 @@ public class NotificationCompat {
                 } else {
                     builder = new Notification.BubbleMetadata.Builder(bubbleMetadata.getIntent(), bubbleMetadata.getIcon().toIcon());
                 }
-                deleteIntent = builder.setDeleteIntent(bubbleMetadata.getDeleteIntent());
-                autoExpandBubble = deleteIntent.setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble());
-                autoExpandBubble.setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
+                builder.setDeleteIntent(bubbleMetadata.getDeleteIntent()).setAutoExpandBubble(bubbleMetadata.getAutoExpandBubble()).setSuppressNotification(bubbleMetadata.isNotificationSuppressed());
                 if (bubbleMetadata.getDesiredHeight() != 0) {
                     builder.setDesiredHeight(bubbleMetadata.getDesiredHeight());
                 }
                 if (bubbleMetadata.getDesiredHeightResId() != 0) {
                     builder.setDesiredHeightResId(bubbleMetadata.getDesiredHeightResId());
                 }
-                build = builder.build();
-                return build;
+                return builder.build();
             }
         }
     }
@@ -1691,57 +1646,39 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api20Impl {
         static boolean getAllowFreeFormInput(android.app.RemoteInput remoteInput) {
-            boolean allowFreeFormInput;
-            allowFreeFormInput = remoteInput.getAllowFreeFormInput();
-            return allowFreeFormInput;
+            return remoteInput.getAllowFreeFormInput();
         }
 
         static CharSequence[] getChoices(android.app.RemoteInput remoteInput) {
-            CharSequence[] choices;
-            choices = remoteInput.getChoices();
-            return choices;
+            return remoteInput.getChoices();
         }
 
         static CharSequence getLabel(android.app.RemoteInput remoteInput) {
-            CharSequence label;
-            label = remoteInput.getLabel();
-            return label;
+            return remoteInput.getLabel();
         }
 
         static String getResultKey(android.app.RemoteInput remoteInput) {
-            String resultKey;
-            resultKey = remoteInput.getResultKey();
-            return resultKey;
+            return remoteInput.getResultKey();
         }
 
         static android.app.RemoteInput[] getRemoteInputs(Notification.Action action) {
-            android.app.RemoteInput[] remoteInputs;
-            remoteInputs = action.getRemoteInputs();
-            return remoteInputs;
+            return action.getRemoteInputs();
         }
 
         static String getSortKey(Notification notification) {
-            String sortKey;
-            sortKey = notification.getSortKey();
-            return sortKey;
+            return notification.getSortKey();
         }
 
         static String getGroup(Notification notification) {
-            String group;
-            group = notification.getGroup();
-            return group;
+            return notification.getGroup();
         }
 
         static Bundle getExtras(Notification.Action action) {
-            Bundle extras;
-            extras = action.getExtras();
-            return extras;
+            return action.getExtras();
         }
 
         static Bundle getExtras(android.app.RemoteInput remoteInput) {
-            Bundle extras;
-            extras = remoteInput.getExtras();
-            return extras;
+            return remoteInput.getExtras();
         }
     }
 
@@ -1749,9 +1686,7 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static Icon getIcon(Notification.Action action) {
-            Icon icon;
-            icon = action.getIcon();
-            return icon;
+            return action.getIcon();
         }
     }
 
@@ -1759,9 +1694,7 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api24Impl {
         static boolean getAllowGeneratedReplies(Notification.Action action) {
-            boolean allowGeneratedReplies;
-            allowGeneratedReplies = action.getAllowGeneratedReplies();
-            return allowGeneratedReplies;
+            return action.getAllowGeneratedReplies();
         }
     }
 
@@ -1769,9 +1702,7 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api28Impl {
         static int getSemanticAction(Notification.Action action) {
-            int semanticAction;
-            semanticAction = action.getSemanticAction();
-            return semanticAction;
+            return action.getSemanticAction();
         }
     }
 
@@ -1779,33 +1710,23 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api29Impl {
         static boolean getAllowSystemGeneratedContextualActions(Notification notification) {
-            boolean allowSystemGeneratedContextualActions;
-            allowSystemGeneratedContextualActions = notification.getAllowSystemGeneratedContextualActions();
-            return allowSystemGeneratedContextualActions;
+            return notification.getAllowSystemGeneratedContextualActions();
         }
 
         static LocusId getLocusId(Notification notification) {
-            LocusId locusId;
-            locusId = notification.getLocusId();
-            return locusId;
+            return notification.getLocusId();
         }
 
         static boolean isContextual(Notification.Action action) {
-            boolean isContextual;
-            isContextual = action.isContextual();
-            return isContextual;
+            return action.isContextual();
         }
 
         static int getEditChoicesBeforeSending(android.app.RemoteInput remoteInput) {
-            int editChoicesBeforeSending;
-            editChoicesBeforeSending = remoteInput.getEditChoicesBeforeSending();
-            return editChoicesBeforeSending;
+            return remoteInput.getEditChoicesBeforeSending();
         }
 
         static Notification.BubbleMetadata getBubbleMetadata(Notification notification) {
-            Notification.BubbleMetadata bubbleMetadata;
-            bubbleMetadata = notification.getBubbleMetadata();
-            return bubbleMetadata;
+            return notification.getBubbleMetadata();
         }
     }
 
@@ -1813,9 +1734,7 @@ public class NotificationCompat {
     /* loaded from: classes.dex */
     public static class Api31Impl {
         static boolean isAuthenticationRequired(Notification.Action action) {
-            boolean isAuthenticationRequired;
-            isAuthenticationRequired = action.isAuthenticationRequired();
-            return isAuthenticationRequired;
+            return action.isAuthenticationRequired();
         }
     }
 }

@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.extractor.TrackOutput;
 import com.google.android.exoplayer2.extractor.ts.TsPayloadReader;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.ParsableByteArray;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class DtsReader implements ElementaryStreamReader {
     private int bytesRead;
@@ -104,10 +105,10 @@ public final class DtsReader implements ElementaryStreamReader {
             if (DtsUtil.isSyncWord(readUnsignedByte)) {
                 byte[] data = this.headerScratchBytes.getData();
                 int i2 = this.syncBytes;
-                data[0] = (byte) ((i2 >> 24) & 255);
-                data[1] = (byte) ((i2 >> 16) & 255);
-                data[2] = (byte) ((i2 >> 8) & 255);
-                data[3] = (byte) (i2 & 255);
+                data[0] = (byte) ((i2 >> 24) & NotificationCenter.voipServiceCreated);
+                data[1] = (byte) ((i2 >> 16) & NotificationCenter.voipServiceCreated);
+                data[2] = (byte) ((i2 >> 8) & NotificationCenter.voipServiceCreated);
+                data[3] = (byte) (i2 & NotificationCenter.voipServiceCreated);
                 this.bytesRead = 4;
                 this.syncBytes = 0;
                 return true;

@@ -69,9 +69,18 @@ final class MultiDexExtractor implements Closeable {
                 closeQuietly(this.lockChannel);
                 throw e;
             }
-        } catch (IOException | Error | RuntimeException e4) {
+        } catch (IOException e4) {
+            e = e4;
             closeQuietly(this.lockRaf);
-            throw e4;
+            throw e;
+        } catch (Error e5) {
+            e = e5;
+            closeQuietly(this.lockRaf);
+            throw e;
+        } catch (RuntimeException e6) {
+            e = e6;
+            closeQuietly(this.lockRaf);
+            throw e;
         }
     }
 
@@ -261,10 +270,10 @@ final class MultiDexExtractor implements Closeable {
         }
         for (File file : listFiles) {
             Log.i("MultiDex", "Trying to delete old file " + file.getPath() + " of size " + file.length());
-            if (file.delete()) {
-                Log.i("MultiDex", "Deleted old file " + file.getPath());
-            } else {
+            if (!file.delete()) {
                 Log.w("MultiDex", "Failed to delete old file " + file.getPath());
+            } else {
+                Log.i("MultiDex", "Deleted old file " + file.getPath());
             }
         }
     }
@@ -288,13 +297,15 @@ final class MultiDexExtractor implements Closeable {
                 throw new IOException("Failed to mark readonly \"" + createTempFile.getAbsolutePath() + "\" (tmp of \"" + file.getAbsolutePath() + "\")");
             }
             Log.i("MultiDex", "Renaming to " + file.getPath());
-            if (createTempFile.renameTo(file)) {
-                return;
+            if (!createTempFile.renameTo(file)) {
+                throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
             }
-            throw new IOException("Failed to rename \"" + createTempFile.getAbsolutePath() + "\" to \"" + file.getAbsolutePath() + "\"");
-        } finally {
             closeQuietly(inputStream);
             createTempFile.delete();
+        } catch (Throwable th) {
+            closeQuietly(inputStream);
+            createTempFile.delete();
+            throw th;
         }
     }
 

@@ -67,8 +67,9 @@ public class TextStyleSpan extends MetricAffectingSpan {
         public Typeface getTypeface() {
             int i = this.flags;
             if ((i & 4) == 0 && (i & 2048) == 0) {
-                if ((i & 1) == 0 || (i & 2) == 0) {
-                    if ((i & 1) != 0) {
+                int i2 = i & 1;
+                if (i2 == 0 || (i & 2) == 0) {
+                    if (i2 != 0) {
                         return AndroidUtilities.bold();
                     }
                     if ((i & 2) != 0) {
@@ -103,7 +104,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
     }
 
     public boolean isSpoiler() {
-        return (this.style.flags & LiteMode.FLAG_CHAT_BLUR) > 0;
+        return (this.style.flags & 256) > 0;
     }
 
     public void setSpoilerRevealed(boolean z) {

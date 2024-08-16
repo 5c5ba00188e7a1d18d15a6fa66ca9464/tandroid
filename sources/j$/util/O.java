@@ -11,16 +11,16 @@ public final /* synthetic */ class O implements Q {
         this.a = spliterator;
     }
 
-    public static /* synthetic */ Q f(Spliterator spliterator) {
+    public static /* synthetic */ Q b(Spliterator spliterator) {
         if (spliterator == null) {
             return null;
         }
-        return spliterator instanceof P ? ((P) spliterator).a : spliterator instanceof Spliterator.OfPrimitive ? L.f((Spliterator.OfPrimitive) spliterator) : new O(spliterator);
+        return spliterator instanceof P ? ((P) spliterator).a : spliterator instanceof Spliterator.OfPrimitive ? L.b((Spliterator.OfPrimitive) spliterator) : new O(spliterator);
     }
 
     @Override // j$.util.Q
-    public final /* synthetic */ boolean a(Consumer consumer) {
-        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    public final /* synthetic */ void a(Consumer consumer) {
+        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.Q
@@ -29,20 +29,16 @@ public final /* synthetic */ class O implements Q {
     }
 
     public final /* synthetic */ boolean equals(Object obj) {
+        Spliterator spliterator = this.a;
         if (obj instanceof O) {
             obj = ((O) obj).a;
         }
-        return this.a.equals(obj);
+        return spliterator.equals(obj);
     }
 
     @Override // j$.util.Q
     public final /* synthetic */ long estimateSize() {
         return this.a.estimateSize();
-    }
-
-    @Override // j$.util.Q
-    public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.Wrapper.convert(consumer));
     }
 
     @Override // j$.util.Q
@@ -65,7 +61,12 @@ public final /* synthetic */ class O implements Q {
     }
 
     @Override // j$.util.Q
+    public final /* synthetic */ boolean s(Consumer consumer) {
+        return this.a.tryAdvance(Consumer.Wrapper.convert(consumer));
+    }
+
+    @Override // j$.util.Q
     public final /* synthetic */ Q trySplit() {
-        return f(this.a.trySplit());
+        return b(this.a.trySplit());
     }
 }

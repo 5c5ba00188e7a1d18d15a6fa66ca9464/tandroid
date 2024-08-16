@@ -40,7 +40,7 @@ public class EditTextOutline extends EditTextBoldCursor {
         this.paint = new Paint(1);
         this.path = new CornerPath();
         this.mStrokeColor = 0;
-        setInputType(getInputType() | 131072 | 524288);
+        setInputType(getInputType() | 655360);
         this.mUpdateCachedBitmap = true;
         this.isFrameDirty = true;
         setFrameRoundRadius(AndroidUtilities.dp(16.0f));

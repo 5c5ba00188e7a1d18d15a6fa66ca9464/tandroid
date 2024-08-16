@@ -3,14 +3,11 @@ package com.google.android.exoplayer2.audio;
 import com.google.android.exoplayer2.ParserException;
 import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableBitArray;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class AacUtil {
     private static final int[] AUDIO_SPECIFIC_CONFIG_SAMPLING_RATE_TABLE = {96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 12000, 11025, 8000, 7350};
     private static final int[] AUDIO_SPECIFIC_CONFIG_CHANNEL_COUNT_TABLE = {0, 1, 2, 3, 4, 5, 6, 8, -1, -1, -1, 7, 8, -1, 8, -1};
-
-    public static byte[] buildAudioSpecificConfig(int i, int i2, int i3) {
-        return new byte[]{(byte) (((i << 3) & 248) | ((i2 >> 1) & 7)), (byte) (((i2 << 7) & 128) | ((i3 << 3) & 120))};
-    }
 
     /* loaded from: classes.dex */
     public static final class Config {
@@ -42,7 +39,7 @@ public final class AacUtil {
             }
         }
         if (z) {
-            if (audioObjectType != 1 && audioObjectType != 2 && audioObjectType != 3 && audioObjectType != 4 && audioObjectType != 6 && audioObjectType != 7 && audioObjectType != 17) {
+            if (audioObjectType != 6 && audioObjectType != 7 && audioObjectType != 17 && audioObjectType != 1 && audioObjectType != 2 && audioObjectType != 3 && audioObjectType != 4) {
                 switch (audioObjectType) {
                     case 19:
                     case 20:
@@ -104,6 +101,10 @@ public final class AacUtil {
             throw new IllegalArgumentException("Invalid sample rate or number of channels: " + i + ", " + i2);
         }
         return buildAudioSpecificConfig(2, i5, i6);
+    }
+
+    public static byte[] buildAudioSpecificConfig(int i, int i2, int i3) {
+        return new byte[]{(byte) (((i << 3) & NotificationCenter.liveLocationsCacheChanged) | ((i2 >> 1) & 7)), (byte) (((i2 << 7) & 128) | ((i3 << 3) & 120))};
     }
 
     private static int getAudioObjectType(ParsableBitArray parsableBitArray) {

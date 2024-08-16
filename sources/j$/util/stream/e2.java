@@ -1,8 +1,18 @@
 package j$.util.stream;
+
+import j$.util.function.Consumer;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public interface e2 extends f2, j$.util.function.h0 {
-    @Override // j$.util.stream.f2
+public interface e2 extends Consumer {
+    void accept(double d);
+
+    void accept(int i);
+
     void accept(long j);
 
-    void l(Long l);
+    void m();
+
+    void n(long j);
+
+    boolean q();
 }

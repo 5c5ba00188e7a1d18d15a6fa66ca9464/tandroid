@@ -1,14 +1,14 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-final class S1 extends W1 {
+final class S1 extends V1 {
     /* JADX INFO: Access modifiers changed from: package-private */
-    public S1(c cVar, int i) {
-        super(cVar, i);
+    public S1(b bVar, int i) {
+        super(bVar, i, 1);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.c
-    public final f2 l1(int i, f2 f2Var) {
-        return f2Var;
+    @Override // j$.util.stream.b
+    public final e2 z0(int i, e2 e2Var) {
+        return e2Var;
     }
 }

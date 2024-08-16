@@ -80,33 +80,23 @@ public final class DisplayCutoutCompat {
         }
 
         static int getSafeInsetTop(DisplayCutout displayCutout) {
-            int safeInsetTop;
-            safeInsetTop = displayCutout.getSafeInsetTop();
-            return safeInsetTop;
+            return displayCutout.getSafeInsetTop();
         }
 
         static int getSafeInsetBottom(DisplayCutout displayCutout) {
-            int safeInsetBottom;
-            safeInsetBottom = displayCutout.getSafeInsetBottom();
-            return safeInsetBottom;
+            return displayCutout.getSafeInsetBottom();
         }
 
         static int getSafeInsetLeft(DisplayCutout displayCutout) {
-            int safeInsetLeft;
-            safeInsetLeft = displayCutout.getSafeInsetLeft();
-            return safeInsetLeft;
+            return displayCutout.getSafeInsetLeft();
         }
 
         static int getSafeInsetRight(DisplayCutout displayCutout) {
-            int safeInsetRight;
-            safeInsetRight = displayCutout.getSafeInsetRight();
-            return safeInsetRight;
+            return displayCutout.getSafeInsetRight();
         }
 
         static List<Rect> getBoundingRects(DisplayCutout displayCutout) {
-            List<Rect> boundingRects;
-            boundingRects = displayCutout.getBoundingRects();
-            return boundingRects;
+            return displayCutout.getBoundingRects();
         }
     }
 }

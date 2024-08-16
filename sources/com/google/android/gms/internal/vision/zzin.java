@@ -7,7 +7,7 @@ import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.android.gms:play-services-vision-common@@19.1.3 */
 /* loaded from: classes.dex */
-final class zzin extends zzhj<Double> implements zzkw, RandomAccess {
+final class zzin extends zzhj<Double> implements zzjl<Double>, zzkw, RandomAccess {
     private static final zzin zza;
     private double[] zzb;
     private int zzc;
@@ -201,7 +201,7 @@ final class zzin extends zzhj<Double> implements zzkw, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.vision.zzjl
-    public final /* synthetic */ zzjl zza(int i) {
+    public final /* synthetic */ zzjl<Double> zza(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }

@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.util.Arrays;
 import java.util.Collections;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class H263Reader implements ElementaryStreamReader {
     private static final float[] PIXEL_WIDTH_HEIGHT_RATIO_BY_ASPECT_RATIO_INFO = {1.0f, 1.0f, 1.0909091f, 0.90909094f, 1.4545455f, 1.2121212f, 1.0f};
@@ -35,7 +36,7 @@ public final class H263Reader implements ElementaryStreamReader {
     public H263Reader(UserDataReader userDataReader) {
         this.userDataReader = userDataReader;
         if (userDataReader != null) {
-            this.userData = new NalUnitTargetBuffer(178, 128);
+            this.userData = new NalUnitTargetBuffer(NotificationCenter.filterSettingsUpdated, 128);
             this.userDataParsable = new ParsableByteArray();
             return;
         }
@@ -246,7 +247,7 @@ public final class H263Reader implements ElementaryStreamReader {
                                 this.isFilling = false;
                                 return true;
                             }
-                        } else if ((i & 240) != 32) {
+                        } else if ((i & NotificationCenter.reloadInterface) != 32) {
                             Log.w("H263Reader", "Unexpected start code value");
                             reset();
                         } else {
@@ -279,9 +280,9 @@ public final class H263Reader implements ElementaryStreamReader {
                 int i3 = i2 - i;
                 byte[] bArr2 = this.data;
                 int length = bArr2.length;
-                int i4 = this.length;
-                if (length < i4 + i3) {
-                    this.data = Arrays.copyOf(bArr2, (i4 + i3) * 2);
+                int i4 = this.length + i3;
+                if (length < i4) {
+                    this.data = Arrays.copyOf(bArr2, i4 * 2);
                 }
                 System.arraycopy(bArr, i, this.data, this.length, i3);
                 this.length += i3;

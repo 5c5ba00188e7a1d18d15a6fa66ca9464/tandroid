@@ -111,16 +111,20 @@ public class TopicsSubscriber {
 
     private void markCompletePendingOperation(TopicOperation topicOperation) {
         synchronized (this.pendingOperations) {
-            String serialize = topicOperation.serialize();
-            if (this.pendingOperations.containsKey(serialize)) {
-                ArrayDeque<TaskCompletionSource<Void>> arrayDeque = this.pendingOperations.get(serialize);
-                TaskCompletionSource<Void> poll = arrayDeque.poll();
-                if (poll != null) {
-                    poll.setResult(null);
+            try {
+                String serialize = topicOperation.serialize();
+                if (this.pendingOperations.containsKey(serialize)) {
+                    ArrayDeque<TaskCompletionSource<Void>> arrayDeque = this.pendingOperations.get(serialize);
+                    TaskCompletionSource<Void> poll = arrayDeque.poll();
+                    if (poll != null) {
+                        poll.setResult(null);
+                    }
+                    if (arrayDeque.isEmpty()) {
+                        this.pendingOperations.remove(serialize);
+                    }
                 }
-                if (arrayDeque.isEmpty()) {
-                    this.pendingOperations.remove(serialize);
-                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -221,14 +225,14 @@ public class TopicsSubscriber {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001b, code lost:
+        return true;
+     */
     /* JADX WARN: Code restructure failed: missing block: B:6:0x000d, code lost:
         if (isDebugLogEnabled() == false) goto L16;
      */
     /* JADX WARN: Code restructure failed: missing block: B:7:0x000f, code lost:
         android.util.Log.d("FirebaseMessaging", "topic sync succeeded");
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0018, code lost:
-        return true;
      */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -236,14 +240,18 @@ public class TopicsSubscriber {
     public boolean syncTopics() throws IOException {
         while (true) {
             synchronized (this) {
-                TopicOperation nextTopicOperation = this.store.getNextTopicOperation();
-                if (nextTopicOperation == null) {
-                    break;
-                } else if (!performTopicOperation(nextTopicOperation)) {
-                    return false;
-                } else {
-                    this.store.removeTopicOperation(nextTopicOperation);
-                    markCompletePendingOperation(nextTopicOperation);
+                try {
+                    TopicOperation nextTopicOperation = this.store.getNextTopicOperation();
+                    if (nextTopicOperation == null) {
+                        break;
+                    } else if (!performTopicOperation(nextTopicOperation)) {
+                        return false;
+                    } else {
+                        this.store.removeTopicOperation(nextTopicOperation);
+                        markCompletePendingOperation(nextTopicOperation);
+                    }
+                } catch (Throwable th) {
+                    throw th;
                 }
             }
         }

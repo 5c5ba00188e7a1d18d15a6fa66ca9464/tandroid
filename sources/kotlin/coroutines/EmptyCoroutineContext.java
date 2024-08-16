@@ -31,10 +31,10 @@ public final class EmptyCoroutineContext implements CoroutineContext, Serializab
         return this;
     }
 
-    public String toString() {
-        return "EmptyCoroutineContext";
+    private EmptyCoroutineContext() {
     }
 
-    private EmptyCoroutineContext() {
+    public String toString() {
+        return "EmptyCoroutineContext";
     }
 }

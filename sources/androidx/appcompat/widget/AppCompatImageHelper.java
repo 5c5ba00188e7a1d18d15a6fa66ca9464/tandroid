@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -47,8 +46,10 @@ public class AppCompatImageHelper {
             if (obtainStyledAttributes.hasValue(i3)) {
                 ImageViewCompat.setImageTintMode(this.mView, DrawableUtils.parseTintMode(obtainStyledAttributes.getInt(i3, -1), null));
             }
-        } finally {
             obtainStyledAttributes.recycle();
+        } catch (Throwable th) {
+            obtainStyledAttributes.recycle();
+            throw th;
         }
     }
 
@@ -67,7 +68,7 @@ public class AppCompatImageHelper {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public boolean hasOverlappingRendering() {
-        return Build.VERSION.SDK_INT < 21 || !(this.mView.getBackground() instanceof RippleDrawable);
+        return Build.VERSION.SDK_INT < 21 || !AppCompatImageHelper$$ExternalSyntheticApiModelOutline0.m(this.mView.getBackground());
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

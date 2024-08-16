@@ -7,15 +7,15 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.nio.ByteBuffer;
 import org.telegram.messenger.LiteMode;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Ac3Util {
     private static final int[] BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD = {1, 2, 3, 6};
     private static final int[] SAMPLE_RATE_BY_FSCOD = {48000, 44100, 32000};
     private static final int[] SAMPLE_RATE_BY_FSCOD2 = {24000, 22050, 16000};
     private static final int[] CHANNEL_COUNT_BY_ACMOD = {2, 1, 2, 3, 3, 4, 4, 5};
-    private static final int[] BITRATE_BY_HALF_FRMSIZECOD = {32, 40, 48, 56, 64, 80, 96, R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, 128, 160, 192, 224, LiteMode.FLAG_CHAT_BLUR, 320, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 576, 640};
-    private static final int[] SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1 = {69, 87, R.styleable.AppCompatTheme_textAppearanceListItemSecondary, 121, 139, 174, 208, 243, 278, 348, 417, 487, 557, 696, 835, 975, 1114, 1253, 1393};
+    private static final int[] BITRATE_BY_HALF_FRMSIZECOD = {32, 40, 48, 56, 64, 80, 96, 112, 128, NotificationCenter.audioRouteChanged, NotificationCenter.dialogPhotosUpdate, NotificationCenter.didReceiveCall, 256, 320, 384, 448, LiteMode.FLAG_CALLS_ANIMATIONS, 576, 640};
+    private static final int[] SYNCFRAME_SIZE_WORDS_BY_HALF_FRMSIZECOD_44_1 = {69, 87, 104, 121, NotificationCenter.fileLoadFailed, NotificationCenter.newEmojiSuggestionsAvailable, NotificationCenter.availableEffectsUpdate, NotificationCenter.proxySettingsChanged, NotificationCenter.premiumStickersPreviewLoaded, 348, 417, 487, 557, 696, 835, 975, 1114, 1253, 1393};
 
     /* loaded from: classes.dex */
     public static final class SyncFrameInfo {
@@ -102,6 +102,7 @@ public final class Ac3Util {
         int i8;
         int i9;
         int i10;
+        String str2;
         int i11;
         int i12;
         int position = parsableBitArray.getPosition();
@@ -133,7 +134,7 @@ public final class Ac3Util {
                 i8 = SAMPLE_RATE_BY_FSCOD[readBits3];
                 i9 = i14;
             }
-            int i15 = i9 * LiteMode.FLAG_CHAT_BLUR;
+            int i15 = i9 * 256;
             int calculateEac3Bitrate = calculateEac3Bitrate(readBits2, i8, i9);
             int readBits5 = parsableBitArray.readBits(3);
             boolean readBit = parsableBitArray.readBit();
@@ -279,7 +280,12 @@ public final class Ac3Util {
             } else {
                 i10 = 6;
             }
-            str = (parsableBitArray.readBit() && parsableBitArray.readBits(i10) == 1 && parsableBitArray.readBits(8) == 1) ? "audio/eac3-joc" : "audio/eac3";
+            if (parsableBitArray.readBit() && parsableBitArray.readBits(i10) == 1 && parsableBitArray.readBits(8) == 1) {
+                str2 = "audio/eac3-joc";
+            } else {
+                str2 = "audio/eac3";
+            }
+            str = str2;
             i5 = i13;
             i6 = i15;
             i2 = readBits2;
@@ -289,7 +295,7 @@ public final class Ac3Util {
         } else {
             parsableBitArray.skipBits(32);
             int readBits8 = parsableBitArray.readBits(2);
-            String str2 = readBits8 == 3 ? null : "audio/ac3";
+            String str3 = readBits8 == 3 ? null : "audio/ac3";
             int readBits9 = parsableBitArray.readBits(6);
             int i18 = BITRATE_BY_HALF_FRMSIZECOD[readBits9 / 2] * 1000;
             int ac3SyncframeSize = getAc3SyncframeSize(readBits8, readBits9);
@@ -305,7 +311,7 @@ public final class Ac3Util {
                 parsableBitArray.skipBits(2);
             }
             int[] iArr = SAMPLE_RATE_BY_FSCOD;
-            str = str2;
+            str = str3;
             i = i18;
             i2 = ac3SyncframeSize;
             i3 = readBits8 < iArr.length ? iArr[readBits8] : -1;
@@ -329,7 +335,7 @@ public final class Ac3Util {
 
     public static int parseAc3SyncframeAudioSampleCount(ByteBuffer byteBuffer) {
         if (((byteBuffer.get(byteBuffer.position() + 5) & 248) >> 3) > 10) {
-            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * LiteMode.FLAG_CHAT_BLUR;
+            return BLOCKS_PER_SYNCFRAME_BY_NUMBLKSCOD[((byteBuffer.get(byteBuffer.position() + 4) & 192) >> 6) != 3 ? (byteBuffer.get(byteBuffer.position() + 4) & 48) >> 4 : 3] * 256;
         }
         return 1536;
     }

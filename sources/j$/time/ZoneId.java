@@ -1,7 +1,7 @@
 package j$.time;
 
 import j$.time.format.TextStyle;
-import j$.time.format.r;
+import j$.time.format.q;
 import j$.time.zone.ZoneRules;
 import java.io.Serializable;
 import java.util.Collections;
@@ -48,75 +48,68 @@ public abstract class ZoneId implements Serializable {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public ZoneId() {
-        if (getClass() != ZoneOffset.class && getClass() != o.class) {
+        if (getClass() != ZoneOffset.class && getClass() != n.class) {
             throw new AssertionError("Invalid subclass");
         }
     }
 
     public static ZoneId f(String str, ZoneOffset zoneOffset) {
-        if (str != null) {
-            if (zoneOffset != null) {
-                if (str.length() == 0) {
-                    return zoneOffset;
-                }
-                if (str.equals("GMT") || str.equals("UTC") || str.equals("UT")) {
-                    if (zoneOffset.getTotalSeconds() != 0) {
-                        str = str.concat(zoneOffset.getId());
-                    }
-                    return new o(str, ZoneRules.d(zoneOffset));
-                }
-                throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: ".concat(str));
-            }
-            throw new NullPointerException("offset");
+        j$.util.a.B(str, "prefix");
+        j$.util.a.B(zoneOffset, "offset");
+        if (str.length() == 0) {
+            return zoneOffset;
         }
-        throw new NullPointerException("prefix");
+        if (str.equals("GMT") || str.equals("UTC") || str.equals("UT")) {
+            if (zoneOffset.getTotalSeconds() != 0) {
+                str = str.concat(zoneOffset.getId());
+            }
+            return new n(str, ZoneRules.e(zoneOffset));
+        }
+        throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: ".concat(str));
+    }
+
+    private static ZoneId g(String str, int i) {
+        String substring = str.substring(0, i);
+        if (str.length() == i) {
+            return f(substring, ZoneOffset.f);
+        }
+        if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+            try {
+                ZoneOffset h = ZoneOffset.h(str.substring(i));
+                return h == ZoneOffset.f ? f(substring, h) : f(substring, h);
+            } catch (c e) {
+                throw new c("Invalid ID for offset-based ZoneId: ".concat(str), e);
+            }
+        }
+        return n.h(str);
     }
 
     public static ZoneId of(String str) {
         int i;
-        if (str != null) {
-            if (str.length() <= 1 || str.startsWith("+") || str.startsWith("-")) {
-                return ZoneOffset.g(str);
-            }
-            if (str.startsWith("UTC") || str.startsWith("GMT")) {
-                i = 3;
-            } else if (!str.startsWith("UT")) {
-                return o.g(str);
-            } else {
-                i = 2;
-            }
-            String substring = str.substring(0, i);
-            if (str.length() == i) {
-                return f(substring, ZoneOffset.f);
-            }
-            if (str.charAt(i) == '+' || str.charAt(i) == '-') {
-                try {
-                    ZoneOffset g = ZoneOffset.g(str.substring(i));
-                    ZoneOffset zoneOffset = ZoneOffset.f;
-                    return f(substring, g);
-                } catch (d e) {
-                    throw new d("Invalid ID for offset-based ZoneId: ".concat(str), e);
-                }
-            }
-            return o.g(str);
+        j$.util.a.B(str, "zoneId");
+        if (str.length() <= 1 || str.startsWith("+") || str.startsWith("-")) {
+            return ZoneOffset.h(str);
         }
-        throw new NullPointerException("zoneId");
+        if (str.startsWith("UTC") || str.startsWith("GMT")) {
+            i = 3;
+        } else if (!str.startsWith("UT")) {
+            return n.h(str);
+        } else {
+            i = 2;
+        }
+        return g(str, i);
     }
 
     public static ZoneId systemDefault() {
         String id = TimeZone.getDefault().getID();
-        if (id != null) {
-            Map map = a;
-            if (map != null) {
-                String str = (String) map.get(id);
-                if (str != null) {
-                    id = str;
-                }
-                return of(id);
-            }
-            throw new NullPointerException("aliasMap");
+        j$.util.a.B(id, "zoneId");
+        Map map = a;
+        j$.util.a.B(map, "aliasMap");
+        String str = (String) map.get(id);
+        if (str != null) {
+            id = str;
         }
-        throw new NullPointerException("zoneId");
+        return of(id);
     }
 
     public boolean equals(Object obj) {
@@ -130,9 +123,9 @@ public abstract class ZoneId implements Serializable {
     }
 
     public String getDisplayName(TextStyle textStyle, Locale locale) {
-        r rVar = new r();
-        rVar.o(textStyle);
-        return rVar.v(locale).a(new n(this));
+        q qVar = new q();
+        qVar.o(textStyle);
+        return qVar.v(locale).a(new m(this));
     }
 
     public abstract String getId();

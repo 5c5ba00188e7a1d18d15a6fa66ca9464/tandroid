@@ -32,14 +32,18 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
     public synchronized boolean onProgress(final long j, final long j2) {
-        AppCenterLog.verbose("AppCenterDistribute", String.format(Locale.ENGLISH, "Downloading %s (%d) update: %d KiB / %d KiB", this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()), Long.valueOf(j / 1024), Long.valueOf(j2 / 1024)));
-        HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.1
-            @Override // java.lang.Runnable
-            public void run() {
-                ReleaseDownloadListener.this.updateProgressDialog(j, j2);
-            }
-        });
-        return this.mProgressDialog != null;
+        boolean z;
+        synchronized (this) {
+            AppCenterLog.verbose("AppCenterDistribute", String.format(Locale.ENGLISH, "Downloading %s (%d) update: %d KiB / %d KiB", this.mReleaseDetails.getShortVersion(), Integer.valueOf(this.mReleaseDetails.getVersion()), Long.valueOf(j / 1024), Long.valueOf(j2 / 1024)));
+            HandlerUtils.runOnUiThread(new Runnable() { // from class: com.microsoft.appcenter.distribute.ReleaseDownloadListener.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    ReleaseDownloadListener.this.updateProgressDialog(j, j2);
+                }
+            });
+            z = this.mProgressDialog != null;
+        }
+        return z;
     }
 
     @Override // com.microsoft.appcenter.distribute.download.ReleaseDownloader.Listener
@@ -103,15 +107,19 @@ public class ReleaseDownloadListener implements ReleaseDownloader.Listener {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void updateProgressDialog(long j, long j2) {
-        ProgressDialog progressDialog = this.mProgressDialog;
-        if (progressDialog != null && j2 >= 0) {
-            if (progressDialog.isIndeterminate()) {
-                this.mProgressDialog.setProgressPercentFormat(NumberFormat.getPercentInstance());
-                this.mProgressDialog.setProgressNumberFormat(this.mContext.getString(R$string.appcenter_distribute_download_progress_number_format));
-                this.mProgressDialog.setIndeterminate(false);
-                this.mProgressDialog.setMax((int) (j2 / 1048576));
+        try {
+            ProgressDialog progressDialog = this.mProgressDialog;
+            if (progressDialog != null && j2 >= 0) {
+                if (progressDialog.isIndeterminate()) {
+                    this.mProgressDialog.setProgressPercentFormat(NumberFormat.getPercentInstance());
+                    this.mProgressDialog.setProgressNumberFormat(this.mContext.getString(R$string.appcenter_distribute_download_progress_number_format));
+                    this.mProgressDialog.setIndeterminate(false);
+                    this.mProgressDialog.setMax((int) (j2 / 1048576));
+                }
+                this.mProgressDialog.setProgress((int) (j / 1048576));
             }
-            this.mProgressDialog.setProgress((int) (j / 1048576));
+        } catch (Throwable th) {
+            throw th;
         }
     }
 }

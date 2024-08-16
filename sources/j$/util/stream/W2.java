@@ -1,27 +1,25 @@
 package j$.util.stream;
 /* loaded from: classes2.dex */
-final class W2 extends Z2 implements j$.util.function.m {
-    final double[] c = new double[128];
+final class W2 extends Y2 implements j$.util.function.F {
+    final int[] c = new int[128];
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    @Override // j$.util.stream.Z2
+    @Override // j$.util.stream.Y2
     public final void a(Object obj, long j) {
-        j$.util.function.m mVar = (j$.util.function.m) obj;
+        j$.util.function.F f = (j$.util.function.F) obj;
         for (int i = 0; i < j; i++) {
-            mVar.accept(this.c[i]);
+            f.accept(this.c[i]);
         }
     }
 
-    @Override // j$.util.function.m
-    public final void accept(double d) {
-        int i = this.b;
-        this.b = i + 1;
-        this.c[i] = d;
+    @Override // j$.util.function.F
+    public final void accept(int i) {
+        int i2 = this.b;
+        this.b = i2 + 1;
+        this.c[i2] = i;
     }
 
-    @Override // j$.util.function.m
-    public final j$.util.function.m m(j$.util.function.m mVar) {
-        mVar.getClass();
-        return new j$.util.function.j(this, mVar);
+    @Override // j$.util.function.F
+    public final /* synthetic */ j$.util.function.F l(j$.util.function.F f) {
+        return j$.com.android.tools.r8.a.c(this, f);
     }
 }

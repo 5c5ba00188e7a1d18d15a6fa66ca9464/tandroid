@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public final class SessionDescription {
@@ -129,7 +130,7 @@ public final class SessionDescription {
     }
 
     public int hashCode() {
-        int hashCode = (((217 + this.attributes.hashCode()) * 31) + this.mediaDescriptionList.hashCode()) * 31;
+        int hashCode = (((this.attributes.hashCode() + NotificationCenter.channelStarsUpdated) * 31) + this.mediaDescriptionList.hashCode()) * 31;
         String str = this.origin;
         int hashCode2 = (hashCode + (str == null ? 0 : str.hashCode())) * 31;
         String str2 = this.sessionName;

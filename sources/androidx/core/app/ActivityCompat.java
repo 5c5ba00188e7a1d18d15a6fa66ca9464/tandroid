@@ -130,9 +130,7 @@ public class ActivityCompat extends ContextCompat {
         }
 
         static boolean shouldShowRequestPermissionRationale(Activity activity, String str) {
-            boolean shouldShowRequestPermissionRationale;
-            shouldShowRequestPermissionRationale = activity.shouldShowRequestPermissionRationale(str);
-            return shouldShowRequestPermissionRationale;
+            return activity.shouldShowRequestPermissionRationale(str);
         }
 
         static void onSharedElementsReady(Object obj) {

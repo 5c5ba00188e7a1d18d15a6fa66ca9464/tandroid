@@ -27,14 +27,19 @@ public final class InputConnectionCompat {
         boolean onCommitContent(InputContentInfoCompat inputContentInfoCompat, int i, Bundle bundle);
     }
 
-    /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r0v0 */
     /* JADX WARN: Type inference failed for: r0v3, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r0v5 */
     /* JADX WARN: Type inference failed for: r0v6 */
     static boolean handlePerformPrivateCommand(String str, Bundle bundle, OnCommitContentListener onCommitContentListener) {
         boolean z;
+        String str2;
         ResultReceiver resultReceiver;
+        String str3;
+        String str4;
+        String str5;
+        String str6;
+        String str7;
         ?? r0 = 0;
         r0 = 0;
         if (bundle == null) {
@@ -47,31 +52,62 @@ public final class InputConnectionCompat {
         } else {
             z = true;
         }
+        if (z) {
+            str2 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER";
+        } else {
+            str2 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER";
+        }
         try {
-            resultReceiver = (ResultReceiver) bundle.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_RESULT_RECEIVER");
+            ResultReceiver resultReceiver2 = (ResultReceiver) bundle.getParcelable(str2);
+            if (z) {
+                str3 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_URI";
+            } else {
+                str3 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_URI";
+            }
             try {
-                Uri uri = (Uri) bundle.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_URI");
-                ClipDescription clipDescription = (ClipDescription) bundle.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION");
-                Uri uri2 = (Uri) bundle.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI");
-                int i = bundle.getInt(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS");
-                Bundle bundle2 = (Bundle) bundle.getParcelable(z ? "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS" : "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_OPTS");
+                Uri uri = (Uri) bundle.getParcelable(str3);
+                if (z) {
+                    str4 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION";
+                } else {
+                    str4 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_DESCRIPTION";
+                }
+                ClipDescription clipDescription = (ClipDescription) bundle.getParcelable(str4);
+                if (z) {
+                    str5 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI";
+                } else {
+                    str5 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_LINK_URI";
+                }
+                Uri uri2 = (Uri) bundle.getParcelable(str5);
+                if (z) {
+                    str6 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS";
+                } else {
+                    str6 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_FLAGS";
+                }
+                int i = bundle.getInt(str6);
+                if (z) {
+                    str7 = "android.support.v13.view.inputmethod.InputConnectionCompat.CONTENT_OPTS";
+                } else {
+                    str7 = "androidx.core.view.inputmethod.InputConnectionCompat.CONTENT_OPTS";
+                }
+                Bundle bundle2 = (Bundle) bundle.getParcelable(str7);
                 if (uri != null && clipDescription != null) {
                     r0 = onCommitContentListener.onCommitContent(new InputContentInfoCompat(uri, clipDescription, uri2), i, bundle2);
                 }
-                if (resultReceiver != 0) {
-                    resultReceiver.send(r0, null);
+                if (resultReceiver2 != null) {
+                    resultReceiver2.send(r0, null);
                 }
                 return r0;
             } catch (Throwable th) {
                 th = th;
-                if (resultReceiver != 0) {
+                resultReceiver = resultReceiver2;
+                if (resultReceiver != null) {
                     resultReceiver.send(0, null);
                 }
                 throw th;
             }
         } catch (Throwable th2) {
             th = th2;
-            resultReceiver = 0;
+            resultReceiver = null;
         }
     }
 
@@ -108,7 +144,7 @@ public final class InputConnectionCompat {
 
     private static OnCommitContentListener createOnCommitContentListenerUsingPerformReceiveContent(final View view) {
         Preconditions.checkNotNull(view);
-        return new OnCommitContentListener() { // from class: androidx.core.view.inputmethod.InputConnectionCompat$$ExternalSyntheticLambda0
+        return new OnCommitContentListener() { // from class: androidx.core.view.inputmethod.InputConnectionCompat$$ExternalSyntheticLambda1
             @Override // androidx.core.view.inputmethod.InputConnectionCompat.OnCommitContentListener
             public final boolean onCommitContent(InputContentInfoCompat inputContentInfoCompat, int i, Bundle bundle) {
                 boolean lambda$createOnCommitContentListenerUsingPerformReceiveContent$0;
@@ -123,9 +159,9 @@ public final class InputConnectionCompat {
         if (Build.VERSION.SDK_INT >= 25 && (i & 1) != 0) {
             try {
                 inputContentInfoCompat.requestPermission();
-                InputContentInfo inputContentInfo = (InputContentInfo) inputContentInfoCompat.unwrap();
+                InputContentInfo m = InputConnectionCompat$$ExternalSyntheticApiModelOutline0.m(inputContentInfoCompat.unwrap());
                 bundle = bundle == null ? new Bundle() : new Bundle(bundle);
-                bundle.putParcelable("androidx.core.view.extra.INPUT_CONTENT_INFO", inputContentInfo);
+                bundle.putParcelable("androidx.core.view.extra.INPUT_CONTENT_INFO", m);
             } catch (Exception e) {
                 Log.w("InputConnectionCompat", "Can't insert content from IME; requestPermission() failed", e);
                 return false;

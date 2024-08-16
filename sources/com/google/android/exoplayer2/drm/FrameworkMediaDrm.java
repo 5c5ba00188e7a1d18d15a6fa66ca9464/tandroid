@@ -207,7 +207,6 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
     }
 
     private static DrmInitData.SchemeData getSchemeData(UUID uuid, List<DrmInitData.SchemeData> list) {
-        boolean z;
         if (!C.WIDEVINE_UUID.equals(uuid)) {
             return list.get(0);
         }
@@ -217,24 +216,19 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
             for (int i2 = 0; i2 < list.size(); i2++) {
                 DrmInitData.SchemeData schemeData2 = list.get(i2);
                 byte[] bArr = (byte[]) Assertions.checkNotNull(schemeData2.data);
-                if (!Util.areEqual(schemeData2.mimeType, schemeData.mimeType) || !Util.areEqual(schemeData2.licenseServerUrl, schemeData.licenseServerUrl) || !PsshAtomUtil.isPsshAtom(bArr)) {
-                    z = false;
-                    break;
+                if (Util.areEqual(schemeData2.mimeType, schemeData.mimeType) && Util.areEqual(schemeData2.licenseServerUrl, schemeData.licenseServerUrl) && PsshAtomUtil.isPsshAtom(bArr)) {
+                    i += bArr.length;
                 }
-                i += bArr.length;
             }
-            z = true;
-            if (z) {
-                byte[] bArr2 = new byte[i];
-                int i3 = 0;
-                for (int i4 = 0; i4 < list.size(); i4++) {
-                    byte[] bArr3 = (byte[]) Assertions.checkNotNull(list.get(i4).data);
-                    int length = bArr3.length;
-                    System.arraycopy(bArr3, 0, bArr2, i3, length);
-                    i3 += length;
-                }
-                return schemeData.copyWithData(bArr2);
+            byte[] bArr2 = new byte[i];
+            int i3 = 0;
+            for (int i4 = 0; i4 < list.size(); i4++) {
+                byte[] bArr3 = (byte[]) Assertions.checkNotNull(list.get(i4).data);
+                int length = bArr3.length;
+                System.arraycopy(bArr3, 0, bArr2, i3, length);
+                i3 += length;
             }
+            return schemeData.copyWithData(bArr2);
         }
         for (int i5 = 0; i5 < list.size(); i5++) {
             DrmInitData.SchemeData schemeData3 = list.get(i5);
@@ -350,7 +344,7 @@ public final class FrameworkMediaDrm implements ExoMediaDrm {
                 return;
             }
             playbackComponent = mediaDrm.getPlaybackComponent(bArr);
-            ((MediaDrm.PlaybackComponent) Assertions.checkNotNull(playbackComponent)).setLogSessionId(logSessionId2);
+            FrameworkMediaDrm$Api31$$ExternalSyntheticApiModelOutline2.m(Assertions.checkNotNull(playbackComponent)).setLogSessionId(logSessionId2);
         }
     }
 }

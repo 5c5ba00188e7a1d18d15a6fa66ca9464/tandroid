@@ -140,7 +140,7 @@ public final class DrawableCompat {
         }
         if (!sGetLayoutDirectionMethodFetched) {
             try {
-                Method declaredMethod = Drawable.class.getDeclaredMethod("getLayoutDirection", new Class[0]);
+                Method declaredMethod = Drawable.class.getDeclaredMethod("getLayoutDirection", null);
                 sGetLayoutDirectionMethod = declaredMethod;
                 declaredMethod.setAccessible(true);
             } catch (NoSuchMethodException e) {
@@ -151,10 +151,11 @@ public final class DrawableCompat {
         Method method = sGetLayoutDirectionMethod;
         if (method != null) {
             try {
-                return ((Integer) method.invoke(drawable, new Object[0])).intValue();
+                return ((Integer) method.invoke(drawable, null)).intValue();
             } catch (Exception e2) {
                 Log.i("DrawableCompat", "Failed to invoke getLayoutDirection() via reflection", e2);
                 sGetLayoutDirectionMethod = null;
+                return 0;
             }
         }
         return 0;
@@ -183,9 +184,8 @@ public final class DrawableCompat {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static class Api21Impl {
+    static class Api21Impl {
         static void setHotspot(Drawable drawable, float f, float f2) {
             drawable.setHotspot(f, f2);
         }
@@ -207,15 +207,11 @@ public final class DrawableCompat {
         }
 
         static boolean canApplyTheme(Drawable drawable) {
-            boolean canApplyTheme;
-            canApplyTheme = drawable.canApplyTheme();
-            return canApplyTheme;
+            return drawable.canApplyTheme();
         }
 
         static ColorFilter getColorFilter(Drawable drawable) {
-            ColorFilter colorFilter;
-            colorFilter = drawable.getColorFilter();
-            return colorFilter;
+            return drawable.getColorFilter();
         }
 
         static void inflate(Drawable drawable, Resources resources, XmlPullParser xmlPullParser, AttributeSet attributeSet, Resources.Theme theme) throws XmlPullParserException, IOException {
@@ -230,15 +226,11 @@ public final class DrawableCompat {
     /* loaded from: classes.dex */
     static class Api23Impl {
         static boolean setLayoutDirection(Drawable drawable, int i) {
-            boolean layoutDirection;
-            layoutDirection = drawable.setLayoutDirection(i);
-            return layoutDirection;
+            return drawable.setLayoutDirection(i);
         }
 
         static int getLayoutDirection(Drawable drawable) {
-            int layoutDirection;
-            layoutDirection = drawable.getLayoutDirection();
-            return layoutDirection;
+            return drawable.getLayoutDirection();
         }
     }
 }

@@ -1,10 +1,8 @@
 package com.google.android.gms.internal.clearcut;
 
-import j$.util.Iterator;
-import j$.util.function.Consumer;
 import java.util.ListIterator;
 /* loaded from: classes.dex */
-final class zzfb implements ListIterator<String>, Iterator {
+final class zzfb implements ListIterator<String> {
     private ListIterator<String> zzpc;
     private final /* synthetic */ int zzpd;
     private final /* synthetic */ zzfa zzpe;
@@ -23,17 +21,7 @@ final class zzfb implements ListIterator<String>, Iterator {
         throw new UnsupportedOperationException();
     }
 
-    @Override // j$.util.Iterator
-    public /* synthetic */ void forEachRemaining(Consumer consumer) {
-        Iterator.-CC.$default$forEachRemaining(this, consumer);
-    }
-
-    @Override // java.util.Iterator
-    public /* synthetic */ void forEachRemaining(java.util.function.Consumer consumer) {
-        forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
-    }
-
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final boolean hasNext() {
         return this.zzpc.hasNext();
     }
@@ -43,7 +31,7 @@ final class zzfb implements ListIterator<String>, Iterator {
         return this.zzpc.hasPrevious();
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final /* synthetic */ Object next() {
         return this.zzpc.next();
     }
@@ -63,7 +51,7 @@ final class zzfb implements ListIterator<String>, Iterator {
         return this.zzpc.previousIndex();
     }
 
-    @Override // java.util.ListIterator, java.util.Iterator, j$.util.Iterator
+    @Override // java.util.ListIterator, java.util.Iterator
     public final void remove() {
         throw new UnsupportedOperationException();
     }

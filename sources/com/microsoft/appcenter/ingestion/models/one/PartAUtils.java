@@ -53,12 +53,7 @@ public class PartAUtils {
         SdkExtension sdk = commonSchemaLog.getExt().getSdk();
         sdk.setLibVer(device.getSdkName() + "-" + device.getSdkVersion());
         commonSchemaLog.getExt().setLoc(new LocExtension());
-        Locale locale = Locale.US;
-        Object[] objArr = new Object[3];
-        objArr[0] = device.getTimeZoneOffset().intValue() >= 0 ? "+" : "-";
-        objArr[1] = Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() / 60));
-        objArr[2] = Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() % 60));
-        commonSchemaLog.getExt().getLoc().setTz(String.format(locale, "%s%02d:%02d", objArr));
+        commonSchemaLog.getExt().getLoc().setTz(String.format(Locale.US, "%s%02d:%02d", device.getTimeZoneOffset().intValue() >= 0 ? "+" : "-", Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() / 60)), Integer.valueOf(Math.abs(device.getTimeZoneOffset().intValue() % 60))));
         commonSchemaLog.getExt().setDevice(new DeviceExtension());
     }
 }

@@ -79,28 +79,29 @@ public final class zzcv {
 
     public final void zza(zza zzaVar, zzaj zzajVar) {
         long elapsedRealtime = SystemClock.elapsedRealtime();
-        boolean z = true;
         if (this.zzi.get(zzajVar) != null && elapsedRealtime - this.zzi.get(zzajVar).longValue() <= TimeUnit.SECONDS.toMillis(30L)) {
-            z = false;
+            return;
         }
-        if (z) {
-            this.zzi.put(zzajVar, Long.valueOf(elapsedRealtime));
-            zza(zzaVar.zza(), zzajVar);
-        }
+        this.zzi.put(zzajVar, Long.valueOf(elapsedRealtime));
+        zza(zzaVar.zza(), zzajVar);
     }
 
     private static synchronized List<String> zzb() {
         synchronized (zzcv.class) {
-            List<String> list = zzb;
-            if (list != null) {
-                return list;
+            try {
+                List<String> list = zzb;
+                if (list != null) {
+                    return list;
+                }
+                LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
+                zzb = new ArrayList(locales.size());
+                for (int i = 0; i < locales.size(); i++) {
+                    zzb.add(CommonUtils.languageTagFromLocale(locales.get(i)));
+                }
+                return zzb;
+            } catch (Throwable th) {
+                throw th;
             }
-            LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
-            zzb = new ArrayList(locales.size());
-            for (int i = 0; i < locales.size(); i++) {
-                zzb.add(CommonUtils.languageTagFromLocale(locales.get(i)));
-            }
-            return zzb;
         }
     }
 

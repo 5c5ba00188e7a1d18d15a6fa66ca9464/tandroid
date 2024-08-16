@@ -19,39 +19,38 @@ final class zzet extends zzes {
                         return b;
                     }
                     if (b >= -62) {
-                        i2 = i4 + 1;
+                        i2 += 2;
                         if (bArr[i4] > -65) {
                         }
                     }
                     return -1;
-                }
-                if (b < -16) {
-                    if (i4 < i3 - 1) {
-                        int i5 = i4 + 1;
+                } else if (b >= -16) {
+                    if (i4 < i3 - 2) {
+                        int i5 = i2 + 2;
                         byte b2 = bArr[i4];
-                        if (b2 <= -65 && ((b != -32 || b2 >= -96) && (b != -19 || b2 < -96))) {
-                            i2 = i5 + 1;
-                            if (bArr[i5] > -65) {
+                        if (b2 <= -65 && (((b << 28) + (b2 + 112)) >> 30) == 0) {
+                            int i6 = i2 + 3;
+                            if (bArr[i5] <= -65) {
+                                i2 += 4;
+                                if (bArr[i6] > -65) {
+                                }
                             }
                         }
-                    } else {
-                        return zzev.zza(bArr, i4, i3);
+                        return -1;
                     }
-                } else if (i4 < i3 - 2) {
-                    int i6 = i4 + 1;
+                    return zzev.zza(bArr, i4, i3);
+                } else if (i4 < i3 - 1) {
+                    int i7 = i2 + 2;
                     byte b3 = bArr[i4];
-                    if (b3 <= -65 && (((b << 28) + (b3 + 112)) >> 30) == 0) {
-                        int i7 = i6 + 1;
-                        if (bArr[i6] <= -65) {
-                            i4 = i7 + 1;
-                            if (bArr[i7] > -65) {
-                            }
+                    if (b3 <= -65 && ((b != -32 || b3 >= -96) && (b != -19 || b3 < -96))) {
+                        i2 += 3;
+                        if (bArr[i7] > -65) {
                         }
                     }
+                    return -1;
                 } else {
                     return zzev.zza(bArr, i4, i3);
                 }
-                return -1;
             }
             i2 = i4;
         }

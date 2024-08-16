@@ -128,10 +128,10 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         }
 
         /* JADX WARN: Code restructure failed: missing block: B:16:0x0073, code lost:
-            if (r5.charAt(r9) <= 57343) goto L17;
+            if (r7.charAt(r10) <= 57343) goto L17;
          */
         /* JADX WARN: Code restructure failed: missing block: B:22:0x008d, code lost:
-            if (r5.charAt(r9) != 9794) goto L27;
+            if (r7.charAt(r10) != 9794) goto L27;
          */
         @Override // java.lang.Runnable
         /*
@@ -300,7 +300,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$2(final TLRPC$TL_messages_searchStickerSets tLRPC$TL_messages_searchStickerSets, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
             if (tLObject instanceof TLRPC$TL_messages_foundStickerSets) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda3
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda4
                     @Override // java.lang.Runnable
                     public final void run() {
                         StickersSearchAdapter.1.this.lambda$run$1(tLRPC$TL_messages_searchStickerSets, tLObject);
@@ -323,7 +323,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$run$4(final TLRPC$TL_messages_getStickers tLRPC$TL_messages_getStickers, final ArrayList arrayList, final LongSparseArray longSparseArray, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda4
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Adapters.StickersSearchAdapter$1$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     StickersSearchAdapter.1.this.lambda$run$3(tLRPC$TL_messages_getStickers, tLObject, arrayList, longSparseArray);

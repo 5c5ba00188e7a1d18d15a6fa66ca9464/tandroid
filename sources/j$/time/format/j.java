@@ -1,72 +1,98 @@
 package j$.time.format;
-
-import j$.time.ZoneOffset;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class j implements h {
-    @Override // j$.time.format.h
-    public final boolean a(t tVar, StringBuilder sb) {
-        Long e = tVar.e(j$.time.temporal.a.INSTANT_SECONDS);
-        j$.time.temporal.k d = tVar.d();
-        j$.time.temporal.a aVar = j$.time.temporal.a.NANO_OF_SECOND;
-        Long valueOf = d.b(aVar) ? Long.valueOf(tVar.d().c(aVar)) : null;
-        int i = 0;
+public final class j implements g {
+    static final long[] f = {0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000L};
+    final j$.time.temporal.l a;
+    final int b;
+    final int c;
+    private final y d;
+    final int e;
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public j(j$.time.temporal.l lVar, int i, int i2, y yVar) {
+        this.a = lVar;
+        this.b = i;
+        this.c = i2;
+        this.d = yVar;
+        this.e = 0;
+    }
+
+    protected j(j$.time.temporal.l lVar, int i, int i2, y yVar, int i3) {
+        this.a = lVar;
+        this.b = i;
+        this.c = i2;
+        this.d = yVar;
+        this.e = i3;
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static /* synthetic */ y b(j jVar) {
+        return jVar.d;
+    }
+
+    @Override // j$.time.format.g
+    public final boolean a(s sVar, StringBuilder sb) {
+        j$.time.temporal.l lVar = this.a;
+        Long e = sVar.e(lVar);
         if (e == null) {
             return false;
         }
         long longValue = e.longValue();
-        int e2 = aVar.e(valueOf != null ? valueOf.longValue() : 0L);
-        if (longValue >= -62167219200L) {
-            long j = (longValue - 315569520000L) + 62167219200L;
-            long f = j$.time.a.f(j, 315569520000L) + 1;
-            j$.time.h j2 = j$.time.h.j(j$.time.a.d(j, 315569520000L) - 62167219200L, 0, ZoneOffset.f);
-            if (f > 0) {
+        w b = sVar.b();
+        String l = longValue == Long.MIN_VALUE ? "9223372036854775808" : Long.toString(Math.abs(longValue));
+        int length = l.length();
+        int i = this.c;
+        if (length > i) {
+            throw new j$.time.c("Field " + lVar + " cannot be printed as the value " + longValue + " exceeds the maximum print width of " + i);
+        }
+        b.getClass();
+        int i2 = this.b;
+        y yVar = this.d;
+        if (longValue >= 0) {
+            int i3 = d.a[yVar.ordinal()];
+            if (i3 == 1 ? !(i2 >= 19 || longValue < f[i2]) : i3 == 2) {
                 sb.append('+');
-                sb.append(f);
-            }
-            sb.append(j2);
-            if (j2.g() == 0) {
-                sb.append(":00");
             }
         } else {
-            long j3 = longValue + 62167219200L;
-            long j4 = j3 / 315569520000L;
-            long j5 = j3 % 315569520000L;
-            j$.time.h j6 = j$.time.h.j(j5 - 62167219200L, 0, ZoneOffset.f);
-            int length = sb.length();
-            sb.append(j6);
-            if (j6.g() == 0) {
-                sb.append(":00");
-            }
-            if (j4 < 0) {
-                if (j6.h() == -10000) {
-                    sb.replace(length, length + 2, Long.toString(j4 - 1));
-                } else if (j5 == 0) {
-                    sb.insert(length, j4);
-                } else {
-                    sb.insert(length + 1, Math.abs(j4));
-                }
+            int i4 = d.a[yVar.ordinal()];
+            if (i4 == 1 || i4 == 2 || i4 == 3) {
+                sb.append('-');
+            } else if (i4 == 4) {
+                throw new j$.time.c("Field " + lVar + " cannot be printed as the value " + longValue + " cannot be negative according to the SignStyle");
             }
         }
-        if (e2 > 0) {
-            sb.append('.');
-            int i2 = 100000000;
-            while (true) {
-                if (e2 <= 0 && i % 3 == 0 && i >= -2) {
-                    break;
-                }
-                int i3 = e2 / i2;
-                sb.append((char) (i3 + 48));
-                e2 -= i3 * i2;
-                i2 /= 10;
-                i++;
-            }
+        for (int i5 = 0; i5 < i2 - l.length(); i5++) {
+            sb.append('0');
         }
-        sb.append('Z');
+        sb.append(l);
         return true;
     }
 
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final j c() {
+        if (this.e == -1) {
+            return this;
+        }
+        return new j(this.a, this.b, this.c, this.d, -1);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final j d(int i) {
+        return new j(this.a, this.b, this.c, this.d, this.e + i);
+    }
+
     public final String toString() {
-        return "Instant()";
+        j$.time.temporal.l lVar = this.a;
+        y yVar = this.d;
+        int i = this.c;
+        int i2 = this.b;
+        if (i2 == 1 && i == 19 && yVar == y.NORMAL) {
+            return "Value(" + lVar + ")";
+        } else if (i2 == i && yVar == y.NOT_NEGATIVE) {
+            return "Value(" + lVar + "," + i2 + ")";
+        } else {
+            return "Value(" + lVar + "," + i2 + "," + i + "," + yVar + ")";
+        }
     }
 }

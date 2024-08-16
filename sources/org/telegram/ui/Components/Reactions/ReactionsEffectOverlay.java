@@ -22,6 +22,7 @@ import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.tgnet.TLRPC$Chat;
@@ -104,6 +105,8 @@ public class ReactionsEffectOverlay {
         float f3;
         float f4;
         float f5;
+        float f6;
+        float f7;
         int round;
         int sizeForBigReaction;
         int i3;
@@ -159,7 +162,7 @@ public class ReactionsEffectOverlay {
                 }
             }
         }
-        float f6 = 0.8f;
+        float f8 = 0.8f;
         if (i2 == 1) {
             Random random2 = new Random();
             ArrayList<TLRPC$MessagePeerReaction> arrayList = (chatMessageCell2 == null || chatMessageCell.getMessageObject().messageOwner.reactions == null) ? null : chatMessageCell.getMessageObject().messageOwner.reactions.recent_reactions;
@@ -185,16 +188,16 @@ public class ReactionsEffectOverlay {
                             random = random2;
                             i11++;
                             random2 = random;
-                            f6 = 0.8f;
+                            f8 = 0.8f;
                         }
                         AvatarParticle avatarParticle = new AvatarParticle(this, null);
                         avatarParticle.imageReceiver = imageReceiver;
                         avatarParticle.fromX = 0.5f;
                         avatarParticle.fromY = 0.5f;
-                        float f7 = 100.0f;
+                        float f9 = 100.0f;
                         avatarParticle.jumpY = ((Math.abs(random2.nextInt() % 100) / 100.0f) * 0.1f) + 0.3f;
-                        float f8 = 0.4f;
-                        avatarParticle.randomScale = ((Math.abs(random2.nextInt() % 100) / 100.0f) * 0.4f) + f6;
+                        float f10 = 0.4f;
+                        avatarParticle.randomScale = ((Math.abs(random2.nextInt() % 100) / 100.0f) * 0.4f) + f8;
                         avatarParticle.randomRotation = (Math.abs(random2.nextInt() % 100) * 60) / 100.0f;
                         avatarParticle.leftTime = (int) (((Math.abs(random2.nextInt() % 100) / 100.0f) * 200.0f) + 400.0f);
                         if (this.avatars.isEmpty()) {
@@ -202,51 +205,51 @@ public class ReactionsEffectOverlay {
                             avatarParticle.toY = (Math.abs(random2.nextInt() % 100) * 0.4f) / 100.0f;
                             random = random2;
                         } else {
-                            float f9 = 0.0f;
-                            int i12 = 0;
-                            float f10 = 0.0f;
                             float f11 = 0.0f;
+                            int i12 = 0;
+                            float f12 = 0.0f;
+                            float f13 = 0.0f;
                             while (i12 < 10) {
-                                float abs = ((Math.abs(random2.nextInt() % 100) * 0.6f) / f7) + 0.2f;
-                                float abs2 = ((Math.abs(random2.nextInt() % 100) * f8) / 100.0f) + 0.2f;
-                                float f12 = 2.14748365E9f;
+                                float abs = ((Math.abs(random2.nextInt() % 100) * 0.6f) / f9) + 0.2f;
+                                float abs2 = ((Math.abs(random2.nextInt() % 100) * f10) / 100.0f) + 0.2f;
+                                float f14 = 2.14748365E9f;
                                 Random random3 = random2;
                                 int i13 = 0;
                                 while (i13 < this.avatars.size()) {
-                                    float f13 = this.avatars.get(i13).toX - abs;
-                                    float f14 = abs;
-                                    float f15 = this.avatars.get(i13).toY - abs2;
-                                    float f16 = (f13 * f13) + (f15 * f15);
-                                    if (f16 < f12) {
-                                        f12 = f16;
+                                    float f15 = this.avatars.get(i13).toX - abs;
+                                    float f16 = abs;
+                                    float f17 = this.avatars.get(i13).toY - abs2;
+                                    float f18 = (f15 * f15) + (f17 * f17);
+                                    if (f18 < f14) {
+                                        f14 = f18;
                                     }
                                     i13++;
-                                    abs = f14;
+                                    abs = f16;
                                 }
-                                float f17 = abs;
-                                if (f12 > f11) {
-                                    f9 = abs2;
-                                    f11 = f12;
-                                    f10 = f17;
+                                float f19 = abs;
+                                if (f14 > f13) {
+                                    f11 = abs2;
+                                    f13 = f14;
+                                    f12 = f19;
                                 }
                                 i12++;
                                 random2 = random3;
-                                f7 = 100.0f;
-                                f8 = 0.4f;
+                                f9 = 100.0f;
+                                f10 = 0.4f;
                             }
                             random = random2;
-                            avatarParticle.toX = f10;
-                            avatarParticle.toY = f9;
+                            avatarParticle.toX = f12;
+                            avatarParticle.toY = f11;
                         }
                         this.avatars.add(avatarParticle);
                         i11++;
                         random2 = random;
-                        f6 = 0.8f;
+                        f8 = 0.8f;
                     }
                     random = random2;
                     i11++;
                     random2 = random;
-                    f6 = 0.8f;
+                    f8 = 0.8f;
                 }
             }
         }
@@ -255,50 +258,53 @@ public class ReactionsEffectOverlay {
         if (view != null) {
             view.getLocationOnScreen(this.loc);
             int[] iArr = this.loc;
-            float f18 = iArr[0];
-            float f19 = iArr[1];
-            f5 = view.getWidth() * view.getScaleX();
+            float f20 = iArr[0];
+            float f21 = iArr[1];
+            f7 = view.getWidth() * view.getScaleX();
             if (view instanceof SelectAnimatedEmojiDialog.ImageViewEmoji) {
-                float f20 = ((SelectAnimatedEmojiDialog.ImageViewEmoji) view).bigReactionSelectedProgress;
-                if (f20 > 0.0f) {
-                    f5 = view.getWidth() * ((f20 * 2.0f) + 1.0f);
-                    f18 -= (f5 - view.getWidth()) / 2.0f;
-                    f19 -= f5 - view.getWidth();
+                float f22 = ((SelectAnimatedEmojiDialog.ImageViewEmoji) view).bigReactionSelectedProgress;
+                if (f22 > 0.0f) {
+                    f7 = view.getWidth() * ((f22 * 2.0f) + 1.0f);
+                    f20 -= (f7 - view.getWidth()) / 2.0f;
+                    f21 -= f7 - view.getWidth();
                 }
             }
-            f4 = f19;
-            f3 = f18;
+            f5 = f21;
+            f6 = f20;
         } else if (reactionHolderView != null) {
             reactionHolderView.getLocationOnScreen(this.loc);
-            f3 = this.loc[0] + this.holderView.loopImageView.getX();
-            f4 = this.loc[1] + this.holderView.loopImageView.getY();
-            f5 = this.holderView.loopImageView.getWidth() * this.holderView.getScaleX();
+            f6 = this.loc[0] + this.holderView.loopImageView.getX();
+            f5 = this.loc[1] + this.holderView.loopImageView.getY();
+            f7 = this.holderView.loopImageView.getWidth() * this.holderView.getScaleX();
         } else {
             ReactionsLayoutInBubble.ReactionButton reactionButton3 = reactionButton;
             if (reactionButton3 != null) {
                 chatMessageCell2.getLocationInWindow(this.loc);
-                float f21 = this.loc[0];
+                float f23 = this.loc[0];
                 ImageReceiver imageReceiver2 = reactionButton3.imageReceiver;
-                float imageX = f21 + (imageReceiver2 == null ? 0.0f : imageReceiver2.getImageX());
-                float f22 = this.loc[1];
+                f3 = f23 + (imageReceiver2 == null ? 0.0f : imageReceiver2.getImageX());
+                float f24 = this.loc[1];
                 ImageReceiver imageReceiver3 = reactionButton3.imageReceiver;
-                float imageY = f22 + (imageReceiver3 == null ? 0.0f : imageReceiver3.getImageY());
+                f4 = f24 + (imageReceiver3 == null ? 0.0f : imageReceiver3.getImageY());
                 ImageReceiver imageReceiver4 = reactionButton3.imageReceiver;
-                f5 = imageReceiver4 == null ? 0.0f : imageReceiver4.getImageHeight();
-                f3 = imageX;
-                f4 = imageY;
-            } else {
-                if (chatMessageCell2 != null) {
-                    ((View) chatMessageCell.getParent()).getLocationInWindow(this.loc);
-                    int[] iArr2 = this.loc;
-                    f4 = iArr2[1] + f2;
-                    f3 = iArr2[0] + f;
-                } else {
-                    f3 = f;
-                    f4 = f2;
+                if (imageReceiver4 != null) {
+                    f7 = imageReceiver4.getImageHeight();
+                    f6 = f3;
+                    f5 = f4;
                 }
-                f5 = 0.0f;
+            } else if (chatMessageCell2 != null) {
+                ((View) chatMessageCell.getParent()).getLocationInWindow(this.loc);
+                int[] iArr2 = this.loc;
+                f5 = iArr2[1] + f2;
+                f6 = iArr2[0] + f;
+                f7 = 0.0f;
+            } else {
+                f3 = f;
+                f4 = f2;
             }
+            f6 = f3;
+            f5 = f4;
+            f7 = 0.0f;
         }
         if (i2 == 2) {
             int dp = AndroidUtilities.dp((z && SharedConfig.deviceIsHigh()) ? 60.0f : 34.0f);
@@ -323,14 +329,14 @@ public class ReactionsEffectOverlay {
         }
         int i14 = i3 >> 1;
         int i15 = i4 >> 1;
-        float f23 = f5 / i14;
+        float f25 = f7 / i14;
         this.animateInProgress = 0.0f;
         this.animateOutProgress = 0.0f;
         FrameLayout frameLayout = new FrameLayout(context);
         this.container = frameLayout;
         int i16 = i4;
         int i17 = i3;
-        this.windowView = new 1(context, baseFragment, chatMessageCell, z, chatActivity, i14, i2, z3, f23, f3, f4, visibleReaction);
+        this.windowView = new 1(context, baseFragment, chatMessageCell, z, chatActivity, i14, i2, z3, f25, f6, f5, visibleReaction);
         AnimationView animationView = new AnimationView(context);
         this.effectImageView = animationView;
         AnimationView animationView2 = new AnimationView(context);
@@ -513,18 +519,20 @@ public class ReactionsEffectOverlay {
             this.val$visibleReaction = visibleReaction;
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:107:0x0299  */
-        /* JADX WARN: Removed duplicated region for block: B:126:0x030e  */
-        /* JADX WARN: Removed duplicated region for block: B:165:0x03d2  */
-        /* JADX WARN: Removed duplicated region for block: B:213:0x04ea  */
-        /* JADX WARN: Removed duplicated region for block: B:223:0x0546  */
-        /* JADX WARN: Removed duplicated region for block: B:231:0x0575  */
-        /* JADX WARN: Removed duplicated region for block: B:232:0x0578  */
-        /* JADX WARN: Removed duplicated region for block: B:235:0x063e  */
-        /* JADX WARN: Removed duplicated region for block: B:240:0x064b  */
-        /* JADX WARN: Removed duplicated region for block: B:241:0x065f  */
-        /* JADX WARN: Removed duplicated region for block: B:244:0x0669  */
-        /* JADX WARN: Removed duplicated region for block: B:248:0x067c  */
+        /* JADX WARN: Code restructure failed: missing block: B:219:0x053c, code lost:
+            if (((int) (r9 - ((r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / r20.this$0.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * r9))) < r7.leftTime) goto L172;
+         */
+        /* JADX WARN: Removed duplicated region for block: B:108:0x0297  */
+        /* JADX WARN: Removed duplicated region for block: B:127:0x030c  */
+        /* JADX WARN: Removed duplicated region for block: B:166:0x03d0  */
+        /* JADX WARN: Removed duplicated region for block: B:214:0x04e8  */
+        /* JADX WARN: Removed duplicated region for block: B:229:0x056f  */
+        /* JADX WARN: Removed duplicated region for block: B:230:0x0572  */
+        /* JADX WARN: Removed duplicated region for block: B:233:0x0638  */
+        /* JADX WARN: Removed duplicated region for block: B:238:0x0645  */
+        /* JADX WARN: Removed duplicated region for block: B:239:0x0659  */
+        /* JADX WARN: Removed duplicated region for block: B:242:0x0663  */
+        /* JADX WARN: Removed duplicated region for block: B:247:0x0677  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -542,9 +550,9 @@ public class ReactionsEffectOverlay {
             float f8;
             ChatMessageCell chatMessageCell2;
             int i;
-            boolean z;
-            float f9;
             int i2;
+            float f9;
+            int i3;
             if (ReactionsEffectOverlay.this.dismissed) {
                 if (ReactionsEffectOverlay.this.dismissProgress != 1.0f) {
                     ReactionsEffectOverlay.access$216(ReactionsEffectOverlay.this, 0.10666667f);
@@ -623,19 +631,19 @@ public class ReactionsEffectOverlay {
                 } else if (!this.val$isStories) {
                     return;
                 }
-                int i3 = this.val$emojiSize;
-                float f12 = f - ((i3 - f10) / 2.0f);
-                float f13 = f2 - ((i3 - f10) / 2.0f);
+                float f12 = (this.val$emojiSize - f10) / 2.0f;
+                float f13 = f - f12;
+                float f14 = f2 - f12;
                 if (this.val$isStories && this.val$animationType == 0) {
-                    f12 += AndroidUtilities.dp(40.0f);
+                    f13 += AndroidUtilities.dp(40.0f);
                 }
                 if (this.val$animationType != 1 && !this.val$isStories) {
-                    int i4 = ReactionsEffectOverlay.this.loc[0];
-                    if (f12 < i4) {
-                        f12 = i4;
+                    float f15 = ReactionsEffectOverlay.this.loc[0];
+                    if (f13 < f15) {
+                        f13 = f15;
                     }
-                    if (this.val$emojiSize + f12 > i4 + getMeasuredWidth()) {
-                        f12 = (ReactionsEffectOverlay.this.loc[0] + getMeasuredWidth()) - this.val$emojiSize;
+                    if (this.val$emojiSize + f13 > i3 + getMeasuredWidth()) {
+                        f13 = (ReactionsEffectOverlay.this.loc[0] + getMeasuredWidth()) - this.val$emojiSize;
                     }
                 }
                 CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.DEFAULT;
@@ -650,35 +658,35 @@ public class ReactionsEffectOverlay {
                     f3 = ReactionsEffectOverlay.this.animateInProgress;
                     f4 = f3;
                 }
-                float f14 = 1.0f - f3;
-                float f15 = (this.val$fromScale * f14) + f3;
-                float f16 = f10 / this.val$emojiSize;
+                float f16 = 1.0f - f3;
+                float f17 = (this.val$fromScale * f16) + f3;
+                float f18 = f10 / this.val$emojiSize;
                 if (this.val$animationType == 1) {
-                    f15 = 1.0f;
+                    f17 = 1.0f;
                 } else {
-                    f12 = (f12 * f3) + (this.val$fromX * f14);
-                    f13 = (f13 * f4) + (this.val$fromY * (1.0f - f4));
+                    f13 = (f13 * f3) + (this.val$fromX * f16);
+                    f14 = (f14 * f4) + (this.val$fromY * (1.0f - f4));
                 }
-                ReactionsEffectOverlay.this.effectImageView.setTranslationX(f12);
-                ReactionsEffectOverlay.this.effectImageView.setTranslationY(f13);
-                float f17 = 1.0f - interpolation;
-                ReactionsEffectOverlay.this.effectImageView.setAlpha(f17);
-                ReactionsEffectOverlay.this.effectImageView.setScaleX(f15);
-                ReactionsEffectOverlay.this.effectImageView.setScaleY(f15);
-                int i5 = this.val$animationType;
-                if (i5 == 2) {
-                    f15 = (this.val$fromScale * f14) + (f16 * f3);
-                    f12 = (this.val$fromX * f14) + (f * f3);
+                ReactionsEffectOverlay.this.effectImageView.setTranslationX(f13);
+                ReactionsEffectOverlay.this.effectImageView.setTranslationY(f14);
+                float f19 = 1.0f - interpolation;
+                ReactionsEffectOverlay.this.effectImageView.setAlpha(f19);
+                ReactionsEffectOverlay.this.effectImageView.setScaleX(f17);
+                ReactionsEffectOverlay.this.effectImageView.setScaleY(f17);
+                int i4 = this.val$animationType;
+                if (i4 == 2) {
+                    f17 = (this.val$fromScale * f16) + (f18 * f3);
+                    f13 = (this.val$fromX * f16) + (f * f3);
                     f5 = this.val$fromY * (1.0f - f4);
                     f6 = f2 * f4;
                 } else {
                     if (interpolation != 0.0f) {
-                        f15 = (f15 * f17) + (f16 * interpolation);
-                        f12 = (f12 * f17) + (f * interpolation);
-                        f5 = f13 * f17;
+                        f17 = (f17 * f19) + (f18 * interpolation);
+                        f13 = (f13 * f19) + (f * interpolation);
+                        f5 = f14 * f19;
                         f6 = f2 * interpolation;
                     }
-                    if (i5 != 1) {
+                    if (i4 != 1) {
                         if (!this.val$isStories) {
                             ReactionsEffectOverlay.this.emojiStaticImageView.setAlpha(interpolation > 0.7f ? (interpolation - 0.7f) / 0.3f : 0.0f);
                         } else {
@@ -686,12 +694,12 @@ public class ReactionsEffectOverlay {
                         }
                     }
                     if (this.val$animationType == 0 && this.val$isStories) {
-                        ReactionsEffectOverlay.this.emojiImageView.setAlpha(f17);
+                        ReactionsEffectOverlay.this.emojiImageView.setAlpha(f19);
                     }
-                    ReactionsEffectOverlay.this.container.setTranslationX(f12);
-                    ReactionsEffectOverlay.this.container.setTranslationY(f13);
-                    ReactionsEffectOverlay.this.container.setScaleX(f15);
-                    ReactionsEffectOverlay.this.container.setScaleY(f15);
+                    ReactionsEffectOverlay.this.container.setTranslationX(f13);
+                    ReactionsEffectOverlay.this.container.setTranslationY(f14);
+                    ReactionsEffectOverlay.this.container.setScaleX(f17);
+                    ReactionsEffectOverlay.this.container.setScaleY(f17);
                     super.dispatchDraw(canvas);
                     if (this.val$animationType != 1 || ReactionsEffectOverlay.this.emojiImageView.wasPlaying) {
                         ReactionsEffectOverlay reactionsEffectOverlay2 = ReactionsEffectOverlay.this;
@@ -707,19 +715,19 @@ public class ReactionsEffectOverlay {
                             }
                         }
                     }
-                    float f18 = 16.0f;
+                    float f20 = 16.0f;
                     if (this.val$animationType != 2 || ((ReactionsEffectOverlay.this.wasScrolled && this.val$animationType == 0) || ((this.val$animationType != 1 && ReactionsEffectOverlay.this.emojiImageView.wasPlaying && ReactionsEffectOverlay.this.emojiImageView.getImageReceiver().getLottieAnimation() != null && !ReactionsEffectOverlay.this.emojiImageView.getImageReceiver().getLottieAnimation().isRunning()) || ((this.val$visibleReaction.documentId != 0 && System.currentTimeMillis() - ReactionsEffectOverlay.this.startTime > 2000) || ((this.val$animationType == 1 && ReactionsEffectOverlay.this.effectImageView.wasPlaying && ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation() != null && !ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().isRunning()) || (this.val$visibleReaction.documentId != 0 && System.currentTimeMillis() - ReactionsEffectOverlay.this.startTime > 2000)))))) {
                         ReactionsEffectOverlay reactionsEffectOverlay3 = ReactionsEffectOverlay.this;
                         f8 = reactionsEffectOverlay3.animateOutProgress;
                         if (f8 != 1.0f) {
-                            int i6 = this.val$animationType;
-                            if (i6 == 1) {
+                            int i5 = this.val$animationType;
+                            if (i5 == 1) {
                                 reactionsEffectOverlay3.animateOutProgress = 1.0f;
                             } else {
-                                reactionsEffectOverlay3.animateOutProgress = f8 + (16.0f / (i6 == 2 ? 350.0f : 220.0f));
+                                reactionsEffectOverlay3.animateOutProgress = f8 + (16.0f / (i5 == 2 ? 350.0f : 220.0f));
                             }
                             if (reactionsEffectOverlay3.animateOutProgress > 0.7f) {
-                                if (this.val$isStories && i6 == 2) {
+                                if (this.val$isStories && i5 == 2) {
                                     if (!reactionsEffectOverlay3.isFinished) {
                                         reactionsEffectOverlay3.isFinished = true;
                                         performHapticFeedback(0);
@@ -741,8 +749,8 @@ public class ReactionsEffectOverlay {
                             }
                             ReactionsEffectOverlay reactionsEffectOverlay4 = ReactionsEffectOverlay.this;
                             if (reactionsEffectOverlay4.animateOutProgress >= 1.0f) {
-                                int i7 = this.val$animationType;
-                                if ((i7 == 0 || i7 == 2) && (chatMessageCell2 = this.val$cell) != null) {
+                                int i6 = this.val$animationType;
+                                if ((i6 == 0 || i6 == 2) && (chatMessageCell2 = this.val$cell) != null) {
                                     chatMessageCell2.reactionsLayoutInBubble.animateReaction(reactionsEffectOverlay4.reaction);
                                 }
                                 ReactionsEffectOverlay.this.animateOutProgress = 1.0f;
@@ -774,156 +782,119 @@ public class ReactionsEffectOverlay {
                         i = 0;
                         while (i < ReactionsEffectOverlay.this.avatars.size()) {
                             AvatarParticle avatarParticle = ReactionsEffectOverlay.this.avatars.get(i);
-                            float f19 = avatarParticle.progress;
+                            float f21 = avatarParticle.progress;
                             if (lottieAnimation != null && lottieAnimation.isRunning()) {
                                 float duration = (float) ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().getDuration();
-                                if (((int) (duration - ((ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().getCurrentFrame() / ReactionsEffectOverlay.this.effectImageView.getImageReceiver().getLottieAnimation().getFramesCount()) * duration))) >= avatarParticle.leftTime) {
-                                    z = false;
-                                    if (z) {
-                                        float f20 = avatarParticle.outProgress;
-                                        if (f20 != 1.0f) {
-                                            float f21 = f20 + 0.10666667f;
-                                            avatarParticle.outProgress = f21;
-                                            if (f21 > 1.0f) {
-                                                avatarParticle.outProgress = 1.0f;
-                                                ReactionsEffectOverlay.this.avatars.remove(i);
-                                                i--;
-                                                i2 = 1;
-                                                i += i2;
-                                                f18 = 16.0f;
-                                            }
-                                            float f22 = f19 < 0.5f ? f19 / 0.5f : 1.0f - ((f19 - 0.5f) / 0.5f);
-                                            float f23 = 1.0f - f19;
-                                            float f24 = (avatarParticle.fromX * f23) + (avatarParticle.toX * f19);
-                                            float f25 = ((avatarParticle.fromY * f23) + (avatarParticle.toY * f19)) - (avatarParticle.jumpY * f22);
-                                            float f26 = avatarParticle.randomScale * f19 * (1.0f - avatarParticle.outProgress);
-                                            float x = ReactionsEffectOverlay.this.effectImageView.getX() + (ReactionsEffectOverlay.this.effectImageView.getWidth() * ReactionsEffectOverlay.this.effectImageView.getScaleX() * f24);
-                                            float y = ReactionsEffectOverlay.this.effectImageView.getY() + (ReactionsEffectOverlay.this.effectImageView.getHeight() * ReactionsEffectOverlay.this.effectImageView.getScaleY() * f25);
-                                            int dp2 = AndroidUtilities.dp(f18);
-                                            float f27 = dp2;
-                                            float f28 = f27 / 2.0f;
-                                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setImageCoords(x - f28, y - f28, f27, f27);
-                                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setRoundRadius(dp2 >> 1);
-                                            canvas.save();
-                                            canvas.translate(0.0f, avatarParticle.globalTranslationY);
-                                            canvas.scale(f26, f26, x, y);
-                                            canvas.rotate(avatarParticle.currentRotation, x, y);
-                                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.draw(canvas);
-                                            canvas.restore();
-                                            f9 = avatarParticle.progress;
-                                            if (f9 < 1.0f) {
-                                                float f29 = f9 + 0.045714285f;
-                                                avatarParticle.progress = f29;
-                                                if (f29 > 1.0f) {
-                                                    avatarParticle.progress = 1.0f;
-                                                }
-                                            }
-                                            if (f19 >= 1.0f) {
-                                                avatarParticle.globalTranslationY += (AndroidUtilities.dp(20.0f) * 16.0f) / 500.0f;
-                                            }
-                                            if (avatarParticle.incrementRotation) {
-                                                float f30 = avatarParticle.currentRotation;
-                                                float f31 = avatarParticle.randomRotation;
-                                                float f32 = f30 + (f31 / 250.0f);
-                                                avatarParticle.currentRotation = f32;
-                                                if (f32 > f31) {
-                                                    avatarParticle.incrementRotation = false;
-                                                }
-                                            } else {
-                                                float f33 = avatarParticle.currentRotation;
-                                                float f34 = avatarParticle.randomRotation;
-                                                float f35 = f33 - (f34 / 250.0f);
-                                                avatarParticle.currentRotation = f35;
-                                                if (f35 < (-f34)) {
-                                                    i2 = 1;
-                                                    avatarParticle.incrementRotation = true;
-                                                    i += i2;
-                                                    f18 = 16.0f;
-                                                }
-                                            }
-                                            i2 = 1;
-                                            i += i2;
-                                            f18 = 16.0f;
-                                        }
-                                    }
-                                    if (f19 < 0.5f) {
-                                    }
-                                    float f232 = 1.0f - f19;
-                                    float f242 = (avatarParticle.fromX * f232) + (avatarParticle.toX * f19);
-                                    float f252 = ((avatarParticle.fromY * f232) + (avatarParticle.toY * f19)) - (avatarParticle.jumpY * f22);
-                                    float f262 = avatarParticle.randomScale * f19 * (1.0f - avatarParticle.outProgress);
-                                    float x2 = ReactionsEffectOverlay.this.effectImageView.getX() + (ReactionsEffectOverlay.this.effectImageView.getWidth() * ReactionsEffectOverlay.this.effectImageView.getScaleX() * f242);
-                                    float y2 = ReactionsEffectOverlay.this.effectImageView.getY() + (ReactionsEffectOverlay.this.effectImageView.getHeight() * ReactionsEffectOverlay.this.effectImageView.getScaleY() * f252);
-                                    int dp22 = AndroidUtilities.dp(f18);
-                                    float f272 = dp22;
-                                    float f282 = f272 / 2.0f;
-                                    ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setImageCoords(x2 - f282, y2 - f282, f272, f272);
-                                    ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setRoundRadius(dp22 >> 1);
-                                    canvas.save();
-                                    canvas.translate(0.0f, avatarParticle.globalTranslationY);
-                                    canvas.scale(f262, f262, x2, y2);
-                                    canvas.rotate(avatarParticle.currentRotation, x2, y2);
-                                    ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.draw(canvas);
-                                    canvas.restore();
-                                    f9 = avatarParticle.progress;
-                                    if (f9 < 1.0f) {
-                                    }
-                                    if (f19 >= 1.0f) {
-                                    }
-                                    if (avatarParticle.incrementRotation) {
-                                    }
+                            }
+                            float f22 = avatarParticle.outProgress;
+                            if (f22 != 1.0f) {
+                                float f23 = f22 + 0.10666667f;
+                                avatarParticle.outProgress = f23;
+                                if (f23 > 1.0f) {
+                                    avatarParticle.outProgress = 1.0f;
+                                    ReactionsEffectOverlay.this.avatars.remove(i);
+                                    i--;
                                     i2 = 1;
                                     i += i2;
-                                    f18 = 16.0f;
+                                    f20 = 16.0f;
                                 }
+                                float f24 = f21 >= 0.5f ? f21 / 0.5f : 1.0f - ((f21 - 0.5f) / 0.5f);
+                                float f25 = 1.0f - f21;
+                                float f26 = (avatarParticle.fromX * f25) + (avatarParticle.toX * f21);
+                                float f27 = ((avatarParticle.fromY * f25) + (avatarParticle.toY * f21)) - (avatarParticle.jumpY * f24);
+                                float f28 = avatarParticle.randomScale * f21 * (1.0f - avatarParticle.outProgress);
+                                float x = ReactionsEffectOverlay.this.effectImageView.getX() + (ReactionsEffectOverlay.this.effectImageView.getWidth() * ReactionsEffectOverlay.this.effectImageView.getScaleX() * f26);
+                                float y = ReactionsEffectOverlay.this.effectImageView.getY() + (ReactionsEffectOverlay.this.effectImageView.getHeight() * ReactionsEffectOverlay.this.effectImageView.getScaleY() * f27);
+                                int dp2 = AndroidUtilities.dp(f20);
+                                float f29 = dp2;
+                                float f30 = f29 / 2.0f;
+                                ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setImageCoords(x - f30, y - f30, f29, f29);
+                                ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setRoundRadius(dp2 >> 1);
+                                canvas.save();
+                                canvas.translate(0.0f, avatarParticle.globalTranslationY);
+                                canvas.scale(f28, f28, x, y);
+                                canvas.rotate(avatarParticle.currentRotation, x, y);
+                                ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.draw(canvas);
+                                canvas.restore();
+                                f9 = avatarParticle.progress;
+                                if (f9 < 1.0f) {
+                                    float f31 = f9 + 0.045714285f;
+                                    avatarParticle.progress = f31;
+                                    if (f31 > 1.0f) {
+                                        avatarParticle.progress = 1.0f;
+                                    }
+                                }
+                                if (f21 < 1.0f) {
+                                    avatarParticle.globalTranslationY += (AndroidUtilities.dp(20.0f) * 16.0f) / 500.0f;
+                                }
+                                if (!avatarParticle.incrementRotation) {
+                                    float f32 = avatarParticle.currentRotation;
+                                    float f33 = avatarParticle.randomRotation;
+                                    float f34 = f32 + (f33 / 250.0f);
+                                    avatarParticle.currentRotation = f34;
+                                    if (f34 > f33) {
+                                        avatarParticle.incrementRotation = false;
+                                    }
+                                } else {
+                                    float f35 = avatarParticle.currentRotation;
+                                    float f36 = avatarParticle.randomRotation;
+                                    float f37 = f35 - (f36 / 250.0f);
+                                    avatarParticle.currentRotation = f37;
+                                    if (f37 < (-f36)) {
+                                        i2 = 1;
+                                        avatarParticle.incrementRotation = true;
+                                        i += i2;
+                                        f20 = 16.0f;
+                                    }
+                                }
+                                i2 = 1;
+                                i += i2;
+                                f20 = 16.0f;
                             }
-                            z = true;
-                            if (z) {
+                            if (f21 >= 0.5f) {
                             }
-                            if (f19 < 0.5f) {
-                            }
-                            float f2322 = 1.0f - f19;
-                            float f2422 = (avatarParticle.fromX * f2322) + (avatarParticle.toX * f19);
-                            float f2522 = ((avatarParticle.fromY * f2322) + (avatarParticle.toY * f19)) - (avatarParticle.jumpY * f22);
-                            float f2622 = avatarParticle.randomScale * f19 * (1.0f - avatarParticle.outProgress);
-                            float x22 = ReactionsEffectOverlay.this.effectImageView.getX() + (ReactionsEffectOverlay.this.effectImageView.getWidth() * ReactionsEffectOverlay.this.effectImageView.getScaleX() * f2422);
-                            float y22 = ReactionsEffectOverlay.this.effectImageView.getY() + (ReactionsEffectOverlay.this.effectImageView.getHeight() * ReactionsEffectOverlay.this.effectImageView.getScaleY() * f2522);
-                            int dp222 = AndroidUtilities.dp(f18);
-                            float f2722 = dp222;
-                            float f2822 = f2722 / 2.0f;
-                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setImageCoords(x22 - f2822, y22 - f2822, f2722, f2722);
-                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setRoundRadius(dp222 >> 1);
+                            float f252 = 1.0f - f21;
+                            float f262 = (avatarParticle.fromX * f252) + (avatarParticle.toX * f21);
+                            float f272 = ((avatarParticle.fromY * f252) + (avatarParticle.toY * f21)) - (avatarParticle.jumpY * f24);
+                            float f282 = avatarParticle.randomScale * f21 * (1.0f - avatarParticle.outProgress);
+                            float x2 = ReactionsEffectOverlay.this.effectImageView.getX() + (ReactionsEffectOverlay.this.effectImageView.getWidth() * ReactionsEffectOverlay.this.effectImageView.getScaleX() * f262);
+                            float y2 = ReactionsEffectOverlay.this.effectImageView.getY() + (ReactionsEffectOverlay.this.effectImageView.getHeight() * ReactionsEffectOverlay.this.effectImageView.getScaleY() * f272);
+                            int dp22 = AndroidUtilities.dp(f20);
+                            float f292 = dp22;
+                            float f302 = f292 / 2.0f;
+                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setImageCoords(x2 - f302, y2 - f302, f292, f292);
+                            ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.setRoundRadius(dp22 >> 1);
                             canvas.save();
                             canvas.translate(0.0f, avatarParticle.globalTranslationY);
-                            canvas.scale(f2622, f2622, x22, y22);
-                            canvas.rotate(avatarParticle.currentRotation, x22, y22);
+                            canvas.scale(f282, f282, x2, y2);
+                            canvas.rotate(avatarParticle.currentRotation, x2, y2);
                             ReactionsEffectOverlay.this.avatars.get(i).imageReceiver.draw(canvas);
                             canvas.restore();
                             f9 = avatarParticle.progress;
                             if (f9 < 1.0f) {
                             }
-                            if (f19 >= 1.0f) {
+                            if (f21 < 1.0f) {
                             }
-                            if (avatarParticle.incrementRotation) {
+                            if (!avatarParticle.incrementRotation) {
                             }
                             i2 = 1;
                             i += i2;
-                            f18 = 16.0f;
+                            f20 = 16.0f;
                         }
                     }
                     invalidate();
                     return;
                 }
-                f13 = f5 + f6;
-                if (i5 != 1) {
+                f14 = f5 + f6;
+                if (i4 != 1) {
                 }
                 if (this.val$animationType == 0) {
-                    ReactionsEffectOverlay.this.emojiImageView.setAlpha(f17);
+                    ReactionsEffectOverlay.this.emojiImageView.setAlpha(f19);
                 }
-                ReactionsEffectOverlay.this.container.setTranslationX(f12);
-                ReactionsEffectOverlay.this.container.setTranslationY(f13);
-                ReactionsEffectOverlay.this.container.setScaleX(f15);
-                ReactionsEffectOverlay.this.container.setScaleY(f15);
+                ReactionsEffectOverlay.this.container.setTranslationX(f13);
+                ReactionsEffectOverlay.this.container.setTranslationY(f14);
+                ReactionsEffectOverlay.this.container.setScaleX(f17);
+                ReactionsEffectOverlay.this.container.setScaleY(f17);
                 super.dispatchDraw(canvas);
                 if (this.val$animationType != 1) {
                 }
@@ -931,7 +902,7 @@ public class ReactionsEffectOverlay {
                 f7 = reactionsEffectOverlay22.animateInProgress;
                 if (f7 != 1.0f) {
                 }
-                float f182 = 16.0f;
+                float f202 = 16.0f;
                 if (this.val$animationType != 2) {
                 }
                 ReactionsEffectOverlay reactionsEffectOverlay32 = ReactionsEffectOverlay.this;
@@ -1131,7 +1102,7 @@ public class ReactionsEffectOverlay {
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null) {
                 animatedEmojiDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                this.animatedEmojiDrawable.setAlpha(255);
+                this.animatedEmojiDrawable.setAlpha(NotificationCenter.voipServiceCreated);
                 this.animatedEmojiDrawable.draw(canvas);
                 this.wasPlaying = true;
                 return;

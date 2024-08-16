@@ -12,10 +12,6 @@ public final class Result<T> implements Serializable {
         return obj;
     }
 
-    public static final boolean isSuccess-impl(Object obj) {
-        return !(obj instanceof Failure);
-    }
-
     public static final boolean isFailure-impl(Object obj) {
         return obj instanceof Failure;
     }

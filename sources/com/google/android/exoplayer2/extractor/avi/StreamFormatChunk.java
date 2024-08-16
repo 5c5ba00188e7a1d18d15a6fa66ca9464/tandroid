@@ -10,51 +10,6 @@ import org.telegram.messenger.MediaController;
 final class StreamFormatChunk implements AviChunk {
     public final Format format;
 
-    private static String getMimeTypeFromCompression(int i) {
-        switch (i) {
-            case 808802372:
-            case 877677894:
-            case 1145656883:
-            case 1145656920:
-            case 1482049860:
-            case 1684633208:
-            case 2021026148:
-                return "video/mp4v-es";
-            case 826496577:
-            case 828601953:
-            case 875967048:
-                return MediaController.VIDEO_MIME_TYPE;
-            case 842289229:
-                return "video/mp42";
-            case 859066445:
-                return "video/mp43";
-            case 1196444237:
-            case 1735420525:
-                return "video/mjpeg";
-            default:
-                return null;
-        }
-    }
-
-    private static String getMimeTypeFromTag(int i) {
-        if (i != 1) {
-            if (i != 85) {
-                if (i != 255) {
-                    if (i != 8192) {
-                        if (i != 8193) {
-                            return null;
-                        }
-                        return "audio/vnd.dts";
-                    }
-                    return "audio/ac3";
-                }
-                return MediaController.AUDIO_MIME_TYPE;
-            }
-            return "audio/mpeg";
-        }
-        return "audio/raw";
-    }
-
     @Override // com.google.android.exoplayer2.extractor.avi.AviChunk
     public int getType() {
         return 1718776947;
@@ -114,5 +69,50 @@ final class StreamFormatChunk implements AviChunk {
             builder.setInitializationData(ImmutableList.of(bArr));
         }
         return new StreamFormatChunk(builder.build());
+    }
+
+    private static String getMimeTypeFromTag(int i) {
+        if (i != 1) {
+            if (i != 85) {
+                if (i != 255) {
+                    if (i != 8192) {
+                        if (i != 8193) {
+                            return null;
+                        }
+                        return "audio/vnd.dts";
+                    }
+                    return "audio/ac3";
+                }
+                return MediaController.AUDIO_MIME_TYPE;
+            }
+            return "audio/mpeg";
+        }
+        return "audio/raw";
+    }
+
+    private static String getMimeTypeFromCompression(int i) {
+        switch (i) {
+            case 808802372:
+            case 877677894:
+            case 1145656883:
+            case 1145656920:
+            case 1482049860:
+            case 1684633208:
+            case 2021026148:
+                return "video/mp4v-es";
+            case 826496577:
+            case 828601953:
+            case 875967048:
+                return MediaController.VIDEO_MIME_TYPE;
+            case 842289229:
+                return "video/mp42";
+            case 859066445:
+                return "video/mp43";
+            case 1196444237:
+            case 1735420525:
+                return "video/mjpeg";
+            default:
+                return null;
+        }
     }
 }

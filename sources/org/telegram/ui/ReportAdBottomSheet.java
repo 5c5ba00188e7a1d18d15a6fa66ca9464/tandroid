@@ -254,9 +254,9 @@ public class ReportAdBottomSheet extends BottomSheet {
                 }
             }
             float f = this.isActionBar.set(this.top <= ((float) AndroidUtilities.statusBarHeight) ? 1.0f : 0.0f);
-            int i = AndroidUtilities.statusBarHeight;
-            float f2 = i * f;
-            this.top = Math.max(i, this.top) - (AndroidUtilities.statusBarHeight * f);
+            float f2 = AndroidUtilities.statusBarHeight;
+            float f3 = f2 * f;
+            this.top = Math.max(f2, this.top) - (AndroidUtilities.statusBarHeight * f);
             RectF rectF = AndroidUtilities.rectTmp;
             rectF.set(((BottomSheet) ReportAdBottomSheet.this).backgroundPaddingLeft, this.top, getWidth() - ((BottomSheet) ReportAdBottomSheet.this).backgroundPaddingLeft, getHeight() + AndroidUtilities.dp(8.0f));
             float lerp = AndroidUtilities.lerp(AndroidUtilities.dp(14.0f), 0, f);
@@ -267,7 +267,7 @@ public class ReportAdBottomSheet extends BottomSheet {
             canvas.clipPath(this.path);
             super.dispatchDraw(canvas);
             canvas.restore();
-            updateLightStatusBar(f2 > ((float) AndroidUtilities.statusBarHeight) / 2.0f);
+            updateLightStatusBar(f3 > ((float) AndroidUtilities.statusBarHeight) / 2.0f);
         }
 
         @Override // android.view.ViewGroup
@@ -294,9 +294,8 @@ public class ReportAdBottomSheet extends BottomSheet {
             if (bool == null || bool.booleanValue() != z) {
                 boolean z2 = AndroidUtilities.computePerceivedBrightness(ReportAdBottomSheet.this.getThemedColor(Theme.key_dialogBackground)) > 0.721f;
                 boolean z3 = AndroidUtilities.computePerceivedBrightness(Theme.blendOver(ReportAdBottomSheet.this.getThemedColor(Theme.key_actionBarDefault), AndroidUtilities.DARK_STATUS_BAR_OVERLAY)) > 0.721f;
-                Boolean valueOf = Boolean.valueOf(z);
-                this.statusBarOpen = valueOf;
-                if (!valueOf.booleanValue()) {
+                this.statusBarOpen = Boolean.valueOf(z);
+                if (!z) {
                     z2 = z3;
                 }
                 AndroidUtilities.setLightStatusBar(ReportAdBottomSheet.this.getWindow(), z2);
@@ -540,12 +539,7 @@ public class ReportAdBottomSheet extends BottomSheet {
                 this.btnBack.setVisibility(z ? 0 : 8);
                 TextView textView = this.textView;
                 boolean z2 = LocaleController.isRTL;
-                float f = 22.0f;
-                float f2 = (z2 || !z) ? 22.0f : 53.0f;
-                if (z2 && z) {
-                    f = 53.0f;
-                }
-                textView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, 55, f2, 14.0f, f, 12.0f));
+                textView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, 55, (z2 || !z) ? 22.0f : 53.0f, 14.0f, (z2 && z) ? 53.0f : 22.0f, 12.0f));
             }
 
             public void setOnBackClickListener(Runnable runnable) {

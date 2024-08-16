@@ -129,10 +129,6 @@ public class Utilities {
 
     public static native long getLastUsageFileTime(String str);
 
-    public static byte[] intToBytes(int i) {
-        return new byte[]{(byte) (i >>> 24), (byte) (i >>> 16), (byte) (i >>> 8), (byte) i};
-    }
-
     public static native int needInvert(Object obj, int i, int i2, int i3, int i4);
 
     private static native int pbkdf2(byte[] bArr, byte[] bArr2, byte[] bArr3, int i);
@@ -179,7 +175,7 @@ public class Utilities {
         }
         canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
         canvas.restore();
-        stackBlurBitmap(createBitmap, Math.max(10, Math.max(dp, dp2) / ImageReceiver.DEFAULT_CROSSFADE_DURATION));
+        stackBlurBitmap(createBitmap, Math.max(10, Math.max(dp, dp2) / 150));
         return createBitmap;
     }
 
@@ -192,7 +188,7 @@ public class Utilities {
         canvas.scale(createBitmap.getWidth() / bitmap.getWidth(), createBitmap.getHeight() / bitmap.getHeight());
         canvas.drawBitmap(bitmap, 0.0f, 0.0f, (Paint) null);
         canvas.restore();
-        stackBlurBitmap(createBitmap, Math.max(10, Math.max(max, max2) / ImageReceiver.DEFAULT_CROSSFADE_DURATION));
+        stackBlurBitmap(createBitmap, Math.max(10, Math.max(max, max2) / 150));
         return createBitmap;
     }
 
@@ -318,11 +314,11 @@ public class Utilities {
         }
         char[] cArr = new char[bArr.length * 2];
         for (int i = 0; i < bArr.length; i++) {
-            int i2 = bArr[i] & 255;
-            int i3 = i * 2;
+            byte b = bArr[i];
+            int i2 = i * 2;
             char[] cArr2 = hexArray;
-            cArr[i3] = cArr2[i2 >>> 4];
-            cArr[i3 + 1] = cArr2[i2 & 15];
+            cArr[i2] = cArr2[(b & 255) >>> 4];
+            cArr[i2 + 1] = cArr2[b & 15];
         }
         return new String(cArr);
     }
@@ -502,6 +498,10 @@ public class Utilities {
         return ((bArr[3] & 255) << 24) + ((bArr[2] & 255) << 16) + ((bArr[1] & 255) << 8) + (bArr[0] & 255);
     }
 
+    public static byte[] intToBytes(int i) {
+        return new byte[]{(byte) (i >>> 24), (byte) (i >>> 16), (byte) (i >>> 8), (byte) i};
+    }
+
     public static String MD5(String str) {
         if (str == null) {
             return null;
@@ -510,7 +510,7 @@ public class Utilities {
             byte[] digest = MessageDigest.getInstance("MD5").digest(AndroidUtilities.getStringBytes(str));
             StringBuilder sb = new StringBuilder();
             for (byte b : digest) {
-                sb.append(Integer.toHexString((b & 255) | LiteMode.FLAG_CHAT_BLUR).substring(1, 3));
+                sb.append(Integer.toHexString((b & 255) | 256).substring(1, 3));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
@@ -527,7 +527,7 @@ public class Utilities {
             byte[] digest = MessageDigest.getInstance("SHA-256").digest(AndroidUtilities.getStringBytes(str));
             StringBuilder sb = new StringBuilder();
             for (byte b : digest) {
-                sb.append(Integer.toHexString((b & 255) | LiteMode.FLAG_CHAT_BLUR).substring(1, 3));
+                sb.append(Integer.toHexString((b & 255) | 256).substring(1, 3));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
@@ -590,7 +590,7 @@ public class Utilities {
         if (callbackArr == null || callbackArr.length <= i) {
             return;
         }
-        callbackArr[i].run(new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
+        callbackArr[i].run(new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.lambda$doCallbacks$0(i, callbackArr);
@@ -612,7 +612,7 @@ public class Utilities {
             return;
         }
         final int[] iArr = {0};
-        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda0
+        Runnable runnable2 = new Runnable() { // from class: org.telegram.messenger.Utilities$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 Utilities.lambda$raceCallbacks$1(iArr, callbackArr, runnable);

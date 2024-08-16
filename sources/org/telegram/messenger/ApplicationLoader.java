@@ -322,7 +322,7 @@ public class ApplicationLoader extends Application {
                 FileLog.d("load libs time = " + (SystemClock.elapsedRealtime() - startTime));
             }
             applicationHandler = new Handler(applicationContext.getMainLooper());
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     ApplicationLoader.startPushService();
@@ -368,7 +368,7 @@ public class ApplicationLoader extends Application {
     }
 
     private void initPushServices() {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda1
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.messenger.ApplicationLoader$$ExternalSyntheticLambda2
             @Override // java.lang.Runnable
             public final void run() {
                 ApplicationLoader.lambda$initPushServices$0();
@@ -448,7 +448,11 @@ public class ApplicationLoader extends Application {
     public static boolean isConnectedOrConnectingToWiFi() {
         try {
             ensureCurrentNetworkGet(false);
-            if (currentNetworkInfo != null && (currentNetworkInfo.getType() == 1 || currentNetworkInfo.getType() == 9)) {
+            if (currentNetworkInfo != null) {
+                if (currentNetworkInfo.getType() != 1) {
+                    if (currentNetworkInfo.getType() == 9) {
+                    }
+                }
                 NetworkInfo.State state = currentNetworkInfo.getState();
                 if (state != NetworkInfo.State.CONNECTED && state != NetworkInfo.State.CONNECTING) {
                     if (state == NetworkInfo.State.SUSPENDED) {
@@ -465,7 +469,11 @@ public class ApplicationLoader extends Application {
     public static boolean isConnectedToWiFi() {
         try {
             ensureCurrentNetworkGet(false);
-            if (currentNetworkInfo != null && (currentNetworkInfo.getType() == 1 || currentNetworkInfo.getType() == 9)) {
+            if (currentNetworkInfo != null) {
+                if (currentNetworkInfo.getType() != 1) {
+                    if (currentNetworkInfo.getType() == 9) {
+                    }
+                }
                 if (currentNetworkInfo.getState() == NetworkInfo.State.CONNECTED) {
                     return true;
                 }
@@ -549,7 +557,7 @@ public class ApplicationLoader extends Application {
         try {
             ConnectivityManager connectivityManager2 = (ConnectivityManager) applicationContext.getSystemService("connectivity");
             NetworkInfo activeNetworkInfo = connectivityManager2.getActiveNetworkInfo();
-            if (activeNetworkInfo == null || !(activeNetworkInfo.isConnectedOrConnecting() || activeNetworkInfo.isAvailable())) {
+            if (activeNetworkInfo == null || (!activeNetworkInfo.isConnectedOrConnecting() && !activeNetworkInfo.isAvailable())) {
                 NetworkInfo networkInfo = connectivityManager2.getNetworkInfo(0);
                 if (networkInfo == null || !networkInfo.isConnectedOrConnecting()) {
                     NetworkInfo networkInfo2 = connectivityManager2.getNetworkInfo(1);

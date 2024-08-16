@@ -1,10 +1,11 @@
 package com.microsoft.appcenter;
 
 import com.microsoft.appcenter.utils.AppCenterLog;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Flags {
     public static int getPersistenceFlag(int i, boolean z) {
-        int i2 = i & 255;
+        int i2 = i & NotificationCenter.voipServiceCreated;
         if (i2 == 1 || i2 == 2) {
             return i2;
         }

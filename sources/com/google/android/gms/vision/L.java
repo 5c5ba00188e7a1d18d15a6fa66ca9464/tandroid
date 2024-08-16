@@ -42,7 +42,7 @@ public class L {
             }
             String format = String.format(str, objArr);
             String valueOf = String.valueOf(th);
-            StringBuilder sb = new StringBuilder(String.valueOf(format).length() + 2 + valueOf.length());
+            StringBuilder sb = new StringBuilder(format.length() + 2 + valueOf.length());
             sb.append(format);
             sb.append(": ");
             sb.append(valueOf);

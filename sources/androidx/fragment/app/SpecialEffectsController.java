@@ -111,29 +111,33 @@ public abstract class SpecialEffectsController {
 
     private void enqueue(Operation.State state, Operation.LifecycleImpact lifecycleImpact, FragmentStateManager fragmentStateManager) {
         synchronized (this.mPendingOperations) {
-            CancellationSignal cancellationSignal = new CancellationSignal();
-            Operation findPendingOperation = findPendingOperation(fragmentStateManager.getFragment());
-            if (findPendingOperation != null) {
-                findPendingOperation.mergeWith(state, lifecycleImpact);
-                return;
-            }
-            final FragmentStateManagerOperation fragmentStateManagerOperation = new FragmentStateManagerOperation(state, lifecycleImpact, fragmentStateManager, cancellationSignal);
-            this.mPendingOperations.add(fragmentStateManagerOperation);
-            fragmentStateManagerOperation.addCompletionListener(new Runnable() { // from class: androidx.fragment.app.SpecialEffectsController.1
-                @Override // java.lang.Runnable
-                public void run() {
-                    if (SpecialEffectsController.this.mPendingOperations.contains(fragmentStateManagerOperation)) {
-                        fragmentStateManagerOperation.getFinalState().applyState(fragmentStateManagerOperation.getFragment().mView);
+            try {
+                CancellationSignal cancellationSignal = new CancellationSignal();
+                Operation findPendingOperation = findPendingOperation(fragmentStateManager.getFragment());
+                if (findPendingOperation != null) {
+                    findPendingOperation.mergeWith(state, lifecycleImpact);
+                    return;
+                }
+                final FragmentStateManagerOperation fragmentStateManagerOperation = new FragmentStateManagerOperation(state, lifecycleImpact, fragmentStateManager, cancellationSignal);
+                this.mPendingOperations.add(fragmentStateManagerOperation);
+                fragmentStateManagerOperation.addCompletionListener(new Runnable() { // from class: androidx.fragment.app.SpecialEffectsController.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        if (SpecialEffectsController.this.mPendingOperations.contains(fragmentStateManagerOperation)) {
+                            fragmentStateManagerOperation.getFinalState().applyState(fragmentStateManagerOperation.getFragment().mView);
+                        }
                     }
-                }
-            });
-            fragmentStateManagerOperation.addCompletionListener(new Runnable() { // from class: androidx.fragment.app.SpecialEffectsController.2
-                @Override // java.lang.Runnable
-                public void run() {
-                    SpecialEffectsController.this.mPendingOperations.remove(fragmentStateManagerOperation);
-                    SpecialEffectsController.this.mRunningOperations.remove(fragmentStateManagerOperation);
-                }
-            });
+                });
+                fragmentStateManagerOperation.addCompletionListener(new Runnable() { // from class: androidx.fragment.app.SpecialEffectsController.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        SpecialEffectsController.this.mPendingOperations.remove(fragmentStateManagerOperation);
+                        SpecialEffectsController.this.mRunningOperations.remove(fragmentStateManagerOperation);
+                    }
+                });
+            } catch (Throwable th) {
+                throw th;
+            }
         }
     }
 
@@ -145,22 +149,26 @@ public abstract class SpecialEffectsController {
     /* JADX INFO: Access modifiers changed from: package-private */
     public void markPostponedState() {
         synchronized (this.mPendingOperations) {
-            updateFinalState();
-            this.mIsContainerPostponed = false;
-            int size = this.mPendingOperations.size() - 1;
-            while (true) {
-                if (size < 0) {
-                    break;
+            try {
+                updateFinalState();
+                this.mIsContainerPostponed = false;
+                int size = this.mPendingOperations.size() - 1;
+                while (true) {
+                    if (size < 0) {
+                        break;
+                    }
+                    Operation operation = this.mPendingOperations.get(size);
+                    Operation.State from = Operation.State.from(operation.getFragment().mView);
+                    Operation.State finalState = operation.getFinalState();
+                    Operation.State state = Operation.State.VISIBLE;
+                    if (finalState == state && from != state) {
+                        this.mIsContainerPostponed = operation.getFragment().isPostponed();
+                        break;
+                    }
+                    size--;
                 }
-                Operation operation = this.mPendingOperations.get(size);
-                Operation.State from = Operation.State.from(operation.getFragment().mView);
-                Operation.State finalState = operation.getFinalState();
-                Operation.State state = Operation.State.VISIBLE;
-                if (finalState == state && from != state) {
-                    this.mIsContainerPostponed = operation.getFragment().isPostponed();
-                    break;
-                }
-                size--;
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -184,30 +192,34 @@ public abstract class SpecialEffectsController {
             return;
         }
         synchronized (this.mPendingOperations) {
-            if (!this.mPendingOperations.isEmpty()) {
-                ArrayList arrayList = new ArrayList(this.mRunningOperations);
-                this.mRunningOperations.clear();
-                Iterator it = arrayList.iterator();
-                while (it.hasNext()) {
-                    Operation operation = (Operation) it.next();
-                    if (FragmentManager.isLoggingEnabled(2)) {
-                        Log.v("FragmentManager", "SpecialEffectsController: Cancelling operation " + operation);
+            try {
+                if (!this.mPendingOperations.isEmpty()) {
+                    ArrayList arrayList = new ArrayList(this.mRunningOperations);
+                    this.mRunningOperations.clear();
+                    Iterator it = arrayList.iterator();
+                    while (it.hasNext()) {
+                        Operation operation = (Operation) it.next();
+                        if (FragmentManager.isLoggingEnabled(2)) {
+                            Log.v("FragmentManager", "SpecialEffectsController: Cancelling operation " + operation);
+                        }
+                        operation.cancel();
+                        if (!operation.isComplete()) {
+                            this.mRunningOperations.add(operation);
+                        }
                     }
-                    operation.cancel();
-                    if (!operation.isComplete()) {
-                        this.mRunningOperations.add(operation);
+                    updateFinalState();
+                    ArrayList arrayList2 = new ArrayList(this.mPendingOperations);
+                    this.mPendingOperations.clear();
+                    this.mRunningOperations.addAll(arrayList2);
+                    Iterator it2 = arrayList2.iterator();
+                    while (it2.hasNext()) {
+                        ((Operation) it2.next()).onStart();
                     }
+                    executeOperations(arrayList2, this.mOperationDirectionIsPop);
+                    this.mOperationDirectionIsPop = false;
                 }
-                updateFinalState();
-                ArrayList arrayList2 = new ArrayList(this.mPendingOperations);
-                this.mPendingOperations.clear();
-                this.mRunningOperations.addAll(arrayList2);
-                Iterator it2 = arrayList2.iterator();
-                while (it2.hasNext()) {
-                    ((Operation) it2.next()).onStart();
-                }
-                executeOperations(arrayList2, this.mOperationDirectionIsPop);
-                this.mOperationDirectionIsPop = false;
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -218,46 +230,50 @@ public abstract class SpecialEffectsController {
         String str2;
         boolean isAttachedToWindow = ViewCompat.isAttachedToWindow(this.mContainer);
         synchronized (this.mPendingOperations) {
-            updateFinalState();
-            Iterator<Operation> it = this.mPendingOperations.iterator();
-            while (it.hasNext()) {
-                it.next().onStart();
-            }
-            Iterator it2 = new ArrayList(this.mRunningOperations).iterator();
-            while (it2.hasNext()) {
-                Operation operation = (Operation) it2.next();
-                if (FragmentManager.isLoggingEnabled(2)) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("SpecialEffectsController: ");
-                    if (isAttachedToWindow) {
-                        str2 = "";
-                    } else {
-                        str2 = "Container " + this.mContainer + " is not attached to window. ";
-                    }
-                    sb.append(str2);
-                    sb.append("Cancelling running operation ");
-                    sb.append(operation);
-                    Log.v("FragmentManager", sb.toString());
+            try {
+                updateFinalState();
+                Iterator<Operation> it = this.mPendingOperations.iterator();
+                while (it.hasNext()) {
+                    it.next().onStart();
                 }
-                operation.cancel();
-            }
-            Iterator it3 = new ArrayList(this.mPendingOperations).iterator();
-            while (it3.hasNext()) {
-                Operation operation2 = (Operation) it3.next();
-                if (FragmentManager.isLoggingEnabled(2)) {
-                    StringBuilder sb2 = new StringBuilder();
-                    sb2.append("SpecialEffectsController: ");
-                    if (isAttachedToWindow) {
-                        str = "";
-                    } else {
-                        str = "Container " + this.mContainer + " is not attached to window. ";
+                Iterator it2 = new ArrayList(this.mRunningOperations).iterator();
+                while (it2.hasNext()) {
+                    Operation operation = (Operation) it2.next();
+                    if (FragmentManager.isLoggingEnabled(2)) {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("SpecialEffectsController: ");
+                        if (isAttachedToWindow) {
+                            str2 = "";
+                        } else {
+                            str2 = "Container " + this.mContainer + " is not attached to window. ";
+                        }
+                        sb.append(str2);
+                        sb.append("Cancelling running operation ");
+                        sb.append(operation);
+                        Log.v("FragmentManager", sb.toString());
                     }
-                    sb2.append(str);
-                    sb2.append("Cancelling pending operation ");
-                    sb2.append(operation2);
-                    Log.v("FragmentManager", sb2.toString());
+                    operation.cancel();
                 }
-                operation2.cancel();
+                Iterator it3 = new ArrayList(this.mPendingOperations).iterator();
+                while (it3.hasNext()) {
+                    Operation operation2 = (Operation) it3.next();
+                    if (FragmentManager.isLoggingEnabled(2)) {
+                        StringBuilder sb2 = new StringBuilder();
+                        sb2.append("SpecialEffectsController: ");
+                        if (isAttachedToWindow) {
+                            str = "";
+                        } else {
+                            str = "Container " + this.mContainer + " is not attached to window. ";
+                        }
+                        sb2.append(str);
+                        sb2.append("Cancelling pending operation ");
+                        sb2.append(operation2);
+                        Log.v("FragmentManager", sb2.toString());
+                    }
+                    operation2.cancel();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

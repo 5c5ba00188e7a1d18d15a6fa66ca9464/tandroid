@@ -15,6 +15,7 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
@@ -67,13 +68,17 @@ public class SwipeGestureSettingsView extends FrameLayout {
         iArr[3] = i2;
         iArr[4] = Theme.key_dialogSwipeRemove;
         iArr[5] = Theme.key_chats_archivePinBackground;
-        this.outlinePaint.setStyle(Paint.Style.STROKE);
+        Paint paint = this.outlinePaint;
+        Paint.Style style = Paint.Style.STROKE;
+        paint.setStyle(style);
         this.outlinePaint.setStrokeWidth(AndroidUtilities.dp(1.0f));
-        this.linePaint.setStyle(Paint.Style.STROKE);
-        this.linePaint.setStrokeCap(Paint.Cap.ROUND);
+        this.linePaint.setStyle(style);
+        Paint paint2 = this.linePaint;
+        Paint.Cap cap = Paint.Cap.ROUND;
+        paint2.setStrokeCap(cap);
         this.linePaint.setStrokeWidth(AndroidUtilities.dp(5.0f));
-        this.pickerDividersPaint.setStyle(Paint.Style.STROKE);
-        this.pickerDividersPaint.setStrokeCap(Paint.Cap.ROUND);
+        this.pickerDividersPaint.setStyle(style);
+        this.pickerDividersPaint.setStrokeCap(cap);
         this.pickerDividersPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
         NumberPicker numberPicker = new NumberPicker(context, 13) { // from class: org.telegram.ui.Components.SwipeGestureSettingsView.1
             /* JADX INFO: Access modifiers changed from: protected */
@@ -111,7 +116,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         });
         this.picker.setImportantForAccessibility(2);
         this.picker.setValue(SharedConfig.getChatSwipeAction(i));
-        addView(this.picker, LayoutHelper.createFrame(132, -1.0f, 5, 21.0f, 0.0f, 21.0f, 0.0f));
+        addView(this.picker, LayoutHelper.createFrame(NotificationCenter.httpFileDidFailedLoad, -1.0f, 5, 21.0f, 0.0f, 21.0f, 0.0f));
         setWillNotDraw(false);
         this.currentIconIndex = 0;
         for (int i3 = 0; i3 < 2; i3++) {
@@ -239,7 +244,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
                 this.filledPaint.setColor(ColorUtils.blendARGB(i2, ColorUtils.blendARGB(Theme.getColor(i3), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
                 this.filledPaint.setColor(Theme.getColor(i3));
-                this.filledPaint.setAlpha(255);
+                this.filledPaint.setAlpha(NotificationCenter.voipServiceCreated);
                 this.rect.set(f4, measuredHeight2, measuredWidth - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
                 this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
                 canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
@@ -292,7 +297,7 @@ public class SwipeGestureSettingsView extends FrameLayout {
         this.filledPaint.setColor(ColorUtils.blendARGB(i22, ColorUtils.blendARGB(Theme.getColor(i32), Theme.getColor(this.currentColorKey), 0.9f), this.colorProgress));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);
         this.filledPaint.setColor(Theme.getColor(i32));
-        this.filledPaint.setAlpha(255);
+        this.filledPaint.setAlpha(NotificationCenter.voipServiceCreated);
         this.rect.set(f42, measuredHeight22, measuredWidth2 - AndroidUtilities.dp(58.0f), getMeasuredHeight() - measuredHeight);
         this.rect.inset(-AndroidUtilities.dp(1.0f), -AndroidUtilities.dp(1.0f));
         canvas.drawRoundRect(this.rect, AndroidUtilities.dp(6.0f), AndroidUtilities.dp(6.0f), this.filledPaint);

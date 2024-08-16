@@ -248,9 +248,6 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
             StorageDiagramView.ClearViewData[] clearViewDataArr = this.clearViewData;
             if (i < clearViewDataArr.length) {
                 StorageDiagramView.ClearViewData clearViewData = clearViewDataArr[i];
-                if (clearViewData != null) {
-                    boolean z = clearViewData.clear;
-                }
                 i++;
             } else {
                 CheckBoxCell checkBoxCell = (CheckBoxCell) view;

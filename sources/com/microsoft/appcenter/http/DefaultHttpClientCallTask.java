@@ -80,9 +80,12 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
                 }
                 sb.append(cArr, 0, read);
             } while (!isCancelled());
-            return sb.toString();
-        } finally {
+            String sb2 = sb.toString();
             inputStream.close();
+            return sb2;
+        } catch (Throwable th) {
+            inputStream.close();
+            throw th;
         }
     }
 
@@ -116,6 +119,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
                 createHttpsConnection.setRequestProperty(entry.getKey(), entry.getValue());
             }
             if (isCancelled()) {
+                createHttpsConnection.disconnect();
                 return null;
             }
             HttpClient.CallTemplate callTemplate2 = this.mCallTemplate;
@@ -146,6 +150,7 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
                 outputStream.close();
             }
             if (isCancelled()) {
+                createHttpsConnection.disconnect();
                 return null;
             }
             int responseCode = createHttpsConnection.getResponseCode();
@@ -167,9 +172,11 @@ public class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
             if (responseCode < 200 || responseCode >= 300) {
                 throw new HttpException(httpResponse);
             }
-            return httpResponse;
-        } finally {
             createHttpsConnection.disconnect();
+            return httpResponse;
+        } catch (Throwable th) {
+            createHttpsConnection.disconnect();
+            throw th;
         }
     }
 

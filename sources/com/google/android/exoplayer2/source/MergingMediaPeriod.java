@@ -567,7 +567,7 @@ final class MergingMediaPeriod implements MediaPeriod, MediaPeriod.Callback {
         }
 
         public int hashCode() {
-            return ((527 + this.trackGroup.hashCode()) * 31) + this.trackSelection.hashCode();
+            return ((this.trackGroup.hashCode() + 527) * 31) + this.trackSelection.hashCode();
         }
     }
 }

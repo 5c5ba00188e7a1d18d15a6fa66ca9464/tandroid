@@ -1,12 +1,13 @@
 package com.google.android.gms.internal.mlkit_vision_subject_segmentation;
 
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
 import com.google.android.gms.dynamic.IObjectWrapper;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
-public final class zzub extends zza {
+public final class zzub extends zza implements IInterface {
     /* JADX INFO: Access modifiers changed from: package-private */
     public zzub(IBinder iBinder) {
         super(iBinder, "com.google.mlkit.vision.segmentation.subject.aidls.ISubjectSegmenter");

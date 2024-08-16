@@ -3,11 +3,11 @@ package j$.util;
 import j$.util.function.Consumer;
 /* loaded from: classes2.dex */
 public interface z extends A {
-    void b(j$.util.function.h0 h0Var);
+    void a(Consumer consumer);
 
-    void forEachRemaining(Consumer consumer);
+    void d(j$.util.function.W w);
 
-    @Override // java.util.Iterator, j$.util.Iterator
+    @Override // java.util.Iterator
     Long next();
 
     long nextLong();

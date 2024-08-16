@@ -1,6 +1,5 @@
 package j$.util;
 
-import j$.util.function.Consumer;
 import java.util.PrimitiveIterator;
 import java.util.function.Consumer;
 import java.util.function.LongConsumer;
@@ -12,7 +11,7 @@ public final /* synthetic */ class y implements PrimitiveIterator.OfLong {
         this.a = zVar;
     }
 
-    public static /* synthetic */ PrimitiveIterator.OfLong a(z zVar) {
+    public static /* synthetic */ PrimitiveIterator.OfLong b(z zVar) {
         if (zVar == null) {
             return null;
         }
@@ -34,12 +33,12 @@ public final /* synthetic */ class y implements PrimitiveIterator.OfLong {
 
     @Override // java.util.PrimitiveIterator.OfLong, java.util.Iterator
     public final /* synthetic */ void forEachRemaining(Consumer consumer) {
-        this.a.forEachRemaining(Consumer.VivifiedWrapper.convert(consumer));
+        this.a.a(j$.util.function.g.a(consumer));
     }
 
     @Override // java.util.PrimitiveIterator.OfLong
     public final /* synthetic */ void forEachRemaining(LongConsumer longConsumer) {
-        this.a.b(j$.util.function.f0.a(longConsumer));
+        this.a.d(j$.util.function.U.a(longConsumer));
     }
 
     @Override // java.util.Iterator

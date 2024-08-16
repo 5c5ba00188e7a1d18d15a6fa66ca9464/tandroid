@@ -328,10 +328,10 @@ public class LimitPreviewView extends LinearLayout {
         super.dispatchDraw(canvas);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:55:0x017c  */
-    /* JADX WARN: Removed duplicated region for block: B:58:0x019b  */
-    /* JADX WARN: Removed duplicated region for block: B:61:0x01d2  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x01f3  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x017c  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x019b  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x01d2  */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x01f3  */
     @Override // android.widget.LinearLayout, android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -629,7 +629,7 @@ public class LimitPreviewView extends LinearLayout {
         int i;
         int i2 = tL_stories$TL_premium_boostsStatus.current_level_boosts;
         int i3 = tL_stories$TL_premium_boostsStatus.boosts;
-        if (((i2 == i3) && z) || (i = tL_stories$TL_premium_boostsStatus.next_level_boosts) == 0) {
+        if ((i2 == i3 && z) || (i = tL_stories$TL_premium_boostsStatus.next_level_boosts) == 0) {
             this.percent = 1.0f;
             TextView textView = this.defaultText;
             int i4 = R.string.BoostsLevel;
@@ -680,9 +680,11 @@ public class LimitPreviewView extends LinearLayout {
         protected boolean drawChild(Canvas canvas, View view, long j) {
             if (view instanceof TextView) {
                 boolean drawChild = super.drawChild(canvas, view, j);
-                boolean z = true;
+                boolean z = false;
                 boolean z2 = LimitPreviewView.this.percent != 0.0f && LimitPreviewView.this.percent <= 1.0f && this.isLeft;
-                z = (LimitPreviewView.this.percent != 1.0f || this.isLeft) ? false : false;
+                if (LimitPreviewView.this.percent == 1.0f && !this.isLeft) {
+                    z = true;
+                }
                 if ((z2 || z) && LimitPreviewView.this.hasDarkGradientProvider()) {
                     canvas.saveLayer(view.getLeft(), view.getTop(), view.getRight(), view.getBottom(), this.paint, 31);
                     canvas.drawRect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom(), LimitPreviewView.this.darkGradientProvider.setDarkGradientLocation(((ViewGroup) getParent()).getX() + getX(), ((ViewGroup) getParent()).getY() + getY()));
@@ -862,8 +864,8 @@ public class LimitPreviewView extends LinearLayout {
                 return;
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(this.text);
-            boolean z = true;
             int i = 0;
+            boolean z = true;
             for (int i2 = 0; i2 < this.text.length(); i2++) {
                 if (Character.isDigit(this.text.charAt(i2))) {
                     AnimatedLayout animatedLayout = new AnimatedLayout();
@@ -938,8 +940,9 @@ public class LimitPreviewView extends LinearLayout {
                         i = 0;
                     }
                     i++;
-                    animatedLayout.staticLayouts.add(new StaticLayout("" + charAt, this.textPaint, (int) this.textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
-                    animatedLayout.staticLayouts.add(new StaticLayout("" + this.text.charAt(length), this.textPaint, (int) this.textWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false));
+                    Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
+                    animatedLayout.staticLayouts.add(new StaticLayout("" + charAt, this.textPaint, (int) this.textWidth, alignment, 1.0f, 0.0f, false));
+                    animatedLayout.staticLayouts.add(new StaticLayout("" + this.text.charAt(length), this.textPaint, (int) this.textWidth, alignment, 1.0f, 0.0f, false));
                     spannableStringBuilder.setSpan(new EmptyStubSpan(), length, length + 1, 0);
                 }
                 length--;

@@ -32,7 +32,13 @@ class CryptoRsaHandler implements CryptoHandler {
     }
 
     private CryptoUtils.ICipher getCipher(CryptoUtils.ICryptoFactory iCryptoFactory, int i) throws Exception {
-        return iCryptoFactory.getCipher("RSA/ECB/PKCS1Padding", i >= 23 ? "AndroidKeyStoreBCWorkaround" : "AndroidOpenSSL");
+        String str;
+        if (i >= 23) {
+            str = "AndroidKeyStoreBCWorkaround";
+        } else {
+            str = "AndroidOpenSSL";
+        }
+        return iCryptoFactory.getCipher("RSA/ECB/PKCS1Padding", str);
     }
 
     @Override // com.microsoft.appcenter.utils.crypto.CryptoHandler

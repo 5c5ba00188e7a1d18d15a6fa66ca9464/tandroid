@@ -318,13 +318,13 @@ public class WebRtcAudioTrack {
         usage = new AudioAttributes.Builder().setUsage(DEFAULT_USAGE);
         contentType = usage.setContentType(1);
         if (audioAttributes != null) {
-            if (WebRtcAudioTrack$$ExternalSyntheticApiModelOutline3.m(audioAttributes) != 0) {
-                contentType.setUsage(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline3.m(audioAttributes));
-            }
             if (WebRtcAudioTrack$$ExternalSyntheticApiModelOutline4.m(audioAttributes) != 0) {
-                contentType.setContentType(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline4.m(audioAttributes));
+                contentType.setUsage(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline4.m(audioAttributes));
             }
-            contentType.setFlags(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline5.m(audioAttributes));
+            if (WebRtcAudioTrack$$ExternalSyntheticApiModelOutline5.m(audioAttributes) != 0) {
+                contentType.setContentType(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline5.m(audioAttributes));
+            }
+            contentType.setFlags(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline6.m(audioAttributes));
             if (Build.VERSION.SDK_INT >= 29) {
                 contentType = applyAttributesOnQOrHigher(contentType, audioAttributes);
             }
@@ -370,7 +370,7 @@ public class WebRtcAudioTrack {
         build = channelMask.build();
         audioFormat = audioAttributes2.setAudioFormat(build);
         bufferSizeInBytes = audioFormat.setBufferSizeInBytes(i3);
-        transferMode = WebRtcAudioTrack$$ExternalSyntheticApiModelOutline1.m(bufferSizeInBytes, 1).setTransferMode(1);
+        transferMode = WebRtcAudioTrack$$ExternalSyntheticApiModelOutline3.m(bufferSizeInBytes, 1).setTransferMode(1);
         sessionId = transferMode.setSessionId(0);
         build2 = sessionId.build();
         return build2;
@@ -378,9 +378,11 @@ public class WebRtcAudioTrack {
 
     @TargetApi(29)
     private static AudioAttributes.Builder applyAttributesOnQOrHigher(AudioAttributes.Builder builder, AudioAttributes audioAttributes) {
-        AudioAttributes.Builder allowedCapturePolicy;
-        allowedCapturePolicy = builder.setAllowedCapturePolicy(WebRtcAudioTrack$$ExternalSyntheticApiModelOutline0.m(audioAttributes));
-        return allowedCapturePolicy;
+        int allowedCapturePolicy;
+        AudioAttributes.Builder allowedCapturePolicy2;
+        allowedCapturePolicy = audioAttributes.getAllowedCapturePolicy();
+        allowedCapturePolicy2 = builder.setAllowedCapturePolicy(allowedCapturePolicy);
+        return allowedCapturePolicy2;
     }
 
     private static AudioTrack createAudioTrackOnLowerThanLollipop(int i, int i2, int i3) {

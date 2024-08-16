@@ -68,7 +68,7 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
                 NotificationPermissionDialog.this.lambda$new$0(view);
             }
         });
-        linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, (int) R.styleable.AppCompatTheme_textColorAlertDialogListItem));
+        linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, 110));
         TextView textView = new TextView(context);
         int i2 = Theme.key_dialogTextBlack;
         textView.setTextColor(Theme.getColor(i2));
@@ -276,8 +276,8 @@ public class NotificationPermissionDialog extends BottomSheet implements Notific
         protected void onDraw(Canvas canvas) {
             float f = this.alpha.set(this.lastCount > 0 ? 1.0f : 0.0f);
             canvas.save();
-            float f2 = this.countScale;
-            canvas.scale(f2 * f, f2 * f, getWidth() / 2.0f, getHeight() / 2.0f);
+            float f2 = this.countScale * f;
+            canvas.scale(f2, f2, getWidth() / 2.0f, getHeight() / 2.0f);
             float currentWidth = this.textDrawable.getCurrentWidth() + AndroidUtilities.dpf2(12.66f);
             float dpf2 = AndroidUtilities.dpf2(20.3f);
             RectF rectF = AndroidUtilities.rectTmp;

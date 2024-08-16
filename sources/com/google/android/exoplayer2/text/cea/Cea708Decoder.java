@@ -24,9 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Cea708Decoder extends CeaDecoder {
     private final CueInfoBuilder[] cueInfoBuilders;
@@ -40,11 +38,6 @@ public final class Cea708Decoder extends CeaDecoder {
     private final ParsableByteArray ccData = new ParsableByteArray();
     private final ParsableBitArray captionChannelPacketData = new ParsableBitArray();
     private int previousSequenceNumber = -1;
-
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "Cea708Decoder";
-    }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
     public /* bridge */ /* synthetic */ SubtitleInputBuffer dequeueInputBuffer() throws SubtitleDecoderException {
@@ -82,6 +75,11 @@ public final class Cea708Decoder extends CeaDecoder {
         this.currentCueInfoBuilder = this.cueInfoBuilders[0];
     }
 
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "Cea708Decoder";
+    }
+
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
     public void flush() {
         super.flush();
@@ -110,7 +108,7 @@ public final class Cea708Decoder extends CeaDecoder {
         ByteBuffer byteBuffer = (ByteBuffer) Assertions.checkNotNull(subtitleInputBuffer.data);
         this.ccData.reset(byteBuffer.array(), byteBuffer.limit());
         while (this.ccData.bytesLeft() >= 3) {
-            int readUnsignedByte = this.ccData.readUnsignedByte() & 7;
+            int readUnsignedByte = this.ccData.readUnsignedByte();
             int i = readUnsignedByte & 3;
             boolean z = (readUnsignedByte & 4) == 4;
             byte readUnsignedByte2 = (byte) this.ccData.readUnsignedByte();
@@ -144,10 +142,9 @@ public final class Cea708Decoder extends CeaDecoder {
                         } else {
                             byte[] bArr2 = dtvCcPacket2.packetData;
                             int i6 = dtvCcPacket2.currentIndex;
-                            int i7 = i6 + 1;
                             bArr2[i6] = readUnsignedByte2;
-                            dtvCcPacket2.currentIndex = i7 + 1;
-                            bArr2[i7] = readUnsignedByte3;
+                            dtvCcPacket2.currentIndex = i6 + 2;
+                            bArr2[i6 + 1] = readUnsignedByte3;
                         }
                     }
                     DtvCcPacket dtvCcPacket3 = this.currentDtvCcPacket;
@@ -276,13 +273,13 @@ public final class Cea708Decoder extends CeaDecoder {
         int i2 = 1;
         switch (i) {
             case 128:
-            case 129:
-            case 130:
-            case 131:
-            case 132:
-            case 133:
-            case 134:
-            case 135:
+            case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
+            case NotificationCenter.walletSyncProgressChanged /* 130 */:
+            case NotificationCenter.httpFileDidLoad /* 131 */:
+            case NotificationCenter.httpFileDidFailedLoad /* 132 */:
+            case NotificationCenter.didUpdateConnectionState /* 133 */:
+            case NotificationCenter.fileUploaded /* 134 */:
+            case NotificationCenter.fileUploadFailed /* 135 */:
                 int i3 = i - 128;
                 if (this.currentWindow != i3) {
                     this.currentWindow = i3;
@@ -290,7 +287,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     return;
                 }
                 return;
-            case 136:
+            case NotificationCenter.fileUploadProgressChanged /* 136 */:
                 while (i2 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i2].clear();
@@ -298,14 +295,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     i2++;
                 }
                 return;
-            case 137:
+            case NotificationCenter.fileLoadProgressChanged /* 137 */:
                 for (int i4 = 1; i4 <= 8; i4++) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i4].setVisibility(true);
                     }
                 }
                 return;
-            case 138:
+            case NotificationCenter.fileLoaded /* 138 */:
                 while (i2 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i2].setVisibility(false);
@@ -313,14 +310,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     i2++;
                 }
                 return;
-            case 139:
+            case NotificationCenter.fileLoadFailed /* 139 */:
                 for (int i5 = 1; i5 <= 8; i5++) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i5].setVisibility(!cueInfoBuilder.isVisible());
                     }
                 }
                 return;
-            case 140:
+            case NotificationCenter.filePreparingStarted /* 140 */:
                 while (i2 <= 8) {
                     if (this.captionChannelPacketData.readBit()) {
                         this.cueInfoBuilders[8 - i2].reset();
@@ -328,15 +325,15 @@ public final class Cea708Decoder extends CeaDecoder {
                     i2++;
                 }
                 return;
-            case 141:
+            case NotificationCenter.fileNewChunkAvailable /* 141 */:
                 this.captionChannelPacketData.skipBits(8);
                 return;
-            case 142:
+            case NotificationCenter.filePreparingFailed /* 142 */:
                 return;
-            case 143:
+            case NotificationCenter.dialogsUnreadCounterChanged /* 143 */:
                 resetCueBuilders();
                 return;
-            case 144:
+            case NotificationCenter.messagePlayingProgressDidChanged /* 144 */:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(16);
                     return;
@@ -344,7 +341,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetPenAttributes();
                     return;
                 }
-            case 145:
+            case NotificationCenter.messagePlayingDidReset /* 145 */:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(24);
                     return;
@@ -352,7 +349,7 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetPenColor();
                     return;
                 }
-            case 146:
+            case NotificationCenter.messagePlayingPlayStateChanged /* 146 */:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(16);
                     return;
@@ -360,14 +357,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetPenLocation();
                     return;
                 }
-            case 147:
-            case 148:
-            case 149:
-            case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
+            case NotificationCenter.messagePlayingDidStart /* 147 */:
+            case NotificationCenter.messagePlayingDidSeek /* 148 */:
+            case NotificationCenter.messagePlayingGoingToStop /* 149 */:
+            case 150:
             default:
                 Log.w("Cea708Decoder", "Invalid C1 command: " + i);
                 return;
-            case 151:
+            case NotificationCenter.recordStarted /* 151 */:
                 if (!this.currentCueInfoBuilder.isDefined()) {
                     this.captionChannelPacketData.skipBits(32);
                     return;
@@ -375,14 +372,14 @@ public final class Cea708Decoder extends CeaDecoder {
                     handleSetWindowAttributes();
                     return;
                 }
-            case 152:
-            case 153:
-            case 154:
-            case MessagesStorage.LAST_DB_VERSION /* 155 */:
-            case 156:
-            case 157:
-            case 158:
-            case 159:
+            case NotificationCenter.recordStartError /* 152 */:
+            case NotificationCenter.recordStopped /* 153 */:
+            case NotificationCenter.recordPaused /* 154 */:
+            case 155:
+            case NotificationCenter.screenshotTook /* 156 */:
+            case NotificationCenter.albumsDidLoad /* 157 */:
+            case NotificationCenter.audioDidSent /* 158 */:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
                 int i6 = i - 152;
                 handleDefineWindow(i6);
                 if (this.currentWindow != i6) {
@@ -422,12 +419,12 @@ public final class Cea708Decoder extends CeaDecoder {
         if (i == 127) {
             this.currentCueInfoBuilder.append((char) 9835);
         } else {
-            this.currentCueInfoBuilder.append((char) (i & 255));
+            this.currentCueInfoBuilder.append((char) (i & NotificationCenter.voipServiceCreated));
         }
     }
 
     private void handleG1Character(int i) {
-        this.currentCueInfoBuilder.append((char) (i & 255));
+        this.currentCueInfoBuilder.append((char) (i & NotificationCenter.voipServiceCreated));
     }
 
     private void handleG2Character(int i) {
@@ -451,22 +448,22 @@ public final class Cea708Decoder extends CeaDecoder {
             this.currentCueInfoBuilder.append((char) 339);
         } else if (i != 61) {
             switch (i) {
-                case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+                case 48:
                     this.currentCueInfoBuilder.append((char) 9608);
                     return;
-                case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+                case 49:
                     this.currentCueInfoBuilder.append((char) 8216);
                     return;
-                case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+                case 50:
                     this.currentCueInfoBuilder.append((char) 8217);
                     return;
-                case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
+                case 51:
                     this.currentCueInfoBuilder.append((char) 8220);
                     return;
-                case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+                case 52:
                     this.currentCueInfoBuilder.append((char) 8221);
                     return;
-                case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+                case 53:
                     this.currentCueInfoBuilder.append((char) 8226);
                     return;
                 default:
@@ -498,7 +495,7 @@ public final class Cea708Decoder extends CeaDecoder {
                         case 126:
                             this.currentCueInfoBuilder.append((char) 9496);
                             return;
-                        case 127:
+                        case NotificationCenter.dialogTranslate /* 127 */:
                             this.currentCueInfoBuilder.append((char) 9484);
                             return;
                         default:
@@ -846,13 +843,13 @@ public final class Cea708Decoder extends CeaDecoder {
             return new SpannableString(spannableStringBuilder);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:23:0x0065  */
-        /* JADX WARN: Removed duplicated region for block: B:24:0x0070  */
-        /* JADX WARN: Removed duplicated region for block: B:27:0x0091  */
-        /* JADX WARN: Removed duplicated region for block: B:28:0x0093  */
-        /* JADX WARN: Removed duplicated region for block: B:34:0x009e  */
-        /* JADX WARN: Removed duplicated region for block: B:35:0x00a0  */
-        /* JADX WARN: Removed duplicated region for block: B:41:0x00ac  */
+        /* JADX WARN: Removed duplicated region for block: B:24:0x0066  */
+        /* JADX WARN: Removed duplicated region for block: B:25:0x0071  */
+        /* JADX WARN: Removed duplicated region for block: B:28:0x0092  */
+        /* JADX WARN: Removed duplicated region for block: B:29:0x0094  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x009c  */
+        /* JADX WARN: Removed duplicated region for block: B:35:0x009e  */
+        /* JADX WARN: Removed duplicated region for block: B:40:0x00a9  */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
         */
@@ -860,25 +857,22 @@ public final class Cea708Decoder extends CeaDecoder {
             Layout.Alignment alignment;
             float f;
             float f2;
-            int i;
-            int i2;
-            int i3;
             if (isEmpty()) {
                 return null;
             }
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-            for (int i4 = 0; i4 < this.rolledUpCaptions.size(); i4++) {
-                spannableStringBuilder.append((CharSequence) this.rolledUpCaptions.get(i4));
+            for (int i = 0; i < this.rolledUpCaptions.size(); i++) {
+                spannableStringBuilder.append((CharSequence) this.rolledUpCaptions.get(i));
                 spannableStringBuilder.append('\n');
             }
             spannableStringBuilder.append((CharSequence) buildSpannableString());
-            int i5 = this.justification;
-            if (i5 != 0) {
-                if (i5 == 1) {
+            int i2 = this.justification;
+            if (i2 != 0) {
+                if (i2 == 1) {
                     alignment = Layout.Alignment.ALIGN_OPPOSITE;
-                } else if (i5 == 2) {
+                } else if (i2 == 2) {
                     alignment = Layout.Alignment.ALIGN_CENTER;
-                } else if (i5 != 3) {
+                } else if (i2 != 3) {
                     throw new IllegalArgumentException("Unexpected justification value: " + this.justification);
                 }
                 Layout.Alignment alignment2 = alignment;
@@ -891,18 +885,10 @@ public final class Cea708Decoder extends CeaDecoder {
                 }
                 float f3 = (f * 0.9f) + 0.05f;
                 float f4 = (f2 * 0.9f) + 0.05f;
-                i = this.anchorId;
-                if (i / 3 != 0) {
-                    i2 = 0;
-                } else {
-                    i2 = i / 3 == 1 ? 1 : 2;
-                }
-                if (i % 3 != 0) {
-                    i3 = 0;
-                } else {
-                    i3 = i % 3 == 1 ? 1 : 2;
-                }
-                return new Cea708CueInfo(spannableStringBuilder, alignment2, f4, 0, i2, f3, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
+                int i3 = this.anchorId;
+                int i4 = i3 / 3;
+                int i5 = i3 % 3;
+                return new Cea708CueInfo(spannableStringBuilder, alignment2, f4, 0, i4 != 0 ? 0 : i4 == 1 ? 1 : 2, f3, i5 != 0 ? 0 : i5 == 1 ? 1 : 2, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
             }
             alignment = Layout.Alignment.ALIGN_NORMAL;
             Layout.Alignment alignment22 = alignment;
@@ -910,42 +896,22 @@ public final class Cea708Decoder extends CeaDecoder {
             }
             float f32 = (f * 0.9f) + 0.05f;
             float f42 = (f2 * 0.9f) + 0.05f;
-            i = this.anchorId;
-            if (i / 3 != 0) {
-            }
-            if (i % 3 != 0) {
-            }
-            return new Cea708CueInfo(spannableStringBuilder, alignment22, f42, 0, i2, f32, i3, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
+            int i32 = this.anchorId;
+            int i42 = i32 / 3;
+            int i52 = i32 % 3;
+            return new Cea708CueInfo(spannableStringBuilder, alignment22, f42, 0, i42 != 0 ? 0 : i42 == 1 ? 1 : 2, f32, i52 != 0 ? 0 : i52 == 1 ? 1 : 2, -3.4028235E38f, this.windowFillColor != COLOR_SOLID_BLACK, this.windowFillColor, this.priority);
         }
 
         public static int getArgbColorFromCeaColor(int i, int i2, int i3) {
             return getArgbColorFromCeaColor(i, i2, i3, 0);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:14:0x0025  */
-        /* JADX WARN: Removed duplicated region for block: B:15:0x0028  */
-        /* JADX WARN: Removed duplicated region for block: B:17:0x002b  */
-        /* JADX WARN: Removed duplicated region for block: B:18:0x002e  */
-        /* JADX WARN: Removed duplicated region for block: B:20:0x0031  */
-        /*
-            Code decompiled incorrectly, please refer to instructions dump.
-        */
         public static int getArgbColorFromCeaColor(int i, int i2, int i3, int i4) {
-            int i5;
             Assertions.checkIndex(i, 0, 4);
             Assertions.checkIndex(i2, 0, 4);
             Assertions.checkIndex(i3, 0, 4);
             Assertions.checkIndex(i4, 0, 4);
-            if (i4 != 0 && i4 != 1) {
-                if (i4 == 2) {
-                    i5 = 127;
-                } else if (i4 == 3) {
-                    i5 = 0;
-                }
-                return Color.argb(i5, i <= 1 ? 255 : 0, i2 <= 1 ? 255 : 0, i3 > 1 ? 255 : 0);
-            }
-            i5 = 255;
-            return Color.argb(i5, i <= 1 ? 255 : 0, i2 <= 1 ? 255 : 0, i3 > 1 ? 255 : 0);
+            return Color.argb(i4 != 2 ? i4 != 3 ? NotificationCenter.voipServiceCreated : 0 : NotificationCenter.dialogTranslate, i > 1 ? NotificationCenter.voipServiceCreated : 0, i2 > 1 ? NotificationCenter.voipServiceCreated : 0, i3 > 1 ? NotificationCenter.voipServiceCreated : 0);
         }
     }
 

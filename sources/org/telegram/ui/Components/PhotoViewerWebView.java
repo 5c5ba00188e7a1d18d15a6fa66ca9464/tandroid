@@ -102,7 +102,7 @@ public class PhotoViewerWebView extends FrameLayout {
 
         @JavascriptInterface
         public void onPlayerLoaded() {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerLoaded$0();
@@ -128,7 +128,7 @@ public class PhotoViewerWebView extends FrameLayout {
         @JavascriptInterface
         public void onPlayerError(String str) {
             final int parseInt = Integer.parseInt(str);
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda3
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda0
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerError$2(parseInt);
@@ -215,14 +215,14 @@ public class PhotoViewerWebView extends FrameLayout {
                 i = 4;
             }
             if (i == 3 && PhotoViewerWebView.this.progressBarBlackBackground.getVisibility() != 4) {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda1
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
                     @Override // java.lang.Runnable
                     public final void run() {
                         PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$3();
                     }
                 }, 300L);
             }
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PhotoViewerWebView$YoutubeProxy$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     PhotoViewerWebView.YoutubeProxy.this.lambda$onPlayerStateChange$4(z2, i);
@@ -739,8 +739,8 @@ public class PhotoViewerWebView extends FrameLayout {
         this.setPlaybackSpeed = true;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:26:0x00a7 A[Catch: Exception -> 0x00ed, LOOP:0: B:24:0x00a0->B:26:0x00a7, LOOP_END, TryCatch #0 {Exception -> 0x00ed, blocks: (B:3:0x0013, B:5:0x0017, B:23:0x0088, B:24:0x00a0, B:26:0x00a7, B:27:0x00ab, B:21:0x0084, B:28:0x00d9, B:7:0x002d, B:9:0x0033, B:11:0x0046, B:13:0x004f, B:15:0x0058, B:17:0x005e, B:18:0x007a), top: B:41:0x0013, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x00ab A[EDGE_INSN: B:43:0x00ab->B:27:0x00ab ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00ac A[Catch: Exception -> 0x008a, LOOP:0: B:27:0x00a5->B:29:0x00ac, LOOP_END, TryCatch #0 {Exception -> 0x008a, blocks: (B:3:0x0013, B:5:0x0017, B:26:0x008d, B:27:0x00a5, B:29:0x00ac, B:30:0x00b0, B:22:0x0086, B:31:0x00df, B:7:0x002d, B:9:0x0033, B:13:0x0049, B:15:0x0052, B:17:0x005b, B:19:0x0061, B:20:0x007d), top: B:43:0x0013, inners: #1 }] */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00b0 A[EDGE_INSN: B:45:0x00b0->B:30:0x00b0 ?: BREAK  , SYNTHETIC] */
     @SuppressLint({"AddJavascriptInterface"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.

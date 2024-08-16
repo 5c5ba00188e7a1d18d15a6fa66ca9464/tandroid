@@ -53,7 +53,7 @@ public class DraftsController {
 
     private void loadInternal(final boolean z, final Utilities.Callback<ArrayList<StoryDraft>> callback) {
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda4
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$loadInternal$1(MessagesStorage.this, z, callback);
@@ -62,7 +62,7 @@ public class DraftsController {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Code restructure failed: missing block: B:30:0x0099, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x009b, code lost:
         if (r1 == null) goto L34;
      */
     /*
@@ -75,53 +75,53 @@ public class DraftsController {
         try {
             try {
                 database = messagesStorage.getDatabase();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            if (database == null) {
-                return;
-            }
-            ArrayList arrayList2 = new ArrayList();
-            StringBuilder sb = new StringBuilder();
-            sb.append("SELECT id, data, type FROM story_drafts WHERE type = ");
-            sb.append(z ? "2" : "0 OR type = 1");
-            sb.append(" ORDER BY date DESC");
-            String sb2 = sb.toString();
-            sQLiteCursor = database.queryFinalized(sb2, new Object[0]);
-            while (sQLiteCursor.next()) {
-                long longValue = sQLiteCursor.longValue(0);
-                NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(1);
-                if (byteBufferValue != null) {
-                    try {
-                        StoryDraft storyDraft = new StoryDraft(byteBufferValue, true);
-                        storyDraft.id = longValue;
-                        arrayList.add(storyDraft);
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
-                        arrayList2.add(Long.valueOf(longValue));
-                    }
-                    byteBufferValue.reuse();
+            } catch (Throwable th) {
+                if (sQLiteCursor != null) {
+                    sQLiteCursor.dispose();
                 }
+                throw th;
             }
-            sQLiteCursor.dispose();
-            if (arrayList2.size() > 0) {
-                for (int i = 0; i < arrayList2.size(); i++) {
-                    database.executeFast("DELETE FROM story_drafts WHERE id = " + arrayList2.get(i)).stepThis().dispose();
-                }
-            }
-            sQLiteCursor.dispose();
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda6
-                @Override // java.lang.Runnable
-                public final void run() {
-                    Utilities.Callback.this.run(arrayList);
-                }
-            });
-        } catch (Throwable th) {
-            if (sQLiteCursor != null) {
-                sQLiteCursor.dispose();
-            }
-            throw th;
+        } catch (Exception e) {
+            FileLog.e(e);
         }
+        if (database == null) {
+            return;
+        }
+        ArrayList arrayList2 = new ArrayList();
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT id, data, type FROM story_drafts WHERE type = ");
+        sb.append(z ? "2" : "0 OR type = 1");
+        sb.append(" ORDER BY date DESC");
+        String sb2 = sb.toString();
+        sQLiteCursor = database.queryFinalized(sb2, new Object[0]);
+        while (sQLiteCursor.next()) {
+            long longValue = sQLiteCursor.longValue(0);
+            NativeByteBuffer byteBufferValue = sQLiteCursor.byteBufferValue(1);
+            if (byteBufferValue != null) {
+                try {
+                    StoryDraft storyDraft = new StoryDraft(byteBufferValue, true);
+                    storyDraft.id = longValue;
+                    arrayList.add(storyDraft);
+                } catch (Exception e2) {
+                    FileLog.e(e2);
+                    arrayList2.add(Long.valueOf(longValue));
+                }
+                byteBufferValue.reuse();
+            }
+        }
+        sQLiteCursor.dispose();
+        if (arrayList2.size() > 0) {
+            for (int i = 0; i < arrayList2.size(); i++) {
+                database.executeFast("DELETE FROM story_drafts WHERE id = " + arrayList2.get(i)).stepThis().dispose();
+            }
+        }
+        sQLiteCursor.dispose();
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda6
+            @Override // java.lang.Runnable
+            public final void run() {
+                Utilities.Callback.this.run(arrayList);
+            }
+        });
     }
 
     public void load() {
@@ -129,7 +129,7 @@ public class DraftsController {
             return;
         }
         this.loading = true;
-        loadInternal(false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda3
+        loadInternal(false, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda4
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
                 DraftsController.this.lambda$load$2((ArrayList) obj);
@@ -214,7 +214,7 @@ public class DraftsController {
         }
         final StoryDraft storyDraft = new StoryDraft(storyEntry);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda1
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$edit$4(MessagesStorage.this, storyDraft);
@@ -530,7 +530,7 @@ public class DraftsController {
         }
         this.drafts.removeAll(arrayList);
         final MessagesStorage messagesStorage = MessagesStorage.getInstance(this.currentAccount);
-        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda0
+        messagesStorage.getStorageQueue().postRunnable(new Runnable() { // from class: org.telegram.ui.Stories.recorder.DraftsController$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 DraftsController.lambda$delete$6(MessagesStorage.this, arrayList2);
@@ -641,8 +641,9 @@ public class DraftsController {
             this.muted = storyEntry.muted;
             float f = storyEntry.left;
             long j = storyEntry.duration;
-            this.left = f * ((float) j);
-            this.right = storyEntry.right * ((float) j);
+            float f2 = (float) j;
+            this.left = f * f2;
+            this.right = storyEntry.right * f2;
             this.orientation = storyEntry.orientation;
             this.invert = storyEntry.invert;
             this.width = storyEntry.width;
@@ -713,8 +714,9 @@ public class DraftsController {
             long j = this.duration;
             storyEntry.duration = j;
             if (j > 0) {
-                storyEntry.left = ((float) this.left) / ((float) j);
-                storyEntry.right = ((float) this.right) / ((float) j);
+                float f = (float) j;
+                storyEntry.left = ((float) this.left) / f;
+                storyEntry.right = ((float) this.right) / f;
             } else {
                 storyEntry.left = 0.0f;
                 storyEntry.right = 1.0f;

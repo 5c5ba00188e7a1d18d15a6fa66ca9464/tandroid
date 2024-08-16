@@ -22,7 +22,7 @@ public final class TreeTypeAdapter<T> extends SerializationDelegatingTypeAdapter
     final Gson gson;
     private final boolean nullSafe;
     private final JsonSerializer<T> serializer;
-    private final TypeAdapterFactory skipPast;
+    private final TypeAdapterFactory skipPastForGetDelegateAdapter;
     private final TypeToken<T> typeToken;
 
     public TreeTypeAdapter(JsonSerializer<T> jsonSerializer, JsonDeserializer<T> jsonDeserializer, Gson gson, TypeToken<T> typeToken, TypeAdapterFactory typeAdapterFactory, boolean z) {
@@ -31,7 +31,7 @@ public final class TreeTypeAdapter<T> extends SerializationDelegatingTypeAdapter
         this.deserializer = jsonDeserializer;
         this.gson = gson;
         this.typeToken = typeToken;
-        this.skipPast = typeAdapterFactory;
+        this.skipPastForGetDelegateAdapter = typeAdapterFactory;
         this.nullSafe = z;
     }
 
@@ -68,7 +68,7 @@ public final class TreeTypeAdapter<T> extends SerializationDelegatingTypeAdapter
         if (typeAdapter != null) {
             return typeAdapter;
         }
-        TypeAdapter<T> delegateAdapter = this.gson.getDelegateAdapter(this.skipPast, this.typeToken);
+        TypeAdapter<T> delegateAdapter = this.gson.getDelegateAdapter(this.skipPastForGetDelegateAdapter, this.typeToken);
         this.delegate = delegateAdapter;
         return delegateAdapter;
     }

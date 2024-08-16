@@ -140,7 +140,7 @@ public final class AdtsReader implements ElementaryStreamReader {
     private void setFindingSampleState() {
         this.state = 0;
         this.bytesRead = 0;
-        this.matchState = LiteMode.FLAG_CHAT_BLUR;
+        this.matchState = 256;
     }
 
     private void setReadingId3HeaderState() {
@@ -174,10 +174,11 @@ public final class AdtsReader implements ElementaryStreamReader {
         int limit = parsableByteArray.limit();
         while (position < limit) {
             int i = position + 1;
-            int i2 = data[position] & 255;
-            if (this.matchState == 512 && isAdtsSyncBytes((byte) -1, (byte) i2) && (this.foundFirstFrame || checkSyncPositionValid(parsableByteArray, i - 2))) {
-                this.currentFrameVersion = (i2 & 8) >> 3;
-                this.hasCrc = (i2 & 1) == 0;
+            byte b = data[position];
+            int i2 = b & 255;
+            if (this.matchState == 512 && isAdtsSyncBytes((byte) -1, (byte) i2) && (this.foundFirstFrame || checkSyncPositionValid(parsableByteArray, position - 1))) {
+                this.currentFrameVersion = (b & 8) >> 3;
+                this.hasCrc = (b & 1) == 0;
                 if (!this.foundFirstFrame) {
                     setCheckingAdtsHeaderState();
                 } else {
@@ -199,8 +200,7 @@ public final class AdtsReader implements ElementaryStreamReader {
                 parsableByteArray.setPosition(i);
                 return;
             } else if (i3 != 256) {
-                this.matchState = LiteMode.FLAG_CHAT_BLUR;
-                i--;
+                this.matchState = 256;
             }
             position = i;
         }
@@ -305,13 +305,15 @@ public final class AdtsReader implements ElementaryStreamReader {
     private void parseAdtsHeader() throws ParserException {
         this.adtsScratch.setPosition(0);
         if (!this.hasOutputFormat) {
+            int i = 2;
             int readBits = this.adtsScratch.readBits(2) + 1;
             if (readBits != 2) {
                 Log.w("AdtsReader", "Detected audio object type: " + readBits + ", but assuming AAC LC.");
-                readBits = 2;
+            } else {
+                i = readBits;
             }
             this.adtsScratch.skipBits(5);
-            byte[] buildAudioSpecificConfig = AacUtil.buildAudioSpecificConfig(readBits, this.firstFrameSampleRateIndex, this.adtsScratch.readBits(3));
+            byte[] buildAudioSpecificConfig = AacUtil.buildAudioSpecificConfig(i, this.firstFrameSampleRateIndex, this.adtsScratch.readBits(3));
             AacUtil.Config parseAudioSpecificConfig = AacUtil.parseAudioSpecificConfig(buildAudioSpecificConfig);
             Format build = new Format.Builder().setId(this.formatId).setSampleMimeType(MediaController.AUDIO_MIME_TYPE).setCodecs(parseAudioSpecificConfig.codecs).setChannelCount(parseAudioSpecificConfig.channelCount).setSampleRate(parseAudioSpecificConfig.sampleRateHz).setInitializationData(Collections.singletonList(buildAudioSpecificConfig)).setLanguage(this.language).build();
             this.sampleDurationUs = 1024000000 / build.sampleRate;
@@ -321,11 +323,12 @@ public final class AdtsReader implements ElementaryStreamReader {
             this.adtsScratch.skipBits(10);
         }
         this.adtsScratch.skipBits(4);
-        int readBits2 = (this.adtsScratch.readBits(13) - 2) - 5;
+        int readBits2 = this.adtsScratch.readBits(13);
+        int i2 = readBits2 - 7;
         if (this.hasCrc) {
-            readBits2 -= 2;
+            i2 = readBits2 - 9;
         }
-        setReadingSampleState(this.output, this.sampleDurationUs, 0, readBits2);
+        setReadingSampleState(this.output, this.sampleDurationUs, 0, i2);
     }
 
     private void readSample(ParsableByteArray parsableByteArray) {

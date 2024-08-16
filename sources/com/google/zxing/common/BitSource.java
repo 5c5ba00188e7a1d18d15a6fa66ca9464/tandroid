@@ -1,4 +1,6 @@
 package com.google.zxing.common;
+
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class BitSource {
     private int bitOffset;
@@ -21,7 +23,7 @@ public final class BitSource {
             int i5 = i4 - min;
             byte[] bArr = this.bytes;
             int i6 = this.byteOffset;
-            int i7 = (((255 >> (8 - min)) << i5) & bArr[i6]) >> i5;
+            int i7 = (((NotificationCenter.voipServiceCreated >> (8 - min)) << i5) & bArr[i6]) >> i5;
             i -= min;
             int i8 = this.bitOffset + min;
             this.bitOffset = i8;
@@ -42,7 +44,7 @@ public final class BitSource {
             }
             if (i > 0) {
                 int i11 = 8 - i;
-                int i12 = (i3 << i) | ((((255 >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
+                int i12 = (i3 << i) | ((((NotificationCenter.voipServiceCreated >> i11) << i11) & this.bytes[this.byteOffset]) >> i11);
                 this.bitOffset += i;
                 return i12;
             }

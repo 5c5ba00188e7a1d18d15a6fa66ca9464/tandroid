@@ -237,7 +237,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             this.items = new ArrayList<>();
             this.lastSelectedType = -1;
             this.sectionCell = new GraySectionCell(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
-            SearchUsersCell searchUsersCell = new SearchUsersCell(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda4
+            SearchUsersCell searchUsersCell = new SearchUsersCell(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryPrivacyBottomSheet.Page.this.lambda$new$0();
@@ -268,7 +268,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             this.searchField = searchUsersCell;
             int i = Theme.key_dialogBackground;
             searchUsersCell.setBackgroundColor(StoryPrivacyBottomSheet.this.getThemedColor(i));
-            this.searchField.setOnSearchTextChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda5
+            this.searchField.setOnSearchTextChange(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda6
                 @Override // org.telegram.messenger.Utilities.Callback
                 public final void run(Object obj) {
                     StoryPrivacyBottomSheet.Page.this.onSearch((String) obj);
@@ -276,7 +276,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             });
             HeaderCell headerCell = new HeaderCell(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
             this.headerView = headerCell;
-            headerCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda6
+            headerCell.setOnCloseClickListener(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda7
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryPrivacyBottomSheet.Page.this.lambda$new$1();
@@ -292,7 +292,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             recyclerListView.setClipToPadding(false);
             this.listView.setTranslateSelector(true);
             RecyclerListView recyclerListView2 = this.listView;
-            Adapter adapter = new Adapter(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider, this.searchField, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda7
+            Adapter adapter = new Adapter(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider, this.searchField, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda8
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryPrivacyBottomSheet.this.onBackPressed();
@@ -338,7 +338,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     Page.this.scrolling = i2 != 0;
                 }
             });
-            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda8
+            this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda9
                 @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
                 public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
                     return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
@@ -402,7 +402,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             buttonContainer.setBackgroundColor(Theme.getColor(i, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider));
             ButtonWithCounterView buttonWithCounterView = new ButtonWithCounterView(context, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
             this.button = buttonWithCounterView;
-            buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda9
+            buttonWithCounterView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda10
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StoryPrivacyBottomSheet.Page.this.onButton1Click(view);
@@ -411,7 +411,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             buttonContainer.addView(buttonWithCounterView, LayoutHelper.createLinear(-1, 48, 87));
             ButtonWithCounterView buttonWithCounterView2 = new ButtonWithCounterView(context, false, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
             this.button2 = buttonWithCounterView2;
-            buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda10
+            buttonWithCounterView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     StoryPrivacyBottomSheet.Page.this.onButton2Click(view);
@@ -648,7 +648,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     }
                 });
             } else {
-                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda21
+                AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda19
                     @Override // java.lang.Runnable
                     public final void run() {
                         StoryPrivacyBottomSheet.Page.this.lambda$new$5(j, loadChatInfoInQueue);
@@ -665,7 +665,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     public final void run(Object obj) {
                         StoryPrivacyBottomSheet.Page.this.lambda$new$3(j, (TLRPC$TL_channels_channelParticipants) obj);
                     }
-                }, 200);
+                }, NotificationCenter.storyQualityUpdate);
             } else {
                 MessagesController.getInstance(((BottomSheet) StoryPrivacyBottomSheet.this).currentAccount).loadFullChat(j, 0, true);
             }
@@ -728,10 +728,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
                 if (z2) {
                     setVisibility(0);
-                    float[] fArr = new float[2];
-                    fArr[0] = this.translationY2;
-                    fArr[1] = z ? getMeasuredHeight() : 0.0f;
-                    ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+                    ValueAnimator ofFloat = ValueAnimator.ofFloat(this.translationY2, z ? getMeasuredHeight() : 0.0f);
                     this.hideAnimator = ofFloat;
                     ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$ButtonContainer$$ExternalSyntheticLambda0
                         @Override // android.animation.ValueAnimator.AnimatorUpdateListener
@@ -852,7 +849,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
                 AlertDialog.Builder message = builder.setMessage(arrayList2.size() + " members are not in your contact list");
-                message.setPositiveButton("Add " + arrayList.size() + " contacts", new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda1
+                message.setPositiveButton("Add " + arrayList.size() + " contacts", new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda3
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         StoryPrivacyBottomSheet.Page.this.lambda$selectChat$8(j, arrayList, dialogInterface, i3);
@@ -886,7 +883,6 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
 
         private void updateSpans(boolean z) {
-            boolean z2;
             Object chat;
             HashSet mergeUsers = StoryPrivacyBottomSheet.this.mergeUsers(this.selectedUsers, this.selectedUsersByGroup);
             int i = this.pageType;
@@ -906,30 +902,26 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             }
             Iterator it = mergeUsers.iterator();
             while (it.hasNext()) {
-                long longValue = ((Long) it.next()).longValue();
+                Long l = (Long) it.next();
+                long longValue = l.longValue();
                 int i3 = 0;
                 while (true) {
                     if (i3 >= this.searchField.allSpans.size()) {
-                        z2 = false;
-                        break;
+                        if (longValue >= 0) {
+                            chat = messagesController.getUser(l);
+                        } else {
+                            chat = messagesController.getChat(l);
+                        }
+                        Object obj = chat;
+                        if (obj != null) {
+                            GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), obj, null, true, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
+                            groupCreateSpan2.setOnClickListener(this);
+                            arrayList2.add(groupCreateSpan2);
+                        }
                     } else if (this.searchField.allSpans.get(i3).getUid() == longValue) {
-                        z2 = true;
                         break;
                     } else {
                         i3++;
-                    }
-                }
-                if (!z2) {
-                    if (longValue >= 0) {
-                        chat = messagesController.getUser(Long.valueOf(longValue));
-                    } else {
-                        chat = messagesController.getChat(Long.valueOf(longValue));
-                    }
-                    Object obj = chat;
-                    if (obj != null) {
-                        GroupCreateSpan groupCreateSpan2 = new GroupCreateSpan(getContext(), obj, null, true, ((BottomSheet) StoryPrivacyBottomSheet.this).resourcesProvider);
-                        groupCreateSpan2.setOnClickListener(this);
-                        arrayList2.add(groupCreateSpan2);
                     }
                 }
             }
@@ -1043,7 +1035,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onButton1Click$10(final MessagesController messagesController, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda19
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda21
                 @Override // java.lang.Runnable
                 public final void run() {
                     StoryPrivacyBottomSheet.Page.this.lambda$onButton1Click$9(tLObject, messagesController);
@@ -1209,7 +1201,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
 
         /* JADX WARN: Removed duplicated region for block: B:140:0x073c  */
-        /* JADX WARN: Removed duplicated region for block: B:260:0x0961  */
+        /* JADX WARN: Removed duplicated region for block: B:261:0x0962  */
         /* JADX WARN: Removed duplicated region for block: B:39:0x019f  */
         /* JADX WARN: Removed duplicated region for block: B:40:0x01a1  */
         /* JADX WARN: Removed duplicated region for block: B:43:0x01b6  */
@@ -1361,7 +1353,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     } else {
                         formatPluralString = LocaleController.formatPluralString("StoryBlockList", blocklistCount, new Object[0]);
                     }
-                    arrayList9.add(ItemInner.asShadow(AndroidUtilities.replaceSingleTag(formatPluralString, Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda0
+                    arrayList9.add(ItemInner.asShadow(AndroidUtilities.replaceSingleTag(formatPluralString, Theme.key_chat_messageLinkIn, 0, new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoryPrivacyBottomSheet.Page.this.lambda$updateItems$14();
@@ -1685,10 +1677,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     valueAnimator2.cancel();
                     this.searchFieldAnimator = null;
                 }
+                float translationY = this.searchField.getTranslationY();
                 this.searchTranslationAnimatingTo = searchFieldTop;
-                ValueAnimator ofFloat = ValueAnimator.ofFloat(this.searchField.getTranslationY(), searchFieldTop);
+                ValueAnimator ofFloat = ValueAnimator.ofFloat(translationY, searchFieldTop);
                 this.searchFieldAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda11
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator3) {
                         StoryPrivacyBottomSheet.Page.this.lambda$updateSearchFieldTop$15(valueAnimator3);
@@ -1817,7 +1810,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 return;
             }
             if (StoryPrivacyBottomSheet.this.mergeUsers(this.selectedUsers, this.selectedUsersByGroup).size() > 0) {
-                this.sectionCell.setRightText(LocaleController.getString(R.string.UsersDeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda3
+                this.sectionCell.setRightText(LocaleController.getString(R.string.UsersDeselectAll), true, new View.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         StoryPrivacyBottomSheet.Page.this.lambda$updateSectionCell$16(view);
@@ -1911,8 +1904,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             }
             for (int i4 = 0; i4 < this.listView.getChildCount(); i4++) {
                 View childAt = this.listView.getChildAt(i4);
-                boolean z2 = childAt instanceof UserCell;
-                if (z2 && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt)) >= 0 && childAdapterPosition < this.items.size() && z2) {
+                if ((childAt instanceof UserCell) && (childAdapterPosition = this.listView.getChildAdapterPosition(childAt)) >= 0 && childAdapterPosition < this.items.size() && (childAt instanceof UserCell)) {
                     ItemInner itemInner2 = this.items.get(childAdapterPosition);
                     UserCell userCell = (UserCell) childAt;
                     userCell.setChecked(itemInner2.checked || itemInner2.halfChecked, z);
@@ -1986,7 +1978,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     this.buttonContainer.translateY(((BottomSheet) StoryPrivacyBottomSheet.this).keyboardVisible ? this.keyboardHeight : -this.keyboardHeight, 0.0f);
                     this.underKeyboardView.setTranslationY(((BottomSheet) StoryPrivacyBottomSheet.this).keyboardVisible ? this.keyboardHeight : -this.keyboardHeight);
                     this.keyboardMoving = true;
-                    this.underKeyboardView.animate().translationY(0.0f).setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda2
+                    this.underKeyboardView.animate().translationY(0.0f).setDuration(250L).setInterpolator(AdjustPanLayoutHelper.keyboardInterpolator).withEndAction(new Runnable() { // from class: org.telegram.ui.Stories.recorder.StoryPrivacyBottomSheet$Page$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             StoryPrivacyBottomSheet.Page.this.lambda$onMeasure$17();
@@ -2633,9 +2625,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 if (view != null) {
                     Page page = (Page) view;
                     this.top += page.top() * Utilities.clamp(1.0f - Math.abs(page.getTranslationX() / page.getMeasuredWidth()), 1.0f, 0.0f);
-                    if (((BottomSheet) StoryPrivacyBottomSheet.this).keyboardVisible) {
-                        int i = page.pageType;
-                    }
+                    boolean unused = ((BottomSheet) StoryPrivacyBottomSheet.this).keyboardVisible;
                     if (page.getVisibility() == 0) {
                         page.updateTops();
                     }
@@ -2752,11 +2742,13 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         View[] viewPages = this.viewPager.getViewPages();
         View view = viewPages[0];
         if (view instanceof Page) {
-            ((Page) view).bind(((Page) view).pageType);
+            Page page = (Page) view;
+            page.bind(page.pageType);
         }
         View view2 = viewPages[1];
         if (view2 instanceof Page) {
-            ((Page) view2).bind(((Page) view2).pageType);
+            Page page2 = (Page) view2;
+            page2.bind(page2.pageType);
         }
         return this;
     }
@@ -2793,11 +2785,13 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         View[] viewPages = this.viewPager.getViewPages();
         View view = viewPages[0];
         if (view instanceof Page) {
-            ((Page) view).bind(((Page) view).pageType);
+            Page page = (Page) view;
+            page.bind(page.pageType);
         }
         View view2 = viewPages[1];
         if (view2 instanceof Page) {
-            ((Page) view2).bind(((Page) view2).pageType);
+            Page page2 = (Page) view2;
+            page2.bind(page2.pageType);
         }
         return this;
     }
@@ -3030,8 +3024,9 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         }
         if (concurrentHashMap != null) {
             for (Map.Entry<Long, TLRPC$TL_contact> entry : concurrentHashMap.entrySet()) {
-                long longValue = entry.getKey().longValue();
-                if (!hashMap.containsKey(Long.valueOf(longValue)) && (user = messagesController.getUser(Long.valueOf(longValue))) != null && !user.bot && user.id != 777000 && !UserObject.isUserSelf(user)) {
+                Long key = entry.getKey();
+                key.longValue();
+                if (!hashMap.containsKey(key) && (user = messagesController.getUser(key)) != null && !user.bot && user.id != 777000 && !UserObject.isUserSelf(user)) {
                     arrayList.add(user);
                     hashMap.put(Long.valueOf(user.id), Boolean.TRUE);
                 }
@@ -3150,6 +3145,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             float f;
             float f2;
             float f3;
+            float f4;
             BackupImageView backupImageView = this.imageView;
             int i = (LocaleController.isRTL ? 5 : 3) | 16;
             boolean z = this.needCheck;
@@ -3157,34 +3153,31 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             SimpleTextView simpleTextView = this.titleTextView;
             boolean z2 = LocaleController.isRTL;
             int i2 = (z2 ? 5 : 3) | 16;
-            int i3 = R.styleable.AppCompatTheme_textAppearanceListItemSmall;
-            float f4 = 20.0f;
             if (z2) {
                 f = 20.0f;
             } else {
-                f = this.needCheck ? R.styleable.AppCompatTheme_textAppearanceListItemSmall : 68;
+                f = this.needCheck ? 105 : 68;
             }
             if (z2) {
-                f2 = this.needCheck ? R.styleable.AppCompatTheme_textAppearanceListItemSmall : 68;
+                f2 = this.needCheck ? 105 : 68;
             } else {
                 f2 = 20.0f;
             }
             simpleTextView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i2, f, 0.0f, f2, 0.0f));
             SimpleTextView simpleTextView2 = this.subtitleTextView;
             boolean z3 = LocaleController.isRTL;
-            int i4 = (z3 ? 5 : 3) | 16;
+            int i3 = (z3 ? 5 : 3) | 16;
             if (z3) {
                 f3 = 20.0f;
             } else {
-                f3 = this.needCheck ? R.styleable.AppCompatTheme_textAppearanceListItemSmall : 68;
+                f3 = this.needCheck ? 105 : 68;
             }
             if (z3) {
-                if (!this.needCheck) {
-                    i3 = 68;
-                }
-                f4 = i3;
+                f4 = this.needCheck ? 105 : 68;
+            } else {
+                f4 = 20.0f;
             }
-            simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i4, f3, 0.0f, f4, 0.0f));
+            simpleTextView2.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, i3, f3, 0.0f, f4, 0.0f));
             this.checkBox.setLayoutParams(LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 5 : 3) | 16, 13.0f, 0.0f, 14.0f, 0.0f));
             this.radioButton.setLayoutParams(LayoutHelper.createFrame(22, 22.0f, (LocaleController.isRTL ? 5 : 3) | 16, 14.0f, 0.0f, 15.0f, 0.0f));
         }
@@ -3536,12 +3529,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             this.closeView.setVisibility(z ? 0 : 8);
             TextView textView = this.textView;
             boolean z2 = LocaleController.isRTL;
-            float f = 22.0f;
-            float f2 = (z2 || !z) ? 22.0f : 53.0f;
-            if (z2 && z) {
-                f = 53.0f;
-            }
-            textView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, 23, f2, 0.0f, f, 0.0f));
+            textView.setLayoutParams(LayoutHelper.createFrame(-1, -2.0f, 23, (z2 || !z) ? 22.0f : 53.0f, 0.0f, (z2 && z) ? 53.0f : 22.0f, 0.0f));
         }
 
         public void setOnCloseClickListener(Runnable runnable) {
@@ -3585,21 +3573,23 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             this.allSpans = new ArrayList<>();
             CubicBezierInterpolator cubicBezierInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
             this.topGradientAlpha = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{-16777216, 0}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+            Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{-16777216, 0}, new float[]{0.0f, 1.0f}, tileMode);
             this.topGradient = linearGradient;
             Paint paint = new Paint(1);
             this.topGradientPaint = paint;
             this.topGradientMatrix = new Matrix();
             this.bottomGradientAlpha = new AnimatedFloat(this, 0L, 300L, cubicBezierInterpolator);
-            LinearGradient linearGradient2 = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{0, -16777216}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+            LinearGradient linearGradient2 = new LinearGradient(0.0f, 0.0f, 0.0f, AndroidUtilities.dp(8.0f), new int[]{0, -16777216}, new float[]{0.0f, 1.0f}, tileMode);
             this.bottomGradient = linearGradient2;
             Paint paint2 = new Paint(1);
             this.bottomGradientPaint = paint2;
             this.bottomGradientMatrix = new Matrix();
             paint.setShader(linearGradient);
-            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            PorterDuff.Mode mode = PorterDuff.Mode.DST_OUT;
+            paint.setXfermode(new PorterDuffXfermode(mode));
             paint2.setShader(linearGradient2);
-            paint2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            paint2.setXfermode(new PorterDuffXfermode(mode));
             this.resourcesProvider = resourcesProvider;
             this.updateHeight = runnable;
             setVerticalScrollBarEnabled(false);
@@ -3615,7 +3605,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         SearchUsersCell.this.currentDeletingSpan = null;
                     }
                     if (motionEvent.getAction() == 0 && !AndroidUtilities.showKeyboard(this)) {
-                        SearchUsersCell.this.fullScroll(130);
+                        SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                         clearFocus();
                         requestFocus();
                     }
@@ -3676,7 +3666,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
         protected void dispatchDraw(Canvas canvas) {
             int scrollY;
             float scrollY2 = getScrollY();
-            canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, 255, 31);
+            canvas.saveLayerAlpha(0.0f, scrollY2, getWidth(), getHeight() + scrollY, NotificationCenter.voipServiceCreated, 31);
             super.dispatchDraw(canvas);
             canvas.save();
             float f = this.topGradientAlpha.set(canScrollVertically(-1));
@@ -3782,8 +3772,8 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 this.heightDp = 28;
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:32:0x00da  */
-            /* JADX WARN: Removed duplicated region for block: B:33:0x00e7  */
+            /* JADX WARN: Removed duplicated region for block: B:32:0x00d9  */
+            /* JADX WARN: Removed duplicated region for block: B:33:0x00e6  */
             @Override // android.view.View
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -3924,7 +3914,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         SearchUsersCell.this.editText.bringPointIntoView(SearchUsersCell.this.editText.getSelectionStart());
                     }
                     if (SearchUsersCell.this.scroll) {
-                        SearchUsersCell.this.fullScroll(130);
+                        SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                         SearchUsersCell.this.scroll = false;
                     }
                 }
@@ -3933,7 +3923,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
 
             /* JADX INFO: Access modifiers changed from: private */
             public /* synthetic */ void lambda$onMeasure$0() {
-                SearchUsersCell.this.fullScroll(130);
+                SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
             }
 
             @Override // android.view.ViewGroup, android.view.View
@@ -3965,7 +3955,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                             SearchUsersCell.this.updateHeight.run();
                         }
                         if (SearchUsersCell.this.scroll) {
-                            SearchUsersCell.this.fullScroll(130);
+                            SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                             SearchUsersCell.this.scroll = false;
                         }
                     }
@@ -4011,7 +4001,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                                 SearchUsersCell.this.updateHeight.run();
                             }
                             if (SearchUsersCell.this.scroll) {
-                                SearchUsersCell.this.fullScroll(130);
+                                SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                                 SearchUsersCell.this.scroll = false;
                             }
                         }
@@ -4077,7 +4067,7 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                                 SearchUsersCell.this.updateHeight.run();
                             }
                             if (SearchUsersCell.this.scroll) {
-                                SearchUsersCell.this.fullScroll(130);
+                                SearchUsersCell.this.fullScroll(NotificationCenter.walletSyncProgressChanged);
                                 SearchUsersCell.this.scroll = false;
                             }
                         }
@@ -4150,11 +4140,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     TLRPC$TL_inputPrivacyValueDisallowUsers tLRPC$TL_inputPrivacyValueDisallowUsers = new TLRPC$TL_inputPrivacyValueDisallowUsers();
                     MessagesController messagesController = MessagesController.getInstance(i);
                     while (i2 < tLRPC$TL_privacyValueDisallowUsers.users.size()) {
-                        long longValue = tLRPC$TL_privacyValueDisallowUsers.users.get(i2).longValue();
-                        TLRPC$InputUser inputUser = messagesController.getInputUser(longValue);
+                        Long l = tLRPC$TL_privacyValueDisallowUsers.users.get(i2);
+                        TLRPC$InputUser inputUser = messagesController.getInputUser(l.longValue());
                         if (!(inputUser instanceof TLRPC$TL_inputUserEmpty)) {
                             tLRPC$TL_inputPrivacyValueDisallowUsers.users.add(inputUser);
-                            this.selectedUserIds.add(Long.valueOf(longValue));
+                            this.selectedUserIds.add(l);
                             this.selectedInputUsers.add(inputUser);
                         }
                         i2++;
@@ -4171,11 +4161,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                     TLRPC$TL_inputPrivacyValueAllowUsers tLRPC$TL_inputPrivacyValueAllowUsers = new TLRPC$TL_inputPrivacyValueAllowUsers();
                     MessagesController messagesController2 = MessagesController.getInstance(i);
                     while (i2 < tLRPC$TL_privacyValueAllowUsers.users.size()) {
-                        long longValue2 = tLRPC$TL_privacyValueAllowUsers.users.get(i2).longValue();
-                        TLRPC$InputUser inputUser2 = messagesController2.getInputUser(longValue2);
+                        Long l2 = tLRPC$TL_privacyValueAllowUsers.users.get(i2);
+                        TLRPC$InputUser inputUser2 = messagesController2.getInputUser(l2.longValue());
                         if (inputUser2 != null && !(inputUser2 instanceof TLRPC$TL_inputUserEmpty)) {
                             tLRPC$TL_inputPrivacyValueAllowUsers.users.add(inputUser2);
-                            this.selectedUserIds.add(Long.valueOf(longValue2));
+                            this.selectedUserIds.add(l2);
                             this.selectedInputUsers.add(inputUser2);
                         }
                         i2++;
@@ -4189,11 +4179,11 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                         TLRPC$TL_inputPrivacyValueDisallowUsers tLRPC$TL_inputPrivacyValueDisallowUsers2 = new TLRPC$TL_inputPrivacyValueDisallowUsers();
                         MessagesController messagesController3 = MessagesController.getInstance(i);
                         while (i2 < tLRPC$TL_privacyValueDisallowUsers2.users.size()) {
-                            long longValue3 = tLRPC$TL_privacyValueDisallowUsers2.users.get(i2).longValue();
-                            TLRPC$InputUser inputUser3 = messagesController3.getInputUser(longValue3);
+                            Long l3 = tLRPC$TL_privacyValueDisallowUsers2.users.get(i2);
+                            TLRPC$InputUser inputUser3 = messagesController3.getInputUser(l3.longValue());
                             if (!(inputUser3 instanceof TLRPC$TL_inputUserEmpty)) {
                                 tLRPC$TL_inputPrivacyValueDisallowUsers2.users.add(inputUser3);
-                                this.selectedUserIds.add(Long.valueOf(longValue3));
+                                this.selectedUserIds.add(l3);
                                 this.selectedInputUsers.add(inputUser3);
                             }
                             i2++;
@@ -4244,8 +4234,9 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
                 TLRPC$TL_inputPrivacyValueDisallowUsers tLRPC$TL_inputPrivacyValueDisallowUsers = new TLRPC$TL_inputPrivacyValueDisallowUsers();
                 while (i3 < arrayList.size()) {
-                    long longValue = arrayList.get(i3).longValue();
-                    this.selectedUserIds.add(Long.valueOf(longValue));
+                    Long l = arrayList.get(i3);
+                    long longValue = l.longValue();
+                    this.selectedUserIds.add(l);
                     TLRPC$InputUser inputUser = MessagesController.getInstance(i2).getInputUser(longValue);
                     if (inputUser != null && !(inputUser instanceof TLRPC$TL_inputUserEmpty)) {
                         tLRPC$TL_inputPrivacyValueDisallowUsers.users.add(inputUser);
@@ -4263,8 +4254,9 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
                 }
                 TLRPC$TL_inputPrivacyValueDisallowUsers tLRPC$TL_inputPrivacyValueDisallowUsers2 = new TLRPC$TL_inputPrivacyValueDisallowUsers();
                 while (i3 < arrayList.size()) {
-                    long longValue2 = arrayList.get(i3).longValue();
-                    this.selectedUserIds.add(Long.valueOf(longValue2));
+                    Long l2 = arrayList.get(i3);
+                    long longValue2 = l2.longValue();
+                    this.selectedUserIds.add(l2);
                     TLRPC$InputUser inputUser2 = MessagesController.getInstance(i2).getInputUser(longValue2);
                     if (inputUser2 != null && !(inputUser2 instanceof TLRPC$TL_inputUserEmpty)) {
                         tLRPC$TL_inputPrivacyValueDisallowUsers2.users.add(inputUser2);
@@ -4282,8 +4274,9 @@ public class StoryPrivacyBottomSheet extends BottomSheet implements Notification
             } else {
                 TLRPC$TL_inputPrivacyValueAllowUsers tLRPC$TL_inputPrivacyValueAllowUsers = new TLRPC$TL_inputPrivacyValueAllowUsers();
                 while (i3 < arrayList.size()) {
-                    long longValue3 = arrayList.get(i3).longValue();
-                    this.selectedUserIds.add(Long.valueOf(longValue3));
+                    Long l3 = arrayList.get(i3);
+                    long longValue3 = l3.longValue();
+                    this.selectedUserIds.add(l3);
                     TLRPC$InputUser inputUser3 = MessagesController.getInstance(i2).getInputUser(longValue3);
                     if (inputUser3 != null && !(inputUser3 instanceof TLRPC$TL_inputUserEmpty)) {
                         tLRPC$TL_inputPrivacyValueAllowUsers.users.add(inputUser3);

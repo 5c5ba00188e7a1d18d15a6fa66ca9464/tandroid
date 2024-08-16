@@ -10,6 +10,7 @@ import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class RtpH263Reader implements RtpPayloadReader {
     private int fragmentedSampleSizeBytes;
@@ -57,7 +58,7 @@ final class RtpH263Reader implements RtpPayloadReader {
                 outputSampleMetadataForFragmentedPackets();
             }
             this.gotFirstPacketOfH263Frame = true;
-            if ((parsableByteArray.peekUnsignedByte() & 252) < 128) {
+            if ((parsableByteArray.peekUnsignedByte() & NotificationCenter.messagePlayingSpeedChanged) < 128) {
                 Log.w("RtpH263Reader", "Picture start Code (PSC) missing, dropping packet.");
                 return;
             }
@@ -114,8 +115,8 @@ final class RtpH263Reader implements RtpPayloadReader {
                     this.height = 96;
                 } else {
                     int i3 = i2 - 2;
-                    this.width = 176 << i3;
-                    this.height = 144 << i3;
+                    this.width = NotificationCenter.themeUploadError << i3;
+                    this.height = NotificationCenter.messagePlayingProgressDidChanged << i3;
                 }
             }
             parsableByteArray.setPosition(position);

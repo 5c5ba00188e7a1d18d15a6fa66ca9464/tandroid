@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.DeniedByServerException;
 import android.media.MediaCodec;
-import android.media.MediaDrm$MediaDrmStateException;
-import android.media.MediaDrmResetException;
 import android.media.NotProvisionedException;
 import android.media.metrics.LogSessionId;
 import android.media.metrics.MediaMetricsManager;
@@ -16,7 +14,6 @@ import android.media.metrics.PlaybackSession;
 import android.media.metrics.PlaybackStateEvent;
 import android.media.metrics.TrackChangeEvent;
 import android.os.SystemClock;
-import android.system.ErrnoException;
 import android.system.OsConstants;
 import android.util.Pair;
 import com.google.android.exoplayer2.C;
@@ -439,11 +436,11 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
 
     public static MediaMetricsListener create(Context context) {
         PlaybackSession createPlaybackSession;
-        MediaMetricsManager mediaMetricsManager = (MediaMetricsManager) context.getSystemService("media_metrics");
-        if (mediaMetricsManager == null) {
+        MediaMetricsManager m = MediaMetricsListener$$ExternalSyntheticApiModelOutline0.m(context.getSystemService("media_metrics"));
+        if (m == null) {
             return null;
         }
-        createPlaybackSession = mediaMetricsManager.createPlaybackSession();
+        createPlaybackSession = m.createPlaybackSession();
         return new MediaMetricsListener(context, createPlaybackSession);
     }
 
@@ -595,7 +592,7 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
             }
         }
         if (events.contains(2) && this.metricsBuilder != null && (drmInitData = getDrmInitData(player.getCurrentTracks().getGroups())) != null) {
-            ((PlaybackMetrics.Builder) Util.castNonNull(this.metricsBuilder)).setDrmType(getDrmType(drmInitData));
+            MediaMetricsListener$$ExternalSyntheticApiModelOutline6.m(Util.castNonNull(this.metricsBuilder)).setDrmType(getDrmType(drmInitData));
         }
         if (events.contains(1011)) {
             this.audioUnderruns++;
@@ -969,7 +966,9 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
         } else {
             if ((th instanceof HttpDataSource.InvalidContentTypeException) || (th instanceof ParserException)) {
                 return new ErrorInfo(z ? 10 : 11, 0);
-            } else if ((th instanceof HttpDataSource.HttpDataSourceException) || (th instanceof UdpDataSource.UdpDataSourceException)) {
+            }
+            boolean z3 = th instanceof HttpDataSource.HttpDataSourceException;
+            if (z3 || (th instanceof UdpDataSource.UdpDataSourceException)) {
                 if (NetworkTypeObserver.getInstance(context).getNetworkType() == 1) {
                     return new ErrorInfo(3, 0);
                 }
@@ -980,7 +979,7 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
                 if (cause instanceof SocketTimeoutException) {
                     return new ErrorInfo(7, 0);
                 }
-                if ((th instanceof HttpDataSource.HttpDataSourceException) && ((HttpDataSource.HttpDataSourceException) th).type == 1) {
+                if (z3 && ((HttpDataSource.HttpDataSourceException) th).type == 1) {
                     return new ErrorInfo(4, 0);
                 }
                 return new ErrorInfo(8, 0);
@@ -990,11 +989,11 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
                 if (th instanceof DrmSession.DrmSessionException) {
                     Throwable th2 = (Throwable) Assertions.checkNotNull(th.getCause());
                     int i4 = Util.SDK_INT;
-                    if (i4 >= 21 && (th2 instanceof MediaDrm$MediaDrmStateException)) {
-                        diagnosticInfo = ((MediaDrm$MediaDrmStateException) th2).getDiagnosticInfo();
+                    if (i4 >= 21 && MediaMetricsListener$$ExternalSyntheticApiModelOutline48.m(th2)) {
+                        diagnosticInfo = MediaMetricsListener$$ExternalSyntheticApiModelOutline49.m(th2).getDiagnosticInfo();
                         int errorCodeFromPlatformDiagnosticsInfo = Util.getErrorCodeFromPlatformDiagnosticsInfo(diagnosticInfo);
                         return new ErrorInfo(getDrmErrorCode(errorCodeFromPlatformDiagnosticsInfo), errorCodeFromPlatformDiagnosticsInfo);
-                    } else if (i4 >= 23 && (th2 instanceof MediaDrmResetException)) {
+                    } else if (i4 >= 23 && MediaMetricsListener$$ExternalSyntheticApiModelOutline51.m(th2)) {
                         return new ErrorInfo(27, 0);
                     } else {
                         if (i4 >= 18 && (th2 instanceof NotProvisionedException)) {
@@ -1013,8 +1012,8 @@ public final class MediaMetricsListener implements AnalyticsListener, PlaybackSe
                     }
                 } else if ((th instanceof FileDataSource.FileDataSourceException) && (th.getCause() instanceof FileNotFoundException)) {
                     Throwable cause2 = ((Throwable) Assertions.checkNotNull(th.getCause())).getCause();
-                    if (Util.SDK_INT >= 21 && (cause2 instanceof ErrnoException)) {
-                        i2 = ((ErrnoException) cause2).errno;
+                    if (Util.SDK_INT >= 21 && MediaMetricsListener$$ExternalSyntheticApiModelOutline52.m(cause2)) {
+                        i2 = MediaMetricsListener$$ExternalSyntheticApiModelOutline53.m(cause2).errno;
                         i3 = OsConstants.EACCES;
                         if (i2 == i3) {
                             return new ErrorInfo(32, 0);

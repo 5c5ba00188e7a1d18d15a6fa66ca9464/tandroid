@@ -106,20 +106,24 @@ public final class PlayerMessage {
 
     public synchronized boolean blockUntilDelivered(long j) throws InterruptedException, TimeoutException {
         boolean z;
-        Assertions.checkState(this.isSent);
-        Assertions.checkState(this.looper.getThread() != Thread.currentThread());
-        long elapsedRealtime = this.clock.elapsedRealtime() + j;
-        while (true) {
-            z = this.isProcessed;
-            if (z || j <= 0) {
-                break;
+        try {
+            Assertions.checkState(this.isSent);
+            Assertions.checkState(this.looper.getThread() != Thread.currentThread());
+            long elapsedRealtime = this.clock.elapsedRealtime() + j;
+            while (true) {
+                z = this.isProcessed;
+                if (z || j <= 0) {
+                    break;
+                }
+                this.clock.onThreadBlocked();
+                wait(j);
+                j = elapsedRealtime - this.clock.elapsedRealtime();
             }
-            this.clock.onThreadBlocked();
-            wait(j);
-            j = elapsedRealtime - this.clock.elapsedRealtime();
-        }
-        if (!z) {
-            throw new TimeoutException("Message delivery timed out.");
+            if (!z) {
+                throw new TimeoutException("Message delivery timed out.");
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.isDelivered;
     }

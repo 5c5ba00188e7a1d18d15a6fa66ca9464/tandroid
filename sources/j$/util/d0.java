@@ -1,38 +1,42 @@
 package j$.util;
 
-import j$.util.Iterator;
 import j$.util.function.Consumer;
 import java.util.Collection;
 import java.util.Comparator;
-import org.telegram.messenger.LiteMode;
+import java.util.Iterator;
 import org.telegram.tgnet.ConnectionsManager;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
 public class d0 implements Q {
     private final Collection a;
-    private java.util.Iterator b = null;
+    private Iterator b = null;
     private final int c;
     private long d;
     private int e;
 
     public d0(Collection collection, int i) {
         this.a = collection;
-        this.c = (i & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) == 0 ? i | 64 | LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM : i;
+        this.c = i | 16448;
     }
 
     @Override // j$.util.Q
-    public final boolean a(Consumer consumer) {
+    public final void a(Consumer consumer) {
         consumer.getClass();
-        if (this.b == null) {
+        Iterator it = this.b;
+        if (it == null) {
             Collection collection = this.a;
-            this.b = collection.iterator();
+            Iterator it2 = collection.iterator();
+            this.b = it2;
             this.d = collection.size();
+            it = it2;
         }
-        if (this.b.hasNext()) {
-            consumer.accept(this.b.next());
-            return true;
+        if (it instanceof j) {
+            ((j) it).a(consumer);
+            return;
         }
-        return false;
+        while (it.hasNext()) {
+            consumer.accept(it.next());
+        }
     }
 
     @Override // j$.util.Q
@@ -53,24 +57,6 @@ public class d0 implements Q {
     }
 
     @Override // j$.util.Q
-    public final void forEachRemaining(Consumer consumer) {
-        consumer.getClass();
-        java.util.Iterator it = this.b;
-        if (it == null) {
-            Collection collection = this.a;
-            java.util.Iterator it2 = collection.iterator();
-            this.b = it2;
-            this.d = collection.size();
-            it = it2;
-        }
-        if (it instanceof Iterator) {
-            ((Iterator) it).forEachRemaining(consumer);
-        } else {
-            Iterator.-CC.$default$forEachRemaining(it, consumer);
-        }
-    }
-
-    @Override // j$.util.Q
     public Comparator getComparator() {
         if (a.k(this, 4)) {
             return null;
@@ -80,7 +66,7 @@ public class d0 implements Q {
 
     @Override // j$.util.Q
     public final /* synthetic */ long getExactSizeIfKnown() {
-        return a.i(this);
+        return a.j(this);
     }
 
     @Override // j$.util.Q
@@ -89,12 +75,27 @@ public class d0 implements Q {
     }
 
     @Override // j$.util.Q
+    public final boolean s(Consumer consumer) {
+        consumer.getClass();
+        if (this.b == null) {
+            Collection collection = this.a;
+            this.b = collection.iterator();
+            this.d = collection.size();
+        }
+        if (this.b.hasNext()) {
+            consumer.accept(this.b.next());
+            return true;
+        }
+        return false;
+    }
+
+    @Override // j$.util.Q
     public final Q trySplit() {
         long j;
-        java.util.Iterator it = this.b;
+        Iterator it = this.b;
         if (it == null) {
             Collection collection = this.a;
-            java.util.Iterator it2 = collection.iterator();
+            Iterator it2 = collection.iterator();
             this.b = it2;
             j = collection.size();
             this.d = j;

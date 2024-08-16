@@ -47,7 +47,7 @@ public final class RangedUri {
 
     public int hashCode() {
         if (this.hashCode == 0) {
-            this.hashCode = ((((527 + ((int) this.start)) * 31) + ((int) this.length)) * 31) + this.referenceUri.hashCode();
+            this.hashCode = ((((((int) this.start) + 527) * 31) + ((int) this.length)) * 31) + this.referenceUri.hashCode();
         }
         return this.hashCode;
     }

@@ -65,24 +65,39 @@ public class FirebaseCommonRegistrar implements ComponentRegistrar {
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$0(Context context) {
         ApplicationInfo applicationInfo = context.getApplicationInfo();
-        return applicationInfo != null ? String.valueOf(applicationInfo.targetSdkVersion) : "";
+        if (applicationInfo != null) {
+            return String.valueOf(applicationInfo.targetSdkVersion);
+        }
+        return "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$1(Context context) {
         int i;
         ApplicationInfo applicationInfo = context.getApplicationInfo();
-        if (applicationInfo == null || Build.VERSION.SDK_INT < 24) {
-            return "";
+        if (applicationInfo != null && Build.VERSION.SDK_INT >= 24) {
+            i = applicationInfo.minSdkVersion;
+            return String.valueOf(i);
         }
-        i = applicationInfo.minSdkVersion;
-        return String.valueOf(i);
+        return "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$getComponents$2(Context context) {
         int i = Build.VERSION.SDK_INT;
-        return context.getPackageManager().hasSystemFeature("android.hardware.type.television") ? "tv" : (i < 20 || !context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) ? (i < 23 || !context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) ? (i < 26 || !context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) ? "" : "embedded" : "auto" : "watch";
+        if (context.getPackageManager().hasSystemFeature("android.hardware.type.television")) {
+            return "tv";
+        }
+        if (i >= 20 && context.getPackageManager().hasSystemFeature("android.hardware.type.watch")) {
+            return "watch";
+        }
+        if (i >= 23 && context.getPackageManager().hasSystemFeature("android.hardware.type.automotive")) {
+            return "auto";
+        }
+        if (i >= 26 && context.getPackageManager().hasSystemFeature("android.hardware.type.embedded")) {
+            return "embedded";
+        }
+        return "";
     }
 
     /* JADX INFO: Access modifiers changed from: private */

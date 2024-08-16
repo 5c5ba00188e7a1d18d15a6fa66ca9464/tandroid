@@ -47,20 +47,18 @@ final class RtpOpusReader implements RtpPayloadReader {
             buildUpon.setInitializationData(buildInitializationData);
             this.trackOutput.format(buildUpon.build());
             this.foundOpusIDHeader = true;
+        } else if (!this.foundOpusCommentHeader) {
+            Assertions.checkArgument(parsableByteArray.limit() >= 8, "Comment Header has insufficient data");
+            Assertions.checkArgument(parsableByteArray.readString(8).equals("OpusTags"), "Comment Header should follow ID Header");
+            this.foundOpusCommentHeader = true;
         } else {
-            if (!this.foundOpusCommentHeader) {
-                Assertions.checkArgument(parsableByteArray.limit() >= 8, "Comment Header has insufficient data");
-                Assertions.checkArgument(parsableByteArray.readString(8).equals("OpusTags"), "Comment Header should follow ID Header");
-                this.foundOpusCommentHeader = true;
-            } else {
-                int nextSequenceNumber = RtpPacket.getNextSequenceNumber(this.previousSequenceNumber);
-                if (i != nextSequenceNumber) {
-                    Log.w("RtpOpusReader", Util.formatInvariant("Received RTP packet with unexpected sequence number. Expected: %d; received: %d.", Integer.valueOf(nextSequenceNumber), Integer.valueOf(i)));
-                }
-                int bytesLeft = parsableByteArray.bytesLeft();
-                this.trackOutput.sampleData(parsableByteArray, bytesLeft);
-                this.trackOutput.sampleMetadata(RtpReaderUtils.toSampleTimeUs(this.startTimeOffsetUs, j, this.firstReceivedTimestamp, 48000), 1, bytesLeft, 0, null);
+            int nextSequenceNumber = RtpPacket.getNextSequenceNumber(this.previousSequenceNumber);
+            if (i != nextSequenceNumber) {
+                Log.w("RtpOpusReader", Util.formatInvariant("Received RTP packet with unexpected sequence number. Expected: %d; received: %d.", Integer.valueOf(nextSequenceNumber), Integer.valueOf(i)));
             }
+            int bytesLeft = parsableByteArray.bytesLeft();
+            this.trackOutput.sampleData(parsableByteArray, bytesLeft);
+            this.trackOutput.sampleMetadata(RtpReaderUtils.toSampleTimeUs(this.startTimeOffsetUs, j, this.firstReceivedTimestamp, 48000), 1, bytesLeft, 0, null);
         }
         this.previousSequenceNumber = i;
     }

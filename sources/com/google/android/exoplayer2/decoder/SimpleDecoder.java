@@ -98,11 +98,15 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Deco
     @Override // com.google.android.exoplayer2.decoder.Decoder
     public final O dequeueOutputBuffer() throws DecoderException {
         synchronized (this.lock) {
-            maybeThrowException();
-            if (this.queuedOutputBuffers.isEmpty()) {
-                return null;
+            try {
+                maybeThrowException();
+                if (this.queuedOutputBuffers.isEmpty()) {
+                    return null;
+                }
+                return this.queuedOutputBuffers.removeFirst();
+            } catch (Throwable th) {
+                throw th;
             }
-            return this.queuedOutputBuffers.removeFirst();
         }
     }
 
@@ -117,18 +121,22 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Deco
     @Override // com.google.android.exoplayer2.decoder.Decoder
     public final void flush() {
         synchronized (this.lock) {
-            this.flushed = true;
-            this.skippedOutputBufferCount = 0;
-            I i = this.dequeuedInputBuffer;
-            if (i != null) {
-                releaseInputBufferInternal(i);
-                this.dequeuedInputBuffer = null;
-            }
-            while (!this.queuedInputBuffers.isEmpty()) {
-                releaseInputBufferInternal(this.queuedInputBuffers.removeFirst());
-            }
-            while (!this.queuedOutputBuffers.isEmpty()) {
-                this.queuedOutputBuffers.removeFirst().release();
+            try {
+                this.flushed = true;
+                this.skippedOutputBufferCount = 0;
+                I i = this.dequeuedInputBuffer;
+                if (i != null) {
+                    releaseInputBufferInternal(i);
+                    this.dequeuedInputBuffer = null;
+                }
+                while (!this.queuedInputBuffers.isEmpty()) {
+                    releaseInputBufferInternal(this.queuedInputBuffers.removeFirst());
+                }
+                while (!this.queuedOutputBuffers.isEmpty()) {
+                    this.queuedOutputBuffers.removeFirst().release();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -173,7 +181,10 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Deco
         E createUnexpectedDecodeException;
         synchronized (this.lock) {
             while (!this.released && !canDecodeBuffer()) {
-                this.lock.wait();
+                try {
+                    this.lock.wait();
+                } finally {
+                }
             }
             if (this.released) {
                 return false;
@@ -209,17 +220,20 @@ public abstract class SimpleDecoder<I extends DecoderInputBuffer, O extends Deco
                 }
             }
             synchronized (this.lock) {
-                if (this.flushed) {
-                    o.release();
-                } else if (o.isDecodeOnly()) {
-                    this.skippedOutputBufferCount++;
-                    o.release();
-                } else {
-                    o.skippedOutputBufferCount = this.skippedOutputBufferCount;
-                    this.skippedOutputBufferCount = 0;
-                    this.queuedOutputBuffers.addLast(o);
+                try {
+                    if (this.flushed) {
+                        o.release();
+                    } else if (o.isDecodeOnly()) {
+                        this.skippedOutputBufferCount++;
+                        o.release();
+                    } else {
+                        o.skippedOutputBufferCount = this.skippedOutputBufferCount;
+                        this.skippedOutputBufferCount = 0;
+                        this.queuedOutputBuffers.addLast(o);
+                    }
+                    releaseInputBufferInternal(removeFirst);
+                } finally {
                 }
-                releaseInputBufferInternal(removeFirst);
             }
             return true;
         }

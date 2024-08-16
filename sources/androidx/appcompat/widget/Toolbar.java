@@ -43,7 +43,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class Toolbar extends ViewGroup {
     private MenuPresenter.Callback mActionMenuPresenterCallback;
@@ -109,7 +108,7 @@ public class Toolbar extends ViewGroup {
         this.mTempViews = new ArrayList<>();
         this.mHiddenViews = new ArrayList<>();
         this.mTempMargins = new int[2];
-        this.mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda0
+        this.mMenuHostHelper = new MenuHostHelper(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 Toolbar.this.invalidateMenu();
@@ -701,7 +700,7 @@ public class Toolbar extends ViewGroup {
                 }
             });
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388613;
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & 112) | 8388613;
             this.mMenuView.setLayoutParams(generateDefaultLayoutParams);
             addSystemView(this.mMenuView, false);
         }
@@ -796,7 +795,7 @@ public class Toolbar extends ViewGroup {
     public int getCurrentContentInsetEnd() {
         MenuBuilder peekMenu;
         ActionMenuView actionMenuView = this.mMenuView;
-        if ((actionMenuView == null || (peekMenu = actionMenuView.peekMenu()) == null || !peekMenu.hasVisibleItems()) ? false : true) {
+        if (actionMenuView != null && (peekMenu = actionMenuView.peekMenu()) != null && peekMenu.hasVisibleItems()) {
             return Math.max(getContentInsetEnd(), Math.max(this.mContentInsetEndWithActions, 0));
         }
         return getContentInsetEnd();
@@ -820,7 +819,7 @@ public class Toolbar extends ViewGroup {
         if (this.mNavButtonView == null) {
             this.mNavButtonView = new AppCompatImageButton(getContext(), null, R$attr.toolbarNavigationButtonStyle);
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & 112) | 8388611;
             this.mNavButtonView.setLayoutParams(generateDefaultLayoutParams);
         }
     }
@@ -836,7 +835,7 @@ public class Toolbar extends ViewGroup {
             appCompatImageButton.setImageDrawable(this.mCollapseIcon);
             this.mCollapseButtonView.setContentDescription(this.mCollapseDescription);
             LayoutParams generateDefaultLayoutParams = generateDefaultLayoutParams();
-            generateDefaultLayoutParams.gravity = (this.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
+            generateDefaultLayoutParams.gravity = (this.mButtonGravity & 112) | 8388611;
             generateDefaultLayoutParams.mViewType = 2;
             this.mCollapseButtonView.setLayoutParams(generateDefaultLayoutParams);
             this.mCollapseButtonView.setOnClickListener(new View.OnClickListener() { // from class: androidx.appcompat.widget.Toolbar.4
@@ -1021,7 +1020,7 @@ public class Toolbar extends ViewGroup {
             i5 = View.combineMeasuredStates(i5, this.mCollapseButtonView.getMeasuredState());
         }
         int currentContentInsetStart = getCurrentContentInsetStart();
-        int max = 0 + Math.max(currentContentInsetStart, i3);
+        int max = Math.max(currentContentInsetStart, i3);
         iArr[isLayoutRtl ? 1 : 0] = Math.max(0, currentContentInsetStart - i3);
         if (shouldLayout(this.mMenuView)) {
             measureChildConstrained(this.mMenuView, i, max, i2, 0, this.mMaxButtonHeight);
@@ -1075,26 +1074,26 @@ public class Toolbar extends ViewGroup {
         setMeasuredDimension(View.resolveSizeAndState(Math.max(max2 + i8 + getPaddingLeft() + getPaddingRight(), getSuggestedMinimumWidth()), i, (-16777216) & i7), shouldCollapse() ? 0 : View.resolveSizeAndState(Math.max(max3 + getPaddingTop() + getPaddingBottom(), getSuggestedMinimumHeight()), i2, i7 << 16));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:105:0x029f A[LOOP:0: B:104:0x029d->B:105:0x029f, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x02c1 A[LOOP:1: B:107:0x02bf->B:108:0x02c1, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:112:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:117:0x02fa A[LOOP:2: B:116:0x02f8->B:117:0x02fa, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:19:0x005f  */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x0076  */
-    /* JADX WARN: Removed duplicated region for block: B:29:0x00b3  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00ca  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00e7  */
-    /* JADX WARN: Removed duplicated region for block: B:40:0x0100  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0105  */
-    /* JADX WARN: Removed duplicated region for block: B:43:0x011d  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x012d  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x0130  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0134  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x0137  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x01a6  */
-    /* JADX WARN: Removed duplicated region for block: B:78:0x01b7  */
-    /* JADX WARN: Removed duplicated region for block: B:91:0x0227  */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x02a1 A[LOOP:0: B:106:0x029f->B:107:0x02a1, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:110:0x02c3 A[LOOP:1: B:109:0x02c1->B:110:0x02c3, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x02ed  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x02fc A[LOOP:2: B:118:0x02fa->B:119:0x02fc, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0060  */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0077  */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00b4  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x00cb  */
+    /* JADX WARN: Removed duplicated region for block: B:39:0x00e8  */
+    /* JADX WARN: Removed duplicated region for block: B:40:0x00ff  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0104  */
+    /* JADX WARN: Removed duplicated region for block: B:43:0x011c  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x012c  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x012f  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0133  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x0136  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0167  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x01a5  */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x01b6  */
+    /* JADX WARN: Removed duplicated region for block: B:92:0x0227  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1117,8 +1116,8 @@ public class Toolbar extends ViewGroup {
         int i16;
         int i17;
         int i18;
-        int i19;
         int size;
+        int i19;
         int i20;
         int size2;
         int i21;
@@ -1184,7 +1183,7 @@ public class Toolbar extends ViewGroup {
             } else {
                 LayoutParams layoutParams = (LayoutParams) this.mTitleTextView.getLayoutParams();
                 i7 = paddingRight;
-                i8 = ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + this.mTitleTextView.getMeasuredHeight() + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin + 0;
+                i8 = ((ViewGroup.MarginLayoutParams) layoutParams).topMargin + this.mTitleTextView.getMeasuredHeight() + ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
             }
             if (shouldLayout2) {
                 i9 = width;
@@ -1199,7 +1198,7 @@ public class Toolbar extends ViewGroup {
                 LayoutParams layoutParams3 = (LayoutParams) textView.getLayoutParams();
                 LayoutParams layoutParams4 = (LayoutParams) textView2.getLayoutParams();
                 boolean z3 = (!shouldLayout && this.mTitleTextView.getMeasuredWidth() > 0) || (shouldLayout2 && this.mSubtitleTextView.getMeasuredWidth() > 0);
-                i10 = this.mGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+                i10 = this.mGravity & 112;
                 i11 = paddingLeft;
                 if (i10 != 48) {
                     i12 = max;
@@ -1235,57 +1234,52 @@ public class Toolbar extends ViewGroup {
                         int measuredWidth = min2 - this.mTitleTextView.getMeasuredWidth();
                         int measuredHeight = this.mTitleTextView.getMeasuredHeight() + paddingTop;
                         this.mTitleTextView.layout(measuredWidth, paddingTop, min2, measuredHeight);
-                        i18 = measuredWidth - this.mTitleMarginEnd;
+                        i17 = measuredWidth - this.mTitleMarginEnd;
                         paddingTop = measuredHeight + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mTitleTextView.getLayoutParams())).bottomMargin;
                     } else {
-                        i18 = min2;
+                        i17 = min2;
                     }
                     if (shouldLayout2) {
                         int i31 = paddingTop + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mSubtitleTextView.getLayoutParams())).topMargin;
                         this.mSubtitleTextView.layout(min2 - this.mSubtitleTextView.getMeasuredWidth(), i31, min2, this.mSubtitleTextView.getMeasuredHeight() + i31);
-                        i19 = min2 - this.mTitleMarginEnd;
+                        i18 = min2 - this.mTitleMarginEnd;
                     } else {
-                        i19 = min2;
+                        i18 = min2;
                     }
                     if (z3) {
-                        min2 = Math.min(i18, i19);
+                        min2 = Math.min(i17, i18);
                     }
                     max = i12;
                 } else {
-                    if (z3) {
-                        i15 = this.mTitleMarginStart;
-                        i14 = 0;
-                    } else {
-                        i14 = 0;
-                        i15 = 0;
-                    }
-                    int i32 = i15 - iArr[i14];
-                    max = i12 + Math.max(i14, i32);
-                    iArr[i14] = Math.max(i14, -i32);
+                    i14 = 0;
+                    int i32 = (z3 ? this.mTitleMarginStart : 0) - iArr[0];
+                    max = i12 + Math.max(0, i32);
+                    iArr[0] = Math.max(0, -i32);
                     if (shouldLayout) {
                         int measuredWidth2 = this.mTitleTextView.getMeasuredWidth() + max;
                         int measuredHeight2 = this.mTitleTextView.getMeasuredHeight() + paddingTop;
                         this.mTitleTextView.layout(max, paddingTop, measuredWidth2, measuredHeight2);
-                        i16 = measuredWidth2 + this.mTitleMarginEnd;
+                        i15 = measuredWidth2 + this.mTitleMarginEnd;
                         paddingTop = measuredHeight2 + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mTitleTextView.getLayoutParams())).bottomMargin;
                     } else {
-                        i16 = max;
+                        i15 = max;
                     }
                     if (shouldLayout2) {
                         int i33 = paddingTop + ((ViewGroup.MarginLayoutParams) ((LayoutParams) this.mSubtitleTextView.getLayoutParams())).topMargin;
                         int measuredWidth3 = this.mSubtitleTextView.getMeasuredWidth() + max;
                         this.mSubtitleTextView.layout(max, i33, measuredWidth3, this.mSubtitleTextView.getMeasuredHeight() + i33);
-                        i17 = measuredWidth3 + this.mTitleMarginEnd;
+                        i16 = measuredWidth3 + this.mTitleMarginEnd;
                     } else {
-                        i17 = max;
+                        i16 = max;
                     }
                     if (z3) {
-                        max = Math.max(i16, i17);
+                        max = Math.max(i15, i16);
                     }
                     addCustomViewsWithGravity(this.mTempViews, 3);
                     size = this.mTempViews.size();
+                    i19 = max;
                     for (i20 = 0; i20 < size; i20++) {
-                        max = layoutChildLeft(this.mTempViews.get(i20), max, iArr, i13);
+                        i19 = layoutChildLeft(this.mTempViews.get(i20), i19, iArr, i13);
                     }
                     int i34 = i13;
                     addCustomViewsWithGravity(this.mTempViews, 5);
@@ -1297,12 +1291,12 @@ public class Toolbar extends ViewGroup {
                     int viewListMeasuredWidth = getViewListMeasuredWidth(this.mTempViews, iArr);
                     i22 = (i11 + (((i9 - i11) - i7) / 2)) - (viewListMeasuredWidth / 2);
                     int i35 = viewListMeasuredWidth + i22;
-                    if (i22 >= max) {
-                        max = i35 > min2 ? i22 - (i35 - min2) : i22;
+                    if (i22 >= i19) {
+                        i19 = i35 > min2 ? i22 - (i35 - min2) : i22;
                     }
                     size3 = this.mTempViews.size();
                     while (i14 < size3) {
-                        max = layoutChildLeft(this.mTempViews.get(i14), max, iArr, i34);
+                        i19 = layoutChildLeft(this.mTempViews.get(i14), i19, iArr, i34);
                         i14++;
                     }
                     this.mTempViews.clear();
@@ -1315,6 +1309,7 @@ public class Toolbar extends ViewGroup {
             i14 = 0;
             addCustomViewsWithGravity(this.mTempViews, 3);
             size = this.mTempViews.size();
+            i19 = max;
             while (i20 < size) {
             }
             int i342 = i13;
@@ -1326,7 +1321,7 @@ public class Toolbar extends ViewGroup {
             int viewListMeasuredWidth2 = getViewListMeasuredWidth(this.mTempViews, iArr);
             i22 = (i11 + (((i9 - i11) - i7) / 2)) - (viewListMeasuredWidth2 / 2);
             int i352 = viewListMeasuredWidth2 + i22;
-            if (i22 >= max) {
+            if (i22 >= i19) {
             }
             size3 = this.mTempViews.size();
             while (i14 < size3) {
@@ -1367,7 +1362,7 @@ public class Toolbar extends ViewGroup {
         LayoutParams layoutParams42 = (LayoutParams) textView2.getLayoutParams();
         if (shouldLayout) {
         }
-        i10 = this.mGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+        i10 = this.mGravity & 112;
         i11 = paddingLeft;
         if (i10 != 48) {
         }
@@ -1449,8 +1444,8 @@ public class Toolbar extends ViewGroup {
     }
 
     private int getChildVerticalGravity(int i) {
-        int i2 = i & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
-        return (i2 == 16 || i2 == 48 || i2 == 80) ? i2 : this.mGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+        int i2 = i & 112;
+        return (i2 == 16 || i2 == 48 || i2 == 80) ? i2 : this.mGravity & 112;
     }
 
     private void addCustomViewsWithGravity(List<View> list, int i) {
@@ -1616,7 +1611,7 @@ public class Toolbar extends ViewGroup {
             boolean z = hasExpandedActionView() && findOnBackInvokedDispatcher != null && ViewCompat.isAttachedToWindow(this) && this.mBackInvokedCallbackEnabled;
             if (z && this.mBackInvokedDispatcher == null) {
                 if (this.mBackInvokedCallback == null) {
-                    this.mBackInvokedCallback = Api33Impl.newOnBackInvokedCallback(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda1
+                    this.mBackInvokedCallback = Api33Impl.newOnBackInvokedCallback(new Runnable() { // from class: androidx.appcompat.widget.Toolbar$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             Toolbar.this.collapseActionView();
@@ -1754,23 +1749,13 @@ public class Toolbar extends ViewGroup {
         public void updateMenuView(boolean z) {
             if (this.mCurrentExpandedItem != null) {
                 MenuBuilder menuBuilder = this.mMenu;
-                boolean z2 = false;
                 if (menuBuilder != null) {
                     int size = menuBuilder.size();
-                    int i = 0;
-                    while (true) {
-                        if (i >= size) {
-                            break;
-                        } else if (this.mMenu.getItem(i) == this.mCurrentExpandedItem) {
-                            z2 = true;
-                            break;
-                        } else {
-                            i++;
+                    for (int i = 0; i < size; i++) {
+                        if (this.mMenu.getItem(i) == this.mCurrentExpandedItem) {
+                            return;
                         }
                     }
-                }
-                if (z2) {
-                    return;
                 }
                 collapseItemActionView(this.mMenu, this.mCurrentExpandedItem);
             }
@@ -1798,7 +1783,7 @@ public class Toolbar extends ViewGroup {
                 }
                 LayoutParams generateDefaultLayoutParams = Toolbar.this.generateDefaultLayoutParams();
                 Toolbar toolbar4 = Toolbar.this;
-                generateDefaultLayoutParams.gravity = (toolbar4.mButtonGravity & R.styleable.AppCompatTheme_toolbarNavigationButtonStyle) | 8388611;
+                generateDefaultLayoutParams.gravity = (toolbar4.mButtonGravity & 112) | 8388611;
                 generateDefaultLayoutParams.mViewType = 2;
                 toolbar4.mExpandedActionView.setLayoutParams(generateDefaultLayoutParams);
                 Toolbar toolbar5 = Toolbar.this;

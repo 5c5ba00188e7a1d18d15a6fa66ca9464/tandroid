@@ -12,6 +12,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* compiled from: com.google.android.gms:play-services-mlkit-subject-segmentation@@16.0.0-beta1 */
 /* loaded from: classes.dex */
 final class zzcf implements ObjectEncoderContext {
@@ -118,12 +119,13 @@ final class zzcf implements ObjectEncoderContext {
 
     private final void zzn(int i) throws IOException {
         while (true) {
-            int i2 = i & 127;
-            if ((i & (-128)) != 0) {
-                this.zze.write(i2 | 128);
+            int i2 = ((i & (-128)) > 0L ? 1 : ((i & (-128)) == 0L ? 0 : -1));
+            int i3 = i & NotificationCenter.dialogTranslate;
+            if (i2 != 0) {
+                this.zze.write(i3 | 128);
                 i >>>= 7;
             } else {
-                this.zze.write(i2);
+                this.zze.write(i3);
                 return;
             }
         }
@@ -131,12 +133,13 @@ final class zzcf implements ObjectEncoderContext {
 
     private final void zzo(long j) throws IOException {
         while (true) {
-            int i = ((int) j) & 127;
-            if (((-128) & j) != 0) {
-                this.zze.write(i | 128);
+            int i = (((-128) & j) > 0L ? 1 : (((-128) & j) == 0L ? 0 : -1));
+            int i2 = ((int) j) & NotificationCenter.dialogTranslate;
+            if (i != 0) {
+                this.zze.write(i2 | 128);
                 j >>>= 7;
             } else {
-                this.zze.write(i);
+                this.zze.write(i2);
                 return;
             }
         }

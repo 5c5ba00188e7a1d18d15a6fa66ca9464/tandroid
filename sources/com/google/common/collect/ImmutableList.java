@@ -262,7 +262,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E> implements
         int size = size();
         int i = 1;
         for (int i2 = 0; i2 < size; i2++) {
-            i = (((i * 31) + get(i2).hashCode()) ^ (-1)) ^ (-1);
+            i = (i * 31) + get(i2).hashCode();
         }
         return i;
     }

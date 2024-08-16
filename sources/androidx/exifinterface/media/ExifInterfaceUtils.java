@@ -61,16 +61,12 @@ class ExifInterfaceUtils {
     /* loaded from: classes.dex */
     static class Api21Impl {
         static FileDescriptor dup(FileDescriptor fileDescriptor) throws ErrnoException {
-            FileDescriptor dup;
-            dup = Os.dup(fileDescriptor);
-            return dup;
+            return Os.dup(fileDescriptor);
         }
 
         /* JADX INFO: Access modifiers changed from: package-private */
         public static long lseek(FileDescriptor fileDescriptor, long j, int i) throws ErrnoException {
-            long lseek;
-            lseek = Os.lseek(fileDescriptor, j, i);
-            return lseek;
+            return Os.lseek(fileDescriptor, j, i);
         }
 
         static void close(FileDescriptor fileDescriptor) throws ErrnoException {

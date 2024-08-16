@@ -34,11 +34,9 @@ abstract class zziz<T extends zzio> {
         try {
             try {
                 try {
-                    try {
-                        return cls.cast(((zziz) Class.forName(format, true, classLoader).getConstructor(new Class[0]).newInstance(new Object[0])).zza());
-                    } catch (IllegalAccessException e) {
-                        throw new IllegalStateException(e);
-                    }
+                    return cls.cast(((zziz) Class.forName(format, true, classLoader).getConstructor(null).newInstance(null)).zza());
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e);
                 } catch (InvocationTargetException e2) {
                     throw new IllegalStateException(e2);
                 }

@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class Cea608Decoder extends CeaDecoder {
     private int captionMode;
@@ -39,10 +39,10 @@ public final class Cea608Decoder extends CeaDecoder {
     private static final int[] ROW_INDICES = {11, 1, 3, 12, 14, 5, 7, 9};
     private static final int[] COLUMN_INDICES = {0, 4, 8, 12, 16, 20, 24, 28};
     private static final int[] STYLE_COLORS = {-1, -16711936, -16776961, -16711681, -65536, -256, -65281};
-    private static final int[] BASIC_CHARACTER_SET = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 225, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 233, 93, 237, 243, 250, 97, 98, 99, 100, 101, R.styleable.AppCompatTheme_textAppearanceLargePopupMenu, R.styleable.AppCompatTheme_textAppearanceListItem, R.styleable.AppCompatTheme_textAppearanceListItemSecondary, R.styleable.AppCompatTheme_textAppearanceListItemSmall, R.styleable.AppCompatTheme_textAppearancePopupMenuHeader, R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle, R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu, R.styleable.AppCompatTheme_textColorAlertDialogListItem, R.styleable.AppCompatTheme_textColorSearchUrl, R.styleable.AppCompatTheme_toolbarNavigationButtonStyle, R.styleable.AppCompatTheme_toolbarStyle, R.styleable.AppCompatTheme_tooltipForegroundColor, R.styleable.AppCompatTheme_tooltipFrameBackground, 116, 117, 118, 119, 120, 121, 122, 231, 247, 209, 241, 9632};
-    private static final int[] SPECIAL_CHARACTER_SET = {174, 176, 189, 191, 8482, 162, 163, 9834, 224, 32, 232, 226, 234, 238, 244, 251};
-    private static final int[] SPECIAL_ES_FR_CHARACTER_SET = {193, 201, 211, 218, 220, 252, 8216, 161, 42, 39, 8212, 169, 8480, 8226, 8220, 8221, 192, 194, 199, 200, 202, 203, 235, 206, 207, 239, 212, 217, 249, 219, 171, 187};
-    private static final int[] SPECIAL_PT_DE_CHARACTER_SET = {195, 227, 205, 204, 236, 210, 242, 213, 245, 123, 125, 92, 94, 95, 124, 126, 196, 228, 214, 246, 223, 165, 164, 9474, 197, 229, 216, 248, 9484, 9488, 9492, 9496};
+    private static final int[] BASIC_CHARACTER_SET = {32, 33, 34, 35, 36, 37, 38, 39, 40, 41, NotificationCenter.emojiLoaded, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, NotificationCenter.themeAccentListUpdated, 93, NotificationCenter.goingToPreviewTheme, NotificationCenter.proxySettingsChanged, NotificationCenter.playerDidStartPlaying, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, NotificationCenter.themeListUpdated, NotificationCenter.newLocationAvailable, NotificationCenter.starOptionsLoaded, NotificationCenter.suggestedLangpack, 9632};
+    private static final int[] SPECIAL_CHARACTER_SET = {NotificationCenter.newEmojiSuggestionsAvailable, NotificationCenter.themeUploadError, NotificationCenter.storiesLimitUpdate, NotificationCenter.unconfirmedAuthUpdate, 8482, NotificationCenter.groupCallUpdated, NotificationCenter.groupCallSpeakingUsersUpdated, 9834, NotificationCenter.didReceiveCall, 32, NotificationCenter.didApplyNewTheme, NotificationCenter.invalidateMotionBackground, NotificationCenter.needCheckSystemBarColors, NotificationCenter.locationPermissionGranted, NotificationCenter.proxyCheckDone, NotificationCenter.closeSearchByActiveAction};
+    private static final int[] SPECIAL_ES_FR_CHARACTER_SET = {NotificationCenter.channelRecommendationsLoaded, NotificationCenter.openBoostForUsersDialog, NotificationCenter.starBalanceUpdated, NotificationCenter.webViewResolved, NotificationCenter.pushMessagesUpdated, NotificationCenter.messagePlayingSpeedChanged, 8216, NotificationCenter.didStartedCall, 42, 39, 8212, NotificationCenter.closeInCallActivity, 8480, 8226, 8220, 8221, NotificationCenter.dialogPhotosUpdate, NotificationCenter.savedMessagesDialogsUpdate, NotificationCenter.smsJobStatusUpdate, NotificationCenter.storyQualityUpdate, NotificationCenter.groupRestrictionsUnlockedByBoosts, NotificationCenter.chatWasBoostedByUser, NotificationCenter.needShareTheme, NotificationCenter.customStickerCreated, NotificationCenter.premiumFloodWaitReceived, NotificationCenter.locationPermissionDenied, NotificationCenter.starTransactionsLoaded, NotificationCenter.channelStarsUpdated, NotificationCenter.notificationsCountUpdated, NotificationCenter.updateAllMessages, NotificationCenter.appDidLogout, NotificationCenter.storiesEnabledUpdate};
+    private static final int[] SPECIAL_PT_DE_CHARACTER_SET = {NotificationCenter.savedReactionTagsUpdate, NotificationCenter.closeOtherAppActivities, NotificationCenter.timezonesUpdated, NotificationCenter.groupPackUpdated, NotificationCenter.needSetDayNightTheme, NotificationCenter.starGiftOptionsLoaded, NotificationCenter.didSetNewWallpapper, NotificationCenter.starSubscriptionsLoaded, NotificationCenter.proxyChangedByRotation, 123, 125, 92, 94, 95, 124, 126, NotificationCenter.userIsPremiumBlockedUpadted, NotificationCenter.cameraInitied, NotificationCenter.factCheckLoaded, NotificationCenter.liveLocationsChanged, NotificationCenter.didReceiveSmsCode, NotificationCenter.activeGroupCallsUpdated, NotificationCenter.groupCallScreencastStateChanged, 9474, NotificationCenter.savedMessagesForwarded, NotificationCenter.didReplacedPhotoInMemCache, NotificationCenter.botStarsTransactionsLoaded, NotificationCenter.liveLocationsCacheChanged, 9484, 9488, 9492, 9496};
     private static final boolean[] ODD_PARITY_BYTE_TABLE = {false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false, false, true, true, false, true, false, false, true, false, true, true, false, true, false, false, true, true, false, false, true, false, true, true, false};
     private final ParsableByteArray ccData = new ParsableByteArray();
     private final ArrayList<CueBuilder> cueBuilders = new ArrayList<>();
@@ -93,11 +93,6 @@ public final class Cea608Decoder extends CeaDecoder {
         return 1 <= b && b <= 15;
     }
 
-    @Override // com.google.android.exoplayer2.decoder.Decoder
-    public String getName() {
-        return "Cea608Decoder";
-    }
-
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
     public void release() {
     }
@@ -141,6 +136,11 @@ public final class Cea608Decoder extends CeaDecoder {
         resetCueBuilders();
         this.isInCaptionService = true;
         this.lastCueUpdateUs = -9223372036854775807L;
+    }
+
+    @Override // com.google.android.exoplayer2.decoder.Decoder
+    public String getName() {
+        return "Cea608Decoder";
     }
 
     @Override // com.google.android.exoplayer2.text.cea.CeaDecoder, com.google.android.exoplayer2.decoder.Decoder
@@ -209,8 +209,8 @@ public final class Cea608Decoder extends CeaDecoder {
             int readUnsignedByte2 = this.ccData.readUnsignedByte();
             int readUnsignedByte3 = this.ccData.readUnsignedByte();
             if ((readUnsignedByte & 2) == 0 && (readUnsignedByte & 1) == this.selectedField) {
-                byte b = (byte) (readUnsignedByte2 & 127);
-                byte b2 = (byte) (readUnsignedByte3 & 127);
+                byte b = (byte) (readUnsignedByte2 & NotificationCenter.dialogTranslate);
+                byte b2 = (byte) (readUnsignedByte3 & NotificationCenter.dialogTranslate);
                 if (b != 0 || b2 != 0) {
                     boolean z3 = this.isCaptionValid;
                     if ((readUnsignedByte & 4) == 4) {
@@ -324,15 +324,15 @@ public final class Cea608Decoder extends CeaDecoder {
             setCaptionMode(2);
         } else if (b != 41) {
             switch (b) {
-                case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
+                case 37:
                     setCaptionMode(1);
                     setCaptionRowCount(2);
                     return;
-                case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
+                case 38:
                     setCaptionMode(1);
                     setCaptionRowCount(3);
                     return;
-                case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                case 39:
                     setCaptionMode(1);
                     setCaptionRowCount(4);
                     return;
@@ -343,7 +343,7 @@ public final class Cea608Decoder extends CeaDecoder {
                     }
                     if (b != 33) {
                         switch (b) {
-                            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                            case 44:
                                 this.cues = Collections.emptyList();
                                 int i2 = this.captionMode;
                                 if (i2 == 1 || i2 == 3) {
@@ -351,16 +351,16 @@ public final class Cea608Decoder extends CeaDecoder {
                                     return;
                                 }
                                 return;
-                            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                            case 45:
                                 if (i != 1 || this.currentCueBuilder.isEmpty()) {
                                     return;
                                 }
                                 this.currentCueBuilder.rollUp();
                                 return;
-                            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                            case 46:
                                 resetCueBuilders();
                                 return;
-                            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
+                            case 47:
                                 this.cues = getDisplayCues();
                                 resetCueBuilders();
                                 return;
@@ -435,16 +435,16 @@ public final class Cea608Decoder extends CeaDecoder {
         } else if (isServiceSwitchCommand(b)) {
             if (b2 != 32 && b2 != 47) {
                 switch (b2) {
-                    case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-                    case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-                    case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+                    case 37:
+                    case 38:
+                    case 39:
                         break;
                     default:
                         switch (b2) {
-                            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+                            case 41:
                                 break;
-                            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
-                            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+                            case 42:
+                            case 43:
                                 this.isInCaptionService = false;
                                 return;
                             default:
@@ -585,7 +585,7 @@ public final class Cea608Decoder extends CeaDecoder {
             }
             int i6 = this.row;
             if (i6 > 7) {
-                i6 = (i6 - 15) - 2;
+                i6 -= 17;
             } else if (this.captionMode == 1) {
                 i6 -= this.captionRowCount - 1;
             }
@@ -600,8 +600,8 @@ public final class Cea608Decoder extends CeaDecoder {
             int i3 = -1;
             int i4 = 0;
             int i5 = -1;
-            int i6 = -1;
             boolean z = false;
+            int i6 = -1;
             while (i < this.cueStyles.size()) {
                 CueStyle cueStyle = this.cueStyles.get(i);
                 boolean z2 = cueStyle.underline;

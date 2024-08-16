@@ -12,29 +12,21 @@ import android.app.SearchManager;
 import android.app.UiModeManager;
 import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
-import android.app.job.JobScheduler;
-import android.app.usage.UsageStatsManager;
 import android.appwidget.AppWidgetManager;
 import android.bluetooth.BluetoothManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.RestrictionsManager;
-import android.content.pm.LauncherApps;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.hardware.ConsumerIrManager;
 import android.hardware.SensorManager;
-import android.hardware.camera2.CameraManager;
 import android.hardware.display.DisplayManager;
 import android.hardware.input.InputManager;
 import android.hardware.usb.UsbManager;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaRouter;
-import android.media.projection.MediaProjectionManager;
-import android.media.session.MediaSessionManager;
-import android.media.tv.TvInputManager;
 import android.net.ConnectivityManager;
 import android.net.nsd.NsdManager;
 import android.net.wifi.WifiManager;
@@ -51,8 +43,6 @@ import android.os.UserManager;
 import android.os.Vibrator;
 import android.os.storage.StorageManager;
 import android.print.PrintManager;
-import android.telecom.TelecomManager;
-import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -129,13 +119,17 @@ public class ContextCompat {
 
     private static File createFilesDir(File file) {
         synchronized (sSync) {
-            if (!file.exists()) {
-                if (file.mkdirs()) {
-                    return file;
+            try {
+                if (!file.exists()) {
+                    if (file.mkdirs()) {
+                        return file;
+                    }
+                    Log.w("ContextCompat", "Unable to create files subdir " + file.getPath());
                 }
-                Log.w("ContextCompat", "Unable to create files subdir " + file.getPath());
+                return file;
+            } catch (Throwable th) {
+                throw th;
             }
-            return file;
         }
     }
 
@@ -181,20 +175,20 @@ public class ContextCompat {
             SERVICES = hashMap;
             int i = Build.VERSION.SDK_INT;
             if (i >= 22) {
-                hashMap.put(SubscriptionManager.class, "telephony_subscription_service");
-                hashMap.put(UsageStatsManager.class, "usagestats");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline0.m(), "telephony_subscription_service");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline1.m(), "usagestats");
             }
             if (i >= 21) {
                 hashMap.put(AppWidgetManager.class, "appwidget");
                 hashMap.put(BatteryManager.class, "batterymanager");
-                hashMap.put(CameraManager.class, "camera");
-                hashMap.put(JobScheduler.class, "jobscheduler");
-                hashMap.put(LauncherApps.class, "launcherapps");
-                hashMap.put(MediaProjectionManager.class, "media_projection");
-                hashMap.put(MediaSessionManager.class, "media_session");
-                hashMap.put(RestrictionsManager.class, "restrictions");
-                hashMap.put(TelecomManager.class, "telecom");
-                hashMap.put(TvInputManager.class, "tv_input");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline2.m(), "camera");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline3.m(), "jobscheduler");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline4.m(), "launcherapps");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline5.m(), "media_projection");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline6.m(), "media_session");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline7.m(), "restrictions");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline8.m(), "telecom");
+                hashMap.put(ContextCompat$LegacyServiceMapHolder$$ExternalSyntheticApiModelOutline9.m(), "tv_input");
             }
             hashMap.put(AppOpsManager.class, "appops");
             hashMap.put(CaptioningManager.class, "captioning");
@@ -268,21 +262,15 @@ public class ContextCompat {
     /* loaded from: classes.dex */
     public static class Api21Impl {
         static Drawable getDrawable(Context context, int i) {
-            Drawable drawable;
-            drawable = context.getDrawable(i);
-            return drawable;
+            return context.getDrawable(i);
         }
 
         static File getNoBackupFilesDir(Context context) {
-            File noBackupFilesDir;
-            noBackupFilesDir = context.getNoBackupFilesDir();
-            return noBackupFilesDir;
+            return context.getNoBackupFilesDir();
         }
 
         static File getCodeCacheDir(Context context) {
-            File codeCacheDir;
-            codeCacheDir = context.getCodeCacheDir();
-            return codeCacheDir;
+            return context.getCodeCacheDir();
         }
     }
 
@@ -290,51 +278,37 @@ public class ContextCompat {
     /* loaded from: classes.dex */
     public static class Api23Impl {
         static int getColor(Context context, int i) {
-            int color;
-            color = context.getColor(i);
-            return color;
+            return context.getColor(i);
         }
 
         static <T> T getSystemService(Context context, Class<T> cls) {
-            Object systemService;
-            systemService = context.getSystemService(cls);
-            return (T) systemService;
+            return (T) context.getSystemService(cls);
         }
 
         static String getSystemServiceName(Context context, Class<?> cls) {
-            String systemServiceName;
-            systemServiceName = context.getSystemServiceName(cls);
-            return systemServiceName;
+            return context.getSystemServiceName(cls);
         }
     }
 
     /* loaded from: classes.dex */
     static class Api24Impl {
         static File getDataDir(Context context) {
-            File dataDir;
-            dataDir = context.getDataDir();
-            return dataDir;
+            return context.getDataDir();
         }
 
         static Context createDeviceProtectedStorageContext(Context context) {
-            Context createDeviceProtectedStorageContext;
-            createDeviceProtectedStorageContext = context.createDeviceProtectedStorageContext();
-            return createDeviceProtectedStorageContext;
+            return context.createDeviceProtectedStorageContext();
         }
 
         static boolean isDeviceProtectedStorage(Context context) {
-            boolean isDeviceProtectedStorage;
-            isDeviceProtectedStorage = context.isDeviceProtectedStorage();
-            return isDeviceProtectedStorage;
+            return context.isDeviceProtectedStorage();
         }
     }
 
     /* loaded from: classes.dex */
     static class Api28Impl {
         static Executor getMainExecutor(Context context) {
-            Executor mainExecutor;
-            mainExecutor = context.getMainExecutor();
-            return mainExecutor;
+            return context.getMainExecutor();
         }
     }
 }

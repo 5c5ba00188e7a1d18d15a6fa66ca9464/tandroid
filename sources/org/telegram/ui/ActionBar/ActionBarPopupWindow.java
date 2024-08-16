@@ -13,7 +13,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.util.Property;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ import java.util.HashMap;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.FileLog;
-import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -73,11 +72,15 @@ public class ActionBarPopupWindow extends PopupWindow {
     }
 
     static {
-        Field field = null;
+        Field field;
         try {
             field = PopupWindow.class.getDeclaredField("mOnScrollChangedListener");
-            field.setAccessible(true);
-        } catch (NoSuchFieldException unused) {
+            try {
+                field.setAccessible(true);
+            } catch (NoSuchFieldException unused) {
+            }
+        } catch (NoSuchFieldException unused2) {
+            field = null;
         }
         superListenerField = field;
         NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda0
@@ -143,7 +146,7 @@ public class ActionBarPopupWindow extends PopupWindow {
             this.backScaleX = 1.0f;
             this.backScaleY = 1.0f;
             this.startAnimationPending = false;
-            this.backAlpha = 255;
+            this.backAlpha = NotificationCenter.voipServiceCreated;
             this.lastStartedChild = 0;
             this.animationEnabled = ActionBarPopupWindow.allowAnimation;
             this.positions = new HashMap<>();
@@ -215,11 +218,10 @@ public class ActionBarPopupWindow extends PopupWindow {
                                     if (!z && tag2 == null) {
                                         i5 = Math.max(i5, childAt.getMeasuredWidth());
                                     } else if (z) {
-                                        int max = Math.max(((Integer) tag).intValue(), childAt.getMeasuredWidth());
+                                        i6 = Math.max(((Integer) tag).intValue(), childAt.getMeasuredWidth());
                                         ActionBarPopupWindowLayout.this.gapStartY = childAt.getMeasuredHeight();
                                         ActionBarPopupWindowLayout actionBarPopupWindowLayout = ActionBarPopupWindowLayout.this;
                                         actionBarPopupWindowLayout.gapEndY = actionBarPopupWindowLayout.gapStartY + AndroidUtilities.dp(6.0f);
-                                        i6 = max;
                                     }
                                 }
                                 if (arrayList == null) {
@@ -378,18 +380,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         private void startChildAnimation(final View view) {
             if (this.animationEnabled) {
                 final AnimatorSet animatorSet = new AnimatorSet();
-                Animator[] animatorArr = new Animator[2];
-                Property property = View.ALPHA;
-                float[] fArr = new float[2];
-                fArr[0] = 0.0f;
-                fArr[1] = view.isEnabled() ? 1.0f : 0.5f;
-                animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-                Property property2 = View.TRANSLATION_Y;
-                float[] fArr2 = new float[2];
-                fArr2[0] = AndroidUtilities.dp(this.shownFromBottom ? 6.0f : -6.0f);
-                fArr2[1] = 0.0f;
-                animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
-                animatorSet.playTogether(animatorArr);
+                animatorSet.playTogether(ObjectAnimator.ofFloat(view, View.ALPHA, 0.0f, view.isEnabled() ? 1.0f : 0.5f), ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, AndroidUtilities.dp(this.shownFromBottom ? 6.0f : -6.0f), 0.0f));
                 animatorSet.setDuration(180L);
                 animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.ActionBarPopupWindowLayout.3
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -455,9 +446,9 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
 
         /* JADX INFO: Access modifiers changed from: protected */
-        /* JADX WARN: Removed duplicated region for block: B:103:0x02a9  */
-        /* JADX WARN: Removed duplicated region for block: B:105:0x02cc  */
-        /* JADX WARN: Removed duplicated region for block: B:97:0x027c  */
+        /* JADX WARN: Removed duplicated region for block: B:103:0x02af  */
+        /* JADX WARN: Removed duplicated region for block: B:105:0x02d2  */
+        /* JADX WARN: Removed duplicated region for block: B:97:0x0282  */
         @Override // android.view.ViewGroup, android.view.View
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -518,7 +509,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                         }
                         z2 = true;
                     }
-                    this.backgroundDrawable.setAlpha(z2 ? this.backAlpha : 255);
+                    this.backgroundDrawable.setAlpha(z2 ? this.backAlpha : NotificationCenter.voipServiceCreated);
                     if (this.shownFromBottom) {
                         int measuredHeight = getMeasuredHeight();
                         AndroidUtilities.rectTmp2.set(0, (int) (measuredHeight * (1.0f - this.backScaleY)), (int) (getMeasuredWidth() * this.backScaleX), measuredHeight);
@@ -609,14 +600,14 @@ public class ActionBarPopupWindow extends PopupWindow {
                                         View view2 = gapView;
                                         float f4 = 0.0f;
                                         while (view2 != this) {
-                                            f3 += view2.getX();
-                                            f4 += view2.getY();
+                                            f4 += view2.getX();
+                                            f3 += view2.getY();
                                             view2 = (View) view2.getParent();
                                             if (view2 == null) {
                                                 break;
                                             }
                                         }
-                                        canvas.translate(f3, (f4 * this.scrollView.getScaleY()) - this.scrollView.getScrollY());
+                                        canvas.translate(f4, (f3 * this.scrollView.getScaleY()) - this.scrollView.getScrollY());
                                         gapView.draw(canvas);
                                         canvas.restore();
                                     }
@@ -758,7 +749,7 @@ public class ActionBarPopupWindow extends PopupWindow {
 
     public ActionBarPopupWindow() {
         this.animationEnabled = allowAnimation;
-        this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+        this.dismissAnimationDuration = 150;
         this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
@@ -768,7 +759,7 @@ public class ActionBarPopupWindow extends PopupWindow {
     public ActionBarPopupWindow(Context context) {
         super(context);
         this.animationEnabled = allowAnimation;
-        this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+        this.dismissAnimationDuration = 150;
         this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
@@ -778,7 +769,7 @@ public class ActionBarPopupWindow extends PopupWindow {
     public ActionBarPopupWindow(View view, int i, int i2) {
         super(view, i, i2);
         this.animationEnabled = allowAnimation;
-        this.dismissAnimationDuration = ImageReceiver.DEFAULT_CROSSFADE_DURATION;
+        this.dismissAnimationDuration = 150;
         this.currentAccount = UserConfig.selectedAccount;
         this.outEmptyTime = -1L;
         this.notificationsLocker = new AnimationNotificationsLocker();
@@ -807,7 +798,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         if (contentView instanceof ActionBarPopupWindowLayout) {
             ActionBarPopupWindowLayout actionBarPopupWindowLayout = (ActionBarPopupWindowLayout) contentView;
             if (actionBarPopupWindowLayout.getSwipeBack() != null) {
-                actionBarPopupWindowLayout.getSwipeBack().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda1
+                actionBarPopupWindowLayout.getSwipeBack().setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
                         ActionBarPopupWindow.this.lambda$init$1(view);
@@ -934,7 +925,7 @@ public class ActionBarPopupWindow extends PopupWindow {
         }
         AnimatorSet animatorSet = new AnimatorSet();
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda2
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow$$ExternalSyntheticLambda1
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 ActionBarPopupWindow.lambda$startAnimation$2(ActionBarPopupWindow.ActionBarPopupWindowLayout.this, valueAnimator);
@@ -942,8 +933,8 @@ public class ActionBarPopupWindow extends PopupWindow {
         });
         actionBarPopupWindowLayout.updateAnimation = false;
         actionBarPopupWindowLayout.clipChildren = true;
-        animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, 255), ofFloat);
-        animatorSet.setDuration((i * 16) + ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+        animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.voipServiceCreated), ofFloat);
+        animatorSet.setDuration((i * 16) + 150);
         animatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.1
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
             public void onAnimationEnd(Animator animator) {
@@ -1020,8 +1011,8 @@ public class ActionBarPopupWindow extends PopupWindow {
             }
             AnimatorSet animatorSet = new AnimatorSet();
             this.windowAnimatorSet = animatorSet;
-            animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, 255));
-            this.windowAnimatorSet.setDuration((i2 * 16) + ImageReceiver.DEFAULT_CROSSFADE_DURATION);
+            animatorSet.playTogether(ObjectAnimator.ofFloat(actionBarPopupWindowLayout, "backScaleY", 0.0f, f), ObjectAnimator.ofInt(actionBarPopupWindowLayout, "backAlpha", 0, NotificationCenter.voipServiceCreated));
+            this.windowAnimatorSet.setDuration((i2 * 16) + 150);
             this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.2
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -1120,13 +1111,7 @@ public class ActionBarPopupWindow extends PopupWindow {
                 animatorSet3.playTogether(ObjectAnimator.ofFloat(viewGroup, View.SCALE_Y, 0.8f), ObjectAnimator.ofFloat(viewGroup, View.SCALE_X, 0.8f), ObjectAnimator.ofFloat(viewGroup, View.ALPHA, 0.0f));
                 this.windowAnimatorSet.setDuration(this.dismissAnimationDuration);
             } else {
-                Animator[] animatorArr = new Animator[2];
-                Property property = View.TRANSLATION_Y;
-                float[] fArr = new float[1];
-                fArr[0] = AndroidUtilities.dp((actionBarPopupWindowLayout == null || !actionBarPopupWindowLayout.shownFromBottom) ? -5.0f : 5.0f);
-                animatorArr[0] = ObjectAnimator.ofFloat(viewGroup, property, fArr);
-                animatorArr[1] = ObjectAnimator.ofFloat(viewGroup, View.ALPHA, 0.0f);
-                animatorSet3.playTogether(animatorArr);
+                animatorSet3.playTogether(ObjectAnimator.ofFloat(viewGroup, View.TRANSLATION_Y, AndroidUtilities.dp((actionBarPopupWindowLayout == null || !actionBarPopupWindowLayout.shownFromBottom) ? -5.0f : 5.0f)), ObjectAnimator.ofFloat(viewGroup, View.ALPHA, 0.0f));
                 this.windowAnimatorSet.setDuration(this.dismissAnimationDuration);
             }
             this.windowAnimatorSet.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.ActionBar.ActionBarPopupWindow.3

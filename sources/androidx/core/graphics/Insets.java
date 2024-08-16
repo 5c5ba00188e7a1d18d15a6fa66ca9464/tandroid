@@ -69,9 +69,7 @@ public final class Insets {
     /* loaded from: classes.dex */
     static class Api29Impl {
         static android.graphics.Insets of(int i, int i2, int i3, int i4) {
-            android.graphics.Insets of;
-            of = android.graphics.Insets.of(i, i2, i3, i4);
-            return of;
+            return android.graphics.Insets.of(i, i2, i3, i4);
         }
     }
 }

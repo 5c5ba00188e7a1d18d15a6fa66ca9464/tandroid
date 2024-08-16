@@ -164,7 +164,7 @@ final class ClassesInfoCache {
             try {
                 int i = this.mCallType;
                 if (i == 0) {
-                    this.mMethod.invoke(obj, new Object[0]);
+                    this.mMethod.invoke(obj, null);
                 } else if (i == 1) {
                     this.mMethod.invoke(obj, lifecycleOwner);
                 } else if (i != 2) {

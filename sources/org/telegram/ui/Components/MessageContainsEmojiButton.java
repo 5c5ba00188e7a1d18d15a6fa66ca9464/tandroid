@@ -100,13 +100,12 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             }
             SpannableStringBuilder replaceTags = AndroidUtilities.replaceTags(formatPluralString);
             this.mainText = replaceTags;
-            SpannableStringBuilder spannableStringBuilder = replaceTags;
-            TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) spannableStringBuilder.getSpans(0, replaceTags.length(), TypefaceSpan.class);
+            TypefaceSpan[] typefaceSpanArr = (TypefaceSpan[]) replaceTags.getSpans(0, replaceTags.length(), TypefaceSpan.class);
             for (int i3 = 0; typefaceSpanArr != null && i3 < typefaceSpanArr.length; i3++) {
-                int spanStart = spannableStringBuilder.getSpanStart(typefaceSpanArr[i3]);
-                int spanEnd = spannableStringBuilder.getSpanEnd(typefaceSpanArr[i3]);
-                spannableStringBuilder.removeSpan(typefaceSpanArr[i3]);
-                spannableStringBuilder.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
+                int spanStart = replaceTags.getSpanStart(typefaceSpanArr[i3]);
+                int spanEnd = replaceTags.getSpanEnd(typefaceSpanArr[i3]);
+                replaceTags.removeSpan(typefaceSpanArr[i3]);
+                replaceTags.setSpan(new BoldAndAccent(), spanStart, spanEnd, 33);
             }
         } else if (arrayList.size() != 1) {
             if (i2 == 4) {
@@ -258,7 +257,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         if (this.mainTextLayout != null) {
             canvas.save();
             canvas.translate(getPaddingLeft(), getPaddingTop());
-            this.textPaint.setAlpha(255);
+            this.textPaint.setAlpha(NotificationCenter.voipServiceCreated);
             this.mainTextLayout.draw(canvas);
             LoadingDrawable loadingDrawable = this.loadingDrawable;
             if (loadingDrawable != null && this.loadingDrawableBoundsSet) {
@@ -291,7 +290,7 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:20:0x0048, code lost:
-        r1 = null;
+        r2 = null;
      */
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     /*

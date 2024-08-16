@@ -1,102 +1,65 @@
 package j$.util.concurrent;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public class q {
-    m[] a;
-    m b = null;
-    p c;
-    p d;
-    int e;
-    int f;
-    int g;
-    final int h;
+public final class q extends k {
+    q e;
+    q f;
+    q g;
+    q h;
+    boolean i;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public q(m[] mVarArr, int i, int i2, int i3) {
-        this.a = mVarArr;
-        this.h = i;
-        this.e = i2;
-        this.f = i2;
-        this.g = i3;
+    public q(int i, Object obj, Object obj2, q qVar, q qVar2) {
+        super(i, obj, obj2, qVar);
+        this.e = qVar2;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public final m f() {
-        m[] mVarArr;
-        int length;
-        int i;
-        p pVar;
-        m mVar = this.b;
-        if (mVar != null) {
-            mVar = mVar.d;
+    @Override // j$.util.concurrent.k
+    public final k a(Object obj, int i) {
+        return b(i, obj, null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public final q b(int i, Object obj, Class cls) {
+        if (obj != null) {
+            q qVar = this;
+            do {
+                q qVar2 = qVar.f;
+                q qVar3 = qVar.g;
+                int i2 = qVar.a;
+                if (i2 <= i) {
+                    if (i2 >= i) {
+                        Object obj2 = qVar.b;
+                        if (obj2 == obj || (obj2 != null && obj.equals(obj2))) {
+                            return qVar;
+                        }
+                        if (qVar2 != null) {
+                            if (qVar3 != null) {
+                                if (cls != null || (cls = ConcurrentHashMap.c(obj)) != null) {
+                                    int i3 = ConcurrentHashMap.i;
+                                    int compareTo = (obj2 == null || obj2.getClass() != cls) ? 0 : ((Comparable) obj).compareTo(obj2);
+                                    if (compareTo != 0) {
+                                        if (compareTo >= 0) {
+                                            qVar2 = qVar3;
+                                        }
+                                    }
+                                }
+                                q b = qVar3.b(i, obj, cls);
+                                if (b != null) {
+                                    return b;
+                                }
+                            }
+                        }
+                    }
+                    qVar = qVar3;
+                    continue;
+                }
+                qVar = qVar2;
+                continue;
+            } while (qVar != null);
+            return null;
         }
-        while (mVar == null) {
-            if (this.f >= this.g || (mVarArr = this.a) == null || (length = mVarArr.length) <= (i = this.e) || i < 0) {
-                this.b = null;
-                return null;
-            }
-            m m = ConcurrentHashMap.m(mVarArr, i);
-            if (m == null || m.a >= 0) {
-                mVar = m;
-            } else if (m instanceof h) {
-                this.a = ((h) m).e;
-                p pVar2 = this.d;
-                if (pVar2 != null) {
-                    this.d = pVar2.d;
-                } else {
-                    pVar2 = new p();
-                }
-                pVar2.c = mVarArr;
-                pVar2.a = length;
-                pVar2.b = i;
-                pVar2.d = this.c;
-                this.c = pVar2;
-                mVar = null;
-            } else {
-                mVar = m instanceof r ? ((r) m).f : null;
-            }
-            if (this.c != null) {
-                while (true) {
-                    pVar = this.c;
-                    if (pVar == null) {
-                        break;
-                    }
-                    int i2 = this.e;
-                    int i3 = pVar.a;
-                    int i4 = i2 + i3;
-                    this.e = i4;
-                    if (i4 < length) {
-                        break;
-                    }
-                    this.e = pVar.b;
-                    this.a = pVar.c;
-                    pVar.c = null;
-                    p pVar3 = pVar.d;
-                    pVar.d = this.d;
-                    this.c = pVar3;
-                    this.d = pVar;
-                    length = i3;
-                }
-                if (pVar == null) {
-                    int i5 = this.e + this.h;
-                    this.e = i5;
-                    if (i5 >= length) {
-                        int i6 = this.f + 1;
-                        this.f = i6;
-                        this.e = i6;
-                    }
-                }
-            } else {
-                int i7 = i + this.h;
-                this.e = i7;
-                if (i7 >= length) {
-                    int i8 = this.f + 1;
-                    this.f = i8;
-                    this.e = i8;
-                }
-            }
-        }
-        this.b = mVar;
-        return mVar;
+        return null;
     }
 }

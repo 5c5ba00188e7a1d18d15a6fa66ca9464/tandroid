@@ -1,59 +1,49 @@
 package j$.util.stream;
 
+import j$.util.function.BiFunction;
+import j$.util.function.Function;
+import java.util.Collection;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
 /* loaded from: classes2.dex */
-public final /* synthetic */ class k implements java.util.stream.Collector {
-    public final /* synthetic */ Collector a;
+public final /* synthetic */ class k implements j$.util.function.f {
+    public final /* synthetic */ int a;
 
-    private /* synthetic */ k(Collector collector) {
-        this.a = collector;
+    public /* synthetic */ k(int i) {
+        this.a = i;
     }
 
-    public static /* synthetic */ java.util.stream.Collector a(Collector collector) {
-        if (collector == null) {
-            return null;
+    @Override // j$.util.function.BiFunction
+    public final /* synthetic */ BiFunction andThen(Function function) {
+        switch (this.a) {
+            case 0:
+                return j$.com.android.tools.r8.a.a(this, function);
+            case 1:
+                return j$.com.android.tools.r8.a.a(this, function);
+            case 2:
+                return j$.com.android.tools.r8.a.a(this, function);
+            case 3:
+                return j$.com.android.tools.r8.a.a(this, function);
+            default:
+                return j$.com.android.tools.r8.a.a(this, function);
         }
-        return collector instanceof j ? ((j) collector).a : new k(collector);
     }
 
-    @Override // java.util.stream.Collector
-    public final /* synthetic */ BiConsumer accumulator() {
-        return j$.util.function.a.a(this.a.accumulator());
-    }
-
-    @Override // java.util.stream.Collector
-    public final /* synthetic */ Set characteristics() {
-        return this.a.characteristics();
-    }
-
-    @Override // java.util.stream.Collector
-    public final /* synthetic */ BinaryOperator combiner() {
-        return j$.util.function.e.a(this.a.combiner());
-    }
-
-    public final /* synthetic */ boolean equals(Object obj) {
-        Collector collector = this.a;
-        if (obj instanceof k) {
-            obj = ((k) obj).a;
+    @Override // j$.util.function.BiFunction
+    public final Object apply(Object obj, Object obj2) {
+        switch (this.a) {
+            case 0:
+                Collection collection = (Collection) obj;
+                Set set = Collectors.a;
+                collection.addAll((Collection) obj2);
+                return collection;
+            case 1:
+                return new M0((z0) obj, (z0) obj2);
+            case 2:
+                return new N0((B0) obj, (B0) obj2);
+            case 3:
+                return new O0((D0) obj, (D0) obj2);
+            default:
+                return new Q0((F0) obj, (F0) obj2);
         }
-        return collector.equals(obj);
-    }
-
-    @Override // java.util.stream.Collector
-    public final /* synthetic */ Function finisher() {
-        return j$.util.function.D.a(this.a.finisher());
-    }
-
-    public final /* synthetic */ int hashCode() {
-        return this.a.hashCode();
-    }
-
-    @Override // java.util.stream.Collector
-    public final /* synthetic */ Supplier supplier() {
-        return j$.util.function.L0.a(this.a.supplier());
     }
 }

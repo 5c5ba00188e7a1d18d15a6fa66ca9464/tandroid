@@ -65,9 +65,9 @@ public class Lifecycling {
 
     private static Constructor<? extends GeneratedAdapter> generatedConstructor(Class<?> cls) {
         try {
-            Package r0 = cls.getPackage();
+            Package r1 = cls.getPackage();
             String canonicalName = cls.getCanonicalName();
-            String name = r0 != null ? r0.getName() : "";
+            String name = r1 != null ? r1.getName() : "";
             if (!name.isEmpty()) {
                 canonicalName = canonicalName.substring(name.length() + 1);
             }

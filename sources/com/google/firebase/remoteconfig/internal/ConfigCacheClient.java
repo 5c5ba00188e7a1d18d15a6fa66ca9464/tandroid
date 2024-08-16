@@ -41,15 +41,19 @@ public class ConfigCacheClient {
 
     ConfigContainer getBlocking(long j) {
         synchronized (this) {
-            Task<ConfigContainer> task = this.cachedContainerTask;
-            if (task != null && task.isSuccessful()) {
-                return this.cachedContainerTask.getResult();
-            }
             try {
-                return (ConfigContainer) await(get(), j, TimeUnit.SECONDS);
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                Log.d("FirebaseRemoteConfig", "Reading from storage file failed.", e);
-                return null;
+                Task<ConfigContainer> task = this.cachedContainerTask;
+                if (task != null && task.isSuccessful()) {
+                    return this.cachedContainerTask.getResult();
+                }
+                try {
+                    return (ConfigContainer) await(get(), j, TimeUnit.SECONDS);
+                } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                    Log.d("FirebaseRemoteConfig", "Reading from storage file failed.", e);
+                    return null;
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -90,8 +94,12 @@ public class ConfigCacheClient {
     }
 
     public synchronized Task<ConfigContainer> get() {
-        Task<ConfigContainer> task = this.cachedContainerTask;
-        if (task == null || (task.isComplete() && !this.cachedContainerTask.isSuccessful())) {
+        try {
+            Task<ConfigContainer> task = this.cachedContainerTask;
+            if (task != null) {
+                if (task.isComplete() && !this.cachedContainerTask.isSuccessful()) {
+                }
+            }
             ExecutorService executorService = this.executorService;
             final ConfigStorageClient configStorageClient = this.storageClient;
             Objects.requireNonNull(configStorageClient);
@@ -101,6 +109,8 @@ public class ConfigCacheClient {
                     return ConfigStorageClient.this.read();
                 }
             });
+        } catch (Throwable th) {
+            throw th;
         }
         return this.cachedContainerTask;
     }
@@ -119,12 +129,16 @@ public class ConfigCacheClient {
     public static synchronized ConfigCacheClient getInstance(ExecutorService executorService, ConfigStorageClient configStorageClient) {
         ConfigCacheClient configCacheClient;
         synchronized (ConfigCacheClient.class) {
-            String fileName = configStorageClient.getFileName();
-            Map<String, ConfigCacheClient> map = clientInstances;
-            if (!map.containsKey(fileName)) {
-                map.put(fileName, new ConfigCacheClient(executorService, configStorageClient));
+            try {
+                String fileName = configStorageClient.getFileName();
+                Map<String, ConfigCacheClient> map = clientInstances;
+                if (!map.containsKey(fileName)) {
+                    map.put(fileName, new ConfigCacheClient(executorService, configStorageClient));
+                }
+                configCacheClient = map.get(fileName);
+            } catch (Throwable th) {
+                throw th;
             }
-            configCacheClient = map.get(fileName);
         }
         return configCacheClient;
     }

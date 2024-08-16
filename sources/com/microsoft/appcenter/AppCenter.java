@@ -58,10 +58,14 @@ public class AppCenter {
     public static synchronized AppCenter getInstance() {
         AppCenter appCenter;
         synchronized (AppCenter.class) {
-            if (sInstance == null) {
-                sInstance = new AppCenter();
+            try {
+                if (sInstance == null) {
+                    sInstance = new AppCenter();
+                }
+                appCenter = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            appCenter = sInstance;
         }
         return appCenter;
     }
@@ -206,27 +210,31 @@ public class AppCenter {
 
     /* JADX INFO: Access modifiers changed from: private */
     public synchronized void handlerAppCenterOperation(final Runnable runnable, final Runnable runnable2) {
-        if (checkPrecondition()) {
-            Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
-                @Override // java.lang.Runnable
-                public void run() {
-                    if (AppCenter.this.isInstanceEnabled()) {
-                        runnable.run();
-                        return;
+        try {
+            if (checkPrecondition()) {
+                Runnable runnable3 = new Runnable() { // from class: com.microsoft.appcenter.AppCenter.7
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        if (AppCenter.this.isInstanceEnabled()) {
+                            runnable.run();
+                            return;
+                        }
+                        Runnable runnable4 = runnable2;
+                        if (runnable4 != null) {
+                            runnable4.run();
+                        } else {
+                            AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
+                        }
                     }
-                    Runnable runnable4 = runnable2;
-                    if (runnable4 != null) {
-                        runnable4.run();
-                    } else {
-                        AppCenterLog.error("AppCenter", "App Center SDK is disabled.");
-                    }
+                };
+                if (Thread.currentThread() == this.mHandlerThread) {
+                    runnable.run();
+                } else {
+                    this.mHandler.post(runnable3);
                 }
-            };
-            if (Thread.currentThread() == this.mHandlerThread) {
-                runnable.run();
-            } else {
-                this.mHandler.post(runnable3);
             }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -291,28 +299,35 @@ public class AppCenter {
             AppCenterLog.error("AppCenter", "Cannot start services, services array is null. Failed to start services.");
             return;
         }
+        int i = 0;
         if (this.mApplication == null) {
             StringBuilder sb = new StringBuilder();
-            for (Class<? extends AppCenterService> cls : clsArr) {
+            int length = clsArr.length;
+            while (i < length) {
+                Class<? extends AppCenterService> cls = clsArr[i];
                 sb.append("\t");
                 sb.append(cls.getName());
                 sb.append("\n");
+                i++;
             }
             AppCenterLog.error("AppCenter", "Cannot start services, App Center has not been configured. Failed to start the following services:\n" + ((Object) sb));
             return;
         }
         final ArrayList arrayList = new ArrayList();
         final ArrayList arrayList2 = new ArrayList();
-        for (Class<? extends AppCenterService> cls2 : clsArr) {
+        int length2 = clsArr.length;
+        while (i < length2) {
+            Class<? extends AppCenterService> cls2 = clsArr[i];
             if (cls2 == null) {
                 AppCenterLog.warn("AppCenter", "Skipping null service, please check your varargs/array does not contain any null reference.");
             } else {
                 try {
-                    startOrUpdateService((AppCenterService) cls2.getMethod("getInstance", new Class[0]).invoke(null, new Object[0]), arrayList, arrayList2, z);
+                    startOrUpdateService((AppCenterService) cls2.getMethod("getInstance", null).invoke(null, null), arrayList, arrayList2, z);
                 } catch (Exception e) {
                     AppCenterLog.error("AppCenter", "Failed to get service instance '" + cls2.getName() + "', skipping it.", e);
                 }
             }
+            i++;
         }
         this.mHandler.post(new Runnable() { // from class: com.microsoft.appcenter.AppCenter.8
             @Override // java.lang.Runnable
@@ -418,8 +433,12 @@ public class AppCenter {
 
     private synchronized void configureAndStartServices(Application application, String str, Class<? extends AppCenterService>[] clsArr) {
         if (str != null) {
-            if (!str.isEmpty()) {
-                configureAndStartServices(application, str, true, clsArr);
+            try {
+                if (!str.isEmpty()) {
+                    configureAndStartServices(application, str, true, clsArr);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         AppCenterLog.error("AppCenter", "appSecret may not be null or empty.");

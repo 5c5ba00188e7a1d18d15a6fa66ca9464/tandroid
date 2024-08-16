@@ -146,7 +146,13 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
                 createOutputThread.start();
                 Logging.d(TAG, "initDecodeInternal done");
                 return VideoCodecStatus.OK;
-            } catch (IllegalArgumentException | IllegalStateException e) {
+            } catch (IllegalArgumentException e) {
+                e = e;
+                Logging.e(TAG, "initDecode failed", e);
+                release();
+                return VideoCodecStatus.FALLBACK_SOFTWARE;
+            } catch (IllegalStateException e2) {
+                e = e2;
                 Logging.e(TAG, "initDecode failed", e);
                 release();
                 return VideoCodecStatus.FALLBACK_SOFTWARE;
@@ -339,14 +345,18 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
             i4 = this.height;
         }
         synchronized (this.renderedTextureMetadataLock) {
-            if (this.renderedTextureMetadata != null) {
-                this.codec.releaseOutputBuffer(i, false);
-                return;
+            try {
+                if (this.renderedTextureMetadata != null) {
+                    this.codec.releaseOutputBuffer(i, false);
+                    return;
+                }
+                this.surfaceTextureHelper.setTextureSize(i3, i4);
+                this.surfaceTextureHelper.setFrameRotation(i2);
+                this.renderedTextureMetadata = new DecodedTextureMetadata(bufferInfo.presentationTimeUs, num);
+                this.codec.releaseOutputBuffer(i, true);
+            } catch (Throwable th) {
+                throw th;
             }
-            this.surfaceTextureHelper.setTextureSize(i3, i4);
-            this.surfaceTextureHelper.setFrameRotation(i2);
-            this.renderedTextureMetadata = new DecodedTextureMetadata(bufferInfo.presentationTimeUs, num);
-            this.codec.releaseOutputBuffer(i, true);
         }
     }
 
@@ -410,8 +420,8 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         int i5 = (i3 + 1) / 2;
         int i6 = i2 % 2 == 0 ? (i4 + 1) / 2 : i4 / 2;
         int i7 = i / 2;
-        int i8 = (i * i4) + 0;
-        int i9 = (i * i2) + 0;
+        int i8 = i * i4;
+        int i9 = i * i2;
         int i10 = i7 * i6;
         int i11 = i9 + i10;
         int i12 = i9 + ((i7 * i2) / 2);
@@ -445,6 +455,11 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
         return allocateI420Buffer;
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00f8  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x0117 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void reformat(MediaFormat mediaFormat) {
         int integer;
         int integer2;
@@ -458,7 +473,34 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
             integer2 = mediaFormat.getInteger("height");
         }
         synchronized (this.dimensionLock) {
-            if (integer != this.width || integer2 != this.height) {
+            try {
+                if (integer == this.width) {
+                    if (integer2 != this.height) {
+                    }
+                    if (this.surfaceTextureHelper == null && mediaFormat.containsKey("color-format")) {
+                        this.colorFormat = mediaFormat.getInteger("color-format");
+                        Logging.d(TAG, "Color: 0x" + Integer.toHexString(this.colorFormat));
+                        if (!isSupportedColorFormat(this.colorFormat)) {
+                            stopOnOutputThread(new IllegalStateException("Unsupported color format: " + this.colorFormat));
+                            return;
+                        }
+                    }
+                    synchronized (this.dimensionLock) {
+                        try {
+                            if (mediaFormat.containsKey(MEDIA_FORMAT_KEY_STRIDE)) {
+                                this.stride = mediaFormat.getInteger(MEDIA_FORMAT_KEY_STRIDE);
+                            }
+                            if (mediaFormat.containsKey(MEDIA_FORMAT_KEY_SLICE_HEIGHT)) {
+                                this.sliceHeight = mediaFormat.getInteger(MEDIA_FORMAT_KEY_SLICE_HEIGHT);
+                            }
+                            Logging.d(TAG, "Frame stride and slice height: " + this.stride + " x " + this.sliceHeight);
+                            this.stride = Math.max(this.width, this.stride);
+                            this.sliceHeight = Math.max(this.height, this.sliceHeight);
+                        } finally {
+                        }
+                    }
+                    return;
+                }
                 if (this.hasDecodedFirstFrame) {
                     stopOnOutputThread(new RuntimeException("Unexpected size change. Configured " + this.width + "*" + this.height + ". New " + integer + "*" + integer2));
                     return;
@@ -466,28 +508,17 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
                 if (integer > 0 && integer2 > 0) {
                     this.width = integer;
                     this.height = integer2;
+                    if (this.surfaceTextureHelper == null) {
+                        this.colorFormat = mediaFormat.getInteger("color-format");
+                        Logging.d(TAG, "Color: 0x" + Integer.toHexString(this.colorFormat));
+                        if (!isSupportedColorFormat(this.colorFormat)) {
+                        }
+                    }
+                    synchronized (this.dimensionLock) {
+                    }
                 }
                 Logging.w(TAG, "Unexpected format dimensions. Configured " + this.width + "*" + this.height + ". New " + integer + "*" + integer2 + ". Skip it");
-                return;
-            }
-            if (this.surfaceTextureHelper == null && mediaFormat.containsKey("color-format")) {
-                this.colorFormat = mediaFormat.getInteger("color-format");
-                Logging.d(TAG, "Color: 0x" + Integer.toHexString(this.colorFormat));
-                if (!isSupportedColorFormat(this.colorFormat)) {
-                    stopOnOutputThread(new IllegalStateException("Unsupported color format: " + this.colorFormat));
-                    return;
-                }
-            }
-            synchronized (this.dimensionLock) {
-                if (mediaFormat.containsKey(MEDIA_FORMAT_KEY_STRIDE)) {
-                    this.stride = mediaFormat.getInteger(MEDIA_FORMAT_KEY_STRIDE);
-                }
-                if (mediaFormat.containsKey(MEDIA_FORMAT_KEY_SLICE_HEIGHT)) {
-                    this.sliceHeight = mediaFormat.getInteger(MEDIA_FORMAT_KEY_SLICE_HEIGHT);
-                }
-                Logging.d(TAG, "Frame stride and slice height: " + this.stride + " x " + this.sliceHeight);
-                this.stride = Math.max(this.width, this.stride);
-                this.sliceHeight = Math.max(this.height, this.sliceHeight);
+            } finally {
             }
         }
     }

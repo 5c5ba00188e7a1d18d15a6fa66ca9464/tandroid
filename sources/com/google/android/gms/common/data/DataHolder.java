@@ -48,17 +48,21 @@ public final class DataHolder extends AbstractSafeParcelable implements Closeabl
     @Override // java.io.Closeable, java.lang.AutoCloseable
     public void close() {
         synchronized (this) {
-            if (!this.zae) {
-                this.zae = true;
-                int i = 0;
-                while (true) {
-                    CursorWindow[] cursorWindowArr = this.zah;
-                    if (i >= cursorWindowArr.length) {
-                        break;
+            try {
+                if (!this.zae) {
+                    this.zae = true;
+                    int i = 0;
+                    while (true) {
+                        CursorWindow[] cursorWindowArr = this.zah;
+                        if (i >= cursorWindowArr.length) {
+                            break;
+                        }
+                        cursorWindowArr[i].close();
+                        i++;
                     }
-                    cursorWindowArr[i].close();
-                    i++;
                 }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

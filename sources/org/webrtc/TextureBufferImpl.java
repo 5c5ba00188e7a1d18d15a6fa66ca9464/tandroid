@@ -70,7 +70,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
         this.transformMatrix = matrix;
         this.toI420Handler = handler;
         this.yuvConverter = yuvConverter;
-        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda2
+        this.refCountDelegate = new RefCountDelegate(new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda0
             @Override // java.lang.Runnable
             public final void run() {
                 TextureBufferImpl.this.lambda$new$0(refCountMonitor);
@@ -112,7 +112,7 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     @Override // org.webrtc.VideoFrame.Buffer
     public VideoFrame.I420Buffer toI420() {
         try {
-            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new Callable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda0
+            return (VideoFrame.I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, new Callable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda1
                 @Override // java.util.concurrent.Callable
                 public final Object call() {
                     VideoFrame.I420Buffer lambda$toI420$1;
@@ -130,20 +130,19 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
             while (nativeAllocateByteBuffer.hasRemaining()) {
                 nativeAllocateByteBuffer.put((byte) 0);
             }
-            int i3 = i / 4;
-            int i4 = (i * height) + 0;
-            int i5 = i / 2;
-            int i6 = i4 + i5;
+            int i3 = i * height;
+            int i4 = i / 2;
+            int i5 = i3 + i4;
             nativeAllocateByteBuffer.position(0);
-            nativeAllocateByteBuffer.limit(i4);
+            nativeAllocateByteBuffer.limit(i3);
             ByteBuffer slice = nativeAllocateByteBuffer.slice();
-            nativeAllocateByteBuffer.position(i4);
-            int i7 = ((i2 - 1) * i) + i5;
-            nativeAllocateByteBuffer.limit(i4 + i7);
+            nativeAllocateByteBuffer.position(i3);
+            int i6 = ((i2 - 1) * i) + i4;
+            nativeAllocateByteBuffer.limit(i3 + i6);
             ByteBuffer slice2 = nativeAllocateByteBuffer.slice();
-            nativeAllocateByteBuffer.position(i6);
-            nativeAllocateByteBuffer.limit(i6 + i7);
-            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda1
+            nativeAllocateByteBuffer.position(i5);
+            nativeAllocateByteBuffer.limit(i5 + i6);
+            return JavaI420Buffer.wrap(width, height, slice, i, slice2, i, nativeAllocateByteBuffer.slice(), i, new Runnable() { // from class: org.webrtc.TextureBufferImpl$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     JniCommon.nativeFreeByteBuffer(nativeAllocateByteBuffer);

@@ -11,9 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.MessagesStorage;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class DefaultBandwidthMeter implements BandwidthMeter, TransferListener {
     private static DefaultBandwidthMeter singletonInstance;
@@ -92,10 +90,14 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     public static synchronized DefaultBandwidthMeter getSingletonInstance(Context context) {
         DefaultBandwidthMeter defaultBandwidthMeter;
         synchronized (DefaultBandwidthMeter.class) {
-            if (singletonInstance == null) {
-                singletonInstance = new Builder(context).build();
+            try {
+                if (singletonInstance == null) {
+                    singletonInstance = new Builder(context).build();
+                }
+                defaultBandwidthMeter = singletonInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            defaultBandwidthMeter = singletonInstance;
         }
         return defaultBandwidthMeter;
     }
@@ -142,11 +144,15 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onTransferStart(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
-            if (this.streamCount == 0) {
-                this.sampleStartTimeMs = this.clock.elapsedRealtime();
+        try {
+            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
+                if (this.streamCount == 0) {
+                    this.sampleStartTimeMs = this.clock.elapsedRealtime();
+                }
+                this.streamCount++;
             }
-            this.streamCount++;
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -159,24 +165,33 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
 
     @Override // com.google.android.exoplayer2.upstream.TransferListener
     public synchronized void onTransferEnd(DataSource dataSource, DataSpec dataSpec, boolean z) {
-        if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
-            Assertions.checkState(this.streamCount > 0);
-            long elapsedRealtime = this.clock.elapsedRealtime();
-            int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
-            this.totalElapsedTimeMs += i;
-            long j = this.totalBytesTransferred;
-            long j2 = this.sampleBytesTransferred;
-            this.totalBytesTransferred = j + j2;
-            if (i > 0) {
-                this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
-                if (this.totalElapsedTimeMs >= 2000 || this.totalBytesTransferred >= 524288) {
+        try {
+            if (isTransferAtFullNetworkSpeed(dataSpec, z)) {
+                Assertions.checkState(this.streamCount > 0);
+                long elapsedRealtime = this.clock.elapsedRealtime();
+                int i = (int) (elapsedRealtime - this.sampleStartTimeMs);
+                this.totalElapsedTimeMs += i;
+                long j = this.totalBytesTransferred;
+                long j2 = this.sampleBytesTransferred;
+                this.totalBytesTransferred = j + j2;
+                if (i > 0) {
+                    this.slidingPercentile.addSample((int) Math.sqrt(j2), (((float) j2) * 8000.0f) / i);
+                    if (this.totalElapsedTimeMs < 2000) {
+                        if (this.totalBytesTransferred >= 524288) {
+                        }
+                        maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
+                        this.sampleStartTimeMs = elapsedRealtime;
+                        this.sampleBytesTransferred = 0L;
+                    }
                     this.bitrateEstimate = this.slidingPercentile.getPercentile(0.5f);
+                    maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
+                    this.sampleStartTimeMs = elapsedRealtime;
+                    this.sampleBytesTransferred = 0L;
                 }
-                maybeNotifyBandwidthSample(i, this.sampleBytesTransferred, this.bitrateEstimate);
-                this.sampleStartTimeMs = elapsedRealtime;
-                this.sampleBytesTransferred = 0L;
+                this.streamCount--;
             }
-            this.streamCount--;
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -228,1447 +243,1690 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
     }
 
     /* JADX INFO: Access modifiers changed from: private */
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    /* JADX WARN: Code restructure failed: missing block: B:954:0x0cf8, code lost:
+        if (r8.equals("AD") == false) goto L3;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public static int[] getInitialBitrateCountryGroupAssignment(String str) {
+        char c = 0;
         str.hashCode();
-        char c = 65535;
         switch (str.hashCode()) {
             case 2083:
-                if (str.equals("AD")) {
-                    c = 0;
-                    break;
-                }
                 break;
             case 2084:
                 if (str.equals("AE")) {
                     c = 1;
                     break;
                 }
+                c = 65535;
                 break;
             case 2085:
                 if (str.equals("AF")) {
                     c = 2;
                     break;
                 }
+                c = 65535;
                 break;
             case 2086:
                 if (str.equals("AG")) {
                     c = 3;
                     break;
                 }
+                c = 65535;
                 break;
             case 2088:
                 if (str.equals("AI")) {
                     c = 4;
                     break;
                 }
+                c = 65535;
                 break;
             case 2091:
                 if (str.equals("AL")) {
                     c = 5;
                     break;
                 }
+                c = 65535;
                 break;
             case 2092:
                 if (str.equals("AM")) {
                     c = 6;
                     break;
                 }
+                c = 65535;
                 break;
             case 2094:
                 if (str.equals("AO")) {
                     c = 7;
                     break;
                 }
+                c = 65535;
                 break;
             case 2096:
                 if (str.equals("AQ")) {
                     c = '\b';
                     break;
                 }
+                c = 65535;
                 break;
             case 2098:
                 if (str.equals("AS")) {
                     c = '\t';
                     break;
                 }
+                c = 65535;
                 break;
             case 2099:
                 if (str.equals("AT")) {
                     c = '\n';
                     break;
                 }
+                c = 65535;
                 break;
             case 2100:
                 if (str.equals("AU")) {
                     c = 11;
                     break;
                 }
+                c = 65535;
                 break;
             case 2102:
                 if (str.equals("AW")) {
                     c = '\f';
                     break;
                 }
+                c = 65535;
                 break;
             case 2103:
                 if (str.equals("AX")) {
                     c = '\r';
                     break;
                 }
+                c = 65535;
                 break;
             case 2105:
                 if (str.equals("AZ")) {
                     c = 14;
                     break;
                 }
+                c = 65535;
                 break;
             case 2111:
                 if (str.equals("BA")) {
                     c = 15;
                     break;
                 }
+                c = 65535;
                 break;
             case 2112:
                 if (str.equals("BB")) {
                     c = 16;
                     break;
                 }
+                c = 65535;
                 break;
             case 2114:
                 if (str.equals("BD")) {
                     c = 17;
                     break;
                 }
+                c = 65535;
                 break;
             case 2115:
                 if (str.equals("BE")) {
                     c = 18;
                     break;
                 }
+                c = 65535;
                 break;
             case 2116:
                 if (str.equals("BF")) {
                     c = 19;
                     break;
                 }
+                c = 65535;
                 break;
             case 2117:
                 if (str.equals("BG")) {
                     c = 20;
                     break;
                 }
+                c = 65535;
                 break;
             case 2118:
                 if (str.equals("BH")) {
                     c = 21;
                     break;
                 }
+                c = 65535;
                 break;
             case 2119:
                 if (str.equals("BI")) {
                     c = 22;
                     break;
                 }
+                c = 65535;
                 break;
             case 2120:
                 if (str.equals("BJ")) {
                     c = 23;
                     break;
                 }
+                c = 65535;
                 break;
             case 2122:
                 if (str.equals("BL")) {
                     c = 24;
                     break;
                 }
+                c = 65535;
                 break;
             case 2123:
                 if (str.equals("BM")) {
                     c = 25;
                     break;
                 }
+                c = 65535;
                 break;
             case 2124:
                 if (str.equals("BN")) {
                     c = 26;
                     break;
                 }
+                c = 65535;
                 break;
             case 2125:
                 if (str.equals("BO")) {
                     c = 27;
                     break;
                 }
+                c = 65535;
                 break;
             case 2127:
                 if (str.equals("BQ")) {
                     c = 28;
                     break;
                 }
+                c = 65535;
                 break;
             case 2128:
                 if (str.equals("BR")) {
                     c = 29;
                     break;
                 }
+                c = 65535;
                 break;
             case 2129:
                 if (str.equals("BS")) {
                     c = 30;
                     break;
                 }
+                c = 65535;
                 break;
             case 2130:
                 if (str.equals("BT")) {
                     c = 31;
                     break;
                 }
+                c = 65535;
                 break;
             case 2133:
                 if (str.equals("BW")) {
                     c = ' ';
                     break;
                 }
+                c = 65535;
                 break;
             case 2135:
                 if (str.equals("BY")) {
                     c = '!';
                     break;
                 }
+                c = 65535;
                 break;
             case 2136:
                 if (str.equals("BZ")) {
                     c = '\"';
                     break;
                 }
+                c = 65535;
                 break;
             case 2142:
                 if (str.equals("CA")) {
                     c = '#';
                     break;
                 }
+                c = 65535;
                 break;
             case 2145:
                 if (str.equals("CD")) {
                     c = '$';
                     break;
                 }
+                c = 65535;
                 break;
             case 2147:
                 if (str.equals("CF")) {
                     c = '%';
                     break;
                 }
+                c = 65535;
                 break;
             case 2148:
                 if (str.equals("CG")) {
                     c = '&';
                     break;
                 }
+                c = 65535;
                 break;
             case 2149:
                 if (str.equals("CH")) {
                     c = '\'';
                     break;
                 }
+                c = 65535;
                 break;
             case 2150:
                 if (str.equals("CI")) {
                     c = '(';
                     break;
                 }
+                c = 65535;
                 break;
             case 2152:
                 if (str.equals("CK")) {
                     c = ')';
                     break;
                 }
+                c = 65535;
                 break;
             case 2153:
                 if (str.equals("CL")) {
                     c = '*';
                     break;
                 }
+                c = 65535;
                 break;
             case 2154:
                 if (str.equals("CM")) {
                     c = '+';
                     break;
                 }
+                c = 65535;
                 break;
             case 2155:
                 if (str.equals("CN")) {
                     c = ',';
                     break;
                 }
+                c = 65535;
                 break;
             case 2156:
                 if (str.equals("CO")) {
                     c = '-';
                     break;
                 }
+                c = 65535;
                 break;
             case 2159:
                 if (str.equals("CR")) {
                     c = '.';
                     break;
                 }
+                c = 65535;
                 break;
             case 2162:
                 if (str.equals("CU")) {
                     c = '/';
                     break;
                 }
+                c = 65535;
                 break;
             case 2163:
                 if (str.equals("CV")) {
                     c = '0';
                     break;
                 }
+                c = 65535;
                 break;
             case 2164:
                 if (str.equals("CW")) {
                     c = '1';
                     break;
                 }
+                c = 65535;
                 break;
             case 2165:
                 if (str.equals("CX")) {
                     c = '2';
                     break;
                 }
+                c = 65535;
                 break;
             case 2166:
                 if (str.equals("CY")) {
                     c = '3';
                     break;
                 }
+                c = 65535;
                 break;
             case 2167:
                 if (str.equals("CZ")) {
                     c = '4';
                     break;
                 }
+                c = 65535;
                 break;
             case 2177:
                 if (str.equals("DE")) {
                     c = '5';
                     break;
                 }
+                c = 65535;
                 break;
             case 2182:
                 if (str.equals("DJ")) {
                     c = '6';
                     break;
                 }
+                c = 65535;
                 break;
             case 2183:
                 if (str.equals("DK")) {
                     c = '7';
                     break;
                 }
+                c = 65535;
                 break;
             case 2185:
                 if (str.equals("DM")) {
                     c = '8';
                     break;
                 }
+                c = 65535;
                 break;
             case 2187:
                 if (str.equals("DO")) {
                     c = '9';
                     break;
                 }
+                c = 65535;
                 break;
             case 2198:
                 if (str.equals("DZ")) {
                     c = ':';
                     break;
                 }
+                c = 65535;
                 break;
             case 2206:
                 if (str.equals("EC")) {
                     c = ';';
                     break;
                 }
+                c = 65535;
                 break;
             case 2208:
                 if (str.equals("EE")) {
                     c = '<';
                     break;
                 }
+                c = 65535;
                 break;
             case 2210:
                 if (str.equals("EG")) {
                     c = '=';
                     break;
                 }
+                c = 65535;
                 break;
             case 2221:
                 if (str.equals("ER")) {
                     c = '>';
                     break;
                 }
+                c = 65535;
                 break;
             case 2222:
                 if (str.equals("ES")) {
                     c = '?';
                     break;
                 }
+                c = 65535;
                 break;
             case 2223:
                 if (str.equals("ET")) {
                     c = '@';
                     break;
                 }
+                c = 65535;
                 break;
             case 2243:
                 if (str.equals("FI")) {
                     c = 'A';
                     break;
                 }
+                c = 65535;
                 break;
             case 2244:
                 if (str.equals("FJ")) {
                     c = 'B';
                     break;
                 }
+                c = 65535;
                 break;
             case 2247:
                 if (str.equals("FM")) {
                     c = 'C';
                     break;
                 }
+                c = 65535;
                 break;
             case 2249:
                 if (str.equals("FO")) {
                     c = 'D';
                     break;
                 }
+                c = 65535;
                 break;
             case 2252:
                 if (str.equals("FR")) {
                     c = 'E';
                     break;
                 }
+                c = 65535;
                 break;
             case 2266:
                 if (str.equals("GA")) {
                     c = 'F';
                     break;
                 }
+                c = 65535;
                 break;
             case 2267:
                 if (str.equals("GB")) {
                     c = 'G';
                     break;
                 }
+                c = 65535;
                 break;
             case 2269:
                 if (str.equals("GD")) {
                     c = 'H';
                     break;
                 }
+                c = 65535;
                 break;
             case 2270:
                 if (str.equals("GE")) {
                     c = 'I';
                     break;
                 }
+                c = 65535;
                 break;
             case 2271:
                 if (str.equals("GF")) {
                     c = 'J';
                     break;
                 }
+                c = 65535;
                 break;
             case 2272:
                 if (str.equals("GG")) {
                     c = 'K';
                     break;
                 }
+                c = 65535;
                 break;
             case 2273:
                 if (str.equals("GH")) {
                     c = 'L';
                     break;
                 }
+                c = 65535;
                 break;
             case 2274:
                 if (str.equals("GI")) {
                     c = 'M';
                     break;
                 }
+                c = 65535;
                 break;
             case 2277:
                 if (str.equals("GL")) {
                     c = 'N';
                     break;
                 }
+                c = 65535;
                 break;
             case 2278:
                 if (str.equals("GM")) {
                     c = 'O';
                     break;
                 }
+                c = 65535;
                 break;
             case 2279:
                 if (str.equals("GN")) {
                     c = 'P';
                     break;
                 }
+                c = 65535;
                 break;
             case 2281:
                 if (str.equals("GP")) {
                     c = 'Q';
                     break;
                 }
+                c = 65535;
                 break;
             case 2282:
                 if (str.equals("GQ")) {
                     c = 'R';
                     break;
                 }
+                c = 65535;
                 break;
             case 2283:
                 if (str.equals("GR")) {
                     c = 'S';
                     break;
                 }
+                c = 65535;
                 break;
             case 2285:
                 if (str.equals("GT")) {
                     c = 'T';
                     break;
                 }
+                c = 65535;
                 break;
             case 2286:
                 if (str.equals("GU")) {
                     c = 'U';
                     break;
                 }
+                c = 65535;
                 break;
             case 2288:
                 if (str.equals("GW")) {
                     c = 'V';
                     break;
                 }
+                c = 65535;
                 break;
             case 2290:
                 if (str.equals("GY")) {
                     c = 'W';
                     break;
                 }
+                c = 65535;
                 break;
             case 2307:
                 if (str.equals("HK")) {
                     c = 'X';
                     break;
                 }
+                c = 65535;
                 break;
             case 2310:
                 if (str.equals("HN")) {
                     c = 'Y';
                     break;
                 }
+                c = 65535;
                 break;
             case 2314:
                 if (str.equals("HR")) {
                     c = 'Z';
                     break;
                 }
+                c = 65535;
                 break;
             case 2316:
                 if (str.equals("HT")) {
                     c = '[';
                     break;
                 }
+                c = 65535;
                 break;
             case 2317:
                 if (str.equals("HU")) {
                     c = '\\';
                     break;
                 }
+                c = 65535;
                 break;
             case 2331:
                 if (str.equals("ID")) {
                     c = ']';
                     break;
                 }
+                c = 65535;
                 break;
             case 2332:
                 if (str.equals("IE")) {
                     c = '^';
                     break;
                 }
+                c = 65535;
                 break;
             case 2339:
                 if (str.equals("IL")) {
                     c = '_';
                     break;
                 }
+                c = 65535;
                 break;
             case 2340:
                 if (str.equals("IM")) {
                     c = '`';
                     break;
                 }
+                c = 65535;
                 break;
             case 2341:
                 if (str.equals("IN")) {
                     c = 'a';
                     break;
                 }
+                c = 65535;
                 break;
             case 2342:
                 if (str.equals("IO")) {
                     c = 'b';
                     break;
                 }
+                c = 65535;
                 break;
             case 2344:
                 if (str.equals("IQ")) {
                     c = 'c';
                     break;
                 }
+                c = 65535;
                 break;
             case 2345:
                 if (str.equals("IR")) {
                     c = 'd';
                     break;
                 }
+                c = 65535;
                 break;
             case 2346:
                 if (str.equals("IS")) {
                     c = 'e';
                     break;
                 }
+                c = 65535;
                 break;
             case 2347:
                 if (str.equals("IT")) {
                     c = 'f';
                     break;
                 }
+                c = 65535;
                 break;
             case 2363:
                 if (str.equals("JE")) {
                     c = 'g';
                     break;
                 }
+                c = 65535;
                 break;
             case 2371:
                 if (str.equals("JM")) {
                     c = 'h';
                     break;
                 }
+                c = 65535;
                 break;
             case 2373:
                 if (str.equals("JO")) {
                     c = 'i';
                     break;
                 }
+                c = 65535;
                 break;
             case 2374:
                 if (str.equals("JP")) {
                     c = 'j';
                     break;
                 }
+                c = 65535;
                 break;
             case 2394:
                 if (str.equals("KE")) {
                     c = 'k';
                     break;
                 }
+                c = 65535;
                 break;
             case 2396:
                 if (str.equals("KG")) {
                     c = 'l';
                     break;
                 }
+                c = 65535;
                 break;
             case 2397:
                 if (str.equals("KH")) {
                     c = 'm';
                     break;
                 }
+                c = 65535;
                 break;
             case 2398:
                 if (str.equals("KI")) {
                     c = 'n';
                     break;
                 }
+                c = 65535;
                 break;
             case 2402:
                 if (str.equals("KM")) {
                     c = 'o';
                     break;
                 }
+                c = 65535;
                 break;
             case 2403:
                 if (str.equals("KN")) {
                     c = 'p';
                     break;
                 }
+                c = 65535;
                 break;
             case 2407:
                 if (str.equals("KR")) {
                     c = 'q';
                     break;
                 }
+                c = 65535;
                 break;
             case 2412:
                 if (str.equals("KW")) {
                     c = 'r';
                     break;
                 }
+                c = 65535;
                 break;
             case 2414:
                 if (str.equals("KY")) {
                     c = 's';
                     break;
                 }
+                c = 65535;
                 break;
             case 2415:
                 if (str.equals("KZ")) {
                     c = 't';
                     break;
                 }
+                c = 65535;
                 break;
             case 2421:
                 if (str.equals("LA")) {
                     c = 'u';
                     break;
                 }
+                c = 65535;
                 break;
             case 2422:
                 if (str.equals("LB")) {
                     c = 'v';
                     break;
                 }
+                c = 65535;
                 break;
             case 2423:
                 if (str.equals("LC")) {
                     c = 'w';
                     break;
                 }
+                c = 65535;
                 break;
             case 2429:
                 if (str.equals("LI")) {
                     c = 'x';
                     break;
                 }
+                c = 65535;
                 break;
             case 2431:
                 if (str.equals("LK")) {
                     c = 'y';
                     break;
                 }
+                c = 65535;
                 break;
             case 2438:
                 if (str.equals("LR")) {
                     c = 'z';
                     break;
                 }
+                c = 65535;
                 break;
             case 2439:
                 if (str.equals("LS")) {
                     c = '{';
                     break;
                 }
+                c = 65535;
                 break;
             case 2440:
                 if (str.equals("LT")) {
                     c = '|';
                     break;
                 }
+                c = 65535;
                 break;
             case 2441:
                 if (str.equals("LU")) {
                     c = '}';
                     break;
                 }
+                c = 65535;
                 break;
             case 2442:
                 if (str.equals("LV")) {
                     c = '~';
                     break;
                 }
+                c = 65535;
                 break;
             case 2445:
                 if (str.equals("LY")) {
                     c = 127;
                     break;
                 }
+                c = 65535;
                 break;
             case 2452:
                 if (str.equals("MA")) {
                     c = 128;
                     break;
                 }
+                c = 65535;
                 break;
             case 2454:
                 if (str.equals("MC")) {
                     c = 129;
                     break;
                 }
+                c = 65535;
                 break;
             case 2455:
                 if (str.equals("MD")) {
                     c = 130;
                     break;
                 }
+                c = 65535;
                 break;
             case 2456:
                 if (str.equals("ME")) {
                     c = 131;
                     break;
                 }
+                c = 65535;
                 break;
             case 2457:
                 if (str.equals("MF")) {
                     c = 132;
                     break;
                 }
+                c = 65535;
                 break;
             case 2458:
                 if (str.equals("MG")) {
                     c = 133;
                     break;
                 }
+                c = 65535;
                 break;
             case 2459:
                 if (str.equals("MH")) {
                     c = 134;
                     break;
                 }
+                c = 65535;
                 break;
             case 2462:
                 if (str.equals("MK")) {
                     c = 135;
                     break;
                 }
+                c = 65535;
                 break;
             case 2463:
                 if (str.equals("ML")) {
                     c = 136;
                     break;
                 }
+                c = 65535;
                 break;
             case 2464:
                 if (str.equals("MM")) {
                     c = 137;
                     break;
                 }
+                c = 65535;
                 break;
             case 2465:
                 if (str.equals("MN")) {
                     c = 138;
                     break;
                 }
+                c = 65535;
                 break;
             case 2466:
                 if (str.equals("MO")) {
                     c = 139;
                     break;
                 }
+                c = 65535;
                 break;
             case 2467:
                 if (str.equals("MP")) {
                     c = 140;
                     break;
                 }
+                c = 65535;
                 break;
             case 2468:
                 if (str.equals("MQ")) {
                     c = 141;
                     break;
                 }
+                c = 65535;
                 break;
             case 2469:
                 if (str.equals("MR")) {
                     c = 142;
                     break;
                 }
+                c = 65535;
                 break;
             case 2470:
                 if (str.equals("MS")) {
                     c = 143;
                     break;
                 }
+                c = 65535;
                 break;
             case 2471:
                 if (str.equals("MT")) {
                     c = 144;
                     break;
                 }
+                c = 65535;
                 break;
             case 2472:
                 if (str.equals("MU")) {
                     c = 145;
                     break;
                 }
+                c = 65535;
                 break;
             case 2473:
                 if (str.equals("MV")) {
                     c = 146;
                     break;
                 }
+                c = 65535;
                 break;
             case 2474:
                 if (str.equals("MW")) {
                     c = 147;
                     break;
                 }
+                c = 65535;
                 break;
             case 2475:
                 if (str.equals("MX")) {
                     c = 148;
                     break;
                 }
+                c = 65535;
                 break;
             case 2476:
                 if (str.equals("MY")) {
                     c = 149;
                     break;
                 }
+                c = 65535;
                 break;
             case 2477:
                 if (str.equals("MZ")) {
                     c = 150;
                     break;
                 }
+                c = 65535;
                 break;
             case 2483:
                 if (str.equals("NA")) {
                     c = 151;
                     break;
                 }
+                c = 65535;
                 break;
             case 2485:
                 if (str.equals("NC")) {
                     c = 152;
                     break;
                 }
+                c = 65535;
                 break;
             case 2487:
                 if (str.equals("NE")) {
                     c = 153;
                     break;
                 }
+                c = 65535;
                 break;
             case 2489:
                 if (str.equals("NG")) {
                     c = 154;
                     break;
                 }
+                c = 65535;
                 break;
             case 2491:
                 if (str.equals("NI")) {
                     c = 155;
                     break;
                 }
+                c = 65535;
                 break;
             case 2494:
                 if (str.equals("NL")) {
                     c = 156;
                     break;
                 }
+                c = 65535;
                 break;
             case 2497:
                 if (str.equals("NO")) {
                     c = 157;
                     break;
                 }
+                c = 65535;
                 break;
             case 2498:
                 if (str.equals("NP")) {
                     c = 158;
                     break;
                 }
+                c = 65535;
                 break;
             case 2500:
                 if (str.equals("NR")) {
                     c = 159;
                     break;
                 }
+                c = 65535;
                 break;
             case 2503:
                 if (str.equals("NU")) {
                     c = 160;
                     break;
                 }
+                c = 65535;
                 break;
             case 2508:
                 if (str.equals("NZ")) {
                     c = 161;
                     break;
                 }
+                c = 65535;
                 break;
             case 2526:
                 if (str.equals("OM")) {
                     c = 162;
                     break;
                 }
+                c = 65535;
                 break;
             case 2545:
                 if (str.equals("PA")) {
                     c = 163;
                     break;
                 }
+                c = 65535;
                 break;
             case 2549:
                 if (str.equals("PE")) {
                     c = 164;
                     break;
                 }
+                c = 65535;
                 break;
             case 2550:
                 if (str.equals("PF")) {
                     c = 165;
                     break;
                 }
+                c = 65535;
                 break;
             case 2551:
                 if (str.equals("PG")) {
                     c = 166;
                     break;
                 }
+                c = 65535;
                 break;
             case 2552:
                 if (str.equals("PH")) {
                     c = 167;
                     break;
                 }
+                c = 65535;
                 break;
             case 2555:
                 if (str.equals("PK")) {
                     c = 168;
                     break;
                 }
+                c = 65535;
                 break;
             case 2556:
                 if (str.equals("PL")) {
                     c = 169;
                     break;
                 }
+                c = 65535;
                 break;
             case 2557:
                 if (str.equals("PM")) {
                     c = 170;
                     break;
                 }
+                c = 65535;
                 break;
             case 2562:
                 if (str.equals("PR")) {
                     c = 171;
                     break;
                 }
+                c = 65535;
                 break;
             case 2563:
                 if (str.equals("PS")) {
                     c = 172;
                     break;
                 }
+                c = 65535;
                 break;
             case 2564:
                 if (str.equals("PT")) {
                     c = 173;
                     break;
                 }
+                c = 65535;
                 break;
             case 2567:
                 if (str.equals("PW")) {
                     c = 174;
                     break;
                 }
+                c = 65535;
                 break;
             case 2569:
                 if (str.equals("PY")) {
                     c = 175;
                     break;
                 }
+                c = 65535;
                 break;
             case 2576:
                 if (str.equals("QA")) {
                     c = 176;
                     break;
                 }
+                c = 65535;
                 break;
             case 2611:
                 if (str.equals("RE")) {
                     c = 177;
                     break;
                 }
+                c = 65535;
                 break;
             case 2621:
                 if (str.equals("RO")) {
                     c = 178;
                     break;
                 }
+                c = 65535;
                 break;
             case 2625:
                 if (str.equals("RS")) {
                     c = 179;
                     break;
                 }
+                c = 65535;
                 break;
             case 2627:
                 if (str.equals("RU")) {
                     c = 180;
                     break;
                 }
+                c = 65535;
                 break;
             case 2629:
                 if (str.equals("RW")) {
                     c = 181;
                     break;
                 }
+                c = 65535;
                 break;
             case 2638:
                 if (str.equals("SA")) {
                     c = 182;
                     break;
                 }
+                c = 65535;
                 break;
             case 2639:
                 if (str.equals("SB")) {
                     c = 183;
                     break;
                 }
+                c = 65535;
                 break;
             case 2640:
                 if (str.equals("SC")) {
                     c = 184;
                     break;
                 }
+                c = 65535;
                 break;
             case 2641:
                 if (str.equals("SD")) {
                     c = 185;
                     break;
                 }
+                c = 65535;
                 break;
             case 2642:
                 if (str.equals("SE")) {
                     c = 186;
                     break;
                 }
+                c = 65535;
                 break;
             case 2644:
                 if (str.equals("SG")) {
                     c = 187;
                     break;
                 }
+                c = 65535;
                 break;
             case 2645:
                 if (str.equals("SH")) {
                     c = 188;
                     break;
                 }
+                c = 65535;
                 break;
             case 2646:
                 if (str.equals("SI")) {
                     c = 189;
                     break;
                 }
+                c = 65535;
                 break;
             case 2647:
                 if (str.equals("SJ")) {
                     c = 190;
                     break;
                 }
+                c = 65535;
                 break;
             case 2648:
                 if (str.equals("SK")) {
                     c = 191;
                     break;
                 }
+                c = 65535;
                 break;
             case 2649:
                 if (str.equals("SL")) {
                     c = 192;
                     break;
                 }
+                c = 65535;
                 break;
             case 2650:
                 if (str.equals("SM")) {
                     c = 193;
                     break;
                 }
+                c = 65535;
                 break;
             case 2651:
                 if (str.equals("SN")) {
                     c = 194;
                     break;
                 }
+                c = 65535;
                 break;
             case 2652:
                 if (str.equals("SO")) {
                     c = 195;
                     break;
                 }
+                c = 65535;
                 break;
             case 2655:
                 if (str.equals("SR")) {
                     c = 196;
                     break;
                 }
+                c = 65535;
                 break;
             case 2656:
                 if (str.equals("SS")) {
                     c = 197;
                     break;
                 }
+                c = 65535;
                 break;
             case 2657:
                 if (str.equals("ST")) {
                     c = 198;
                     break;
                 }
+                c = 65535;
                 break;
             case 2659:
                 if (str.equals("SV")) {
                     c = 199;
                     break;
                 }
+                c = 65535;
                 break;
             case 2661:
                 if (str.equals("SX")) {
                     c = 200;
                     break;
                 }
+                c = 65535;
                 break;
             case 2662:
                 if (str.equals("SY")) {
                     c = 201;
                     break;
                 }
+                c = 65535;
                 break;
             case 2663:
                 if (str.equals("SZ")) {
                     c = 202;
                     break;
                 }
+                c = 65535;
                 break;
             case 2671:
                 if (str.equals("TC")) {
                     c = 203;
                     break;
                 }
+                c = 65535;
                 break;
             case 2672:
                 if (str.equals("TD")) {
                     c = 204;
                     break;
                 }
+                c = 65535;
                 break;
             case 2675:
                 if (str.equals("TG")) {
                     c = 205;
                     break;
                 }
+                c = 65535;
                 break;
             case 2676:
                 if (str.equals("TH")) {
                     c = 206;
                     break;
                 }
+                c = 65535;
                 break;
             case 2678:
                 if (str.equals("TJ")) {
                     c = 207;
                     break;
                 }
+                c = 65535;
                 break;
             case 2679:
                 if (str.equals("TK")) {
                     c = 208;
                     break;
                 }
+                c = 65535;
                 break;
             case 2680:
                 if (str.equals("TL")) {
                     c = 209;
                     break;
                 }
+                c = 65535;
                 break;
             case 2681:
                 if (str.equals("TM")) {
                     c = 210;
                     break;
                 }
+                c = 65535;
                 break;
             case 2682:
                 if (str.equals("TN")) {
                     c = 211;
                     break;
                 }
+                c = 65535;
                 break;
             case 2683:
                 if (str.equals("TO")) {
                     c = 212;
                     break;
                 }
+                c = 65535;
                 break;
             case 2686:
                 if (str.equals("TR")) {
                     c = 213;
                     break;
                 }
+                c = 65535;
                 break;
             case 2688:
                 if (str.equals("TT")) {
                     c = 214;
                     break;
                 }
+                c = 65535;
                 break;
             case 2690:
                 if (str.equals("TV")) {
                     c = 215;
                     break;
                 }
+                c = 65535;
                 break;
             case 2691:
                 if (str.equals("TW")) {
                     c = 216;
                     break;
                 }
+                c = 65535;
                 break;
             case 2694:
                 if (str.equals("TZ")) {
                     c = 217;
                     break;
                 }
+                c = 65535;
                 break;
             case 2700:
                 if (str.equals("UA")) {
                     c = 218;
                     break;
                 }
+                c = 65535;
                 break;
             case 2706:
                 if (str.equals("UG")) {
                     c = 219;
                     break;
                 }
+                c = 65535;
                 break;
             case 2718:
                 if (str.equals("US")) {
                     c = 220;
                     break;
                 }
+                c = 65535;
                 break;
             case 2724:
                 if (str.equals("UY")) {
                     c = 221;
                     break;
                 }
+                c = 65535;
                 break;
             case 2725:
                 if (str.equals("UZ")) {
                     c = 222;
                     break;
                 }
+                c = 65535;
                 break;
             case 2731:
                 if (str.equals("VA")) {
                     c = 223;
                     break;
                 }
+                c = 65535;
                 break;
             case 2733:
                 if (str.equals("VC")) {
                     c = 224;
                     break;
                 }
+                c = 65535;
                 break;
             case 2735:
                 if (str.equals("VE")) {
                     c = 225;
                     break;
                 }
+                c = 65535;
                 break;
             case 2737:
                 if (str.equals("VG")) {
                     c = 226;
                     break;
                 }
+                c = 65535;
                 break;
             case 2739:
                 if (str.equals("VI")) {
                     c = 227;
                     break;
                 }
+                c = 65535;
                 break;
             case 2744:
                 if (str.equals("VN")) {
                     c = 228;
                     break;
                 }
+                c = 65535;
                 break;
             case 2751:
                 if (str.equals("VU")) {
                     c = 229;
                     break;
                 }
+                c = 65535;
                 break;
             case 2767:
                 if (str.equals("WF")) {
                     c = 230;
                     break;
                 }
+                c = 65535;
                 break;
             case 2780:
                 if (str.equals("WS")) {
                     c = 231;
                     break;
                 }
+                c = 65535;
                 break;
             case 2803:
                 if (str.equals("XK")) {
                     c = 232;
                     break;
                 }
+                c = 65535;
                 break;
             case 2828:
                 if (str.equals("YE")) {
                     c = 233;
                     break;
                 }
+                c = 65535;
                 break;
             case 2843:
                 if (str.equals("YT")) {
                     c = 234;
                     break;
                 }
+                c = 65535;
                 break;
             case 2855:
                 if (str.equals("ZA")) {
                     c = 235;
                     break;
                 }
+                c = 65535;
                 break;
             case 2867:
                 if (str.equals("ZM")) {
                     c = 236;
                     break;
                 }
+                c = 65535;
                 break;
             case 2877:
                 if (str.equals("ZW")) {
                     c = 237;
                     break;
                 }
+                c = 65535;
+                break;
+            default:
+                c = 65535;
                 break;
         }
         switch (c) {
             case 0:
-            case R.styleable.AppCompatTheme_checkedTextViewStyle /* 49 */:
+            case '1':
                 return new int[]{2, 2, 0, 0, 2, 2};
             case 1:
                 return new int[]{1, 4, 3, 4, 4, 2};
             case 2:
-            case 166:
+            case NotificationCenter.applyGroupCallVisibleParticipants /* 166 */:
                 return new int[]{4, 3, 3, 3, 2, 2};
             case 3:
                 return new int[]{2, 4, 3, 4, 2, 2};
@@ -1676,8 +1934,8 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 16:
             case 25:
             case 28:
-            case R.styleable.AppCompatTheme_colorError /* 56 */:
-            case R.styleable.AppCompatTheme_editTextBackground /* 68 */:
+            case '8':
+            case 'D':
                 return new int[]{0, 2, 0, 0, 2, 2};
             case 5:
                 return new int[]{1, 1, 1, 3, 2, 2};
@@ -1686,8 +1944,8 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 7:
                 return new int[]{4, 4, 4, 3, 2, 2};
             case '\b':
-            case R.styleable.AppCompatTheme_dialogPreferredPadding /* 62 */:
-            case 188:
+            case '>':
+            case NotificationCenter.storiesBlocklistUpdate /* 188 */:
                 return new int[]{4, 2, 2, 2, 2, 2};
             case '\t':
                 return new int[]{2, 2, 3, 3, 2, 2};
@@ -1696,23 +1954,23 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 11:
                 return new int[]{0, 2, 1, 1, 3, 0};
             case '\f':
-            case R.styleable.AppCompatTheme_listPreferredItemPaddingStart /* 85 */:
+            case 'U':
                 return new int[]{1, 2, 4, 4, 2, 2};
             case '\r':
-            case R.styleable.AppCompatTheme_colorAccent /* 50 */:
+            case '2':
             case 'x':
-            case 140:
-            case 143:
-            case 170:
-            case 193:
-            case 223:
+            case NotificationCenter.filePreparingStarted /* 140 */:
+            case NotificationCenter.dialogsUnreadCounterChanged /* 143 */:
+            case NotificationCenter.groupCallVisibilityChanged /* 170 */:
+            case NotificationCenter.channelRecommendationsLoaded /* 193 */:
+            case NotificationCenter.didReceiveSmsCode /* 223 */:
                 return new int[]{0, 2, 2, 2, 2, 2};
             case 14:
             case 19:
-            case R.styleable.AppCompatTheme_colorPrimaryDark /* 58 */:
+            case ':':
                 return new int[]{3, 3, 4, 4, 2, 2};
             case 15:
-            case R.styleable.AppCompatTheme_ratingBarStyleSmall /* 94 */:
+            case '^':
                 return new int[]{1, 1, 1, 1, 2, 2};
             case 17:
             case 't':
@@ -1720,25 +1978,25 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 18:
                 return new int[]{0, 1, 4, 4, 3, 2};
             case 20:
-            case R.styleable.AppCompatTheme_dialogTheme /* 63 */:
-            case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-            case 189:
+            case '?':
+            case 'S':
+            case NotificationCenter.storiesLimitUpdate /* 189 */:
                 return new int[]{0, 0, 0, 0, 1, 2};
             case 21:
                 return new int[]{1, 3, 1, 4, 4, 2};
             case 22:
-            case R.styleable.AppCompatTheme_radioButtonStyle /* 91 */:
-            case 133:
-            case 153:
-            case 204:
-            case 225:
-            case 233:
+            case '[':
+            case NotificationCenter.didUpdateConnectionState /* 133 */:
+            case NotificationCenter.recordStopped /* 153 */:
+            case NotificationCenter.groupPackUpdated /* 204 */:
+            case NotificationCenter.emojiLoaded /* 225 */:
+            case NotificationCenter.themeAccentListUpdated /* 233 */:
                 return new int[]{4, 4, 4, 4, 2, 2};
             case 23:
                 return new int[]{4, 4, 2, 3, 2, 2};
             case 24:
-            case 132:
-            case 175:
+            case NotificationCenter.httpFileDidFailedLoad /* 132 */:
+            case NotificationCenter.themeUploadedToServer /* 175 */:
                 return new int[]{1, 2, 2, 2, 2, 2};
             case 26:
                 return new int[]{3, 2, 0, 1, 2, 2};
@@ -1749,162 +2007,162 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 30:
             case 'v':
                 return new int[]{3, 2, 1, 2, 2, 2};
-            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
-            case ImageReceiver.DEFAULT_CROSSFADE_DURATION /* 150 */:
-            case 231:
+            case 31:
+            case 150:
+            case NotificationCenter.themeListUpdated /* 231 */:
                 return new int[]{3, 1, 2, 1, 2, 2};
             case ' ':
                 return new int[]{3, 2, 1, 0, 2, 2};
-            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
+            case '!':
                 return new int[]{1, 1, 2, 3, 2, 2};
-            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-            case R.styleable.AppCompatTheme_buttonBarButtonStyle /* 41 */:
+            case '\"':
+            case ')':
                 return new int[]{2, 2, 2, 1, 2, 2};
-            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+            case '#':
                 return new int[]{0, 2, 3, 3, 3, 3};
-            case R.styleable.AppCompatTheme_alertDialogCenterButtons /* 36 */:
-            case R.styleable.AppCompatTheme_textColorSearchUrl /* 111 */:
+            case '$':
+            case 'o':
                 return new int[]{4, 3, 3, 2, 2, 2};
-            case R.styleable.AppCompatTheme_alertDialogStyle /* 37 */:
-            case 183:
+            case '%':
+            case NotificationCenter.boostedChannelByUser /* 183 */:
                 return new int[]{4, 2, 4, 2, 2, 2};
-            case R.styleable.AppCompatTheme_alertDialogTheme /* 38 */:
-            case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
+            case '&':
+            case 'L':
                 return new int[]{3, 3, 3, 3, 2, 2};
-            case R.styleable.AppCompatTheme_autoCompleteTextViewStyle /* 39 */:
+            case '\'':
                 return new int[]{0, 0, 0, 0, 0, 3};
-            case R.styleable.AppCompatTheme_borderlessButtonStyle /* 40 */:
-            case R.styleable.AppCompatTheme_dialogCornerRadius /* 61 */:
+            case '(':
+            case '=':
                 return new int[]{3, 4, 3, 3, 2, 2};
-            case R.styleable.AppCompatTheme_buttonBarNegativeButtonStyle /* 42 */:
+            case '*':
                 return new int[]{1, 1, 2, 1, 3, 2};
-            case R.styleable.AppCompatTheme_buttonBarNeutralButtonStyle /* 43 */:
+            case '+':
                 return new int[]{4, 3, 3, 4, 2, 2};
-            case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+            case ',':
                 return new int[]{2, 0, 4, 3, 3, 1};
-            case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+            case '-':
                 return new int[]{2, 3, 4, 2, 2, 2};
-            case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+            case '.':
                 return new int[]{2, 4, 4, 4, 2, 2};
-            case R.styleable.AppCompatTheme_buttonStyleSmall /* 47 */:
-            case R.styleable.AppCompatTheme_textColorAlertDialogListItem /* 110 */:
+            case '/':
+            case 'n':
                 return new int[]{4, 2, 4, 3, 2, 2};
-            case R.styleable.AppCompatTheme_checkboxStyle /* 48 */:
+            case '0':
                 return new int[]{2, 3, 0, 1, 2, 2};
-            case R.styleable.AppCompatTheme_colorBackgroundFloating /* 51 */:
-            case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+            case '3':
+            case 'Z':
             case '~':
                 return new int[]{1, 0, 0, 0, 0, 2};
-            case R.styleable.AppCompatTheme_colorButtonNormal /* 52 */:
+            case '4':
                 return new int[]{0, 0, 2, 0, 1, 2};
-            case R.styleable.AppCompatTheme_colorControlActivated /* 53 */:
+            case '5':
                 return new int[]{0, 1, 3, 2, 2, 2};
-            case R.styleable.AppCompatTheme_colorControlHighlight /* 54 */:
-            case 201:
-            case 207:
+            case '6':
+            case NotificationCenter.openBoostForUsersDialog /* 201 */:
+            case NotificationCenter.premiumFloodWaitReceived /* 207 */:
                 return new int[]{4, 3, 4, 4, 2, 2};
-            case R.styleable.AppCompatTheme_colorControlNormal /* 55 */:
-            case R.styleable.AppCompatTheme_controlBackground /* 60 */:
-            case R.styleable.AppCompatTheme_ratingBarStyle /* 92 */:
+            case '7':
+            case '<':
+            case '\\':
             case '|':
-            case 144:
+            case NotificationCenter.messagePlayingProgressDidChanged /* 144 */:
                 return new int[]{0, 0, 0, 0, 0, 2};
-            case R.styleable.AppCompatTheme_colorPrimary /* 57 */:
+            case '9':
                 return new int[]{3, 4, 4, 4, 4, 2};
-            case R.styleable.AppCompatTheme_colorSwitchThumbNormal /* 59 */:
+            case ';':
                 return new int[]{1, 3, 2, 1, 2, 2};
             case '@':
-            case 194:
+            case NotificationCenter.savedMessagesDialogsUpdate /* 194 */:
                 return new int[]{4, 4, 3, 2, 2, 2};
             case 'A':
                 return new int[]{0, 0, 0, 2, 0, 2};
-            case R.styleable.AppCompatTheme_dropDownListViewStyle /* 66 */:
+            case 'B':
                 return new int[]{3, 1, 2, 3, 2, 2};
-            case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
+            case 'C':
                 return new int[]{4, 2, 3, 0, 2, 2};
-            case R.styleable.AppCompatTheme_editTextColor /* 69 */:
+            case 'E':
                 return new int[]{1, 1, 2, 1, 1, 2};
-            case R.styleable.AppCompatTheme_editTextStyle /* 70 */:
-            case 205:
+            case 'F':
+            case NotificationCenter.timezonesUpdated /* 205 */:
                 return new int[]{3, 4, 1, 0, 2, 2};
-            case R.styleable.AppCompatTheme_homeAsUpIndicator /* 71 */:
+            case 'G':
                 return new int[]{0, 1, 1, 2, 1, 2};
-            case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
-            case R.styleable.AppCompatTheme_toolbarNavigationButtonStyle /* 112 */:
-            case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+            case 'H':
+            case 'p':
+            case 's':
             case 'w':
-            case 200:
-            case 224:
+            case NotificationCenter.storyQualityUpdate /* 200 */:
+            case NotificationCenter.didReceiveCall /* 224 */:
                 return new int[]{1, 2, 0, 0, 2, 2};
-            case R.styleable.AppCompatTheme_listChoiceBackgroundIndicator /* 73 */:
+            case 'I':
                 return new int[]{1, 0, 0, 2, 2, 2};
-            case R.styleable.AppCompatTheme_listChoiceIndicatorMultipleAnimated /* 74 */:
-            case 168:
-            case 192:
+            case 'J':
+            case NotificationCenter.didEndCall /* 168 */:
+            case NotificationCenter.dialogPhotosUpdate /* 192 */:
                 return new int[]{3, 2, 3, 3, 2, 2};
-            case R.styleable.AppCompatTheme_listChoiceIndicatorSingleAnimated /* 75 */:
+            case 'K':
                 return new int[]{0, 2, 1, 0, 2, 2};
-            case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-            case R.styleable.AppCompatTheme_textAppearanceListItem /* 103 */:
+            case 'M':
+            case 'g':
                 return new int[]{1, 2, 0, 1, 2, 2};
-            case R.styleable.AppCompatTheme_listPopupWindowStyle /* 78 */:
-            case 208:
+            case 'N':
+            case NotificationCenter.availableEffectsUpdate /* 208 */:
                 return new int[]{2, 2, 2, 4, 2, 2};
-            case R.styleable.AppCompatTheme_listPreferredItemHeight /* 79 */:
+            case 'O':
                 return new int[]{4, 3, 2, 4, 2, 2};
             case 'P':
                 return new int[]{4, 4, 4, 2, 2, 2};
-            case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
+            case 'Q':
                 return new int[]{3, 1, 1, 3, 2, 2};
-            case R.styleable.AppCompatTheme_listPreferredItemPaddingEnd /* 82 */:
+            case 'R':
                 return new int[]{4, 4, 3, 3, 2, 2};
-            case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
+            case 'T':
                 return new int[]{2, 2, 2, 1, 1, 2};
             case 'V':
                 return new int[]{4, 4, 2, 2, 2, 2};
-            case R.styleable.AppCompatTheme_panelMenuListTheme /* 87 */:
+            case 'W':
                 return new int[]{3, 0, 1, 1, 2, 2};
-            case R.styleable.AppCompatTheme_panelMenuListWidth /* 88 */:
+            case 'X':
                 return new int[]{0, 1, 1, 3, 2, 0};
-            case R.styleable.AppCompatTheme_popupMenuStyle /* 89 */:
+            case 'Y':
                 return new int[]{3, 3, 2, 2, 2, 2};
-            case R.styleable.AppCompatTheme_ratingBarStyleIndicator /* 93 */:
+            case ']':
                 return new int[]{3, 1, 1, 2, 3, 2};
-            case R.styleable.AppCompatTheme_searchViewStyle /* 95 */:
+            case '_':
                 return new int[]{1, 2, 2, 3, 4, 2};
-            case R.styleable.AppCompatTheme_seekBarStyle /* 96 */:
+            case '`':
                 return new int[]{0, 2, 0, 1, 2, 2};
-            case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+            case 'a':
                 return new int[]{1, 1, 2, 1, 2, 1};
-            case R.styleable.AppCompatTheme_selectableItemBackgroundBorderless /* 98 */:
-            case 215:
-            case 230:
+            case 'b':
+            case NotificationCenter.botStarsUpdated /* 215 */:
+            case NotificationCenter.didSetNewTheme /* 230 */:
                 return new int[]{4, 2, 2, 4, 2, 2};
-            case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
-            case 190:
+            case 'c':
+            case NotificationCenter.storiesSendAsUpdate /* 190 */:
                 return new int[]{3, 2, 2, 2, 2, 2};
             case 'd':
                 return new int[]{4, 2, 3, 3, 4, 2};
             case 'e':
                 return new int[]{0, 0, 1, 0, 0, 2};
-            case R.styleable.AppCompatTheme_textAppearanceLargePopupMenu /* 102 */:
+            case 'f':
                 return new int[]{0, 0, 1, 1, 1, 2};
-            case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+            case 'h':
                 return new int[]{2, 4, 2, 1, 2, 2};
-            case R.styleable.AppCompatTheme_textAppearanceListItemSmall /* 105 */:
+            case 'i':
                 return new int[]{2, 0, 1, 1, 2, 2};
-            case R.styleable.AppCompatTheme_textAppearancePopupMenuHeader /* 106 */:
+            case 'j':
                 return new int[]{0, 3, 3, 3, 4, 4};
-            case R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle /* 107 */:
+            case 'k':
                 return new int[]{3, 2, 2, 1, 2, 2};
-            case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-            case 141:
+            case 'l':
+            case NotificationCenter.fileNewChunkAvailable /* 141 */:
                 return new int[]{2, 1, 1, 2, 2, 2};
-            case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+            case 'm':
                 return new int[]{1, 0, 4, 2, 2, 2};
-            case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
+            case 'q':
                 return new int[]{0, 2, 2, 4, 4, 4};
-            case R.styleable.AppCompatTheme_tooltipForegroundColor /* 114 */:
+            case 'r':
                 return new int[]{1, 0, 1, 0, 0, 2};
             case 'u':
                 return new int[]{1, 2, 1, 3, 2, 2};
@@ -1913,158 +2171,158 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
             case 'z':
                 return new int[]{3, 4, 3, 4, 2, 2};
             case '{':
-            case 219:
+            case NotificationCenter.updateAllMessages /* 219 */:
                 return new int[]{3, 3, 3, 2, 2, 2};
             case '}':
                 return new int[]{1, 1, 4, 2, 0, 2};
-            case 127:
-            case 212:
-            case 237:
+            case NotificationCenter.dialogTranslate /* 127 */:
+            case NotificationCenter.starTransactionsLoaded /* 212 */:
+            case NotificationCenter.goingToPreviewTheme /* 237 */:
                 return new int[]{3, 2, 4, 3, 2, 2};
             case 128:
                 return new int[]{3, 3, 2, 1, 2, 2};
-            case 129:
+            case NotificationCenter.walletPendingTransactionsChanged /* 129 */:
                 return new int[]{0, 2, 2, 0, 2, 2};
-            case 130:
+            case NotificationCenter.walletSyncProgressChanged /* 130 */:
                 return new int[]{1, 0, 0, 0, 2, 2};
-            case 131:
+            case NotificationCenter.httpFileDidLoad /* 131 */:
                 return new int[]{2, 0, 0, 1, 1, 2};
-            case 134:
+            case NotificationCenter.fileUploaded /* 134 */:
                 return new int[]{4, 2, 1, 3, 2, 2};
-            case 135:
+            case NotificationCenter.fileUploadFailed /* 135 */:
                 return new int[]{2, 0, 0, 1, 3, 2};
-            case 136:
-            case 217:
+            case NotificationCenter.fileUploadProgressChanged /* 136 */:
+            case NotificationCenter.channelStarsUpdated /* 217 */:
                 return new int[]{3, 4, 2, 2, 2, 2};
-            case 137:
+            case NotificationCenter.fileLoadProgressChanged /* 137 */:
                 return new int[]{2, 2, 2, 3, 4, 2};
-            case 138:
+            case NotificationCenter.fileLoaded /* 138 */:
                 return new int[]{2, 0, 1, 2, 2, 2};
-            case 139:
+            case NotificationCenter.fileLoadFailed /* 139 */:
                 return new int[]{0, 2, 4, 4, 4, 2};
-            case 142:
+            case NotificationCenter.filePreparingFailed /* 142 */:
                 return new int[]{4, 2, 3, 4, 2, 2};
-            case 145:
-            case 182:
+            case NotificationCenter.messagePlayingDidReset /* 145 */:
+            case NotificationCenter.didStartedMultiGiftsSelector /* 182 */:
                 return new int[]{3, 1, 1, 2, 2, 2};
-            case 146:
+            case NotificationCenter.messagePlayingPlayStateChanged /* 146 */:
                 return new int[]{3, 4, 1, 3, 3, 2};
-            case 147:
+            case NotificationCenter.messagePlayingDidStart /* 147 */:
                 return new int[]{4, 2, 3, 3, 2, 2};
-            case 148:
+            case NotificationCenter.messagePlayingDidSeek /* 148 */:
                 return new int[]{3, 4, 4, 4, 2, 2};
-            case 149:
+            case NotificationCenter.messagePlayingGoingToStop /* 149 */:
                 return new int[]{1, 0, 4, 1, 2, 2};
-            case 151:
+            case NotificationCenter.recordStarted /* 151 */:
                 return new int[]{3, 4, 3, 2, 2, 2};
-            case 152:
+            case NotificationCenter.recordStartError /* 152 */:
                 return new int[]{3, 2, 3, 4, 2, 2};
-            case 154:
+            case NotificationCenter.recordPaused /* 154 */:
                 return new int[]{3, 4, 2, 1, 2, 2};
-            case MessagesStorage.LAST_DB_VERSION /* 155 */:
+            case 155:
                 return new int[]{2, 3, 4, 3, 2, 2};
-            case 156:
+            case NotificationCenter.screenshotTook /* 156 */:
                 return new int[]{0, 2, 3, 3, 0, 4};
-            case 157:
+            case NotificationCenter.albumsDidLoad /* 157 */:
                 return new int[]{0, 1, 2, 1, 1, 2};
-            case 158:
+            case NotificationCenter.audioDidSent /* 158 */:
                 return new int[]{2, 1, 4, 3, 2, 2};
-            case 159:
+            case NotificationCenter.audioRecordTooShort /* 159 */:
                 return new int[]{4, 0, 3, 2, 2, 2};
-            case 160:
+            case NotificationCenter.audioRouteChanged /* 160 */:
                 return new int[]{4, 2, 2, 1, 2, 2};
-            case 161:
+            case NotificationCenter.didStartedCall /* 161 */:
                 return new int[]{1, 0, 2, 2, 4, 2};
-            case 162:
+            case NotificationCenter.groupCallUpdated /* 162 */:
                 return new int[]{2, 3, 1, 3, 4, 2};
-            case 163:
+            case NotificationCenter.groupCallSpeakingUsersUpdated /* 163 */:
                 return new int[]{2, 3, 3, 3, 2, 2};
-            case 164:
+            case NotificationCenter.groupCallScreencastStateChanged /* 164 */:
                 return new int[]{1, 2, 4, 4, 3, 2};
-            case 165:
-            case 199:
+            case NotificationCenter.activeGroupCallsUpdated /* 165 */:
+            case NotificationCenter.smsJobStatusUpdate /* 199 */:
                 return new int[]{2, 3, 3, 1, 2, 2};
-            case 167:
+            case NotificationCenter.groupCallTypingsUpdated /* 167 */:
                 return new int[]{2, 1, 3, 2, 2, 0};
-            case 169:
+            case NotificationCenter.closeInCallActivity /* 169 */:
                 return new int[]{2, 1, 2, 2, 4, 2};
-            case 171:
+            case NotificationCenter.appDidLogout /* 171 */:
                 return new int[]{2, 0, 2, 0, 2, 1};
-            case 172:
+            case NotificationCenter.configLoaded /* 172 */:
                 return new int[]{3, 4, 1, 4, 2, 2};
-            case 173:
+            case NotificationCenter.needDeleteDialog /* 173 */:
                 return new int[]{1, 0, 0, 0, 1, 2};
-            case 174:
+            case NotificationCenter.newEmojiSuggestionsAvailable /* 174 */:
                 return new int[]{2, 2, 4, 2, 2, 2};
-            case 176:
+            case NotificationCenter.themeUploadError /* 176 */:
                 return new int[]{1, 4, 4, 4, 4, 2};
-            case 177:
+            case NotificationCenter.dialogFiltersUpdated /* 177 */:
                 return new int[]{1, 2, 2, 3, 1, 2};
-            case 178:
+            case NotificationCenter.filterSettingsUpdated /* 178 */:
                 return new int[]{0, 0, 1, 2, 1, 2};
-            case 179:
+            case NotificationCenter.suggestedFiltersLoaded /* 179 */:
                 return new int[]{2, 0, 0, 0, 2, 2};
-            case 180:
+            case NotificationCenter.updateBotMenuButton /* 180 */:
                 return new int[]{1, 0, 0, 0, 3, 3};
-            case 181:
+            case NotificationCenter.giftsToUserSent /* 181 */:
                 return new int[]{3, 3, 1, 0, 2, 2};
-            case 184:
+            case NotificationCenter.boostByChannelCreated /* 184 */:
                 return new int[]{4, 3, 1, 1, 2, 2};
-            case 185:
+            case NotificationCenter.didUpdatePremiumGiftStickers /* 185 */:
                 return new int[]{4, 3, 4, 2, 2, 2};
-            case 186:
+            case NotificationCenter.didUpdatePremiumGiftFieldIcon /* 186 */:
                 return new int[]{0, 1, 1, 1, 0, 2};
-            case 187:
+            case NotificationCenter.storiesEnabledUpdate /* 187 */:
                 return new int[]{2, 3, 3, 3, 3, 3};
-            case 191:
+            case NotificationCenter.unconfirmedAuthUpdate /* 191 */:
                 return new int[]{1, 1, 1, 1, 3, 2};
-            case 195:
+            case NotificationCenter.savedReactionTagsUpdate /* 195 */:
                 return new int[]{3, 2, 2, 4, 4, 2};
-            case 196:
+            case NotificationCenter.userIsPremiumBlockedUpadted /* 196 */:
                 return new int[]{2, 4, 3, 0, 2, 2};
-            case 197:
-            case 210:
+            case NotificationCenter.savedMessagesForwarded /* 197 */:
+            case NotificationCenter.starGiftOptionsLoaded /* 210 */:
                 return new int[]{4, 2, 2, 3, 2, 2};
-            case 198:
+            case NotificationCenter.emojiKeywordsLoaded /* 198 */:
                 return new int[]{2, 2, 1, 2, 2, 2};
-            case 202:
+            case NotificationCenter.groupRestrictionsUnlockedByBoosts /* 202 */:
                 return new int[]{4, 4, 3, 4, 2, 2};
-            case 203:
+            case NotificationCenter.chatWasBoostedByUser /* 203 */:
                 return new int[]{2, 2, 1, 3, 2, 2};
-            case 206:
+            case NotificationCenter.customStickerCreated /* 206 */:
                 return new int[]{0, 1, 2, 1, 2, 2};
-            case 209:
+            case NotificationCenter.starOptionsLoaded /* 209 */:
                 return new int[]{4, 2, 4, 4, 2, 2};
-            case 211:
-            case 221:
+            case NotificationCenter.starBalanceUpdated /* 211 */:
+            case NotificationCenter.wallpapersDidLoad /* 221 */:
                 return new int[]{2, 1, 1, 1, 2, 2};
-            case 213:
+            case NotificationCenter.starSubscriptionsLoaded /* 213 */:
                 return new int[]{1, 0, 0, 1, 3, 2};
-            case 214:
+            case NotificationCenter.factCheckLoaded /* 214 */:
                 return new int[]{1, 4, 0, 0, 2, 2};
-            case 216:
+            case NotificationCenter.botStarsTransactionsLoaded /* 216 */:
                 return new int[]{0, 2, 0, 0, 0, 0};
-            case 218:
+            case NotificationCenter.webViewResolved /* 218 */:
                 return new int[]{0, 1, 1, 2, 4, 2};
-            case 220:
+            case NotificationCenter.pushMessagesUpdated /* 220 */:
                 return new int[]{1, 1, 4, 1, 3, 1};
-            case 222:
+            case NotificationCenter.wallpapersNeedReload /* 222 */:
                 return new int[]{2, 2, 3, 4, 3, 2};
-            case 226:
+            case NotificationCenter.invalidateMotionBackground /* 226 */:
                 return new int[]{2, 2, 0, 1, 2, 2};
-            case 227:
+            case NotificationCenter.closeOtherAppActivities /* 227 */:
                 return new int[]{0, 2, 1, 2, 2, 2};
-            case 228:
+            case NotificationCenter.cameraInitied /* 228 */:
                 return new int[]{0, 0, 1, 2, 2, 1};
-            case 229:
+            case NotificationCenter.didReplacedPhotoInMemCache /* 229 */:
                 return new int[]{4, 3, 3, 1, 2, 2};
-            case 232:
+            case NotificationCenter.didApplyNewTheme /* 232 */:
                 return new int[]{1, 2, 1, 1, 2, 2};
-            case 234:
+            case NotificationCenter.needCheckSystemBarColors /* 234 */:
                 return new int[]{2, 3, 3, 4, 2, 2};
-            case 235:
+            case NotificationCenter.needShareTheme /* 235 */:
                 return new int[]{2, 3, 2, 1, 2, 2};
-            case 236:
+            case NotificationCenter.needSetDayNightTheme /* 236 */:
                 return new int[]{4, 4, 4, 3, 3, 2};
             default:
                 return new int[]{2, 2, 2, 2, 2, 2};

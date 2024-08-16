@@ -60,7 +60,7 @@ final class SefReader {
 
     private void readSdrs(ExtractorInput extractorInput, PositionHolder positionHolder) throws IOException {
         long length = extractorInput.getLength();
-        int i = (this.tailLength - 12) - 8;
+        int i = this.tailLength - 20;
         ParsableByteArray parsableByteArray = new ParsableByteArray(i);
         extractorInput.readFully(parsableByteArray.getData(), 0, i);
         for (int i2 = 0; i2 < i / 12; i2++) {

@@ -190,11 +190,17 @@ public final class AsynchronousMediaCodecAdapter implements MediaCodecAdapter {
                 this.asynchronousMediaCodecCallback.shutdown();
             }
             this.state = 2;
-        } finally {
+            if (this.codecReleased) {
+                return;
+            }
+            this.codec.release();
+            this.codecReleased = true;
+        } catch (Throwable th) {
             if (!this.codecReleased) {
                 this.codec.release();
                 this.codecReleased = true;
             }
+            throw th;
         }
     }
 

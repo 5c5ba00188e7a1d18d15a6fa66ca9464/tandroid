@@ -7,6 +7,7 @@ import android.text.style.ReplacementSpan;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class ImageReceiverSpan extends ReplacementSpan {
@@ -29,7 +30,7 @@ public class ImageReceiverSpan extends ReplacementSpan {
             ImageReceiverSpan.this.imageReceiver.onDetachedFromWindow();
         }
     };
-    private int shadowPaintAlpha = 255;
+    private int shadowPaintAlpha = NotificationCenter.voipServiceCreated;
 
     public ImageReceiverSpan(View view, int i, float f) {
         this.currentAccount = i;

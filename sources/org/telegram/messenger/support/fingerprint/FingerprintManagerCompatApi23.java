@@ -8,7 +8,7 @@ import org.telegram.messenger.FileLog;
 /* loaded from: classes3.dex */
 public final class FingerprintManagerCompatApi23 {
     private static FingerprintManager getFingerprintManager(Context context) {
-        return (FingerprintManager) context.getSystemService("fingerprint");
+        return FingerprintManagerCompatApi23$$ExternalSyntheticApiModelOutline2.m(context.getSystemService("fingerprint"));
     }
 
     public static boolean hasEnrolledFingerprints(Context context) {

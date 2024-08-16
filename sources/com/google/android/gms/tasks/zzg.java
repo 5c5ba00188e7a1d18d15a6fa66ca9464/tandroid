@@ -16,11 +16,15 @@ final class zzg implements Runnable {
         OnCanceledListener onCanceledListener2;
         obj = this.zza.zzb;
         synchronized (obj) {
-            zzh zzhVar = this.zza;
-            onCanceledListener = zzhVar.zzc;
-            if (onCanceledListener != null) {
-                onCanceledListener2 = zzhVar.zzc;
-                onCanceledListener2.onCanceled();
+            try {
+                zzh zzhVar = this.zza;
+                onCanceledListener = zzhVar.zzc;
+                if (onCanceledListener != null) {
+                    onCanceledListener2 = zzhVar.zzc;
+                    onCanceledListener2.onCanceled();
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }

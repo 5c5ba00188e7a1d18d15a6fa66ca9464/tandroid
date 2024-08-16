@@ -14,13 +14,13 @@ public final class m implements Collector {
     private final Set e;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public m(Supplier supplier, J0 j0, l lVar, Set set) {
+    public m(Supplier supplier, l lVar, k kVar, Set set) {
         Set set2 = Collectors.a;
-        b bVar = new b(1);
+        l lVar2 = new l(0);
         this.a = supplier;
-        this.b = j0;
-        this.c = lVar;
-        this.d = bVar;
+        this.b = lVar;
+        this.c = kVar;
+        this.d = lVar2;
         this.e = set;
     }
 

@@ -64,19 +64,18 @@ public final class ParsableNalUnitBitArray {
             i5 -= 8;
         }
         while (true) {
-            i2++;
-            if (i2 > i4 || i4 >= this.byteLimit) {
+            int i6 = i2 + 1;
+            if (i6 > i4 || i4 >= this.byteLimit) {
                 break;
-            } else if (shouldSkipByte(i2)) {
+            } else if (shouldSkipByte(i6)) {
                 i4++;
-                i2 += 2;
+                i2 += 3;
+            } else {
+                i2 = i6;
             }
         }
-        int i6 = this.byteLimit;
-        if (i4 >= i6) {
-            return i4 == i6 && i5 == 0;
-        }
-        return true;
+        int i7 = this.byteLimit;
+        return i4 < i7 || (i4 == i7 && i5 == 0);
     }
 
     public boolean readBit() {

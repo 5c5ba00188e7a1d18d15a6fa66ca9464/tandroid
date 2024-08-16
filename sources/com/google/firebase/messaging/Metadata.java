@@ -68,16 +68,24 @@ public class Metadata {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getAppVersionCode() {
-        if (this.appVersionCode == null) {
-            populateAppVersionInfo();
+        try {
+            if (this.appVersionCode == null) {
+                populateAppVersionInfo();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.appVersionCode;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized String getAppVersionName() {
-        if (this.appVersionName == null) {
-            populateAppVersionInfo();
+        try {
+            if (this.appVersionName == null) {
+                populateAppVersionInfo();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.appVersionName;
     }
@@ -85,8 +93,12 @@ public class Metadata {
     /* JADX INFO: Access modifiers changed from: package-private */
     public synchronized int getGmsVersionCode() {
         PackageInfo packageInfo;
-        if (this.gmsVersionCode == 0 && (packageInfo = getPackageInfo("com.google.android.gms")) != null) {
-            this.gmsVersionCode = packageInfo.versionCode;
+        try {
+            if (this.gmsVersionCode == 0 && (packageInfo = getPackageInfo("com.google.android.gms")) != null) {
+                this.gmsVersionCode = packageInfo.versionCode;
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.gmsVersionCode;
     }

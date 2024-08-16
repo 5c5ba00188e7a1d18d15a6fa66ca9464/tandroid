@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
+import android.util.Property;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -66,13 +67,13 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         FrameLayout frameLayout = new FrameLayout(context);
         addView(frameLayout, new FrameLayout.LayoutParams(-1, AndroidUtilities.dp(176.0f) + (i2 >= 21 ? AndroidUtilities.statusBarHeight : 0)));
         RLottieImageView rLottieImageView = new RLottieImageView(context);
-        rLottieImageView.setAnimation(R.raw.qr_code_logo, R.styleable.AppCompatTheme_textAppearanceSearchResultTitle, R.styleable.AppCompatTheme_textAppearanceSearchResultTitle);
+        rLottieImageView.setAnimation(R.raw.qr_code_logo, 108, 108);
         rLottieImageView.playAnimation();
         rLottieImageView.getAnimatedDrawable().setAutoRepeat(1);
         rLottieImageView.setScaleType(ImageView.ScaleType.CENTER);
         rLottieImageView.setPadding(0, 0, 0, AndroidUtilities.dp(14.0f));
         frameLayout.addView(rLottieImageView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, i3, 0.0f, 0.0f));
-        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda0
+        rLottieImageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda1
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BlockingUpdateView.this.lambda$new$0(view);
@@ -84,7 +85,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         AndroidUtilities.setScrollViewEdgeEffectColor(scrollView, Theme.getColor(Theme.key_actionBarDefault));
         this.scrollView.setPadding(0, AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(16.0f));
         this.scrollView.setClipToPadding(false);
-        addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 27.0f, i3 + 178, 27.0f, 130.0f));
+        addView(this.scrollView, LayoutHelper.createFrame(-1, -1.0f, 51, 27.0f, i3 + NotificationCenter.filterSettingsUpdated, 27.0f, 130.0f));
         this.scrollView.addView(frameLayout2);
         TextView textView = new TextView(context);
         int i4 = Theme.key_windowBackgroundWhiteBlackText;
@@ -136,7 +137,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         this.acceptButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 4.0f));
         this.acceptButton.setPadding(AndroidUtilities.dp(34.0f), 0, AndroidUtilities.dp(34.0f), 0);
         addView(this.acceptButton, LayoutHelper.createFrame(-2, 46.0f, 81, 0.0f, 0.0f, 0.0f, 45.0f));
-        this.acceptButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda1
+        this.acceptButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 BlockingUpdateView.this.lambda$new$1(context, view);
@@ -256,11 +257,29 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         if (z) {
             this.radialProgressView.setVisibility(0);
             this.acceptButton.setEnabled(false);
-            this.progressAnimation.playTogether(ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_Y, 0.1f), ObjectAnimator.ofFloat(this.acceptTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, View.ALPHA, 1.0f));
+            AnimatorSet animatorSet2 = this.progressAnimation;
+            TextView textView = this.acceptTextView;
+            Property property = View.SCALE_X;
+            ObjectAnimator ofFloat = ObjectAnimator.ofFloat(textView, property, 0.1f);
+            TextView textView2 = this.acceptTextView;
+            Property property2 = View.SCALE_Y;
+            ObjectAnimator ofFloat2 = ObjectAnimator.ofFloat(textView2, property2, 0.1f);
+            TextView textView3 = this.acceptTextView;
+            Property property3 = View.ALPHA;
+            animatorSet2.playTogether(ofFloat, ofFloat2, ObjectAnimator.ofFloat(textView3, property3, 0.0f), ObjectAnimator.ofFloat(this.radialProgressView, property, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, property2, 1.0f), ObjectAnimator.ofFloat(this.radialProgressView, property3, 1.0f));
         } else {
             this.acceptTextView.setVisibility(0);
             this.acceptButton.setEnabled(true);
-            this.progressAnimation.playTogether(ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_X, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, View.SCALE_Y, 0.1f), ObjectAnimator.ofFloat(this.radialProgressView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_X, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.SCALE_Y, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, View.ALPHA, 1.0f));
+            AnimatorSet animatorSet3 = this.progressAnimation;
+            FrameLayout frameLayout = this.radialProgressView;
+            Property property4 = View.SCALE_X;
+            ObjectAnimator ofFloat3 = ObjectAnimator.ofFloat(frameLayout, property4, 0.1f);
+            FrameLayout frameLayout2 = this.radialProgressView;
+            Property property5 = View.SCALE_Y;
+            ObjectAnimator ofFloat4 = ObjectAnimator.ofFloat(frameLayout2, property5, 0.1f);
+            FrameLayout frameLayout3 = this.radialProgressView;
+            Property property6 = View.ALPHA;
+            animatorSet3.playTogether(ofFloat3, ofFloat4, ObjectAnimator.ofFloat(frameLayout3, property6, 0.0f), ObjectAnimator.ofFloat(this.acceptTextView, property4, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property5, 1.0f), ObjectAnimator.ofFloat(this.acceptTextView, property6, 1.0f));
         }
         this.progressAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.BlockingUpdateView.3
             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -319,7 +338,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             if (tLRPC$TL_help_getAppUpdate.source == null) {
                 tLRPC$TL_help_getAppUpdate.source = "";
             }
-            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda2
+            ConnectionsManager.getInstance(this.accountNum).sendRequest(tLRPC$TL_help_getAppUpdate, new RequestDelegate() { // from class: org.telegram.ui.Components.BlockingUpdateView$$ExternalSyntheticLambda0
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     BlockingUpdateView.this.lambda$show$3(tLObject, tLRPC$TL_error);

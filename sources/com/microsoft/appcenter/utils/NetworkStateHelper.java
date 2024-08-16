@@ -40,10 +40,14 @@ public class NetworkStateHelper implements Closeable {
     public static synchronized NetworkStateHelper getSharedInstance(Context context) {
         NetworkStateHelper networkStateHelper;
         synchronized (NetworkStateHelper.class) {
-            if (sSharedInstance == null) {
-                sSharedInstance = new NetworkStateHelper(context);
+            try {
+                if (sSharedInstance == null) {
+                    sSharedInstance = new NetworkStateHelper(context);
+                }
+                networkStateHelper = sSharedInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            networkStateHelper = sSharedInstance;
         }
         return networkStateHelper;
     }

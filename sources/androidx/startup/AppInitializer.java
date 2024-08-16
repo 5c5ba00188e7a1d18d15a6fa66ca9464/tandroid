@@ -25,8 +25,11 @@ public final class AppInitializer {
     public static AppInitializer getInstance(Context context) {
         if (sInstance == null) {
             synchronized (sLock) {
-                if (sInstance == null) {
-                    sInstance = new AppInitializer(context);
+                try {
+                    if (sInstance == null) {
+                        sInstance = new AppInitializer(context);
+                    }
+                } finally {
                 }
             }
         }
@@ -44,9 +47,13 @@ public final class AppInitializer {
     <T> T doInitialize(Class<? extends Initializer<?>> cls) {
         T t;
         synchronized (sLock) {
-            t = (T) this.mInitialized.get(cls);
-            if (t == null) {
-                t = (T) doInitialize(cls, new HashSet());
+            try {
+                t = (T) this.mInitialized.get(cls);
+                if (t == null) {
+                    t = (T) doInitialize(cls, new HashSet());
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return t;
@@ -57,8 +64,9 @@ public final class AppInitializer {
         if (Trace.isEnabled()) {
             try {
                 Trace.beginSection(cls.getSimpleName());
-            } finally {
+            } catch (Throwable th) {
                 Trace.endSection();
+                throw th;
             }
         }
         if (set.contains(cls)) {
@@ -66,7 +74,7 @@ public final class AppInitializer {
         }
         if (!this.mInitialized.containsKey(cls)) {
             set.add(cls);
-            Initializer<?> newInstance = cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            Initializer<?> newInstance = cls.getDeclaredConstructor(null).newInstance(null);
             List<Class<? extends Initializer<?>>> dependencies = newInstance.dependencies();
             if (!dependencies.isEmpty()) {
                 for (Class<? extends Initializer<?>> cls2 : dependencies) {
@@ -81,6 +89,7 @@ public final class AppInitializer {
         } else {
             t = (T) this.mInitialized.get(cls);
         }
+        Trace.endSection();
         return t;
     }
 

@@ -78,20 +78,25 @@ public class GooglePlayServicesUtilLight {
     public static boolean honorsDebugCertificates(Context context) {
         try {
             if (!zza) {
-                PackageInfo packageInfo = Wrappers.packageManager(context).getPackageInfo("com.google.android.gms", 64);
-                GoogleSignatureVerifier.getInstance(context);
-                if (packageInfo == null || GoogleSignatureVerifier.zzb(packageInfo, false) || !GoogleSignatureVerifier.zzb(packageInfo, true)) {
-                    zzb = false;
-                } else {
-                    zzb = true;
+                try {
+                    PackageInfo packageInfo = Wrappers.packageManager(context).getPackageInfo("com.google.android.gms", 64);
+                    GoogleSignatureVerifier.getInstance(context);
+                    if (packageInfo == null || GoogleSignatureVerifier.zzb(packageInfo, false) || !GoogleSignatureVerifier.zzb(packageInfo, true)) {
+                        zzb = false;
+                    } else {
+                        zzb = true;
+                    }
+                    zza = true;
+                } catch (PackageManager.NameNotFoundException e) {
+                    Log.w("GooglePlayServicesUtil", "Cannot find Google Play services package name.", e);
+                    zza = true;
                 }
             }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.w("GooglePlayServicesUtil", "Cannot find Google Play services package name.", e);
-        } finally {
+            return zzb || !DeviceProperties.isUserBuild();
+        } catch (Throwable th) {
             zza = true;
+            throw th;
         }
-        return zzb || !DeviceProperties.isUserBuild();
     }
 
     @Deprecated
@@ -130,7 +135,7 @@ public class GooglePlayServicesUtilLight {
     @TargetApi(21)
     public static boolean zza(Context context, String str) {
         PackageInstaller packageInstaller;
-        List<PackageInstaller.SessionInfo> allSessions;
+        List<Object> allSessions;
         String appPackageName;
         ApplicationInfo applicationInfo;
         boolean equals = str.equals("com.google.android.gms");
@@ -138,8 +143,8 @@ public class GooglePlayServicesUtilLight {
             try {
                 packageInstaller = context.getPackageManager().getPackageInstaller();
                 allSessions = packageInstaller.getAllSessions();
-                for (PackageInstaller.SessionInfo sessionInfo : allSessions) {
-                    appPackageName = sessionInfo.getAppPackageName();
+                for (Object obj : allSessions) {
+                    appPackageName = GooglePlayServicesUtilLight$$ExternalSyntheticApiModelOutline2.m(obj).getAppPackageName();
                     if (str.equals(appPackageName)) {
                         return true;
                     }

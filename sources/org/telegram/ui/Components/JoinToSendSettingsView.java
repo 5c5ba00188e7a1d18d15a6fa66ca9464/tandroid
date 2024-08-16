@@ -105,7 +105,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         final boolean z = this.isJoinToSend;
         boolean z2 = !z;
         final boolean z3 = this.isJoinRequest;
-        if (onJoinToSendToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda3
+        if (onJoinToSendToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$1(z3, z);
@@ -118,7 +118,7 @@ public class JoinToSendSettingsView extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$1(final boolean z, final boolean z2) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$0(z, z2);
@@ -136,7 +136,7 @@ public class JoinToSendSettingsView extends LinearLayout {
     public /* synthetic */ void lambda$new$5(View view) {
         final boolean z = this.isJoinRequest;
         boolean z2 = !z;
-        if (onJoinRequestToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda4
+        if (onJoinRequestToggle(z2, new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$4(z);
@@ -148,7 +148,7 @@ public class JoinToSendSettingsView extends LinearLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(final boolean z) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda5
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.JoinToSendSettingsView$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 JoinToSendSettingsView.this.lambda$new$3(z);
@@ -160,12 +160,12 @@ public class JoinToSendSettingsView extends LinearLayout {
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights;
         TLRPC$TL_chatAdminRights tLRPC$TL_chatAdminRights2;
         this.currentChat = tLRPC$Chat;
-        boolean z = false;
+        boolean z = true;
         this.joinToSendCell.setEnabled(tLRPC$Chat.creator || ((tLRPC$TL_chatAdminRights2 = tLRPC$Chat.admin_rights) != null && tLRPC$TL_chatAdminRights2.ban_users));
         TextCheckCell textCheckCell = this.joinRequestCell;
         TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-        if (tLRPC$Chat2.creator || ((tLRPC$TL_chatAdminRights = tLRPC$Chat2.admin_rights) != null && tLRPC$TL_chatAdminRights.ban_users)) {
-            z = true;
+        if (!tLRPC$Chat2.creator && ((tLRPC$TL_chatAdminRights = tLRPC$Chat2.admin_rights) == null || !tLRPC$TL_chatAdminRights.ban_users)) {
+            z = false;
         }
         textCheckCell.setEnabled(z);
     }
@@ -210,10 +210,7 @@ public class JoinToSendSettingsView extends LinearLayout {
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
-        float[] fArr = new float[2];
-        fArr[0] = this.toggleValue;
-        fArr[1] = this.isJoinToSend ? 1.0f : 0.0f;
-        ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+        ValueAnimator ofFloat = ValueAnimator.ofFloat(this.toggleValue, this.isJoinToSend ? 1.0f : 0.0f);
         this.toggleAnimator = ofFloat;
         ofFloat.setDuration(200L);
         this.toggleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
@@ -248,7 +245,7 @@ public class JoinToSendSettingsView extends LinearLayout {
     protected void onLayout(boolean z, int i, int i2, int i3, int i4) {
         HeaderCell headerCell = this.joinHeaderCell;
         int i5 = i3 - i;
-        int measuredHeight = headerCell.getMeasuredHeight() + 0;
+        int measuredHeight = headerCell.getMeasuredHeight();
         headerCell.layout(0, 0, i5, measuredHeight);
         if (this.joinToSendCell.getVisibility() == 0) {
             TextCheckCell textCheckCell = this.joinToSendCell;

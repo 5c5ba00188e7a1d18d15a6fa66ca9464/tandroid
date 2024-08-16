@@ -113,33 +113,38 @@ public class ThreadSafeHeap<T extends ThreadSafeHeapNode & Comparable<? super T>
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:8:0x0028, code lost:
+        if (((java.lang.Comparable) r3).compareTo(r4) < 0) goto L7;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private final void siftDownFrom(int i) {
         while (true) {
-            int i2 = (i * 2) + 1;
-            if (i2 >= getSize()) {
+            int i2 = i * 2;
+            int i3 = i2 + 1;
+            if (i3 >= getSize()) {
                 return;
             }
             T[] tArr = this.a;
             Intrinsics.checkNotNull(tArr);
-            int i3 = i2 + 1;
-            if (i3 < getSize()) {
-                T t = tArr[i3];
+            int i4 = i2 + 2;
+            if (i4 < getSize()) {
+                T t = tArr[i4];
                 Intrinsics.checkNotNull(t);
-                T t2 = tArr[i2];
+                T t2 = tArr[i3];
                 Intrinsics.checkNotNull(t2);
-                if (((Comparable) t).compareTo(t2) < 0) {
-                    i2 = i3;
-                }
             }
+            i4 = i3;
             T t3 = tArr[i];
             Intrinsics.checkNotNull(t3);
-            T t4 = tArr[i2];
+            T t4 = tArr[i4];
             Intrinsics.checkNotNull(t4);
             if (((Comparable) t3).compareTo(t4) <= 0) {
                 return;
             }
-            swap(i, i2);
-            i = i2;
+            swap(i, i4);
+            i = i4;
         }
     }
 

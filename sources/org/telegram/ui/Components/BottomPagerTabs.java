@@ -29,10 +29,6 @@ public class BottomPagerTabs extends View {
     private boolean touchDown;
     private int value;
 
-    public Tab[] createTabs() {
-        return new Tab[0];
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes3.dex */
     public class Tab {
@@ -136,6 +132,10 @@ public class BottomPagerTabs extends View {
         this.tabs = createTabs();
         setPadding(AndroidUtilities.dp(12.0f), 0, AndroidUtilities.dp(12.0f), 0);
         setProgress(0.0f, false);
+    }
+
+    public Tab[] createTabs() {
+        return new Tab[0];
     }
 
     public void setScrolling(boolean z) {

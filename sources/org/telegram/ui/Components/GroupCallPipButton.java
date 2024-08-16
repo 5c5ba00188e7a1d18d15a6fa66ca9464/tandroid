@@ -381,7 +381,7 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
                                                 } else if (i == 1) {
                                                     this.paint.setAlpha((int) (f3 * 255.0f));
                                                 } else {
-                                                    this.paint.setAlpha(255);
+                                                    this.paint.setAlpha(NotificationCenter.voipServiceCreated);
                                                 }
                                                 canvas.save();
                                                 canvas.scale(f6, f6, measuredWidth, measuredHeight);
@@ -550,11 +550,15 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
             this.previousState = weavingState2;
             WeavingState weavingState3 = this.states[i];
             this.currentState = weavingState3;
+            float f = 0.0f;
             if (weavingState2 != null) {
                 this.progressToState = 0.0f;
             } else {
                 this.progressToState = 1.0f;
-                this.wavesEnter = weavingState3.currentState != 3 && this.currentState.currentState != 2 ? 1.0f : 0.0f;
+                if (weavingState3.currentState != 3 && this.currentState.currentState != 2) {
+                    f = 1.0f;
+                }
+                this.wavesEnter = f;
             }
             VoIPService sharedInstance = VoIPService.getSharedInstance();
             if (sharedInstance != null && ChatObject.isChannelOrGiga(sharedInstance.getChat())) {
@@ -576,18 +580,18 @@ public class GroupCallPipButton extends FrameLayout implements NotificationCente
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        String str;
         int i;
+        String str;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         if (Build.VERSION.SDK_INT < 21 || GroupCallPip.getInstance() == null) {
             return;
         }
         if (GroupCallPip.getInstance().showAlert) {
-            str = "AccDescrCloseMenu";
             i = R.string.AccDescrCloseMenu;
+            str = "AccDescrCloseMenu";
         } else {
-            str = "AccDescrOpenMenu2";
             i = R.string.AccDescrOpenMenu2;
+            str = "AccDescrOpenMenu2";
         }
         accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString(str, i)));
     }

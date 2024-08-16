@@ -47,8 +47,6 @@ public final class zzfw implements Cloneable {
     }
 
     public final boolean equals(Object obj) {
-        boolean z;
-        boolean z2;
         if (obj == this) {
             return true;
         }
@@ -63,33 +61,18 @@ public final class zzfw implements Cloneable {
             int i2 = 0;
             while (true) {
                 if (i2 >= i) {
-                    z = true;
-                    break;
+                    zzfx[] zzfxVarArr = this.zzro;
+                    zzfx[] zzfxVarArr2 = zzfwVar.zzro;
+                    int i3 = this.mSize;
+                    for (int i4 = 0; i4 < i3; i4++) {
+                        if (zzfxVarArr[i4].equals(zzfxVarArr2[i4])) {
+                        }
+                    }
+                    return true;
                 } else if (iArr[i2] != iArr2[i2]) {
-                    z = false;
                     break;
                 } else {
                     i2++;
-                }
-            }
-            if (z) {
-                zzfx[] zzfxVarArr = this.zzro;
-                zzfx[] zzfxVarArr2 = zzfwVar.zzro;
-                int i3 = this.mSize;
-                int i4 = 0;
-                while (true) {
-                    if (i4 >= i3) {
-                        z2 = true;
-                        break;
-                    } else if (!zzfxVarArr[i4].equals(zzfxVarArr2[i4])) {
-                        z2 = false;
-                        break;
-                    } else {
-                        i4++;
-                    }
-                }
-                if (z2) {
-                    return true;
                 }
             }
             return false;

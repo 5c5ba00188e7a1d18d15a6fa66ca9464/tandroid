@@ -130,7 +130,7 @@ public class ArrayMap<K, V> extends SimpleArrayMap<K, V> implements Map<K, V>, j
         return this.mCollections;
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public void putAll(java.util.Map<? extends K, ? extends V> map) {
         ensureCapacity(this.mSize + map.size());
         for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
@@ -142,17 +142,17 @@ public class ArrayMap<K, V> extends SimpleArrayMap<K, V> implements Map<K, V>, j
         return MapCollections.retainAllHelper(this, collection);
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public Set<Map.Entry<K, V>> entrySet() {
         return getCollection().getEntrySet();
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public Set<K> keySet() {
         return getCollection().getKeySet();
     }
 
-    @Override // java.util.Map, j$.util.Map
+    @Override // java.util.Map
     public Collection<V> values() {
         return getCollection().getValues();
     }

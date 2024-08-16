@@ -305,8 +305,10 @@ public final class SingleSampleMediaPeriod implements MediaPeriod, Loader.Callba
                     byte[] bArr2 = this.sampleData;
                     i = statsDataSource.read(bArr2, bytesRead, bArr2.length - bytesRead);
                 }
-            } finally {
                 DataSourceUtil.closeQuietly(this.dataSource);
+            } catch (Throwable th) {
+                DataSourceUtil.closeQuietly(this.dataSource);
+                throw th;
             }
         }
     }

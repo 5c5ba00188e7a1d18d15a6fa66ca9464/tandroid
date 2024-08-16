@@ -36,7 +36,7 @@ public class FragmentTransition {
 
     private static FragmentTransitionImpl resolveSupportImpl() {
         try {
-            return (FragmentTransitionImpl) Class.forName("androidx.transition.FragmentTransitionSupport").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            return (FragmentTransitionImpl) Class.forName("androidx.transition.FragmentTransitionSupport").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
             return null;
         }
@@ -630,14 +630,14 @@ public class FragmentTransition {
     /* JADX WARN: Code restructure failed: missing block: B:31:0x0039, code lost:
         if (r0.mAdded != false) goto L60;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:56:0x006e, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:32:0x003b, code lost:
         r9 = true;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:69:0x008a, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:43:0x0052, code lost:
+        r9 = true;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:71:0x008f, code lost:
         if (r0.mHidden == false) goto L60;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:70:0x008c, code lost:
-        r9 = true;
      */
     /* JADX WARN: Removed duplicated region for block: B:75:0x009a  */
     /* JADX WARN: Removed duplicated region for block: B:78:0x00a7 A[ADDED_TO_REGION] */

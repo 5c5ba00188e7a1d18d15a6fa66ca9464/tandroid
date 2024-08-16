@@ -113,7 +113,8 @@ public class PhonebookShareAlert extends BottomSheet {
             textView.setTextSize(1, 17.0f);
             textView.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogTextBlack));
             textView.setSingleLine(true);
-            textView.setEllipsize(TextUtils.TruncateAt.END);
+            TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+            textView.setEllipsize(truncateAt);
             textView.setText(ContactsController.formatName(PhonebookShareAlert.this.currentUser.first_name, PhonebookShareAlert.this.currentUser.last_name));
             addView(textView, LayoutHelper.createLinear(-2, -2, 49, 10, 10, 10, formatUserStatus != null ? 0 : 27));
             if (formatUserStatus != null) {
@@ -121,7 +122,7 @@ public class PhonebookShareAlert extends BottomSheet {
                 textView2.setTextSize(1, 14.0f);
                 textView2.setTextColor(PhonebookShareAlert.this.getThemedColor(Theme.key_dialogTextGray3));
                 textView2.setSingleLine(true);
-                textView2.setEllipsize(TextUtils.TruncateAt.END);
+                textView2.setEllipsize(truncateAt);
                 textView2.setText(formatUserStatus);
                 addView(textView2, LayoutHelper.createLinear(-2, -2, 49, 10, 3, 10, z ? 27 : 11));
             }
@@ -276,13 +277,13 @@ public class PhonebookShareAlert extends BottomSheet {
         this(baseFragment, contact, tLRPC$User, uri, file, null, str, str2, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:47:0x012f  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x0150  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x01d1  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x0254  */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0260  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x030b  */
-    /* JADX WARN: Removed duplicated region for block: B:70:0x0317  */
+    /* JADX WARN: Removed duplicated region for block: B:44:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:48:0x014d  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x01cc  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x024f  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x025b  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0305  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0311  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -294,7 +295,6 @@ public class PhonebookShareAlert extends BottomSheet {
         ArrayList<TLRPC$RestrictionReason> arrayList;
         int itemCount;
         final int i;
-        boolean z;
         this.backgroundPaint = new Paint(1);
         this.other = new ArrayList<>();
         this.phones = new ArrayList<>();
@@ -339,20 +339,16 @@ public class PhonebookShareAlert extends BottomSheet {
                 if (vcardItem3.type == 0) {
                     int i3 = 0;
                     while (true) {
-                        if (i3 >= this.phones.size()) {
-                            z = false;
-                            break;
-                        } else if (this.phones.get(i3).getValue(false).equals(vcardItem3.getValue(false))) {
-                            z = true;
-                            break;
-                        } else {
+                        if (i3 < this.phones.size()) {
+                            if (this.phones.get(i3).getValue(false).equals(vcardItem3.getValue(false))) {
+                                vcardItem3.checked = false;
+                                break;
+                            }
                             i3++;
+                        } else {
+                            this.phones.add(vcardItem3);
+                            break;
                         }
-                    }
-                    if (z) {
-                        vcardItem3.checked = false;
-                    } else {
-                        this.phones.add(vcardItem3);
                     }
                 } else {
                     this.other.add(vcardItem3);
@@ -436,9 +432,9 @@ public class PhonebookShareAlert extends BottomSheet {
                     }
 
                     @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-                    protected void onLayout(boolean z2, int i4, int i5, int i6, int i7) {
+                    protected void onLayout(boolean z, int i4, int i5, int i6, int i7) {
                         PhonebookShareAlert.this.inLayout = true;
-                        super.onLayout(z2, i4, i5, i6, i7);
+                        super.onLayout(z, i4, i5, i6, i7);
                         PhonebookShareAlert.this.inLayout = false;
                         PhonebookShareAlert.this.updateLayout(false);
                     }
@@ -659,9 +655,9 @@ public class PhonebookShareAlert extends BottomSheet {
             }
 
             @Override // android.widget.FrameLayout, android.view.ViewGroup, android.view.View
-            protected void onLayout(boolean z2, int i42, int i52, int i6, int i7) {
+            protected void onLayout(boolean z, int i42, int i52, int i6, int i7) {
                 PhonebookShareAlert.this.inLayout = true;
-                super.onLayout(z2, i42, i52, i6, i7);
+                super.onLayout(z, i42, i52, i6, i7);
                 PhonebookShareAlert.this.inLayout = false;
                 PhonebookShareAlert.this.updateLayout(false);
             }
@@ -807,6 +803,7 @@ public class PhonebookShareAlert extends BottomSheet {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$2(int i, View view, View view2) {
         final AndroidUtilities.VcardItem vcardItem;
+        boolean z = false;
         int i2 = this.phoneStartRow;
         if (i >= i2 && i < this.phoneEndRow) {
             vcardItem = this.phones.get(i - i2);
@@ -817,7 +814,6 @@ public class PhonebookShareAlert extends BottomSheet {
         if (vcardItem == null) {
             return;
         }
-        boolean z = true;
         if (this.isImport) {
             int i4 = vcardItem.type;
             if (i4 == 0) {
@@ -857,9 +853,9 @@ public class PhonebookShareAlert extends BottomSheet {
             int i5 = 0;
             while (true) {
                 if (i5 >= this.phones.size()) {
-                    z = false;
                     break;
                 } else if (this.phones.get(i5).checked) {
+                    z = true;
                     break;
                 } else {
                     i5++;
@@ -1329,18 +1325,9 @@ public class PhonebookShareAlert extends BottomSheet {
                 this.actionBarAnimation = animatorSet2;
                 animatorSet2.setDuration(180L);
                 AnimatorSet animatorSet3 = this.actionBarAnimation;
-                Animator[] animatorArr = new Animator[2];
                 ActionBar actionBar = this.actionBar;
                 Property property = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = z2 ? 1.0f : 0.0f;
-                animatorArr[0] = ObjectAnimator.ofFloat(actionBar, property, fArr);
-                View view = this.actionBarShadow;
-                Property property2 = View.ALPHA;
-                float[] fArr2 = new float[1];
-                fArr2[0] = z2 ? 1.0f : 0.0f;
-                animatorArr[1] = ObjectAnimator.ofFloat(view, property2, fArr2);
-                animatorSet3.playTogether(animatorArr);
+                animatorSet3.playTogether(ObjectAnimator.ofFloat(actionBar, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBarShadow, property, z2 ? 1.0f : 0.0f));
                 this.actionBarAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.7
                     @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                     public void onAnimationEnd(Animator animator) {
@@ -1373,14 +1360,7 @@ public class PhonebookShareAlert extends BottomSheet {
             AnimatorSet animatorSet5 = new AnimatorSet();
             this.shadowAnimation = animatorSet5;
             animatorSet5.setDuration(180L);
-            AnimatorSet animatorSet6 = this.shadowAnimation;
-            Animator[] animatorArr2 = new Animator[1];
-            View view2 = this.shadow;
-            Property property3 = View.ALPHA;
-            float[] fArr3 = new float[1];
-            fArr3[0] = z3 ? 1.0f : 0.0f;
-            animatorArr2[0] = ObjectAnimator.ofFloat(view2, property3, fArr3);
-            animatorSet6.playTogether(animatorArr2);
+            this.shadowAnimation.playTogether(ObjectAnimator.ofFloat(this.shadow, View.ALPHA, z3 ? 1.0f : 0.0f));
             this.shadowAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Components.PhonebookShareAlert.8
                 @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
                 public void onAnimationEnd(Animator animator) {
@@ -1394,7 +1374,7 @@ public class PhonebookShareAlert extends BottomSheet {
     }
 
     private void updateRows() {
-        this.rowCount = 0 + 1;
+        this.rowCount = 1;
         this.userRow = 0;
         if (this.phones.size() <= 1 && this.other.isEmpty()) {
             this.phoneStartRow = -1;

@@ -234,7 +234,7 @@ public class NumberPicker extends LinearLayout {
     public NumberPicker(Context context, int i, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.SELECTOR_WHEEL_ITEM_COUNT = 3;
-        this.SELECTOR_MIDDLE_ITEM_INDEX = 3 / 2;
+        this.SELECTOR_MIDDLE_ITEM_INDEX = 1;
         this.mLongPressUpdateInterval = 300L;
         this.mSelectorIndexToStringCache = new SparseArray<>();
         this.mSelectorIndices = new int[this.SELECTOR_WHEEL_ITEM_COUNT];
@@ -620,15 +620,19 @@ public class NumberPicker extends LinearLayout {
         return this.mWrapSelectorWheel;
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:11:0x001b, code lost:
+        if (r5 != false) goto L10;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public void setWrapSelectorWheel(boolean z) {
         Integer num;
-        boolean z2 = false;
-        if ((this.mMaxValueSet && this.mMinValueSet && ((num = this.allItemsCount) == null || (this.mMaxValue - this.mMinValue) + 1 < num.intValue())) ? false : true) {
+        boolean z2 = true;
+        if (!this.mMaxValueSet || !this.mMinValueSet || ((num = this.allItemsCount) != null && (this.mMaxValue - this.mMinValue) + 1 >= num.intValue())) {
             this.mWrapSelectorWheelSetting = z;
-            if (z) {
-                z2 = true;
-            }
         }
+        z2 = false;
         this.mWrapSelectorWheel = z2;
     }
 
@@ -967,19 +971,14 @@ public class NumberPicker extends LinearLayout {
     private int getWrappedSelectorIndex(int i) {
         int i2;
         int i3;
-        if (this.mMaxValueSet && i > (i3 = this.mMaxValue)) {
-            int i4 = this.mMinValue;
-            if (i3 - i4 != 0) {
-                return (i4 + ((i - i3) % (i3 - i4))) - 1;
-            }
+        int i4;
+        int i5;
+        int i6;
+        int i7;
+        if (!this.mMaxValueSet || i <= (i5 = this.mMaxValue) || (i7 = i5 - (i6 = this.mMinValue)) == 0) {
+            return (!this.mMinValueSet || i >= (i2 = this.mMinValue) || (i4 = (i3 = this.mMaxValue) - i2) == 0) ? i : (i3 - ((i2 - i) % i4)) + 1;
         }
-        if (this.mMinValueSet && i < (i2 = this.mMinValue)) {
-            int i5 = this.mMaxValue;
-            if (i5 - i2 != 0) {
-                return (i5 - ((i2 - i) % (i5 - i2))) + 1;
-            }
-        }
-        return i;
+        return (i6 + ((i - i5) % i7)) - 1;
     }
 
     private void incrementSelectorIndices(int[] iArr) {

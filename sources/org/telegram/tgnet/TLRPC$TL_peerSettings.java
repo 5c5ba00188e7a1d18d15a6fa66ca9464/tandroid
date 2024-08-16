@@ -14,7 +14,7 @@ public class TLRPC$TL_peerSettings extends TLRPC$PeerSettings {
         this.need_contacts_exception = (readInt32 & 16) != 0;
         this.report_geo = (readInt32 & 32) != 0;
         this.autoarchived = (readInt32 & 128) != 0;
-        this.invite_members = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.invite_members = (readInt32 & 256) != 0;
         this.request_chat_broadcast = (readInt32 & 1024) != 0;
         this.business_bot_paused = (readInt32 & 2048) != 0;
         this.business_bot_can_reply = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -52,7 +52,7 @@ public class TLRPC$TL_peerSettings extends TLRPC$PeerSettings {
         this.flags = i6;
         int i7 = this.autoarchived ? i6 | 128 : i6 & (-129);
         this.flags = i7;
-        int i8 = this.invite_members ? i7 | LiteMode.FLAG_CHAT_BLUR : i7 & (-257);
+        int i8 = this.invite_members ? i7 | 256 : i7 & (-257);
         this.flags = i8;
         int i9 = this.request_chat_broadcast ? i8 | 1024 : i8 & (-1025);
         this.flags = i9;

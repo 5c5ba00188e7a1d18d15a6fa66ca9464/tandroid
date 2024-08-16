@@ -71,7 +71,7 @@ public final class MdtaMetadataEntry implements Metadata.Entry {
     }
 
     public int hashCode() {
-        return ((((((527 + this.key.hashCode()) * 31) + Arrays.hashCode(this.value)) * 31) + this.localeIndicator) * 31) + this.typeIndicator;
+        return ((((((this.key.hashCode() + 527) * 31) + Arrays.hashCode(this.value)) * 31) + this.localeIndicator) * 31) + this.typeIndicator;
     }
 
     public String toString() {

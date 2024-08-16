@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Property;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -30,7 +31,10 @@ public class PhotoEditToolCell extends FrameLayout {
             public void run() {
                 PhotoEditToolCell.this.valueTextView.setTag(null);
                 PhotoEditToolCell.this.valueAnimation = new AnimatorSet();
-                PhotoEditToolCell.this.valueAnimation.playTogether(ObjectAnimator.ofFloat(PhotoEditToolCell.this.valueTextView, View.ALPHA, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, View.ALPHA, 1.0f));
+                AnimatorSet animatorSet = PhotoEditToolCell.this.valueAnimation;
+                TextView textView = PhotoEditToolCell.this.valueTextView;
+                Property property = View.ALPHA;
+                animatorSet.playTogether(ObjectAnimator.ofFloat(textView, property, 0.0f), ObjectAnimator.ofFloat(PhotoEditToolCell.this.nameTextView, property, 1.0f));
                 PhotoEditToolCell.this.valueAnimation.setDuration(250L);
                 PhotoEditToolCell.this.valueAnimation.setInterpolator(new DecelerateInterpolator());
                 PhotoEditToolCell.this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.1.1
@@ -93,7 +97,9 @@ public class PhotoEditToolCell extends FrameLayout {
             this.valueTextView.setTag(1);
             AnimatorSet animatorSet2 = new AnimatorSet();
             this.valueAnimation = animatorSet2;
-            animatorSet2.playTogether(ObjectAnimator.ofFloat(this.valueTextView, View.ALPHA, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, View.ALPHA, 0.0f));
+            TextView textView3 = this.valueTextView;
+            Property property = View.ALPHA;
+            animatorSet2.playTogether(ObjectAnimator.ofFloat(textView3, property, 1.0f), ObjectAnimator.ofFloat(this.nameTextView, property, 0.0f));
             this.valueAnimation.setDuration(250L);
             this.valueAnimation.setInterpolator(new DecelerateInterpolator());
             this.valueAnimation.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.Cells.PhotoEditToolCell.2

@@ -187,17 +187,17 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         this.showSelected = true;
         this.showSelectedAlpha = new AnimatedFloat(this, 350L, cubicBezierInterpolator);
         this.scrollRunnable = new Runnable() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip.6
-            /* JADX WARN: Code restructure failed: missing block: B:11:0x0039, code lost:
-                if (r7.this$0.scrollRight != false) goto L5;
+            /* JADX WARN: Code restructure failed: missing block: B:10:0x0035, code lost:
+                if (r6.this$0.scrollRight != false) goto L6;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:14:0x004a, code lost:
-                if (r7.this$0.scrollRight != false) goto L5;
+            /* JADX WARN: Code restructure failed: missing block: B:13:0x0046, code lost:
+                if (r6.this$0.scrollRight != false) goto L6;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:5:0x001f, code lost:
-                if (r7.this$0.scrollRight != false) goto L5;
+            /* JADX WARN: Code restructure failed: missing block: B:15:0x0049, code lost:
+                r4 = -1;
              */
-            /* JADX WARN: Code restructure failed: missing block: B:6:0x0021, code lost:
-                r4 = 1;
+            /* JADX WARN: Code restructure failed: missing block: B:5:0x001e, code lost:
+                if (r6.this$0.scrollRight != false) goto L6;
              */
             @Override // java.lang.Runnable
             /*
@@ -206,7 +206,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             public void run() {
                 int max;
                 long currentTimeMillis = System.currentTimeMillis() - ScrollSlidingTabStrip.this.scrollStartTime;
-                int i = -1;
+                int i = 1;
                 if (currentTimeMillis < 3000) {
                     max = Math.max(1, AndroidUtilities.dp(1.0f));
                 } else if (currentTimeMillis < 5000) {
@@ -414,7 +414,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
             stickerTabView = new StickerTabView(getContext(), 1);
             stickerTabView.iconView.setImageDrawable(drawable);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda5
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda6
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ScrollSlidingTabStrip.this.lambda$addStickerIconTab$1(view);
@@ -446,7 +446,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 0);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda4
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda0
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ScrollSlidingTabStrip.this.lambda$addStickerTab$2(view);
@@ -486,7 +486,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
         } else {
             stickerTabView = new StickerTabView(getContext(), 2);
             stickerTabView.setFocusable(true);
-            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda6
+            stickerTabView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda2
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
                     ScrollSlidingTabStrip.this.lambda$addEmojiTab$3(view);
@@ -560,12 +560,9 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                 valueAnimator.removeAllListeners();
                 this.expandStickerAnimator.cancel();
             }
-            float[] fArr = new float[2];
-            fArr[0] = this.expandProgress;
-            fArr[1] = z ? 1.0f : 0.0f;
-            ValueAnimator ofFloat = ValueAnimator.ofFloat(fArr);
+            ValueAnimator ofFloat = ValueAnimator.ofFloat(this.expandProgress, z ? 1.0f : 0.0f);
             this.expandStickerAnimator = ofFloat;
-            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda2
+            ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda5
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     ScrollSlidingTabStrip.this.lambda$expandStickers$5(z, f, valueAnimator2);
@@ -1088,7 +1085,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                     }
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Components.ScrollSlidingTabStrip$$ExternalSyntheticLambda4
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                         ScrollSlidingTabStrip.this.lambda$checkLongPress$6(valueAnimator);

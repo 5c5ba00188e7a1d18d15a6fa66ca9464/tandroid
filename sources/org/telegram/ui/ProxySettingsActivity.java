@@ -90,7 +90,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareDoneProgress = 1.0f;
         this.shareDoneProgressAnimValues = new float[2];
         this.shareDoneEnabled = true;
-        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
+        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda2
             @Override // android.content.ClipboardManager.OnPrimaryClipChangedListener
             public final void onPrimaryClipChanged() {
                 ProxySettingsActivity.this.updatePasteCell();
@@ -109,7 +109,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareDoneProgress = 1.0f;
         this.shareDoneProgressAnimValues = new float[2];
         this.shareDoneEnabled = true;
-        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
+        this.clipChangedListener = new ClipboardManager.OnPrimaryClipChangedListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda2
             @Override // android.content.ClipboardManager.OnPrimaryClipChangedListener
             public final void onPrimaryClipChanged() {
                 ProxySettingsActivity.this.updatePasteCell();
@@ -200,7 +200,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.linearLayout2 = linearLayout;
         linearLayout.setOrientation(1);
         this.scrollView.addView(this.linearLayout2, new FrameLayout.LayoutParams(-1, -2));
-        View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda4
+        View.OnClickListener onClickListener = new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda3
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$0(view);
@@ -315,7 +315,7 @@ public class ProxySettingsActivity extends BaseFragment {
                     }
                 });
             } else if (i2 == 3) {
-                this.inputFields[i2].setInputType(129);
+                this.inputFields[i2].setInputType(NotificationCenter.walletPendingTransactionsChanged);
                 this.inputFields[i2].setTypeface(Typeface.DEFAULT);
                 this.inputFields[i2].setTransformationMethod(PasswordTransformationMethod.getInstance());
             } else {
@@ -343,7 +343,7 @@ public class ProxySettingsActivity extends BaseFragment {
             editTextBoldCursor3.setSelection(editTextBoldCursor3.length());
             this.inputFields[i2].setPadding(0, 0, 0, 0);
             frameLayout2.addView(this.inputFields[i2], LayoutHelper.createFrame(-1, -1.0f, 51, 17.0f, i2 == 0 ? 12.0f : 0.0f, 17.0f, 0.0f));
-            this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda5
+            this.inputFields[i2].setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda4
                 @Override // android.widget.TextView.OnEditorActionListener
                 public final boolean onEditorAction(TextView textView, int i5, KeyEvent keyEvent) {
                     boolean lambda$createView$1;
@@ -372,7 +372,7 @@ public class ProxySettingsActivity extends BaseFragment {
         TextSettingsCell textSettingsCell2 = this.pasteCell;
         int i6 = Theme.key_windowBackgroundWhiteBlueText4;
         textSettingsCell2.setTextColor(Theme.getColor(i6));
-        this.pasteCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
+        this.pasteCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$3(view);
@@ -394,7 +394,7 @@ public class ProxySettingsActivity extends BaseFragment {
         this.shareCell.setText(LocaleController.getString("ShareFile", R.string.ShareFile), false);
         this.shareCell.setTextColor(Theme.getColor(i6));
         this.linearLayout2.addView(this.shareCell, LayoutHelper.createLinear(-1, -2));
-        this.shareCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda7
+        this.shareCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda6
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 ProxySettingsActivity.this.lambda$createView$4(context, view);
@@ -817,7 +817,7 @@ public class ProxySettingsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda2
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.ProxySettingsActivity$$ExternalSyntheticLambda7
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 ProxySettingsActivity.this.lambda$getThemeDescriptions$6();

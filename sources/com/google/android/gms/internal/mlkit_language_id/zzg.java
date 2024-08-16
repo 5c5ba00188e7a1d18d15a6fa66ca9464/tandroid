@@ -54,8 +54,10 @@ public final class zzg {
         if (i < 0 || i2 < i || i2 > i3) {
             if (i < 0 || i > i3) {
                 zza = zza(i, i3, "start index");
+            } else if (i2 < 0 || i2 > i3) {
+                zza = zza(i2, i3, "end index");
             } else {
-                zza = (i2 < 0 || i2 > i3) ? zza(i2, i3, "end index") : zzj.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
+                zza = zzj.zza("end index (%s) must not be less than start index (%s)", Integer.valueOf(i2), Integer.valueOf(i));
             }
             throw new IndexOutOfBoundsException(zza);
         }

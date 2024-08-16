@@ -120,7 +120,9 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.extTextView.setMaxLines(1);
         this.extTextView.setSingleLine(true);
         this.extTextView.setGravity(17);
-        this.extTextView.setEllipsize(TextUtils.TruncateAt.END);
+        TextView textView2 = this.extTextView;
+        TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
+        textView2.setEllipsize(truncateAt);
         this.extTextView.setImportantForAccessibility(2);
         if (i == 1) {
             View view = this.extTextView;
@@ -152,13 +154,13 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             boolean z6 = LocaleController.isRTL;
             addView(view4, LayoutHelper.createFrame(40, 40.0f, (z6 ? 5 : 3) | 48, z6 ? 0.0f : 12.0f, 8.0f, z6 ? 12.0f : 0.0f, 0.0f));
         }
-        TextView textView2 = new TextView(context);
-        this.nameTextView = textView2;
+        TextView textView3 = new TextView(context);
+        this.nameTextView = textView3;
         int i3 = Theme.key_windowBackgroundWhiteBlackText;
-        textView2.setTextColor(getThemedColor(i3));
+        textView3.setTextColor(getThemedColor(i3));
         this.nameTextView.setTextSize(1, 16.0f);
         this.nameTextView.setTypeface(AndroidUtilities.bold());
-        this.nameTextView.setEllipsize(TextUtils.TruncateAt.END);
+        this.nameTextView.setEllipsize(truncateAt);
         this.nameTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         if (i == 1) {
             this.nameTextView.setLines(1);
@@ -172,9 +174,9 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             linearLayout.setOrientation(0);
             boolean z8 = LocaleController.isRTL;
             addView(linearLayout, LayoutHelper.createFrame(-1, -2.0f, (z8 ? 5 : 3) | 48, z8 ? 16.0f : 72.0f, 5.0f, z8 ? 72.0f : 16.0f, 0.0f));
-            TextView textView3 = new TextView(context);
-            this.rightDateTextView = textView3;
-            textView3.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
+            TextView textView4 = new TextView(context);
+            this.rightDateTextView = textView4;
+            textView4.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText3));
             this.rightDateTextView.setTextSize(1, 14.0f);
             if (!LocaleController.isRTL) {
                 linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(-2, -2, 1.0f));
@@ -184,13 +186,13 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
                 linearLayout.addView(this.nameTextView, LayoutHelper.createLinear(-2, -2, 1.0f, 0, 0, 4, 0));
             }
             this.nameTextView.setMaxLines(2);
-            TextView textView4 = new TextView(context);
-            this.captionTextView = textView4;
-            textView4.setTextColor(getThemedColor(i3));
+            TextView textView5 = new TextView(context);
+            this.captionTextView = textView5;
+            textView5.setTextColor(getThemedColor(i3));
             this.captionTextView.setLines(1);
             this.captionTextView.setMaxLines(1);
             this.captionTextView.setSingleLine(true);
-            this.captionTextView.setEllipsize(TextUtils.TruncateAt.END);
+            this.captionTextView.setEllipsize(truncateAt);
             this.captionTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
             this.captionTextView.setTextSize(1, 13.0f);
             View view6 = this.captionTextView;
@@ -226,7 +228,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
         this.dateTextView.setLines(1);
         this.dateTextView.setMaxLines(1);
         this.dateTextView.setSingleLine(true);
-        this.dateTextView.setEllipsize(TextUtils.TruncateAt.END);
+        this.dateTextView.setEllipsize(truncateAt);
         this.dateTextView.setGravity((LocaleController.isRTL ? 5 : 3) | 16);
         NotificationCenter.listenEmojiLoading(this.dateTextView);
         if (i == 1) {
@@ -629,7 +631,7 @@ public class SharedDocumentCell extends FrameLayout implements DownloadControlle
             int dp = AndroidUtilities.dp(34.0f) + this.nameTextView.getMeasuredHeight() + (this.needDivider ? 1 : 0);
             if (this.caption != null && this.captionTextView != null && this.message.hasHighlightedWords()) {
                 this.ignoreRequestLayout = true;
-                this.captionTextView.setText(AndroidUtilities.ellipsizeCenterEnd(this.caption, this.message.highlightedWords.get(0), this.captionTextView.getMeasuredWidth(), this.captionTextView.getPaint(), 130));
+                this.captionTextView.setText(AndroidUtilities.ellipsizeCenterEnd(this.caption, this.message.highlightedWords.get(0), this.captionTextView.getMeasuredWidth(), this.captionTextView.getPaint(), NotificationCenter.walletSyncProgressChanged));
                 this.ignoreRequestLayout = false;
                 dp += this.captionTextView.getMeasuredHeight() + AndroidUtilities.dp(3.0f);
             }

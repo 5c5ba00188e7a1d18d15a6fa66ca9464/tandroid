@@ -114,23 +114,27 @@ public final class zzf implements ServiceConnection {
             Log.d("MessengerIpcClient", sb.toString());
         }
         synchronized (this) {
-            zzq<?> zzqVar = this.zze.get(i);
-            if (zzqVar == null) {
-                StringBuilder sb2 = new StringBuilder(50);
-                sb2.append("Received response for unknown request: ");
-                sb2.append(i);
-                Log.w("MessengerIpcClient", sb2.toString());
+            try {
+                zzq<?> zzqVar = this.zze.get(i);
+                if (zzqVar == null) {
+                    StringBuilder sb2 = new StringBuilder(50);
+                    sb2.append("Received response for unknown request: ");
+                    sb2.append(i);
+                    Log.w("MessengerIpcClient", sb2.toString());
+                    return true;
+                }
+                this.zze.remove(i);
+                zzb();
+                Bundle data = message.getData();
+                if (data.getBoolean("unsupported", false)) {
+                    zzqVar.zza(new zzp(4, "Not supported by GmsCore"));
+                } else {
+                    zzqVar.zza(data);
+                }
                 return true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zze.remove(i);
-            zzb();
-            Bundle data = message.getData();
-            if (data.getBoolean("unsupported", false)) {
-                zzqVar.zza(new zzp(4, "Not supported by GmsCore"));
-            } else {
-                zzqVar.zza(data);
-            }
-            return true;
         }
     }
 
@@ -156,20 +160,16 @@ public final class zzf implements ServiceConnection {
                 zzf zzfVar = this.zza;
                 IBinder iBinder2 = this.zzb;
                 synchronized (zzfVar) {
+                    if (iBinder2 == null) {
+                        zzfVar.zza(0, "Null service connection");
+                        return;
+                    }
                     try {
-                        if (iBinder2 == null) {
-                            zzfVar.zza(0, "Null service connection");
-                            return;
-                        }
-                        try {
-                            zzfVar.zzc = new zzo(iBinder2);
-                            zzfVar.zza = 2;
-                            zzfVar.zza();
-                        } catch (RemoteException e) {
-                            zzfVar.zza(0, e.getMessage());
-                        }
-                    } catch (Throwable th) {
-                        throw th;
+                        zzfVar.zzc = new zzo(iBinder2);
+                        zzfVar.zza = 2;
+                        zzfVar.zza();
+                    } catch (RemoteException e) {
+                        zzfVar.zza(0, e.getMessage());
                     }
                 }
             }
@@ -196,31 +196,35 @@ public final class zzf implements ServiceConnection {
                 final zzf zzfVar = this.zza;
                 while (true) {
                     synchronized (zzfVar) {
-                        if (zzfVar.zza != 2) {
-                            return;
-                        }
-                        if (zzfVar.zzd.isEmpty()) {
-                            zzfVar.zzb();
-                            return;
-                        }
-                        poll = zzfVar.zzd.poll();
-                        zzfVar.zze.put(poll.zza, poll);
-                        scheduledExecutorService2 = zzfVar.zzf.zzc;
-                        scheduledExecutorService2.schedule(new Runnable(zzfVar, poll) { // from class: com.google.android.gms.cloudmessaging.zzl
-                            private final zzf zza;
-                            private final zzq zzb;
-
-                            /* JADX INFO: Access modifiers changed from: package-private */
-                            {
-                                this.zza = zzfVar;
-                                this.zzb = poll;
+                        try {
+                            if (zzfVar.zza != 2) {
+                                return;
                             }
-
-                            @Override // java.lang.Runnable
-                            public final void run() {
-                                this.zza.zza(this.zzb.zza);
+                            if (zzfVar.zzd.isEmpty()) {
+                                zzfVar.zzb();
+                                return;
                             }
-                        }, 30L, TimeUnit.SECONDS);
+                            poll = zzfVar.zzd.poll();
+                            zzfVar.zze.put(poll.zza, poll);
+                            scheduledExecutorService2 = zzfVar.zzf.zzc;
+                            scheduledExecutorService2.schedule(new Runnable(zzfVar, poll) { // from class: com.google.android.gms.cloudmessaging.zzl
+                                private final zzf zza;
+                                private final zzq zzb;
+
+                                /* JADX INFO: Access modifiers changed from: package-private */
+                                {
+                                    this.zza = zzfVar;
+                                    this.zzb = poll;
+                                }
+
+                                @Override // java.lang.Runnable
+                                public final void run() {
+                                    this.zza.zza(this.zzb.zza);
+                                }
+                            }, 30L, TimeUnit.SECONDS);
+                        } catch (Throwable th) {
+                            throw th;
+                        }
                     }
                     if (Log.isLoggable("MessengerIpcClient", 3)) {
                         String valueOf = String.valueOf(poll);
@@ -275,57 +279,65 @@ public final class zzf implements ServiceConnection {
     /* JADX INFO: Access modifiers changed from: package-private */
     public final synchronized void zza(int i, String str) {
         Context context;
-        if (Log.isLoggable("MessengerIpcClient", 3)) {
-            String valueOf = String.valueOf(str);
-            Log.d("MessengerIpcClient", valueOf.length() != 0 ? "Disconnected: ".concat(valueOf) : new String("Disconnected: "));
-        }
-        int i2 = this.zza;
-        if (i2 == 0) {
-            throw new IllegalStateException();
-        }
-        if (i2 != 1 && i2 != 2) {
-            if (i2 == 3) {
-                this.zza = 4;
-                return;
-            } else if (i2 == 4) {
-                return;
-            } else {
-                int i3 = this.zza;
-                StringBuilder sb = new StringBuilder(26);
-                sb.append("Unknown state: ");
-                sb.append(i3);
-                throw new IllegalStateException(sb.toString());
+        try {
+            if (Log.isLoggable("MessengerIpcClient", 3)) {
+                String valueOf = String.valueOf(str);
+                Log.d("MessengerIpcClient", valueOf.length() != 0 ? "Disconnected: ".concat(valueOf) : new String("Disconnected: "));
             }
+            int i2 = this.zza;
+            if (i2 == 0) {
+                throw new IllegalStateException();
+            }
+            if (i2 != 1 && i2 != 2) {
+                if (i2 == 3) {
+                    this.zza = 4;
+                    return;
+                } else if (i2 == 4) {
+                    return;
+                } else {
+                    int i3 = this.zza;
+                    StringBuilder sb = new StringBuilder(26);
+                    sb.append("Unknown state: ");
+                    sb.append(i3);
+                    throw new IllegalStateException(sb.toString());
+                }
+            }
+            if (Log.isLoggable("MessengerIpcClient", 2)) {
+                Log.v("MessengerIpcClient", "Unbinding service");
+            }
+            this.zza = 4;
+            ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
+            context = this.zzf.zzb;
+            connectionTracker.unbindService(context, this);
+            zzp zzpVar = new zzp(i, str);
+            for (zzq<?> zzqVar : this.zzd) {
+                zzqVar.zza(zzpVar);
+            }
+            this.zzd.clear();
+            for (int i4 = 0; i4 < this.zze.size(); i4++) {
+                this.zze.valueAt(i4).zza(zzpVar);
+            }
+            this.zze.clear();
+        } catch (Throwable th) {
+            throw th;
         }
-        if (Log.isLoggable("MessengerIpcClient", 2)) {
-            Log.v("MessengerIpcClient", "Unbinding service");
-        }
-        this.zza = 4;
-        ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
-        context = this.zzf.zzb;
-        connectionTracker.unbindService(context, this);
-        zzp zzpVar = new zzp(i, str);
-        for (zzq<?> zzqVar : this.zzd) {
-            zzqVar.zza(zzpVar);
-        }
-        this.zzd.clear();
-        for (int i4 = 0; i4 < this.zze.size(); i4++) {
-            this.zze.valueAt(i4).zza(zzpVar);
-        }
-        this.zze.clear();
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public final synchronized void zzb() {
         Context context;
-        if (this.zza == 2 && this.zzd.isEmpty() && this.zze.size() == 0) {
-            if (Log.isLoggable("MessengerIpcClient", 2)) {
-                Log.v("MessengerIpcClient", "Finished handling requests, unbinding");
+        try {
+            if (this.zza == 2 && this.zzd.isEmpty() && this.zze.size() == 0) {
+                if (Log.isLoggable("MessengerIpcClient", 2)) {
+                    Log.v("MessengerIpcClient", "Finished handling requests, unbinding");
+                }
+                this.zza = 3;
+                ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
+                context = this.zzf.zzb;
+                connectionTracker.unbindService(context, this);
             }
-            this.zza = 3;
-            ConnectionTracker connectionTracker = ConnectionTracker.getInstance();
-            context = this.zzf.zzb;
-            connectionTracker.unbindService(context, this);
+        } catch (Throwable th) {
+            throw th;
         }
     }
 

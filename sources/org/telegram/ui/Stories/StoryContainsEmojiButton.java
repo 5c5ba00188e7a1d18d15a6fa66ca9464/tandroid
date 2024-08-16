@@ -157,8 +157,9 @@ public class StoryContainsEmojiButton extends View {
         if (f < 1.0f) {
             this.loadingDrawable.setAlpha((int) ((1.0f - f) * 255.0f));
             this.loadingPath.rewind();
-            this.loadingPath.addRect(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getPaddingTop() + AndroidUtilities.dp(12.0f), Path.Direction.CW);
-            this.loadingPath.addRect(getPaddingLeft(), getPaddingTop() + AndroidUtilities.dp(16.0f), getPaddingLeft() + (((getMeasuredWidth() - getPaddingRight()) - getPaddingLeft()) * 0.46f), getPaddingTop() + AndroidUtilities.dp(28.0f), Path.Direction.CW);
+            Path.Direction direction = Path.Direction.CW;
+            this.loadingPath.addRect(getPaddingLeft(), getPaddingTop(), getMeasuredWidth() - getPaddingRight(), getPaddingTop() + AndroidUtilities.dp(12.0f), direction);
+            this.loadingPath.addRect(getPaddingLeft(), getPaddingTop() + AndroidUtilities.dp(16.0f), getPaddingLeft() + (((getMeasuredWidth() - getPaddingRight()) - getPaddingLeft()) * 0.46f), getPaddingTop() + AndroidUtilities.dp(28.0f), direction);
             this.loadingDrawable.draw(canvas);
             invalidate();
         }
@@ -250,7 +251,7 @@ public class StoryContainsEmojiButton extends View {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$2(final Object obj, final ArrayList arrayList, final boolean[] zArr, final int i, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda3
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 StoryContainsEmojiButton.this.lambda$load$1(tLObject, obj, arrayList, zArr, i);
@@ -260,7 +261,6 @@ public class StoryContainsEmojiButton extends View {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$load$1(TLObject tLObject, Object obj, ArrayList arrayList, boolean[] zArr, int i) {
-        boolean z;
         if (tLObject == null) {
             return;
         }
@@ -291,18 +291,15 @@ public class StoryContainsEmojiButton extends View {
                 long j = tLRPC$InputStickerSet.id;
                 int i4 = 0;
                 while (true) {
-                    if (i4 >= this.inputSets.size()) {
-                        z = false;
-                        break;
-                    } else if (this.inputSets.get(i4).id == j) {
-                        z = true;
-                        break;
-                    } else {
+                    if (i4 < this.inputSets.size()) {
+                        if (this.inputSets.get(i4).id == j) {
+                            break;
+                        }
                         i4++;
+                    } else {
+                        this.inputSets.add(tLRPC$InputStickerSet);
+                        break;
                     }
-                }
-                if (!z) {
-                    this.inputSets.add(tLRPC$InputStickerSet);
                 }
             }
             this.emoji = true;
@@ -440,15 +437,17 @@ public class StoryContainsEmojiButton extends View {
     }
 
     private void animateLoad(boolean z) {
+        final boolean z2 = true;
         ValueAnimator valueAnimator = this.loadAnimator;
         if (valueAnimator != null) {
             valueAnimator.cancel();
         }
         if (z) {
-            final boolean z2 = false;
             this.loadAnimator = ValueAnimator.ofFloat(this.loadT, 1.0f);
-            z2 = (this.layout == null || Math.abs(getMeasuredHeight() - ((getPaddingTop() + this.layout.getHeight()) + getPaddingBottom())) > AndroidUtilities.dp(3.0f)) ? true : true;
-            this.loadAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda4
+            if (this.layout != null && Math.abs(getMeasuredHeight() - ((getPaddingTop() + this.layout.getHeight()) + getPaddingBottom())) <= AndroidUtilities.dp(3.0f)) {
+                z2 = false;
+            }
+            this.loadAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda3
                 @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                 public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                     StoryContainsEmojiButton.this.lambda$animateLoad$5(z2, valueAnimator2);
@@ -462,7 +461,7 @@ public class StoryContainsEmojiButton extends View {
         }
         this.loadT = 1.0f;
         invalidate();
-        post(new Runnable() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda5
+        post(new Runnable() { // from class: org.telegram.ui.Stories.StoryContainsEmojiButton$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 StoryContainsEmojiButton.this.requestLayout();

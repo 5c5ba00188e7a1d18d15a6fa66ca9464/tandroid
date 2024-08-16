@@ -40,9 +40,8 @@ public class ConstantBitrateSeekMap implements SeekMap {
         long timeUsAtPosition = getTimeUsAtPosition(framePositionForTimeUs);
         SeekPoint seekPoint = new SeekPoint(timeUsAtPosition, framePositionForTimeUs);
         if (this.dataSize != -1 && timeUsAtPosition < j) {
-            int i = this.frameSize;
-            if (i + framePositionForTimeUs < this.inputLength) {
-                long j2 = framePositionForTimeUs + i;
+            long j2 = framePositionForTimeUs + this.frameSize;
+            if (j2 < this.inputLength) {
                 return new SeekMap.SeekPoints(seekPoint, new SeekPoint(getTimeUsAtPosition(j2), j2));
             }
         }
@@ -59,16 +58,16 @@ public class ConstantBitrateSeekMap implements SeekMap {
     }
 
     private static long getTimeUsAtPosition(long j, long j2, int i) {
-        return ((Math.max(0L, j - j2) * 8) * 1000000) / i;
+        return (Math.max(0L, j - j2) * 8000000) / i;
     }
 
     private long getFramePositionForTimeUs(long j) {
-        int i = this.frameSize;
-        long j2 = (((j * this.bitrate) / 8000000) / i) * i;
-        long j3 = this.dataSize;
-        if (j3 != -1) {
-            j2 = Math.min(j2, j3 - i);
+        long j2 = this.frameSize;
+        long j3 = (((j * this.bitrate) / 8000000) / j2) * j2;
+        long j4 = this.dataSize;
+        if (j4 != -1) {
+            j3 = Math.min(j3, j4 - j2);
         }
-        return this.firstFrameBytePosition + Math.max(j2, 0L);
+        return this.firstFrameBytePosition + Math.max(j3, 0L);
     }
 }

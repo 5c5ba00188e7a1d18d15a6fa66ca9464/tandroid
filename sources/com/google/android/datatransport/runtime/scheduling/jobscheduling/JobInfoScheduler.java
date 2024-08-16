@@ -38,15 +38,16 @@ public class JobInfoScheduler implements WorkScheduler {
     }
 
     private boolean isJobServiceOn(JobScheduler jobScheduler, int i, int i2) {
-        List<JobInfo> allPendingJobs;
+        List<Object> allPendingJobs;
         PersistableBundle extras;
         int i3;
         int id;
         allPendingJobs = jobScheduler.getAllPendingJobs();
-        for (JobInfo jobInfo : allPendingJobs) {
-            extras = jobInfo.getExtras();
+        for (Object obj : allPendingJobs) {
+            JobInfo m = JobInfoScheduler$$ExternalSyntheticApiModelOutline5.m(obj);
+            extras = m.getExtras();
             i3 = extras.getInt("attemptNumber");
-            id = jobInfo.getId();
+            id = m.getId();
             if (id == i) {
                 return i3 >= i2;
             }
@@ -63,9 +64,9 @@ public class JobInfoScheduler implements WorkScheduler {
     public void schedule(TransportContext transportContext, int i, boolean z) {
         JobInfo build;
         ComponentName componentName = new ComponentName(this.context, JobInfoSchedulerService.class);
-        JobScheduler jobScheduler = (JobScheduler) this.context.getSystemService("jobscheduler");
+        JobScheduler m = JobInfoScheduler$$ExternalSyntheticApiModelOutline0.m(this.context.getSystemService("jobscheduler"));
         int jobId = getJobId(transportContext);
-        if (!z && isJobServiceOn(jobScheduler, jobId, i)) {
+        if (!z && isJobServiceOn(m, jobId, i)) {
             Logging.d("JobInfoScheduler", "Upload for context %s is already scheduled. Returning...", transportContext);
             return;
         }
@@ -81,6 +82,6 @@ public class JobInfoScheduler implements WorkScheduler {
         configureJob.setExtras(persistableBundle);
         Logging.d("JobInfoScheduler", "Scheduling upload for context %s with jobId=%d in %dms(Backend next call timestamp %d). Attempt %d", transportContext, Integer.valueOf(jobId), Long.valueOf(this.config.getScheduleDelay(transportContext.getPriority(), nextCallTime, i)), Long.valueOf(nextCallTime), Integer.valueOf(i));
         build = configureJob.build();
-        jobScheduler.schedule(build);
+        m.schedule(build);
     }
 }

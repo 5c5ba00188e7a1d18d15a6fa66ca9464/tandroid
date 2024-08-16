@@ -7,7 +7,7 @@ import java.util.RandomAccess;
 import org.telegram.tgnet.ConnectionsManager;
 /* compiled from: com.google.mlkit:language-id@@16.1.1 */
 /* loaded from: classes.dex */
-final class zzfn extends zzdi<Long> implements zzgi, RandomAccess {
+final class zzfn extends zzdi<Long> implements zzew<Long>, zzgi, RandomAccess {
     private static final zzfn zza;
     private long[] zzb;
     private int zzc;
@@ -218,7 +218,7 @@ final class zzfn extends zzdi<Long> implements zzgi, RandomAccess {
     }
 
     @Override // com.google.android.gms.internal.mlkit_language_id.zzew
-    public final /* synthetic */ zzew zzb(int i) {
+    public final /* synthetic */ zzew<Long> zzb(int i) {
         if (i < this.zzc) {
             throw new IllegalArgumentException();
         }

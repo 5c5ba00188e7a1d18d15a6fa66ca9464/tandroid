@@ -49,15 +49,19 @@ public class zzcl {
             return this.zzc;
         }
         synchronized (this) {
-            if (this.zzc != null) {
+            try {
+                if (this.zzc != null) {
+                    return this.zzc;
+                }
+                if (this.zza == null) {
+                    this.zzc = zzba.zzb;
+                } else {
+                    this.zzc = this.zza.zzb();
+                }
                 return this.zzc;
+            } catch (Throwable th) {
+                throw th;
             }
-            if (this.zza == null) {
-                this.zzc = zzba.zzb;
-            } else {
-                this.zzc = this.zza.zzb();
-            }
-            return this.zzc;
         }
     }
 

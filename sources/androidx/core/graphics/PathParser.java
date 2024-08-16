@@ -3,7 +3,6 @@ package androidx.core.graphics;
 import android.graphics.Path;
 import android.util.Log;
 import java.util.ArrayList;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public class PathParser {
     static float[] copyOfRange(float[] fArr, int i, int i2) {
@@ -148,8 +147,8 @@ public class PathParser {
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:24:0x003a A[LOOP:0: B:3:0x0007->B:24:0x003a, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x003d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:24:0x0039 A[LOOP:0: B:3:0x0007->B:24:0x0039, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:28:0x003c A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -163,16 +162,16 @@ public class PathParser {
             if (charAt != ' ') {
                 if (charAt != 'E' && charAt != 'e') {
                     switch (charAt) {
-                        case R.styleable.AppCompatTheme_buttonBarPositiveButtonStyle /* 44 */:
+                        case ',':
                             break;
-                        case R.styleable.AppCompatTheme_buttonBarStyle /* 45 */:
+                        case '-':
                             if (i2 != i && !z) {
                                 extractFloatResult.mEndWithNegOrDot = true;
                                 break;
                             }
                             z = false;
                             break;
-                        case R.styleable.AppCompatTheme_buttonStyle /* 46 */:
+                        case '.':
                             if (z2) {
                                 extractFloatResult.mEndWithNegOrDot = true;
                                 break;
@@ -260,35 +259,35 @@ public class PathParser {
             float f14 = fArr[5];
             switch (c3) {
                 case 'A':
-                case R.styleable.AppCompatTheme_selectableItemBackground /* 97 */:
+                case 'a':
                     i = 7;
                     break;
-                case R.styleable.AppCompatTheme_dropdownListPreferredItemHeight /* 67 */:
-                case R.styleable.AppCompatTheme_spinnerDropDownItemStyle /* 99 */:
+                case 'C':
+                case 'c':
                     i = 6;
                     break;
-                case R.styleable.AppCompatTheme_imageButtonStyle /* 72 */:
+                case 'H':
                 case 'V':
-                case R.styleable.AppCompatTheme_textAppearanceListItemSecondary /* 104 */:
+                case 'h':
                 case 'v':
                     i = 1;
                     break;
-                case R.styleable.AppCompatTheme_listDividerAlertDialog /* 76 */:
-                case R.styleable.AppCompatTheme_listMenuViewStyle /* 77 */:
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingRight /* 84 */:
-                case R.styleable.AppCompatTheme_textAppearanceSearchResultTitle /* 108 */:
-                case R.styleable.AppCompatTheme_textAppearanceSmallPopupMenu /* 109 */:
+                case 'L':
+                case 'M':
+                case 'T':
+                case 'l':
+                case 'm':
                 case 't':
                 default:
                     i = 2;
                     break;
-                case R.styleable.AppCompatTheme_listPreferredItemHeightSmall /* 81 */:
-                case R.styleable.AppCompatTheme_listPreferredItemPaddingLeft /* 83 */:
-                case R.styleable.AppCompatTheme_toolbarStyle /* 113 */:
-                case R.styleable.AppCompatTheme_tooltipFrameBackground /* 115 */:
+                case 'Q':
+                case 'S':
+                case 'q':
+                case 's':
                     i = 4;
                     break;
-                case R.styleable.AppCompatTheme_popupWindowStyle /* 90 */:
+                case 'Z':
                 case 'z':
                     path.close();
                     path.moveTo(f13, f14);
@@ -313,7 +312,7 @@ public class PathParser {
                         int i5 = i2 + 3;
                         int i6 = i2 + 4;
                         int i7 = i2 + 5;
-                        path.cubicTo(fArr2[i2 + 0], fArr2[i2 + 1], fArr2[i4], fArr2[i5], fArr2[i6], fArr2[i7]);
+                        path.cubicTo(fArr2[i2], fArr2[i2 + 1], fArr2[i4], fArr2[i5], fArr2[i6], fArr2[i7]);
                         f15 = fArr2[i6];
                         float f19 = fArr2[i7];
                         float f20 = fArr2[i4];
@@ -323,46 +322,40 @@ public class PathParser {
                         f11 = f20;
                     } else if (c3 == 'H') {
                         i2 = i3;
-                        int i8 = i2 + 0;
-                        path.lineTo(fArr2[i8], f16);
-                        f15 = fArr2[i8];
+                        path.lineTo(fArr2[i2], f16);
+                        f15 = fArr2[i2];
                     } else if (c3 == 'Q') {
                         i2 = i3;
-                        int i9 = i2 + 0;
-                        int i10 = i2 + 1;
-                        int i11 = i2 + 2;
-                        int i12 = i2 + 3;
-                        path.quadTo(fArr2[i9], fArr2[i10], fArr2[i11], fArr2[i12]);
-                        float f22 = fArr2[i9];
-                        float f23 = fArr2[i10];
-                        f15 = fArr2[i11];
-                        f16 = fArr2[i12];
+                        int i8 = i2 + 1;
+                        int i9 = i2 + 2;
+                        int i10 = i2 + 3;
+                        path.quadTo(fArr2[i2], fArr2[i8], fArr2[i9], fArr2[i10]);
+                        float f22 = fArr2[i2];
+                        float f23 = fArr2[i8];
+                        f15 = fArr2[i9];
+                        f16 = fArr2[i10];
                         f11 = f22;
                         f12 = f23;
                     } else if (c3 == 'V') {
                         i2 = i3;
-                        int i13 = i2 + 0;
-                        path.lineTo(f15, fArr2[i13]);
-                        f16 = fArr2[i13];
+                        path.lineTo(f15, fArr2[i2]);
+                        f16 = fArr2[i2];
                     } else if (c3 != 'a') {
                         if (c3 != 'c') {
                             if (c3 == 'h') {
-                                int i14 = i3 + 0;
-                                path.rLineTo(fArr2[i14], 0.0f);
-                                f15 += fArr2[i14];
+                                path.rLineTo(fArr2[i3], 0.0f);
+                                f15 += fArr2[i3];
                             } else if (c3 != 'q') {
                                 if (c3 == 'v') {
-                                    int i15 = i3 + 0;
-                                    path.rLineTo(0.0f, fArr2[i15]);
-                                    f4 = fArr2[i15];
+                                    path.rLineTo(0.0f, fArr2[i3]);
+                                    f4 = fArr2[i3];
                                 } else if (c3 == 'L') {
-                                    int i16 = i3 + 0;
-                                    int i17 = i3 + 1;
-                                    path.lineTo(fArr2[i16], fArr2[i17]);
-                                    f15 = fArr2[i16];
-                                    f16 = fArr2[i17];
+                                    int i11 = i3 + 1;
+                                    path.lineTo(fArr2[i3], fArr2[i11]);
+                                    f15 = fArr2[i3];
+                                    f16 = fArr2[i11];
                                 } else if (c3 == 'M') {
-                                    f15 = fArr2[i3 + 0];
+                                    f15 = fArr2[i3];
                                     f16 = fArr2[i3 + 1];
                                     if (i3 > 0) {
                                         path.lineTo(f15, f16);
@@ -378,15 +371,15 @@ public class PathParser {
                                         f16 = (f16 * 2.0f) - f12;
                                     }
                                     float f24 = f16;
-                                    int i18 = i3 + 0;
-                                    int i19 = i3 + 1;
-                                    int i20 = i3 + 2;
-                                    int i21 = i3 + 3;
-                                    path.cubicTo(f15, f24, fArr2[i18], fArr2[i19], fArr2[i20], fArr2[i21]);
-                                    f = fArr2[i18];
-                                    f2 = fArr2[i19];
-                                    f15 = fArr2[i20];
-                                    f16 = fArr2[i21];
+                                    float f25 = f15;
+                                    int i12 = i3 + 1;
+                                    int i13 = i3 + 2;
+                                    int i14 = i3 + 3;
+                                    path.cubicTo(f25, f24, fArr2[i3], fArr2[i12], fArr2[i13], fArr2[i14]);
+                                    f = fArr2[i3];
+                                    f2 = fArr2[i12];
+                                    f15 = fArr2[i13];
+                                    f16 = fArr2[i14];
                                     f11 = f;
                                     f12 = f2;
                                 } else if (c3 == 'T') {
@@ -394,53 +387,48 @@ public class PathParser {
                                         f15 = (f15 * 2.0f) - f11;
                                         f16 = (f16 * 2.0f) - f12;
                                     }
-                                    int i22 = i3 + 0;
-                                    int i23 = i3 + 1;
-                                    path.quadTo(f15, f16, fArr2[i22], fArr2[i23]);
-                                    float f25 = fArr2[i22];
-                                    float f26 = fArr2[i23];
+                                    int i15 = i3 + 1;
+                                    path.quadTo(f15, f16, fArr2[i3], fArr2[i15]);
                                     i2 = i3;
                                     f12 = f16;
                                     f11 = f15;
-                                    f15 = f25;
-                                    f16 = f26;
+                                    f15 = fArr2[i3];
+                                    f16 = fArr2[i15];
                                 } else if (c3 == 'l') {
-                                    int i24 = i3 + 0;
-                                    int i25 = i3 + 1;
-                                    path.rLineTo(fArr2[i24], fArr2[i25]);
-                                    f15 += fArr2[i24];
-                                    f4 = fArr2[i25];
+                                    int i16 = i3 + 1;
+                                    path.rLineTo(fArr2[i3], fArr2[i16]);
+                                    f15 += fArr2[i3];
+                                    f4 = fArr2[i16];
                                 } else if (c3 == 'm') {
-                                    float f27 = fArr2[i3 + 0];
-                                    f15 += f27;
-                                    float f28 = fArr2[i3 + 1];
-                                    f16 += f28;
+                                    float f26 = fArr2[i3];
+                                    f15 += f26;
+                                    float f27 = fArr2[i3 + 1];
+                                    f16 += f27;
                                     if (i3 > 0) {
-                                        path.rLineTo(f27, f28);
+                                        path.rLineTo(f26, f27);
                                     } else {
-                                        path.rMoveTo(f27, f28);
+                                        path.rMoveTo(f26, f27);
                                         i2 = i3;
                                         f18 = f16;
                                         f17 = f15;
                                     }
                                 } else if (c3 == 's') {
                                     if (c4 == 'c' || c4 == 's' || c4 == 'C' || c4 == 'S') {
-                                        float f29 = f15 - f11;
+                                        float f28 = f15 - f11;
                                         f5 = f16 - f12;
-                                        f6 = f29;
+                                        f6 = f28;
                                     } else {
                                         f6 = 0.0f;
                                         f5 = 0.0f;
                                     }
-                                    int i26 = i3 + 0;
-                                    int i27 = i3 + 1;
-                                    int i28 = i3 + 2;
-                                    int i29 = i3 + 3;
-                                    path.rCubicTo(f6, f5, fArr2[i26], fArr2[i27], fArr2[i28], fArr2[i29]);
-                                    f = fArr2[i26] + f15;
-                                    f2 = fArr2[i27] + f16;
-                                    f15 += fArr2[i28];
-                                    f3 = fArr2[i29];
+                                    int i17 = i3 + 1;
+                                    int i18 = i3 + 2;
+                                    int i19 = i3 + 3;
+                                    path.rCubicTo(f6, f5, fArr2[i3], fArr2[i17], fArr2[i18], fArr2[i19]);
+                                    f = fArr2[i3] + f15;
+                                    f2 = fArr2[i17] + f16;
+                                    f15 += fArr2[i18];
+                                    f3 = fArr2[i19];
                                 } else if (c3 == 't') {
                                     if (c4 == 'q' || c4 == 't' || c4 == 'Q' || c4 == 'T') {
                                         f7 = f15 - f11;
@@ -449,62 +437,60 @@ public class PathParser {
                                         f8 = 0.0f;
                                         f7 = 0.0f;
                                     }
-                                    int i30 = i3 + 0;
-                                    int i31 = i3 + 1;
-                                    path.rQuadTo(f7, f8, fArr2[i30], fArr2[i31]);
-                                    float f30 = f7 + f15;
-                                    float f31 = f8 + f16;
-                                    f15 += fArr2[i30];
-                                    f16 += fArr2[i31];
-                                    f12 = f31;
-                                    f11 = f30;
+                                    int i20 = i3 + 1;
+                                    path.rQuadTo(f7, f8, fArr2[i3], fArr2[i20]);
+                                    float f29 = f7 + f15;
+                                    float f30 = f8 + f16;
+                                    f15 += fArr2[i3];
+                                    f16 += fArr2[i20];
+                                    f12 = f30;
+                                    f11 = f29;
                                 }
                                 f16 += f4;
                             } else {
-                                int i32 = i3 + 0;
-                                int i33 = i3 + 1;
-                                int i34 = i3 + 2;
-                                int i35 = i3 + 3;
-                                path.rQuadTo(fArr2[i32], fArr2[i33], fArr2[i34], fArr2[i35]);
-                                f = fArr2[i32] + f15;
-                                f2 = fArr2[i33] + f16;
-                                f15 += fArr2[i34];
-                                f3 = fArr2[i35];
+                                int i21 = i3 + 1;
+                                int i22 = i3 + 2;
+                                int i23 = i3 + 3;
+                                path.rQuadTo(fArr2[i3], fArr2[i21], fArr2[i22], fArr2[i23]);
+                                f = fArr2[i3] + f15;
+                                f2 = fArr2[i21] + f16;
+                                f15 += fArr2[i22];
+                                f3 = fArr2[i23];
                             }
                             i2 = i3;
                         } else {
-                            int i36 = i3 + 2;
-                            int i37 = i3 + 3;
-                            int i38 = i3 + 4;
-                            int i39 = i3 + 5;
-                            path.rCubicTo(fArr2[i3 + 0], fArr2[i3 + 1], fArr2[i36], fArr2[i37], fArr2[i38], fArr2[i39]);
-                            f = fArr2[i36] + f15;
-                            f2 = fArr2[i37] + f16;
-                            f15 += fArr2[i38];
-                            f3 = fArr2[i39];
+                            int i24 = i3 + 2;
+                            int i25 = i3 + 3;
+                            int i26 = i3 + 4;
+                            int i27 = i3 + 5;
+                            path.rCubicTo(fArr2[i3], fArr2[i3 + 1], fArr2[i24], fArr2[i25], fArr2[i26], fArr2[i27]);
+                            f = fArr2[i24] + f15;
+                            f2 = fArr2[i25] + f16;
+                            f15 += fArr2[i26];
+                            f3 = fArr2[i27];
                         }
                         f16 += f3;
                         f11 = f;
                         f12 = f2;
                         i2 = i3;
                     } else {
-                        int i40 = i3 + 5;
-                        int i41 = i3 + 6;
+                        int i28 = i3 + 5;
+                        int i29 = i3 + 6;
                         i2 = i3;
-                        drawArc(path, f15, f16, fArr2[i40] + f15, fArr2[i41] + f16, fArr2[i3 + 0], fArr2[i3 + 1], fArr2[i3 + 2], fArr2[i3 + 3] != 0.0f, fArr2[i3 + 4] != 0.0f);
-                        f15 += fArr2[i40];
-                        f16 += fArr2[i41];
+                        drawArc(path, f15, f16, fArr2[i28] + f15, fArr2[i29] + f16, fArr2[i3], fArr2[i3 + 1], fArr2[i3 + 2], fArr2[i3 + 3] != 0.0f, fArr2[i3 + 4] != 0.0f);
+                        f15 += fArr2[i28];
+                        f16 += fArr2[i29];
                     }
                     i3 = i2 + i;
                     c4 = c2;
                     c3 = c4;
                 } else {
                     i2 = i3;
-                    int i42 = i2 + 5;
-                    int i43 = i2 + 6;
-                    drawArc(path, f15, f16, fArr2[i42], fArr2[i43], fArr2[i2 + 0], fArr2[i2 + 1], fArr2[i2 + 2], fArr2[i2 + 3] != 0.0f, fArr2[i2 + 4] != 0.0f);
-                    f15 = fArr2[i42];
-                    f16 = fArr2[i43];
+                    int i30 = i2 + 5;
+                    int i31 = i2 + 6;
+                    drawArc(path, f15, f16, fArr2[i30], fArr2[i31], fArr2[i2], fArr2[i2 + 1], fArr2[i2 + 2], fArr2[i2 + 3] != 0.0f, fArr2[i2 + 4] != 0.0f);
+                    f15 = fArr2[i30];
+                    f16 = fArr2[i31];
                 }
                 f12 = f16;
                 f11 = f15;

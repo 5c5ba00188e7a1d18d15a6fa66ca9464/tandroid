@@ -19,10 +19,14 @@ abstract class zzl extends zzj {
     final byte[] zzf() {
         byte[] bArr;
         synchronized (this) {
-            bArr = (byte[]) this.zzb.get();
-            if (bArr == null) {
-                bArr = zzb();
-                this.zzb = new WeakReference(bArr);
+            try {
+                bArr = (byte[]) this.zzb.get();
+                if (bArr == null) {
+                    bArr = zzb();
+                    this.zzb = new WeakReference(bArr);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return bArr;

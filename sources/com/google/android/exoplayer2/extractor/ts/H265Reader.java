@@ -149,6 +149,7 @@ public final class H265Reader implements ElementaryStreamReader {
     private static Format parseMediaFormat(String str, NalUnitTargetBuffer nalUnitTargetBuffer, NalUnitTargetBuffer nalUnitTargetBuffer2, NalUnitTargetBuffer nalUnitTargetBuffer3) {
         int i = nalUnitTargetBuffer.nalLength;
         byte[] bArr = new byte[nalUnitTargetBuffer2.nalLength + i + nalUnitTargetBuffer3.nalLength];
+        int i2 = 0;
         System.arraycopy(nalUnitTargetBuffer.nalData, 0, bArr, 0, i);
         System.arraycopy(nalUnitTargetBuffer2.nalData, 0, bArr, nalUnitTargetBuffer.nalLength, nalUnitTargetBuffer2.nalLength);
         System.arraycopy(nalUnitTargetBuffer3.nalData, 0, bArr, nalUnitTargetBuffer.nalLength + nalUnitTargetBuffer2.nalLength, nalUnitTargetBuffer3.nalLength);
@@ -159,27 +160,31 @@ public final class H265Reader implements ElementaryStreamReader {
         int readBits2 = parsableNalUnitBitArray.readBits(2);
         boolean readBit = parsableNalUnitBitArray.readBit();
         int readBits3 = parsableNalUnitBitArray.readBits(5);
-        int i2 = 0;
-        for (int i3 = 0; i3 < 32; i3++) {
-            if (parsableNalUnitBitArray.readBit()) {
-                i2 |= 1 << i3;
+        int i3 = 0;
+        int i4 = 0;
+        while (true) {
+            if (i4 >= 32) {
+                break;
             }
+            if (parsableNalUnitBitArray.readBit()) {
+                i3 |= 1 << i4;
+            }
+            i4++;
         }
         int[] iArr = new int[6];
-        for (int i4 = 0; i4 < 6; i4++) {
-            iArr[i4] = parsableNalUnitBitArray.readBits(8);
+        for (int i5 = 0; i5 < 6; i5++) {
+            iArr[i5] = parsableNalUnitBitArray.readBits(8);
         }
         int readBits4 = parsableNalUnitBitArray.readBits(8);
-        int i5 = 0;
         for (int i6 = 0; i6 < readBits; i6++) {
             if (parsableNalUnitBitArray.readBit()) {
-                i5 += 89;
+                i2 += 89;
             }
             if (parsableNalUnitBitArray.readBit()) {
-                i5 += 8;
+                i2 += 8;
             }
         }
-        parsableNalUnitBitArray.skipBits(i5);
+        parsableNalUnitBitArray.skipBits(i2);
         if (readBits > 0) {
             parsableNalUnitBitArray.skipBits((8 - readBits) * 2);
         }
@@ -225,7 +230,7 @@ public final class H265Reader implements ElementaryStreamReader {
         skipShortTermRefPicSets(parsableNalUnitBitArray);
         if (parsableNalUnitBitArray.readBit()) {
             for (int i8 = 0; i8 < parsableNalUnitBitArray.readUnsignedExpGolombCodedInt(); i8++) {
-                parsableNalUnitBitArray.skipBits(readUnsignedExpGolombCodedInt8 + 4 + 1);
+                parsableNalUnitBitArray.skipBits(readUnsignedExpGolombCodedInt8 + 5);
             }
         }
         parsableNalUnitBitArray.skipBits(2);
@@ -266,7 +271,7 @@ public final class H265Reader implements ElementaryStreamReader {
                 readUnsignedExpGolombCodedInt3 *= 2;
             }
         }
-        return new Format.Builder().setId(str).setSampleMimeType("video/hevc").setCodecs(CodecSpecificDataUtil.buildHevcCodecString(readBits2, readBit, readBits3, i2, iArr, readBits4)).setWidth(readUnsignedExpGolombCodedInt2).setHeight(readUnsignedExpGolombCodedInt3).setPixelWidthHeightRatio(f).setInitializationData(Collections.singletonList(bArr)).build();
+        return new Format.Builder().setId(str).setSampleMimeType("video/hevc").setCodecs(CodecSpecificDataUtil.buildHevcCodecString(readBits2, readBit, readBits3, i3, iArr, readBits4)).setWidth(readUnsignedExpGolombCodedInt2).setHeight(readUnsignedExpGolombCodedInt3).setPixelWidthHeightRatio(f).setInitializationData(Collections.singletonList(bArr)).build();
     }
 
     private static void skipScalingList(ParsableNalUnitBitArray parsableNalUnitBitArray) {

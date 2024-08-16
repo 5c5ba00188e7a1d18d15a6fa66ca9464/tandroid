@@ -21,11 +21,6 @@ public class LibopusAudioRenderer extends DecoderAudioRenderer<OpusDecoder> {
         return false;
     }
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return TAG;
-    }
-
     @Override // com.google.android.exoplayer2.BaseRenderer, com.google.android.exoplayer2.Renderer
     public /* bridge */ /* synthetic */ void setPlaybackSpeed(float f, float f2) throws ExoPlaybackException {
         Renderer.-CC.$default$setPlaybackSpeed(this, f, f2);
@@ -41,6 +36,11 @@ public class LibopusAudioRenderer extends DecoderAudioRenderer<OpusDecoder> {
 
     public LibopusAudioRenderer(Handler handler, AudioRendererEventListener audioRendererEventListener, AudioSink audioSink) {
         super(handler, audioRendererEventListener, audioSink);
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return TAG;
     }
 
     @Override // com.google.android.exoplayer2.audio.DecoderAudioRenderer

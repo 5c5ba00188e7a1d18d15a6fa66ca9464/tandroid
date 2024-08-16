@@ -221,45 +221,39 @@ public class AboutLinkCell extends FrameLayout {
 
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        boolean z;
         int x = (int) motionEvent.getX();
         int y = (int) motionEvent.getY();
-        if (this.showMoreTextView.getVisibility() == 0 && x >= this.showMoreTextBackgroundView.getLeft() && x <= this.showMoreTextBackgroundView.getRight() && y >= this.showMoreTextBackgroundView.getTop() && y <= this.showMoreTextBackgroundView.getBottom()) {
-            return false;
-        }
-        if (this.textLayout != null || this.nextLinesLayouts != null) {
-            if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
-                if (motionEvent.getAction() == 0) {
-                    resetPressedLink();
-                    LinkSpanDrawable hitLink = hitLink(x, y);
-                    if (hitLink != null) {
-                        this.pressedLinkLayout = this.textLayout;
-                        LinkSpanDrawable.LinkCollector linkCollector = this.links;
-                        this.pressedLink = hitLink;
-                        linkCollector.addLink(hitLink);
-                        AndroidUtilities.runOnUIThread(this.longPressedRunnable, ViewConfiguration.getLongPressTimeout());
-                        z = true;
-                    }
-                } else {
-                    LinkSpanDrawable linkSpanDrawable = this.pressedLink;
-                    if (linkSpanDrawable != null) {
-                        try {
-                            onLinkClick((ClickableSpan) linkSpanDrawable.getSpan(), this.textLayout, this.pressedLinkYOffset);
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
+        if (this.showMoreTextView.getVisibility() != 0 || x < this.showMoreTextBackgroundView.getLeft() || x > this.showMoreTextBackgroundView.getRight() || y < this.showMoreTextBackgroundView.getTop() || y > this.showMoreTextBackgroundView.getBottom()) {
+            if (this.textLayout != null || this.nextLinesLayouts != null) {
+                if (motionEvent.getAction() == 0 || (this.pressedLink != null && motionEvent.getAction() == 1)) {
+                    if (motionEvent.getAction() == 0) {
                         resetPressedLink();
-                        z = true;
+                        LinkSpanDrawable hitLink = hitLink(x, y);
+                        if (hitLink != null) {
+                            this.pressedLinkLayout = this.textLayout;
+                            LinkSpanDrawable.LinkCollector linkCollector = this.links;
+                            this.pressedLink = hitLink;
+                            linkCollector.addLink(hitLink);
+                            AndroidUtilities.runOnUIThread(this.longPressedRunnable, ViewConfiguration.getLongPressTimeout());
+                        }
+                    } else {
+                        LinkSpanDrawable linkSpanDrawable = this.pressedLink;
+                        if (linkSpanDrawable != null) {
+                            try {
+                                onLinkClick((ClickableSpan) linkSpanDrawable.getSpan(), this.textLayout, this.pressedLinkYOffset);
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            resetPressedLink();
+                        }
                     }
+                } else if (motionEvent.getAction() == 3) {
+                    resetPressedLink();
                 }
-                return !z || super.onTouchEvent(motionEvent);
-            } else if (motionEvent.getAction() == 3) {
-                resetPressedLink();
             }
+            return super.onTouchEvent(motionEvent);
         }
-        z = false;
-        if (z) {
-        }
+        return false;
     }
 
     private void setShowMoreMarginBottom(int i) {
@@ -355,11 +349,10 @@ public class AboutLinkCell extends FrameLayout {
                             i = i3;
                             canvas.translate(f2 * easeInOutCubic, ((1.0f - easeInOutCubic) * lineBottom) + lineTop);
                         }
-                        StaticLayout staticLayout4 = staticLayout2;
-                        staticLayout4.draw(canvas);
+                        staticLayout2.draw(canvas);
                         canvas.restoreToCount(i2);
-                        f2 += staticLayout4.getLineRight(0) + this.SPACE;
-                        lineBottom += (staticLayout4.getLineBottom(0) + staticLayout4.getTopPadding()) - 1;
+                        f2 += staticLayout2.getLineRight(0) + this.SPACE;
+                        lineBottom += (staticLayout2.getLineBottom(0) + staticLayout2.getTopPadding()) - 1;
                     } else {
                         i = i3;
                     }
@@ -369,9 +362,9 @@ public class AboutLinkCell extends FrameLayout {
             }
             canvas.restore();
         }
-        StaticLayout staticLayout5 = this.textLayout;
-        if (staticLayout5 != null) {
-            staticLayout5.draw(canvas);
+        StaticLayout staticLayout4 = this.textLayout;
+        if (staticLayout4 != null) {
+            staticLayout4.draw(canvas);
         }
         canvas.restore();
     }
@@ -713,9 +706,9 @@ public class AboutLinkCell extends FrameLayout {
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$updateCollapse$1(AtomicReference atomicReference, float f, float f2, SpringInterpolator springInterpolator, ValueAnimator valueAnimator) {
-        float floatValue = ((Float) valueAnimator.getAnimatedValue()).floatValue();
+        Float f3 = (Float) valueAnimator.getAnimatedValue();
         this.rawCollapseT = AndroidUtilities.lerp(f, f2, ((Float) valueAnimator.getAnimatedValue()).floatValue());
-        float lerp = AndroidUtilities.lerp(f, f2, springInterpolator.getValue((floatValue - ((Float) atomicReference.getAndSet(Float.valueOf(floatValue))).floatValue()) * 1000.0f * 8.0f));
+        float lerp = AndroidUtilities.lerp(f, f2, springInterpolator.getValue((f3.floatValue() - ((Float) atomicReference.getAndSet(f3)).floatValue()) * 1000.0f * 8.0f));
         this.expandT = lerp;
         if (lerp > 0.8f && this.container.getBackground() == null) {
             this.container.setBackground(this.rippleBackground);

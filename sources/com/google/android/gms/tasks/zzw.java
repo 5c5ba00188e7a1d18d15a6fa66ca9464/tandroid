@@ -33,8 +33,12 @@ public final class zzw<TResult> extends Task<TResult> {
 
     private final void zzi() {
         synchronized (this.zza) {
-            if (this.zzc) {
-                this.zzb.zzb(this);
+            try {
+                if (this.zzc) {
+                    this.zzb.zzb(this);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -61,13 +65,17 @@ public final class zzw<TResult> extends Task<TResult> {
     public final TResult getResult() {
         TResult tresult;
         synchronized (this.zza) {
-            zzf();
-            zzg();
-            Exception exc = this.zzf;
-            if (exc == null) {
-                tresult = (TResult) this.zze;
-            } else {
-                throw new RuntimeExecutionException(exc);
+            try {
+                zzf();
+                zzg();
+                Exception exc = this.zzf;
+                if (exc == null) {
+                    tresult = (TResult) this.zze;
+                } else {
+                    throw new RuntimeExecutionException(exc);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return tresult;
@@ -91,9 +99,12 @@ public final class zzw<TResult> extends Task<TResult> {
     public final boolean isSuccessful() {
         boolean z;
         synchronized (this.zza) {
-            z = false;
-            if (this.zzc && !this.zzd && this.zzf == null) {
-                z = true;
+            try {
+                z = false;
+                if (this.zzc && !this.zzd && this.zzf == null) {
+                    z = true;
+                }
+            } finally {
             }
         }
         return z;
@@ -129,38 +140,50 @@ public final class zzw<TResult> extends Task<TResult> {
 
     public final boolean zzc() {
         synchronized (this.zza) {
-            if (this.zzc) {
-                return false;
+            try {
+                if (this.zzc) {
+                    return false;
+                }
+                this.zzc = true;
+                this.zzd = true;
+                this.zzb.zzb(this);
+                return true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = true;
-            this.zzd = true;
-            this.zzb.zzb(this);
-            return true;
         }
     }
 
     public final boolean zzd(Exception exc) {
         Preconditions.checkNotNull(exc, "Exception must not be null");
         synchronized (this.zza) {
-            if (this.zzc) {
-                return false;
+            try {
+                if (this.zzc) {
+                    return false;
+                }
+                this.zzc = true;
+                this.zzf = exc;
+                this.zzb.zzb(this);
+                return true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = true;
-            this.zzf = exc;
-            this.zzb.zzb(this);
-            return true;
         }
     }
 
     public final boolean zze(Object obj) {
         synchronized (this.zza) {
-            if (this.zzc) {
-                return false;
+            try {
+                if (this.zzc) {
+                    return false;
+                }
+                this.zzc = true;
+                this.zze = obj;
+                this.zzb.zzb(this);
+                return true;
+            } catch (Throwable th) {
+                throw th;
             }
-            this.zzc = true;
-            this.zze = obj;
-            this.zzb.zzb(this);
-            return true;
         }
     }
 
@@ -232,17 +255,21 @@ public final class zzw<TResult> extends Task<TResult> {
     public final <X extends Throwable> TResult getResult(Class<X> cls) throws Throwable {
         TResult tresult;
         synchronized (this.zza) {
-            zzf();
-            zzg();
-            if (!cls.isInstance(this.zzf)) {
-                Exception exc = this.zzf;
-                if (exc == null) {
-                    tresult = (TResult) this.zze;
+            try {
+                zzf();
+                zzg();
+                if (!cls.isInstance(this.zzf)) {
+                    Exception exc = this.zzf;
+                    if (exc == null) {
+                        tresult = (TResult) this.zze;
+                    } else {
+                        throw new RuntimeExecutionException(exc);
+                    }
                 } else {
-                    throw new RuntimeExecutionException(exc);
+                    throw cls.cast(this.zzf);
                 }
-            } else {
-                throw cls.cast(this.zzf);
+            } catch (Throwable th) {
+                throw th;
             }
         }
         return tresult;

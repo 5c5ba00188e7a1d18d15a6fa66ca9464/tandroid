@@ -43,21 +43,6 @@ public class Analytics extends AbstractAppCenterService {
     private long mTransmissionInterval;
     private final Map<String, AnalyticsTransmissionTarget> mTransmissionTargets;
 
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getGroupName() {
-        return "group_analytics";
-    }
-
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getLoggerTag() {
-        return "AppCenterAnalytics";
-    }
-
-    @Override // com.microsoft.appcenter.AppCenterService
-    public String getServiceName() {
-        return "Analytics";
-    }
-
     @Override // com.microsoft.appcenter.AbstractAppCenterService, com.microsoft.appcenter.AppCenterService
     public boolean isAppSecretRequired() {
         return false;
@@ -82,10 +67,14 @@ public class Analytics extends AbstractAppCenterService {
     public static synchronized Analytics getInstance() {
         Analytics analytics;
         synchronized (Analytics.class) {
-            if (sInstance == null) {
-                sInstance = new Analytics();
+            try {
+                if (sInstance == null) {
+                    sInstance = new Analytics();
+                }
+                analytics = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            analytics = sInstance;
         }
         return analytics;
     }
@@ -124,6 +113,21 @@ public class Analytics extends AbstractAppCenterService {
             }
         });
         return analyticsTransmissionTarget;
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getGroupName() {
+        return "group_analytics";
+    }
+
+    @Override // com.microsoft.appcenter.AppCenterService
+    public String getServiceName() {
+        return "Analytics";
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getLoggerTag() {
+        return "AppCenterAnalytics";
     }
 
     @Override // com.microsoft.appcenter.AppCenterService
@@ -205,27 +209,31 @@ public class Analytics extends AbstractAppCenterService {
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     protected synchronized void applyEnabledState(boolean z) {
-        if (z) {
-            this.mChannel.addGroup("group_analytics_critical", getTriggerCount(), 3000L, getTriggerMaxParallelRequests(), null, getChannelListener());
-            startAppLevelFeatures();
-        } else {
-            this.mChannel.removeGroup("group_analytics_critical");
-            AnalyticsValidator analyticsValidator = this.mAnalyticsValidator;
-            if (analyticsValidator != null) {
-                this.mChannel.removeListener(analyticsValidator);
-                this.mAnalyticsValidator = null;
+        try {
+            if (z) {
+                this.mChannel.addGroup("group_analytics_critical", getTriggerCount(), 3000L, getTriggerMaxParallelRequests(), null, getChannelListener());
+                startAppLevelFeatures();
+            } else {
+                this.mChannel.removeGroup("group_analytics_critical");
+                AnalyticsValidator analyticsValidator = this.mAnalyticsValidator;
+                if (analyticsValidator != null) {
+                    this.mChannel.removeListener(analyticsValidator);
+                    this.mAnalyticsValidator = null;
+                }
+                SessionTracker sessionTracker = this.mSessionTracker;
+                if (sessionTracker != null) {
+                    this.mChannel.removeListener(sessionTracker);
+                    this.mSessionTracker.clearSessions();
+                    this.mSessionTracker = null;
+                }
+                Channel.Listener listener = this.mAnalyticsTransmissionTargetListener;
+                if (listener != null) {
+                    this.mChannel.removeListener(listener);
+                    this.mAnalyticsTransmissionTargetListener = null;
+                }
             }
-            SessionTracker sessionTracker = this.mSessionTracker;
-            if (sessionTracker != null) {
-                this.mChannel.removeListener(sessionTracker);
-                this.mSessionTracker.clearSessions();
-                this.mSessionTracker = null;
-            }
-            Channel.Listener listener = this.mAnalyticsTransmissionTargetListener;
-            if (listener != null) {
-                this.mChannel.removeListener(listener);
-                this.mAnalyticsTransmissionTargetListener = null;
-            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
@@ -270,15 +278,15 @@ public class Analytics extends AbstractAppCenterService {
                         AppCenterLog.error("AppCenterAnalytics", "Cannot track event using Analytics.trackEvent if not started from app, please start from the application or use Analytics.getTransmissionTarget.");
                         return;
                     }
-                } else if (analyticsTransmissionTarget2.isEnabled()) {
+                } else if (!analyticsTransmissionTarget2.isEnabled()) {
+                    AppCenterLog.error("AppCenterAnalytics", "This transmission target is disabled.");
+                    return;
+                } else {
                     eventLog.addTransmissionTarget(analyticsTransmissionTarget2.getTransmissionTargetToken());
                     eventLog.setTag(analyticsTransmissionTarget2);
                     if (analyticsTransmissionTarget2 == Analytics.this.mDefaultTransmissionTarget) {
                         eventLog.setUserId(userId);
                     }
-                } else {
-                    AppCenterLog.error("AppCenterAnalytics", "This transmission target is disabled.");
-                    return;
                 }
                 eventLog.setId(UUID.randomUUID());
                 eventLog.setName(str);

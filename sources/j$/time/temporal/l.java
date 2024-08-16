@@ -1,15 +1,13 @@
 package j$.time.temporal;
 /* loaded from: classes2.dex */
 public interface l {
-    boolean a(k kVar);
+    q a();
 
-    q b(k kVar);
+    long b(k kVar);
 
-    q c();
+    boolean c(k kVar);
 
-    long d(k kVar);
+    q d(k kVar);
 
-    boolean isDateBased();
-
-    boolean isTimeBased();
+    boolean e();
 }

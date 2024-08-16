@@ -6,11 +6,10 @@ final class zzbq {
     private static final zzbo zzb;
 
     static {
-        zzbo zzboVar;
+        zzbo zzboVar = null;
         try {
-            zzboVar = (zzbo) Class.forName("com.google.protobuf.ExtensionSchemaFull").getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+            zzboVar = (zzbo) Class.forName("com.google.protobuf.ExtensionSchemaFull").getDeclaredConstructor(null).newInstance(null);
         } catch (Exception unused) {
-            zzboVar = null;
         }
         zzb = zzboVar;
     }

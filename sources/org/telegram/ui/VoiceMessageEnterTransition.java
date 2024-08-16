@@ -61,7 +61,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         messageEnterTransitionContainer.addTransition(this);
         ValueAnimator ofFloat = ValueAnimator.ofFloat(0.0f, 1.0f);
         this.animator = ofFloat;
-        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.VoiceMessageEnterTransition$$ExternalSyntheticLambda1
+        ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.VoiceMessageEnterTransition$$ExternalSyntheticLambda0
             @Override // android.animation.ValueAnimator.AnimatorUpdateListener
             public final void onAnimationUpdate(ValueAnimator valueAnimator) {
                 VoiceMessageEnterTransition.this.lambda$new$0(messageEnterTransitionContainer, valueAnimator);
@@ -147,7 +147,7 @@ public class VoiceMessageEnterTransition implements MessageEnterTransitionContai
         canvas.translate(centerX2, centerY2);
         this.messageView.getRadialProgress().setOverrideAlpha(interpolation);
         this.messageView.getRadialProgress().setDrawBackground(false);
-        this.messageView.drawVoiceOnce(canvas, interpolation, new Runnable() { // from class: org.telegram.ui.VoiceMessageEnterTransition$$ExternalSyntheticLambda0
+        this.messageView.drawVoiceOnce(canvas, interpolation, new Runnable() { // from class: org.telegram.ui.VoiceMessageEnterTransition$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 VoiceMessageEnterTransition.this.lambda$onDraw$1(canvas, centerX2, centerY2, f7, f3, f5, x, y, f);

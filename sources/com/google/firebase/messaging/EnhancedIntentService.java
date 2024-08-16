@@ -27,10 +27,14 @@ public abstract class EnhancedIntentService extends Service {
             WakeLockHolder.completeWakefulIntent(intent);
         }
         synchronized (this.lock) {
-            int i = this.runningTasks - 1;
-            this.runningTasks = i;
-            if (i == 0) {
-                stopSelfResultHook(this.lastStartId);
+            try {
+                int i = this.runningTasks - 1;
+                this.runningTasks = i;
+                if (i == 0) {
+                    stopSelfResultHook(this.lastStartId);
+                }
+            } catch (Throwable th) {
+                throw th;
             }
         }
     }
@@ -87,16 +91,20 @@ public abstract class EnhancedIntentService extends Service {
 
     @Override // android.app.Service
     public final synchronized IBinder onBind(Intent intent) {
-        if (Log.isLoggable("EnhancedIntentService", 3)) {
-            Log.d("EnhancedIntentService", "Service received bind request");
-        }
-        if (this.binder == null) {
-            this.binder = new WithinAppServiceBinder(new WithinAppServiceBinder.IntentHandler() { // from class: com.google.firebase.messaging.EnhancedIntentService.1
-                @Override // com.google.firebase.messaging.WithinAppServiceBinder.IntentHandler
-                public Task<Void> handle(Intent intent2) {
-                    return EnhancedIntentService.this.processIntent(intent2);
-                }
-            });
+        try {
+            if (Log.isLoggable("EnhancedIntentService", 3)) {
+                Log.d("EnhancedIntentService", "Service received bind request");
+            }
+            if (this.binder == null) {
+                this.binder = new WithinAppServiceBinder(new WithinAppServiceBinder.IntentHandler() { // from class: com.google.firebase.messaging.EnhancedIntentService.1
+                    @Override // com.google.firebase.messaging.WithinAppServiceBinder.IntentHandler
+                    public Task<Void> handle(Intent intent2) {
+                        return EnhancedIntentService.this.processIntent(intent2);
+                    }
+                });
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.binder;
     }

@@ -16,6 +16,7 @@ import android.view.View;
 import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
 public class VideoTimelinePlayView extends View {
@@ -266,32 +267,33 @@ public class VideoTimelinePlayView extends View {
                 float dp8 = (dp3 - AndroidUtilities.dp(16.0f)) / f;
                 this.progressLeft = dp8;
                 float f4 = this.progressRight;
-                float f5 = this.maxProgressDiff;
-                if (f4 - dp8 > f5) {
-                    this.progressRight = dp8 + f5;
+                float f5 = f4 - dp8;
+                float f6 = this.maxProgressDiff;
+                if (f5 > f6) {
+                    this.progressRight = dp8 + f6;
                 } else {
-                    float f6 = this.minProgressDiff;
-                    if (f6 != 0.0f && f4 - dp8 < f6) {
-                        float f7 = f4 - f6;
-                        this.progressLeft = f7;
-                        if (f7 < 0.0f) {
+                    float f7 = this.minProgressDiff;
+                    if (f7 != 0.0f && f5 < f7) {
+                        float f8 = f4 - f7;
+                        this.progressLeft = f8;
+                        if (f8 < 0.0f) {
                             this.progressLeft = 0.0f;
                         }
                     }
                 }
-                float f8 = this.progressLeft;
-                float f9 = this.playProgress;
-                if (f8 > f9) {
-                    this.playProgress = f8;
+                float f9 = this.progressLeft;
+                float f10 = this.playProgress;
+                if (f9 > f10) {
+                    this.playProgress = f9;
                 } else {
-                    float f10 = this.progressRight;
-                    if (f10 < f9) {
-                        this.playProgress = f10;
+                    float f11 = this.progressRight;
+                    if (f11 < f10) {
+                        this.playProgress = f11;
                     }
                 }
                 VideoTimelineViewDelegate videoTimelineViewDelegate10 = this.delegate;
                 if (videoTimelineViewDelegate10 != null) {
-                    videoTimelineViewDelegate10.onLeftProgressChanged(f8);
+                    videoTimelineViewDelegate10.onLeftProgressChanged(f9);
                 }
                 invalidate();
                 return true;
@@ -302,28 +304,29 @@ public class VideoTimelinePlayView extends View {
                 }
                 float dp9 = (dp - AndroidUtilities.dp(16.0f)) / f;
                 this.progressRight = dp9;
-                float f11 = this.progressLeft;
-                float f12 = this.maxProgressDiff;
-                if (dp9 - f11 > f12) {
-                    this.progressLeft = dp9 - f12;
+                float f12 = this.progressLeft;
+                float f13 = dp9 - f12;
+                float f14 = this.maxProgressDiff;
+                if (f13 > f14) {
+                    this.progressLeft = dp9 - f14;
                 } else {
-                    float f13 = this.minProgressDiff;
-                    if (f13 != 0.0f && dp9 - f11 < f13) {
-                        float f14 = f11 + f13;
-                        this.progressRight = f14;
-                        if (f14 > 1.0f) {
+                    float f15 = this.minProgressDiff;
+                    if (f15 != 0.0f && f13 < f15) {
+                        float f16 = f12 + f15;
+                        this.progressRight = f16;
+                        if (f16 > 1.0f) {
                             this.progressRight = 1.0f;
                         }
                     }
                 }
-                float f15 = this.progressLeft;
-                float f16 = this.playProgress;
-                if (f15 > f16) {
-                    this.playProgress = f15;
+                float f17 = this.progressLeft;
+                float f18 = this.playProgress;
+                if (f17 > f18) {
+                    this.playProgress = f17;
                 } else {
-                    float f17 = this.progressRight;
-                    if (f17 < f16) {
-                        this.playProgress = f17;
+                    float f19 = this.progressRight;
+                    if (f19 < f18) {
+                        this.playProgress = f19;
                     }
                 }
                 VideoTimelineViewDelegate videoTimelineViewDelegate11 = this.delegate;
@@ -541,7 +544,7 @@ public class VideoTimelinePlayView extends View {
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:34:0x0132  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0131  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -644,9 +647,9 @@ public class VideoTimelinePlayView extends View {
             canvas.drawRect(dp2, dp3, f, dp4, this.dimPaint);
             canvas.restore();
         }
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
         this.rect3.set(dp - AndroidUtilities.dpf2(10.0f), dp3, AndroidUtilities.dpf2(10.0f) + dp2, dp4);
-        this.whitePaint.setAlpha(255);
+        this.whitePaint.setAlpha(NotificationCenter.voipServiceCreated);
         canvas.drawRoundRect(this.rect3, AndroidUtilities.dpf2(6.0f), AndroidUtilities.dpf2(6.0f), this.whitePaint);
         this.rect3.set(dp, AndroidUtilities.dpf2(2.0f) + dp3, dp2, dp4 - AndroidUtilities.dpf2(2.0f));
         canvas.drawRect(this.rect3, this.cutPaint);

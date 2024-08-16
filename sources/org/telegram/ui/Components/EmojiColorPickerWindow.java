@@ -22,7 +22,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes3.dex */
 public class EmojiColorPickerWindow extends PopupWindow {
-    private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda1
+    private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda0
         @Override // android.view.ViewTreeObserver.OnScrollChangedListener
         public final void onScrollChanged() {
             EmojiColorPickerWindow.lambda$static$0();
@@ -54,7 +54,7 @@ public class EmojiColorPickerWindow extends PopupWindow {
         setInputMethodMode(2);
         setSoftInputMode(0);
         this.pickerView.setFocusableInTouchMode(true);
-        this.pickerView.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda0
+        this.pickerView.setOnKeyListener(new View.OnKeyListener() { // from class: org.telegram.ui.Components.EmojiColorPickerWindow$$ExternalSyntheticLambda1
             @Override // android.view.View.OnKeyListener
             public final boolean onKey(View view, int i, KeyEvent keyEvent) {
                 boolean lambda$new$1;
@@ -369,10 +369,10 @@ public class EmojiColorPickerWindow extends PopupWindow {
                         int dp6 = (this.emojiSize * i7) + AndroidUtilities.dp((i7 * 4) + 5);
                         float min = ((1.0f - (Math.min(0.5f, Math.abs(i7 - f4)) * 2.0f)) * 0.1f) + 0.9f;
                         canvas.save();
+                        float f6 = this.emojiSize / 2.0f;
+                        canvas.scale(min, min, dp6 + f6, f6 + f5);
                         int i8 = this.emojiSize;
-                        canvas.scale(min, min, dp6 + (i8 / 2.0f), (i8 / 2.0f) + f5);
-                        int i9 = this.emojiSize;
-                        drawable2.setBounds(dp6, dp5, dp6 + i9, i9 + dp5);
+                        drawable2.setBounds(dp6, dp5, dp6 + i8, i8 + dp5);
                         drawable2.draw(canvas);
                         canvas.restore();
                     }

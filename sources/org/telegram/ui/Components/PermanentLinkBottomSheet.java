@@ -47,8 +47,8 @@ public class PermanentLinkBottomSheet extends BottomSheet {
 
     public PermanentLinkBottomSheet(Context context, boolean z, final BaseFragment baseFragment, final TLRPC$ChatFull tLRPC$ChatFull, long j, boolean z2) {
         super(context, z);
-        String str;
         int i;
+        String str;
         TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported;
         this.chatId = j;
         setAllowNestedScroll(true);
@@ -63,7 +63,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         imageView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         imageView.setColorFilter(getThemedColor(Theme.key_sheet_other));
         imageView.setImageResource(R.drawable.ic_layer_close);
-        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
+        imageView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PermanentLinkBottomSheet.this.lambda$new$0(view);
@@ -84,7 +84,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         rLottieImageView.setAnimation(rLottieDrawable);
         linkActionView.setUsers(0, null);
         linkActionView.hideRevokeOption(true);
-        linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
+        linkActionView.setDelegate(new LinkActionView.Delegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.LinkActionView.Delegate
             public /* synthetic */ void editLink() {
                 LinkActionView.Delegate.-CC.$default$editLink(this);
@@ -115,11 +115,11 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         TextView textView2 = new TextView(context);
         this.subtitle = textView2;
         if (z2) {
-            str = "LinkInfoChannel";
             i = R.string.LinkInfoChannel;
+            str = "LinkInfoChannel";
         } else {
-            str = "LinkInfo";
             i = R.string.LinkInfo;
+            str = "LinkInfo";
         }
         textView2.setText(LocaleController.getString(str, i));
         textView2.setTextSize(1, 14.0f);
@@ -140,7 +140,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
         if (Build.VERSION.SDK_INT >= 21) {
             textView3.setLetterSpacing(0.025f);
         }
-        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda4
+        textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda2
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
                 PermanentLinkBottomSheet.this.lambda$new$2(tLRPC$ChatFull, baseFragment, view);
@@ -234,7 +234,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet, android.app.Dialog
     public void show() {
         super.show();
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda0
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 PermanentLinkBottomSheet.this.lambda$show$5();
@@ -250,7 +250,7 @@ public class PermanentLinkBottomSheet extends BottomSheet {
     @Override // org.telegram.ui.ActionBar.BottomSheet
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda1
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.Components.PermanentLinkBottomSheet$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PermanentLinkBottomSheet.this.updateColors();

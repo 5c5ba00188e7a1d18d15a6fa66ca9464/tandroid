@@ -10,6 +10,6 @@ public final /* synthetic */ class PremiumPreviewGiftLinkBottomSheet$$ExternalSy
 
     @Override // java.lang.Runnable
     public final void run() {
-        PremiumPreviewGiftLinkBottomSheet.$r8$lambda$g-PTyfxhyLe9fhVpbRc7LRzrrl4(this.f$0);
+        PremiumPreviewGiftLinkBottomSheet.$r8$lambda$l-sqp807DHo7dvScLhqHoq5bFi4(this.f$0);
     }
 }

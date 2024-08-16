@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes3.dex */
 public class MsgClockDrawable extends Drawable {
     private int alpha;
@@ -28,8 +29,8 @@ public class MsgClockDrawable extends Drawable {
     public MsgClockDrawable() {
         Paint paint = new Paint(1);
         this.paint = paint;
-        this.alpha = 255;
-        this.colorAlpha = 255;
+        this.alpha = NotificationCenter.voipServiceCreated;
+        this.colorAlpha = NotificationCenter.voipServiceCreated;
         paint.setStyle(Paint.Style.STROKE);
         this.paint.setStrokeCap(Paint.Cap.ROUND);
         this.paint.setStrokeWidth(AndroidUtilities.dp(1.0f));

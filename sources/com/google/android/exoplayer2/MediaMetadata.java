@@ -8,7 +8,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
-import org.telegram.messenger.R;
 /* loaded from: classes.dex */
 public final class MediaMetadata implements Bundleable {
     public final CharSequence albumArtist;
@@ -110,11 +109,11 @@ public final class MediaMetadata implements Bundleable {
             case 17:
             case 18:
             case 19:
-            case R.styleable.AppCompatTheme_actionModeWebSearchDrawable /* 31 */:
+            case 31:
             case 32:
-            case R.styleable.AppCompatTheme_actionOverflowMenuStyle /* 33 */:
-            case R.styleable.AppCompatTheme_activityChooserViewStyle /* 34 */:
-            case R.styleable.AppCompatTheme_alertDialogButtonGroupStyle /* 35 */:
+            case 33:
+            case 34:
+            case 35:
                 return 1;
             case 20:
             case 26:
@@ -572,8 +571,9 @@ public final class MediaMetadata implements Bundleable {
                 num = Integer.valueOf(num2 != null ? getFolderTypeFromMediaType(num2.intValue()) : 0);
             }
         } else if (num != null) {
-            bool = Boolean.valueOf(num.intValue() != -1);
-            if (bool.booleanValue() && num2 == null) {
+            boolean z = num.intValue() != -1;
+            bool = Boolean.valueOf(z);
+            if (z && num2 == null) {
                 num2 = Integer.valueOf(getMediaTypeFromFolderType(num.intValue()));
             }
         }

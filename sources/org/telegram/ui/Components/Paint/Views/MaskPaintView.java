@@ -255,17 +255,17 @@ public class MaskPaintView extends FrameLayout {
                 return;
             }
             int i = this.currentCropState.transformRotation;
-            if (i == 90 || i == 270) {
+            if (i != 90 && i != 270) {
                 measuredHeight = measuredWidth;
                 measuredWidth = measuredHeight;
             }
-            float f11 = measuredWidth;
+            float f11 = measuredHeight;
             float max = Math.max(f5 / ((int) (cropState.cropPw * f11)), f6 / ((int) (cropState.cropPh * f8)));
             f7 = f10 * max;
             MediaController.CropState cropState3 = this.currentCropState;
             float f12 = cropState3.cropScale;
             f2 += cropState3.cropPx * f11 * f * max * f12;
-            f9 += cropState3.cropPy * measuredHeight * f * max * f12;
+            f9 += cropState3.cropPy * measuredWidth * f * max * f12;
             f4 += cropState3.cropRotate + i;
         } else {
             f7 = this.baseScale * 1.0f;
@@ -366,14 +366,14 @@ public class MaskPaintView extends FrameLayout {
             int measuredHeight = view.getMeasuredHeight();
             MediaController.CropState cropState = this.currentCropState;
             int i2 = cropState.transformRotation;
-            if (i2 == 90 || i2 == 270) {
+            if (i2 != 90 && i2 != 270) {
                 measuredHeight = measuredWidth;
                 measuredWidth = measuredHeight;
             }
-            float scaleX = measuredWidth * cropState.cropPw * view.getScaleX();
+            float scaleX = measuredHeight * cropState.cropPw * view.getScaleX();
             MediaController.CropState cropState2 = this.currentCropState;
             int i3 = (int) (scaleX / cropState2.cropScale);
-            int scaleY = (int) (((measuredHeight * cropState2.cropPh) * view.getScaleY()) / this.currentCropState.cropScale);
+            int scaleY = (int) (((measuredWidth * cropState2.cropPh) * view.getScaleY()) / this.currentCropState.cropScale);
             float ceil = ((float) Math.ceil((getMeasuredWidth() - i3) / 2.0f)) + this.transformX;
             float measuredHeight2 = (((((getMeasuredHeight() - currentActionBarHeight) - AndroidUtilities.dp(48.0f)) + getAdditionalBottom()) - scaleY) / 2.0f) + AndroidUtilities.dp(8.0f) + i + this.transformY;
             canvas.clipRect(Math.max(0.0f, ceil), Math.max(0.0f, measuredHeight2), Math.min(ceil + i3, getMeasuredWidth()), Math.min(getMeasuredHeight(), measuredHeight2 + scaleY));

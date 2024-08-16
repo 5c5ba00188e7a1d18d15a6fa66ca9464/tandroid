@@ -59,7 +59,6 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.HeaderCell;
@@ -140,48 +139,43 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         this.chatsStartRow = -1;
         this.chatsEndRow = -1;
         this.chatsCreateRow = -1;
-        int i = 0 + 1;
         this.helpRow = 0;
-        int i2 = i + 1;
-        this.helpSectionRow = i;
-        int i3 = i2 + 1;
-        this.usersHeaderRow = i2;
-        this.rowCount = i3 + 1;
-        this.showMeRow = i3;
+        this.helpSectionRow = 1;
+        this.usersHeaderRow = 2;
+        this.rowCount = 4;
+        this.showMeRow = 3;
         if (!this.users.isEmpty()) {
             if (this.expanded) {
                 min = this.users.size();
             } else {
                 min = Math.min(5, this.users.size());
             }
-            int i4 = this.rowCount;
-            this.usersStartRow = i4;
-            int i5 = i4 + min;
-            this.rowCount = i5;
-            this.usersEndRow = i5;
+            int i = this.rowCount;
+            this.usersStartRow = i;
+            int i2 = i + min;
+            this.rowCount = i2;
+            this.usersEndRow = i2;
             if (min != this.users.size()) {
-                int i6 = this.rowCount;
-                this.rowCount = i6 + 1;
-                this.showMoreRow = i6;
+                int i3 = this.rowCount;
+                this.rowCount = i3 + 1;
+                this.showMoreRow = i3;
             }
         }
-        int i7 = this.rowCount;
-        int i8 = i7 + 1;
-        this.usersSectionRow = i7;
-        int i9 = i8 + 1;
-        this.chatsHeaderRow = i8;
-        this.rowCount = i9 + 1;
-        this.chatsCreateRow = i9;
+        int i4 = this.rowCount;
+        this.usersSectionRow = i4;
+        this.chatsHeaderRow = i4 + 1;
+        this.rowCount = i4 + 3;
+        this.chatsCreateRow = i4 + 2;
         if (!this.chats.isEmpty()) {
-            int i10 = this.rowCount;
-            this.chatsStartRow = i10;
-            int size = i10 + this.chats.size();
+            int i5 = this.rowCount;
+            this.chatsStartRow = i5;
+            int size = i5 + this.chats.size();
             this.rowCount = size;
             this.chatsEndRow = size;
         }
-        int i11 = this.rowCount;
-        this.rowCount = i11 + 1;
-        this.chatsSectionRow = i11;
+        int i6 = this.rowCount;
+        this.rowCount = i6 + 1;
+        this.chatsSectionRow = i6;
         if (this.listViewAdapter != null) {
             if (diffCallback == null) {
                 this.listView.setItemAnimator(null);
@@ -372,7 +366,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                 return j;
             }
         };
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda5
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 PeopleNearbyActivity.this.lambda$createView$2(view, i3);
@@ -499,13 +493,13 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     /* JADX WARN: Removed duplicated region for block: B:14:0x0041  */
     /* JADX WARN: Removed duplicated region for block: B:15:0x0043  */
     /* JADX WARN: Removed duplicated region for block: B:17:0x0046  */
-    /* JADX WARN: Removed duplicated region for block: B:45:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:43:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void checkScroll(boolean z) {
-        RecyclerView.ViewHolder findViewHolderForAdapterPosition;
         boolean z2;
+        RecyclerView.ViewHolder findViewHolderForAdapterPosition;
         int findFirstVisibleItemPosition = this.layoutManager.findFirstVisibleItemPosition();
         if (findFirstVisibleItemPosition == 0 && (findViewHolderForAdapterPosition = this.listView.findViewHolderForAdapterPosition(findFirstVisibleItemPosition)) != null) {
             HintInnerCell hintInnerCell = (HintInnerCell) findViewHolderForAdapterPosition.itemView;
@@ -522,18 +516,9 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                     if (z) {
                         AnimatorSet animatorSet2 = new AnimatorSet();
                         this.actionBarAnimator = animatorSet2;
-                        Animator[] animatorArr = new Animator[2];
                         View view = this.actionBarBackground;
                         Property property = View.ALPHA;
-                        float[] fArr = new float[1];
-                        fArr[0] = z2 ? 1.0f : 0.0f;
-                        animatorArr[0] = ObjectAnimator.ofFloat(view, property, fArr);
-                        SimpleTextView titleTextView = this.actionBar.getTitleTextView();
-                        Property property2 = View.ALPHA;
-                        float[] fArr2 = new float[1];
-                        fArr2[0] = z2 ? 1.0f : 0.0f;
-                        animatorArr[1] = ObjectAnimator.ofFloat(titleTextView, property2, fArr2);
-                        animatorSet2.playTogether(animatorArr);
+                        animatorSet2.playTogether(ObjectAnimator.ofFloat(view, property, z2 ? 1.0f : 0.0f), ObjectAnimator.ofFloat(this.actionBar.getTitleTextView(), property, z2 ? 1.0f : 0.0f));
                         this.actionBarAnimator.setDuration(150L);
                         this.actionBarAnimator.addListener(new AnimatorListenerAdapter() { // from class: org.telegram.ui.PeopleNearbyActivity.7
                             @Override // android.animation.AnimatorListenerAdapter, android.animation.Animator.AnimatorListener
@@ -577,7 +562,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
         TLRPC$TL_channels_getAdminedPublicChannels tLRPC$TL_channels_getAdminedPublicChannels = new TLRPC$TL_channels_getAdminedPublicChannels();
         tLRPC$TL_channels_getAdminedPublicChannels.by_location = true;
         tLRPC$TL_channels_getAdminedPublicChannels.check_limit = true;
-        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_channels_getAdminedPublicChannels, new RequestDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda4
+        getConnectionsManager().bindRequestToGuid(getConnectionsManager().sendRequest(tLRPC$TL_channels_getAdminedPublicChannels, new RequestDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda6
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PeopleNearbyActivity.this.lambda$checkCanCreateGroup$4(tLObject, tLRPC$TL_error);
@@ -632,11 +617,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
             if (childAt instanceof HeaderCellProgress) {
                 HeaderCellProgress headerCellProgress = (HeaderCellProgress) childAt;
                 this.animatingViews.add(headerCellProgress);
-                RadialProgressView radialProgressView = headerCellProgress.progressView;
-                Property property = View.ALPHA;
-                float[] fArr = new float[1];
-                fArr[0] = z ? 1.0f : 0.0f;
-                arrayList.add(ObjectAnimator.ofFloat(radialProgressView, property, fArr));
+                arrayList.add(ObjectAnimator.ofFloat(headerCellProgress.progressView, View.ALPHA, z ? 1.0f : 0.0f));
             }
         }
         if (arrayList.isEmpty()) {
@@ -660,7 +641,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     public void sendRequest(boolean z, final int i) {
         Location location;
         if (!this.firstLoaded) {
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda1
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda3
                 @Override // java.lang.Runnable
                 public final void run() {
                     PeopleNearbyActivity.this.lambda$sendRequest$5();
@@ -706,7 +687,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
             tLRPC$TL_contacts_getLocated.flags |= 1;
             tLRPC$TL_contacts_getLocated.self_expires = getUserConfig().sharingMyLocationUntil;
         }
-        this.reqId = getConnectionsManager().sendRequest(tLRPC$TL_contacts_getLocated, new RequestDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda2
+        this.reqId = getConnectionsManager().sendRequest(tLRPC$TL_contacts_getLocated, new RequestDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda4
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 PeopleNearbyActivity.this.lambda$sendRequest$7(i, tLObject, tLRPC$TL_error);
@@ -922,7 +903,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
             TLRPC$User tLRPC$User = (TLRPC$User) objArr[1];
             final TLRPC$Chat tLRPC$Chat = (TLRPC$Chat) objArr[2];
             final boolean booleanValue = ((Boolean) objArr[3]).booleanValue();
-            Runnable runnable = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda6
+            Runnable runnable = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda5
                 @Override // java.lang.Runnable
                 public final void run() {
                     PeopleNearbyActivity.this.lambda$didReceivedNotification$8(tLRPC$Chat, longValue, booleanValue);
@@ -991,7 +972,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
             getLocationController().setCachedNearbyUsersAndChats(this.users, this.chats);
         }
         if (i2 != Integer.MAX_VALUE) {
-            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda0
+            Runnable runnable2 = new Runnable() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda1
                 @Override // java.lang.Runnable
                 public final void run() {
                     PeopleNearbyActivity.this.lambda$checkForExpiredLocations$9();
@@ -1035,27 +1016,27 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
 
         public HintInnerCell(Context context) {
             super(context);
-            int currentActionBarHeight = ((int) ((ActionBar.getCurrentActionBarHeight() + (((BaseFragment) PeopleNearbyActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0)) / AndroidUtilities.density)) - 44;
+            int currentActionBarHeight = (int) ((ActionBar.getCurrentActionBarHeight() + (((BaseFragment) PeopleNearbyActivity.this).actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0)) / AndroidUtilities.density);
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
             imageView.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(74.0f), Theme.getColor(Theme.key_chats_archiveBackground)));
             this.imageView.setImageDrawable(new ShareLocationDrawable(context, 2));
             this.imageView.setScaleType(ImageView.ScaleType.CENTER);
-            addView(this.imageView, LayoutHelper.createFrame(74, 74.0f, 49, 0.0f, currentActionBarHeight + 27, 0.0f, 0.0f));
+            addView(this.imageView, LayoutHelper.createFrame(74, 74.0f, 49, 0.0f, currentActionBarHeight - 17, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             this.titleTextView = textView;
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             this.titleTextView.setTextSize(1, 24.0f);
             this.titleTextView.setGravity(17);
             this.titleTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearby", R.string.PeopleNearby, new Object[0])));
-            addView(this.titleTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 17.0f, currentActionBarHeight + 120, 17.0f, 27.0f));
+            addView(this.titleTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 17.0f, currentActionBarHeight + 76, 17.0f, 27.0f));
             TextView textView2 = new TextView(context);
             this.messageTextView = textView2;
             textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             this.messageTextView.setTextSize(1, 15.0f);
             this.messageTextView.setGravity(17);
             this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("PeopleNearbyInfo2", R.string.PeopleNearbyInfo2, new Object[0])));
-            addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 40.0f, currentActionBarHeight + 161, 40.0f, 27.0f));
+            addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 40.0f, currentActionBarHeight + 117, 40.0f, 27.0f));
         }
     }
 
@@ -1164,7 +1145,11 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
                 TLRPC$TL_peerLocated tLRPC$TL_peerLocated2 = (TLRPC$TL_peerLocated) PeopleNearbyActivity.this.users.get(i - PeopleNearbyActivity.this.usersStartRow);
                 TLRPC$User user = PeopleNearbyActivity.this.getMessagesController().getUser(Long.valueOf(tLRPC$TL_peerLocated2.peer.user_id));
                 if (user != null) {
-                    manageChatUserCell.setData(user, null, formatDistance(tLRPC$TL_peerLocated2), (PeopleNearbyActivity.this.showMoreRow == -1 && i == PeopleNearbyActivity.this.usersEndRow - 1) ? true : true);
+                    String formatDistance2 = formatDistance(tLRPC$TL_peerLocated2);
+                    if (PeopleNearbyActivity.this.showMoreRow == -1 && i == PeopleNearbyActivity.this.usersEndRow - 1) {
+                        r1 = false;
+                    }
+                    manageChatUserCell.setData(user, null, formatDistance2, r1);
                 }
             } else if (itemViewType == 1) {
                 ShadowSectionCell shadowSectionCell = (ShadowSectionCell) viewHolder.itemView;
@@ -1246,7 +1231,7 @@ public class PeopleNearbyActivity extends BaseFragment implements NotificationCe
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public ArrayList<ThemeDescription> getThemeDescriptions() {
         ArrayList<ThemeDescription> arrayList = new ArrayList<>();
-        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda3
+        ThemeDescription.ThemeDescriptionDelegate themeDescriptionDelegate = new ThemeDescription.ThemeDescriptionDelegate() { // from class: org.telegram.ui.PeopleNearbyActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.ActionBar.ThemeDescription.ThemeDescriptionDelegate
             public final void didSetColor() {
                 PeopleNearbyActivity.this.lambda$getThemeDescriptions$10();

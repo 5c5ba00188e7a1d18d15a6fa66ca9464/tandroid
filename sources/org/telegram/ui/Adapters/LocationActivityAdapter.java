@@ -320,26 +320,21 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
     public int getItemCount() {
         int i = this.locationType;
         if (i != 6 && i != 5 && i != 4 && !this.biz) {
-            int i2 = 0;
             if (this.currentMessageObject != null) {
                 if (!this.currentLiveLocations.isEmpty()) {
-                    i2 = this.currentLiveLocations.size() + 3;
-                } else if (!this.fromStories) {
-                    i2 = 1;
+                    r5 = this.currentLiveLocations.size() + 3;
+                } else if (this.fromStories) {
+                    r5 = 0;
                 }
-                r1 = 2 + i2;
+                r1 = 2 + r5;
             } else if (i == 2) {
                 LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
-                int size = this.currentLiveLocations.size() + 2;
-                if (sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
-                    i2 = 1;
-                }
-                r1 = size + i2;
+                r1 = this.currentLiveLocations.size() + 2 + ((sharingLocationInfo == null || sharingLocationInfo.period == Integer.MAX_VALUE) ? 0 : 0);
             } else if (this.searching || !this.searched || this.places.isEmpty()) {
-                int i3 = this.locationType;
-                if (i3 == 0) {
+                int i2 = this.locationType;
+                if (i2 == 0) {
                     r2 = 5;
-                } else if (i3 == 7) {
+                } else if (i2 == 7) {
                     r2 = (this.street == null ? 0 : 1) + 5;
                 }
                 boolean z = this.myLocationDenied;
@@ -466,12 +461,13 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 int i3 = this.locationType;
                 if (i3 == 0) {
                     i2 = i - 4;
-                } else if (i3 == 7 || i3 == 8) {
-                    i2 = i - 4;
-                    if (this.street != null) {
-                        i2--;
-                    }
                 } else {
+                    if (i3 == 7 || i3 == 8) {
+                        int i4 = i - 4;
+                        if (this.street == null) {
+                            i2 = i4;
+                        }
+                    }
                     i2 = i - 5;
                 }
                 if (this.searched && (i3 != 7 || !this.searching)) {
@@ -480,7 +476,7 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                 if (r4) {
                     if (i2 >= 0 && i2 < this.locations.size()) {
                         tLRPC$TL_messageMediaVenue = this.locations.get(i2);
-                        locationCell.setLocation(tLRPC$TL_messageMediaVenue, r2, true);
+                        locationCell.setLocation(tLRPC$TL_messageMediaVenue, r3, true);
                         return;
                     }
                     int size = i2 - this.locations.size();
@@ -488,8 +484,8 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                         tLRPC$TL_messageMediaVenue = this.places.get(size);
                     }
                 }
-                r2 = i2;
-                locationCell.setLocation(tLRPC$TL_messageMediaVenue, r2, true);
+                r3 = i2;
+                locationCell.setLocation(tLRPC$TL_messageMediaVenue, r3, true);
                 return;
             case 4:
                 ((LocationLoadingCell) viewHolder.itemView).setLoading(this.searching);
@@ -502,8 +498,8 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
             case 6:
                 SendLocationCell sendLocationCell = (SendLocationCell) viewHolder.itemView;
                 sendLocationCell.setHasLocation(this.gpsLocation != null);
-                int i4 = i + 1;
-                if (i4 < getItemCount() && getItemViewType(i4) == 7) {
+                int i5 = i + 1;
+                if (i5 < getItemCount() && getItemViewType(i5) == 7) {
                     r4 = true;
                 }
                 sendLocationCell.useDivider = r4;
@@ -528,15 +524,15 @@ public class LocationActivityAdapter extends BaseLocationAdapter implements Loca
                     sharingLiveLocationCell.setDialog(messageObject, this.gpsLocation, this.myLocationDenied);
                     return;
                 }
-                int i5 = i - (messageObject != null ? 5 : 2);
+                int i6 = i - (messageObject != null ? 5 : 2);
                 LocationController.SharingLocationInfo sharingLocationInfo = LocationController.getInstance(this.currentAccount).getSharingLocationInfo(this.dialogId);
                 if (sharingLocationInfo != null && sharingLocationInfo.period != Integer.MAX_VALUE) {
-                    i5--;
+                    i6--;
                 }
-                if (i5 < 0 || i5 >= this.currentLiveLocations.size()) {
+                if (i6 < 0 || i6 >= this.currentLiveLocations.size()) {
                     return;
                 }
-                sharingLiveLocationCell.setDialog(this.currentLiveLocations.get(i5), this.gpsLocation);
+                sharingLiveLocationCell.setDialog(this.currentLiveLocations.get(i6), this.gpsLocation);
                 return;
             case 11:
                 viewHolder.itemView.setBackgroundColor(Theme.getColor(this.myLocationDenied ? Theme.key_dialogBackgroundGray : Theme.key_dialogBackground, this.resourcesProvider));

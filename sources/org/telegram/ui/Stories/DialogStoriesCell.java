@@ -160,7 +160,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         this.afterNextLayout = new ArrayList<>();
         this.collapsedProgress1 = -1.0f;
         this.allowGlobalUpdates = true;
-        this.comparator = new Comparator() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda4
+        this.comparator = new Comparator() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda2
             @Override // java.util.Comparator
             public final int compare(Object obj, Object obj2) {
                 int lambda$new$6;
@@ -205,7 +205,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         recyclerListView.setPadding(AndroidUtilities.dp(3.0f), 0, AndroidUtilities.dp(3.0f), 0);
         this.recyclerListView.setClipToPadding(false);
         this.recyclerListView.setClipChildren(false);
-        this.miniItemsClickArea.setDelegate(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda5
+        this.miniItemsClickArea.setDelegate(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda3
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$new$0();
@@ -232,13 +232,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, 0, false);
         this.layoutManager = linearLayoutManager;
         recyclerListView2.setLayoutManager(linearLayoutManager);
-        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda6
+        this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda4
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i3) {
                 DialogStoriesCell.this.lambda$new$1(view, i3);
             }
         });
-        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
+        this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda5
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListener
             public final boolean onItemClick(View view, int i3) {
                 boolean lambda$new$2;
@@ -406,7 +406,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Removed duplicated region for block: B:56:0x0106  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x00fd  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -436,33 +436,32 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         if (storyCell.isSelf && (!z || this.items.size() == 1)) {
             arrayList.add(Long.valueOf(storyCell.dialogId));
             z2 = true;
-        } else {
-            if (!storyCell.isSelf && this.storiesController.hasUnreadStories(storyCell.dialogId)) {
-                for (int i3 = 0; i3 < this.items.size(); i3++) {
-                    long j3 = this.items.get(i3).dialogId;
-                    if (!storyCell.isSelf && this.storiesController.hasUnreadStories(j3)) {
-                        arrayList.add(Long.valueOf(j3));
-                    }
-                    if (j3 == storyCell.dialogId) {
-                        i = arrayList.size() - 1;
-                    }
+        } else if (!storyCell.isSelf && this.storiesController.hasUnreadStories(storyCell.dialogId)) {
+            for (int i3 = 0; i3 < this.items.size(); i3++) {
+                long j3 = this.items.get(i3).dialogId;
+                if (!storyCell.isSelf && this.storiesController.hasUnreadStories(j3)) {
+                    arrayList.add(Long.valueOf(j3));
                 }
-                z2 = false;
-                z3 = true;
-                StoryViewer orCreateStoryViewer = this.fragment.getOrCreateStoryViewer();
-                orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
-                    @Override // java.lang.Runnable
-                    public final void run() {
-                        DialogStoriesCell.this.lambda$openStoryForCell$3(j);
-                    }
-                });
-                orCreateStoryViewer.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda14
-                    @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.LoadNextInterface
-                    public final void loadNext(boolean z4) {
-                        DialogStoriesCell.this.lambda$openStoryForCell$4(z2, z4);
-                    }
-                }).setPaginationParaments(this.type == 1, z3, z2), false);
+                if (j3 == storyCell.dialogId) {
+                    i = arrayList.size() - 1;
+                }
             }
+            z2 = false;
+            z3 = true;
+            StoryViewer orCreateStoryViewer = this.fragment.getOrCreateStoryViewer();
+            orCreateStoryViewer.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda12
+                @Override // java.lang.Runnable
+                public final void run() {
+                    DialogStoriesCell.this.lambda$openStoryForCell$3(j);
+                }
+            });
+            orCreateStoryViewer.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
+                @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.LoadNextInterface
+                public final void loadNext(boolean z4) {
+                    DialogStoriesCell.this.lambda$openStoryForCell$4(z2, z4);
+                }
+            }).setPaginationParaments(this.type == 1, z3, z2), false);
+        } else {
             for (int i4 = 0; i4 < this.items.size(); i4++) {
                 if (this.storiesController.hasStories(this.items.get(i4).dialogId)) {
                     arrayList.add(Long.valueOf(this.items.get(i4).dialogId));
@@ -474,13 +473,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         z3 = false;
         StoryViewer orCreateStoryViewer2 = this.fragment.getOrCreateStoryViewer();
-        orCreateStoryViewer2.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
+        orCreateStoryViewer2.doOnAnimationReady(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$openStoryForCell$3(j);
             }
         });
-        orCreateStoryViewer2.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda14
+        orCreateStoryViewer2.open(getContext(), null, arrayList, i, null, null, StoriesListPlaceProvider.of(this.recyclerListView).with(new StoriesListPlaceProvider.LoadNextInterface() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda13
             @Override // org.telegram.ui.Stories.StoriesListPlaceProvider.LoadNextInterface
             public final void loadNext(boolean z4) {
                 DialogStoriesCell.this.lambda$openStoryForCell$4(z2, z4);
@@ -601,8 +600,8 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         return storyCell2.position - storyCell.position;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:116:0x0278  */
-    /* JADX WARN: Removed duplicated region for block: B:161:0x029c A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:114:0x0275  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x0299 A[SYNTHETIC] */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -866,10 +865,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 this.valueAnimator = null;
             }
             if (z) {
-                float[] fArr = new float[2];
-                fArr[0] = this.collapsedProgress2;
-                fArr[1] = z2 ? 1.0f : 0.0f;
-                this.valueAnimator = ValueAnimator.ofFloat(fArr);
+                this.valueAnimator = ValueAnimator.ofFloat(this.collapsedProgress2, z2 ? 1.0f : 0.0f);
             } else {
                 this.collapsedProgress2 = z2 ? 1.0f : 0.0f;
                 checkCollapsedProgres();
@@ -1034,7 +1030,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             Theme.ResourcesProvider resourceProvider = baseFragment != null ? baseFragment.getResourceProvider() : null;
             final AlertDialog alertDialog = new AlertDialog(getContext(), 3, resourceProvider);
             alertDialog.showDelayed(500L);
-            MessagesController.getInstance(this.currentAccount).getStoriesController().canSendStoryFor(j, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
+            MessagesController.getInstance(this.currentAccount).getStoriesController().canSendStoryFor(j, new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda14
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     DialogStoriesCell.this.lambda$openStoryRecorder$11(alertDialog, j, storyCell, (Boolean) obj);
@@ -1438,13 +1434,13 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             float f;
             float f2;
             float f3;
+            float size;
+            boolean z;
+            Paint unreadCirclePaint;
             float f4;
             float f5;
             float f6;
             float f7;
-            float size;
-            boolean isCloseFriends;
-            Paint unreadCirclePaint;
             RadialProgress radialProgress;
             float dp = AndroidUtilities.dp(48.0f);
             float dp2 = AndroidUtilities.dp(28.0f);
@@ -1486,20 +1482,24 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 this.radialProgress = DialogStoriesCell.this.radialProgress;
             }
             ArrayList<StoriesController.UploadingStory> uploadingAndEditingStories = DialogStoriesCell.this.storiesController.getUploadingAndEditingStories(this.dialogId);
-            boolean z = (uploadingAndEditingStories == null || uploadingAndEditingStories.isEmpty()) ? false : true;
-            if (z || (this.progressWasDrawn && (radialProgress = this.radialProgress) != null && radialProgress.getAnimatedProgress() < 0.98f)) {
-                if (!z) {
-                    isCloseFriends = DialogStoriesCell.this.lastUploadingCloseFriends;
+            boolean z2 = (uploadingAndEditingStories == null || uploadingAndEditingStories.isEmpty()) ? false : true;
+            if (z2 || (this.progressWasDrawn && (radialProgress = this.radialProgress) != null && radialProgress.getAnimatedProgress() < 0.98f)) {
+                f = lerp3;
+                f2 = lerp2;
+                f3 = f9;
+                if (!z2) {
+                    z = DialogStoriesCell.this.lastUploadingCloseFriends;
                     size = 1.0f;
                 } else {
                     float f13 = 0.0f;
                     for (int i = 0; i < uploadingAndEditingStories.size(); i++) {
                         f13 += uploadingAndEditingStories.get(i).progress;
                     }
-                    size = f13 / uploadingAndEditingStories.size();
                     DialogStoriesCell dialogStoriesCell = DialogStoriesCell.this;
-                    isCloseFriends = uploadingAndEditingStories.get(uploadingAndEditingStories.size() - 1).isCloseFriends();
+                    boolean isCloseFriends = uploadingAndEditingStories.get(uploadingAndEditingStories.size() - 1).isCloseFriends();
                     dialogStoriesCell.lastUploadingCloseFriends = isCloseFriends;
+                    size = f13 / uploadingAndEditingStories.size();
+                    z = isCloseFriends;
                 }
                 invalidate();
                 if (this.radialProgress == null) {
@@ -1522,12 +1522,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                     canvas.restore();
                 }
                 this.radialProgress.setDiff(0);
-                if (isCloseFriends) {
+                if (z) {
                     unreadCirclePaint = StoriesUtilities.getCloseFriendsPaint(this.avatarImage);
                 } else {
                     unreadCirclePaint = StoriesUtilities.getUnreadCirclePaint(this.avatarImage, true);
                 }
-                unreadCirclePaint.setAlpha(255);
+                unreadCirclePaint.setAlpha(NotificationCenter.voipServiceCreated);
                 this.radialProgress.setPaint(unreadCirclePaint);
                 this.radialProgress.setProgressRect((int) (this.avatarImage.getImageX() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY() - AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageX2() + AndroidUtilities.dp(3.0f)), (int) (this.avatarImage.getImageY2() + AndroidUtilities.dp(3.0f)));
                 this.radialProgress.setProgress(Utilities.clamp(size, 1.0f, 0.0f), this.progressWasDrawn);
@@ -1537,10 +1537,6 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 this.progressWasDrawn = true;
                 DialogStoriesCell.this.drawCircleForce = true;
                 invalidate();
-                f = f9;
-                f2 = lerp3;
-                f3 = lerp;
-                f4 = measuredWidth;
             } else {
                 float f14 = this.failT.set(this.isFail);
                 if (this.drawAvatar) {
@@ -1563,87 +1559,77 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                                 StoryCell.this.params.forceAnimateProgressToSegments = false;
                             }
                         });
-                        f5 = lerp;
                         ofFloat.setDuration(100L);
                         ofFloat.start();
-                    } else {
-                        f5 = lerp;
                     }
                     StoriesUtilities.AvatarStoryParams avatarStoryParams3 = this.params;
-                    float f15 = avatarStoryParams3.progressToSegments * f14;
-                    avatarStoryParams3.animate = !this.progressWasDrawn;
+                    f14 *= avatarStoryParams3.progressToSegments;
+                    avatarStoryParams3.animate = true ^ this.progressWasDrawn;
                     avatarStoryParams3.progressToArc = getArcProgress(this.cx, f8);
                     StoriesUtilities.AvatarStoryParams avatarStoryParams4 = this.params;
                     avatarStoryParams4.isLast = this.isLast;
                     avatarStoryParams4.isFirst = this.isFirst;
-                    avatarStoryParams4.alpha = 1.0f - f15;
-                    boolean z2 = this.isSelf;
-                    if (!z2 && this.crossfadeToDialog) {
+                    avatarStoryParams4.alpha = 1.0f - f14;
+                    boolean z3 = this.isSelf;
+                    if (!z3 && this.crossfadeToDialog) {
                         avatarStoryParams4.crossfadeToDialog = this.crossfadeToDialogId;
                         avatarStoryParams4.crossfadeToDialogProgress = this.progressToCollapsed2;
                     } else {
                         avatarStoryParams4.crossfadeToDialog = 0L;
                     }
-                    if (z2) {
-                        f4 = measuredWidth;
-                        f6 = f11;
-                        f3 = f5;
-                        f7 = f10;
-                        f = f9;
-                        f2 = lerp3;
+                    if (z3) {
+                        f5 = f11;
+                        f6 = f10;
+                        f7 = lerp3;
+                        f4 = lerp2;
+                        f3 = f9;
                         StoriesUtilities.drawAvatarWithStory(this.dialogId, canvas, this.avatarImage, DialogStoriesCell.this.storiesController.hasSelfStories(), this.params);
                     } else {
-                        f = f9;
-                        f2 = lerp3;
-                        f3 = f5;
-                        f4 = measuredWidth;
-                        f6 = f11;
-                        f7 = f10;
+                        f5 = f11;
+                        f6 = f10;
+                        f7 = lerp3;
+                        f4 = lerp2;
+                        f3 = f9;
                         long j = this.dialogId;
                         StoriesUtilities.drawAvatarWithStory(j, canvas, this.avatarImage, DialogStoriesCell.this.storiesController.hasStories(j), this.params);
                     }
-                    if (f15 > 0.0f) {
+                    f = f7;
+                    if (f14 > 0.0f) {
                         Paint errorPaint = StoriesUtilities.getErrorPaint(this.avatarImage);
                         errorPaint.setStrokeWidth(AndroidUtilities.dp(2.0f));
-                        errorPaint.setAlpha((int) (255.0f * f15));
-                        canvas.drawCircle(f7, f6, (f8 + AndroidUtilities.dp(4.0f)) * this.params.getScale(), errorPaint);
+                        errorPaint.setAlpha((int) (255.0f * f14));
+                        canvas.drawCircle(f6, f5, (f8 + AndroidUtilities.dp(4.0f)) * this.params.getScale(), errorPaint);
                     }
-                    f14 = f15;
                 } else {
-                    f = f9;
-                    f2 = lerp3;
-                    f3 = lerp;
-                    f4 = measuredWidth;
+                    f = lerp3;
+                    f4 = lerp2;
+                    f3 = f9;
                 }
                 this.progressWasDrawn = false;
                 if (this.drawAvatar) {
                     canvas.save();
-                    float f16 = 1.0f - clamp;
-                    canvas.scale(f16, f16, this.cx + AndroidUtilities.dp(16.0f), this.cy + AndroidUtilities.dp(16.0f));
+                    float f15 = 1.0f - clamp;
+                    canvas.scale(f15, f15, this.cx + AndroidUtilities.dp(16.0f), this.cy + AndroidUtilities.dp(16.0f));
                     drawPlus(canvas, this.cx, this.cy, 1.0f);
                     drawFail(canvas, this.cx, this.cy, f14);
                     canvas.restore();
                 }
+                f2 = f4;
             }
             canvas.restore();
             if (this.crossfadeToDialog && this.progressToCollapsed2 > 0.0f) {
-                float f17 = f3;
-                this.crossfageToAvatarImage.setImageCoords(lerp2, f2, f17, f17);
+                this.crossfageToAvatarImage.setImageCoords(f2, f, lerp, lerp);
                 this.crossfageToAvatarImage.setAlpha(this.progressToCollapsed2);
                 this.crossfageToAvatarImage.draw(canvas);
             }
-            this.textViewContainer.setTranslationY(f + (AndroidUtilities.dp(7.0f) * (1.0f - this.progressToCollapsed)));
-            this.textViewContainer.setTranslationX(lerp2 - f4);
+            this.textViewContainer.setTranslationY(f3 + (AndroidUtilities.dp(7.0f) * (1.0f - this.progressToCollapsed)));
+            this.textViewContainer.setTranslationX(f2 - measuredWidth);
             if (!this.mini) {
                 if (this.isSelf) {
                     this.textAlpha = 1.0f;
                 } else {
                     StoriesUtilities.AvatarStoryParams avatarStoryParams5 = this.params;
-                    if (avatarStoryParams5.progressToSate != 1.0f) {
-                        int i2 = avatarStoryParams5.currentState;
-                    } else {
-                        int i3 = avatarStoryParams5.currentState;
-                    }
+                    float f16 = avatarStoryParams5.progressToSate;
                     this.textAlpha = avatarStoryParams5.globalState == 2 ? 0.7f : 1.0f;
                 }
                 this.textViewContainer.setAlpha(this.textAlphaTransition * this.textAlpha);
@@ -1890,8 +1876,12 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
                 int color = Theme.getColor(DialogStoriesCell.this.type == 0 ? Theme.key_actionBarDefault : Theme.key_actionBarDefaultArchived);
                 if (this.lastColor != color) {
                     this.lastColor = color;
-                    mutate.setColorFilter(new PorterDuffColorFilter(ColorUtils.blendARGB(Theme.getColor(DialogStoriesCell.this.type == 0 ? Theme.key_actionBarDefaultTitle : Theme.key_actionBarDefaultArchivedTitle), color, 0.1f), PorterDuff.Mode.MULTIPLY));
-                    mutate2.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+                    int color2 = Theme.getColor(DialogStoriesCell.this.type == 0 ? Theme.key_actionBarDefaultTitle : Theme.key_actionBarDefaultArchivedTitle);
+                    Drawable drawable = mutate;
+                    int blendARGB = ColorUtils.blendARGB(color2, color, 0.1f);
+                    PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+                    drawable.setColorFilter(new PorterDuffColorFilter(blendARGB, mode));
+                    mutate2.setColorFilter(new PorterDuffColorFilter(color, mode));
                 }
                 super.draw(canvas);
             }
@@ -1906,7 +1896,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         this.currentState = i;
         if (i != 1 && this.updateOnIdleState) {
-            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda2
+            AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda6
                 @Override // java.lang.Runnable
                 public final void run() {
                     DialogStoriesCell.this.lambda$updateCurrentState$12();
@@ -1915,7 +1905,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
         int i2 = this.currentState;
         if (i2 == 0) {
-            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda3
+            AndroidUtilities.forEachViews((RecyclerView) this.recyclerListView, (Consumer<View>) new Consumer() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda7
                 @Override // com.google.android.exoplayer2.util.Consumer
                 public final void accept(Object obj) {
                     DialogStoriesCell.lambda$updateCurrentState$13((View) obj);
@@ -1993,7 +1983,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
             return hintView2;
         }
         this.premiumHint = new HintView2(getContext(), 1).setBgColor(Theme.getColor(Theme.key_undo_background)).setMultilineText(true).setTextAlign(Layout.Alignment.ALIGN_CENTER).setJoint(0.0f, 29.0f);
-        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint2").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda12
+        SpannableStringBuilder replaceSingleTag = AndroidUtilities.replaceSingleTag(LocaleController.getString("StoriesPremiumHint2").replace('\n', ' '), Theme.key_undo_cancelColor, 0, new Runnable() { // from class: org.telegram.ui.Stories.DialogStoriesCell$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 DialogStoriesCell.this.lambda$makePremiumHint$14();
@@ -2008,7 +1998,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         this.premiumHint.setText(replaceSingleTag);
         this.premiumHint.setPadding(AndroidUtilities.dp(8.0f), AndroidUtilities.dp(24.0f), AndroidUtilities.dp(8.0f), 0);
         if (getParent() instanceof FrameLayout) {
-            ((FrameLayout) getParent()).addView(this.premiumHint, LayoutHelper.createFrame(-1, (int) ImageReceiver.DEFAULT_CROSSFADE_DURATION, 51));
+            ((FrameLayout) getParent()).addView(this.premiumHint, LayoutHelper.createFrame(-1, 150, 51));
         }
         return this.premiumHint;
     }

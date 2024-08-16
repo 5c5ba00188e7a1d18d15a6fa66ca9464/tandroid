@@ -31,11 +31,6 @@ public class JobSupport implements Job, ChildJob, ParentJob {
     public void afterCompletion(Object obj) {
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public String cancellationExceptionMessage() {
-        return "Job was cancelled";
-    }
-
     public boolean getHandlesException$kotlinx_coroutines_core() {
         return true;
     }
@@ -247,17 +242,14 @@ public class JobSupport implements Job, ChildJob, ParentJob {
                 addSuppressedExceptions(finalRootCause, sealLocked);
             }
         }
-        boolean z = false;
         if (finalRootCause != null && finalRootCause != th) {
             obj = new CompletedExceptionally(finalRootCause, false, 2, null);
         }
-        if (finalRootCause != null) {
-            if ((cancelParent(finalRootCause) || handleJobException(finalRootCause)) ? true : true) {
-                if (obj == null) {
-                    throw new NullPointerException("null cannot be cast to non-null type kotlinx.coroutines.CompletedExceptionally");
-                }
-                ((CompletedExceptionally) obj).makeHandled();
+        if (finalRootCause != null && (cancelParent(finalRootCause) || handleJobException(finalRootCause))) {
+            if (obj == null) {
+                throw new NullPointerException("null cannot be cast to non-null type kotlinx.coroutines.CompletedExceptionally");
             }
+            ((CompletedExceptionally) obj).makeHandled();
         }
         if (!isCancelling) {
             onCancelling(finalRootCause);
@@ -433,16 +425,23 @@ public class JobSupport implements Job, ChildJob, ParentJob {
                         DisposableHandle disposableHandle = NonDisposableHandle.INSTANCE;
                         if (z && (state$kotlinx_coroutines_core instanceof Finishing)) {
                             synchronized (state$kotlinx_coroutines_core) {
-                                r3 = ((Finishing) state$kotlinx_coroutines_core).getRootCause();
-                                if (r3 == null || ((function1 instanceof ChildHandleNode) && !((Finishing) state$kotlinx_coroutines_core).isCompleting())) {
+                                try {
+                                    r3 = ((Finishing) state$kotlinx_coroutines_core).getRootCause();
+                                    if (r3 != null) {
+                                        if ((function1 instanceof ChildHandleNode) && !((Finishing) state$kotlinx_coroutines_core).isCompleting()) {
+                                        }
+                                        Unit unit = Unit.INSTANCE;
+                                    }
                                     if (addLastAtomic(state$kotlinx_coroutines_core, list, makeNode)) {
                                         if (r3 == null) {
                                             return makeNode;
                                         }
                                         disposableHandle = makeNode;
+                                        Unit unit2 = Unit.INSTANCE;
                                     }
+                                } catch (Throwable th) {
+                                    throw th;
                                 }
-                                Unit unit = Unit.INSTANCE;
                             }
                         }
                         if (r3 != null) {
@@ -500,6 +499,11 @@ public class JobSupport implements Job, ChildJob, ParentJob {
     private final void promoteSingleToNodeList(JobNode jobNode) {
         jobNode.addOneIfEmpty(new NodeList());
         AbstractResolvableFuture$SafeAtomicHelper$$ExternalSyntheticBackportWithForwarding0.m(_state$FU, this, jobNode, jobNode.getNextNode());
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public String cancellationExceptionMessage() {
+        return "Job was cancelled";
     }
 
     public void cancelInternal(Throwable th) {

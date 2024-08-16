@@ -10,12 +10,13 @@ import java.util.Locale;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BillingController;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ChannelMonetizationLayout;
 import org.telegram.ui.Stars.StarsIntroActivity;
 /* loaded from: classes4.dex */
 public class ChartHorizontalLinesData {
     public int alpha;
-    public int fixedAlpha = 255;
+    public int fixedAlpha = NotificationCenter.voipServiceCreated;
     private DecimalFormat formatterTON;
     private StaticLayout[] layouts;
     private StaticLayout[] layouts2;

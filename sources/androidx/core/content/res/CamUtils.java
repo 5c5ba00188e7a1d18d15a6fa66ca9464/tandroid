@@ -23,7 +23,7 @@ final class CamUtils {
             return -1;
         }
         float f2 = (f + 16.0f) / 116.0f;
-        float f3 = (f > 8.0f ? 1 : (f == 8.0f ? 0 : -1)) > 0 ? f2 * f2 * f2 : f / 903.2963f;
+        float f3 = f > 8.0f ? f2 * f2 * f2 : f / 903.2963f;
         float f4 = f2 * f2 * f2;
         boolean z = f4 > 0.008856452f;
         float f5 = z ? f4 : ((f2 * 116.0f) - 16.0f) / 903.2963f;

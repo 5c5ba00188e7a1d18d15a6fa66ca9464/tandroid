@@ -55,10 +55,10 @@ public class TLRPC$TL_invoice extends TLObject {
                         }
                         this.prices.add(TLdeserialize);
                     }
-                    if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                    if ((this.flags & 256) != 0) {
                         this.max_tip_amount = abstractSerializedData2.readInt64(z2);
                     }
-                    if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                    if ((this.flags & 256) != 0) {
                         int readInt324 = abstractSerializedData2.readInt32(z2);
                         if (readInt324 != 481674261) {
                             if (z2) {
@@ -105,10 +105,10 @@ public class TLRPC$TL_invoice extends TLObject {
                     for (int i11 = 0; i11 < size; i11++) {
                         this.prices.get(i11).serializeToStream(abstractSerializedData2);
                     }
-                    if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                    if ((this.flags & 256) != 0) {
                         abstractSerializedData2.writeInt64(this.max_tip_amount);
                     }
-                    if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+                    if ((this.flags & 256) != 0) {
                         abstractSerializedData2.writeInt32(481674261);
                         int size2 = this.suggested_tip_amounts.size();
                         abstractSerializedData2.writeInt32(size2);
@@ -160,10 +160,10 @@ public class TLRPC$TL_invoice extends TLObject {
             }
             this.prices.add(TLdeserialize);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.max_tip_amount = abstractSerializedData.readInt64(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             int readInt324 = abstractSerializedData.readInt32(z);
             if (readInt324 != 481674261) {
                 if (z) {
@@ -210,10 +210,10 @@ public class TLRPC$TL_invoice extends TLObject {
         for (int i10 = 0; i10 < size; i10++) {
             this.prices.get(i10).serializeToStream(abstractSerializedData);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeInt64(this.max_tip_amount);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeInt32(481674261);
             int size2 = this.suggested_tip_amounts.size();
             abstractSerializedData.writeInt32(size2);

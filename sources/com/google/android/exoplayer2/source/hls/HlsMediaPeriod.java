@@ -308,6 +308,8 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
 
     private void buildAndPrepareSampleStreamWrappers(long j) {
         Map<String, DrmInitData> emptyMap;
+        char c = 0;
+        int i = 1;
         HlsMultivariantPlaylist hlsMultivariantPlaylist = (HlsMultivariantPlaylist) Assertions.checkNotNull(this.playlistTracker.getMultivariantPlaylist());
         if (this.useSessionKeys) {
             emptyMap = deriveOverridingDrmInitData(hlsMultivariantPlaylist.sessionKeyDrmInitData);
@@ -326,24 +328,30 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         }
         buildAndPrepareAudioSampleStreamWrappers(j, list, arrayList, arrayList2, map);
         this.audioVideoSampleStreamWrapperCount = arrayList.size();
-        int i = 0;
-        while (i < list2.size()) {
-            HlsMultivariantPlaylist.Rendition rendition = list2.get(i);
-            String str = "subtitle:" + i + ":" + rendition.name;
+        int i2 = 0;
+        while (i2 < list2.size()) {
+            HlsMultivariantPlaylist.Rendition rendition = list2.get(i2);
+            String str = "subtitle:" + i2 + ":" + rendition.name;
+            Uri[] uriArr = new Uri[i];
+            uriArr[c] = rendition.url;
+            Format[] formatArr = new Format[i];
+            formatArr[c] = rendition.format;
             ArrayList arrayList3 = arrayList2;
-            int i2 = i;
-            HlsSampleStreamWrapper buildSampleStreamWrapper = buildSampleStreamWrapper(str, 3, new Uri[]{rendition.url}, new Format[]{rendition.format}, null, Collections.emptyList(), map, j);
-            arrayList3.add(new int[]{i2});
+            int i3 = i2;
+            HlsSampleStreamWrapper buildSampleStreamWrapper = buildSampleStreamWrapper(str, 3, uriArr, formatArr, null, Collections.emptyList(), map, j);
+            arrayList3.add(new int[]{i3});
             arrayList.add(buildSampleStreamWrapper);
             buildSampleStreamWrapper.prepareWithMultivariantPlaylistInfo(new TrackGroup[]{new TrackGroup(str, rendition.format)}, 0, new int[0]);
-            i = i2 + 1;
+            i2 = i3 + 1;
             arrayList2 = arrayList3;
+            c = 0;
+            i = 1;
         }
         this.sampleStreamWrappers = (HlsSampleStreamWrapper[]) arrayList.toArray(new HlsSampleStreamWrapper[0]);
         this.manifestUrlIndicesPerWrapper = (int[][]) arrayList2.toArray(new int[0]);
         this.pendingPrepareCount = this.sampleStreamWrappers.length;
-        for (int i3 = 0; i3 < this.audioVideoSampleStreamWrapperCount; i3++) {
-            this.sampleStreamWrappers[i3].setIsTimestampMaster(true);
+        for (int i4 = 0; i4 < this.audioVideoSampleStreamWrapperCount; i4++) {
+            this.sampleStreamWrappers[i4].setIsTimestampMaster(true);
         }
         for (HlsSampleStreamWrapper hlsSampleStreamWrapper : this.sampleStreamWrappers) {
             hlsSampleStreamWrapper.continuePreparing();
@@ -351,7 +359,7 @@ public final class HlsMediaPeriod implements MediaPeriod, HlsPlaylistTracker.Pla
         this.enabledSampleStreamWrappers = this.sampleStreamWrappers;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:25:0x0064  */
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0062  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */

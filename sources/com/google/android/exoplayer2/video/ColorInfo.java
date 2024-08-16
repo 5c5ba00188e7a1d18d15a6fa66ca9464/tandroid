@@ -82,7 +82,7 @@ public final class ColorInfo implements Bundleable {
 
     public int hashCode() {
         if (this.hashCode == 0) {
-            this.hashCode = ((((((527 + this.colorSpace) * 31) + this.colorRange) * 31) + this.colorTransfer) * 31) + Arrays.hashCode(this.hdrStaticInfo);
+            this.hashCode = ((((((this.colorSpace + 527) * 31) + this.colorRange) * 31) + this.colorTransfer) * 31) + Arrays.hashCode(this.hdrStaticInfo);
         }
         return this.hashCode;
     }

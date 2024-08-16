@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.SparseArray;
 import androidx.core.graphics.drawable.DrawableCompat;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public class DrawableContainerCompat extends Drawable implements Drawable.Callback {
     private Runnable mAnimationRunnable;
@@ -24,7 +25,7 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
     private Rect mHotspotBounds;
     private Drawable mLastDrawable;
     private boolean mMutated;
-    private int mAlpha = 255;
+    private int mAlpha = NotificationCenter.voipServiceCreated;
     private int mCurIndex = -1;
 
     DrawableContainerState cloneConstantState() {
@@ -495,8 +496,10 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
             if (i >= 21 && rect != null) {
                 DrawableCompat.setHotspotBounds(drawable, rect.left, rect.top, rect.right, rect.bottom);
             }
-        } finally {
             drawable.setCallback(this.mBlockInvalidateCallback.unwrap());
+        } catch (Throwable th) {
+            drawable.setCallback(this.mBlockInvalidateCallback.unwrap());
+            throw th;
         }
     }
 
@@ -521,7 +524,7 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
                     drawable2.setAlpha(this.mAlpha);
                     this.mEnterAnimationEnd = 0L;
                 } else {
-                    drawable2.setAlpha(((255 - (((int) ((j - uptimeMillis) * 255)) / this.mDrawableContainerState.mEnterFadeDuration)) * this.mAlpha) / 255);
+                    drawable2.setAlpha(((255 - (((int) ((j - uptimeMillis) * 255)) / this.mDrawableContainerState.mEnterFadeDuration)) * this.mAlpha) / NotificationCenter.voipServiceCreated);
                     z2 = true;
                     drawable = this.mLastDrawable;
                     if (drawable == null) {
@@ -532,7 +535,7 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
                                 this.mLastDrawable = null;
                                 this.mExitAnimationEnd = 0L;
                             } else {
-                                drawable.setAlpha(((((int) ((j2 - uptimeMillis) * 255)) / this.mDrawableContainerState.mExitFadeDuration) * this.mAlpha) / 255);
+                                drawable.setAlpha(((((int) ((j2 - uptimeMillis) * 255)) / this.mDrawableContainerState.mExitFadeDuration) * this.mAlpha) / NotificationCenter.voipServiceCreated);
                                 if (z && z3) {
                                     scheduleSelf(this.mAnimationRunnable, uptimeMillis + 16);
                                     return;
@@ -1091,25 +1094,18 @@ public class DrawableContainerCompat extends Drawable implements Drawable.Callba
         if (resources != null) {
             i = resources.getDisplayMetrics().densityDpi;
         }
-        if (i == 0) {
-            return 160;
-        }
-        return i;
+        return i == 0 ? NotificationCenter.audioRouteChanged : i;
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class Api21Impl {
         public static boolean canApplyTheme(Drawable.ConstantState constantState) {
-            boolean canApplyTheme;
-            canApplyTheme = constantState.canApplyTheme();
-            return canApplyTheme;
+            return constantState.canApplyTheme();
         }
 
         public static Resources getResources(Resources.Theme theme) {
-            Resources resources;
-            resources = theme.getResources();
-            return resources;
+            return theme.getResources();
         }
 
         public static void getOutline(Drawable drawable, Outline outline) {

@@ -293,10 +293,10 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                         int dp3 = AndroidUtilities.dp(40.0f) * 8;
                         if ((getWidth() - max2) - max < dp3) {
                             if (isOutOwner) {
-                                max = Math.min(max, (getWidth() - 0) - dp3);
+                                max = Math.min(max, getWidth() - dp3);
                                 max2 = 0;
                             } else {
-                                max2 = Math.min(max2, (getWidth() - 0) - dp3);
+                                max2 = Math.min(max2, getWidth() - dp3);
                                 max = 0;
                             }
                         }

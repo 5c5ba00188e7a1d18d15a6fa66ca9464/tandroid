@@ -132,13 +132,10 @@ public final class DataSpec {
     private DataSpec(Uri uri, long j, int i, byte[] bArr, Map<String, String> map, long j2, long j3, String str, int i2, Object obj) {
         byte[] bArr2 = bArr;
         long j4 = j + j2;
-        boolean z = true;
+        boolean z = false;
         Assertions.checkArgument(j4 >= 0);
         Assertions.checkArgument(j2 >= 0);
-        if (j3 <= 0 && j3 != -1) {
-            z = false;
-        }
-        Assertions.checkArgument(z);
+        Assertions.checkArgument((j3 > 0 || j3 == -1) ? true : true);
         this.uri = uri;
         this.uriPositionOffset = j;
         this.httpMethod = i;

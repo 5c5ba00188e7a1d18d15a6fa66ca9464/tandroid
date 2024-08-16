@@ -58,18 +58,22 @@ public final class zzmj {
 
     private static synchronized zzp zzd() {
         synchronized (zzmj.class) {
-            zzp zzpVar = zza;
-            if (zzpVar != null) {
-                return zzpVar;
+            try {
+                zzp zzpVar = zza;
+                if (zzpVar != null) {
+                    return zzpVar;
+                }
+                LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
+                zzm zzmVar = new zzm();
+                for (int i = 0; i < locales.size(); i++) {
+                    zzmVar.zzb(CommonUtils.languageTagFromLocale(locales.get(i)));
+                }
+                zzp zzc = zzmVar.zzc();
+                zza = zzc;
+                return zzc;
+            } catch (Throwable th) {
+                throw th;
             }
-            LocaleListCompat locales = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration());
-            zzm zzmVar = new zzm();
-            for (int i = 0; i < locales.size(); i++) {
-                zzmVar.zzb(CommonUtils.languageTagFromLocale(locales.get(i)));
-            }
-            zzp zzc = zzmVar.zzc();
-            zza = zzc;
-            return zzc;
         }
     }
 

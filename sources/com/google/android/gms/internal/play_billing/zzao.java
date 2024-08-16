@@ -1,6 +1,7 @@
 package com.google.android.gms.internal.play_billing;
 
 import java.io.IOException;
+import org.telegram.messenger.NotificationCenter;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* compiled from: com.android.billingclient:billing@@6.0.1 */
 /* loaded from: classes.dex */
@@ -117,53 +118,50 @@ public final class zzao {
                 cArr[i5] = (char) b;
                 i5++;
             }
+            int i6 = i5;
             while (zzj < i4) {
-                int i6 = zzj + 1;
+                int i7 = zzj + 1;
                 byte b2 = bArr[zzj];
                 if (zzer.zzd(b2)) {
-                    int i7 = i5 + 1;
-                    cArr[i5] = (char) b2;
-                    zzj = i6;
-                    while (true) {
-                        i5 = i7;
-                        if (zzj < i4) {
-                            byte b3 = bArr[zzj];
-                            if (zzer.zzd(b3)) {
-                                zzj++;
-                                i7 = i5 + 1;
-                                cArr[i5] = (char) b3;
-                            }
+                    cArr[i6] = (char) b2;
+                    i6++;
+                    zzj = i7;
+                    while (zzj < i4) {
+                        byte b3 = bArr[zzj];
+                        if (zzer.zzd(b3)) {
+                            zzj++;
+                            cArr[i6] = (char) b3;
+                            i6++;
                         }
                     }
                 } else if (b2 < -32) {
-                    if (i6 < i4) {
-                        zzer.zzc(b2, bArr[i6], cArr, i5);
-                        zzj = i6 + 1;
-                        i5++;
+                    if (i7 < i4) {
+                        zzj += 2;
+                        zzer.zzc(b2, bArr[i7], cArr, i6);
+                        i6++;
                     } else {
                         throw zzci.zzc();
                     }
                 } else if (b2 < -16) {
-                    if (i6 < i4 - 1) {
-                        int i8 = i6 + 1;
-                        zzer.zzb(b2, bArr[i6], bArr[i8], cArr, i5);
-                        zzj = i8 + 1;
-                        i5++;
+                    if (i7 < i4 - 1) {
+                        int i8 = zzj + 2;
+                        zzj += 3;
+                        zzer.zzb(b2, bArr[i7], bArr[i8], cArr, i6);
+                        i6++;
                     } else {
                         throw zzci.zzc();
                     }
-                } else if (i6 < i4 - 2) {
-                    int i9 = i6 + 1;
-                    byte b4 = bArr[i6];
-                    int i10 = i9 + 1;
-                    zzer.zza(b2, b4, bArr[i9], bArr[i10], cArr, i5);
-                    i5 += 2;
-                    zzj = i10 + 1;
+                } else if (i7 < i4 - 2) {
+                    byte b4 = bArr[i7];
+                    int i9 = zzj + 3;
+                    zzj += 4;
+                    zzer.zza(b2, b4, bArr[zzj + 2], bArr[i9], cArr, i6);
+                    i6 += 2;
                 } else {
                     throw zzci.zzc();
                 }
             }
-            zzanVar.zzc = new String(cArr, 0, i5);
+            zzanVar.zzc = new String(cArr, 0, i6);
             return i4;
         }
         throw zzci.zzd();
@@ -245,27 +243,27 @@ public final class zzao {
     public static int zzk(int i, byte[] bArr, int i2, zzan zzanVar) {
         byte b = bArr[i2];
         int i3 = i2 + 1;
-        int i4 = i & 127;
+        int i4 = i & NotificationCenter.dialogTranslate;
         if (b >= 0) {
             zzanVar.zza = i4 | (b << 7);
             return i3;
         }
         int i5 = i4 | ((b & Byte.MAX_VALUE) << 7);
-        int i6 = i3 + 1;
+        int i6 = i2 + 2;
         byte b2 = bArr[i3];
         if (b2 >= 0) {
             zzanVar.zza = i5 | (b2 << 14);
             return i6;
         }
         int i7 = i5 | ((b2 & Byte.MAX_VALUE) << 14);
-        int i8 = i6 + 1;
+        int i8 = i2 + 3;
         byte b3 = bArr[i6];
         if (b3 >= 0) {
             zzanVar.zza = i7 | (b3 << 21);
             return i8;
         }
         int i9 = i7 | ((b3 & Byte.MAX_VALUE) << 21);
-        int i10 = i8 + 1;
+        int i10 = i2 + 4;
         byte b4 = bArr[i8];
         if (b4 >= 0) {
             zzanVar.zza = i9 | (b4 << 28);
@@ -300,23 +298,23 @@ public final class zzao {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public static int zzm(byte[] bArr, int i, zzan zzanVar) {
+        byte b;
         long j = bArr[i];
         int i2 = i + 1;
         if (j >= 0) {
             zzanVar.zzb = j;
             return i2;
         }
-        int i3 = i2 + 1;
-        byte b = bArr[i2];
-        long j2 = (j & 127) | ((b & Byte.MAX_VALUE) << 7);
+        int i3 = i + 2;
+        byte b2 = bArr[i2];
+        long j2 = (j & 127) | ((b2 & Byte.MAX_VALUE) << 7);
         int i4 = 7;
-        while (b < 0) {
+        while (b2 < 0) {
             int i5 = i3 + 1;
-            byte b2 = bArr[i3];
             i4 += 7;
-            j2 |= (b2 & Byte.MAX_VALUE) << i4;
+            j2 |= (b & Byte.MAX_VALUE) << i4;
+            b2 = bArr[i3];
             i3 = i5;
-            b = b2;
         }
         zzanVar.zzb = j2;
         return i3;

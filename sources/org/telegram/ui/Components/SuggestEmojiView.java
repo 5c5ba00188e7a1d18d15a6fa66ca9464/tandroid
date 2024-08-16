@@ -390,7 +390,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         this.currentAccount = i;
         this.enterView = anchorViewDelegate;
         this.resourcesProvider = resourcesProvider;
-        postDelayed(new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
+        postDelayed(new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda4
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.lambda$new$0(i);
@@ -497,14 +497,14 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         this.listView.setItemAnimator(defaultItemAnimator);
         this.listView.setSelectorDrawableColor(Theme.getColor(Theme.key_listSelector, this.resourcesProvider));
         RecyclerListView recyclerListView2 = this.listView;
-        final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda4
+        final RecyclerListView.OnItemClickListener onItemClickListener = new RecyclerListView.OnItemClickListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListener
             public final void onItemClick(View view, int i) {
                 SuggestEmojiView.this.lambda$createListView$1(view, i);
             }
         };
         recyclerListView2.setOnItemClickListener(onItemClickListener);
-        this.listView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda5
+        this.listView.setOnTouchListener(new View.OnTouchListener() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda3
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view, MotionEvent motionEvent) {
                 boolean lambda$createListView$2;
@@ -585,8 +585,10 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         }
         Drawable drawable = Theme.chat_gradientLeftDrawable;
         int i = Theme.key_chat_stickersHintPanel;
-        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
-        Theme.chat_gradientRightDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        int color = Theme.getColor(i, this.resourcesProvider);
+        PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+        drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
+        Theme.chat_gradientRightDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i, this.resourcesProvider), mode));
     }
 
     public void forceClose() {
@@ -732,7 +734,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
             AndroidUtilities.cancelRunOnUIThread(runnable);
             this.searchRunnable = null;
         }
-        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
+        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda5
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchKeywords$4(detectKeyboardLangThrottleFirstWithDelay, str, i);
@@ -748,7 +750,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$searchKeywords$4(String[] strArr, final String str, final int i) {
-        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(strArr, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda7
+        MediaDataController.getInstance(this.currentAccount).getEmojiSuggestions(strArr, str, true, new MediaDataController.KeywordResultCallback() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda6
             @Override // org.telegram.messenger.MediaDataController.KeywordResultCallback
             public final void run(ArrayList arrayList, String str2) {
                 SuggestEmojiView.this.lambda$searchKeywords$3(i, str, arrayList, str2);
@@ -813,7 +815,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
         if (runnable != null) {
             AndroidUtilities.cancelRunOnUIThread(runnable);
         }
-        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda2
+        this.searchRunnable = new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$6(str, i);
@@ -831,7 +833,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
     public /* synthetic */ void lambda$searchAnimated$6(final String str, final int i) {
         final ArrayList<MediaDataController.KeywordResult> arrayList = new ArrayList<>(1);
         arrayList.add(new MediaDataController.KeywordResult(str, null));
-        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, false, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda6
+        MediaDataController.getInstance(this.currentAccount).fillWithAnimatedEmoji(arrayList, 15, false, false, false, new Runnable() { // from class: org.telegram.ui.Components.SuggestEmojiView$$ExternalSyntheticLambda7
             @Override // java.lang.Runnable
             public final void run() {
                 SuggestEmojiView.this.lambda$searchAnimated$5(i, str, arrayList);
@@ -1175,7 +1177,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
 
         @Override // android.view.View
         protected void onMeasure(int i, int i2) {
-            setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp((this.direction == 0 ? 0.0f : 6.66f) + 3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp((this.direction == 0 ? 6.66f : 0.0f) + 3.0f));
+            setPadding(AndroidUtilities.dp(3.0f), AndroidUtilities.dp((this.direction == 0 ? 0.0f : 6.66f) + 3.0f), AndroidUtilities.dp(3.0f), AndroidUtilities.dp((this.direction != 0 ? 0.0f : 6.66f) + 3.0f));
             super.onMeasure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(44.0f), 1073741824), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(52.0f), 1073741824));
         }
 

@@ -2,7 +2,6 @@ package com.google.android.exoplayer2.audio;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.AudioDeviceInfo;
 import android.media.MediaCrypto;
 import android.media.MediaFormat;
 import android.os.Handler;
@@ -51,17 +50,17 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         return this;
     }
 
-    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
-    public String getName() {
-        return "MediaCodecAudioRenderer";
-    }
-
     public MediaCodecAudioRenderer(Context context, MediaCodecAdapter.Factory factory, MediaCodecSelector mediaCodecSelector, boolean z, Handler handler, AudioRendererEventListener audioRendererEventListener, AudioSink audioSink) {
         super(1, factory, mediaCodecSelector, z, 44100.0f);
         this.context = context.getApplicationContext();
         this.audioSink = audioSink;
         this.eventDispatcher = new AudioRendererEventListener.EventDispatcher(handler, audioRendererEventListener);
         audioSink.setListener(new AudioSinkListener());
+    }
+
+    @Override // com.google.android.exoplayer2.Renderer, com.google.android.exoplayer2.RendererCapabilities
+    public String getName() {
+        return "MediaCodecAudioRenderer";
     }
 
     @Override // com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
@@ -144,7 +143,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
         this.codecMaxInputSize = getCodecMaxInputSize(mediaCodecInfo, format, getStreamFormats());
         this.codecNeedsDiscardChannelsWorkaround = codecNeedsDiscardChannelsWorkaround(mediaCodecInfo.name);
         MediaFormat mediaFormat = getMediaFormat(format, mediaCodecInfo.codecMimeType, this.codecMaxInputSize, f);
-        this.decryptOnlyCodecFormat = "audio/raw".equals(mediaCodecInfo.mimeType) && !"audio/raw".equals(format.sampleMimeType) ? format : null;
+        this.decryptOnlyCodecFormat = (!"audio/raw".equals(mediaCodecInfo.mimeType) || "audio/raw".equals(format.sampleMimeType)) ? null : format;
         return MediaCodecAdapter.Configuration.createForAudioDecoding(mediaCodecInfo, mediaFormat, format, mediaCrypto);
     }
 
@@ -559,7 +558,7 @@ public class MediaCodecAudioRenderer extends MediaCodecRenderer implements Media
     /* loaded from: classes.dex */
     private static final class Api23 {
         public static void setAudioSinkPreferredDevice(AudioSink audioSink, Object obj) {
-            audioSink.setPreferredDevice((AudioDeviceInfo) obj);
+            audioSink.setPreferredDevice(DecoderAudioRenderer$Api23$$ExternalSyntheticApiModelOutline0.m(obj));
         }
     }
 }

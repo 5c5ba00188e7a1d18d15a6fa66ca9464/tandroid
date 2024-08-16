@@ -24,10 +24,13 @@ public class GlobalLibraryVersionRegistrar {
         GlobalLibraryVersionRegistrar globalLibraryVersionRegistrar = INSTANCE;
         if (globalLibraryVersionRegistrar == null) {
             synchronized (GlobalLibraryVersionRegistrar.class) {
-                globalLibraryVersionRegistrar = INSTANCE;
-                if (globalLibraryVersionRegistrar == null) {
-                    globalLibraryVersionRegistrar = new GlobalLibraryVersionRegistrar();
-                    INSTANCE = globalLibraryVersionRegistrar;
+                try {
+                    globalLibraryVersionRegistrar = INSTANCE;
+                    if (globalLibraryVersionRegistrar == null) {
+                        globalLibraryVersionRegistrar = new GlobalLibraryVersionRegistrar();
+                        INSTANCE = globalLibraryVersionRegistrar;
+                    }
+                } finally {
                 }
             }
         }

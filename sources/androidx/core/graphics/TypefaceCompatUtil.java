@@ -62,20 +62,11 @@ public class TypefaceCompatUtil {
                 return null;
             }
             FileInputStream fileInputStream = new FileInputStream(openFileDescriptor.getFileDescriptor());
-            try {
-                FileChannel channel = fileInputStream.getChannel();
-                MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
-                fileInputStream.close();
-                openFileDescriptor.close();
-                return map;
-            } catch (Throwable th) {
-                try {
-                    fileInputStream.close();
-                } catch (Throwable th2) {
-                    th.addSuppressed(th2);
-                }
-                throw th;
-            }
+            FileChannel channel = fileInputStream.getChannel();
+            MappedByteBuffer map = channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size());
+            fileInputStream.close();
+            openFileDescriptor.close();
+            return map;
         } catch (IOException unused) {
             return null;
         }

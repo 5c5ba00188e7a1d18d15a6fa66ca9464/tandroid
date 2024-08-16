@@ -18,7 +18,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
 import java.util.Map;
-import org.telegram.messenger.R;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 public final class WavExtractor implements Extractor {
     public static final ExtractorsFactory FACTORY = new ExtractorsFactory() { // from class: com.google.android.exoplayer2.extractor.wav.WavExtractor$$ExternalSyntheticLambda0
@@ -193,9 +193,9 @@ public final class WavExtractor implements Extractor {
             if (wavFormat.blockSize != i2) {
                 throw ParserException.createForMalformedContainer("Expected block size: " + i2 + "; got: " + wavFormat.blockSize, null);
             }
-            int i3 = wavFormat.frameRateHz;
-            int i4 = i3 * i2 * 8;
-            int max = Math.max(i2, (i3 * i2) / 10);
+            int i3 = wavFormat.frameRateHz * i2;
+            int i4 = i3 * 8;
+            int max = Math.max(i2, i3 / 10);
             this.targetSampleSizeBytes = max;
             this.format = new Format.Builder().setSampleMimeType(str).setAverageBitrate(i4).setPeakBitrate(i4).setMaxInputSize(max).setChannelCount(wavFormat.numChannels).setSampleRate(wavFormat.frameRateHz).setPcmEncoding(i).build();
         }
@@ -216,33 +216,28 @@ public final class WavExtractor implements Extractor {
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         public boolean sampleData(ExtractorInput extractorInput, long j) throws IOException {
             WavFormat wavFormat;
-            long j2;
             int i;
             int i2;
-            long j3 = j;
-            while (j3 > 0 && (i = this.pendingOutputBytes) < (i2 = this.targetSampleSizeBytes)) {
-                int sampleData = this.trackOutput.sampleData((DataReader) extractorInput, (int) Math.min(i2 - i, j3), true);
+            long j2 = j;
+            while (j2 > 0 && (i = this.pendingOutputBytes) < (i2 = this.targetSampleSizeBytes)) {
+                int sampleData = this.trackOutput.sampleData((DataReader) extractorInput, (int) Math.min(i2 - i, j2), true);
                 if (sampleData == -1) {
-                    j3 = 0;
+                    j2 = 0;
                 } else {
                     this.pendingOutputBytes += sampleData;
-                    j3 -= sampleData;
+                    j2 -= sampleData;
                 }
             }
             int i3 = this.wavFormat.blockSize;
             int i4 = this.pendingOutputBytes / i3;
             if (i4 > 0) {
-                long scaleLargeTimestamp = this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, wavFormat.frameRateHz);
                 int i5 = i4 * i3;
                 int i6 = this.pendingOutputBytes - i5;
-                this.trackOutput.sampleMetadata(scaleLargeTimestamp, 1, i5, i6, null);
+                this.trackOutput.sampleMetadata(this.startTimeUs + Util.scaleLargeTimestamp(this.outputFrameCount, 1000000L, wavFormat.frameRateHz), 1, i5, i6, null);
                 this.outputFrameCount += i4;
                 this.pendingOutputBytes = i6;
-                j2 = 0;
-            } else {
-                j2 = 0;
             }
-            return j3 <= j2;
+            return j2 <= 0;
         }
     }
 
@@ -250,7 +245,7 @@ public final class WavExtractor implements Extractor {
     /* loaded from: classes.dex */
     public static final class ImaAdPcmOutputWriter implements OutputWriter {
         private static final int[] INDEX_TABLE = {-1, -1, -1, -1, 2, 4, 6, 8, -1, -1, -1, -1, 2, 4, 6, 8};
-        private static final int[] STEP_TABLE = {7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, R.styleable.AppCompatTheme_textAppearanceSearchResultSubtitle, 118, 130, 143, 157, 173, 190, 209, 230, 253, 279, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767};
+        private static final int[] STEP_TABLE = {7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 23, 25, 28, 31, 34, 37, 41, 45, 50, 55, 60, 66, 73, 80, 88, 97, 107, 118, NotificationCenter.walletSyncProgressChanged, NotificationCenter.dialogsUnreadCounterChanged, NotificationCenter.albumsDidLoad, NotificationCenter.needDeleteDialog, NotificationCenter.storiesSendAsUpdate, NotificationCenter.starOptionsLoaded, NotificationCenter.didSetNewTheme, NotificationCenter.screenStateChanged, NotificationCenter.userEmojiStatusUpdated, 307, 337, 371, 408, 449, 494, 544, 598, 658, 724, 796, 876, 963, 1060, 1166, 1282, 1411, 1552, 1707, 1878, 2066, 2272, 2499, 2749, 3024, 3327, 3660, 4026, 4428, 4871, 5358, 5894, 6484, 7132, 7845, 8630, 9493, 10442, 11487, 12635, 13899, 15289, 16818, 18500, 20350, 22385, 24623, 27086, 29794, 32767};
         private final ParsableByteArray decodedData;
         private final ExtractorOutput extractorOutput;
         private final Format format;
@@ -304,9 +299,9 @@ public final class WavExtractor implements Extractor {
             this.trackOutput.format(this.format);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:15:0x0048  */
-        /* JADX WARN: Removed duplicated region for block: B:7:0x0021  */
-        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:10:0x0036 -> B:4:0x001c). Please submit an issue!!! */
+        /* JADX WARN: Removed duplicated region for block: B:15:0x0047  */
+        /* JADX WARN: Removed duplicated region for block: B:7:0x001f  */
+        /* JADX WARN: Unsupported multi-entry loop pattern (BACK_EDGE: B:11:0x0036 -> B:6:0x001d). Please submit an issue!!! */
         @Override // com.google.android.exoplayer2.extractor.wav.WavExtractor.OutputWriter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -389,22 +384,22 @@ public final class WavExtractor implements Extractor {
             int min = Math.min(bArr[i5 + 2] & 255, 88);
             int i9 = STEP_TABLE[min];
             int i10 = ((i * this.framesPerBlock * i4) + i2) * 2;
-            bArr2[i10] = (byte) (i8 & 255);
+            bArr2[i10] = (byte) (i8 & NotificationCenter.voipServiceCreated);
             bArr2[i10 + 1] = (byte) (i8 >> 8);
             for (int i11 = 0; i11 < i7 * 2; i11++) {
-                int i12 = bArr[((i11 / 8) * i4 * 4) + i6 + ((i11 / 2) % 4)] & 255;
-                int i13 = i11 % 2 == 0 ? i12 & 15 : i12 >> 4;
-                int i14 = ((((i13 & 7) * 2) + 1) * i9) >> 3;
-                if ((i13 & 8) != 0) {
-                    i14 = -i14;
+                byte b = bArr[((i11 / 8) * i4 * 4) + i6 + ((i11 / 2) % 4)];
+                int i12 = i11 % 2 == 0 ? b & 15 : (b & 255) >> 4;
+                int i13 = ((((i12 & 7) * 2) + 1) * i9) >> 3;
+                if ((i12 & 8) != 0) {
+                    i13 = -i13;
                 }
-                i8 = Util.constrainValue(i8 + i14, -32768, 32767);
+                i8 = Util.constrainValue(i8 + i13, -32768, 32767);
                 i10 += i4 * 2;
-                bArr2[i10] = (byte) (i8 & 255);
+                bArr2[i10] = (byte) (i8 & NotificationCenter.voipServiceCreated);
                 bArr2[i10 + 1] = (byte) (i8 >> 8);
-                int i15 = min + INDEX_TABLE[i13];
+                int i14 = min + INDEX_TABLE[i12];
                 int[] iArr = STEP_TABLE;
-                min = Util.constrainValue(i15, 0, iArr.length - 1);
+                min = Util.constrainValue(i14, 0, iArr.length - 1);
                 i9 = iArr[min];
             }
         }

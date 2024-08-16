@@ -8,33 +8,32 @@ public abstract /* synthetic */ class j {
     static final m a = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -43,33 +42,32 @@ public abstract /* synthetic */ class j {
     static final m b = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -78,33 +76,32 @@ public abstract /* synthetic */ class j {
     static final m c = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -113,33 +110,32 @@ public abstract /* synthetic */ class j {
     static final m d = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -148,33 +144,32 @@ public abstract /* synthetic */ class j {
     static final m e = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -183,33 +178,32 @@ public abstract /* synthetic */ class j {
     static final m f = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -218,33 +212,32 @@ public abstract /* synthetic */ class j {
     static final m g = new n() { // from class: j$.time.temporal.m
         @Override // j$.time.temporal.n
         public final Object a(k kVar) {
-            n nVar = j.a;
             switch (r1) {
                 case 0:
-                    return (ZoneId) kVar.d(nVar);
+                    return (ZoneId) kVar.c(j.a);
                 case 1:
-                    return (j$.time.chrono.d) kVar.d(j.b);
+                    return (j$.time.chrono.f) kVar.c(j.b);
                 case 2:
-                    return (o) kVar.d(j.c);
+                    return (o) kVar.c(j.c);
                 case 3:
+                    ZoneId zoneId = (ZoneId) kVar.c(j.a);
+                    return zoneId != null ? zoneId : (ZoneId) kVar.c(j.d);
+                case 4:
                     a aVar = a.OFFSET_SECONDS;
-                    if (kVar.b(aVar)) {
-                        return ZoneOffset.i(kVar.e(aVar));
+                    if (kVar.e(aVar)) {
+                        return ZoneOffset.j(kVar.d(aVar));
                     }
                     return null;
-                case 4:
-                    ZoneId zoneId = (ZoneId) kVar.d(nVar);
-                    return zoneId != null ? zoneId : (ZoneId) kVar.d(j.d);
                 case 5:
                     l lVar = a.EPOCH_DAY;
-                    if (kVar.b(lVar)) {
-                        return LocalDate.o(kVar.c(lVar));
+                    if (kVar.e(lVar)) {
+                        return LocalDate.p(kVar.b(lVar));
                     }
                     return null;
                 default:
                     l lVar2 = a.NANO_OF_DAY;
-                    if (kVar.b(lVar2)) {
-                        return j$.time.j.k(kVar.c(lVar2));
+                    if (kVar.e(lVar2)) {
+                        return j$.time.i.k(kVar.b(lVar2));
                     }
                     return null;
             }
@@ -256,11 +249,11 @@ public abstract /* synthetic */ class j {
         if (!a2.g()) {
             throw new p("Invalid field " + aVar + " for get() method, use getLong() instead");
         }
-        long c2 = kVar.c(aVar);
-        if (a2.h(c2)) {
-            return (int) c2;
+        long b2 = kVar.b(aVar);
+        if (a2.h(b2)) {
+            return (int) b2;
         }
-        throw new j$.time.d("Invalid value for " + aVar + " (valid values " + a2 + "): " + c2);
+        throw new j$.time.c("Invalid value for " + aVar + " (valid values " + a2 + "): " + b2);
     }
 
     public static Object b(k kVar, n nVar) {
@@ -272,12 +265,10 @@ public abstract /* synthetic */ class j {
 
     public static q c(k kVar, l lVar) {
         if (!(lVar instanceof a)) {
-            if (lVar != null) {
-                return lVar.b(kVar);
-            }
-            throw new NullPointerException("field");
-        } else if (kVar.b(lVar)) {
-            return lVar.c();
+            j$.util.a.B(lVar, "field");
+            return lVar.d(kVar);
+        } else if (kVar.e(lVar)) {
+            return ((a) lVar).a();
         } else {
             throw new p("Unsupported field: " + lVar);
         }

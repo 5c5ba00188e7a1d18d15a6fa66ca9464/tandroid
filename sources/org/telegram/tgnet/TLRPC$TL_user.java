@@ -111,7 +111,7 @@ public class TLRPC$TL_user extends TLRPC$User {
         } catch (Throwable th) {
             FileLog.e(th);
         }
-        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags2 & 256) != 0) {
             this.color = TLRPC$TL_peerColor.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
         }
         if ((this.flags2 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -233,7 +233,7 @@ public class TLRPC$TL_user extends TLRPC$User {
         if ((this.flags2 & 32) != 0) {
             abstractSerializedData.writeInt32(this.stories_max_id);
         }
-        if ((this.flags2 & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags2 & 256) != 0) {
             if (this.color == null) {
                 this.color = new TLRPC$TL_peerColor();
             }

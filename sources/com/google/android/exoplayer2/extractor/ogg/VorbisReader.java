@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class VorbisReader extends StreamReader {
     private VorbisUtil.CommentHeader commentHeader;
@@ -19,7 +20,7 @@ final class VorbisReader extends StreamReader {
     private VorbisSetup vorbisSetup;
 
     static int readBits(byte b, int i, int i2) {
-        return (b >> i2) & (255 >>> (8 - i));
+        return (b >> i2) & (NotificationCenter.voipServiceCreated >>> (8 - i));
     }
 
     public static boolean verifyBitstreamType(ParsableByteArray parsableByteArray) {

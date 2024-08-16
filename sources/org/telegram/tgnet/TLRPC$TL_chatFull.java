@@ -10,7 +10,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         int readInt32 = abstractSerializedData.readInt32(z);
         this.flags = readInt32;
         this.can_set_username = (readInt32 & 128) != 0;
-        this.has_scheduled = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.has_scheduled = (readInt32 & 256) != 0;
         this.id = abstractSerializedData.readInt64(z);
         this.about = abstractSerializedData.readString(z);
         this.participants = TLRPC$ChatParticipants.TLdeserialize(abstractSerializedData, abstractSerializedData.readInt32(z), z);
@@ -85,7 +85,7 @@ public class TLRPC$TL_chatFull extends TLRPC$ChatFull {
         abstractSerializedData.writeInt32(640893467);
         int i = this.can_set_username ? this.flags | 128 : this.flags & (-129);
         this.flags = i;
-        int i2 = this.has_scheduled ? i | LiteMode.FLAG_CHAT_BLUR : i & (-257);
+        int i2 = this.has_scheduled ? i | 256 : i & (-257);
         this.flags = i2;
         abstractSerializedData.writeInt32(i2);
         abstractSerializedData.writeInt64(this.id);

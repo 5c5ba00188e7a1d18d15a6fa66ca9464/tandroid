@@ -287,20 +287,23 @@ public class ProfileBirthdayEffect extends View {
             }
             HashMap hashMap2 = new HashMap();
             for (Map.Entry entry : hashMap.entrySet()) {
-                int intValue = ((Integer) entry.getKey()).intValue();
+                Integer num2 = (Integer) entry.getKey();
+                num2.intValue();
                 final ImageReceiverAsset imageReceiverAsset = new ImageReceiverAsset();
                 this.allAssets.add(imageReceiverAsset);
-                imageReceiverAsset.setEmoji((TLRPC$Document) entry.getValue(), "80_80", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
+                imageReceiverAsset.setEmoji((TLRPC$Document) entry.getValue(), "80_80", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda3
                     @Override // java.lang.Runnable
                     public final void run() {
                         ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$0(imageReceiverAsset);
                     }
                 });
                 imageReceiverAsset.onAttachedToWindow();
-                hashMap2.put(Integer.valueOf(intValue), imageReceiverAsset);
+                hashMap2.put(num2, imageReceiverAsset);
             }
             for (int i = 0; i < arrayList.size(); i++) {
-                this.digitAssets.add((ImageReceiverAsset) hashMap2.get(Integer.valueOf(((Integer) arrayList.get(i)).intValue())));
+                Integer num3 = (Integer) arrayList.get(i);
+                num3.intValue();
+                this.digitAssets.add((ImageReceiverAsset) hashMap2.get(num3));
             }
             this.setsLoaded[0] = true;
             checkWhenLoaded();
@@ -325,7 +328,7 @@ public class ProfileBirthdayEffect extends View {
             int filterWidth = EmojiAnimationsOverlay.getFilterWidth();
             this.interactionAsset.setAutoRepeat(0);
             ImageReceiverAsset imageReceiverAsset2 = this.interactionAsset;
-            imageReceiverAsset2.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda3
+            imageReceiverAsset2.setEmoji(findSticker, filterWidth + "_" + filterWidth + "_precache", tLRPC$TL_messages_stickerSet, new Runnable() { // from class: org.telegram.ui.ProfileBirthdayEffect$BirthdayEffectFetcher$$ExternalSyntheticLambda2
                 @Override // java.lang.Runnable
                 public final void run() {
                     ProfileBirthdayEffect.BirthdayEffectFetcher.this.lambda$new$2();

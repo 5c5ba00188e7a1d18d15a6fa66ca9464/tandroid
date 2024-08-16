@@ -122,9 +122,7 @@ public final class LocaleListCompat {
         }
 
         static Locale forLanguageTag(String str) {
-            Locale forLanguageTag;
-            forLanguageTag = Locale.forLanguageTag(str);
-            return forLanguageTag;
+            return Locale.forLanguageTag(str);
         }
     }
 
@@ -148,15 +146,11 @@ public final class LocaleListCompat {
         }
 
         static LocaleList getAdjustedDefault() {
-            LocaleList adjustedDefault;
-            adjustedDefault = LocaleList.getAdjustedDefault();
-            return adjustedDefault;
+            return LocaleList.getAdjustedDefault();
         }
 
         static LocaleList getDefault() {
-            LocaleList localeList;
-            localeList = LocaleList.getDefault();
-            return localeList;
+            return LocaleList.getDefault();
         }
     }
 }

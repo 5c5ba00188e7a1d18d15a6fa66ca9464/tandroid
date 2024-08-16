@@ -14,9 +14,13 @@ final class zzfh extends zzfd {
             return;
         }
         synchronized (zza) {
-            for (Throwable th2 : zza) {
-                System.err.print("Suppressed: ");
-                th2.printStackTrace();
+            try {
+                for (Throwable th2 : zza) {
+                    System.err.print("Suppressed: ");
+                    th2.printStackTrace();
+                }
+            } catch (Throwable th3) {
+                throw th3;
             }
         }
     }

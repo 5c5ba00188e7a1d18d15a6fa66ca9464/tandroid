@@ -8,15 +8,13 @@ public final class zzcx implements zzdq {
 
     public zzcx() {
         zzdd zzddVar;
-        zzdd[] zzddVarArr = new zzdd[2];
-        zzddVarArr[0] = zzbw.zza();
+        zzbw zza2 = zzbw.zza();
         try {
-            zzddVar = (zzdd) Class.forName("com.google.protobuf.DescriptorMessageInfoFactory").getDeclaredMethod("getInstance", new Class[0]).invoke(null, new Object[0]);
+            zzddVar = (zzdd) Class.forName("com.google.protobuf.DescriptorMessageInfoFactory").getDeclaredMethod("getInstance", null).invoke(null, null);
         } catch (Exception unused) {
             zzddVar = zza;
         }
-        zzddVarArr[1] = zzddVar;
-        zzcw zzcwVar = new zzcw(zzddVarArr);
+        zzcw zzcwVar = new zzcw(zza2, zzddVar);
         byte[] bArr = zzcg.zzd;
         this.zzb = zzcwVar;
     }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.window.OnBackInvokedDispatcher;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
@@ -18,7 +19,7 @@ public class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPre
     public ComponentDialog(Context context, int i) {
         super(context, i);
         Intrinsics.checkNotNullParameter(context, "context");
-        this.onBackPressedDispatcher = new OnBackPressedDispatcher(new Runnable() { // from class: androidx.activity.ComponentDialog$$ExternalSyntheticLambda0
+        this.onBackPressedDispatcher = new OnBackPressedDispatcher(new Runnable() { // from class: androidx.activity.ComponentDialog$$ExternalSyntheticLambda1
             @Override // java.lang.Runnable
             public final void run() {
                 ComponentDialog.onBackPressedDispatcher$lambda-1(ComponentDialog.this);
@@ -44,9 +45,12 @@ public class ComponentDialog extends Dialog implements LifecycleOwner, OnBackPre
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.app.Dialog
     public void onCreate(Bundle bundle) {
+        OnBackInvokedDispatcher onBackInvokedDispatcher;
         super.onCreate(bundle);
         if (Build.VERSION.SDK_INT >= 33) {
-            this.onBackPressedDispatcher.setOnBackInvokedDispatcher(getOnBackInvokedDispatcher());
+            OnBackPressedDispatcher onBackPressedDispatcher = this.onBackPressedDispatcher;
+            onBackInvokedDispatcher = getOnBackInvokedDispatcher();
+            onBackPressedDispatcher.setOnBackInvokedDispatcher(onBackInvokedDispatcher);
         }
         getLifecycleRegistry().handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
     }

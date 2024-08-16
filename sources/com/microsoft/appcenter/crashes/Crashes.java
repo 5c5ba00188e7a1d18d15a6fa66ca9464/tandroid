@@ -80,21 +80,6 @@ public class Crashes extends AbstractAppCenterService {
         return i == 5 || i == 10 || i == 15 || i == 80;
     }
 
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getGroupName() {
-        return "groupErrors";
-    }
-
-    @Override // com.microsoft.appcenter.AbstractAppCenterService
-    protected String getLoggerTag() {
-        return "AppCenterCrashes";
-    }
-
-    @Override // com.microsoft.appcenter.AppCenterService
-    public String getServiceName() {
-        return "Crashes";
-    }
-
     /* JADX INFO: Access modifiers changed from: protected */
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     public int getTriggerCount() {
@@ -119,10 +104,14 @@ public class Crashes extends AbstractAppCenterService {
     public static synchronized Crashes getInstance() {
         Crashes crashes;
         synchronized (Crashes.class) {
-            if (sInstance == null) {
-                sInstance = new Crashes();
+            try {
+                if (sInstance == null) {
+                    sInstance = new Crashes();
+                }
+                crashes = sInstance;
+            } catch (Throwable th) {
+                throw th;
             }
-            crashes = sInstance;
         }
         return crashes;
     }
@@ -157,60 +146,83 @@ public class Crashes extends AbstractAppCenterService {
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
     protected synchronized void applyEnabledState(boolean z) {
-        initialize();
-        if (z) {
-            ComponentCallbacks2 componentCallbacks2 = new ComponentCallbacks2() { // from class: com.microsoft.appcenter.crashes.Crashes.5
-                @Override // android.content.ComponentCallbacks
-                public void onConfigurationChanged(Configuration configuration) {
-                }
+        try {
+            initialize();
+            if (z) {
+                ComponentCallbacks2 componentCallbacks2 = new ComponentCallbacks2() { // from class: com.microsoft.appcenter.crashes.Crashes.5
+                    @Override // android.content.ComponentCallbacks
+                    public void onConfigurationChanged(Configuration configuration) {
+                    }
 
-                @Override // android.content.ComponentCallbacks2
-                public void onTrimMemory(int i) {
-                    Crashes.saveMemoryRunningLevel(i);
-                }
+                    @Override // android.content.ComponentCallbacks2
+                    public void onTrimMemory(int i) {
+                        Crashes.saveMemoryRunningLevel(i);
+                    }
 
-                @Override // android.content.ComponentCallbacks
-                public void onLowMemory() {
-                    Crashes.saveMemoryRunningLevel(80);
-                }
-            };
-            this.mMemoryWarningListener = componentCallbacks2;
-            this.mContext.registerComponentCallbacks(componentCallbacks2);
-        } else {
-            File[] listFiles = ErrorLogHelper.getErrorStorageDirectory().listFiles();
-            if (listFiles != null) {
-                for (File file : listFiles) {
-                    AppCenterLog.debug("AppCenterCrashes", "Deleting file " + file);
-                    if (!file.delete()) {
-                        AppCenterLog.warn("AppCenterCrashes", "Failed to delete file " + file);
+                    @Override // android.content.ComponentCallbacks
+                    public void onLowMemory() {
+                        Crashes.saveMemoryRunningLevel(80);
+                    }
+                };
+                this.mMemoryWarningListener = componentCallbacks2;
+                this.mContext.registerComponentCallbacks(componentCallbacks2);
+            } else {
+                File[] listFiles = ErrorLogHelper.getErrorStorageDirectory().listFiles();
+                if (listFiles != null) {
+                    for (File file : listFiles) {
+                        AppCenterLog.debug("AppCenterCrashes", "Deleting file " + file);
+                        if (!file.delete()) {
+                            AppCenterLog.warn("AppCenterCrashes", "Failed to delete file " + file);
+                        }
                     }
                 }
+                AppCenterLog.info("AppCenterCrashes", "Deleted crashes local files");
+                this.mErrorReportCache.clear();
+                this.mLastSessionErrorReport = null;
+                this.mContext.unregisterComponentCallbacks(this.mMemoryWarningListener);
+                this.mMemoryWarningListener = null;
+                SharedPreferencesManager.remove("com.microsoft.appcenter.crashes.memory");
             }
-            AppCenterLog.info("AppCenterCrashes", "Deleted crashes local files");
-            this.mErrorReportCache.clear();
-            this.mLastSessionErrorReport = null;
-            this.mContext.unregisterComponentCallbacks(this.mMemoryWarningListener);
-            this.mMemoryWarningListener = null;
-            SharedPreferencesManager.remove("com.microsoft.appcenter.crashes.memory");
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService, com.microsoft.appcenter.AppCenterService
     public synchronized void onStarted(Context context, Channel channel, String str, String str2, boolean z) {
-        this.mContext = context;
-        if (!isInstanceEnabled()) {
-            ErrorLogHelper.removeMinidumpFolder();
-            AppCenterLog.debug("AppCenterCrashes", "Clean up minidump folder.");
-        }
-        super.onStarted(context, channel, str, str2, z);
-        if (isInstanceEnabled()) {
-            processPendingErrors();
+        try {
+            this.mContext = context;
+            if (!isInstanceEnabled()) {
+                ErrorLogHelper.removeMinidumpFolder();
+                AppCenterLog.debug("AppCenterCrashes", "Clean up minidump folder.");
+            }
+            super.onStarted(context, channel, str, str2, z);
+            if (isInstanceEnabled()) {
+                processPendingErrors();
+            }
+        } catch (Throwable th) {
+            throw th;
         }
     }
 
     @Override // com.microsoft.appcenter.AppCenterService
     public Map<String, LogFactory> getLogFactories() {
         return this.mFactories;
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getGroupName() {
+        return "groupErrors";
+    }
+
+    @Override // com.microsoft.appcenter.AppCenterService
+    public String getServiceName() {
+        return "Crashes";
+    }
+
+    @Override // com.microsoft.appcenter.AbstractAppCenterService
+    protected String getLoggerTag() {
+        return "AppCenterCrashes";
     }
 
     @Override // com.microsoft.appcenter.AbstractAppCenterService
@@ -294,8 +306,12 @@ public class Crashes extends AbstractAppCenterService {
     }
 
     synchronized Device getDeviceInfo(Context context) throws DeviceInfoHelper.DeviceInfoException {
-        if (this.mDevice == null) {
-            this.mDevice = DeviceInfoHelper.getDeviceInfo(context);
+        try {
+            if (this.mDevice == null) {
+                this.mDevice = DeviceInfoHelper.getDeviceInfo(context);
+            }
+        } catch (Throwable th) {
+            throw th;
         }
         return this.mDevice;
     }
@@ -602,7 +618,9 @@ public class Crashes extends AbstractAppCenterService {
             return;
         }
         for (ErrorAttachmentLog errorAttachmentLog : iterable) {
-            if (errorAttachmentLog != null) {
+            if (errorAttachmentLog == null) {
+                AppCenterLog.warn("AppCenterCrashes", "Skipping null ErrorAttachmentLog.");
+            } else {
                 errorAttachmentLog.setId(UUID.randomUUID());
                 errorAttachmentLog.setErrorId(uuid);
                 if (!errorAttachmentLog.isValid()) {
@@ -612,8 +630,6 @@ public class Crashes extends AbstractAppCenterService {
                 } else {
                     this.mChannel.enqueue(errorAttachmentLog, "groupErrors", 1);
                 }
-            } else {
-                AppCenterLog.warn("AppCenterCrashes", "Skipping null ErrorAttachmentLog.");
             }
         }
     }

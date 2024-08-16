@@ -10,10 +10,14 @@ public final class zztx {
     public static synchronized zztx zza() {
         zztx zztxVar;
         synchronized (zztx.class) {
-            if (zza == null) {
-                zza = new zztx();
+            try {
+                if (zza == null) {
+                    zza = new zztx();
+                }
+                zztxVar = zza;
+            } catch (Throwable th) {
+                throw th;
             }
-            zztxVar = zza;
         }
         return zztxVar;
     }

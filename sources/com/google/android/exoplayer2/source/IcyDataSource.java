@@ -9,6 +9,7 @@ import com.google.android.exoplayer2.util.ParsableByteArray;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 /* loaded from: classes.dex */
 final class IcyDataSource implements DataSource {
     private int bytesUntilMetadata;
@@ -76,7 +77,7 @@ final class IcyDataSource implements DataSource {
         if (this.upstream.read(this.metadataLengthByteHolder, 0, 1) == -1) {
             return false;
         }
-        int i = (this.metadataLengthByteHolder[0] & 255) << 4;
+        int i = (this.metadataLengthByteHolder[0] & NotificationCenter.voipServiceCreated) << 4;
         if (i == 0) {
             return true;
         }

@@ -1,39 +1,42 @@
 package j$.time;
 
-import j$.time.temporal.p;
-import j$.time.temporal.q;
+import j$.time.zone.ZoneRules;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes2.dex */
-public final class n implements j$.time.temporal.k {
-    final /* synthetic */ ZoneId a;
+public final class n extends ZoneId {
+    private final String b;
+    private final transient ZoneRules c;
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public n(ZoneId zoneId) {
-        this.a = zoneId;
+    public n(String str, ZoneRules zoneRules) {
+        this.b = str;
+        this.c = zoneRules;
     }
 
-    @Override // j$.time.temporal.k
-    public final /* synthetic */ q a(j$.time.temporal.l lVar) {
-        return j$.time.temporal.j.c(this, lVar);
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public static n h(String str) {
+        j$.util.a.B(str, "zoneId");
+        int length = str.length();
+        if (length >= 2) {
+            for (int i = 0; i < length; i++) {
+                char charAt = str.charAt(i);
+                if ((charAt < 'a' || charAt > 'z') && ((charAt < 'A' || charAt > 'Z') && ((charAt != '/' || i == 0) && ((charAt < '0' || charAt > '9' || i == 0) && ((charAt != '~' || i == 0) && ((charAt != '.' || i == 0) && ((charAt != '_' || i == 0) && ((charAt != '+' || i == 0) && (charAt != '-' || i == 0))))))))) {
+                    throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
+                }
+            }
+            return new n(str, j$.time.zone.f.a(str, true));
+        }
+        throw new c("Invalid ID for region-based ZoneId, invalid format: ".concat(str));
     }
 
-    @Override // j$.time.temporal.k
-    public final boolean b(j$.time.temporal.l lVar) {
-        return false;
+    @Override // j$.time.ZoneId
+    public final String getId() {
+        return this.b;
     }
 
-    @Override // j$.time.temporal.k
-    public final long c(j$.time.temporal.l lVar) {
-        throw new p("Unsupported field: " + lVar);
-    }
-
-    @Override // j$.time.temporal.k
-    public final Object d(j$.time.temporal.n nVar) {
-        return nVar == j$.time.temporal.j.j() ? this.a : j$.time.temporal.j.b(this, nVar);
-    }
-
-    @Override // j$.time.temporal.k
-    public final /* synthetic */ int e(j$.time.temporal.a aVar) {
-        return j$.time.temporal.j.a(this, aVar);
+    @Override // j$.time.ZoneId
+    public final ZoneRules getRules() {
+        ZoneRules zoneRules = this.c;
+        return zoneRules != null ? zoneRules : j$.time.zone.f.a(this.b, false);
     }
 }

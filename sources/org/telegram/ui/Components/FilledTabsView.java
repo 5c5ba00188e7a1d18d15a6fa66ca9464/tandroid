@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.Utilities;
 /* loaded from: classes3.dex */
 public class FilledTabsView extends View {
@@ -81,7 +82,7 @@ public class FilledTabsView extends View {
         RectF rectF = AndroidUtilities.rectTmp;
         rectF.set(f, dp2, dp + f, dp3);
         canvas.drawRoundRect(rectF, AndroidUtilities.dp(15.0f), AndroidUtilities.dp(15.0f), this.backgroundPaint);
-        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), 255, 31);
+        canvas.saveLayerAlpha(0.0f, 0.0f, getWidth(), getHeight(), NotificationCenter.voipServiceCreated, 31);
         float dp4 = f + AndroidUtilities.dp(14.0f);
         int i2 = 0;
         while (true) {
@@ -98,16 +99,14 @@ public class FilledTabsView extends View {
                 int clamp2 = Utilities.clamp((int) Math.ceil(this.selectedTabIndex), this.tabs.length - 1, 0);
                 float dp5 = this.bounds[clamp].left + AndroidUtilities.dp(2.0f);
                 float dp6 = this.bounds[clamp2].left + AndroidUtilities.dp(2.0f);
-                float f2 = this.selectedTabIndex;
-                double d = f2;
-                double floor = Math.floor(f2);
+                double d = this.selectedTabIndex;
+                double floor = Math.floor(d);
                 Double.isNaN(d);
                 float lerp = AndroidUtilities.lerp(dp5, dp6, (float) (d - floor));
                 float dp7 = this.bounds[clamp].right - AndroidUtilities.dp(2.0f);
                 float dp8 = this.bounds[clamp2].right - AndroidUtilities.dp(2.0f);
-                float f3 = this.selectedTabIndex;
-                double d2 = f3;
-                double floor2 = Math.floor(f3);
+                double d2 = this.selectedTabIndex;
+                double floor2 = Math.floor(d2);
                 Double.isNaN(d2);
                 float lerp2 = AndroidUtilities.lerp(dp7, dp8, (float) (d2 - floor2));
                 RectF rectF2 = AndroidUtilities.rectTmp;

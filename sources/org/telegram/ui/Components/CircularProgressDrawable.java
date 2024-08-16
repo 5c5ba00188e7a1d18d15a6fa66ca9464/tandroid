@@ -102,11 +102,11 @@ public class CircularProgressDrawable extends Drawable {
         RectF rectF = this.bounds;
         float f = i;
         float f2 = i3 - i;
-        float f3 = this.thickness;
+        float f3 = this.thickness / 2.0f;
         float f4 = this.size;
         float f5 = i2;
         float f6 = i4 - i2;
-        rectF.set((((f2 - (f3 / 2.0f)) - f4) / 2.0f) + f, (((f6 - (f3 / 2.0f)) - f4) / 2.0f) + f5, f + (((f2 + (f3 / 2.0f)) + f4) / 2.0f), f5 + (((f6 + (f3 / 2.0f)) + f4) / 2.0f));
+        rectF.set((((f2 - f3) - f4) / 2.0f) + f, (((f6 - f3) - f4) / 2.0f) + f5, f + (((f2 + f3) + f4) / 2.0f), f5 + (((f6 + f3) + f4) / 2.0f));
         super.setBounds(i, i2, i3, i4);
         this.paint.setStrokeWidth(this.thickness);
     }

@@ -33,7 +33,7 @@ public class TLRPC$TL_starsTransaction extends TLRPC$StarsTransaction {
         if ((this.flags & 128) != 0) {
             this.bot_payload = abstractSerializedData.readByteArray(z);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             this.msg_id = abstractSerializedData.readInt32(z);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {
@@ -93,7 +93,7 @@ public class TLRPC$TL_starsTransaction extends TLRPC$StarsTransaction {
         if ((this.flags & 128) != 0) {
             abstractSerializedData.writeByteArray(this.bot_payload);
         }
-        if ((this.flags & LiteMode.FLAG_CHAT_BLUR) != 0) {
+        if ((this.flags & 256) != 0) {
             abstractSerializedData.writeInt32(this.msg_id);
         }
         if ((this.flags & LiteMode.FLAG_CALLS_ANIMATIONS) != 0) {

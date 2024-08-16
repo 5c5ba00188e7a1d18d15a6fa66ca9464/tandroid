@@ -2,11 +2,12 @@ package com.coremedia.iso.boxes.sampleentry;
 
 import com.coremedia.iso.IsoTypeWriter;
 import com.coremedia.iso.Utf8;
+import com.coremedia.iso.boxes.Container;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 /* loaded from: classes.dex */
-public final class VisualSampleEntry extends AbstractSampleEntry {
+public final class VisualSampleEntry extends AbstractSampleEntry implements Container {
     private String compressorname;
     private int depth;
     private int frameCount;
@@ -114,7 +115,7 @@ public final class VisualSampleEntry extends AbstractSampleEntry {
 
     @Override // com.googlecode.mp4parser.AbstractContainerBox, com.coremedia.iso.boxes.Box
     public long getSize() {
-        long containerSize = getContainerSize() + 78;
-        return containerSize + ((this.largeBox || 8 + containerSize >= 4294967296L) ? 16 : 8);
+        long containerSize = getContainerSize();
+        return 78 + containerSize + ((this.largeBox || containerSize + 86 >= 4294967296L) ? 16 : 8);
     }
 }

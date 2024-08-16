@@ -380,10 +380,10 @@ public class DefaultChannel implements Channel {
                     }
                     groupState.mPendingLogCount++;
                     AppCenterLog.debug("AppCenter", "enqueue(" + groupState.mName + ") pendingLogCount=" + groupState.mPendingLogCount);
-                    if (this.mEnabled) {
-                        checkPendingLogs(groupState);
-                    } else {
+                    if (!this.mEnabled) {
                         AppCenterLog.debug("AppCenter", "Channel is temporarily disabled, log was saved to disk.");
+                    } else {
+                        checkPendingLogs(groupState);
                     }
                 } catch (Persistence.PersistenceException e2) {
                     AppCenterLog.error("AppCenter", "Error persisting log", e2);

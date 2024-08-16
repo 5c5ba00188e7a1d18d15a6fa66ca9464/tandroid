@@ -65,7 +65,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     LinearLayoutManager layoutManager;
     RecyclerListView listView;
     Bulletin restrictBulletin;
-    private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
+    private Utilities.Callback<Boolean> onPowerAppliedChange = new Utilities.Callback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
         @Override // org.telegram.messenger.Utilities.Callback
         public final void run(Object obj) {
             LiteModeSettingsActivity.this.lambda$new$1((Boolean) obj);
@@ -107,7 +107,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         defaultItemAnimator.setSupportsChangeAnimations(false);
         this.listView.setItemAnimator(defaultItemAnimator);
         this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f));
-        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda0
+        this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
             public /* synthetic */ boolean hasDoubleTap(View view, int i) {
                 return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i);
@@ -132,6 +132,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$0(View view, int i, float f, float f2) {
         int expandedIndex;
+        boolean[] zArr;
         if (view == null || i < 0 || i >= this.items.size()) {
             return;
         }
@@ -141,8 +142,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             if (LiteMode.isPowerSaverApplied()) {
                 this.restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(0.1f, -1, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString("LiteBatteryRestricted", R.string.LiteBatteryRestricted)).show();
             } else if (item.viewType == 3 && item.getFlagsCount() > 1 && (!LocaleController.isRTL ? f < view.getMeasuredWidth() - AndroidUtilities.dp(75.0f) : f > AndroidUtilities.dp(75.0f)) && (expandedIndex = getExpandedIndex(item.flags)) != -1) {
-                boolean[] zArr = this.expanded;
-                zArr[expandedIndex] = !zArr[expandedIndex];
+                this.expanded[expandedIndex] = !zArr[expandedIndex];
                 updateValues();
                 updateItems();
             } else {
@@ -153,10 +153,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
             SharedPreferences globalMainSettings = MessagesController.getGlobalMainSettings();
             boolean z = globalMainSettings.getBoolean("view_animations", true);
             SharedPreferences.Editor edit = globalMainSettings.edit();
-            edit.putBoolean("view_animations", !z);
-            SharedConfig.setAnimationsEnabled(!z);
+            boolean z2 = !z;
+            edit.putBoolean("view_animations", z2);
+            SharedConfig.setAnimationsEnabled(z2);
             edit.commit();
-            ((TextCell) view).setChecked(!z);
+            ((TextCell) view).setChecked(z2);
         }
     }
 
@@ -217,7 +218,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     }
 
     private void highlightRow(final int i) {
-        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda1
+        this.listView.highlightRow(new RecyclerListView.IntReturnCallback() { // from class: org.telegram.ui.LiteModeSettingsActivity$$ExternalSyntheticLambda2
             @Override // org.telegram.ui.Components.RecyclerListView.IntReturnCallback
             public final int run() {
                 int lambda$highlightRow$2;
@@ -270,7 +271,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsSpoiler"), 128));
             if (SharedConfig.getDevicePerformanceClass() >= 1 || BuildVars.DEBUG_PRIVATE_VERSION) {
-                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), LiteMode.FLAG_CHAT_BLUR));
+                this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsBlur"), 256));
             }
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsScale"), LiteMode.FLAG_CHAT_SCALE));
             if (ThanosEffect.supports()) {
@@ -466,7 +467,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
             setBackgroundColor(Theme.getColor(i));
             ImageView imageView = new ImageView(context);
             this.imageView = imageView;
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            int color = Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon);
+            PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
+            imageView.setColorFilter(new PorterDuffColorFilter(color, mode));
             this.imageView.setVisibility(8);
             addView(this.imageView, LayoutHelper.createFrame(24, 24.0f, (LocaleController.isRTL ? 5 : 3) | 16, 20.0f, 0.0f, 20.0f, 0.0f));
             TextView textView = new TextView(context) { // from class: org.telegram.ui.LiteModeSettingsActivity.SwitchCell.1
@@ -498,7 +501,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             ImageView imageView2 = new ImageView(context);
             this.arrowView = imageView2;
             imageView2.setVisibility(8);
-            this.arrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), PorterDuff.Mode.MULTIPLY));
+            this.arrowView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(i2), mode));
             this.arrowView.setImageResource(R.drawable.arrow_more);
             LinearLayout linearLayout = new LinearLayout(context);
             this.textViewLayout = linearLayout;
@@ -514,9 +517,9 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 this.textViewLayout.addView(this.arrowView, LayoutHelper.createLinear(16, 16, 0.0f, 16, 2, 0, 0, 0));
             }
             addView(this.textViewLayout, LayoutHelper.createFrame(-1, -2.0f, (LocaleController.isRTL ? 5 : 3) | 16, 64.0f, 0.0f, 8.0f, 0.0f));
-            Switch r1 = new Switch(context);
-            this.switchView = r1;
-            r1.setVisibility(8);
+            Switch r5 = new Switch(context);
+            this.switchView = r5;
+            r5.setVisibility(8);
             this.switchView.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, i, i);
             this.switchView.setImportantForAccessibility(2);
             addView(this.switchView, LayoutHelper.createFrame(37, 50.0f, (LocaleController.isRTL ? 3 : 5) | 16, 19.0f, 0.0f, 19.0f, 0.0f));
@@ -657,7 +660,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                     bitCount--;
                 }
             }
-            if (SharedConfig.getDevicePerformanceClass() < 1 && (i & LiteMode.FLAG_CHAT_BLUR) > 0) {
+            if (SharedConfig.getDevicePerformanceClass() < 1 && (i & 256) > 0) {
                 bitCount--;
             }
             return (ThanosEffect.supports() || (i & 65536) <= 0) ? bitCount : bitCount - 1;
@@ -766,11 +769,6 @@ public class LiteModeSettingsActivity extends BaseFragment {
             seekBarView.setReportChanges(true);
             this.seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.2
                 @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
-                public CharSequence getContentDescription() {
-                    return " ";
-                }
-
-                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
                 public /* synthetic */ int getStepsCount() {
                     return SeekBarView.SeekBarViewDelegate.-CC.$default$getStepsCount(this);
                 }
@@ -793,6 +791,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
                             }
                         }
                     }
+                }
+
+                @Override // org.telegram.ui.Components.SeekBarView.SeekBarViewDelegate
+                public CharSequence getContentDescription() {
+                    return " ";
                 }
             });
             this.seekBarView.setProgress(LiteMode.getPowerSaverLevel() / 100.0f);
@@ -909,8 +912,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         public void update() {
-            String str;
             int i;
+            String str;
             int powerSaverLevel = LiteMode.getPowerSaverLevel();
             this.middleTextView.cancelAnimation();
             if (powerSaverLevel <= 0) {
@@ -924,11 +927,11 @@ public class LiteModeSettingsActivity extends BaseFragment {
             }
             AnimatedTextView animatedTextView = this.headerOnView;
             if (LiteMode.isPowerSaverApplied()) {
-                str = "LiteBatteryEnabled";
                 i = R.string.LiteBatteryEnabled;
+                str = "LiteBatteryEnabled";
             } else {
-                str = "LiteBatteryDisabled";
                 i = R.string.LiteBatteryDisabled;
+                str = "LiteBatteryDisabled";
             }
             animatedTextView.setText(LocaleController.getString(str, i).toUpperCase());
             updateHeaderOnVisibility(powerSaverLevel > 0 && powerSaverLevel < 100);
@@ -955,7 +958,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.onActiveT, f);
                 this.onActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOnActive$0(valueAnimator2);
@@ -994,7 +997,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
                 }
                 ValueAnimator ofFloat = ValueAnimator.ofFloat(this.offActiveT, f);
                 this.offActiveAnimator = ofFloat;
-                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda0
+                ofFloat.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() { // from class: org.telegram.ui.LiteModeSettingsActivity$PowerSaverSlider$$ExternalSyntheticLambda1
                     @Override // android.animation.ValueAnimator.AnimatorUpdateListener
                     public final void onAnimationUpdate(ValueAnimator valueAnimator2) {
                         LiteModeSettingsActivity.PowerSaverSlider.this.lambda$updateOffActive$1(valueAnimator2);

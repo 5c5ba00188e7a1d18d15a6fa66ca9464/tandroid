@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.view.View;
 import java.util.Arrays;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.ProfileGalleryView;
@@ -172,7 +173,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
 
     @Override // android.view.View
     protected void onSizeChanged(int i, int i2, int i3, int i4) {
-        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight() + 0;
+        int currentActionBarHeight = ActionBar.getCurrentActionBarHeight();
         this.topOverlayRect.set(0, 0, i, (int) (currentActionBarHeight * 0.5f));
         this.bottomOverlayRect.set(0, (int) (i2 - (AndroidUtilities.dp(72.0f) * 0.5f)), i, i2);
         this.topOverlayGradient.setBounds(0, this.topOverlayRect.bottom, i, currentActionBarHeight + AndroidUtilities.dp(16.0f));
@@ -183,12 +184,12 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
     }
 
     /* JADX INFO: Access modifiers changed from: protected */
-    /* JADX WARN: Removed duplicated region for block: B:119:0x02fc  */
-    /* JADX WARN: Removed duplicated region for block: B:120:0x02ff  */
-    /* JADX WARN: Removed duplicated region for block: B:62:0x01ce  */
-    /* JADX WARN: Removed duplicated region for block: B:65:0x01ef  */
-    /* JADX WARN: Removed duplicated region for block: B:68:0x0207  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x020a  */
+    /* JADX WARN: Removed duplicated region for block: B:119:0x02fd  */
+    /* JADX WARN: Removed duplicated region for block: B:120:0x0300  */
+    /* JADX WARN: Removed duplicated region for block: B:62:0x01cf  */
+    /* JADX WARN: Removed duplicated region for block: B:65:0x01f0  */
+    /* JADX WARN: Removed duplicated region for block: B:68:0x0208  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x020b  */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -291,7 +292,7 @@ public class AvatarPreviewPagerIndicator extends View implements ProfileGalleryV
                     this.rect.set(f10, dp, (measuredWidth * f2) + f10, AndroidUtilities.dp(2.0f) + dp);
                     if (i3 == this.selectedPosition) {
                         if (this.overlayCountVisible == 3) {
-                            this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, 255, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
+                            this.barPaint.setAlpha((int) (AndroidUtilities.lerp(i2, (int) NotificationCenter.voipServiceCreated, CubicBezierInterpolator.EASE_BOTH.getInterpolation(this.alphas[i3])) * this.alpha));
                         }
                     } else {
                         this.alphas[i3] = 0.75f;

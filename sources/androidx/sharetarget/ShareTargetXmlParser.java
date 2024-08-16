@@ -19,8 +19,11 @@ class ShareTargetXmlParser {
     public static ArrayList<ShareTargetCompat> getShareTargets(Context context) {
         if (sShareTargets == null) {
             synchronized (GET_INSTANCE_LOCK) {
-                if (sShareTargets == null) {
-                    sShareTargets = parseShareTargets(context);
+                try {
+                    if (sShareTargets == null) {
+                        sShareTargets = parseShareTargets(context);
+                    }
+                } finally {
                 }
             }
         }

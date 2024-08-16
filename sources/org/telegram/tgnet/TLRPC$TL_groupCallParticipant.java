@@ -59,7 +59,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         this.can_self_unmute = (readInt32 & 4) != 0;
         this.just_joined = (readInt32 & 16) != 0;
         this.versioned = (readInt32 & 32) != 0;
-        this.min = (readInt32 & LiteMode.FLAG_CHAT_BLUR) != 0;
+        this.min = (readInt32 & 256) != 0;
         this.muted_by_you = (readInt32 & LiteMode.FLAG_CALLS_ANIMATIONS) != 0;
         this.volume_by_admin = (readInt32 & 1024) != 0;
         this.self = (readInt32 & LiteMode.FLAG_ANIMATED_EMOJI_CHAT_NOT_PREMIUM) != 0;
@@ -100,7 +100,7 @@ public class TLRPC$TL_groupCallParticipant extends TLObject {
         this.flags = i4;
         int i5 = this.versioned ? i4 | 32 : i4 & (-33);
         this.flags = i5;
-        int i6 = this.min ? i5 | LiteMode.FLAG_CHAT_BLUR : i5 & (-257);
+        int i6 = this.min ? i5 | 256 : i5 & (-257);
         this.flags = i6;
         int i7 = this.muted_by_you ? i6 | LiteMode.FLAG_CALLS_ANIMATIONS : i6 & (-513);
         this.flags = i7;

@@ -34,29 +34,30 @@ final class TextEmphasis {
         return parseWords(ImmutableSet.copyOf(TextUtils.split(lowerCase, WHITESPACE_PATTERN)));
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0081, code lost:
-        if (r9.equals("auto") != false) goto L22;
+    /* JADX WARN: Code restructure failed: missing block: B:61:0x00eb, code lost:
+        if (r9.equals("dot") != false) goto L47;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:72:0x00fe, code lost:
-        if (r9.equals("dot") == false) goto L59;
-     */
+    /* JADX WARN: Removed duplicated region for block: B:55:0x00da  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x00f8  */
+    /* JADX WARN: Removed duplicated region for block: B:71:0x0103  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private static TextEmphasis parseWords(ImmutableSet<String> immutableSet) {
         char c;
-        char c2;
+        int i;
+        int hashCode;
         String str = (String) Iterables.getFirst(Sets.intersection(POSITION_VALUES, immutableSet), "outside");
-        int hashCode = str.hashCode();
-        char c3 = 0;
-        char c4 = 1;
-        if (hashCode == -1392885889) {
+        int hashCode2 = str.hashCode();
+        char c2 = 0;
+        int i2 = -1;
+        if (hashCode2 == -1392885889) {
             if (str.equals("before")) {
                 c = 2;
             }
             c = 65535;
-        } else if (hashCode != -1106037339) {
-            if (hashCode == 92734940 && str.equals("after")) {
+        } else if (hashCode2 != -1106037339) {
+            if (hashCode2 == 92734940 && str.equals("after")) {
                 c = 0;
             }
             c = 65535;
@@ -66,55 +67,53 @@ final class TextEmphasis {
             }
             c = 65535;
         }
-        int i = c != 0 ? c != 1 ? 1 : -2 : 2;
+        int i3 = c != 0 ? c != 1 ? 1 : -2 : 2;
         Sets.SetView intersection = Sets.intersection(SINGLE_STYLE_VALUES, immutableSet);
         if (!intersection.isEmpty()) {
             String str2 = (String) intersection.iterator().next();
-            int hashCode2 = str2.hashCode();
-            if (hashCode2 != 3005871) {
-                if (hashCode2 == 3387192 && str2.equals("none")) {
-                    c4 = 0;
-                }
-                c4 = 65535;
+            int hashCode3 = str2.hashCode();
+            if (hashCode3 == 3005871) {
+                str2.equals("auto");
+            } else if (hashCode3 == 3387192 && str2.equals("none")) {
+                i2 = 0;
             }
-            return new TextEmphasis(c4 == 0 ? 0 : -1, 0, i);
+            return new TextEmphasis(i2, 0, i3);
         }
         Sets.SetView intersection2 = Sets.intersection(MARK_FILL_VALUES, immutableSet);
         Sets.SetView intersection3 = Sets.intersection(MARK_SHAPE_VALUES, immutableSet);
         if (intersection2.isEmpty() && intersection3.isEmpty()) {
-            return new TextEmphasis(-1, 0, i);
+            return new TextEmphasis(-1, 0, i3);
         }
         String str3 = (String) Iterables.getFirst(intersection2, "filled");
-        int hashCode3 = str3.hashCode();
-        if (hashCode3 != -1274499742) {
-            if (hashCode3 == 3417674 && str3.equals("open")) {
-                c2 = 0;
+        int hashCode4 = str3.hashCode();
+        if (hashCode4 == -1274499742) {
+            str3.equals("filled");
+        } else if (hashCode4 == 3417674 && str3.equals("open")) {
+            i = 2;
+            String str4 = (String) Iterables.getFirst(intersection3, "circle");
+            hashCode = str4.hashCode();
+            if (hashCode != -1360216880) {
+                if (str4.equals("circle")) {
+                    c2 = 2;
+                }
+                c2 = 65535;
+            } else if (hashCode != -905816648) {
+                if (hashCode == 99657) {
+                }
+                c2 = 65535;
+            } else {
+                if (str4.equals("sesame")) {
+                    c2 = 1;
+                }
+                c2 = 65535;
             }
-            c2 = 65535;
-        } else {
-            if (str3.equals("filled")) {
-                c2 = 1;
-            }
-            c2 = 65535;
+            return new TextEmphasis(c2 != 0 ? c2 != 1 ? 1 : 3 : 2, i, i3);
         }
-        int i2 = c2 != 0 ? 1 : 2;
-        String str4 = (String) Iterables.getFirst(intersection3, "circle");
-        int hashCode4 = str4.hashCode();
-        if (hashCode4 == -1360216880) {
-            if (str4.equals("circle")) {
-                c3 = 2;
-            }
-            c3 = 65535;
-        } else if (hashCode4 != -905816648) {
-            if (hashCode4 == 99657) {
-            }
-            c3 = 65535;
-        } else {
-            if (str4.equals("sesame")) {
-                c3 = 1;
-            }
-            c3 = 65535;
+        i = 1;
+        String str42 = (String) Iterables.getFirst(intersection3, "circle");
+        hashCode = str42.hashCode();
+        if (hashCode != -1360216880) {
         }
-        return new TextEmphasis(c3 != 0 ? c3 != 1 ? 1 : 3 : 2, i2, i);
+        return new TextEmphasis(c2 != 0 ? c2 != 1 ? 1 : 3 : 2, i, i3);
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -175,7 +176,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
         }
         float f = this.progressToNext;
         if (f == 1.0f) {
-            this.currentBackgroundDrawable.paint.setAlpha(255);
+            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
             this.currentImage.setAlpha(1.0f);
             this.currentImage.setScaleX(1.0f);
@@ -183,7 +184,7 @@ public class AvatarConstructorPreviewCell extends FrameLayout {
             this.nextImage.setAlpha(0.0f);
         } else {
             float interpolation = CubicBezierInterpolator.DEFAULT.getInterpolation(f);
-            this.currentBackgroundDrawable.paint.setAlpha(255);
+            this.currentBackgroundDrawable.paint.setAlpha(NotificationCenter.voipServiceCreated);
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.currentBackgroundDrawable.paint);
             this.nextBackgroundDrawable.paint.setAlpha((int) (255.0f * interpolation));
             canvas.drawRect(0.0f, 0.0f, getMeasuredWidth(), getMeasuredHeight(), this.nextBackgroundDrawable.paint);

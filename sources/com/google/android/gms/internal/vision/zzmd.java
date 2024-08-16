@@ -111,7 +111,7 @@ public final class zzmd {
 
     static {
         zzme zzmhVar;
-        if ((zzma.zza() && zzma.zzb()) && !zzhi.zza()) {
+        if (zzma.zza() && zzma.zzb() && !zzhi.zza()) {
             zzmhVar = new zzmj();
         } else {
             zzmhVar = new zzmh();

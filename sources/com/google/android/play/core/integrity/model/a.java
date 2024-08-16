@@ -56,10 +56,10 @@ public final class a {
         Integer valueOf = Integer.valueOf(i);
         if (map.containsKey(valueOf)) {
             Map map2 = b;
-            if (map2.containsKey(valueOf)) {
-                return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
+            if (!map2.containsKey(valueOf)) {
+                return "";
             }
-            return "";
+            return ((String) map.get(valueOf)) + " (https://developer.android.com/google/play/integrity/reference/com/google/android/play/core/integrity/model/IntegrityErrorCode.html#" + ((String) map2.get(valueOf)) + ")";
         }
         return "";
     }

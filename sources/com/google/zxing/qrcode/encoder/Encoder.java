@@ -12,6 +12,7 @@ import com.google.zxing.qrcode.decoder.Version;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Map;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.tgnet.ConnectionsManager;
 /* loaded from: classes.dex */
 public final class Encoder {
@@ -21,39 +22,46 @@ public final class Encoder {
         return MaskUtil.applyMaskPenaltyRule1(byteMatrix) + MaskUtil.applyMaskPenaltyRule2(byteMatrix) + MaskUtil.applyMaskPenaltyRule3(byteMatrix) + MaskUtil.applyMaskPenaltyRule4(byteMatrix);
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:45:0x00fc, code lost:
-        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r9) != false) goto L39;
+    /* JADX WARN: Code restructure failed: missing block: B:41:0x00f4, code lost:
+        if (com.google.zxing.qrcode.encoder.QRCode.isValidMaskPattern(r8) != false) goto L37;
      */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x009f  */
-    /* JADX WARN: Removed duplicated region for block: B:39:0x00a4  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x0102  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0097  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x009c  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00dc  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00fa  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public static QRCode encode(String str, ErrorCorrectionLevel errorCorrectionLevel, Map<EncodeHintType, ?> map) throws WriterException {
+        String str2;
         Version recommendVersion;
         int i;
         CharacterSetECI characterSetECIByName;
-        boolean z = true;
-        boolean z2 = map != null && map.containsKey(EncodeHintType.CHARACTER_SET);
-        String obj = z2 ? map.get(EncodeHintType.CHARACTER_SET).toString() : "ISO-8859-1";
-        Mode chooseMode = chooseMode(str, obj);
+        boolean z = map != null && map.containsKey(EncodeHintType.CHARACTER_SET);
+        if (!z) {
+            str2 = "ISO-8859-1";
+        } else {
+            str2 = map.get(EncodeHintType.CHARACTER_SET).toString();
+        }
+        Mode chooseMode = chooseMode(str, str2);
         BitArray bitArray = new BitArray();
         Mode mode = Mode.BYTE;
-        if (chooseMode == mode && z2 && (characterSetECIByName = CharacterSetECI.getCharacterSetECIByName(obj)) != null) {
+        if (chooseMode == mode && z && (characterSetECIByName = CharacterSetECI.getCharacterSetECIByName(str2)) != null) {
             appendECI(characterSetECIByName, bitArray);
         }
-        if (((map == null || !map.containsKey(EncodeHintType.GS1_FORMAT)) ? false : false) && Boolean.parseBoolean(map.get(EncodeHintType.GS1_FORMAT).toString())) {
-            appendModeInfo(Mode.FNC1_FIRST_POSITION, bitArray);
+        if (map != null) {
+            EncodeHintType encodeHintType = EncodeHintType.GS1_FORMAT;
+            if (map.containsKey(encodeHintType) && Boolean.parseBoolean(map.get(encodeHintType).toString())) {
+                appendModeInfo(Mode.FNC1_FIRST_POSITION, bitArray);
+            }
         }
         appendModeInfo(chooseMode, bitArray);
         BitArray bitArray2 = new BitArray();
-        appendBytes(str, chooseMode, bitArray2, obj);
+        appendBytes(str, chooseMode, bitArray2, str2);
         if (map != null) {
-            EncodeHintType encodeHintType = EncodeHintType.QR_VERSION;
-            if (map.containsKey(encodeHintType)) {
-                recommendVersion = Version.getVersionForNumber(Integer.parseInt(map.get(encodeHintType).toString()));
+            EncodeHintType encodeHintType2 = EncodeHintType.QR_VERSION;
+            if (map.containsKey(encodeHintType2)) {
+                recommendVersion = Version.getVersionForNumber(Integer.parseInt(map.get(encodeHintType2).toString()));
                 if (!willFit(calculateBitsNeeded(chooseMode, bitArray, bitArray2, recommendVersion), recommendVersion, errorCorrectionLevel)) {
                     throw new WriterException("Data too big for requested version");
                 }
@@ -72,9 +80,9 @@ public final class Encoder {
                 int dimensionForVersion = recommendVersion.getDimensionForVersion();
                 ByteMatrix byteMatrix = new ByteMatrix(dimensionForVersion, dimensionForVersion);
                 if (map != null) {
-                    EncodeHintType encodeHintType2 = EncodeHintType.QR_MASK_PATTERN;
-                    if (map.containsKey(encodeHintType2)) {
-                        i = Integer.parseInt(map.get(encodeHintType2).toString());
+                    EncodeHintType encodeHintType3 = EncodeHintType.QR_MASK_PATTERN;
+                    if (map.containsKey(encodeHintType3)) {
+                        i = Integer.parseInt(map.get(encodeHintType3).toString());
                     }
                 }
                 i = -1;
@@ -218,7 +226,7 @@ public final class Encoder {
         }
         int sizeInBytes = i - bitArray.getSizeInBytes();
         for (int i4 = 0; i4 < sizeInBytes; i4++) {
-            bitArray.appendBits((i4 & 1) == 0 ? 236 : 17, 8);
+            bitArray.appendBits((i4 & 1) == 0 ? NotificationCenter.needSetDayNightTheme : 17, 8);
         }
         if (bitArray.getSize() != i2) {
             throw new WriterException("Bits size does not equal capacity");
@@ -272,15 +280,15 @@ public final class Encoder {
             bitArray.toBytes(i4 * 8, bArr, 0, i8);
             byte[] generateECBytes = generateECBytes(bArr, iArr2[0]);
             arrayList.add(new BlockPair(bArr, generateECBytes));
-            i5 = Math.max(i5, i8);
-            i6 = Math.max(i6, generateECBytes.length);
+            i6 = Math.max(i6, i8);
+            i5 = Math.max(i5, generateECBytes.length);
             i4 += iArr[0];
         }
         if (i2 != i4) {
             throw new WriterException("Data bytes does not match offset");
         }
         BitArray bitArray2 = new BitArray();
-        for (int i9 = 0; i9 < i5; i9++) {
+        for (int i9 = 0; i9 < i6; i9++) {
             for (BlockPair blockPair : arrayList) {
                 byte[] dataBytes = blockPair.getDataBytes();
                 if (i9 < dataBytes.length) {
@@ -288,7 +296,7 @@ public final class Encoder {
                 }
             }
         }
-        for (int i10 = 0; i10 < i6; i10++) {
+        for (int i10 = 0; i10 < i5; i10++) {
             for (BlockPair blockPair2 : arrayList) {
                 byte[] errorCorrectionBytes = blockPair2.getErrorCorrectionBytes();
                 if (i10 < errorCorrectionBytes.length) {
@@ -447,7 +455,7 @@ public final class Encoder {
                         if (i != -1) {
                             throw new WriterException("Invalid byte sequence");
                         }
-                        bitArray.appendBits(((i >> 8) * 192) + (i & 255), 13);
+                        bitArray.appendBits(((i >> 8) * NotificationCenter.dialogPhotosUpdate) + (i & NotificationCenter.voipServiceCreated), 13);
                     } else {
                         i4 = 49472;
                     }

@@ -223,12 +223,12 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
     public final int hashCode() {
         long j = this.zzbjf;
         long j2 = this.zzbjg;
-        int hashCode = (((((zzha.class.getName().hashCode() + 527) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 31 * 31;
+        int hashCode = (((((zzha.class.getName().hashCode() + 527) * 31) + ((int) (j ^ (j >>> 32)))) * 31) + ((int) (j2 ^ (j2 >>> 32)))) * 961;
         String str = this.tag;
         int i = 0;
         int hashCode2 = (((hashCode + (str == null ? 0 : str.hashCode())) * 31) + this.zzbji) * 31;
         String str2 = this.zzbjj;
-        int hashCode3 = ((((((hashCode2 + (str2 == null ? 0 : str2.hashCode())) * 31 * 31) + 1237) * 31) + zzfy.hashCode(this.zzbjm)) * 31) + Arrays.hashCode(this.zzbjn);
+        int hashCode3 = ((((((hashCode2 + (str2 == null ? 0 : str2.hashCode())) * 961) + 1237) * 31) + zzfy.hashCode(this.zzbjm)) * 31) + Arrays.hashCode(this.zzbjn);
         zzge$zzd zzge_zzd = this.zzbjo;
         int hashCode4 = ((((hashCode3 * 31) + (zzge_zzd == null ? 0 : zzge_zzd.hashCode())) * 31) + Arrays.hashCode(this.zzbjp)) * 31;
         String str3 = this.zzbjq;
@@ -243,9 +243,9 @@ public final class zzha extends zzfu<zzha> implements Cloneable {
         zzgz zzgzVar = this.zzbjv;
         int hashCode9 = (((((((hashCode7 + hashCode8) * 31) + ((int) (j3 ^ (j3 >>> 32)))) * 31) + (zzgzVar == null ? 0 : zzgzVar.hashCode())) * 31) + Arrays.hashCode(this.zzbjw)) * 31;
         String str6 = this.zzbjx;
-        int hashCode10 = str6 == null ? 0 : str6.hashCode();
+        int hashCode10 = ((hashCode9 + (str6 == null ? 0 : str6.hashCode())) * 961) + zzfy.hashCode(this.zzbjz);
         zzge$zzs zzge_zzs = this.zzbkb;
-        int hashCode11 = (((((((hashCode9 + hashCode10) * 31 * 31) + zzfy.hashCode(this.zzbjz)) * 31 * 31) + (zzge_zzs == null ? 0 : zzge_zzs.hashCode())) * 31) + (this.zzbkc ? 1231 : 1237)) * 31;
+        int hashCode11 = ((((hashCode10 * 961) + (zzge_zzs == null ? 0 : zzge_zzs.hashCode())) * 31) + (this.zzbkc ? 1231 : 1237)) * 31;
         zzfw zzfwVar = this.zzrj;
         if (zzfwVar != null && !zzfwVar.isEmpty()) {
             i = this.zzrj.hashCode();

@@ -12,6 +12,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LazilyParsedNumber;
+import com.google.gson.internal.NumberLimits;
+import com.google.gson.internal.TroubleshootingGuide;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -99,12 +101,12 @@ public final class TypeAdapters {
         TypeAdapter<Class> nullSafe = new TypeAdapter<Class>() { // from class: com.google.gson.internal.bind.TypeAdapters.1
             @Override // com.google.gson.TypeAdapter
             public void write(JsonWriter jsonWriter, Class cls) throws IOException {
-                throw new UnsupportedOperationException("Attempted to serialize java.lang.Class: " + cls.getName() + ". Forgot to register a type adapter?");
+                throw new UnsupportedOperationException("Attempted to serialize java.lang.Class: " + cls.getName() + ". Forgot to register a type adapter?\nSee " + TroubleshootingGuide.createUrl("java-lang-class-unsupported"));
             }
 
             @Override // com.google.gson.TypeAdapter
             public Class read(JsonReader jsonReader) throws IOException {
-                throw new UnsupportedOperationException("Attempted to deserialize a java.lang.Class. Forgot to register a type adapter?");
+                throw new UnsupportedOperationException("Attempted to deserialize a java.lang.Class. Forgot to register a type adapter?\nSee " + TroubleshootingGuide.createUrl("java-lang-class-unsupported"));
             }
         }.nullSafe();
         CLASS = nullSafe;
@@ -117,7 +119,7 @@ public final class TypeAdapters {
                 JsonToken peek = jsonReader.peek();
                 int i = 0;
                 while (peek != JsonToken.END_ARRAY) {
-                    int i2 = 35.$SwitchMap$com$google$gson$stream$JsonToken[peek.ordinal()];
+                    int i2 = 42.$SwitchMap$com$google$gson$stream$JsonToken[peek.ordinal()];
                     boolean z = true;
                     if (i2 == 1 || i2 == 2) {
                         int nextInt = jsonReader.nextInt();
@@ -449,7 +451,7 @@ public final class TypeAdapters {
                 }
                 String nextString = jsonReader.nextString();
                 try {
-                    return new BigDecimal(nextString);
+                    return NumberLimits.parseBigDecimal(nextString);
                 } catch (NumberFormatException e) {
                     throw new JsonSyntaxException("Failed parsing '" + nextString + "' as BigDecimal; at path " + jsonReader.getPreviousPath(), e);
                 }
@@ -469,7 +471,7 @@ public final class TypeAdapters {
                 }
                 String nextString = jsonReader.nextString();
                 try {
-                    return new BigInteger(nextString);
+                    return NumberLimits.parseBigInteger(nextString);
                 } catch (NumberFormatException e) {
                     throw new JsonSyntaxException("Failed parsing '" + nextString + "' as BigInteger; at path " + jsonReader.getPreviousPath(), e);
                 }
@@ -538,7 +540,7 @@ public final class TypeAdapters {
                     return null;
                 }
                 String nextString = jsonReader.nextString();
-                if ("null".equals(nextString)) {
+                if (nextString.equals("null")) {
                     return null;
                 }
                 return new URL(nextString);
@@ -560,7 +562,7 @@ public final class TypeAdapters {
                 }
                 try {
                     String nextString = jsonReader.nextString();
-                    if ("null".equals(nextString)) {
+                    if (nextString.equals("null")) {
                         return null;
                     }
                     return new URI(nextString);
@@ -650,18 +652,65 @@ public final class TypeAdapters {
                 while (jsonReader.peek() != JsonToken.END_OBJECT) {
                     String nextName = jsonReader.nextName();
                     int nextInt = jsonReader.nextInt();
-                    if ("year".equals(nextName)) {
-                        i = nextInt;
-                    } else if ("month".equals(nextName)) {
-                        i2 = nextInt;
-                    } else if ("dayOfMonth".equals(nextName)) {
-                        i3 = nextInt;
-                    } else if ("hourOfDay".equals(nextName)) {
-                        i4 = nextInt;
-                    } else if ("minute".equals(nextName)) {
-                        i5 = nextInt;
-                    } else if ("second".equals(nextName)) {
-                        i6 = nextInt;
+                    nextName.hashCode();
+                    char c = 65535;
+                    switch (nextName.hashCode()) {
+                        case -1181204563:
+                            if (nextName.equals("dayOfMonth")) {
+                                c = 0;
+                                break;
+                            }
+                            break;
+                        case -1074026988:
+                            if (nextName.equals("minute")) {
+                                c = 1;
+                                break;
+                            }
+                            break;
+                        case -906279820:
+                            if (nextName.equals("second")) {
+                                c = 2;
+                                break;
+                            }
+                            break;
+                        case 3704893:
+                            if (nextName.equals("year")) {
+                                c = 3;
+                                break;
+                            }
+                            break;
+                        case 104080000:
+                            if (nextName.equals("month")) {
+                                c = 4;
+                                break;
+                            }
+                            break;
+                        case 985252545:
+                            if (nextName.equals("hourOfDay")) {
+                                c = 5;
+                                break;
+                            }
+                            break;
+                    }
+                    switch (c) {
+                        case 0:
+                            i3 = nextInt;
+                            break;
+                        case 1:
+                            i5 = nextInt;
+                            break;
+                        case 2:
+                            i6 = nextInt;
+                            break;
+                        case 3:
+                            i = nextInt;
+                            break;
+                        case 4:
+                            i2 = nextInt;
+                            break;
+                        case 5:
+                            i4 = nextInt;
+                            break;
                     }
                 }
                 jsonReader.endObject();
@@ -721,7 +770,7 @@ public final class TypeAdapters {
         LOCALE_FACTORY = newFactory(Locale.class, typeAdapter14);
         TypeAdapter<JsonElement> typeAdapter15 = new TypeAdapter<JsonElement>() { // from class: com.google.gson.internal.bind.TypeAdapters.28
             private JsonElement tryBeginNesting(JsonReader jsonReader, JsonToken jsonToken) throws IOException {
-                int i = 35.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
+                int i = 42.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
                 if (i == 4) {
                     jsonReader.beginArray();
                     return new JsonArray();
@@ -734,7 +783,7 @@ public final class TypeAdapters {
             }
 
             private JsonElement readTerminal(JsonReader jsonReader, JsonToken jsonToken) throws IOException {
-                int i = 35.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
+                int i = 42.$SwitchMap$com$google$gson$stream$JsonToken[jsonToken.ordinal()];
                 if (i != 1) {
                     if (i != 2) {
                         if (i != 3) {
@@ -845,7 +894,7 @@ public final class TypeAdapters {
 
     /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public static /* synthetic */ class 35 {
+    public static /* synthetic */ class 42 {
         static final /* synthetic */ int[] $SwitchMap$com$google$gson$stream$JsonToken;
 
         static {
