@@ -56,6 +56,7 @@ import org.telegram.tgnet.TLRPC$Updates;
 import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_Messages;
 import org.telegram.tgnet.tl.TL_stories$TL_geoPointAddress;
+import org.telegram.ui.Components.PermissionRequest;
 @SuppressLint({"MissingPermission"})
 /* loaded from: classes3.dex */
 public class LocationController extends BaseController implements NotificationCenter.NotificationCenterDelegate, ILocationServiceProvider.IAPIConnectionCallbacks, ILocationServiceProvider.IAPIOnConnectionFailedListener {
@@ -1038,7 +1039,9 @@ public class LocationController extends BaseController implements NotificationCe
 
     private void startService() {
         try {
-            ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, LocationSharingService.class));
+            if (PermissionRequest.hasPermission("android.permission.ACCESS_COARSE_LOCATION") || PermissionRequest.hasPermission("android.permission.ACCESS_FINE_LOCATION")) {
+                ApplicationLoader.applicationContext.startService(new Intent(ApplicationLoader.applicationContext, LocationSharingService.class));
+            }
         } catch (Throwable th) {
             FileLog.e(th);
         }

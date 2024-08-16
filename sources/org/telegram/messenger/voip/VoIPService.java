@@ -267,8 +267,12 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     private boolean endCallAfterRequest;
     boolean fetchingBluetoothDeviceName;
     private boolean forceRating;
+    private int foregroundId;
+    private Notification foregroundNotification;
+    private boolean foregroundStarted;
     private byte[] g_a;
     private byte[] g_a_hash;
+    private boolean gotMediaProjection;
     public ChatObject.Call groupCall;
     private volatile CountDownLatch groupCallBottomSheetLatch;
     private TLRPC$InputPeer groupCallPeer;
@@ -284,6 +288,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     private String joinHash;
     private long keyFingerprint;
     private String lastError;
+    private int lastForegroundType;
     private NetworkInfo lastNetInfo;
     private SensorEvent lastSensorEvent;
     private long lastTypingTimeSend;
@@ -1428,11 +1433,15 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Type inference failed for: r1v1, types: [int] */
-    /* JADX WARN: Type inference failed for: r1v4 */
-    /* JADX WARN: Type inference failed for: r1v5 */
+    /* JADX WARN: Type inference failed for: r2v1, types: [int] */
+    /* JADX WARN: Type inference failed for: r2v2 */
+    /* JADX WARN: Type inference failed for: r2v3 */
     public void createCaptureDevice(boolean z) {
-        ?? r1 = z ? 2 : this.isFrontFaceCamera;
+        if (z) {
+            this.gotMediaProjection = true;
+            updateCurrentForegroundType();
+        }
+        ?? r2 = z ? 2 : this.isFrontFaceCamera;
         if (this.groupCall == null) {
             if (!this.isPrivateScreencast && z) {
                 setVideoState(false, 0);
@@ -1449,7 +1458,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 if (jArr[z ? 1 : 0] != 0) {
                     return;
                 }
-                jArr[z ? 1 : 0] = NativeInstance.createVideoCapturer(this.localSink[z ? 1 : 0], r1);
+                jArr[z ? 1 : 0] = NativeInstance.createVideoCapturer(this.localSink[z ? 1 : 0], r2);
                 createGroupInstance(1, false);
                 setVideoState(true, 2);
                 AccountInstance.getInstance(this.currentAccount).getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupCallScreencastStateChanged, new Object[0]);
@@ -1473,7 +1482,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 return;
             }
         }
-        this.captureDevice[z ? 1 : 0] = NativeInstance.createVideoCapturer(this.localSink[z ? 1 : 0], r1);
+        this.captureDevice[z ? 1 : 0] = NativeInstance.createVideoCapturer(this.localSink[z ? 1 : 0], r2);
     }
 
     public void setupCaptureDevice(boolean z, boolean z2) {
@@ -4441,9 +4450,22 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             contentIntent.setLargeIcon(bitmap);
         }
         try {
-            startForeground(ID_ONGOING_CALL_NOTIFICATION, contentIntent.getNotification());
-        } catch (Exception e) {
-            if (bitmap == null || !(e instanceof IllegalArgumentException)) {
+            if (this.foregroundStarted) {
+                try {
+                    stopForeground(true);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+            this.foregroundStarted = true;
+            this.foregroundId = ID_ONGOING_CALL_NOTIFICATION;
+            Notification notification = contentIntent.getNotification();
+            this.foregroundNotification = notification;
+            int currentForegroundType = getCurrentForegroundType();
+            this.lastForegroundType = currentForegroundType;
+            startForeground(ID_ONGOING_CALL_NOTIFICATION, notification, currentForegroundType);
+        } catch (Exception e2) {
+            if (bitmap == null || !(e2 instanceof IllegalArgumentException)) {
                 return;
             }
             showNotification(str, null);
@@ -4761,6 +4783,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     public void acceptIncomingCall() {
+        updateCurrentForegroundType();
         MessagesController.getInstance(this.currentAccount).ignoreSetOnline = false;
         stopRinging();
         showNotification();
@@ -5224,17 +5247,35 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             }
             callFailed();
         }
-        if (callIShouldHavePutIntoIntent == null || Build.VERSION.SDK_INT < 26) {
-            return;
+        if (Build.VERSION.SDK_INT >= 26) {
+            if (callIShouldHavePutIntoIntent != null) {
+                NotificationsController.checkOtherNotificationsChannel();
+                Notification.Builder showWhen = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(LocaleController.getString(R.string.VoipOutgoingCall)).setShowWhen(false);
+                if (this.groupCall != null) {
+                    showWhen.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
+                } else {
+                    showWhen.setSmallIcon(R.drawable.ic_call);
+                }
+                this.foregroundStarted = true;
+                this.foregroundId = ID_ONGOING_CALL_NOTIFICATION;
+                Notification build = showWhen.build();
+                this.foregroundNotification = build;
+                int currentForegroundType = getCurrentForegroundType();
+                this.lastForegroundType = currentForegroundType;
+                startForeground(ID_ONGOING_CALL_NOTIFICATION, build, currentForegroundType);
+                return;
+            }
+            NotificationsController.checkOtherNotificationsChannel();
+            Notification.Builder showWhen2 = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(LocaleController.getString(R.string.VoipCallEnded)).setShowWhen(false);
+            showWhen2.setSmallIcon(R.drawable.ic_call);
+            this.foregroundStarted = true;
+            this.foregroundId = ID_ONGOING_CALL_NOTIFICATION;
+            Notification build2 = showWhen2.build();
+            this.foregroundNotification = build2;
+            int currentForegroundType2 = getCurrentForegroundType();
+            this.lastForegroundType = currentForegroundType2;
+            startForeground(ID_ONGOING_CALL_NOTIFICATION, build2, currentForegroundType2);
         }
-        NotificationsController.checkOtherNotificationsChannel();
-        Notification.Builder showWhen = new Notification.Builder(this, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL).setContentTitle(LocaleController.getString("VoipOutgoingCall", R.string.VoipOutgoingCall)).setShowWhen(false);
-        if (this.groupCall != null) {
-            showWhen.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
-        } else {
-            showWhen.setSmallIcon(R.drawable.ic_call);
-        }
-        startForeground(ID_ONGOING_CALL_NOTIFICATION, showWhen.build());
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -5716,7 +5757,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:28:0x00e7  */
-    /* JADX WARN: Type inference failed for: r8v17 */
+    /* JADX WARN: Type inference failed for: r8v16 */
     /* JADX WARN: Type inference failed for: r8v5 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -5901,8 +5942,39 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             contentIntent.addAction(R.drawable.ic_call, string2, broadcast2);
             notification = contentIntent.getNotification();
         }
-        startForeground(ID_INCOMING_CALL_NOTIFICATION, notification);
+        this.foregroundStarted = true;
+        this.foregroundId = ID_INCOMING_CALL_NOTIFICATION;
+        this.foregroundNotification = notification;
+        int currentForegroundType = getCurrentForegroundType();
+        this.lastForegroundType = currentForegroundType;
+        startForeground(ID_INCOMING_CALL_NOTIFICATION, notification, currentForegroundType);
         startRingtoneAndVibration();
+    }
+
+    private int getCurrentForegroundType() {
+        if (Build.VERSION.SDK_INT < 29) {
+            return 226;
+        }
+        int i = checkSelfPermission("android.permission.CAMERA") == 0 ? 64 : 0;
+        if (checkSelfPermission("android.permission.RECORD_AUDIO") == 0) {
+            i |= 128;
+        }
+        if (this.gotMediaProjection) {
+            i |= 32;
+        }
+        return i | 2;
+    }
+
+    public void updateCurrentForegroundType() {
+        if (this.lastForegroundType == getCurrentForegroundType() || !this.foregroundStarted) {
+            return;
+        }
+        stopForeground(true);
+        int i = this.foregroundId;
+        Notification notification = this.foregroundNotification;
+        int currentForegroundType = getCurrentForegroundType();
+        this.lastForegroundType = currentForegroundType;
+        startForeground(i, notification, currentForegroundType);
     }
 
     private void callFailed(String str) {
@@ -6272,8 +6344,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     /* JADX INFO: Access modifiers changed from: private */
     public void acceptIncomingCallFromNotification() {
         showNotification();
-        int i = Build.VERSION.SDK_INT;
-        if (i >= 23 && i < 30 && (checkSelfPermission("android.permission.RECORD_AUDIO") != 0 || (this.privateCall.video && checkSelfPermission("android.permission.CAMERA") != 0))) {
+        if (Build.VERSION.SDK_INT >= 23 && (checkSelfPermission("android.permission.RECORD_AUDIO") != 0 || (this.privateCall.video && checkSelfPermission("android.permission.CAMERA") != 0))) {
             try {
                 PendingIntent.getActivity(this, 0, new Intent(this, VoIPPermissionActivity.class).addFlags(268435456), 1107296256).send();
                 return;

@@ -65,7 +65,6 @@ import com.google.firebase.appindexing.builders.AssistActionBuilder;
 import j$.util.function.Consumer;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -311,7 +310,6 @@ import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoryViewer;
 import org.telegram.ui.Stories.recorder.StoryRecorder;
-import org.telegram.ui.Stories.recorder.Weather;
 import org.telegram.ui.WallpapersListActivity;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
@@ -2207,7 +2205,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     /* JADX WARN: Type inference failed for: r12v65 */
     /* JADX WARN: Type inference failed for: r12v67 */
     /* JADX WARN: Type inference failed for: r12v68 */
-    /* JADX WARN: Type inference failed for: r12v9, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v9, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r1v65, types: [android.os.Bundle] */
     /* JADX WARN: Type inference failed for: r2v27, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
     /* JADX WARN: Type inference failed for: r2v31, types: [org.telegram.ui.ActionBar.INavigationLayout$NavigationParams] */
@@ -9717,27 +9715,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:11:0x0037, code lost:
-        r8 = new java.io.BufferedReader(new java.io.InputStreamReader(r0));
-        r5 = new java.lang.StringBuilder();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:12:0x0046, code lost:
-        r6 = r8.readLine();
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:13:0x004a, code lost:
-        if (r6 == null) goto L28;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:14:0x004c, code lost:
-        if (r3 >= 100) goto L20;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:15:0x004e, code lost:
-        r5.append(r6);
-        r5.append('\n');
-        r3 = r3 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:17:0x005b, code lost:
-        r4 = r5.toString();
-     */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x00d4 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -9749,100 +9727,103 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         r4 = null;
         r4 = null;
         String str = null;
-        if (fixFileName != null) {
+        if (fixFileName != null && fixFileName.endsWith(".zip")) {
             try {
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-            if (fixFileName.endsWith(".zip")) {
-                try {
-                    ZipInputStream zipInputStream = new ZipInputStream(getContentResolver().openInputStream(uri));
-                    try {
-                        ZipEntry nextEntry = zipInputStream.getNextEntry();
-                        while (true) {
-                            if (nextEntry == null) {
-                                break;
-                            } else if (nextEntry.getName().endsWith(".txt")) {
-                                try {
-                                    break;
-                                } catch (Exception e2) {
-                                    FileLog.e(e2);
-                                    zipInputStream.close();
-                                    return null;
-                                }
-                            } else {
-                                nextEntry = zipInputStream.getNextEntry();
-                            }
-                        }
-                        zipInputStream.closeEntry();
-                        zipInputStream.close();
-                    } catch (Throwable th) {
+                ZipInputStream zipInputStream = new ZipInputStream(getContentResolver().openInputStream(uri));
+                ZipEntry nextEntry = zipInputStream.getNextEntry();
+                while (true) {
+                    if (nextEntry == null) {
+                        break;
+                    } else if (nextEntry.getName().endsWith(".txt")) {
                         try {
+                            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zipInputStream));
+                            StringBuilder sb = new StringBuilder();
+                            while (true) {
+                                String readLine = bufferedReader.readLine();
+                                if (readLine == null || i >= 100) {
+                                    break;
+                                }
+                                sb.append(readLine);
+                                sb.append('\n');
+                                i++;
+                            }
+                            str = sb.toString();
+                        } catch (Exception e) {
+                            FileLog.e(e);
                             zipInputStream.close();
-                        } catch (Throwable th2) {
-                            th.addSuppressed(th2);
+                            return null;
                         }
-                        throw th;
+                    } else {
+                        nextEntry = zipInputStream.getNextEntry();
                     }
-                } catch (IOException e3) {
+                }
+                zipInputStream.closeEntry();
+                zipInputStream.close();
+            } catch (Exception e2) {
+                try {
+                    FileLog.e(e2);
+                } catch (Exception e3) {
                     FileLog.e(e3);
                 }
-                return str;
             }
+            return str;
         }
         try {
             inputStream = getContentResolver().openInputStream(uri);
-            try {
+        } catch (Exception e4) {
+            e = e4;
+            inputStream = null;
+        } catch (Throwable th) {
+            th = th;
+            if (inputStream2 != null) {
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder sb = new StringBuilder();
-                    while (true) {
-                        String readLine = bufferedReader.readLine();
-                        if (readLine == null || i >= 100) {
-                            break;
-                        }
-                        sb.append(readLine);
-                        sb.append('\n');
-                        i++;
-                    }
-                    String sb2 = sb.toString();
-                    if (inputStream != null) {
-                        try {
-                            inputStream.close();
-                        } catch (Exception e4) {
-                            FileLog.e(e4);
-                        }
-                    }
-                    return sb2;
-                } catch (Throwable th3) {
-                    th = th3;
-                    inputStream2 = inputStream;
-                    if (inputStream2 != null) {
-                        try {
-                            inputStream2.close();
-                        } catch (Exception e5) {
-                            FileLog.e(e5);
-                        }
-                    }
-                    throw th;
+                    inputStream2.close();
+                } catch (Exception e5) {
+                    FileLog.e(e5);
                 }
-            } catch (Exception e6) {
-                e = e6;
+            }
+            throw th;
+        }
+        try {
+            try {
+                BufferedReader bufferedReader2 = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder sb2 = new StringBuilder();
+                while (true) {
+                    String readLine2 = bufferedReader2.readLine();
+                    if (readLine2 == null || i >= 100) {
+                        break;
+                    }
+                    sb2.append(readLine2);
+                    sb2.append('\n');
+                    i++;
+                }
+                String sb3 = sb2.toString();
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (Exception e6) {
+                        FileLog.e(e6);
+                    }
+                }
+                return sb3;
+            } catch (Exception e7) {
+                e = e7;
                 FileLog.e(e);
                 if (inputStream != null) {
                     try {
                         inputStream.close();
-                    } catch (Exception e7) {
-                        FileLog.e(e7);
+                    } catch (Exception e8) {
+                        FileLog.e(e8);
                     }
                 }
                 return null;
             }
-        } catch (Exception e8) {
-            e = e8;
-            inputStream = null;
-        } catch (Throwable th4) {
-            th = th4;
+        } catch (Throwable th2) {
+            th = th2;
+            inputStream2 = inputStream;
+            if (inputStream2 != null) {
+            }
+            throw th;
         }
     }
 
@@ -13638,14 +13619,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 VoIPFragment.onRequestPermissionsResult(i, strArr, iArr);
                 StoryRecorder.onRequestPermissionsResult(i, strArr, iArr);
                 NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.onRequestPermissionResultReceived, Integer.valueOf(i), strArr, iArr);
-                if (i == Weather.LOCATION_REQUEST) {
-                    Weather.receivePermissionIntent(strArr, iArr);
-                }
                 if (this.requestedPermissions.get(i, -1) >= 0) {
                     int i2 = this.requestedPermissions.get(i, -1);
                     this.requestedPermissions.delete(i);
                     NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.permissionsGranted, Integer.valueOf(i2));
                 }
+                NotificationCenter.getGlobalInstance().lambda$postNotificationNameOnUIThread$1(NotificationCenter.activityPermissionsGranted, Integer.valueOf(i), strArr, iArr);
             }
         }
     }

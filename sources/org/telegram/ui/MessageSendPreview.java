@@ -373,7 +373,7 @@ public class MessageSendPreview extends Dialog implements NotificationCenter.Not
             }
 
             /* JADX WARN: Type inference failed for: r3v0 */
-            /* JADX WARN: Type inference failed for: r3v1, types: [int, boolean] */
+            /* JADX WARN: Type inference failed for: r3v1, types: [boolean, int] */
             /* JADX WARN: Type inference failed for: r3v9 */
             private void drawChatBackgroundElements(Canvas canvas) {
                 boolean z;

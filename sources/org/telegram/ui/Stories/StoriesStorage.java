@@ -75,7 +75,7 @@ public class StoriesStorage {
     /* JADX WARN: Removed duplicated region for block: B:59:0x0153  */
     /* JADX WARN: Removed duplicated region for block: B:61:0x015e  */
     /* JADX WARN: Type inference failed for: r6v13 */
-    /* JADX WARN: Type inference failed for: r6v5, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v5, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v7 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

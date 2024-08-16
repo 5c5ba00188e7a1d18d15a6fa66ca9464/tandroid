@@ -19,7 +19,7 @@ public abstract class EventLoopImplBase extends EventLoopImplPlatform implements
     private volatile /* synthetic */ int _isCompleted = 0;
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     public final boolean isCompleted() {
         return this._isCompleted;
     }

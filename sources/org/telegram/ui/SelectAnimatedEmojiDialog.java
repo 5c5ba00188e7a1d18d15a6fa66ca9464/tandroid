@@ -2066,11 +2066,12 @@ public class SelectAnimatedEmojiDialog extends FrameLayout implements Notificati
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(int i, View view, int i2) {
+        ReactionsLayoutInBubble.VisibleReaction visibleReaction;
         TLRPC$Document tLRPC$Document;
         try {
             if (view instanceof ImageViewEmoji) {
                 ImageViewEmoji imageViewEmoji = (ImageViewEmoji) view;
-                if (imageViewEmoji.isDefaultReaction || i == 13 || i == 14) {
+                if (imageViewEmoji.isDefaultReaction || (((visibleReaction = imageViewEmoji.reaction) != null && visibleReaction.isStar) || i == 13 || i == 14)) {
                     incrementHintUse();
                     onReactionClick(imageViewEmoji, imageViewEmoji.reaction);
                 } else if (imageViewEmoji.isStaticIcon && (tLRPC$Document = imageViewEmoji.document) != null) {

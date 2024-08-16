@@ -3627,7 +3627,11 @@ public class ImageLoader {
         intentFilter.addAction("android.intent.action.MEDIA_UNMOUNTED");
         intentFilter.addDataScheme("file");
         try {
-            ApplicationLoader.applicationContext.registerReceiver(r0, intentFilter);
+            if (Build.VERSION.SDK_INT >= 33) {
+                ApplicationLoader.applicationContext.registerReceiver(r0, intentFilter, 4);
+            } else {
+                ApplicationLoader.applicationContext.registerReceiver(r0, intentFilter);
+            }
         } catch (Throwable unused) {
         }
         checkMediaPaths();
@@ -4708,7 +4712,7 @@ public class ImageLoader {
     /* JADX WARN: Type inference failed for: r12v12 */
     /* JADX WARN: Type inference failed for: r12v13 */
     /* JADX WARN: Type inference failed for: r12v2 */
-    /* JADX WARN: Type inference failed for: r12v3, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v3, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v5, types: [org.telegram.messenger.FileLoader] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

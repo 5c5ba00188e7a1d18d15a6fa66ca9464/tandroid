@@ -208,7 +208,7 @@ public class QuickRepliesController {
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Removed duplicated region for block: B:39:0x0138  */
     /* JADX WARN: Type inference failed for: r8v0 */
-    /* JADX WARN: Type inference failed for: r8v1, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v1, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v3 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

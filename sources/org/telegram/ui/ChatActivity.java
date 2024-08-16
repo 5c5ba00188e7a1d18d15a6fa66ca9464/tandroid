@@ -11522,7 +11522,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Type inference failed for: r13v23, types: [int, boolean] */
+        /* JADX WARN: Type inference failed for: r13v23, types: [boolean, int] */
         /* JADX WARN: Type inference failed for: r13v24 */
         /* JADX WARN: Type inference failed for: r13v25 */
         private void drawChatBackgroundElements(Canvas canvas) {
@@ -28357,7 +28357,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r5v17 */
     /* JADX WARN: Type inference failed for: r5v19 */
     /* JADX WARN: Type inference failed for: r7v22 */
-    /* JADX WARN: Type inference failed for: r7v23, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r7v23, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r7v25 */
     /* JADX WARN: Type inference failed for: r7v26 */
     /*
@@ -35457,7 +35457,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Type inference failed for: r12v17 */
     /* JADX WARN: Type inference failed for: r12v18 */
     /* JADX WARN: Type inference failed for: r13v30 */
-    /* JADX WARN: Type inference failed for: r13v31, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v31, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v77 */
     /* JADX WARN: Type inference failed for: r28v2 */
     /* JADX WARN: Type inference failed for: r2v238 */
@@ -39282,9 +39282,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         BulletinFactory.of(this).createEmojiBulletin(findDocument, LocaleController.getString(R.string.ChatMultipleReactionsPromo)).setDuration(5000).show();
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:104:0x01f2  */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x01f5  */
-    /* JADX WARN: Removed duplicated region for block: B:111:0x0237  */
+    /* JADX WARN: Removed duplicated region for block: B:104:0x021f  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0222  */
+    /* JADX WARN: Removed duplicated region for block: B:111:0x0264  */
     /* JADX WARN: Removed duplicated region for block: B:118:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -39312,23 +39312,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (tLRPC$Message2 != null && (tLRPC$TL_messageReactions2 = tLRPC$Message2.reactions) != null) {
                     arrayList = tLRPC$TL_messageReactions2.top_reactors;
                 }
-                TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
-                if (tLRPC$ChatFull != null && !tLRPC$ChatFull.paid_reactions_available && (arrayList == null || arrayList.isEmpty())) {
+                long j = -StarsController.MessageId.from(messageObject).did;
+                TLRPC$ChatFull chatFull = getMessagesController().getChatFull(j);
+                if (chatFull != null && !chatFull.paid_reactions_available && (arrayList == null || arrayList.isEmpty())) {
+                    TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(j));
                     BulletinFactory of = BulletinFactory.of(this);
                     int i4 = R.raw.stars_topup;
                     int i5 = R.string.StarsReactionsDisabled;
                     Object[] objArr = new Object[1];
-                    TLRPC$Chat tLRPC$Chat = this.currentChat;
-                    objArr[0] = tLRPC$Chat != null ? tLRPC$Chat.title : "";
+                    objArr[0] = chat != null ? chat.title : "";
                     of.createSimpleBulletin(i4, AndroidUtilities.replaceTags(LocaleController.formatString(i5, objArr))).show(true);
                     return;
                 }
                 StarsController.getInstance(this.currentAccount).commitPaidReaction();
-                Context context = getContext();
-                int i6 = this.currentAccount;
-                long j = this.dialog_id;
-                TLRPC$ChatFull tLRPC$ChatFull2 = this.chatInfo;
-                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i6, j, this, messageObject, arrayList, tLRPC$ChatFull2 == null || tLRPC$ChatFull2.paid_reactions_available, this.themeDelegate);
+                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(getContext(), this.currentAccount, this.dialog_id, this, messageObject, arrayList, chatFull == null || chatFull.paid_reactions_available, this.themeDelegate);
                 starsReactionsSheet.setMessageCell(this, messageObject.getId(), findMessageCell);
                 starsReactionsSheet.show();
                 return;
@@ -39340,15 +39337,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } catch (Exception unused) {
                 }
             }
-            TLRPC$ChatFull tLRPC$ChatFull3 = this.chatInfo;
-            if (tLRPC$ChatFull3 != null && !tLRPC$ChatFull3.paid_reactions_available) {
+            long j2 = -StarsController.MessageId.from(messageObject).did;
+            TLRPC$ChatFull chatFull2 = getMessagesController().getChatFull(j2);
+            if (chatFull2 != null && !chatFull2.paid_reactions_available) {
+                TLRPC$Chat chat2 = getMessagesController().getChat(Long.valueOf(j2));
                 BulletinFactory of2 = BulletinFactory.of(this);
-                int i7 = R.raw.stars_topup;
-                int i8 = R.string.StarsReactionsDisabled;
+                int i6 = R.raw.stars_topup;
+                int i7 = R.string.StarsReactionsDisabled;
                 Object[] objArr2 = new Object[1];
-                TLRPC$Chat tLRPC$Chat2 = this.currentChat;
-                objArr2[0] = tLRPC$Chat2 != null ? tLRPC$Chat2.title : "";
-                of2.createSimpleBulletin(i7, AndroidUtilities.replaceTags(LocaleController.formatString(i8, objArr2))).show(true);
+                objArr2[0] = chat2 != null ? chat2.title : "";
+                of2.createSimpleBulletin(i6, AndroidUtilities.replaceTags(LocaleController.formatString(i7, objArr2))).show(true);
                 return;
             }
             StarsController.PendingPaidReactions sendPaidReaction = StarsController.getInstance(this.currentAccount).sendPaidReaction(messageObject, this, 1L, true, true, null);
@@ -39377,25 +39375,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     id = findMessageWithFlags.getId();
                 }
             }
-            int i9 = id;
+            int i8 = id;
             if (selectReaction) {
-                ChatMessageCell findMessageCell2 = findMessageCell(i9, true);
+                ChatMessageCell findMessageCell2 = findMessageCell(i8, true);
                 showMultipleReactionsPromo(findMessageCell2, visibleReaction, size);
                 if (!z) {
-                    int i10 = this.currentAccount;
+                    int i9 = this.currentAccount;
                     if (reactionsContainerLayout == null) {
                         i3 = 1;
                     } else if (z2) {
                         i3 = 0;
                     }
-                    i = i9;
+                    i = i8;
                     i2 = 1;
-                    ReactionsEffectOverlay.show(this, reactionsContainerLayout, findMessageCell2, view, f, f2, visibleReaction, i10, i3);
+                    ReactionsEffectOverlay.show(this, reactionsContainerLayout, findMessageCell2, view, f, f2, visibleReaction, i9, i3);
                     if (selectReaction && (str = visibleReaction.emojicon) != null) {
-                        int i11 = R.string.AccDescrYouReactedWith;
+                        int i10 = R.string.AccDescrYouReactedWith;
                         Object[] objArr3 = new Object[i2];
                         objArr3[0] = str;
-                        AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.formatString("AccDescrYouReactedWith", i11, objArr3));
+                        AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.formatString("AccDescrYouReactedWith", i10, objArr3));
                     }
                     ArrayList<ReactionsLayoutInBubble.VisibleReaction> arrayList2 = new ArrayList<>();
                     arrayList2.addAll(messageObject.getChoosenReactions());
@@ -39415,13 +39413,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return;
                 }
             }
-            i = i9;
+            i = i8;
             i2 = 1;
             if (selectReaction) {
-                int i112 = R.string.AccDescrYouReactedWith;
+                int i102 = R.string.AccDescrYouReactedWith;
                 Object[] objArr32 = new Object[i2];
                 objArr32[0] = str;
-                AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.formatString("AccDescrYouReactedWith", i112, objArr32));
+                AndroidUtilities.makeAccessibilityAnnouncement(LocaleController.formatString("AccDescrYouReactedWith", i102, objArr32));
             }
             ArrayList<ReactionsLayoutInBubble.VisibleReaction> arrayList22 = new ArrayList<>();
             arrayList22.addAll(messageObject.getChoosenReactions());
@@ -43473,6 +43471,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             String url = ((URLSpanNoUnderline) characterStyle).getURL();
             if (url != null && url.startsWith("tel:")) {
                 didPressPhoneNumber(chatMessageCell, characterStyle, url.substring(4));
+                if (!z || chatMessageCell == null) {
+                    return;
+                }
+                chatMessageCell.resetPressedLink(-1);
             } else if (messageObject5 != null && url.startsWith("/")) {
                 if (URLSpanBotCommand.enabled) {
                     ChatActivityEnterView chatActivityEnterView = this.chatActivityEnterView;
@@ -46930,16 +46932,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:51:0x00f1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:51:0x0100, code lost:
             if (r3.isSame(r32.reaction) == false) goto L51;
          */
-        /* JADX WARN: Removed duplicated region for block: B:114:0x03fb  */
-        /* JADX WARN: Removed duplicated region for block: B:117:0x042c  */
-        /* JADX WARN: Removed duplicated region for block: B:119:0x043b  */
-        /* JADX WARN: Removed duplicated region for block: B:131:0x04a6  */
-        /* JADX WARN: Removed duplicated region for block: B:138:0x04c1  */
-        /* JADX WARN: Removed duplicated region for block: B:147:0x052d  */
-        /* JADX WARN: Removed duplicated region for block: B:150:0x053e  */
+        /* JADX WARN: Removed duplicated region for block: B:114:0x040a  */
+        /* JADX WARN: Removed duplicated region for block: B:117:0x043b  */
+        /* JADX WARN: Removed duplicated region for block: B:119:0x044a  */
+        /* JADX WARN: Removed duplicated region for block: B:131:0x04b5  */
+        /* JADX WARN: Removed duplicated region for block: B:138:0x04d0  */
+        /* JADX WARN: Removed duplicated region for block: B:147:0x053c  */
+        /* JADX WARN: Removed duplicated region for block: B:150:0x054d  */
         @Override // org.telegram.ui.Cells.ChatMessageCell.ChatMessageCellDelegate
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -46980,12 +46982,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 TLRPC$Message tLRPC$Message2 = primaryMessageObject.messageOwner;
                 ArrayList<TLRPC$MessageReactor> arrayList = (tLRPC$Message2 == null || (tLRPC$TL_messageReactions2 = tLRPC$Message2.reactions) == null) ? null : tLRPC$TL_messageReactions2.top_reactors;
                 StarsController.getInstance(((BaseFragment) ChatActivity.this).currentAccount).commitPaidReaction();
+                TLRPC$ChatFull chatFull = ChatActivity.this.getMessagesController().getChatFull(-StarsController.MessageId.from(primaryMessageObject).did);
                 Context context = ChatActivity.this.getContext();
                 int i3 = ((BaseFragment) ChatActivity.this).currentAccount;
                 long j = ChatActivity.this.dialog_id;
                 ChatActivity chatActivity = ChatActivity.this;
-                TLRPC$ChatFull tLRPC$ChatFull = chatActivity.chatInfo;
-                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i3, j, chatActivity, primaryMessageObject, arrayList, tLRPC$ChatFull == null || tLRPC$ChatFull.paid_reactions_available, chatActivity.themeDelegate);
+                StarsReactionsSheet starsReactionsSheet = new StarsReactionsSheet(context, i3, j, chatActivity, primaryMessageObject, arrayList, chatFull == null || chatFull.paid_reactions_available, chatActivity.themeDelegate);
                 starsReactionsSheet.setMessageCell(ChatActivity.this, primaryMessageObject.getId(), ChatActivity.this.findMessageCell(primaryMessageObject.getId(), true));
                 starsReactionsSheet.show();
             } else {
@@ -51741,22 +51743,34 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         presentFragment(new PremiumPreviewFragment(z ? "upload_speed" : "download_speed"));
     }
 
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r13v0, types: [org.telegram.ui.Components.ItemOptions] */
+    /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.Components.ScrimOptions, android.app.Dialog] */
+    /* JADX WARN: Type inference failed for: r18v0, types: [org.telegram.ui.ChatActivity, org.telegram.ui.ActionBar.BaseFragment] */
+    /* JADX WARN: Type inference failed for: r3v10, types: [java.lang.String] */
+    /* JADX WARN: Type inference failed for: r3v11 */
+    /* JADX WARN: Type inference failed for: r3v2, types: [org.telegram.ui.ChatActivity$$ExternalSyntheticLambda115, java.lang.Runnable] */
+    /* JADX WARN: Type inference failed for: r3v4 */
+    /* JADX WARN: Type inference failed for: r3v5 */
+    /* JADX WARN: Type inference failed for: r3v8 */
     public void didLongPressLink(final ChatMessageCell chatMessageCell, final MessageObject messageObject, final CharacterStyle characterStyle, final String str) {
         String str2;
         int i;
         TLRPC$WebPage tLRPC$WebPage;
-        ItemOptions makeOptions = ItemOptions.makeOptions((BaseFragment) this, (View) chatMessageCell, true);
-        ScrimOptions scrimOptions = new ScrimOptions(getContext(), this.themeDelegate);
+        ?? makeOptions = ItemOptions.makeOptions((BaseFragment) this, (View) chatMessageCell, true);
+        ?? scrimOptions = new ScrimOptions(getContext(), this.themeDelegate);
         makeOptions.setOnDismiss(new ChatActivity$$ExternalSyntheticLambda111(scrimOptions));
         boolean z = (!SharedConfig.inappBrowser || str.startsWith("video?") || Browser.isInternalUri(Uri.parse(str), null)) ? false : true;
-        final boolean z2 = z;
-        makeOptions.add(R.drawable.msg_openin, LocaleController.getString(z ? R.string.OpenInTelegramBrowser : R.string.Open), new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda112
+        boolean z2 = str.startsWith("#") || str.startsWith("$");
+        final boolean z3 = z;
+        final boolean z4 = z2;
+        makeOptions.add(R.drawable.msg_openin, LocaleController.getString((!z || z2) ? R.string.Open : R.string.OpenInTelegramBrowser), new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda112
             @Override // java.lang.Runnable
             public final void run() {
-                ChatActivity.this.lambda$didLongPressLink$350(str, characterStyle, messageObject, chatMessageCell, z2);
+                ChatActivity.this.lambda$didLongPressLink$350(str, characterStyle, messageObject, chatMessageCell, z3, z4);
             }
         });
-        if (z) {
+        if (z && !z2) {
             makeOptions.add(R.drawable.msg_language, LocaleController.getString(R.string.OpenInSystemBrowser), new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda113
                 @Override // java.lang.Runnable
                 public final void run() {
@@ -51773,35 +51787,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             });
         }
-        makeOptions.add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda115
+        int i2 = R.drawable.msg_copy;
+        String string = LocaleController.getString(R.string.CopyLink);
+        ?? r3 = new Runnable() { // from class: org.telegram.ui.ChatActivity$$ExternalSyntheticLambda115
             @Override // java.lang.Runnable
             public final void run() {
                 ChatActivity.this.lambda$didLongPressLink$353(str, messageObject);
             }
-        });
+        };
+        makeOptions.add(i2, string, r3);
         scrimOptions.setItemOptions(makeOptions);
         if (characterStyle instanceof URLSpanReplacement) {
             String url = ((URLSpanReplacement) characterStyle).getURL();
             try {
                 try {
                     Uri parse = Uri.parse(url);
-                    url = Browser.replaceHostname(parse, Browser.IDN_toUnicode(parse.getHost()), null);
+                    r3 = Browser.IDN_toUnicode(parse.getHost());
+                    url = Browser.replaceHostname(parse, r3, null);
+                    r3 = 0;
                 } catch (Exception e) {
+                    r3 = 0;
                     FileLog.e((Throwable) e, false);
                 }
                 str2 = URLDecoder.decode(url.replaceAll("\\+", "%2b"), "UTF-8");
+                i = r3;
             } catch (Exception e2) {
                 FileLog.e(e2);
                 str2 = url;
+                i = r3;
             }
             if (str2.length() > 204) {
-                StringBuilder sb = new StringBuilder();
-                i = 0;
-                sb.append(str2.substring(0, 204));
-                sb.append("…");
-                str2 = sb.toString();
-            } else {
-                i = 0;
+                str2 = str2.substring(i, 204) + "…";
             }
             SpannableString spannableString = new SpannableString(str2);
             spannableString.setSpan(characterStyle, i, spannableString.length(), 33);
@@ -51813,10 +51829,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$didLongPressLink$350(String str, CharacterStyle characterStyle, MessageObject messageObject, ChatMessageCell chatMessageCell, boolean z) {
+    public /* synthetic */ void lambda$didLongPressLink$350(String str, CharacterStyle characterStyle, MessageObject messageObject, ChatMessageCell chatMessageCell, boolean z, boolean z2) {
         if (str.startsWith("video?")) {
             didPressMessageUrl(characterStyle, false, messageObject, chatMessageCell);
-        } else if (z) {
+        } else if (z && !z2) {
             Browser.openInTelegramBrowser(getParentActivity(), str, null);
         } else {
             logSponsoredClicked(messageObject);

@@ -938,7 +938,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
 
     /* JADX INFO: Access modifiers changed from: private */
     /* JADX WARN: Type inference failed for: r0v17 */
-    /* JADX WARN: Type inference failed for: r0v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v22 */
     public /* synthetic */ void lambda$new$10() {
         if (this.swipeContainer.getSwipeOffsetY() > 0.0f) {

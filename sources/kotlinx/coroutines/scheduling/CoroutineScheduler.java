@@ -435,7 +435,7 @@ public final class CoroutineScheduler implements Executor, Closeable {
         tryUnpark();
     }
 
-    /* JADX WARN: Type inference failed for: r0v0, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
     public final boolean isTerminated() {
         return this._isTerminated;
     }

@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import j$.util.DesugarTimeZone;
 import java.util.Calendar;
@@ -40,15 +38,14 @@ import org.telegram.tgnet.TLRPC$User;
 import org.telegram.tgnet.TLRPC$messages_BotResults;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.PermissionRequest;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.Weather;
 /* loaded from: classes4.dex */
 public class Weather {
-    public static int LOCATION_REQUEST = 3332;
     private static String cacheKey;
     private static State cacheValue;
-    private static Utilities.Callback<Boolean> latestPermissionCallback;
 
     public static boolean isDefaultCelsius() {
         String id = TimeZone.getDefault().getID();
@@ -176,7 +173,7 @@ public class Weather {
         final ConnectionsManager connectionsManager = ConnectionsManager.getInstance(UserConfig.selectedAccount);
         String str2 = messagesController.weatherSearchUsername;
         final TLRPC$User[] tLRPC$UserArr = {messagesController.getUser(str2)};
-        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda7
+        final Runnable runnable = new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda6
             @Override // java.lang.Runnable
             public final void run() {
                 Weather.lambda$fetch$5(MessagesController.this, tLRPC$UserArr, d, d2, iArr, connectionsManager, callback, str);
@@ -185,7 +182,7 @@ public class Weather {
         if (tLRPC$UserArr[0] == null) {
             TLRPC$TL_contacts_resolveUsername tLRPC$TL_contacts_resolveUsername = new TLRPC$TL_contacts_resolveUsername();
             tLRPC$TL_contacts_resolveUsername.username = str2;
-            iArr[0] = connectionsManager.sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda8
+            iArr[0] = connectionsManager.sendRequest(tLRPC$TL_contacts_resolveUsername, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda7
                 @Override // org.telegram.tgnet.RequestDelegate
                 public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                     Weather.lambda$fetch$7(iArr, messagesController, tLRPC$UserArr, runnable, callback, tLObject, tLRPC$TL_error);
@@ -194,7 +191,7 @@ public class Weather {
         } else {
             runnable.run();
         }
-        return new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda9
+        return new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda8
             @Override // java.lang.Runnable
             public final void run() {
                 Weather.lambda$fetch$8(iArr, connectionsManager);
@@ -214,7 +211,7 @@ public class Weather {
         tLRPC$TL_inputGeoPoint.lat = d;
         tLRPC$TL_inputGeoPoint._long = d2;
         tLRPC$TL_messages_getInlineBotResults.peer = new TLRPC$TL_inputPeerEmpty();
-        iArr[0] = connectionsManager.sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda10
+        iArr[0] = connectionsManager.sendRequest(tLRPC$TL_messages_getInlineBotResults, new RequestDelegate() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda9
             @Override // org.telegram.tgnet.RequestDelegate
             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
                 Weather.lambda$fetch$4(iArr, callback, d, d2, str, tLObject, tLRPC$TL_error);
@@ -224,7 +221,7 @@ public class Weather {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$fetch$4(final int[] iArr, final Utilities.Callback callback, final double d, final double d2, final String str, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda12
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda11
             @Override // java.lang.Runnable
             public final void run() {
                 Weather.lambda$fetch$3(iArr, tLObject, callback, d, d2, str);
@@ -262,7 +259,7 @@ public class Weather {
 
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ void lambda$fetch$7(final int[] iArr, final MessagesController messagesController, final TLRPC$User[] tLRPC$UserArr, final Runnable runnable, final Utilities.Callback callback, final TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda11
+        AndroidUtilities.runOnUIThread(new Runnable() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda10
             @Override // java.lang.Runnable
             public final void run() {
                 Weather.lambda$fetch$6(iArr, tLObject, messagesController, tLRPC$UserArr, runnable, callback);
@@ -296,120 +293,21 @@ public class Weather {
         }
     }
 
-    public static boolean hasLocationPermission() {
-        int checkSelfPermission;
-        Activity activity = LaunchActivity.instance;
-        if (activity == null) {
-            activity = AndroidUtilities.findActivity(ApplicationLoader.applicationContext);
-        }
-        if (activity == null) {
-            return false;
-        }
-        if (Build.VERSION.SDK_INT >= 23) {
-            checkSelfPermission = activity.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
-            return checkSelfPermission == 0;
-        }
-        return true;
-    }
-
-    public static void ensureLocationPermission(Utilities.Callback<Boolean> callback) {
-        int checkSelfPermission;
-        int checkSelfPermission2;
-        boolean shouldShowRequestPermissionRationale;
-        boolean shouldShowRequestPermissionRationale2;
-        if (callback == null) {
-            return;
-        }
-        final Activity activity = LaunchActivity.instance;
-        if (activity == null) {
-            activity = AndroidUtilities.findActivity(ApplicationLoader.applicationContext);
-        }
-        if (activity == null) {
-            return;
-        }
-        latestPermissionCallback = callback;
-        if (Build.VERSION.SDK_INT >= 23) {
-            checkSelfPermission = ApplicationLoader.applicationContext.checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION");
-            if (checkSelfPermission != 0) {
-                checkSelfPermission2 = ApplicationLoader.applicationContext.checkSelfPermission("android.permission.ACCESS_FINE_LOCATION");
-                if (checkSelfPermission2 != 0) {
-                    shouldShowRequestPermissionRationale = activity.shouldShowRequestPermissionRationale("android.permission.ACCESS_COARSE_LOCATION");
-                    if (!shouldShowRequestPermissionRationale) {
-                        shouldShowRequestPermissionRationale2 = activity.shouldShowRequestPermissionRationale("android.permission.ACCESS_FINE_LOCATION");
-                        if (!shouldShowRequestPermissionRationale2) {
-                            activity.requestPermissions(new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, LOCATION_REQUEST);
-                            return;
-                        }
-                    }
-                    new AlertDialog.Builder(activity, null).setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground)).setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PermissionNoLocationStory))).setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda4
-                        @Override // android.content.DialogInterface.OnClickListener
-                        public final void onClick(DialogInterface dialogInterface, int i) {
-                            Weather.lambda$ensureLocationPermission$9(activity, dialogInterface, i);
-                        }
-                    }).setNegativeButton(LocaleController.getString("ContactsPermissionAlertNotNow", R.string.ContactsPermissionAlertNotNow), null).create().show();
-                    callback.run(Boolean.FALSE);
-                    return;
-                }
-            }
-            callback.run(Boolean.TRUE);
-            return;
-        }
-        callback.run(Boolean.TRUE);
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$ensureLocationPermission$9(Activity activity, DialogInterface dialogInterface, int i) {
-        try {
-            Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
-            intent.setData(Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName()));
-            activity.startActivity(intent);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
-
-    /* JADX WARN: Removed duplicated region for block: B:16:0x0027  */
-    /* JADX WARN: Removed duplicated region for block: B:21:? A[RETURN, SYNTHETIC] */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
-    public static void receivePermissionIntent(String[] strArr, int[] iArr) {
-        Utilities.Callback<Boolean> callback;
-        boolean z = false;
-        for (int i = 0; i < strArr.length; i++) {
-            if ("android.permission.ACCESS_COARSE_LOCATION".equals(strArr[i]) || "android.permission.ACCESS_FINE_LOCATION".equals(strArr[i])) {
-                if (iArr[i] == 0) {
-                    z = true;
-                }
-                callback = latestPermissionCallback;
-                if (callback == null) {
-                    latestPermissionCallback = null;
-                    callback.run(Boolean.valueOf(z));
-                    return;
-                }
-                return;
-            }
-        }
-        callback = latestPermissionCallback;
-        if (callback == null) {
-        }
-    }
-
     @SuppressLint({"MissingPermission"})
     public static void getUserLocation(final boolean z, final Utilities.Callback<Location> callback) {
         if (callback == null) {
             return;
         }
-        ensureLocationPermission(new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda3
+        PermissionRequest.ensureEitherPermission(R.raw.permission_request_location, R.string.PermissionNoLocationStory, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, new Utilities.Callback() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda3
             @Override // org.telegram.messenger.Utilities.Callback
             public final void run(Object obj) {
-                Weather.lambda$getUserLocation$12(Utilities.Callback.this, z, (Boolean) obj);
+                Weather.lambda$getUserLocation$11(Utilities.Callback.this, z, (Boolean) obj);
             }
         });
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getUserLocation$12(Utilities.Callback callback, boolean z, Boolean bool) {
+    public static /* synthetic */ void lambda$getUserLocation$11(Utilities.Callback callback, boolean z, Boolean bool) {
         if (!bool.booleanValue()) {
             callback.run(null);
             return;
@@ -434,10 +332,10 @@ public class Weather {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTopAnimation(R.raw.permission_request_location, 72, false, Theme.getColor(Theme.key_dialogTopBackground));
                         builder.setMessage(LocaleController.getString(R.string.GpsDisabledAlertText));
-                        builder.setPositiveButton(LocaleController.getString(R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda5
+                        builder.setPositiveButton(LocaleController.getString(R.string.Enable), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda4
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i) {
-                                Weather.lambda$getUserLocation$10(context, dialogInterface, i);
+                                Weather.lambda$getUserLocation$9(context, dialogInterface, i);
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
@@ -450,10 +348,10 @@ public class Weather {
                 try {
                     final Utilities.Callback[] callbackArr = {callback};
                     final LocationListener[] locationListenerArr = {null};
-                    LocationListener locationListener = new LocationListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda6
+                    LocationListener locationListener = new LocationListener() { // from class: org.telegram.ui.Stories.recorder.Weather$$ExternalSyntheticLambda5
                         @Override // android.location.LocationListener
                         public final void onLocationChanged(Location location2) {
-                            Weather.lambda$getUserLocation$11(locationListenerArr, locationManager, callbackArr, location2);
+                            Weather.lambda$getUserLocation$10(locationListenerArr, locationManager, callbackArr, location2);
                         }
                     };
                     locationListenerArr[0] = locationListener;
@@ -470,7 +368,7 @@ public class Weather {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getUserLocation$10(Context context, DialogInterface dialogInterface, int i) {
+    public static /* synthetic */ void lambda$getUserLocation$9(Context context, DialogInterface dialogInterface, int i) {
         try {
             context.startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
         } catch (Exception unused) {
@@ -478,7 +376,7 @@ public class Weather {
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    public static /* synthetic */ void lambda$getUserLocation$11(LocationListener[] locationListenerArr, LocationManager locationManager, Utilities.Callback[] callbackArr, Location location) {
+    public static /* synthetic */ void lambda$getUserLocation$10(LocationListener[] locationListenerArr, LocationManager locationManager, Utilities.Callback[] callbackArr, Location location) {
         LocationListener locationListener = locationListenerArr[0];
         if (locationListener != null) {
             locationManager.removeUpdates(locationListener);

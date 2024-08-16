@@ -4803,7 +4803,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Type inference failed for: r1v143 */
     /* JADX WARN: Type inference failed for: r1v55 */
-    /* JADX WARN: Type inference failed for: r1v56, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r1v56, types: [boolean, int] */
     @Override // android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -7121,7 +7121,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r13v80 */
     /* JADX WARN: Type inference failed for: r13v81 */
     /* JADX WARN: Type inference failed for: r13v82 */
-    /* JADX WARN: Type inference failed for: r13v84, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r13v84, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r13v97 */
     /* JADX WARN: Type inference failed for: r15v106 */
     /* JADX WARN: Type inference failed for: r15v231 */
@@ -7129,11 +7129,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r15v65 */
     /* JADX WARN: Type inference failed for: r15v69 */
     /* JADX WARN: Type inference failed for: r2v17 */
-    /* JADX WARN: Type inference failed for: r2v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v26 */
-    /* JADX WARN: Type inference failed for: r2v27, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v27, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v31 */
-    /* JADX WARN: Type inference failed for: r2v32, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r2v32, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r2v572, types: [org.telegram.tgnet.TLRPC$InputStickerSet] */
     /* JADX WARN: Type inference failed for: r2v960 */
     /* JADX WARN: Type inference failed for: r2v979 */
@@ -7141,7 +7141,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r2v987 */
     /* JADX WARN: Type inference failed for: r3v1052 */
     /* JADX WARN: Type inference failed for: r3v17 */
-    /* JADX WARN: Type inference failed for: r3v18, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v18, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r42v42, types: [android.text.TextPaint] */
     /* JADX WARN: Type inference failed for: r56v2 */
     /* JADX WARN: Type inference failed for: r56v4 */
@@ -23211,7 +23211,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 return true;
             } else if (this.pressedLink.getSpan() instanceof URLSpanNoUnderline) {
                 URLSpanNoUnderline uRLSpanNoUnderline2 = (URLSpanNoUnderline) this.pressedLink.getSpan();
-                if (ChatActivity.isClickableLink(uRLSpanNoUnderline2.getURL()) || uRLSpanNoUnderline2.getURL().startsWith("/")) {
+                if (ChatActivity.isClickableLink(uRLSpanNoUnderline2.getURL()) || uRLSpanNoUnderline2.getURL().startsWith("/") || uRLSpanNoUnderline2.getURL().startsWith("tel:")) {
                     this.hadLongPress = true;
                     this.delegate.didPressUrl(this, this.pressedLink.getSpan(), true);
                     return true;
@@ -31249,10 +31249,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Type inference failed for: r4v107 */
     /* JADX WARN: Type inference failed for: r4v2, types: [org.telegram.tgnet.TLRPC$Chat, org.telegram.tgnet.TLRPC$User, java.lang.String] */
     /* JADX WARN: Type inference failed for: r5v1 */
-    /* JADX WARN: Type inference failed for: r5v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r5v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r5v45 */
     /* JADX WARN: Type inference failed for: r8v146 */
-    /* JADX WARN: Type inference failed for: r8v147, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r8v147, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r8v148 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -38147,7 +38147,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     /* JADX WARN: Removed duplicated region for block: B:992:0x18e5  */
     /* JADX WARN: Removed duplicated region for block: B:996:0x18ef  */
     /* JADX WARN: Type inference failed for: r0v124 */
-    /* JADX WARN: Type inference failed for: r0v125, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r0v125, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r0v233 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.

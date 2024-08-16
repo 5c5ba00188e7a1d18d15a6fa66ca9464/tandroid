@@ -3121,7 +3121,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
     /* JADX WARN: Type inference failed for: r3v1 */
     /* JADX WARN: Type inference failed for: r3v2 */
     /* JADX WARN: Type inference failed for: r3v5 */
-    /* JADX WARN: Type inference failed for: r3v6, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r3v6, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r3v64 */
     /* JADX WARN: Type inference failed for: r3v65 */
     /* JADX WARN: Type inference failed for: r3v66 */

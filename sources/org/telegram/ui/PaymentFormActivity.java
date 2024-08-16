@@ -617,7 +617,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r10v221, types: [android.widget.LinearLayout, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r10v82, types: [android.widget.LinearLayout, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r12v1 */
-    /* JADX WARN: Type inference failed for: r12v2, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r12v2, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r12v4 */
     /* JADX WARN: Type inference failed for: r1v86, types: [org.telegram.ui.Cells.RecurrentPaymentsAcceptCell] */
     /* JADX WARN: Type inference failed for: r2v100, types: [android.view.View] */
@@ -640,7 +640,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     /* JADX WARN: Type inference failed for: r4v341, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     /* JADX WARN: Type inference failed for: r5v13, types: [java.lang.CharSequence, android.text.SpannableString, java.lang.Object] */
     /* JADX WARN: Type inference failed for: r6v0 */
-    /* JADX WARN: Type inference failed for: r6v85, types: [int, boolean] */
+    /* JADX WARN: Type inference failed for: r6v85, types: [boolean, int] */
     /* JADX WARN: Type inference failed for: r6v86 */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
