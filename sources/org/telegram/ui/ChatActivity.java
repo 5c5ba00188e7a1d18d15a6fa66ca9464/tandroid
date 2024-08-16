@@ -2919,20 +2919,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /* JADX WARN: Removed duplicated region for block: B:178:0x0847  */
     /* JADX WARN: Removed duplicated region for block: B:181:0x0898  */
     /* JADX WARN: Removed duplicated region for block: B:184:0x08a3  */
-    /* JADX WARN: Removed duplicated region for block: B:208:0x093e  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x0960  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0978  */
-    /* JADX WARN: Removed duplicated region for block: B:227:0x0982  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0994  */
-    /* JADX WARN: Removed duplicated region for block: B:242:0x09a6  */
-    /* JADX WARN: Removed duplicated region for block: B:245:0x09ad  */
-    /* JADX WARN: Removed duplicated region for block: B:282:0x0a77  */
-    /* JADX WARN: Removed duplicated region for block: B:292:0x0aa5  */
-    /* JADX WARN: Removed duplicated region for block: B:295:0x0ab3  */
-    /* JADX WARN: Removed duplicated region for block: B:298:0x0ac0  */
-    /* JADX WARN: Removed duplicated region for block: B:305:0x0ae4  */
-    /* JADX WARN: Removed duplicated region for block: B:308:0x0afa  */
-    /* JADX WARN: Removed duplicated region for block: B:311:0x0b0a  */
+    /* JADX WARN: Removed duplicated region for block: B:208:0x0941  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x0963  */
+    /* JADX WARN: Removed duplicated region for block: B:223:0x097b  */
+    /* JADX WARN: Removed duplicated region for block: B:227:0x0985  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x0997  */
+    /* JADX WARN: Removed duplicated region for block: B:242:0x09a9  */
+    /* JADX WARN: Removed duplicated region for block: B:245:0x09b0  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x0a7a  */
+    /* JADX WARN: Removed duplicated region for block: B:292:0x0aa8  */
+    /* JADX WARN: Removed duplicated region for block: B:295:0x0ab6  */
+    /* JADX WARN: Removed duplicated region for block: B:298:0x0ac3  */
+    /* JADX WARN: Removed duplicated region for block: B:305:0x0ae7  */
+    /* JADX WARN: Removed duplicated region for block: B:308:0x0afd  */
+    /* JADX WARN: Removed duplicated region for block: B:311:0x0b0d  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -3354,6 +3354,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     }
                                     this.loadInfo = this.chatInfo == null;
                                     checkGroupCallJoin(false);
+                                    gotChatInfo();
                                 } else if (this.currentUser != null) {
                                     if (this.chatMode != 2) {
                                         getMessagesController().loadUserInfo(this.currentUser, z, this.classGuid, this.startLoadFromMessageId);
@@ -5443,7 +5444,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                             public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z3, int i23) {
-                                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$67(tLRPC$Document, str2, obj, null, true, z3, i23);
+                                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$68(tLRPC$Document, str2, obj, null, true, z3, i23);
                             }
 
                             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -7344,7 +7345,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
                     public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z32, int i232) {
-                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$67(tLRPC$Document, str2, obj, null, true, z32, i232);
+                        ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$68(tLRPC$Document, str2, obj, null, true, z32, i232);
                     }
 
                     @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -8941,7 +8942,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
             public void sendSticker(TLRPC$Document tLRPC$Document, String str2, Object obj, boolean z32, int i2322) {
-                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$67(tLRPC$Document, str2, obj, null, true, z32, i2322);
+                ChatActivity.this.chatActivityEnterView.lambda$onStickerSelected$68(tLRPC$Document, str2, obj, null, true, z32, i2322);
             }
 
             @Override // org.telegram.ui.ContentPreviewViewer.ContentPreviewViewerDelegate
@@ -27322,7 +27323,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate
     public void didReceivedNotification(int r62, int r63, java.lang.Object... r64) {
         /*
-            Method dump skipped, instructions count: 17424
+            Method dump skipped, instructions count: 17430
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: org.telegram.ui.ChatActivity.didReceivedNotification(int, int, java.lang.Object[]):void");
@@ -34349,7 +34350,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override // org.telegram.ui.Components.Bulletin.Delegate
             public int getTopOffset(int i) {
-                return (((BaseFragment) ChatActivity.this).actionBar != null ? ((BaseFragment) ChatActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) ChatActivity.this).actionBar.getTop() : 0) + Math.max(0, ChatActivity.this.contentPaddingTop);
+                return Math.max(AndroidUtilities.statusBarHeight + ActionBar.getCurrentActionBarHeight(), ((BaseFragment) ChatActivity.this).actionBar != null ? ((BaseFragment) ChatActivity.this).actionBar.getMeasuredHeight() + ((BaseFragment) ChatActivity.this).actionBar.getTop() : 0) + Math.max(0, ChatActivity.this.contentPaddingTop);
             }
         };
         this.bulletinDelegate = delegate;
@@ -52638,5 +52639,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     public float getClipBottom() {
         return (this.fragmentView.getBottom() - this.chatListView.getBottom()) + (((this.fragmentTransition == null || (this.fromPullingDownTransition && !this.toPullingDownTransition)) && !this.isInsideContainer) ? this.blurredViewBottomOffset : 0);
+    }
+
+    private void gotChatInfo() {
+        TLRPC$ChatFull tLRPC$ChatFull = this.chatInfo;
+        if (tLRPC$ChatFull == null || !tLRPC$ChatFull.paid_reactions_available || StarsController.getInstance(this.currentAccount).balanceAvailable()) {
+            return;
+        }
+        StarsController.getInstance(this.currentAccount).getBalance();
     }
 }

@@ -4415,6 +4415,10 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         outlineTextContainerView.attachEditText(editTextBoldCursor);
         outlineTextContainerView.addView(linearLayout2, LayoutHelper.createFrame(-1, -2, 48));
         linearLayout.addView(outlineTextContainerView, LayoutHelper.createLinear(-1, -2));
+        final TextView textView2 = new TextView(context);
+        textView2.setTextSize(1, 16.0f);
+        textView2.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3));
+        outlineTextContainerView.addView(textView2, LayoutHelper.createFrame(-2, -2.0f, 21, 0.0f, 0.0f, 14.0f, 0.0f));
         LinkSpanDrawable.LinksTextView linksTextView = new LinkSpanDrawable.LinksTextView(context);
         linksTextView.setText(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.PaidContentInfo), new Runnable() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda13
             @Override // java.lang.Runnable
@@ -4450,7 +4454,9 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             public void onTextChanged(CharSequence charSequence, int i2, int i3, int i4) {
             }
 
-            /* JADX WARN: Removed duplicated region for block: B:23:0x007c  */
+            /* JADX WARN: Removed duplicated region for block: B:23:0x007d  */
+            /* JADX WARN: Removed duplicated region for block: B:29:0x00a1  */
+            /* JADX WARN: Removed duplicated region for block: B:30:0x00b5  */
             @Override // android.text.TextWatcher
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
@@ -4462,47 +4468,62 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 }
                 try {
                     j2 = TextUtils.isEmpty(editable) ? 0L : Long.parseLong(editable.toString());
-                    try {
-                        if (j2 > MessagesController.getInstance(UserConfig.selectedAccount).starsPaidPostAmountMax) {
-                            this.ignore = true;
-                            EditTextBoldCursor editTextBoldCursor2 = EditTextBoldCursor.this;
-                            j2 = MessagesController.getInstance(UserConfig.selectedAccount).starsPaidPostAmountMax;
-                            editTextBoldCursor2.setText(Long.toString(j2));
-                            EditTextBoldCursor editTextBoldCursor3 = EditTextBoldCursor.this;
-                            editTextBoldCursor3.setSelection(editTextBoldCursor3.getText().length());
-                            OutlineTextContainerView outlineTextContainerView2 = outlineTextContainerView;
-                            int i2 = -this.shakeDp;
-                            this.shakeDp = i2;
-                            AndroidUtilities.shakeViewSpring(outlineTextContainerView2, i2);
-                        }
-                    } catch (Exception unused) {
+                } catch (Exception unused) {
+                    j2 = 0;
+                }
+                try {
+                    if (j2 > MessagesController.getInstance(UserConfig.selectedAccount).starsPaidPostAmountMax) {
                         this.ignore = true;
-                        EditTextBoldCursor editTextBoldCursor4 = EditTextBoldCursor.this;
-                        long j3 = j;
-                        editTextBoldCursor4.setText(j3 <= 0 ? "" : Long.toString(j3));
-                        EditTextBoldCursor editTextBoldCursor5 = EditTextBoldCursor.this;
-                        editTextBoldCursor5.setSelection(editTextBoldCursor5.getText().length());
-                        this.ignore = false;
-                        if (!z) {
-                        }
-                        outlineTextContainerView.animateSelection(EditTextBoldCursor.this.isFocused(), true ^ TextUtils.isEmpty(EditTextBoldCursor.this.getText()));
+                        EditTextBoldCursor editTextBoldCursor2 = EditTextBoldCursor.this;
+                        j2 = MessagesController.getInstance(UserConfig.selectedAccount).starsPaidPostAmountMax;
+                        editTextBoldCursor2.setText(Long.toString(j2));
+                        EditTextBoldCursor editTextBoldCursor3 = EditTextBoldCursor.this;
+                        editTextBoldCursor3.setSelection(editTextBoldCursor3.getText().length());
+                        OutlineTextContainerView outlineTextContainerView2 = outlineTextContainerView;
+                        int i2 = -this.shakeDp;
+                        this.shakeDp = i2;
+                        AndroidUtilities.shakeViewSpring(outlineTextContainerView2, i2);
                     }
                 } catch (Exception unused2) {
-                    j2 = 0;
+                    this.ignore = true;
+                    EditTextBoldCursor editTextBoldCursor4 = EditTextBoldCursor.this;
+                    long j3 = j;
+                    editTextBoldCursor4.setText(j3 <= 0 ? "" : Long.toString(j3));
+                    EditTextBoldCursor editTextBoldCursor5 = EditTextBoldCursor.this;
+                    editTextBoldCursor5.setSelection(editTextBoldCursor5.getText().length());
+                    this.ignore = false;
+                    if (!z) {
+                    }
+                    outlineTextContainerView.animateSelection(EditTextBoldCursor.this.isFocused(), true ^ TextUtils.isEmpty(EditTextBoldCursor.this.getText()));
+                    if (j2 != 0) {
+                    }
                 }
                 this.ignore = false;
                 if (!z) {
                     buttonWithCounterView2.setEnabled(j2 > 0);
                 }
                 outlineTextContainerView.animateSelection(EditTextBoldCursor.this.isFocused(), true ^ TextUtils.isEmpty(EditTextBoldCursor.this.getText()));
+                if (j2 != 0) {
+                    textView2.animate().alpha(0.0f).start();
+                    textView2.setText("");
+                    return;
+                }
+                textView2.animate().alpha(1.0f).start();
+                TextView textView3 = textView2;
+                BillingController billingController = BillingController.getInstance();
+                double d = j2;
+                Double.isNaN(d);
+                double d2 = MessagesController.getInstance(UserConfig.selectedAccount).starsUsdWithdrawRate1000;
+                Double.isNaN(d2);
+                textView3.setText(billingController.formatCurrency((long) ((d / 1000.0d) * d2), "USD"));
             }
         });
         final boolean[] zArr = {false};
         editTextBoldCursor.setOnEditorActionListener(new TextView.OnEditorActionListener() { // from class: org.telegram.ui.Stars.StarsIntroActivity$$ExternalSyntheticLambda14
             @Override // android.widget.TextView.OnEditorActionListener
-            public final boolean onEditorAction(TextView textView2, int i2, KeyEvent keyEvent) {
+            public final boolean onEditorAction(TextView textView3, int i2, KeyEvent keyEvent) {
                 boolean lambda$showMediaPriceSheet$45;
-                lambda$showMediaPriceSheet$45 = StarsIntroActivity.lambda$showMediaPriceSheet$45(zArr, callback2, buttonWithCounterView2, editTextBoldCursor, bottomSheetArr, textView2, i2, keyEvent);
+                lambda$showMediaPriceSheet$45 = StarsIntroActivity.lambda$showMediaPriceSheet$45(zArr, callback2, buttonWithCounterView2, editTextBoldCursor, bottomSheetArr, textView3, i2, keyEvent);
                 return lambda$showMediaPriceSheet$45;
             }
         });

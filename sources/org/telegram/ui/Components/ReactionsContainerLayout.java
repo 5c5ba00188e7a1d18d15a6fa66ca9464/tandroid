@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -108,7 +109,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private boolean allReactionsAvailable;
     private boolean allReactionsIsDefault;
     public List<ReactionsLayoutInBubble.VisibleReaction> allReactionsList;
-    HashSet<ReactionsLayoutInBubble.VisibleReaction> alwaysSelectedReactions;
+    final HashSet<ReactionsLayoutInBubble.VisibleReaction> alwaysSelectedReactions;
     private boolean animatePopup;
     private final boolean animationEnabled;
     private Paint bgPaint;
@@ -128,6 +129,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private float flipVerticalProgress;
     BaseFragment fragment;
     public boolean hasHint;
+    private boolean hasStar;
     private boolean hintMeasured;
     public TextView hintView;
     public int hintViewHeight;
@@ -176,14 +178,18 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     Theme.ResourcesProvider resourcesProvider;
     private float rightAlpha;
     private Paint rightShadowPaint;
-    private Paint selectedPaint;
-    HashSet<ReactionsLayoutInBubble.VisibleReaction> selectedReactions;
+    private final Paint selectedPaint;
+    final HashSet<ReactionsLayoutInBubble.VisibleReaction> selectedReactions;
     private Drawable shadow;
     private android.graphics.Rect shadowPad;
     private boolean showExpandableReactions;
     boolean skipDraw;
     public boolean skipEnterAnimation;
     private float smallCircleRadius;
+    private LinearGradient starSelectedGradient;
+    private Matrix starSelectedGradientMatrix;
+    private Paint starSelectedGradientPaint;
+    private final Paint starSelectedPaint;
     private float transitionProgress;
     private List<String> triggeredReactions;
     private final int type;
@@ -273,6 +279,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.premiumLockedReactions = new ArrayList(10);
         this.allReactionsList = new ArrayList(20);
         this.rectF = new RectF();
+        this.hasStar = false;
         this.selectedReactions = new HashSet<>();
         this.alwaysSelectedReactions = new HashSet<>();
         this.location = new int[2];
@@ -280,14 +287,17 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.triggeredReactions = new ArrayList();
         this.lastVisibleViews = new HashSet<>();
         this.lastVisibleViewsTmp = new HashSet<>();
+        Paint paint = new Paint(1);
+        this.selectedPaint = paint;
+        Paint paint2 = new Paint(1);
+        this.starSelectedPaint = paint2;
         this.notificationsLocker = new AnimationNotificationsLocker();
         this.isHiddenNextReaction = true;
         this.paused = false;
         this.type = i;
         this.durationScale = Settings.Global.getFloat(context.getContentResolver(), "animator_duration_scale", 1.0f);
-        Paint paint = new Paint(1);
-        this.selectedPaint = paint;
         paint.setColor(Theme.getColor(Theme.key_listSelector, resourcesProvider));
+        paint2.setColor(Theme.getColor(Theme.key_reactionStarSelector, resourcesProvider));
         this.resourcesProvider = resourcesProvider;
         this.currentAccount = i2;
         this.fragment = baseFragment;
@@ -692,17 +702,17 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.listAdapter.updateItems(z);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:220:0x004b  */
-    /* JADX WARN: Removed duplicated region for block: B:223:0x0081  */
-    /* JADX WARN: Removed duplicated region for block: B:230:0x0093  */
-    /* JADX WARN: Removed duplicated region for block: B:253:0x00f3  */
-    /* JADX WARN: Removed duplicated region for block: B:263:0x0125  */
-    /* JADX WARN: Removed duplicated region for block: B:266:0x018a  */
-    /* JADX WARN: Removed duplicated region for block: B:269:0x01f8  */
-    /* JADX WARN: Removed duplicated region for block: B:280:0x0249  */
-    /* JADX WARN: Removed duplicated region for block: B:283:0x0268  */
-    /* JADX WARN: Removed duplicated region for block: B:389:0x04db  */
-    /* JADX WARN: Removed duplicated region for block: B:399:0x050a  */
+    /* JADX WARN: Removed duplicated region for block: B:233:0x004b  */
+    /* JADX WARN: Removed duplicated region for block: B:236:0x0081  */
+    /* JADX WARN: Removed duplicated region for block: B:243:0x0093  */
+    /* JADX WARN: Removed duplicated region for block: B:266:0x00f3  */
+    /* JADX WARN: Removed duplicated region for block: B:276:0x0125  */
+    /* JADX WARN: Removed duplicated region for block: B:279:0x018a  */
+    /* JADX WARN: Removed duplicated region for block: B:282:0x01f8  */
+    /* JADX WARN: Removed duplicated region for block: B:304:0x027d  */
+    /* JADX WARN: Removed duplicated region for block: B:307:0x029b  */
+    /* JADX WARN: Removed duplicated region for block: B:413:0x050d  */
+    /* JADX WARN: Removed duplicated region for block: B:423:0x053c  */
     @Override // android.view.ViewGroup, android.view.View
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -726,11 +736,12 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         float f8;
         boolean showCustomEmojiReaction;
         int dp;
+        boolean z;
         float f9;
         long min = Math.min(16L, System.currentTimeMillis() - this.lastUpdate);
         this.lastUpdate = System.currentTimeMillis();
-        boolean z = this.isFlippedVertically;
-        if (z) {
+        boolean z2 = this.isFlippedVertically;
+        if (z2) {
             float f10 = this.flipVerticalProgress;
             if (f10 != 1.0f) {
                 this.flipVerticalProgress = Math.min(1.0f, f10 + (((float) min) / 220.0f));
@@ -828,6 +839,25 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         f7 = width2;
                         i = 5;
                     }
+                    if (this.hasStar) {
+                        Iterator<ReactionsLayoutInBubble.VisibleReaction> it = this.selectedReactions.iterator();
+                        while (true) {
+                            if (it.hasNext()) {
+                                if (it.next().isStar) {
+                                    z = true;
+                                    break;
+                                }
+                            } else {
+                                z = false;
+                                break;
+                            }
+                        }
+                        if (!z) {
+                            RectF rectF2 = this.rect;
+                            float f15 = this.radius;
+                            canvas.drawRoundRect(rectF2, f15, f15, getStarGradientPaint(rectF2, Utilities.clamp01(1.0f - getPullingLeftProgress())));
+                        }
+                    }
                     canvas.restoreToCount(save2);
                 } else {
                     f6 = f12;
@@ -836,9 +866,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 }
                 this.mPath.rewind();
                 Path path = this.mPath;
-                RectF rectF2 = this.rect;
-                float f15 = this.radius;
-                path.addRoundRect(rectF2, f15, f15, Path.Direction.CW);
+                RectF rectF3 = this.rect;
+                float f16 = this.radius;
+                path.addRoundRect(rectF3, f16, f16, Path.Direction.CW);
                 int save3 = canvas.save();
                 f8 = this.transitionProgress;
                 if (f8 != 1.0f) {
@@ -904,8 +934,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     if (pullingLeftProgress > 0.0f) {
                         float pullingLeftProgress2 = getPullingLeftProgress();
                         int measuredWidth = this.nextRecentReaction.getMeasuredWidth() - AndroidUtilities.dp(2.0f);
-                        float f16 = i3 + measuredWidth;
-                        float clamp = Utilities.clamp(f16 / (getMeasuredWidth() - this.nextRecentReaction.getMeasuredWidth()), 1.0f, 0.0f) * pullingLeftProgress2 * measuredWidth;
+                        float f17 = i3 + measuredWidth;
+                        float clamp = Utilities.clamp(f17 / (getMeasuredWidth() - this.nextRecentReaction.getMeasuredWidth()), 1.0f, 0.0f) * pullingLeftProgress2 * measuredWidth;
                         if (this.nextRecentReaction.getTag() == null) {
                             this.nextRecentReaction.setTag(Float.valueOf(1.0f));
                             this.nextRecentReaction.resetAnimation();
@@ -920,7 +950,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                         } else {
                             dp = AndroidUtilities.dp(8.0f);
                         }
-                        this.nextRecentReaction.setTranslationX(((this.recyclerListView.getX() + f16) - clamp) + (-dp));
+                        this.nextRecentReaction.setTranslationX(((this.recyclerListView.getX() + f17) - clamp) + (-dp));
                         if (this.nextRecentReaction.getVisibility() != 0) {
                             this.nextRecentReaction.setVisibility(0);
                         }
@@ -961,10 +991,10 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                 invalidate();
             }
         }
-        if (!z) {
-            float f17 = this.flipVerticalProgress;
-            if (f17 != 0.0f) {
-                this.flipVerticalProgress = Math.max(0.0f, f17 - (((float) min) / 220.0f));
+        if (!z2) {
+            float f18 = this.flipVerticalProgress;
+            if (f18 != 0.0f) {
+                this.flipVerticalProgress = Math.max(0.0f, f18 - (((float) min) / 220.0f));
                 invalidate();
             }
         }
@@ -1020,9 +1050,9 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         }
         this.mPath.rewind();
         Path path2 = this.mPath;
-        RectF rectF22 = this.rect;
-        float f152 = this.radius;
-        path2.addRoundRect(rectF22, f152, f152, Path.Direction.CW);
+        RectF rectF32 = this.rect;
+        float f162 = this.radius;
+        path2.addRoundRect(rectF32, f162, f162, Path.Direction.CW);
         int save32 = canvas.save();
         f8 = this.transitionProgress;
         if (f8 != 1.0f) {
@@ -1247,6 +1277,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             setVisibility(4);
             return;
         }
+        this.hasStar = false;
         int i2 = this.type;
         if (i2 == 3) {
             this.allReactionsAvailable = UserConfig.getInstance(this.currentAccount).isPremium();
@@ -1257,6 +1288,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         } else if (this.hitLimit) {
             this.allReactionsAvailable = false;
             if (tLRPC$ChatFull != null && tLRPC$ChatFull.paid_reactions_available) {
+                this.hasStar = true;
                 arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
             }
             Iterator<TLRPC$ReactionCount> it2 = this.messageObject.messageOwner.reactions.results.iterator();
@@ -1265,6 +1297,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             }
         } else if (tLRPC$ChatFull != null) {
             if (tLRPC$ChatFull.paid_reactions_available) {
+                this.hasStar = true;
                 arrayList.add(ReactionsLayoutInBubble.VisibleReaction.asStar());
             }
             TLRPC$ChatReactions tLRPC$ChatReactions = tLRPC$ChatFull.available_reactions;
@@ -2508,7 +2541,11 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         @Override // android.view.ViewGroup, android.view.View
         protected void dispatchDraw(Canvas canvas) {
             if (this.selected && this.drawSelected) {
-                canvas.drawCircle(getMeasuredWidth() >> 1, getMeasuredHeight() >> 1, (getMeasuredWidth() >> 1) - AndroidUtilities.dp(1.0f), ReactionsContainerLayout.this.selectedPaint);
+                float measuredWidth = getMeasuredWidth() >> 1;
+                float measuredHeight = getMeasuredHeight() >> 1;
+                float measuredWidth2 = (getMeasuredWidth() >> 1) - AndroidUtilities.dp(1.0f);
+                ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.currentReaction;
+                canvas.drawCircle(measuredWidth, measuredHeight, measuredWidth2, (visibleReaction == null || !visibleReaction.isStar) ? ReactionsContainerLayout.this.selectedPaint : ReactionsContainerLayout.this.starSelectedPaint);
             }
             AnimatedEmojiDrawable animatedEmojiDrawable = this.loopImageView.animatedEmojiDrawable;
             if (animatedEmojiDrawable != null && animatedEmojiDrawable.getImageReceiver() != null) {
@@ -2518,8 +2555,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     this.loopImageView.animatedEmojiDrawable.getImageReceiver().setRoundRadius(this.selected ? AndroidUtilities.dp(6.0f) : 0);
                 }
             }
-            ReactionsLayoutInBubble.VisibleReaction visibleReaction = this.currentReaction;
-            if (visibleReaction != null && visibleReaction.isStar && this.particles != null && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
+            ReactionsLayoutInBubble.VisibleReaction visibleReaction2 = this.currentReaction;
+            if (visibleReaction2 != null && visibleReaction2.isStar && this.particles != null && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
                 RectF rectF = AndroidUtilities.rectTmp;
                 float height = ((int) (getHeight() * 0.7f)) / 2.0f;
                 rectF.set((getWidth() / 2.0f) - height, (getHeight() / 2.0f) - height, (getWidth() / 2.0f) + height, (getHeight() / 2.0f) + height);
@@ -2907,5 +2944,25 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             return;
         }
         this.reactionsWindow.getSelectAnimatedEmojiDialog().setPaused(this.paused, this.pausedExceptSelected);
+    }
+
+    private Paint getStarGradientPaint(RectF rectF, float f) {
+        if (this.starSelectedGradientPaint == null) {
+            this.starSelectedGradientPaint = new Paint(1);
+        }
+        if (this.starSelectedGradientMatrix == null) {
+            this.starSelectedGradientMatrix = new Matrix();
+        }
+        if (this.starSelectedGradient == null) {
+            int color = Theme.getColor(Theme.key_reactionStarSelector, this.resourcesProvider);
+            LinearGradient linearGradient = new LinearGradient(0.0f, 0.0f, AndroidUtilities.dp(64.0f), 0.0f, new int[]{color, Theme.multAlpha(color, 0.0f)}, new float[]{0.0f, 1.0f}, Shader.TileMode.CLAMP);
+            this.starSelectedGradient = linearGradient;
+            this.starSelectedGradientPaint.setShader(linearGradient);
+        }
+        this.starSelectedGradientMatrix.reset();
+        this.starSelectedGradientMatrix.postTranslate(rectF.left, rectF.top);
+        this.starSelectedGradient.setLocalMatrix(this.starSelectedGradientMatrix);
+        this.starSelectedGradientPaint.setAlpha((int) (f * 255.0f));
+        return this.starSelectedGradientPaint;
     }
 }

@@ -25710,7 +25710,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public static boolean BLUR_RENDERNODE() {
-        return Build.VERSION.SDK_INT >= 31 && SharedConfig.useNewBlur && SharedConfig.getDevicePerformanceClass() >= 2;
+        return Build.VERSION.SDK_INT >= 31 && SharedConfig.useNewBlur && SharedConfig.getDevicePerformanceClass() >= 2 && !AndroidUtilities.makingGlobalBlurBitmap;
     }
 
     /* JADX WARN: Removed duplicated region for block: B:590:0x0255  */
