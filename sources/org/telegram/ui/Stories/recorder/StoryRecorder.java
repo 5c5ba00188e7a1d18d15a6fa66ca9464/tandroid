@@ -3127,7 +3127,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$initViews$25(Bitmap bitmap) {
-        AndroidUtilities.recycleBitmap(this.outputEntry.coverBitmap);
+        StoryEntry storyEntry = this.outputEntry;
+        if (storyEntry == null) {
+            return;
+        }
+        AndroidUtilities.recycleBitmap(storyEntry.coverBitmap);
         this.outputEntry.coverBitmap = bitmap;
         StoryPrivacyBottomSheet storyPrivacyBottomSheet = this.privacySheet;
         if (storyPrivacyBottomSheet == null) {
@@ -3318,7 +3322,11 @@ public class StoryRecorder implements NotificationCenter.NotificationCenterDeleg
     }
 
     public /* synthetic */ void lambda$processDone$33(Bitmap bitmap) {
-        Bitmap bitmap2 = this.outputEntry.coverBitmap;
+        StoryEntry storyEntry = this.outputEntry;
+        if (storyEntry == null) {
+            return;
+        }
+        Bitmap bitmap2 = storyEntry.coverBitmap;
         if (bitmap2 != null) {
             bitmap2.recycle();
         }

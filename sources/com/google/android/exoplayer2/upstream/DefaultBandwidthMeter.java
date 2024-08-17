@@ -2287,7 +2287,7 @@ public final class DefaultBandwidthMeter implements BandwidthMeter, TransferList
                 return new int[]{2, 2, 1, 2, 2, 2};
             case NotificationCenter.groupRestrictionsUnlockedByBoosts /* 202 */:
                 return new int[]{4, 4, 3, 4, 2, 2};
-            case NotificationCenter.chatWasBoostedByUser /* 203 */:
+            case 203:
                 return new int[]{2, 2, 1, 3, 2, 2};
             case NotificationCenter.customStickerCreated /* 206 */:
                 return new int[]{0, 1, 2, 1, 2, 2};

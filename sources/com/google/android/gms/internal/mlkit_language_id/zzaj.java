@@ -107,7 +107,7 @@ public enum zzaj implements zzet {
     zzcw(NotificationCenter.storyQualityUpdate),
     zzcx(NotificationCenter.openBoostForUsersDialog),
     zzcy(NotificationCenter.groupRestrictionsUnlockedByBoosts),
-    zzcz(NotificationCenter.chatWasBoostedByUser),
+    zzcz(203),
     zzda(NotificationCenter.groupPackUpdated),
     zzdb(NotificationCenter.timezonesUpdated),
     zzdc(NotificationCenter.customStickerCreated),

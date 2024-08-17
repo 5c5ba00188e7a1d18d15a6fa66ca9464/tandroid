@@ -619,7 +619,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     return lambda$showActionMode$0;
                 }
             });
-            ActionBarMenuItem addItemWithWidth = this.actionMode.addItemWithWidth(NotificationCenter.chatWasBoostedByUser, R.drawable.avd_speed, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
+            ActionBarMenuItem addItemWithWidth = this.actionMode.addItemWithWidth(203, R.drawable.avd_speed, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
             this.speedItem = addItemWithWidth;
             addItemWithWidth.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(i), PorterDuff.Mode.SRC_IN));
             this.gotoItem = this.actionMode.addItemWithWidth(NotificationCenter.storyQualityUpdate, R.drawable.msg_message, AndroidUtilities.dp(54.0f), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));

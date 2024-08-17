@@ -114,7 +114,7 @@ public enum zziv implements zzag {
     zzbc(NotificationCenter.storyQualityUpdate),
     zzbd(NotificationCenter.openBoostForUsersDialog),
     zzbe(NotificationCenter.groupRestrictionsUnlockedByBoosts),
-    zzbf(NotificationCenter.chatWasBoostedByUser),
+    zzbf(203),
     zzbg(NotificationCenter.groupPackUpdated),
     zzbh(NotificationCenter.timezonesUpdated),
     zzbi(NotificationCenter.customStickerCreated),

@@ -2,6 +2,7 @@ package org.telegram.messenger.browser;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -713,8 +714,11 @@ public class Browser {
                 return false;
             }
             return false;
-        } catch (Exception e) {
-            FileLog.e(e);
+        } catch (ActivityNotFoundException e) {
+            FileLog.e((Throwable) e, false);
+            return false;
+        } catch (Exception e2) {
+            FileLog.e(e2);
             return false;
         }
     }

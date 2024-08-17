@@ -59,6 +59,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.support.LongSparseIntArray;
 import org.telegram.messenger.support.LongSparseLongArray;
+import org.telegram.messenger.voip.VoIPPreNotificationService;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.ConnectionsManager;
@@ -29067,29 +29068,26 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1230:0x063c, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1236:0x063c, code lost:
         if (r4 == r15) goto L286;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1232:0x0640, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1238:0x0640, code lost:
         if (r7 == r6) goto L288;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:1468:0x0b4f, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:1474:0x0b4f, code lost:
         if (r4.getCallState() == 0) goto L517;
      */
-    /* JADX WARN: Removed duplicated region for block: B:1236:0x066b  */
-    /* JADX WARN: Removed duplicated region for block: B:1502:0x0c19  */
-    /* JADX WARN: Removed duplicated region for block: B:1759:0x130a  */
-    /* JADX WARN: Removed duplicated region for block: B:1773:0x133e  */
-    /* JADX WARN: Removed duplicated region for block: B:1780:0x1354  */
-    /* JADX WARN: Removed duplicated region for block: B:1785:0x136f  */
-    /* JADX WARN: Removed duplicated region for block: B:1831:0x1481  */
-    /* JADX WARN: Removed duplicated region for block: B:1833:0x148f  */
-    /* JADX WARN: Removed duplicated region for block: B:1835:0x1495  */
-    /* JADX WARN: Removed duplicated region for block: B:1838:0x14a1  */
-    /* JADX WARN: Removed duplicated region for block: B:1842:0x14ba A[ADDED_TO_REGION] */
-    /* JADX WARN: Removed duplicated region for block: B:1848:0x14dd  */
-    /* JADX WARN: Removed duplicated region for block: B:1851:0x14f3  */
-    /* JADX WARN: Removed duplicated region for block: B:1909:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1242:0x066b  */
+    /* JADX WARN: Removed duplicated region for block: B:1511:0x0c29  */
+    /* JADX WARN: Removed duplicated region for block: B:1792:0x136d  */
+    /* JADX WARN: Removed duplicated region for block: B:1797:0x1388  */
+    /* JADX WARN: Removed duplicated region for block: B:1843:0x149a  */
+    /* JADX WARN: Removed duplicated region for block: B:1845:0x14a8  */
+    /* JADX WARN: Removed duplicated region for block: B:1847:0x14ae  */
+    /* JADX WARN: Removed duplicated region for block: B:1850:0x14ba  */
+    /* JADX WARN: Removed duplicated region for block: B:1860:0x14f6  */
+    /* JADX WARN: Removed duplicated region for block: B:1863:0x150c  */
+    /* JADX WARN: Removed duplicated region for block: B:1921:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -29802,22 +29800,22 @@ public class MessagesController extends BaseController implements NotificationCe
                                                         intent.putExtra("user_id", tLRPC$PhoneCall.participant_id == getUserConfig().getClientUserId() ? tLRPC$PhoneCall.admin_id : tLRPC$PhoneCall.participant_id);
                                                         intent.putExtra("account", this.currentAccount);
                                                         intent.putExtra("notifications_disabled", z5);
-                                                        if (!z5) {
-                                                            try {
-                                                                if (Build.VERSION.SDK_INT >= 26) {
-                                                                    ApplicationLoader.applicationContext.startForegroundService(intent);
-                                                                    if (!ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
-                                                                        this.ignoreSetOnline = true;
-                                                                    }
-                                                                }
-                                                            } catch (Throwable th2) {
-                                                                FileLog.e(th2);
+                                                        try {
+                                                            int i30 = Build.VERSION.SDK_INT;
+                                                            if (i30 >= 33) {
+                                                                intent.putExtra("accept", true);
+                                                                VoIPPreNotificationService.show(ApplicationLoader.applicationContext, intent, tLRPC$PhoneCall);
+                                                            } else if (!z5 && i30 >= 26) {
+                                                                ApplicationLoader.applicationContext.startForegroundService(intent);
+                                                            } else {
+                                                                ApplicationLoader.applicationContext.startService(intent);
                                                             }
+                                                            if (ApplicationLoader.mainInterfacePaused || !ApplicationLoader.isScreenOn) {
+                                                                this.ignoreSetOnline = true;
+                                                            }
+                                                        } catch (Throwable th2) {
+                                                            FileLog.e(th2);
                                                         }
-                                                        ApplicationLoader.applicationContext.startService(intent);
-                                                        if (!ApplicationLoader.mainInterfacePaused) {
-                                                        }
-                                                        this.ignoreSetOnline = true;
                                                     }
                                                 }
                                                 z6 = false;
@@ -29842,16 +29840,21 @@ public class MessagesController extends BaseController implements NotificationCe
                                             }
                                         } else if (sharedInstance2 != null && tLRPC$PhoneCall != null) {
                                             sharedInstance2.onCallUpdated(tLRPC$PhoneCall);
-                                        } else if (VoIPService.callIShouldHavePutIntoIntent != null) {
-                                            if (BuildVars.LOGS_ENABLED) {
-                                                FileLog.d("Updated the call while the service is starting");
+                                        } else {
+                                            if (tLRPC$PhoneCall instanceof TLRPC$TL_phoneCallDiscarded) {
+                                                VoIPPreNotificationService.dismiss(ApplicationLoader.applicationContext);
                                             }
-                                            if (tLRPC$PhoneCall.id == VoIPService.callIShouldHavePutIntoIntent.id) {
-                                                if (tLRPC$PhoneCall instanceof TLRPC$TL_phoneCallDiscarded) {
-                                                    tLRPC$PhoneCall = null;
+                                            if (VoIPService.callIShouldHavePutIntoIntent != null) {
+                                                if (BuildVars.LOGS_ENABLED) {
+                                                    FileLog.d("Updated the call while the service is starting");
                                                 }
-                                                VoIPService.callIShouldHavePutIntoIntent = tLRPC$PhoneCall;
-                                                FileLog.e("(2) set VoIPService.callIShouldHavePutIntoIntent = " + VoIPService.callIShouldHavePutIntoIntent);
+                                                if (tLRPC$PhoneCall.id == VoIPService.callIShouldHavePutIntoIntent.id) {
+                                                    if (tLRPC$PhoneCall instanceof TLRPC$TL_phoneCallDiscarded) {
+                                                        tLRPC$PhoneCall = null;
+                                                    }
+                                                    VoIPService.callIShouldHavePutIntoIntent = tLRPC$PhoneCall;
+                                                    FileLog.e("(2) set VoIPService.callIShouldHavePutIntoIntent = " + VoIPService.callIShouldHavePutIntoIntent);
+                                                }
                                             }
                                         }
                                     } else if (tLRPC$Update instanceof TLRPC$TL_updateDialogUnreadMark) {
@@ -29918,7 +29921,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                             c = 1;
                                         }
                                         NotificationCenter notificationCenter = getNotificationCenter();
-                                        int i30 = NotificationCenter.didUpdateReactions;
+                                        int i31 = NotificationCenter.didUpdateReactions;
                                         Long valueOf2 = Long.valueOf(peerId);
                                         Integer valueOf3 = Integer.valueOf(tLRPC$TL_updateMessageReactions.msg_id);
                                         TLRPC$TL_messageReactions tLRPC$TL_messageReactions = tLRPC$TL_updateMessageReactions.reactions;
@@ -29926,7 +29929,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         objArr[0] = valueOf2;
                                         objArr[c] = valueOf3;
                                         objArr[2] = tLRPC$TL_messageReactions;
-                                        notificationCenter.lambda$postNotificationNameOnUIThread$1(i30, objArr);
+                                        notificationCenter.lambda$postNotificationNameOnUIThread$1(i31, objArr);
                                     } else if (tLRPC$Update instanceof TLRPC$TL_updateMessageExtendedMedia) {
                                         TLRPC$TL_updateMessageExtendedMedia tLRPC$TL_updateMessageExtendedMedia = (TLRPC$TL_updateMessageExtendedMedia) tLRPC$Update;
                                         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateExtendedMedia, Long.valueOf(DialogObject.getPeerDialogId(tLRPC$TL_updateMessageExtendedMedia.peer)), Integer.valueOf(tLRPC$TL_updateMessageExtendedMedia.msg_id), tLRPC$TL_updateMessageExtendedMedia.extended_media);
@@ -29963,9 +29966,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                         if (peerId2 > 0) {
                                             TLRPC$UserFull userFull = getUserFull(peerId2);
                                             if (userFull != null) {
-                                                int i31 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
-                                                userFull.ttl_period = i31;
-                                                if (i31 == 0) {
+                                                int i32 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
+                                                userFull.ttl_period = i32;
+                                                if (i32 == 0) {
                                                     userFull.flags &= -16385;
                                                 } else {
                                                     userFull.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
@@ -29976,15 +29979,15 @@ public class MessagesController extends BaseController implements NotificationCe
                                         } else {
                                             chatFull = getChatFull(-peerId2);
                                             if (chatFull != null) {
-                                                int i32 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
-                                                chatFull.ttl_period = i32;
+                                                int i33 = tLRPC$TL_updatePeerHistoryTTL.ttl_period;
+                                                chatFull.ttl_period = i33;
                                                 if (chatFull instanceof TLRPC$TL_channelFull) {
-                                                    if (i32 == 0) {
+                                                    if (i33 == 0) {
                                                         chatFull.flags &= -16777217;
                                                     } else {
                                                         chatFull.flags |= ConnectionsManager.FileTypePhoto;
                                                     }
-                                                } else if (i32 == 0) {
+                                                } else if (i33 == 0) {
                                                     chatFull.flags &= -16385;
                                                 } else {
                                                     chatFull.flags |= LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD_NOT_PREMIUM;
@@ -29994,9 +29997,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                         }
                                         if (chatFull != null) {
                                             NotificationCenter notificationCenter2 = getNotificationCenter();
-                                            int i33 = NotificationCenter.chatInfoDidLoad;
+                                            int i34 = NotificationCenter.chatInfoDidLoad;
                                             Boolean bool4 = Boolean.FALSE;
-                                            notificationCenter2.lambda$postNotificationNameOnUIThread$1(i33, chatFull, 0, bool4, bool4);
+                                            notificationCenter2.lambda$postNotificationNameOnUIThread$1(i34, chatFull, 0, bool4, bool4);
                                             getMessagesStorage().updateChatInfo(chatFull, false);
                                         } else if (tLRPC$UserFull != null) {
                                             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.userInfoDidLoad, Long.valueOf(peerId2), tLRPC$UserFull);
@@ -30100,32 +30103,32 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         if (longSparseArray != null) {
             int size3 = longSparseArray.size();
-            for (int i34 = 0; i34 < size3; i34++) {
-                ChatObject.Call call3 = messagesController.groupCallsByChatId.get(longSparseArray.keyAt(i34));
+            for (int i35 = 0; i35 < size3; i35++) {
+                ChatObject.Call call3 = messagesController.groupCallsByChatId.get(longSparseArray.keyAt(i35));
                 if (call3 != null) {
-                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i34), i2);
+                    call3.processTypingsUpdate(getAccountInstance(), (ArrayList) longSparseArray.valueAt(i35), i2);
                 }
             }
         }
         if (longSparseIntArray != null) {
             int size4 = longSparseIntArray.size();
-            for (int i35 = 0; i35 < size4; i35++) {
-                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i35));
+            for (int i36 = 0; i36 < size4; i36++) {
+                SendMessagesHelper.ImportingHistory importingHistory = getSendMessagesHelper().getImportingHistory(longSparseIntArray.keyAt(i36));
                 if (importingHistory != null) {
-                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i35));
+                    importingHistory.setImportProgress(longSparseIntArray.valueAt(i36));
                 }
             }
         }
-        int i36 = 1;
+        int i37 = 1;
         if (longSparseArray2 != null) {
             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didReceivedWebpagesInUpdates, longSparseArray2);
-            int i37 = 0;
-            int i38 = 3;
-            while (i37 < i38) {
-                if (i37 == i36) {
+            int i38 = 0;
+            int i39 = 3;
+            while (i38 < i39) {
+                if (i38 == i37) {
                     longSparseArray11 = messagesController.reloadingScheduledWebpagesPending;
                     i6 = 1;
-                } else if (i37 == 2) {
+                } else if (i38 == 2) {
                     longSparseArray11 = messagesController.reloadingSavedWebpagesPending;
                     i6 = 3;
                 } else {
@@ -30133,27 +30136,27 @@ public class MessagesController extends BaseController implements NotificationCe
                     i6 = 0;
                 }
                 int size5 = longSparseArray2.size();
-                int i39 = 0;
-                while (i39 < size5) {
-                    long keyAt = longSparseArray2.keyAt(i39);
+                int i40 = 0;
+                while (i40 < size5) {
+                    long keyAt = longSparseArray2.keyAt(i40);
                     ArrayList<MessageObject> arrayList18 = longSparseArray11.get(keyAt);
                     longSparseArray11.remove(keyAt);
                     if (arrayList18 != null) {
-                        TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) longSparseArray2.valueAt(i39);
+                        TLRPC$WebPage tLRPC$WebPage = (TLRPC$WebPage) longSparseArray2.valueAt(i40);
                         ArrayList<TLRPC$Message> arrayList19 = new ArrayList<>();
                         if ((tLRPC$WebPage instanceof TLRPC$TL_webPage) || (tLRPC$WebPage instanceof TLRPC$TL_webPageEmpty)) {
                             int size6 = arrayList18.size();
-                            int i40 = 0;
+                            int i41 = 0;
                             j = 0;
-                            while (i40 < size6) {
+                            while (i41 < size6) {
                                 LongSparseArray<ArrayList<MessageObject>> longSparseArray13 = longSparseArray11;
-                                arrayList18.get(i40).messageOwner.media.webpage = tLRPC$WebPage;
-                                if (i40 == 0) {
-                                    j = arrayList18.get(i40).getDialogId();
-                                    ImageLoader.saveMessageThumbs(arrayList18.get(i40).messageOwner);
+                                arrayList18.get(i41).messageOwner.media.webpage = tLRPC$WebPage;
+                                if (i41 == 0) {
+                                    j = arrayList18.get(i41).getDialogId();
+                                    ImageLoader.saveMessageThumbs(arrayList18.get(i41).messageOwner);
                                 }
-                                arrayList19.add(arrayList18.get(i40).messageOwner);
-                                i40++;
+                                arrayList19.add(arrayList18.get(i41).messageOwner);
+                                i41++;
                                 longSparseArray11 = longSparseArray13;
                             }
                             longSparseArray12 = longSparseArray11;
@@ -30166,173 +30169,149 @@ public class MessagesController extends BaseController implements NotificationCe
                             getMessagesStorage().putMessages(arrayList19, true, true, false, getDownloadController().getAutodownloadMask(), i6, 0L);
                             i7 = 1;
                             getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(j), arrayList18);
-                            i39 += i7;
+                            i40 += i7;
                             longSparseArray11 = longSparseArray12;
                         }
                     } else {
                         longSparseArray12 = longSparseArray11;
                     }
                     i7 = 1;
-                    i39 += i7;
+                    i40 += i7;
                     longSparseArray11 = longSparseArray12;
                 }
-                i37++;
-                i38 = 3;
-                i36 = 1;
+                i38++;
+                i39 = 3;
+                i37 = 1;
             }
         }
         if (i4 != 0) {
-            int i41 = 0;
+            int i42 = 0;
             while (true) {
                 DialogFilter[] dialogFilterArr = messagesController.selectedDialogFilter;
-                if (i41 >= dialogFilterArr.length) {
+                if (i42 >= dialogFilterArr.length) {
                     break;
                 }
-                DialogFilter dialogFilter = dialogFilterArr[i41];
+                DialogFilter dialogFilter = dialogFilterArr[i42];
                 if (dialogFilter != null && (dialogFilter.flags & i4) != 0) {
                     longSparseArray9 = longSparseArray3;
                     z2 = true;
                     break;
                 }
-                i41++;
-            }
-            if (longSparseArray9 == null) {
-                int size7 = longSparseArray3.size();
-                boolean z20 = false;
-                for (int i42 = 0; i42 < size7; i42++) {
-                    if (messagesController.updateInterfaceWithMessages(longSparseArray9.keyAt(i42), (ArrayList) longSparseArray9.valueAt(i42), 0)) {
-                        z20 = true;
-                    }
-                }
-                if (messagesController.applyFoldersUpdates(arrayList3) || (!z20 && z2)) {
-                    messagesController.sortDialogs(null);
-                }
-            } else {
-                boolean applyFoldersUpdates = messagesController.applyFoldersUpdates(arrayList3);
-                if (!z2 && !applyFoldersUpdates) {
-                    longSparseArray10 = longSparseArray4;
-                    z3 = false;
-                    if (longSparseArray10 != null) {
-                        int size8 = longSparseArray4.size();
-                        for (int i43 = 0; i43 < size8; i43++) {
-                            messagesController.updateInterfaceWithMessages(longSparseArray10.keyAt(i43), (ArrayList) longSparseArray10.valueAt(i43), 1);
-                        }
-                    }
-                    if (longSparseArray5 != null) {
-                        int size9 = longSparseArray5.size();
-                        for (int i44 = 0; i44 < size9; i44++) {
-                            long keyAt2 = longSparseArray5.keyAt(i44);
-                            ArrayList<MessageObject> arrayList20 = (ArrayList) longSparseArray5.valueAt(i44);
-                            int size10 = arrayList20.size();
-                            SparseBooleanArray sparseBooleanArray = null;
-                            for (int i45 = 0; i45 < size10; i45++) {
-                                MessageObject messageObject3 = arrayList20.get(i45);
-                                if (keyAt2 > 0) {
-                                    if (sparseBooleanArray == null) {
-                                        sparseBooleanArray = new SparseBooleanArray();
-                                    }
-                                    sparseBooleanArray.put(messageObject3.getId(), MessageObject.hasUnreadReactions(messageObject3.messageOwner));
-                                }
-                            }
-                            if (keyAt2 > 0) {
-                                checkUnreadReactions(keyAt2, 0L, sparseBooleanArray);
-                            }
-                            ArrayList<MessageObject> arrayList21 = messagesController.dialogMessage.get(keyAt2);
-                            if (arrayList21 != null) {
-                                boolean z21 = z3;
-                                for (int i46 = 0; i46 < arrayList21.size(); i46++) {
-                                    MessageObject messageObject4 = arrayList21.get(i46);
-                                    int size11 = arrayList20.size();
-                                    int i47 = 0;
-                                    while (true) {
-                                        if (i47 >= size11) {
-                                            break;
-                                        }
-                                        MessageObject messageObject5 = arrayList20.get(i47);
-                                        if (messageObject4.getId() == messageObject5.getId()) {
-                                            arrayList21.set(i46, messageObject5);
-                                            TLRPC$Peer tLRPC$Peer8 = messageObject5.messageOwner.peer_id;
-                                            if (tLRPC$Peer8 != null && tLRPC$Peer8.channel_id == 0) {
-                                                messagesController.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
-                                            }
-                                            z21 = true;
-                                        } else if (messageObject4.getDialogId() == messageObject5.getDialogId() && (messageObject4.messageOwner.action instanceof TLRPC$TL_messageActionPinMessage) && (messageObject = messageObject4.replyMessageObject) != null && messageObject.getId() == messageObject5.getId()) {
-                                            messageObject4.replyMessageObject = messageObject5;
-                                            messageObject4.generatePinMessageText(null, null);
-                                            z21 = true;
-                                            break;
-                                        } else {
-                                            i47++;
-                                        }
-                                    }
-                                }
-                                z3 = z21;
-                            }
-                            getMediaDataController().loadReplyMessagesForMessages(arrayList20, keyAt2, 0, 0L, null, 0, null);
-                            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(keyAt2), arrayList20, Boolean.FALSE);
-                        }
-                    }
-                    if (z3) {
-                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
-                    }
-                    if (z) {
-                        i3 |= UPDATE_MASK_USER_PRINT;
-                    }
-                    if (arrayList4 != null) {
-                        i3 = i3 | UPDATE_MASK_NAME | UPDATE_MASK_USER_PHONE;
-                    }
-                    if (arrayList5 != null) {
-                        int size12 = arrayList5.size();
-                        for (int i48 = 0; i48 < size12; i48++) {
-                            getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i48));
-                        }
-                    }
-                    if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
-                        i5 = 1;
-                    } else {
-                        i5 = 1;
-                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
-                    }
-                    if (i3 != 0) {
-                        NotificationCenter notificationCenter3 = getNotificationCenter();
-                        int i49 = NotificationCenter.updateInterfaces;
-                        Object[] objArr2 = new Object[i5];
-                        objArr2[0] = Integer.valueOf(i3);
-                        notificationCenter3.lambda$postNotificationNameOnUIThread$1(i49, objArr2);
-                    }
-                    if (arrayList6 != null) {
-                        ImageLoader.getInstance().putThumbsToCache(arrayList6);
-                        return;
-                    }
-                    return;
-                }
-                messagesController.sortDialogs(null);
-            }
-            longSparseArray10 = longSparseArray4;
-            z3 = true;
-            if (longSparseArray10 != null) {
-            }
-            if (longSparseArray5 != null) {
-            }
-            if (z3) {
-            }
-            if (z) {
-            }
-            if (arrayList4 != null) {
-            }
-            if (arrayList5 != null) {
-            }
-            if (longSparseArray6 != null) {
-            }
-            i5 = 1;
-            getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
-            if (i3 != 0) {
-            }
-            if (arrayList6 != null) {
+                i42++;
             }
         }
         longSparseArray9 = longSparseArray3;
-        if (longSparseArray9 == null) {
+        if (longSparseArray9 != null) {
+            int size7 = longSparseArray3.size();
+            boolean z20 = false;
+            for (int i43 = 0; i43 < size7; i43++) {
+                if (messagesController.updateInterfaceWithMessages(longSparseArray9.keyAt(i43), (ArrayList) longSparseArray9.valueAt(i43), 0)) {
+                    z20 = true;
+                }
+            }
+            if (messagesController.applyFoldersUpdates(arrayList3) || (!z20 && z2)) {
+                messagesController.sortDialogs(null);
+            }
+        } else {
+            boolean applyFoldersUpdates = messagesController.applyFoldersUpdates(arrayList3);
+            if (!z2 && !applyFoldersUpdates) {
+                longSparseArray10 = longSparseArray4;
+                z3 = false;
+                if (longSparseArray10 != null) {
+                    int size8 = longSparseArray4.size();
+                    for (int i44 = 0; i44 < size8; i44++) {
+                        messagesController.updateInterfaceWithMessages(longSparseArray10.keyAt(i44), (ArrayList) longSparseArray10.valueAt(i44), 1);
+                    }
+                }
+                if (longSparseArray5 != null) {
+                    int size9 = longSparseArray5.size();
+                    for (int i45 = 0; i45 < size9; i45++) {
+                        long keyAt2 = longSparseArray5.keyAt(i45);
+                        ArrayList<MessageObject> arrayList20 = (ArrayList) longSparseArray5.valueAt(i45);
+                        int size10 = arrayList20.size();
+                        SparseBooleanArray sparseBooleanArray = null;
+                        for (int i46 = 0; i46 < size10; i46++) {
+                            MessageObject messageObject3 = arrayList20.get(i46);
+                            if (keyAt2 > 0) {
+                                if (sparseBooleanArray == null) {
+                                    sparseBooleanArray = new SparseBooleanArray();
+                                }
+                                sparseBooleanArray.put(messageObject3.getId(), MessageObject.hasUnreadReactions(messageObject3.messageOwner));
+                            }
+                        }
+                        if (keyAt2 > 0) {
+                            checkUnreadReactions(keyAt2, 0L, sparseBooleanArray);
+                        }
+                        ArrayList<MessageObject> arrayList21 = messagesController.dialogMessage.get(keyAt2);
+                        if (arrayList21 != null) {
+                            boolean z21 = z3;
+                            for (int i47 = 0; i47 < arrayList21.size(); i47++) {
+                                MessageObject messageObject4 = arrayList21.get(i47);
+                                int size11 = arrayList20.size();
+                                int i48 = 0;
+                                while (true) {
+                                    if (i48 >= size11) {
+                                        break;
+                                    }
+                                    MessageObject messageObject5 = arrayList20.get(i48);
+                                    if (messageObject4.getId() == messageObject5.getId()) {
+                                        arrayList21.set(i47, messageObject5);
+                                        TLRPC$Peer tLRPC$Peer8 = messageObject5.messageOwner.peer_id;
+                                        if (tLRPC$Peer8 != null && tLRPC$Peer8.channel_id == 0) {
+                                            messagesController.dialogMessagesByIds.put(messageObject5.getId(), messageObject5);
+                                        }
+                                        z21 = true;
+                                    } else if (messageObject4.getDialogId() == messageObject5.getDialogId() && (messageObject4.messageOwner.action instanceof TLRPC$TL_messageActionPinMessage) && (messageObject = messageObject4.replyMessageObject) != null && messageObject.getId() == messageObject5.getId()) {
+                                        messageObject4.replyMessageObject = messageObject5;
+                                        messageObject4.generatePinMessageText(null, null);
+                                        z21 = true;
+                                        break;
+                                    } else {
+                                        i48++;
+                                    }
+                                }
+                            }
+                            z3 = z21;
+                        }
+                        getMediaDataController().loadReplyMessagesForMessages(arrayList20, keyAt2, 0, 0L, null, 0, null);
+                        getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.replaceMessagesObjects, Long.valueOf(keyAt2), arrayList20, Boolean.FALSE);
+                    }
+                }
+                if (z3) {
+                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.dialogsNeedReload, new Object[0]);
+                }
+                if (z) {
+                    i3 |= UPDATE_MASK_USER_PRINT;
+                }
+                if (arrayList4 != null) {
+                    i3 = i3 | UPDATE_MASK_NAME | UPDATE_MASK_USER_PHONE;
+                }
+                if (arrayList5 != null) {
+                    int size12 = arrayList5.size();
+                    for (int i49 = 0; i49 < size12; i49++) {
+                        getMessagesStorage().updateChatParticipants((TLRPC$ChatParticipants) arrayList5.get(i49));
+                    }
+                }
+                if (longSparseArray6 != null && longSparseArray7 == null && longSparseArray8 == null) {
+                    i5 = 1;
+                } else {
+                    i5 = 1;
+                    getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
+                }
+                if (i3 != 0) {
+                    NotificationCenter notificationCenter3 = getNotificationCenter();
+                    int i50 = NotificationCenter.updateInterfaces;
+                    Object[] objArr2 = new Object[i5];
+                    objArr2[0] = Integer.valueOf(i3);
+                    notificationCenter3.lambda$postNotificationNameOnUIThread$1(i50, objArr2);
+                }
+                if (arrayList6 == null) {
+                    ImageLoader.getInstance().putThumbsToCache(arrayList6);
+                    return;
+                }
+                return;
+            }
+            messagesController.sortDialogs(null);
         }
         longSparseArray10 = longSparseArray4;
         z3 = true;
@@ -30354,7 +30333,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().lambda$postNotificationNameOnUIThread$1(NotificationCenter.didUpdateMessagesViews, longSparseArray6, longSparseArray7, longSparseArray8, Boolean.TRUE);
         if (i3 != 0) {
         }
-        if (arrayList6 != null) {
+        if (arrayList6 == null) {
         }
     }
 

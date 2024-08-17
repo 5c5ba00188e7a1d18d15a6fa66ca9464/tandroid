@@ -70,6 +70,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.messenger.voip.EncryptionKeyEmojifier;
 import org.telegram.messenger.voip.Instance;
 import org.telegram.messenger.voip.VideoCapturerDevice;
+import org.telegram.messenger.voip.VoIPPreNotificationService;
 import org.telegram.messenger.voip.VoIPService;
 import org.telegram.messenger.voip.VoipAudioManager;
 import org.telegram.tgnet.TLRPC$Document;
@@ -291,95 +292,97 @@ public class VoIPFragment implements VoIPService.StateListener, NotificationCent
             return;
         }
         boolean z2 = VoIPPiPView.getInstance() != null;
-        if (VoIPService.getSharedInstance() == null || VoIPService.getSharedInstance().getUser() == null) {
-            return;
-        }
-        final VoIPFragment voIPFragment3 = new VoIPFragment(i);
-        voIPFragment3.activity = activity;
-        instance = voIPFragment3;
-        VoIPWindowView voIPWindowView = new VoIPWindowView(activity, !z2) { // from class: org.telegram.ui.VoIPFragment.1
-            private final Path clipPath = new Path();
-            private final RectF rectF = new RectF();
-
-            @Override // android.view.ViewGroup, android.view.View
-            public boolean dispatchKeyEvent(KeyEvent keyEvent) {
-                VoIPService sharedInstance;
-                if (voIPFragment3.isFinished || voIPFragment3.switchingToPip) {
-                    return false;
-                }
-                int keyCode = keyEvent.getKeyCode();
-                if (keyCode != 4 || keyEvent.getAction() != 1 || voIPFragment3.lockOnScreen) {
-                    if ((keyCode == 25 || keyCode == 24) && voIPFragment3.currentState == 15 && (sharedInstance = VoIPService.getSharedInstance()) != null) {
-                        sharedInstance.stopRinging();
-                        return true;
-                    }
-                    return super.dispatchKeyEvent(keyEvent);
-                }
-                voIPFragment3.onBackPressed();
-                return true;
-            }
-
-            @Override // android.view.ViewGroup, android.view.View
-            protected void dispatchDraw(Canvas canvas) {
-                if (voIPFragment3.switchingToPip && getAlpha() != 0.0f) {
-                    float width = voIPFragment3.callingUserTextureView.getWidth() * voIPFragment3.callingUserTextureView.getScaleX();
-                    float height = voIPFragment3.callingUserTextureView.getHeight() * voIPFragment3.callingUserTextureView.getScaleY();
-                    float x = voIPFragment3.callingUserTextureView.getX() + ((voIPFragment3.callingUserTextureView.getWidth() - width) / 2.0f);
-                    float y = voIPFragment3.callingUserTextureView.getY() + ((voIPFragment3.callingUserTextureView.getHeight() - height) / 2.0f);
-                    canvas.save();
-                    this.clipPath.rewind();
-                    this.rectF.set(x, y, width + x, height + y);
-                    float dp = AndroidUtilities.dp(4.0f);
-                    this.clipPath.addRoundRect(this.rectF, dp, dp, Path.Direction.CW);
-                    this.clipPath.close();
-                    canvas.clipPath(this.clipPath);
-                    super.dispatchDraw(canvas);
-                    canvas.restore();
-                    return;
-                }
-                super.dispatchDraw(canvas);
-            }
-        };
-        instance.deviceIsLocked = ((KeyguardManager) activity.getSystemService("keyguard")).inKeyguardRestrictedInputMode();
-        PowerManager powerManager = (PowerManager) activity.getSystemService("power");
-        int i2 = Build.VERSION.SDK_INT;
-        if (i2 >= 20) {
-            isScreenOn = powerManager.isInteractive();
+        if (VoIPService.getSharedInstance() == null) {
+            VoIPPreNotificationService.open(activity);
+        } else if (VoIPService.getSharedInstance().getUser() == null) {
         } else {
-            isScreenOn = powerManager.isScreenOn();
-        }
-        VoIPFragment voIPFragment4 = instance;
-        voIPFragment4.screenWasWakeup = true ^ isScreenOn;
-        voIPWindowView.setLockOnScreen(voIPFragment4.deviceIsLocked);
-        voIPFragment3.windowView = voIPWindowView;
-        if (i2 >= 20) {
-            voIPWindowView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda3
-                @Override // android.view.View.OnApplyWindowInsetsListener
-                public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                    WindowInsets lambda$show$3;
-                    lambda$show$3 = VoIPFragment.lambda$show$3(VoIPFragment.this, view, windowInsets);
-                    return lambda$show$3;
+            final VoIPFragment voIPFragment3 = new VoIPFragment(i);
+            voIPFragment3.activity = activity;
+            instance = voIPFragment3;
+            VoIPWindowView voIPWindowView = new VoIPWindowView(activity, !z2) { // from class: org.telegram.ui.VoIPFragment.1
+                private final Path clipPath = new Path();
+                private final RectF rectF = new RectF();
+
+                @Override // android.view.ViewGroup, android.view.View
+                public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+                    VoIPService sharedInstance;
+                    if (voIPFragment3.isFinished || voIPFragment3.switchingToPip) {
+                        return false;
+                    }
+                    int keyCode = keyEvent.getKeyCode();
+                    if (keyCode != 4 || keyEvent.getAction() != 1 || voIPFragment3.lockOnScreen) {
+                        if ((keyCode == 25 || keyCode == 24) && voIPFragment3.currentState == 15 && (sharedInstance = VoIPService.getSharedInstance()) != null) {
+                            sharedInstance.stopRinging();
+                            return true;
+                        }
+                        return super.dispatchKeyEvent(keyEvent);
+                    }
+                    voIPFragment3.onBackPressed();
+                    return true;
                 }
-            });
-        }
-        WindowManager windowManager = (WindowManager) activity.getSystemService("window");
-        WindowManager.LayoutParams createWindowLayoutParams = voIPWindowView.createWindowLayoutParams();
-        if (z) {
-            if (i2 >= 26) {
-                createWindowLayoutParams.type = 2038;
+
+                @Override // android.view.ViewGroup, android.view.View
+                protected void dispatchDraw(Canvas canvas) {
+                    if (voIPFragment3.switchingToPip && getAlpha() != 0.0f) {
+                        float width = voIPFragment3.callingUserTextureView.getWidth() * voIPFragment3.callingUserTextureView.getScaleX();
+                        float height = voIPFragment3.callingUserTextureView.getHeight() * voIPFragment3.callingUserTextureView.getScaleY();
+                        float x = voIPFragment3.callingUserTextureView.getX() + ((voIPFragment3.callingUserTextureView.getWidth() - width) / 2.0f);
+                        float y = voIPFragment3.callingUserTextureView.getY() + ((voIPFragment3.callingUserTextureView.getHeight() - height) / 2.0f);
+                        canvas.save();
+                        this.clipPath.rewind();
+                        this.rectF.set(x, y, width + x, height + y);
+                        float dp = AndroidUtilities.dp(4.0f);
+                        this.clipPath.addRoundRect(this.rectF, dp, dp, Path.Direction.CW);
+                        this.clipPath.close();
+                        canvas.clipPath(this.clipPath);
+                        super.dispatchDraw(canvas);
+                        canvas.restore();
+                        return;
+                    }
+                    super.dispatchDraw(canvas);
+                }
+            };
+            instance.deviceIsLocked = ((KeyguardManager) activity.getSystemService("keyguard")).inKeyguardRestrictedInputMode();
+            PowerManager powerManager = (PowerManager) activity.getSystemService("power");
+            int i2 = Build.VERSION.SDK_INT;
+            if (i2 >= 20) {
+                isScreenOn = powerManager.isInteractive();
             } else {
-                createWindowLayoutParams.type = 2003;
+                isScreenOn = powerManager.isScreenOn();
             }
+            VoIPFragment voIPFragment4 = instance;
+            voIPFragment4.screenWasWakeup = true ^ isScreenOn;
+            voIPWindowView.setLockOnScreen(voIPFragment4.deviceIsLocked);
+            voIPFragment3.windowView = voIPWindowView;
+            if (i2 >= 20) {
+                voIPWindowView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() { // from class: org.telegram.ui.VoIPFragment$$ExternalSyntheticLambda3
+                    @Override // android.view.View.OnApplyWindowInsetsListener
+                    public final WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                        WindowInsets lambda$show$3;
+                        lambda$show$3 = VoIPFragment.lambda$show$3(VoIPFragment.this, view, windowInsets);
+                        return lambda$show$3;
+                    }
+                });
+            }
+            WindowManager windowManager = (WindowManager) activity.getSystemService("window");
+            WindowManager.LayoutParams createWindowLayoutParams = voIPWindowView.createWindowLayoutParams();
+            if (z) {
+                if (i2 >= 26) {
+                    createWindowLayoutParams.type = 2038;
+                } else {
+                    createWindowLayoutParams.type = 2003;
+                }
+            }
+            windowManager.addView(voIPWindowView, createWindowLayoutParams);
+            voIPWindowView.addView(voIPFragment3.createView(activity));
+            if (z2) {
+                voIPFragment3.enterTransitionProgress = 0.0f;
+                voIPFragment3.startTransitionFromPiP();
+                return;
+            }
+            voIPFragment3.enterTransitionProgress = 1.0f;
+            voIPFragment3.updateSystemBarColors();
         }
-        windowManager.addView(voIPWindowView, createWindowLayoutParams);
-        voIPWindowView.addView(voIPFragment3.createView(activity));
-        if (z2) {
-            voIPFragment3.enterTransitionProgress = 0.0f;
-            voIPFragment3.startTransitionFromPiP();
-            return;
-        }
-        voIPFragment3.enterTransitionProgress = 1.0f;
-        voIPFragment3.updateSystemBarColors();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
