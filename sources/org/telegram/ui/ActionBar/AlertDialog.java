@@ -1315,10 +1315,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback, Notificati
     public void showCancelAlert() {
         if (this.canCacnel && this.cancelDialog == null) {
             Builder builder = new Builder(getContext(), this.resourcesProvider);
-            builder.setTitle(LocaleController.getString("StopLoadingTitle", R.string.StopLoadingTitle));
-            builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
-            builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
-            builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
+            builder.setTitle(LocaleController.getString(R.string.StopLoadingTitle));
+            builder.setMessage(LocaleController.getString(R.string.StopLoading));
+            builder.setPositiveButton(LocaleController.getString(R.string.WaitMore), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Stop), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ActionBar.AlertDialog$$ExternalSyntheticLambda9
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AlertDialog.this.lambda$showCancelAlert$6(dialogInterface, i);

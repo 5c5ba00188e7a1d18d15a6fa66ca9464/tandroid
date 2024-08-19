@@ -134,7 +134,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         this.type = this.arguments.getInt("type", 0);
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("LimitReached", R.string.LimitReached));
+        this.actionBar.setTitle(LocaleController.getString(R.string.LimitReached));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.TooManyCommunitiesActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -191,8 +191,8 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             }
         });
         int i = R.string.Search;
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", i));
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", i));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString(i));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(i));
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -225,7 +225,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.setShowAtCenter(true);
-        this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        this.emptyView.setText(LocaleController.getString(R.string.NoResult));
         this.emptyView.showTextView();
         RadialProgressView radialProgressView = new RadialProgressView(context);
         this.progressBar = radialProgressView;
@@ -485,11 +485,11 @@ public class TooManyCommunitiesActivity extends BaseFragment {
                 View view = TooManyCommunitiesActivity.this.hintCell;
                 int i2 = TooManyCommunitiesActivity.this.type;
                 if (i2 == 0) {
-                    string = LocaleController.getString("TooManyCommunitiesHintJoin", R.string.TooManyCommunitiesHintJoin);
+                    string = LocaleController.getString(R.string.TooManyCommunitiesHintJoin);
                 } else if (i2 == 1) {
-                    string = LocaleController.getString("TooManyCommunitiesHintEdit", R.string.TooManyCommunitiesHintEdit);
+                    string = LocaleController.getString(R.string.TooManyCommunitiesHintEdit);
                 } else {
-                    string = LocaleController.getString("TooManyCommunitiesHintCreate", R.string.TooManyCommunitiesHintCreate);
+                    string = LocaleController.getString(R.string.TooManyCommunitiesHintCreate);
                 }
                 TooManyCommunitiesActivity.this.hintCell.setMessageText(string);
                 RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(-1, -2);
@@ -506,7 +506,7 @@ public class TooManyCommunitiesActivity extends BaseFragment {
             } else if (i == 3) {
                 HeaderCell headerCell2 = new HeaderCell(viewGroup.getContext(), Theme.key_windowBackgroundWhiteBlueHeader, 21, 8, false);
                 headerCell2.setHeight(54);
-                headerCell2.setText(LocaleController.getString("InactiveChats", R.string.InactiveChats));
+                headerCell2.setText(LocaleController.getString(R.string.InactiveChats));
                 headerCell = headerCell2;
             } else if (i == 5) {
                 headerCell = new EmptyCell(viewGroup.getContext(), AndroidUtilities.dp(12.0f));

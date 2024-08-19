@@ -155,15 +155,15 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:77:0x0366 A[EDGE_INSN: B:77:0x0366->B:44:0x0366 ?: BREAK  , SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x030d A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x0360 A[EDGE_INSN: B:77:0x0360->B:44:0x0360 ?: BREAK  , SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0307 A[SYNTHETIC] */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public View createView(Context context) {
-        this.actionBar.setTitle(LocaleController.getString("Reactions", R.string.Reactions));
+        this.actionBar.setTitle(LocaleController.getString(R.string.Reactions));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         boolean z = true;
         this.actionBar.setAllowOverlayTitle(true);
@@ -203,10 +203,10 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         textInfoPrivacyCell.setTextColor(Theme.getColor(i));
         textInfoPrivacyCell.setTopPadding(12);
         textInfoPrivacyCell.setBottomPadding(16);
-        textInfoPrivacyCell.setText(LocaleController.getString("ReactionAddEmojiFromAnyPack", R.string.ReactionAddEmojiFromAnyPack));
+        textInfoPrivacyCell.setText(LocaleController.getString(R.string.ReactionAddEmojiFromAnyPack));
         this.contentLayout.addView(textInfoPrivacyCell, LayoutHelper.createLinear(-1, -2));
         HeaderCell headerCell = new HeaderCell(context);
-        headerCell.setText(LocaleController.getString("AvailableReactions", R.string.AvailableReactions));
+        headerCell.setText(LocaleController.getString(R.string.AvailableReactions));
         int i2 = Theme.key_windowBackgroundWhite;
         headerCell.setBackgroundColor(Theme.getColor(i2));
         headerCell.setTextSize(15.0f);
@@ -398,7 +398,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             }
         }
         TextCheckCell textCheckCell4 = this.enableReactionsCell;
-        String string = LocaleController.getString("EnableReactions", R.string.EnableReactions);
+        String string = LocaleController.getString(R.string.EnableReactions);
         if (this.selectedType == 2 && !this.paid) {
             z = false;
         }

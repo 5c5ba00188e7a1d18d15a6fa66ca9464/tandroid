@@ -71,14 +71,14 @@ public class GroupCreateSpan extends View {
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:105:0x037d  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x02ed  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x02fa  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x02fd  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x0306  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x0318  */
-    /* JADX WARN: Removed duplicated region for block: B:98:0x0329  */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x0368  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x02d6  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x02d8  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x02e5  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x02e8  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x02f1  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x0303  */
+    /* JADX WARN: Removed duplicated region for block: B:98:0x0314  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -192,37 +192,37 @@ public class GroupCreateSpan extends View {
                 case 0:
                     this.avatarDrawable.setAvatarType(4);
                     this.uid = Long.MIN_VALUE;
-                    str = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                    str = LocaleController.getString(R.string.FilterContacts);
                     break;
                 case 1:
                     this.avatarDrawable.setAvatarType(5);
                     this.uid = -9223372036854775807L;
-                    str = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
+                    str = LocaleController.getString(R.string.FilterNonContacts);
                     break;
                 case 2:
                     this.avatarDrawable.setAvatarType(6);
                     this.uid = -9223372036854775806L;
-                    str = LocaleController.getString("FilterGroups", R.string.FilterGroups);
+                    str = LocaleController.getString(R.string.FilterGroups);
                     break;
                 case 3:
                     this.avatarDrawable.setAvatarType(7);
                     this.uid = -9223372036854775805L;
-                    str = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                    str = LocaleController.getString(R.string.FilterChannels);
                     break;
                 case 4:
                     this.avatarDrawable.setAvatarType(8);
                     this.uid = -9223372036854775804L;
-                    str = LocaleController.getString("FilterBots", R.string.FilterBots);
+                    str = LocaleController.getString(R.string.FilterBots);
                     break;
                 case 5:
                     this.avatarDrawable.setAvatarType(9);
                     this.uid = -9223372036854775803L;
-                    str = LocaleController.getString("FilterMuted", R.string.FilterMuted);
+                    str = LocaleController.getString(R.string.FilterMuted);
                     break;
                 case 6:
                     this.avatarDrawable.setAvatarType(10);
                     this.uid = -9223372036854775802L;
-                    str = LocaleController.getString("FilterRead", R.string.FilterRead);
+                    str = LocaleController.getString(R.string.FilterRead);
                     break;
                 case 7:
                     this.avatarDrawable.setAvatarType(23);
@@ -242,7 +242,7 @@ public class GroupCreateSpan extends View {
                 default:
                     this.avatarDrawable.setAvatarType(11);
                     this.uid = -9223372036854775801L;
-                    str = LocaleController.getString("FilterArchived", R.string.FilterArchived);
+                    str = LocaleController.getString(R.string.FilterArchived);
                     break;
             }
         } else {
@@ -250,11 +250,11 @@ public class GroupCreateSpan extends View {
                 TLRPC$User tLRPC$User2 = (TLRPC$User) obj;
                 this.uid = tLRPC$User2.id;
                 if (UserObject.isReplyUser(tLRPC$User2)) {
-                    str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                    str = LocaleController.getString(R.string.RepliesTitle);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(12);
                 } else if (UserObject.isUserSelf(tLRPC$User2)) {
-                    str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                    str = LocaleController.getString(R.string.SavedMessages);
                     this.avatarDrawable.setScaleSize(0.8f);
                     this.avatarDrawable.setAvatarType(1);
                 } else {
@@ -462,6 +462,6 @@ public class GroupCreateSpan extends View {
         }
         accessibilityAction = AccessibilityNodeInfo.AccessibilityAction.ACTION_CLICK;
         id = accessibilityAction.getId();
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(id, LocaleController.getString("Delete", R.string.Delete)));
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(id, LocaleController.getString(R.string.Delete)));
     }
 }

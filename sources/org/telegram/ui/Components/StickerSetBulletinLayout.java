@@ -35,8 +35,8 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
         this(context, tLObject, 1, i, tLRPC$Document, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:101:0x0310  */
-    /* JADX WARN: Removed duplicated region for block: B:109:0x0380  */
+    /* JADX WARN: Removed duplicated region for block: B:101:0x0304  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x036e  */
     /* JADX WARN: Removed duplicated region for block: B:141:? A[RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:29:0x0077 A[ADDED_TO_REGION] */
     /* JADX WARN: Removed duplicated region for block: B:35:0x008e  */
@@ -45,9 +45,9 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
     /* JADX WARN: Removed duplicated region for block: B:72:0x013e  */
     /* JADX WARN: Removed duplicated region for block: B:81:0x01ca  */
     /* JADX WARN: Removed duplicated region for block: B:87:0x0253  */
-    /* JADX WARN: Removed duplicated region for block: B:88:0x0267  */
-    /* JADX WARN: Removed duplicated region for block: B:89:0x027b  */
-    /* JADX WARN: Removed duplicated region for block: B:90:0x028f  */
+    /* JADX WARN: Removed duplicated region for block: B:88:0x0265  */
+    /* JADX WARN: Removed duplicated region for block: B:89:0x0277  */
+    /* JADX WARN: Removed duplicated region for block: B:90:0x0289  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -116,11 +116,11 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     case 0:
                         if (tLRPC$StickerSet22 != null) {
                             if (tLRPC$StickerSet22.masks) {
-                                this.titleTextView.setText(LocaleController.getString("MasksRemoved", R.string.MasksRemoved));
+                                this.titleTextView.setText(LocaleController.getString(R.string.MasksRemoved));
                                 this.subtitleTextView.setText(LocaleController.formatString("MasksRemovedInfo", R.string.MasksRemovedInfo, tLRPC$StickerSet22.title));
                                 return;
                             } else if (tLRPC$StickerSet22.emojis) {
-                                this.titleTextView.setText(LocaleController.getString("EmojiRemoved", R.string.EmojiRemoved));
+                                this.titleTextView.setText(LocaleController.getString(R.string.EmojiRemoved));
                                 if (i > 1) {
                                     this.subtitleTextView.setText(LocaleController.formatPluralString("EmojiRemovedMultipleInfo", i, new Object[0]));
                                     return;
@@ -129,7 +129,7 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                                     return;
                                 }
                             } else {
-                                this.titleTextView.setText(LocaleController.getString("StickersRemoved", R.string.StickersRemoved));
+                                this.titleTextView.setText(LocaleController.getString(R.string.StickersRemoved));
                                 this.subtitleTextView.setText(LocaleController.formatString("StickersRemovedInfo", R.string.StickersRemovedInfo, tLRPC$StickerSet22.title));
                                 return;
                             }
@@ -138,15 +138,15 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     case 1:
                         if (tLRPC$StickerSet22 != null) {
                             if (tLRPC$StickerSet22.masks) {
-                                this.titleTextView.setText(LocaleController.getString("MasksArchived", R.string.MasksArchived));
+                                this.titleTextView.setText(LocaleController.getString(R.string.MasksArchived));
                                 this.subtitleTextView.setText(LocaleController.formatString("MasksArchivedInfo", R.string.MasksArchivedInfo, tLRPC$StickerSet22.title));
                                 return;
                             } else if (tLRPC$StickerSet22.emojis) {
-                                this.titleTextView.setText(LocaleController.getString("EmojiArchived", R.string.EmojiArchived));
+                                this.titleTextView.setText(LocaleController.getString(R.string.EmojiArchived));
                                 this.subtitleTextView.setText(LocaleController.formatString("EmojiArchivedInfo", R.string.EmojiArchivedInfo, tLRPC$StickerSet22.title));
                                 return;
                             } else {
-                                this.titleTextView.setText(LocaleController.getString("StickersArchived", R.string.StickersArchived));
+                                this.titleTextView.setText(LocaleController.getString(R.string.StickersArchived));
                                 this.subtitleTextView.setText(LocaleController.formatString("StickersArchivedInfo", R.string.StickersArchivedInfo, tLRPC$StickerSet22.title));
                                 return;
                             }
@@ -155,11 +155,11 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                     case 2:
                         if (tLRPC$StickerSet22 != null) {
                             if (tLRPC$StickerSet22.masks) {
-                                this.titleTextView.setText(LocaleController.getString("AddMasksInstalled", R.string.AddMasksInstalled));
+                                this.titleTextView.setText(LocaleController.getString(R.string.AddMasksInstalled));
                                 this.subtitleTextView.setText(LocaleController.formatString("AddMasksInstalledInfo", R.string.AddMasksInstalledInfo, tLRPC$StickerSet22.title));
                                 return;
                             } else if (tLRPC$StickerSet22.emojis) {
-                                this.titleTextView.setText(LocaleController.getString("AddEmojiInstalled", R.string.AddEmojiInstalled));
+                                this.titleTextView.setText(LocaleController.getString(R.string.AddEmojiInstalled));
                                 if (i > 1) {
                                     this.subtitleTextView.setText(LocaleController.formatPluralString("AddEmojiMultipleInstalledInfo", i, new Object[0]));
                                     return;
@@ -168,22 +168,22 @@ public class StickerSetBulletinLayout extends Bulletin.TwoLineLayout {
                                     return;
                                 }
                             } else {
-                                this.titleTextView.setText(LocaleController.getString("AddStickersInstalled", R.string.AddStickersInstalled));
+                                this.titleTextView.setText(LocaleController.getString(R.string.AddStickersInstalled));
                                 this.subtitleTextView.setText(LocaleController.formatString("AddStickersInstalledInfo", R.string.AddStickersInstalledInfo, tLRPC$StickerSet22.title));
                                 return;
                             }
                         }
                         return;
                     case 3:
-                        this.titleTextView.setText(LocaleController.getString("RemovedFromRecent", R.string.RemovedFromRecent));
+                        this.titleTextView.setText(LocaleController.getString(R.string.RemovedFromRecent));
                         this.subtitleTextView.setVisibility(8);
                         return;
                     case 4:
-                        this.titleTextView.setText(LocaleController.getString("RemovedFromFavorites", R.string.RemovedFromFavorites));
+                        this.titleTextView.setText(LocaleController.getString(R.string.RemovedFromFavorites));
                         this.subtitleTextView.setVisibility(8);
                         return;
                     case 5:
-                        this.titleTextView.setText(LocaleController.getString("AddedToFavorites", R.string.AddedToFavorites));
+                        this.titleTextView.setText(LocaleController.getString(R.string.AddedToFavorites));
                         this.subtitleTextView.setVisibility(8);
                         return;
                     case 6:

@@ -113,15 +113,13 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        int i;
-        String str;
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
         this.actionBar.setBackButtonDrawable(new BackDrawable(false));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.SaveToGallerySettingsActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i) {
+                if (i == -1) {
                     SaveToGallerySettingsActivity.this.finishFragment();
                 }
             }
@@ -133,10 +131,10 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                 this.actionBar.setTitle(LocaleController.getString(R.string.SaveToGalleryException));
             }
         } else {
-            int i2 = this.type;
-            if (i2 == 1) {
+            int i = this.type;
+            if (i == 1) {
                 this.actionBar.setTitle(LocaleController.getString(R.string.SaveToGalleryPrivate));
-            } else if (i2 == 2) {
+            } else if (i == 2) {
                 this.actionBar.setTitle(LocaleController.getString(R.string.SaveToGalleryGroups));
             } else {
                 this.actionBar.setTitle(LocaleController.getString(R.string.SaveToGalleryChannels));
@@ -156,25 +154,25 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
         recyclerListView.setAdapter(adapter);
         this.recyclerListView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.SaveToGallerySettingsActivity$$ExternalSyntheticLambda0
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view, int i3) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i3);
+            public /* synthetic */ boolean hasDoubleTap(View view, int i2) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view, i2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view, int i3, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i3, f, f2);
+            public /* synthetic */ void onDoubleTap(View view, int i2, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view, i2, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view, int i3, float f, float f2) {
-                SaveToGallerySettingsActivity.this.lambda$createView$2(view, i3, f, f2);
+            public final void onItemClick(View view, int i2, float f, float f2) {
+                SaveToGallerySettingsActivity.this.lambda$createView$2(view, i2, f, f2);
             }
         });
         this.recyclerListView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListenerExtended() { // from class: org.telegram.ui.SaveToGallerySettingsActivity$$ExternalSyntheticLambda1
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemLongClickListenerExtended
-            public final boolean onItemClick(View view, int i3, float f, float f2) {
+            public final boolean onItemClick(View view, int i2, float f, float f2) {
                 boolean lambda$createView$5;
-                lambda$createView$5 = SaveToGallerySettingsActivity.this.lambda$createView$5(view, i3, f, f2);
+                lambda$createView$5 = SaveToGallerySettingsActivity.this.lambda$createView$5(view, i2, f, f2);
                 return lambda$createView$5;
             }
 
@@ -195,14 +193,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             frameLayout2.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 8.0f));
             TextView textView = new TextView(getContext());
             textView.setTextSize(1, 14.0f);
-            if (this.isNewException) {
-                i = R.string.AddException;
-                str = "AddException";
-            } else {
-                i = R.string.SaveException;
-                str = "SaveException";
-            }
-            textView.setText(LocaleController.getString(str, i));
+            textView.setText(LocaleController.getString(this.isNewException ? R.string.AddException : R.string.SaveException));
             textView.setGravity(17);
             textView.setTypeface(AndroidUtilities.bold());
             textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
@@ -260,7 +251,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             bundle2.putInt("type", this.type);
             presentFragment(new SaveToGallerySettingsActivity(bundle2));
         } else if (this.items.get(i).viewType == 4) {
-            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("NotificationsDeleteAllExceptionTitle", R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString("NotificationsDeleteAllExceptionAlert", R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString("Delete", R.string.Delete), new Runnable() { // from class: org.telegram.ui.SaveToGallerySettingsActivity$$ExternalSyntheticLambda4
+            AlertDialog create = AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.NotificationsDeleteAllExceptionTitle), LocaleController.getString(R.string.NotificationsDeleteAllExceptionAlert), LocaleController.getString(R.string.Delete), new Runnable() { // from class: org.telegram.ui.SaveToGallerySettingsActivity$$ExternalSyntheticLambda4
                 @Override // java.lang.Runnable
                 public final void run() {
                     SaveToGallerySettingsActivity.this.lambda$createView$1();
@@ -292,8 +283,8 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
         if (this.items.get(i).viewType == 2) {
             final SaveToGallerySettingsHelper.DialogException dialogException = this.items.get(i).exception;
             ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
-            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_customize, LocaleController.getString("EditException", R.string.EditException), false, null);
-            ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_delete, LocaleController.getString("DeleteException", R.string.DeleteException), false, null);
+            ActionBarMenuSubItem addItem = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_customize, LocaleController.getString(R.string.EditException), false, null);
+            ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteException), false, null);
             int i2 = Theme.key_text_RedRegular;
             addItem2.setColors(Theme.getColor(i2), Theme.getColor(i2));
             final ActionBarPopupWindow createSimplePopup = AlertsCreator.createSimplePopup(this, actionBarPopupWindowLayout, view, f, f2);
@@ -359,26 +350,26 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             this.items.add(new Item(9));
             this.items.add(new Item(3));
         }
-        this.items.add(new Item(5, LocaleController.getString("SaveToGallery", R.string.SaveToGallery)));
+        this.items.add(new Item(5, LocaleController.getString(R.string.SaveToGallery)));
         this.savePhotosRow = this.items.size();
         this.items.add(new Item(6));
         this.saveVideosRow = this.items.size();
         this.items.add(new Item(6));
         if (this.dialogException != null) {
-            string = LocaleController.getString("SaveToGalleryHintCurrent", R.string.SaveToGalleryHintCurrent);
+            string = LocaleController.getString(R.string.SaveToGalleryHintCurrent);
         } else {
             int i2 = this.type;
             if (i2 == 1) {
-                string = LocaleController.getString("SaveToGalleryHintUser", R.string.SaveToGalleryHintUser);
+                string = LocaleController.getString(R.string.SaveToGalleryHintUser);
             } else if (i2 == 4) {
-                string = LocaleController.getString("SaveToGalleryHintChannels", R.string.SaveToGalleryHintChannels);
+                string = LocaleController.getString(R.string.SaveToGalleryHintChannels);
             } else {
-                string = i2 == 2 ? LocaleController.getString("SaveToGalleryHintGroup", R.string.SaveToGalleryHintGroup) : null;
+                string = i2 == 2 ? LocaleController.getString(R.string.SaveToGalleryHintGroup) : null;
             }
         }
         this.items.add(new Item(7, string));
         if (getSettings().saveVideo) {
-            this.items.add(new Item(5, LocaleController.getString("MaxVideoSize", R.string.MaxVideoSize)));
+            this.items.add(new Item(5, LocaleController.getString(R.string.MaxVideoSize)));
             this.items.add(new Item(8));
             this.videoDividerRow = this.items.size();
             this.items.add(new Item(7));
@@ -422,7 +413,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
             switch (i) {
                 case 1:
                     TextCell textCell = new TextCell(viewGroup.getContext());
-                    textCell.setTextAndIcon((CharSequence) LocaleController.getString("NotificationsAddAnException", R.string.NotificationsAddAnException), R.drawable.msg_contact_add, true);
+                    textCell.setTextAndIcon((CharSequence) LocaleController.getString(R.string.NotificationsAddAnException), R.drawable.msg_contact_add, true);
                     textCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
                     textCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     linearLayout = textCell;
@@ -437,7 +428,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                     break;
                 case 4:
                     TextCell textCell2 = new TextCell(viewGroup.getContext());
-                    textCell2.setText(LocaleController.getString("NotificationsDeleteAllException", R.string.NotificationsDeleteAllException), false);
+                    textCell2.setText(LocaleController.getString(R.string.NotificationsDeleteAllException), false);
                     textCell2.setColors(-1, Theme.key_text_RedRegular);
                     textCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     linearLayout = textCell2;
@@ -594,7 +585,7 @@ public class SaveToGallerySettingsActivity extends BaseFragment {
                 if (userOrChat instanceof TLRPC$User) {
                     TLRPC$User tLRPC$User = (TLRPC$User) userOrChat;
                     if (tLRPC$User.self) {
-                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        str = LocaleController.getString(R.string.SavedMessages);
                     } else {
                         str = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                     }

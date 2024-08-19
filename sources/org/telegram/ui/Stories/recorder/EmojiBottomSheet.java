@@ -1174,8 +1174,8 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             }
 
             /* JADX INFO: Access modifiers changed from: private */
-            /* JADX WARN: Removed duplicated region for block: B:154:0x034a A[SYNTHETIC] */
-            /* JADX WARN: Removed duplicated region for block: B:96:0x02bc  */
+            /* JADX WARN: Removed duplicated region for block: B:154:0x0346 A[SYNTHETIC] */
+            /* JADX WARN: Removed duplicated region for block: B:96:0x02b8  */
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
@@ -1221,7 +1221,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                         TLRPC$TL_messages_stickerSet tLRPC$TL_messages_stickerSet2 = this.faveSet;
                         tLRPC$TL_messages_stickerSet2.documents = recentStickers;
                         tLRPC$TL_messages_stickerSet2.set = new TLRPC$TL_stickerSet();
-                        this.faveSet.set.title = LocaleController.getString("FavoriteStickers", R.string.FavoriteStickers);
+                        this.faveSet.set.title = LocaleController.getString(R.string.FavoriteStickers);
                         this.stickerSets.add(this.faveSet);
                     }
                     ArrayList<TLRPC$Document> recentStickers2 = mediaDataController.getRecentStickers(0);
@@ -1234,7 +1234,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
                             this.recentSet.documents.add(0, EmojiBottomSheet.this.plus);
                         }
                         this.recentSet.set = new TLRPC$TL_stickerSet();
-                        this.recentSet.set.title = LocaleController.getString("RecentStickers", R.string.RecentStickers);
+                        this.recentSet.set.title = LocaleController.getString(R.string.RecentStickers);
                         this.stickerSets.add(this.recentSet);
                     }
                 }
@@ -2828,7 +2828,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             editTextBoldCursor.setLines(1);
             editTextBoldCursor.setSingleLine(true);
             editTextBoldCursor.setImeOptions(268435459);
-            editTextBoldCursor.setHint(LocaleController.getString("Search", R.string.Search));
+            editTextBoldCursor.setHint(LocaleController.getString(R.string.Search));
             int i2 = Theme.key_featuredStickers_addedIcon;
             editTextBoldCursor.setCursorColor(Theme.getColor(i2, resourcesProvider));
             editTextBoldCursor.setHandlesColor(Theme.getColor(i2, resourcesProvider));
@@ -3154,7 +3154,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             this.stickersLayout = staticLayout2;
             this.stickersLayoutWidth = staticLayout2.getLineCount() >= 1 ? this.stickersLayout.getLineWidth(0) : 0.0f;
             this.stickersLayoutLeft = this.stickersLayout.getLineCount() >= 1 ? this.stickersLayout.getLineLeft(0) : 0.0f;
-            StaticLayout staticLayout3 = new StaticLayout(LocaleController.getString("AccDescrGIFs", R.string.AccDescrGIFs), this.textPaint, getMeasuredWidth(), alignment, 1.0f, 0.0f, false);
+            StaticLayout staticLayout3 = new StaticLayout(LocaleController.getString(R.string.AccDescrGIFs), this.textPaint, getMeasuredWidth(), alignment, 1.0f, 0.0f, false);
             this.gifsLayout = staticLayout3;
             this.gifsLayoutWidth = staticLayout3.getLineCount() >= 1 ? this.gifsLayout.getLineWidth(0) : 0.0f;
             this.gifsLayoutLeft = this.gifsLayout.getLineCount() >= 1 ? this.gifsLayout.getLineLeft(0) : 0.0f;
@@ -3245,8 +3245,6 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
 
         public NoEmojiView(Context context, boolean z) {
             super(context);
-            int i;
-            String str;
             this.lastI = -1;
             BackupImageView backupImageView = new BackupImageView(context);
             this.imageView = backupImageView;
@@ -3255,15 +3253,7 @@ public class EmojiBottomSheet extends BottomSheet implements NotificationCenter.
             this.textView = textView;
             textView.setTextSize(1, 14.0f);
             this.textView.setTextColor(-8553090);
-            TextView textView2 = this.textView;
-            if (z) {
-                i = R.string.NoEmojiFound;
-                str = "NoEmojiFound";
-            } else {
-                i = R.string.NoStickersFound;
-                str = "NoStickersFound";
-            }
-            textView2.setText(LocaleController.getString(str, i));
+            this.textView.setText(LocaleController.getString(z ? R.string.NoEmojiFound : R.string.NoStickersFound));
             addView(this.textView, LayoutHelper.createFrame(-2, -2.0f, 17, 0.0f, 34.0f, 0.0f, 0.0f));
         }
 

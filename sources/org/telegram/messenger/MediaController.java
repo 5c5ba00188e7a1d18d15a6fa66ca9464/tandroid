@@ -5382,7 +5382,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             this.currentAccount.getNotificationCenter().addObserver(this, NotificationCenter.fileLoadFailed);
             AlertDialog alertDialog = new AlertDialog(context, 2);
             this.progressDialog = alertDialog;
-            alertDialog.setMessage(LocaleController.getString("Loading", R.string.Loading));
+            alertDialog.setMessage(LocaleController.getString(R.string.Loading));
             this.progressDialog.setCanceledOnTouchOutside(false);
             this.progressDialog.setCancelable(true);
             this.progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MediaController$MediaLoader$$ExternalSyntheticLambda7
@@ -5842,7 +5842,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     if (i != 0) {
                         try {
                             final AlertDialog alertDialog2 = new AlertDialog(context, 2);
-                            alertDialog2.setMessage(LocaleController.getString("Loading", R.string.Loading));
+                            alertDialog2.setMessage(LocaleController.getString(R.string.Loading));
                             alertDialog2.setCanceledOnTouchOutside(false);
                             alertDialog2.setCancelable(true);
                             alertDialog2.setOnCancelListener(new DialogInterface.OnCancelListener() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda18
@@ -6765,51 +6765,46 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     /* JADX INFO: Access modifiers changed from: private */
-    /* JADX WARN: Can't wrap try/catch for region: R(30:1|(6:2|3|4|5|6|7)|8|9|10|(22:12|(3:181|182|(1:184))|(2:15|(2:17|(1:19)))|175|(2:177|178)|164|29|30|(12:32|(2:34|(1:36))|(2:38|(2:40|(2:42|(1:44))))|45|(2:57|58)|47|48|49|(2:52|50)|53|54|55)|62|(1:64)(1:156)|65|(5:67|(1:69)(1:155)|70|(4:73|(3:150|151|152)(10:75|76|(7:78|79|80|81|(1:83)(1:146)|(1:85)|86)(1:149)|(4:134|135|136|137)(1:88)|89|90|(2:92|(2:128|129)(3:98|99|100))(1:130)|101|102|103)|104|71)|153)|45|(0)|47|48|49|(1:50)|53|54|55)|185|186|(1:188)(1:355)|189|(28:192|193|194|195|196|197|198|199|200|201|202|203|(1:205)(1:341)|206|207|208|209|210|211|212|213|214|215|216|217|(7:221|222|223|(3:316|317|318)(15:225|226|(6:228|229|230|231|232|233)(1:315)|(8:289|290|291|292|293|294|295|296)(1:235)|236|237|238|239|240|(6:242|243|244|(1:278)(4:248|249|250|(3:252|253|254))|273|274)(1:282)|255|(2:257|(1:264)(1:263))|265|266|267)|268|218|219)|322|323)(1:191)|(0)|164|29|30|(0)|62|(0)(0)|65|(0)|45|(0)|47|48|49|(1:50)|53|54|55|(1:(0))) */
-    /* JADX WARN: Can't wrap try/catch for region: R(35:1|2|3|4|5|6|7|8|9|10|(22:12|(3:181|182|(1:184))|(2:15|(2:17|(1:19)))|175|(2:177|178)|164|29|30|(12:32|(2:34|(1:36))|(2:38|(2:40|(2:42|(1:44))))|45|(2:57|58)|47|48|49|(2:52|50)|53|54|55)|62|(1:64)(1:156)|65|(5:67|(1:69)(1:155)|70|(4:73|(3:150|151|152)(10:75|76|(7:78|79|80|81|(1:83)(1:146)|(1:85)|86)(1:149)|(4:134|135|136|137)(1:88)|89|90|(2:92|(2:128|129)(3:98|99|100))(1:130)|101|102|103)|104|71)|153)|45|(0)|47|48|49|(1:50)|53|54|55)|185|186|(1:188)(1:355)|189|(28:192|193|194|195|196|197|198|199|200|201|202|203|(1:205)(1:341)|206|207|208|209|210|211|212|213|214|215|216|217|(7:221|222|223|(3:316|317|318)(15:225|226|(6:228|229|230|231|232|233)(1:315)|(8:289|290|291|292|293|294|295|296)(1:235)|236|237|238|239|240|(6:242|243|244|(1:278)(4:248|249|250|(3:252|253|254))|273|274)(1:282)|255|(2:257|(1:264)(1:263))|265|266|267)|268|218|219)|322|323)(1:191)|(0)|164|29|30|(0)|62|(0)(0)|65|(0)|45|(0)|47|48|49|(1:50)|53|54|55|(1:(0))) */
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x038d, code lost:
+    /* JADX WARN: Can't wrap try/catch for region: R(17:1|2|3|4|5|6|7|8|9|10|(23:12|(3:183|184|(1:186))|(2:15|(2:17|(1:19)))|176|177|(2:179|180)|165|30|31|(12:33|(2:35|(1:37))|(2:39|(2:41|(2:43|(1:45))))|46|(2:58|59)|48|49|50|(2:53|51)|54|55|56)|63|(1:65)(1:157)|66|(5:68|(1:70)(1:156)|71|(4:74|(3:151|152|153)(10:76|77|(7:79|80|81|82|(1:84)(1:147)|(1:86)|87)(1:150)|(4:135|136|137|138)(1:89)|90|91|(2:93|(2:129|130)(3:99|100|101))(1:131)|102|103|104)|105|72)|154)|46|(0)|48|49|50|(1:51)|54|55|56)|187|188|(1:190)(1:344)|191|(47:194|195|196|197|198|199|200|201|202|203|204|205|(1:207)(1:330)|208|209|210|211|212|213|214|215|216|217|218|219|(7:223|224|225|(3:305|306|307)(15:227|228|(6:230|231|232|233|234|235)(1:304)|(5:285|286|287|288|289)(1:237)|238|239|240|241|242|(6:244|245|246|(1:274)(4:250|251|252|(1:254))|269|270)(1:278)|255|(2:257|(1:264)(1:263))|265|266|267)|268|220|221)|311|312|177|(0)|165|30|31|(0)|63|(0)(0)|66|(0)|46|(0)|48|49|50|(1:51)|54|55|56)(19:193|(0)|165|30|31|(0)|63|(0)(0)|66|(0)|46|(0)|48|49|50|(1:51)|54|55|56)|(1:(0))) */
+    /* JADX WARN: Code restructure failed: missing block: B:155:0x0351, code lost:
         r0 = th;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:163:0x038e, code lost:
-        r39 = "_size";
-        r34 = "height";
-        r33 = "width";
-        r32 = "orientation";
-        r31 = "_data";
-        r30 = "bucket_display_name";
-        r29 = "bucket_id";
-        r28 = "_id";
-        r6 = r18;
+    /* JADX WARN: Code restructure failed: missing block: B:156:0x0352, code lost:
+        r38 = "_size";
+        r33 = "height";
+        r32 = "width";
+        r31 = "orientation";
+        r30 = "_data";
+        r29 = "bucket_display_name";
+        r28 = "bucket_id";
+        r27 = "_id";
+        r7 = r18;
         r8 = r19;
-        r9 = r20;
-        r5 = r22;
-        r4 = r27;
+        r5 = r21;
+        r4 = r26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:164:0x03a8, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:157:0x036a, code lost:
         r15 = null;
-        r35 = null;
+        r34 = null;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:183:0x03f0, code lost:
-        r0 = th;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:28:0x00b5, code lost:
-        if (r15 == 0) goto L185;
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x00b1, code lost:
+        if (r15 == 0) goto L187;
      */
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x0360  */
-    /* JADX WARN: Removed duplicated region for block: B:15:0x0073  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x03e5  */
-    /* JADX WARN: Removed duplicated region for block: B:196:0x041f  */
-    /* JADX WARN: Removed duplicated region for block: B:197:0x0422  */
-    /* JADX WARN: Removed duplicated region for block: B:200:0x0438 A[Catch: all -> 0x03f0, TryCatch #7 {all -> 0x03f0, blocks: (B:176:0x03dd, B:180:0x03e9, B:186:0x03f6, B:188:0x03fc, B:190:0x0402, B:194:0x040c, B:198:0x0424, B:200:0x0438, B:204:0x0459, B:205:0x047a, B:207:0x0480, B:210:0x048b, B:212:0x04cd), top: B:307:0x03dd }] */
-    /* JADX WARN: Removed duplicated region for block: B:272:0x0594 A[LOOP:0: B:270:0x058e->B:272:0x0594, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:293:0x056b A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:33:0x00ed  */
-    /* JADX WARN: Removed duplicated region for block: B:349:0x03d0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x00f0  */
-    /* JADX WARN: Removed duplicated region for block: B:355:0x0106 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:363:0x0384 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:369:0x057f A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:148:0x0328  */
+    /* JADX WARN: Removed duplicated region for block: B:15:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:171:0x03a5  */
+    /* JADX WARN: Removed duplicated region for block: B:189:0x03df  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x03e2  */
+    /* JADX WARN: Removed duplicated region for block: B:193:0x03f8 A[Catch: all -> 0x03b0, TryCatch #12 {all -> 0x03b0, blocks: (B:169:0x039d, B:173:0x03a9, B:179:0x03b6, B:181:0x03bc, B:183:0x03c2, B:187:0x03cc, B:191:0x03e4, B:193:0x03f8, B:197:0x0419, B:198:0x043a, B:200:0x0440, B:203:0x044b, B:205:0x048b), top: B:310:0x039d }] */
+    /* JADX WARN: Removed duplicated region for block: B:265:0x054e A[LOOP:0: B:263:0x0548->B:265:0x054e, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:296:0x0525 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:334:0x0348 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:342:0x0390 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:346:0x0539 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:350:0x0100 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x00e7  */
+    /* JADX WARN: Removed duplicated region for block: B:36:0x00ea  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -6826,9 +6821,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         String str9;
         ArrayList arrayList;
         ArrayList arrayList2;
-        String str10;
         SparseArray sparseArray2;
-        String str11;
+        String str10;
         Cursor cursor;
         Object obj;
         Object obj2;
@@ -6838,6 +6832,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         AlbumEntry albumEntry2;
         AlbumEntry albumEntry3;
         int i2;
+        Context context;
         int i3;
         int i4;
         AlbumEntry albumEntry4;
@@ -6847,7 +6842,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         int checkSelfPermission3;
         int checkSelfPermission4;
         AlbumEntry albumEntry5;
-        Context context;
+        Context context2;
         int i6;
         ArrayList arrayList3;
         int i7;
@@ -6856,78 +6851,54 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         AlbumEntry albumEntry6;
         int i10;
         int i11;
-        int i12;
         AlbumEntry albumEntry7;
         AlbumEntry albumEntry8;
-        Cursor cursor2;
+        int i12;
         AlbumEntry albumEntry9;
         int checkSelfPermission5;
         int checkSelfPermission6;
         int checkSelfPermission7;
         int checkSelfPermission8;
-        String str12 = "_size";
+        StringBuilder sb;
+        String str11 = "_size";
         ArrayList arrayList4 = new ArrayList();
         ArrayList arrayList5 = new ArrayList();
-        String str13 = "AllMedia";
+        ArrayList arrayList6 = arrayList4;
         SparseArray sparseArray3 = new SparseArray();
         SparseArray sparseArray4 = new SparseArray();
         AlbumEntry albumEntry10 = null;
         try {
-            StringBuilder sb = new StringBuilder();
+            sb = new StringBuilder();
             sparseArray = sparseArray4;
+        } catch (Exception e2) {
+            e = e2;
+            sparseArray = sparseArray4;
+        }
+        try {
             try {
                 sb.append(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath());
                 sb.append("/Camera/");
                 str = sb.toString();
-            } catch (Exception e2) {
-                e = e2;
+            } catch (Exception e3) {
+                e = e3;
                 FileLog.e(e);
                 str = null;
-                context = ApplicationLoader.applicationContext;
+                context2 = ApplicationLoader.applicationContext;
                 i6 = Build.VERSION.SDK_INT;
                 arrayList3 = arrayList5;
                 if (i6 >= 23) {
                 }
-                ContentResolver contentResolver = context.getContentResolver();
+                ContentResolver contentResolver = context2.getContentResolver();
                 Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 String[] strArr = projectionPhotos;
                 StringBuilder sb2 = new StringBuilder();
                 sb2.append(i6 <= 28 ? "date_modified" : "datetaken");
                 sb2.append(" DESC");
                 cursor = MediaStore.Images.Media.query(contentResolver, uri, strArr, null, null, sb2.toString());
-                if (cursor == null) {
-                }
                 if (cursor != null) {
                 }
-                albumEntry = obj;
-                Context context2 = ApplicationLoader.applicationContext;
-                i3 = Build.VERSION.SDK_INT;
-                if (i3 >= 23) {
-                }
-                ContentResolver contentResolver2 = ApplicationLoader.applicationContext.getContentResolver();
-                Uri uri2 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                String[] strArr2 = projectionVideo;
-                StringBuilder sb3 = new StringBuilder();
-                sb3.append(i3 <= 28 ? "date_modified" : "datetaken");
-                sb3.append(" DESC");
-                cursor = MediaStore.Images.Media.query(contentResolver2, uri2, strArr2, null, null, sb3.toString());
-                if (cursor != null) {
-                }
-                if (cursor != null) {
-                }
-                albumEntry3 = albumEntry10;
-                AlbumEntry albumEntry11 = obj3;
-                Integer num = obj2;
-                while (i2 < arrayList2.size()) {
-                }
-                broadcastNewPhotos(i, arrayList2, arrayList, num, albumEntry11, albumEntry, albumEntry3, 0);
             }
-        } catch (Exception e3) {
-            e = e3;
-            sparseArray = sparseArray4;
-        }
-        try {
-            context = ApplicationLoader.applicationContext;
+            context2 = ApplicationLoader.applicationContext;
             i6 = Build.VERSION.SDK_INT;
             arrayList3 = arrayList5;
         } catch (Throwable th) {
@@ -6941,15 +6912,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             str8 = "bucket_id";
             str9 = "_id";
             arrayList = arrayList5;
-            arrayList2 = arrayList4;
-            str10 = str13;
+            arrayList2 = arrayList6;
             sparseArray2 = sparseArray3;
-            str11 = str;
+            str10 = str;
         }
         if (i6 >= 23) {
             if (i6 < 33) {
                 try {
-                    checkSelfPermission5 = context.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
+                    checkSelfPermission5 = context2.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
                     if (checkSelfPermission5 != 0) {
                     }
                 } catch (Throwable th2) {
@@ -6962,52 +6932,52 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     str7 = "bucket_display_name";
                     str8 = "bucket_id";
                     str9 = "_id";
-                    arrayList2 = arrayList4;
-                    str10 = str13;
+                    arrayList2 = arrayList6;
                     sparseArray2 = sparseArray3;
                     cursor = null;
                     obj = null;
                     obj3 = null;
                     obj2 = null;
-                    str11 = str;
+                    str10 = str;
                     arrayList = arrayList3;
+                    obj3 = obj3;
                     albumEntry5 = obj;
                     try {
                         FileLog.e(th);
                         if (cursor != null) {
                         }
                         albumEntry = albumEntry5;
-                        Context context22 = ApplicationLoader.applicationContext;
+                        context = ApplicationLoader.applicationContext;
                         i3 = Build.VERSION.SDK_INT;
                         if (i3 >= 23) {
                         }
-                        ContentResolver contentResolver22 = ApplicationLoader.applicationContext.getContentResolver();
-                        Uri uri22 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                        String[] strArr22 = projectionVideo;
-                        StringBuilder sb32 = new StringBuilder();
-                        sb32.append(i3 <= 28 ? "date_modified" : "datetaken");
-                        sb32.append(" DESC");
-                        cursor = MediaStore.Images.Media.query(contentResolver22, uri22, strArr22, null, null, sb32.toString());
+                        ContentResolver contentResolver2 = ApplicationLoader.applicationContext.getContentResolver();
+                        Uri uri2 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                        String[] strArr2 = projectionVideo;
+                        StringBuilder sb3 = new StringBuilder();
+                        sb3.append(i3 > 28 ? "date_modified" : "datetaken");
+                        sb3.append(" DESC");
+                        cursor = MediaStore.Images.Media.query(contentResolver2, uri2, strArr2, null, null, sb3.toString());
                         if (cursor != null) {
                         }
                         if (cursor != null) {
                         }
                         albumEntry3 = albumEntry10;
-                        AlbumEntry albumEntry112 = obj3;
-                        Integer num2 = obj2;
+                        AlbumEntry albumEntry11 = obj3;
+                        Integer num = obj2;
                         while (i2 < arrayList2.size()) {
                         }
-                        broadcastNewPhotos(i, arrayList2, arrayList, num2, albumEntry112, albumEntry, albumEntry3, 0);
+                        broadcastNewPhotos(i, arrayList2, arrayList, num, albumEntry11, albumEntry, albumEntry3, 0);
                     } finally {
                     }
                 }
             }
             if (i6 >= 33) {
-                checkSelfPermission6 = context.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
+                checkSelfPermission6 = context2.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
                 if (checkSelfPermission6 != 0) {
-                    checkSelfPermission7 = context.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
+                    checkSelfPermission7 = context2.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
                     if (checkSelfPermission7 != 0) {
-                        checkSelfPermission8 = context.checkSelfPermission("android.permission.READ_MEDIA_AUDIO");
+                        checkSelfPermission8 = context2.checkSelfPermission("android.permission.READ_MEDIA_AUDIO");
                     }
                 }
             }
@@ -7019,14 +6989,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             str7 = "bucket_display_name";
             str8 = "bucket_id";
             str9 = "_id";
-            arrayList2 = arrayList4;
-            str10 = str13;
+            arrayList2 = arrayList6;
             sparseArray2 = sparseArray3;
             cursor = null;
             obj = null;
             obj3 = null;
             obj2 = null;
-            str11 = str;
+            str10 = str;
             arrayList = arrayList3;
             if (cursor != null) {
                 try {
@@ -7035,44 +7004,48 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     e = e4;
                     FileLog.e(e);
                     albumEntry = obj;
-                    Context context222 = ApplicationLoader.applicationContext;
+                    context = ApplicationLoader.applicationContext;
                     i3 = Build.VERSION.SDK_INT;
                     if (i3 >= 23) {
                     }
-                    ContentResolver contentResolver222 = ApplicationLoader.applicationContext.getContentResolver();
-                    Uri uri222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                    String[] strArr222 = projectionVideo;
-                    StringBuilder sb322 = new StringBuilder();
-                    sb322.append(i3 <= 28 ? "date_modified" : "datetaken");
-                    sb322.append(" DESC");
-                    cursor = MediaStore.Images.Media.query(contentResolver222, uri222, strArr222, null, null, sb322.toString());
+                    ContentResolver contentResolver22 = ApplicationLoader.applicationContext.getContentResolver();
+                    Uri uri22 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                    String[] strArr22 = projectionVideo;
+                    StringBuilder sb32 = new StringBuilder();
+                    sb32.append(i3 > 28 ? "date_modified" : "datetaken");
+                    sb32.append(" DESC");
+                    cursor = MediaStore.Images.Media.query(contentResolver22, uri22, strArr22, null, null, sb32.toString());
                     if (cursor != null) {
                     }
                     if (cursor != null) {
                     }
                     albumEntry3 = albumEntry10;
-                    AlbumEntry albumEntry1122 = obj3;
-                    Integer num22 = obj2;
+                    AlbumEntry albumEntry112 = obj3;
+                    Integer num2 = obj2;
                     while (i2 < arrayList2.size()) {
                     }
-                    broadcastNewPhotos(i, arrayList2, arrayList, num22, albumEntry1122, albumEntry, albumEntry3, 0);
+                    broadcastNewPhotos(i, arrayList2, arrayList, num2, albumEntry112, albumEntry, albumEntry3, 0);
                 }
             }
             albumEntry = obj;
-            Context context2222 = ApplicationLoader.applicationContext;
-            i3 = Build.VERSION.SDK_INT;
+            try {
+                context = ApplicationLoader.applicationContext;
+                i3 = Build.VERSION.SDK_INT;
+            } catch (Throwable th3) {
+                th = th3;
+            }
             if (i3 >= 23) {
                 if (i3 < 33) {
-                    checkSelfPermission4 = context2222.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
+                    checkSelfPermission4 = context.checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE");
                     if (checkSelfPermission4 != 0) {
                     }
                 }
                 if (i3 >= 33) {
-                    checkSelfPermission = context2222.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
+                    checkSelfPermission = context.checkSelfPermission("android.permission.READ_MEDIA_IMAGES");
                     if (checkSelfPermission != 0) {
-                        checkSelfPermission2 = context2222.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
+                        checkSelfPermission2 = context.checkSelfPermission("android.permission.READ_MEDIA_VIDEO");
                         if (checkSelfPermission2 != 0) {
-                            checkSelfPermission3 = context2222.checkSelfPermission("android.permission.READ_MEDIA_AUDIO");
+                            checkSelfPermission3 = context.checkSelfPermission("android.permission.READ_MEDIA_AUDIO");
                             if (checkSelfPermission3 == 0) {
                             }
                         }
@@ -7085,16 +7058,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         e = e5;
                         FileLog.e(e);
                         albumEntry3 = albumEntry10;
-                        AlbumEntry albumEntry11222 = obj3;
-                        Integer num222 = obj2;
+                        AlbumEntry albumEntry1122 = obj3;
+                        Integer num22 = obj2;
                         while (i2 < arrayList2.size()) {
                         }
-                        broadcastNewPhotos(i, arrayList2, arrayList, num222, albumEntry11222, albumEntry, albumEntry3, 0);
+                        broadcastNewPhotos(i, arrayList2, arrayList, num22, albumEntry1122, albumEntry, albumEntry3, 0);
                     }
                 }
                 albumEntry3 = albumEntry10;
-                AlbumEntry albumEntry112222 = obj3;
-                Integer num2222 = obj2;
+                AlbumEntry albumEntry11222 = obj3;
+                Integer num222 = obj2;
                 for (i2 = 0; i2 < arrayList2.size(); i2++) {
                     Collections.sort(((AlbumEntry) arrayList2.get(i2)).photos, new Comparator() { // from class: org.telegram.messenger.MediaController$$ExternalSyntheticLambda41
                         @Override // java.util.Comparator
@@ -7105,15 +7078,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         }
                     });
                 }
-                broadcastNewPhotos(i, arrayList2, arrayList, num2222, albumEntry112222, albumEntry, albumEntry3, 0);
+                broadcastNewPhotos(i, arrayList2, arrayList, num222, albumEntry11222, albumEntry, albumEntry3, 0);
             }
-            ContentResolver contentResolver2222 = ApplicationLoader.applicationContext.getContentResolver();
-            Uri uri2222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-            String[] strArr2222 = projectionVideo;
-            StringBuilder sb3222 = new StringBuilder();
-            sb3222.append(i3 <= 28 ? "date_modified" : "datetaken");
-            sb3222.append(" DESC");
-            cursor = MediaStore.Images.Media.query(contentResolver2222, uri2222, strArr2222, null, null, sb3222.toString());
+            ContentResolver contentResolver222 = ApplicationLoader.applicationContext.getContentResolver();
+            Uri uri222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            String[] strArr222 = projectionVideo;
+            StringBuilder sb322 = new StringBuilder();
+            sb322.append(i3 > 28 ? "date_modified" : "datetaken");
+            sb322.append(" DESC");
+            cursor = MediaStore.Images.Media.query(contentResolver222, uri222, strArr222, null, null, sb322.toString());
             if (cursor != null) {
                 int columnIndex = cursor.getColumnIndex(str9);
                 int columnIndex2 = cursor.getColumnIndex(str8);
@@ -7129,29 +7102,28 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     String string = cursor.getString(columnIndex4);
                     if (!TextUtils.isEmpty(string)) {
                         int i13 = cursor.getInt(columnIndex);
-                        int i14 = columnIndex;
-                        int i15 = cursor.getInt(columnIndex2);
-                        int i16 = columnIndex2;
+                        int i14 = cursor.getInt(columnIndex2);
+                        int i15 = columnIndex;
                         String string2 = cursor.getString(columnIndex3);
-                        int i17 = columnIndex5;
-                        int i18 = columnIndex6;
-                        int i19 = columnIndex7;
-                        PhotoEntry photoEntry = new PhotoEntry(i15, i13, cursor.getLong(columnIndex5), string, 0, (int) (cursor.getLong(columnIndex6) / 1000), true, cursor.getInt(columnIndex7), cursor.getInt(columnIndex8), cursor.getLong(columnIndex9));
+                        int i16 = columnIndex5;
+                        int i17 = columnIndex2;
+                        int i18 = columnIndex3;
+                        PhotoEntry photoEntry = new PhotoEntry(i14, i13, cursor.getLong(columnIndex5), string, 0, (int) (cursor.getLong(columnIndex6) / 1000), true, cursor.getInt(columnIndex7), cursor.getInt(columnIndex8), cursor.getLong(columnIndex9));
                         if (albumEntry10 == null) {
-                            i4 = columnIndex3;
-                            albumEntry2 = new AlbumEntry(0, LocaleController.getString("AllVideos", R.string.AllVideos), photoEntry);
-                            int i20 = 1;
+                            i4 = columnIndex4;
+                            albumEntry2 = new AlbumEntry(0, LocaleController.getString(R.string.AllVideos), photoEntry);
+                            int i19 = 1;
                             try {
                                 albumEntry2.videoOnly = true;
                                 if (obj3 == null) {
-                                    i20 = 0;
+                                    i19 = 0;
                                 }
                                 if (albumEntry != null) {
-                                    i20++;
+                                    i19++;
                                 }
-                                arrayList2.add(i20, albumEntry2);
-                            } catch (Throwable th3) {
-                                th = th3;
+                                arrayList2.add(i19, albumEntry2);
+                            } catch (Throwable th4) {
+                                th = th4;
                                 try {
                                     FileLog.e(th);
                                     if (cursor != null) {
@@ -7162,12 +7134,37 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                             albumEntry10 = albumEntry2;
                                             FileLog.e(e);
                                             albumEntry3 = albumEntry10;
-                                            AlbumEntry albumEntry1122222 = obj3;
-                                            Integer num22222 = obj2;
+                                            AlbumEntry albumEntry112222 = obj3;
+                                            Integer num2222 = obj2;
                                             while (i2 < arrayList2.size()) {
                                             }
-                                            broadcastNewPhotos(i, arrayList2, arrayList, num22222, albumEntry1122222, albumEntry, albumEntry3, 0);
+                                            broadcastNewPhotos(i, arrayList2, arrayList, num2222, albumEntry112222, albumEntry, albumEntry3, 0);
                                         }
+                                    }
+                                    albumEntry3 = albumEntry2;
+                                    AlbumEntry albumEntry1122222 = obj3;
+                                    Integer num22222 = obj2;
+                                    while (i2 < arrayList2.size()) {
+                                    }
+                                    broadcastNewPhotos(i, arrayList2, arrayList, num22222, albumEntry1122222, albumEntry, albumEntry3, 0);
+                                } finally {
+                                }
+                            }
+                        } else {
+                            i4 = columnIndex4;
+                            albumEntry2 = albumEntry10;
+                        }
+                        if (obj3 == null) {
+                            try {
+                                i5 = columnIndex6;
+                                albumEntry4 = new AlbumEntry(0, LocaleController.getString(R.string.AllMedia), photoEntry);
+                                try {
+                                    arrayList2.add(0, albumEntry4);
+                                } catch (Throwable th5) {
+                                    th = th5;
+                                    obj3 = albumEntry4;
+                                    FileLog.e(th);
+                                    if (cursor != null) {
                                     }
                                     albumEntry3 = albumEntry2;
                                     AlbumEntry albumEntry11222222 = obj3;
@@ -7175,95 +7172,117 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                     while (i2 < arrayList2.size()) {
                                     }
                                     broadcastNewPhotos(i, arrayList2, arrayList, num222222, albumEntry11222222, albumEntry, albumEntry3, 0);
-                                } finally {
                                 }
-                            }
-                        } else {
-                            i4 = columnIndex3;
-                            albumEntry2 = albumEntry10;
-                        }
-                        if (obj3 == null) {
-                            try {
-                                i5 = columnIndex4;
-                                albumEntry4 = new AlbumEntry(0, LocaleController.getString(str10, R.string.AllMedia), photoEntry);
-                                try {
-                                    arrayList2.add(0, albumEntry4);
-                                } catch (Throwable th4) {
-                                    th = th4;
-                                    obj3 = albumEntry4;
-                                    FileLog.e(th);
-                                    if (cursor != null) {
-                                    }
-                                    albumEntry3 = albumEntry2;
-                                    AlbumEntry albumEntry112222222 = obj3;
-                                    Integer num2222222 = obj2;
-                                    while (i2 < arrayList2.size()) {
-                                    }
-                                    broadcastNewPhotos(i, arrayList2, arrayList, num2222222, albumEntry112222222, albumEntry, albumEntry3, 0);
-                                }
-                            } catch (Throwable th5) {
-                                th = th5;
+                            } catch (Throwable th6) {
+                                th = th6;
                                 albumEntry10 = albumEntry2;
                                 albumEntry2 = albumEntry10;
                                 FileLog.e(th);
                                 if (cursor != null) {
                                 }
                                 albumEntry3 = albumEntry2;
-                                AlbumEntry albumEntry1122222222 = obj3;
-                                Integer num22222222 = obj2;
+                                AlbumEntry albumEntry112222222 = obj3;
+                                Integer num2222222 = obj2;
                                 while (i2 < arrayList2.size()) {
                                 }
-                                broadcastNewPhotos(i, arrayList2, arrayList, num22222222, albumEntry1122222222, albumEntry, albumEntry3, 0);
+                                broadcastNewPhotos(i, arrayList2, arrayList, num2222222, albumEntry112222222, albumEntry, albumEntry3, 0);
                             }
                         } else {
-                            i5 = columnIndex4;
+                            i5 = columnIndex6;
                             albumEntry4 = obj3;
                         }
                         try {
                             albumEntry2.addPhoto(photoEntry);
                             albumEntry4.addPhoto(photoEntry);
-                            AlbumEntry albumEntry12 = (AlbumEntry) sparseArray2.get(i15);
+                            AlbumEntry albumEntry12 = (AlbumEntry) sparseArray2.get(i14);
                             if (albumEntry12 == null) {
-                                albumEntry12 = new AlbumEntry(i15, string2, photoEntry);
-                                sparseArray2.put(i15, albumEntry12);
-                                if (obj2 == null && str11 != null && string != null && string.startsWith(str11)) {
+                                albumEntry12 = new AlbumEntry(i14, string2, photoEntry);
+                                sparseArray2.put(i14, albumEntry12);
+                                if (obj2 == null && str10 != null && string != null && string.startsWith(str10)) {
                                     try {
                                         arrayList2.add(0, albumEntry12);
-                                        obj2 = Integer.valueOf(i15);
-                                    } catch (Throwable th6) {
-                                        th = th6;
-                                        obj3 = albumEntry4;
+                                        obj2 = Integer.valueOf(i14);
+                                    } catch (Throwable th7) {
+                                        th = th7;
                                         albumEntry10 = albumEntry2;
+                                        obj3 = albumEntry4;
                                         albumEntry2 = albumEntry10;
                                         FileLog.e(th);
                                         if (cursor != null) {
                                         }
                                         albumEntry3 = albumEntry2;
-                                        AlbumEntry albumEntry11222222222 = obj3;
-                                        Integer num222222222 = obj2;
+                                        AlbumEntry albumEntry1122222222 = obj3;
+                                        Integer num22222222 = obj2;
                                         while (i2 < arrayList2.size()) {
                                         }
-                                        broadcastNewPhotos(i, arrayList2, arrayList, num222222222, albumEntry11222222222, albumEntry, albumEntry3, 0);
+                                        broadcastNewPhotos(i, arrayList2, arrayList, num22222222, albumEntry1122222222, albumEntry, albumEntry3, 0);
                                     }
                                 } else {
                                     arrayList2.add(albumEntry12);
                                 }
                             }
                             albumEntry12.addPhoto(photoEntry);
-                            obj3 = albumEntry4;
                             albumEntry10 = albumEntry2;
-                            columnIndex = i14;
-                            columnIndex2 = i16;
-                            columnIndex3 = i4;
-                            columnIndex4 = i5;
-                            columnIndex5 = i17;
-                            columnIndex6 = i18;
-                            columnIndex7 = i19;
-                        } catch (Throwable th7) {
-                            th = th7;
+                            obj3 = albumEntry4;
+                            columnIndex = i15;
+                            columnIndex4 = i4;
+                            columnIndex6 = i5;
+                            columnIndex5 = i16;
+                            columnIndex2 = i17;
+                            columnIndex3 = i18;
+                        } catch (Throwable th8) {
+                            th = th8;
                         }
                     }
                 }
+            }
+            if (cursor != null) {
+            }
+            albumEntry3 = albumEntry10;
+            AlbumEntry albumEntry11222222222 = obj3;
+            Integer num222222222 = obj2;
+            while (i2 < arrayList2.size()) {
+            }
+            broadcastNewPhotos(i, arrayList2, arrayList, num222222222, albumEntry11222222222, albumEntry, albumEntry3, 0);
+        }
+        ContentResolver contentResolver3 = context2.getContentResolver();
+        Uri uri3 = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String[] strArr3 = projectionPhotos;
+        StringBuilder sb22 = new StringBuilder();
+        sb22.append(i6 <= 28 ? "date_modified" : "datetaken");
+        sb22.append(" DESC");
+        cursor = MediaStore.Images.Media.query(contentResolver3, uri3, strArr3, null, null, sb22.toString());
+        if (cursor != null) {
+            str2 = "_size";
+            str3 = "height";
+            str4 = "width";
+            str5 = "orientation";
+            str6 = "_data";
+            str7 = "bucket_display_name";
+            str8 = "bucket_id";
+            str9 = "_id";
+            arrayList2 = arrayList6;
+            sparseArray2 = sparseArray3;
+            str10 = str;
+            arrayList = arrayList3;
+            obj = null;
+            obj3 = null;
+            obj2 = null;
+            if (cursor != null) {
+            }
+            albumEntry = obj;
+            context = ApplicationLoader.applicationContext;
+            i3 = Build.VERSION.SDK_INT;
+            if (i3 >= 23) {
+            }
+            ContentResolver contentResolver2222 = ApplicationLoader.applicationContext.getContentResolver();
+            Uri uri2222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+            String[] strArr2222 = projectionVideo;
+            StringBuilder sb3222 = new StringBuilder();
+            sb3222.append(i3 > 28 ? "date_modified" : "datetaken");
+            sb3222.append(" DESC");
+            cursor = MediaStore.Images.Media.query(contentResolver2222, uri2222, strArr2222, null, null, sb3222.toString());
+            if (cursor != null) {
             }
             if (cursor != null) {
             }
@@ -7274,82 +7293,69 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             broadcastNewPhotos(i, arrayList2, arrayList, num2222222222, albumEntry112222222222, albumEntry, albumEntry3, 0);
         }
-        ContentResolver contentResolver3 = context.getContentResolver();
-        Uri uri3 = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String[] strArr3 = projectionPhotos;
-        StringBuilder sb22 = new StringBuilder();
-        sb22.append(i6 <= 28 ? "date_modified" : "datetaken");
-        sb22.append(" DESC");
-        cursor = MediaStore.Images.Media.query(contentResolver3, uri3, strArr3, null, null, sb22.toString());
-        if (cursor == null) {
+        try {
+            int columnIndex10 = cursor.getColumnIndex("_id");
+            str9 = "_id";
             try {
-                int columnIndex10 = cursor.getColumnIndex("_id");
-                str9 = "_id";
+                int columnIndex11 = cursor.getColumnIndex("bucket_id");
+                str8 = "bucket_id";
                 try {
-                    int columnIndex11 = cursor.getColumnIndex("bucket_id");
-                    str8 = "bucket_id";
+                    int columnIndex12 = cursor.getColumnIndex("bucket_display_name");
+                    str7 = "bucket_display_name";
                     try {
-                        int columnIndex12 = cursor.getColumnIndex("bucket_display_name");
-                        str7 = "bucket_display_name";
+                        int columnIndex13 = cursor.getColumnIndex("_data");
+                        str6 = "_data";
                         try {
-                            int columnIndex13 = cursor.getColumnIndex("_data");
-                            str6 = "_data";
+                            int columnIndex14 = cursor.getColumnIndex(i6 > 28 ? "date_modified" : "datetaken");
+                            int columnIndex15 = cursor.getColumnIndex("orientation");
+                            str5 = "orientation";
                             try {
-                                int columnIndex14 = cursor.getColumnIndex(i6 > 28 ? "date_modified" : "datetaken");
-                                int columnIndex15 = cursor.getColumnIndex("orientation");
-                                str5 = "orientation";
+                                int columnIndex16 = cursor.getColumnIndex("width");
+                                str4 = "width";
                                 try {
-                                    int columnIndex16 = cursor.getColumnIndex("width");
-                                    str4 = "width";
+                                    int columnIndex17 = cursor.getColumnIndex("height");
+                                    str3 = "height";
                                     try {
-                                        int columnIndex17 = cursor.getColumnIndex("height");
-                                        str3 = "height";
-                                        try {
-                                            int columnIndex18 = cursor.getColumnIndex("_size");
-                                            obj = null;
-                                            obj3 = null;
-                                            obj2 = null;
-                                            Integer num3 = null;
-                                            while (cursor.moveToNext()) {
-                                                try {
-                                                    str2 = str12;
-                                                } catch (Throwable th8) {
-                                                    th = th8;
-                                                    str2 = str12;
-                                                }
+                                        int columnIndex18 = cursor.getColumnIndex("_size");
+                                        obj = null;
+                                        obj3 = null;
+                                        obj2 = null;
+                                        Integer num3 = null;
+                                        while (cursor.moveToNext()) {
+                                            try {
+                                                str2 = str11;
                                                 try {
                                                     String string3 = cursor.getString(columnIndex13);
                                                     if (TextUtils.isEmpty(string3)) {
-                                                        str12 = str2;
+                                                        str11 = str2;
                                                     } else {
-                                                        int i21 = cursor.getInt(columnIndex10);
-                                                        int i22 = columnIndex10;
-                                                        int i23 = cursor.getInt(columnIndex11);
-                                                        int i24 = columnIndex13;
+                                                        int i20 = cursor.getInt(columnIndex10);
+                                                        int i21 = columnIndex10;
+                                                        int i22 = cursor.getInt(columnIndex11);
+                                                        int i23 = columnIndex13;
                                                         String string4 = cursor.getString(columnIndex12);
-                                                        int i25 = columnIndex14;
-                                                        PhotoEntry photoEntry2 = new PhotoEntry(i23, i21, cursor.getLong(columnIndex14), string3, cursor.getInt(columnIndex15), 0, false, cursor.getInt(columnIndex16), cursor.getInt(columnIndex17), cursor.getLong(columnIndex18));
+                                                        int i24 = columnIndex18;
+                                                        PhotoEntry photoEntry2 = new PhotoEntry(i22, i20, cursor.getLong(columnIndex14), string3, cursor.getInt(columnIndex15), 0, false, cursor.getInt(columnIndex16), cursor.getInt(columnIndex17), cursor.getLong(columnIndex18));
                                                         if (obj == null) {
-                                                            i7 = columnIndex18;
+                                                            i7 = columnIndex17;
                                                             try {
-                                                                i8 = columnIndex17;
-                                                                i9 = columnIndex16;
-                                                                albumEntry5 = new AlbumEntry(0, LocaleController.getString("AllPhotos", R.string.AllPhotos), photoEntry2);
+                                                                i8 = columnIndex16;
+                                                                i9 = columnIndex14;
+                                                                albumEntry5 = new AlbumEntry(0, LocaleController.getString(R.string.AllPhotos), photoEntry2);
                                                                 arrayList = arrayList3;
                                                                 try {
                                                                     arrayList.add(0, albumEntry5);
                                                                 } catch (Throwable th9) {
                                                                     th = th9;
-                                                                    arrayList2 = arrayList4;
-                                                                    str10 = str13;
+                                                                    arrayList2 = arrayList6;
                                                                     obj3 = obj3;
                                                                     sparseArray2 = sparseArray3;
-                                                                    str11 = str;
+                                                                    str10 = str;
                                                                     FileLog.e(th);
                                                                     if (cursor != null) {
                                                                     }
                                                                     albumEntry = albumEntry5;
-                                                                    Context context22222 = ApplicationLoader.applicationContext;
+                                                                    context = ApplicationLoader.applicationContext;
                                                                     i3 = Build.VERSION.SDK_INT;
                                                                     if (i3 >= 23) {
                                                                     }
@@ -7357,7 +7363,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                     Uri uri22222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
                                                                     String[] strArr22222 = projectionVideo;
                                                                     StringBuilder sb32222 = new StringBuilder();
-                                                                    sb32222.append(i3 <= 28 ? "date_modified" : "datetaken");
+                                                                    sb32222.append(i3 > 28 ? "date_modified" : "datetaken");
                                                                     sb32222.append(" DESC");
                                                                     cursor = MediaStore.Images.Media.query(contentResolver22222, uri22222, strArr22222, null, null, sb32222.toString());
                                                                     if (cursor != null) {
@@ -7374,17 +7380,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                             } catch (Throwable th10) {
                                                                 th = th10;
                                                                 arrayList = arrayList3;
-                                                                arrayList2 = arrayList4;
-                                                                str10 = str13;
+                                                                arrayList2 = arrayList6;
                                                                 sparseArray2 = sparseArray3;
-                                                                str11 = str;
+                                                                str10 = str;
                                                                 obj3 = obj3;
                                                                 albumEntry5 = obj;
                                                                 FileLog.e(th);
                                                                 if (cursor != null) {
                                                                 }
                                                                 albumEntry = albumEntry5;
-                                                                Context context222222 = ApplicationLoader.applicationContext;
+                                                                context = ApplicationLoader.applicationContext;
                                                                 i3 = Build.VERSION.SDK_INT;
                                                                 if (i3 >= 23) {
                                                                 }
@@ -7392,7 +7397,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                 Uri uri222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
                                                                 String[] strArr222222 = projectionVideo;
                                                                 StringBuilder sb322222 = new StringBuilder();
-                                                                sb322222.append(i3 <= 28 ? "date_modified" : "datetaken");
+                                                                sb322222.append(i3 > 28 ? "date_modified" : "datetaken");
                                                                 sb322222.append(" DESC");
                                                                 cursor = MediaStore.Images.Media.query(contentResolver222222, uri222222, strArr222222, null, null, sb322222.toString());
                                                                 if (cursor != null) {
@@ -7407,128 +7412,118 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                 broadcastNewPhotos(i, arrayList2, arrayList, num222222222222, albumEntry11222222222222, albumEntry, albumEntry3, 0);
                                                             }
                                                         } else {
-                                                            i7 = columnIndex18;
-                                                            i8 = columnIndex17;
-                                                            i9 = columnIndex16;
+                                                            i7 = columnIndex17;
+                                                            i8 = columnIndex16;
+                                                            i9 = columnIndex14;
                                                             arrayList = arrayList3;
                                                             albumEntry5 = obj;
                                                         }
                                                         if (obj3 == null) {
                                                             try {
-                                                                i10 = columnIndex15;
-                                                                i11 = columnIndex12;
-                                                                str10 = str13;
-                                                                try {
-                                                                    i12 = columnIndex11;
-                                                                    albumEntry6 = new AlbumEntry(0, LocaleController.getString(str10, R.string.AllMedia), photoEntry2);
-                                                                    arrayList2 = arrayList4;
+                                                                i10 = columnIndex12;
+                                                                i11 = columnIndex11;
+                                                                albumEntry6 = new AlbumEntry(0, LocaleController.getString(R.string.AllMedia), photoEntry2);
+                                                                arrayList2 = arrayList6;
+                                                            } catch (Throwable th11) {
+                                                                th = th11;
+                                                                arrayList2 = arrayList6;
+                                                                obj = albumEntry5;
+                                                                sparseArray2 = sparseArray3;
+                                                                str10 = str;
+                                                                obj3 = obj3;
+                                                                albumEntry5 = obj;
+                                                                FileLog.e(th);
+                                                                if (cursor != null) {
                                                                     try {
-                                                                        arrayList2.add(0, albumEntry6);
-                                                                    } catch (Throwable th11) {
-                                                                        th = th11;
-                                                                        obj3 = albumEntry6;
-                                                                        sparseArray2 = sparseArray3;
-                                                                        str11 = str;
-                                                                        FileLog.e(th);
-                                                                        if (cursor != null) {
-                                                                            try {
-                                                                                cursor.close();
-                                                                            } catch (Exception e7) {
-                                                                                e = e7;
-                                                                                obj = albumEntry5;
-                                                                                FileLog.e(e);
-                                                                                albumEntry = obj;
-                                                                                Context context2222222 = ApplicationLoader.applicationContext;
-                                                                                i3 = Build.VERSION.SDK_INT;
-                                                                                if (i3 >= 23) {
-                                                                                }
-                                                                                ContentResolver contentResolver2222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                                Uri uri2222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                                String[] strArr2222222 = projectionVideo;
-                                                                                StringBuilder sb3222222 = new StringBuilder();
-                                                                                sb3222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                                sb3222222.append(" DESC");
-                                                                                cursor = MediaStore.Images.Media.query(contentResolver2222222, uri2222222, strArr2222222, null, null, sb3222222.toString());
-                                                                                if (cursor != null) {
-                                                                                }
-                                                                                if (cursor != null) {
-                                                                                }
-                                                                                albumEntry3 = albumEntry10;
-                                                                                AlbumEntry albumEntry112222222222222 = obj3;
-                                                                                Integer num2222222222222 = obj2;
-                                                                                while (i2 < arrayList2.size()) {
-                                                                                }
-                                                                                broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222, albumEntry112222222222222, albumEntry, albumEntry3, 0);
-                                                                            }
-                                                                        }
-                                                                        albumEntry = albumEntry5;
-                                                                        Context context22222222 = ApplicationLoader.applicationContext;
+                                                                        cursor.close();
+                                                                    } catch (Exception e7) {
+                                                                        e = e7;
+                                                                        obj = albumEntry5;
+                                                                        FileLog.e(e);
+                                                                        albumEntry = obj;
+                                                                        context = ApplicationLoader.applicationContext;
                                                                         i3 = Build.VERSION.SDK_INT;
                                                                         if (i3 >= 23) {
                                                                         }
-                                                                        ContentResolver contentResolver22222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                        Uri uri22222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                        String[] strArr22222222 = projectionVideo;
-                                                                        StringBuilder sb32222222 = new StringBuilder();
-                                                                        sb32222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                        sb32222222.append(" DESC");
-                                                                        cursor = MediaStore.Images.Media.query(contentResolver22222222, uri22222222, strArr22222222, null, null, sb32222222.toString());
+                                                                        ContentResolver contentResolver2222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                                        Uri uri2222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                                        String[] strArr2222222 = projectionVideo;
+                                                                        StringBuilder sb3222222 = new StringBuilder();
+                                                                        sb3222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                                        sb3222222.append(" DESC");
+                                                                        cursor = MediaStore.Images.Media.query(contentResolver2222222, uri2222222, strArr2222222, null, null, sb3222222.toString());
                                                                         if (cursor != null) {
                                                                         }
                                                                         if (cursor != null) {
                                                                         }
                                                                         albumEntry3 = albumEntry10;
-                                                                        AlbumEntry albumEntry1122222222222222 = obj3;
-                                                                        Integer num22222222222222 = obj2;
+                                                                        AlbumEntry albumEntry112222222222222 = obj3;
+                                                                        Integer num2222222222222 = obj2;
                                                                         while (i2 < arrayList2.size()) {
                                                                         }
-                                                                        broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222, albumEntry1122222222222222, albumEntry, albumEntry3, 0);
+                                                                        broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222, albumEntry112222222222222, albumEntry, albumEntry3, 0);
                                                                     }
-                                                                } catch (Throwable th12) {
-                                                                    th = th12;
-                                                                    arrayList2 = arrayList4;
-                                                                    obj = albumEntry5;
-                                                                    sparseArray2 = sparseArray3;
-                                                                    str11 = str;
-                                                                    obj3 = obj3;
-                                                                    albumEntry5 = obj;
-                                                                    FileLog.e(th);
-                                                                    if (cursor != null) {
-                                                                    }
-                                                                    albumEntry = albumEntry5;
-                                                                    Context context222222222 = ApplicationLoader.applicationContext;
-                                                                    i3 = Build.VERSION.SDK_INT;
-                                                                    if (i3 >= 23) {
-                                                                    }
-                                                                    ContentResolver contentResolver222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                    Uri uri222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                    String[] strArr222222222 = projectionVideo;
-                                                                    StringBuilder sb322222222 = new StringBuilder();
-                                                                    sb322222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                    sb322222222.append(" DESC");
-                                                                    cursor = MediaStore.Images.Media.query(contentResolver222222222, uri222222222, strArr222222222, null, null, sb322222222.toString());
-                                                                    if (cursor != null) {
-                                                                    }
-                                                                    if (cursor != null) {
-                                                                    }
-                                                                    albumEntry3 = albumEntry10;
-                                                                    AlbumEntry albumEntry11222222222222222 = obj3;
-                                                                    Integer num222222222222222 = obj2;
-                                                                    while (i2 < arrayList2.size()) {
-                                                                    }
-                                                                    broadcastNewPhotos(i, arrayList2, arrayList, num222222222222222, albumEntry11222222222222222, albumEntry, albumEntry3, 0);
                                                                 }
-                                                            } catch (Throwable th13) {
-                                                                th = th13;
-                                                                arrayList2 = arrayList4;
-                                                                str10 = str13;
+                                                                albumEntry = albumEntry5;
+                                                                context = ApplicationLoader.applicationContext;
+                                                                i3 = Build.VERSION.SDK_INT;
+                                                                if (i3 >= 23) {
+                                                                }
+                                                                ContentResolver contentResolver22222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                                Uri uri22222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                                String[] strArr22222222 = projectionVideo;
+                                                                StringBuilder sb32222222 = new StringBuilder();
+                                                                sb32222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                                sb32222222.append(" DESC");
+                                                                cursor = MediaStore.Images.Media.query(contentResolver22222222, uri22222222, strArr22222222, null, null, sb32222222.toString());
+                                                                if (cursor != null) {
+                                                                }
+                                                                if (cursor != null) {
+                                                                }
+                                                                albumEntry3 = albumEntry10;
+                                                                AlbumEntry albumEntry1122222222222222 = obj3;
+                                                                Integer num22222222222222 = obj2;
+                                                                while (i2 < arrayList2.size()) {
+                                                                }
+                                                                broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222, albumEntry1122222222222222, albumEntry, albumEntry3, 0);
+                                                            }
+                                                            try {
+                                                                arrayList2.add(0, albumEntry6);
+                                                            } catch (Throwable th12) {
+                                                                th = th12;
+                                                                obj3 = albumEntry6;
+                                                                sparseArray2 = sparseArray3;
+                                                                str10 = str;
+                                                                FileLog.e(th);
+                                                                if (cursor != null) {
+                                                                }
+                                                                albumEntry = albumEntry5;
+                                                                context = ApplicationLoader.applicationContext;
+                                                                i3 = Build.VERSION.SDK_INT;
+                                                                if (i3 >= 23) {
+                                                                }
+                                                                ContentResolver contentResolver222222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                                Uri uri222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                                String[] strArr222222222 = projectionVideo;
+                                                                StringBuilder sb322222222 = new StringBuilder();
+                                                                sb322222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                                sb322222222.append(" DESC");
+                                                                cursor = MediaStore.Images.Media.query(contentResolver222222222, uri222222222, strArr222222222, null, null, sb322222222.toString());
+                                                                if (cursor != null) {
+                                                                }
+                                                                if (cursor != null) {
+                                                                }
+                                                                albumEntry3 = albumEntry10;
+                                                                AlbumEntry albumEntry11222222222222222 = obj3;
+                                                                Integer num222222222222222 = obj2;
+                                                                while (i2 < arrayList2.size()) {
+                                                                }
+                                                                broadcastNewPhotos(i, arrayList2, arrayList, num222222222222222, albumEntry11222222222222222, albumEntry, albumEntry3, 0);
                                                             }
                                                         } else {
-                                                            i10 = columnIndex15;
-                                                            i11 = columnIndex12;
-                                                            arrayList2 = arrayList4;
-                                                            str10 = str13;
-                                                            i12 = columnIndex11;
+                                                            i10 = columnIndex12;
+                                                            i11 = columnIndex11;
+                                                            arrayList2 = arrayList6;
                                                             albumEntry6 = obj3;
                                                         }
                                                         try {
@@ -7536,59 +7531,26 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                             albumEntry6.addPhoto(photoEntry2);
                                                             sparseArray2 = sparseArray3;
                                                             try {
-                                                                AlbumEntry albumEntry13 = (AlbumEntry) sparseArray2.get(i23);
+                                                                AlbumEntry albumEntry13 = (AlbumEntry) sparseArray2.get(i22);
                                                                 if (albumEntry13 == null) {
                                                                     albumEntry8 = albumEntry5;
                                                                     try {
-                                                                        albumEntry9 = new AlbumEntry(i23, string4, photoEntry2);
-                                                                        sparseArray2.put(i23, albumEntry9);
+                                                                        albumEntry9 = new AlbumEntry(i22, string4, photoEntry2);
+                                                                        sparseArray2.put(i22, albumEntry9);
                                                                         if (obj2 != null || str == null || string3 == null) {
                                                                             albumEntry7 = albumEntry6;
-                                                                            str11 = str;
+                                                                            str10 = str;
                                                                         } else {
                                                                             albumEntry7 = albumEntry6;
-                                                                            str11 = str;
+                                                                            str10 = str;
                                                                             try {
-                                                                                if (string3.startsWith(str11)) {
-                                                                                    cursor2 = cursor;
-                                                                                    try {
-                                                                                        arrayList2.add(0, albumEntry9);
-                                                                                        obj2 = Integer.valueOf(i23);
-                                                                                    } catch (Throwable th14) {
-                                                                                        th = th14;
-                                                                                        cursor = cursor2;
-                                                                                        obj3 = albumEntry7;
-                                                                                        obj = albumEntry8;
-                                                                                        albumEntry5 = obj;
-                                                                                        FileLog.e(th);
-                                                                                        if (cursor != null) {
-                                                                                        }
-                                                                                        albumEntry = albumEntry5;
-                                                                                        Context context2222222222 = ApplicationLoader.applicationContext;
-                                                                                        i3 = Build.VERSION.SDK_INT;
-                                                                                        if (i3 >= 23) {
-                                                                                        }
-                                                                                        ContentResolver contentResolver2222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                                        Uri uri2222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                                        String[] strArr2222222222 = projectionVideo;
-                                                                                        StringBuilder sb3222222222 = new StringBuilder();
-                                                                                        sb3222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                                        sb3222222222.append(" DESC");
-                                                                                        cursor = MediaStore.Images.Media.query(contentResolver2222222222, uri2222222222, strArr2222222222, null, null, sb3222222222.toString());
-                                                                                        if (cursor != null) {
-                                                                                        }
-                                                                                        if (cursor != null) {
-                                                                                        }
-                                                                                        albumEntry3 = albumEntry10;
-                                                                                        AlbumEntry albumEntry112222222222222222 = obj3;
-                                                                                        Integer num2222222222222222 = obj2;
-                                                                                        while (i2 < arrayList2.size()) {
-                                                                                        }
-                                                                                        broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222222, albumEntry112222222222222222, albumEntry, albumEntry3, 0);
-                                                                                    }
+                                                                                if (string3.startsWith(str10)) {
+                                                                                    i12 = columnIndex15;
+                                                                                    arrayList2.add(0, albumEntry9);
+                                                                                    obj2 = Integer.valueOf(i22);
                                                                                 }
-                                                                            } catch (Throwable th15) {
-                                                                                th = th15;
+                                                                            } catch (Throwable th13) {
+                                                                                th = th13;
                                                                                 obj3 = albumEntry7;
                                                                                 obj = albumEntry8;
                                                                                 albumEntry5 = obj;
@@ -7596,35 +7558,35 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                                 if (cursor != null) {
                                                                                 }
                                                                                 albumEntry = albumEntry5;
-                                                                                Context context22222222222 = ApplicationLoader.applicationContext;
+                                                                                context = ApplicationLoader.applicationContext;
                                                                                 i3 = Build.VERSION.SDK_INT;
                                                                                 if (i3 >= 23) {
                                                                                 }
-                                                                                ContentResolver contentResolver22222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                                Uri uri22222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                                String[] strArr22222222222 = projectionVideo;
-                                                                                StringBuilder sb32222222222 = new StringBuilder();
-                                                                                sb32222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                                sb32222222222.append(" DESC");
-                                                                                cursor = MediaStore.Images.Media.query(contentResolver22222222222, uri22222222222, strArr22222222222, null, null, sb32222222222.toString());
+                                                                                ContentResolver contentResolver2222222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                                                Uri uri2222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                                                String[] strArr2222222222 = projectionVideo;
+                                                                                StringBuilder sb3222222222 = new StringBuilder();
+                                                                                sb3222222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                                                sb3222222222.append(" DESC");
+                                                                                cursor = MediaStore.Images.Media.query(contentResolver2222222222, uri2222222222, strArr2222222222, null, null, sb3222222222.toString());
                                                                                 if (cursor != null) {
                                                                                 }
                                                                                 if (cursor != null) {
                                                                                 }
                                                                                 albumEntry3 = albumEntry10;
-                                                                                AlbumEntry albumEntry1122222222222222222 = obj3;
-                                                                                Integer num22222222222222222 = obj2;
+                                                                                AlbumEntry albumEntry112222222222222222 = obj3;
+                                                                                Integer num2222222222222222 = obj2;
                                                                                 while (i2 < arrayList2.size()) {
                                                                                 }
-                                                                                broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222222, albumEntry1122222222222222222, albumEntry, albumEntry3, 0);
+                                                                                broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222222, albumEntry112222222222222222, albumEntry, albumEntry3, 0);
                                                                             }
                                                                         }
-                                                                        cursor2 = cursor;
+                                                                        i12 = columnIndex15;
                                                                         arrayList2.add(albumEntry9);
-                                                                    } catch (Throwable th16) {
-                                                                        th = th16;
+                                                                    } catch (Throwable th14) {
+                                                                        th = th14;
                                                                         albumEntry7 = albumEntry6;
-                                                                        str11 = str;
+                                                                        str10 = str;
                                                                         obj3 = albumEntry7;
                                                                         obj = albumEntry8;
                                                                         albumEntry5 = obj;
@@ -7632,86 +7594,83 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                                         if (cursor != null) {
                                                                         }
                                                                         albumEntry = albumEntry5;
-                                                                        Context context222222222222 = ApplicationLoader.applicationContext;
+                                                                        context = ApplicationLoader.applicationContext;
                                                                         i3 = Build.VERSION.SDK_INT;
                                                                         if (i3 >= 23) {
                                                                         }
-                                                                        ContentResolver contentResolver222222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                                        Uri uri222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                                        String[] strArr222222222222 = projectionVideo;
-                                                                        StringBuilder sb322222222222 = new StringBuilder();
-                                                                        sb322222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                                        sb322222222222.append(" DESC");
-                                                                        cursor = MediaStore.Images.Media.query(contentResolver222222222222, uri222222222222, strArr222222222222, null, null, sb322222222222.toString());
+                                                                        ContentResolver contentResolver22222222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                                        Uri uri22222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                                        String[] strArr22222222222 = projectionVideo;
+                                                                        StringBuilder sb32222222222 = new StringBuilder();
+                                                                        sb32222222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                                        sb32222222222.append(" DESC");
+                                                                        cursor = MediaStore.Images.Media.query(contentResolver22222222222, uri22222222222, strArr22222222222, null, null, sb32222222222.toString());
                                                                         if (cursor != null) {
                                                                         }
                                                                         if (cursor != null) {
                                                                         }
                                                                         albumEntry3 = albumEntry10;
-                                                                        AlbumEntry albumEntry11222222222222222222 = obj3;
-                                                                        Integer num222222222222222222 = obj2;
+                                                                        AlbumEntry albumEntry1122222222222222222 = obj3;
+                                                                        Integer num22222222222222222 = obj2;
                                                                         while (i2 < arrayList2.size()) {
                                                                         }
-                                                                        broadcastNewPhotos(i, arrayList2, arrayList, num222222222222222222, albumEntry11222222222222222222, albumEntry, albumEntry3, 0);
+                                                                        broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222222, albumEntry1122222222222222222, albumEntry, albumEntry3, 0);
                                                                     }
                                                                 } else {
                                                                     albumEntry8 = albumEntry5;
                                                                     albumEntry7 = albumEntry6;
-                                                                    str11 = str;
-                                                                    cursor2 = cursor;
+                                                                    str10 = str;
+                                                                    i12 = columnIndex15;
                                                                     albumEntry9 = albumEntry13;
                                                                 }
                                                                 albumEntry9.addPhoto(photoEntry2);
                                                                 SparseArray sparseArray5 = sparseArray;
-                                                                AlbumEntry albumEntry14 = (AlbumEntry) sparseArray5.get(i23);
+                                                                AlbumEntry albumEntry14 = (AlbumEntry) sparseArray5.get(i22);
                                                                 if (albumEntry14 == null) {
-                                                                    albumEntry14 = new AlbumEntry(i23, string4, photoEntry2);
-                                                                    sparseArray5.put(i23, albumEntry14);
-                                                                    if (num3 == null && str11 != null && string3 != null && string3.startsWith(str11)) {
+                                                                    albumEntry14 = new AlbumEntry(i22, string4, photoEntry2);
+                                                                    sparseArray5.put(i22, albumEntry14);
+                                                                    if (num3 == null && str10 != null && string3 != null && string3.startsWith(str10)) {
                                                                         arrayList.add(0, albumEntry14);
-                                                                        num3 = Integer.valueOf(i23);
+                                                                        num3 = Integer.valueOf(i22);
                                                                     } else {
                                                                         arrayList.add(albumEntry14);
                                                                     }
                                                                 }
                                                                 albumEntry14.addPhoto(photoEntry2);
                                                                 sparseArray = sparseArray5;
-                                                                arrayList4 = arrayList2;
-                                                                cursor = cursor2;
-                                                                columnIndex15 = i10;
+                                                                arrayList6 = arrayList2;
+                                                                columnIndex15 = i12;
                                                                 obj3 = albumEntry7;
-                                                                str12 = str2;
-                                                                columnIndex18 = i7;
-                                                                columnIndex10 = i22;
-                                                                columnIndex13 = i24;
-                                                                columnIndex14 = i25;
-                                                                arrayList3 = arrayList;
-                                                                str = str11;
+                                                                str11 = str2;
+                                                                columnIndex17 = i7;
+                                                                columnIndex12 = i10;
+                                                                columnIndex10 = i21;
+                                                                columnIndex13 = i23;
+                                                                columnIndex18 = i24;
+                                                                str = str10;
                                                                 obj = albumEntry8;
-                                                                columnIndex17 = i8;
-                                                                columnIndex16 = i9;
+                                                                columnIndex14 = i9;
                                                                 sparseArray3 = sparseArray2;
-                                                                columnIndex11 = i12;
-                                                                str13 = str10;
-                                                                columnIndex12 = i11;
-                                                            } catch (Throwable th17) {
-                                                                th = th17;
+                                                                columnIndex11 = i11;
+                                                                arrayList3 = arrayList;
+                                                                columnIndex16 = i8;
+                                                            } catch (Throwable th15) {
+                                                                th = th15;
                                                                 albumEntry8 = albumEntry5;
                                                             }
-                                                        } catch (Throwable th18) {
-                                                            th = th18;
+                                                        } catch (Throwable th16) {
+                                                            th = th16;
                                                             albumEntry7 = albumEntry6;
                                                             sparseArray2 = sparseArray3;
-                                                            str11 = str;
+                                                            str10 = str;
                                                             albumEntry8 = albumEntry5;
                                                         }
                                                     }
-                                                } catch (Throwable th19) {
-                                                    th = th19;
-                                                    arrayList2 = arrayList4;
-                                                    str10 = str13;
+                                                } catch (Throwable th17) {
+                                                    th = th17;
+                                                    arrayList2 = arrayList6;
                                                     sparseArray2 = sparseArray3;
-                                                    str11 = str;
+                                                    str10 = str;
                                                     arrayList = arrayList3;
                                                     obj3 = obj3;
                                                     albumEntry5 = obj;
@@ -7719,121 +7678,116 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                                                     if (cursor != null) {
                                                     }
                                                     albumEntry = albumEntry5;
-                                                    Context context2222222222222 = ApplicationLoader.applicationContext;
+                                                    context = ApplicationLoader.applicationContext;
                                                     i3 = Build.VERSION.SDK_INT;
                                                     if (i3 >= 23) {
                                                     }
-                                                    ContentResolver contentResolver2222222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                                    Uri uri2222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                                    String[] strArr2222222222222 = projectionVideo;
-                                                    StringBuilder sb3222222222222 = new StringBuilder();
-                                                    sb3222222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                                    sb3222222222222.append(" DESC");
-                                                    cursor = MediaStore.Images.Media.query(contentResolver2222222222222, uri2222222222222, strArr2222222222222, null, null, sb3222222222222.toString());
+                                                    ContentResolver contentResolver222222222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                                    Uri uri222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                                    String[] strArr222222222222 = projectionVideo;
+                                                    StringBuilder sb322222222222 = new StringBuilder();
+                                                    sb322222222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                                    sb322222222222.append(" DESC");
+                                                    cursor = MediaStore.Images.Media.query(contentResolver222222222222, uri222222222222, strArr222222222222, null, null, sb322222222222.toString());
                                                     if (cursor != null) {
                                                     }
                                                     if (cursor != null) {
                                                     }
                                                     albumEntry3 = albumEntry10;
-                                                    AlbumEntry albumEntry112222222222222222222 = obj3;
-                                                    Integer num2222222222222222222 = obj2;
+                                                    AlbumEntry albumEntry11222222222222222222 = obj3;
+                                                    Integer num222222222222222222 = obj2;
                                                     while (i2 < arrayList2.size()) {
                                                     }
-                                                    broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222222222, albumEntry112222222222222222222, albumEntry, albumEntry3, 0);
+                                                    broadcastNewPhotos(i, arrayList2, arrayList, num222222222222222222, albumEntry11222222222222222222, albumEntry, albumEntry3, 0);
                                                 }
+                                            } catch (Throwable th18) {
+                                                th = th18;
+                                                str2 = str11;
                                             }
-                                            str2 = str12;
-                                            arrayList2 = arrayList4;
-                                            str10 = str13;
-                                            sparseArray2 = sparseArray3;
-                                            str11 = str;
-                                            arrayList = arrayList3;
-                                        } catch (Throwable th20) {
-                                            th = th20;
-                                            str2 = "_size";
-                                            arrayList2 = arrayList4;
-                                            str10 = str13;
-                                            sparseArray2 = sparseArray3;
-                                            str11 = str;
-                                            arrayList = arrayList3;
-                                            obj = null;
-                                            Object obj4 = obj;
-                                            obj2 = obj4;
-                                            obj3 = obj4;
-                                            albumEntry5 = obj;
-                                            FileLog.e(th);
-                                            if (cursor != null) {
-                                            }
-                                            albumEntry = albumEntry5;
-                                            Context context22222222222222 = ApplicationLoader.applicationContext;
-                                            i3 = Build.VERSION.SDK_INT;
-                                            if (i3 >= 23) {
-                                            }
-                                            ContentResolver contentResolver22222222222222 = ApplicationLoader.applicationContext.getContentResolver();
-                                            Uri uri22222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                                            String[] strArr22222222222222 = projectionVideo;
-                                            StringBuilder sb32222222222222 = new StringBuilder();
-                                            sb32222222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-                                            sb32222222222222.append(" DESC");
-                                            cursor = MediaStore.Images.Media.query(contentResolver22222222222222, uri22222222222222, strArr22222222222222, null, null, sb32222222222222.toString());
-                                            if (cursor != null) {
-                                            }
-                                            if (cursor != null) {
-                                            }
-                                            albumEntry3 = albumEntry10;
-                                            AlbumEntry albumEntry1122222222222222222222 = obj3;
-                                            Integer num22222222222222222222 = obj2;
-                                            while (i2 < arrayList2.size()) {
-                                            }
-                                            broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222222222, albumEntry1122222222222222222222, albumEntry, albumEntry3, 0);
                                         }
-                                    } catch (Throwable th21) {
-                                        th = th21;
+                                        str2 = str11;
+                                        arrayList2 = arrayList6;
+                                        sparseArray2 = sparseArray3;
+                                        str10 = str;
+                                        arrayList = arrayList3;
+                                        if (cursor != null) {
+                                        }
+                                        albumEntry = obj;
+                                    } catch (Throwable th19) {
+                                        th = th19;
                                         str2 = "_size";
-                                        str3 = "height";
+                                        arrayList2 = arrayList6;
+                                        sparseArray2 = sparseArray3;
+                                        str10 = str;
+                                        arrayList = arrayList3;
+                                        obj = null;
+                                        Object obj4 = obj;
+                                        obj2 = obj4;
+                                        obj3 = obj4;
+                                        albumEntry5 = obj;
+                                        FileLog.e(th);
+                                        if (cursor != null) {
+                                        }
+                                        albumEntry = albumEntry5;
+                                        context = ApplicationLoader.applicationContext;
+                                        i3 = Build.VERSION.SDK_INT;
+                                        if (i3 >= 23) {
+                                        }
+                                        ContentResolver contentResolver2222222222222 = ApplicationLoader.applicationContext.getContentResolver();
+                                        Uri uri2222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                                        String[] strArr2222222222222 = projectionVideo;
+                                        StringBuilder sb3222222222222 = new StringBuilder();
+                                        sb3222222222222.append(i3 > 28 ? "date_modified" : "datetaken");
+                                        sb3222222222222.append(" DESC");
+                                        cursor = MediaStore.Images.Media.query(contentResolver2222222222222, uri2222222222222, strArr2222222222222, null, null, sb3222222222222.toString());
+                                        if (cursor != null) {
+                                        }
+                                        if (cursor != null) {
+                                        }
+                                        albumEntry3 = albumEntry10;
+                                        AlbumEntry albumEntry112222222222222222222 = obj3;
+                                        Integer num2222222222222222222 = obj2;
+                                        while (i2 < arrayList2.size()) {
+                                        }
+                                        broadcastNewPhotos(i, arrayList2, arrayList, num2222222222222222222, albumEntry112222222222222222222, albumEntry, albumEntry3, 0);
                                     }
-                                } catch (Throwable th22) {
-                                    th = th22;
+                                } catch (Throwable th20) {
+                                    th = th20;
                                     str2 = "_size";
                                     str3 = "height";
-                                    str4 = "width";
                                 }
-                            } catch (Throwable th23) {
-                                th = th23;
+                            } catch (Throwable th21) {
+                                th = th21;
                                 str2 = "_size";
                                 str3 = "height";
                                 str4 = "width";
-                                str5 = "orientation";
                             }
-                        } catch (Throwable th24) {
-                            th = th24;
+                        } catch (Throwable th22) {
+                            th = th22;
                             str2 = "_size";
                             str3 = "height";
                             str4 = "width";
                             str5 = "orientation";
-                            str6 = "_data";
                         }
-                    } catch (Throwable th25) {
-                        th = th25;
+                    } catch (Throwable th23) {
+                        th = th23;
                         str2 = "_size";
                         str3 = "height";
                         str4 = "width";
                         str5 = "orientation";
                         str6 = "_data";
-                        str7 = "bucket_display_name";
                     }
-                } catch (Throwable th26) {
-                    th = th26;
+                } catch (Throwable th24) {
+                    th = th24;
                     str2 = "_size";
                     str3 = "height";
                     str4 = "width";
                     str5 = "orientation";
                     str6 = "_data";
                     str7 = "bucket_display_name";
-                    str8 = "bucket_id";
                 }
-            } catch (Throwable th27) {
-                th = th27;
+            } catch (Throwable th25) {
+                th = th25;
                 str2 = "_size";
                 str3 = "height";
                 str4 = "width";
@@ -7841,9 +7795,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 str6 = "_data";
                 str7 = "bucket_display_name";
                 str8 = "bucket_id";
-                str9 = "_id";
             }
-        } else {
+        } catch (Throwable th26) {
+            th = th26;
             str2 = "_size";
             str3 = "height";
             str4 = "width";
@@ -7852,39 +7806,28 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             str7 = "bucket_display_name";
             str8 = "bucket_id";
             str9 = "_id";
-            arrayList2 = arrayList4;
-            str10 = str13;
-            sparseArray2 = sparseArray3;
-            str11 = str;
-            arrayList = arrayList3;
-            obj = null;
-            obj3 = null;
-            obj2 = null;
         }
-        if (cursor != null) {
-        }
-        albumEntry = obj;
-        Context context222222222222222 = ApplicationLoader.applicationContext;
+        context = ApplicationLoader.applicationContext;
         i3 = Build.VERSION.SDK_INT;
         if (i3 >= 23) {
         }
-        ContentResolver contentResolver222222222222222 = ApplicationLoader.applicationContext.getContentResolver();
-        Uri uri222222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-        String[] strArr222222222222222 = projectionVideo;
-        StringBuilder sb322222222222222 = new StringBuilder();
-        sb322222222222222.append(i3 <= 28 ? "date_modified" : "datetaken");
-        sb322222222222222.append(" DESC");
-        cursor = MediaStore.Images.Media.query(contentResolver222222222222222, uri222222222222222, strArr222222222222222, null, null, sb322222222222222.toString());
+        ContentResolver contentResolver22222222222222 = ApplicationLoader.applicationContext.getContentResolver();
+        Uri uri22222222222222 = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        String[] strArr22222222222222 = projectionVideo;
+        StringBuilder sb32222222222222 = new StringBuilder();
+        sb32222222222222.append(i3 > 28 ? "date_modified" : "datetaken");
+        sb32222222222222.append(" DESC");
+        cursor = MediaStore.Images.Media.query(contentResolver22222222222222, uri22222222222222, strArr22222222222222, null, null, sb32222222222222.toString());
         if (cursor != null) {
         }
         if (cursor != null) {
         }
         albumEntry3 = albumEntry10;
-        AlbumEntry albumEntry11222222222222222222222 = obj3;
-        Integer num222222222222222222222 = obj2;
+        AlbumEntry albumEntry1122222222222222222222 = obj3;
+        Integer num22222222222222222222 = obj2;
         while (i2 < arrayList2.size()) {
         }
-        broadcastNewPhotos(i, arrayList2, arrayList, num222222222222222222222, albumEntry11222222222222222222222, albumEntry, albumEntry3, 0);
+        broadcastNewPhotos(i, arrayList2, arrayList, num22222222222222222222, albumEntry1122222222222222222222, albumEntry, albumEntry3, 0);
     }
 
     /* JADX INFO: Access modifiers changed from: private */

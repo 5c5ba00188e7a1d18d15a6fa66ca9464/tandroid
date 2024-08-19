@@ -200,7 +200,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             }
         };
         this.searchView = searchField;
-        searchField.setHint(LocaleController.getString("SearchTrendingStickersHint", R.string.SearchTrendingStickersHint));
+        searchField.setHint(LocaleController.getString(R.string.SearchTrendingStickersHint));
         frameLayout.addView(searchField, LayoutHelper.createFrame(-1, -1, 48));
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.Components.TrendingStickersLayout.3
             @Override // org.telegram.ui.Components.RecyclerListView, androidx.recyclerview.widget.RecyclerView, android.view.ViewGroup
@@ -797,7 +797,7 @@ public class TrendingStickersLayout extends FrameLayout implements NotificationC
             } else {
                 if (itemViewType != 2) {
                     if (itemViewType == 4) {
-                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("OtherStickers", R.string.OtherStickers));
+                        ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.OtherStickers));
                         return;
                     } else if (itemViewType != 5) {
                         return;

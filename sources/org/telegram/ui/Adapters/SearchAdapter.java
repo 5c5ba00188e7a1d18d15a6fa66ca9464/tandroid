@@ -210,9 +210,9 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                     strArr4[1] = null;
                 }
                 if (UserObject.isReplyUser(user)) {
-                    strArr4[2] = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
+                    strArr4[2] = LocaleController.getString(R.string.RepliesTitle).toLowerCase();
                 } else if (user.self) {
-                    strArr4[2] = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
+                    strArr4[2] = LocaleController.getString(R.string.SavedMessages).toLowerCase();
                 }
                 int i7 = i6;
                 int i8 = 0;
@@ -401,8 +401,8 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x01c6  */
-    /* JADX WARN: Removed duplicated region for block: B:87:0x01db  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x01c0  */
+    /* JADX WARN: Removed duplicated region for block: B:87:0x01d5  */
     /* JADX WARN: Type inference failed for: r2v10 */
     /* JADX WARN: Type inference failed for: r2v20 */
     /* JADX WARN: Type inference failed for: r2v31, types: [java.lang.CharSequence] */
@@ -423,13 +423,13 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
             if (itemViewType == 1) {
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (i == this.unregistredContactsHeaderRow) {
-                    graySectionCell.setText(LocaleController.getString("InviteToTelegramShort", R.string.InviteToTelegramShort));
+                    graySectionCell.setText(LocaleController.getString(R.string.InviteToTelegramShort));
                     return;
                 } else if (getItem(i) == null) {
-                    graySectionCell.setText(LocaleController.getString("GlobalSearch", R.string.GlobalSearch));
+                    graySectionCell.setText(LocaleController.getString(R.string.GlobalSearch));
                     return;
                 } else {
-                    graySectionCell.setText(LocaleController.getString("PhoneNumberSearch", R.string.PhoneNumberSearch));
+                    graySectionCell.setText(LocaleController.getString(R.string.PhoneNumberSearch));
                     return;
                 }
             } else if (itemViewType == 2) {
@@ -490,7 +490,7 @@ public class SearchAdapter extends RecyclerListView.SelectionAdapter {
                         return;
                     }
                     ProfileSearchCell profileSearchCell2 = (ProfileSearchCell) viewHolder.itemView;
-                    profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString("SavedMessages", R.string.SavedMessages) : str3, str2, false, z);
+                    profileSearchCell2.setData(tLObject, null, z ? LocaleController.getString(R.string.SavedMessages) : str3, str2, false, z);
                     profileSearchCell2.useSeparator = (i == getItemCount() - 1 || i == this.searchResult.size() - 1) ? false : true;
                     profileSearchCell2.setChecked(this.selectedUsers.indexOfKey(j2) >= 0, false);
                     return;

@@ -504,7 +504,7 @@ public class GroupStickersActivity extends BaseFragment implements NotificationC
             NotificationCenter.getInstance(this.currentAccount).lambda$postNotificationNameOnUIThread$1(NotificationCenter.groupPackUpdated, Long.valueOf(this.info.id), Boolean.valueOf(this.isEmoji));
             finishFragment();
         } else if (getParentActivity() != null) {
-            Toast.makeText(getParentActivity(), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text, 0).show();
+            Toast.makeText(getParentActivity(), LocaleController.getString(R.string.ErrorOccurred) + "\n" + tLRPC$TL_error.text, 0).show();
         }
     }
 

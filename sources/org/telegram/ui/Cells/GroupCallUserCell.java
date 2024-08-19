@@ -435,17 +435,17 @@ public class GroupCallUserCell extends FrameLayout {
             } else {
                 if (i == 0) {
                     this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
-                    this.statusTextView[i].setText(LocaleController.getString("Listening", R.string.Listening));
+                    this.statusTextView[i].setText(LocaleController.getString(R.string.Listening));
                 } else if (i == 1) {
                     this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_speakingText));
-                    this.statusTextView[i].setText(LocaleController.getString("Speaking", R.string.Speaking));
+                    this.statusTextView[i].setText(LocaleController.getString(R.string.Speaking));
                     this.statusTextView[i].setDrawablePadding(AndroidUtilities.dp(2.0f));
                 } else if (i == 2) {
                     this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_mutedByAdminIcon));
-                    this.statusTextView[i].setText(LocaleController.getString("VoipGroupMutedForMe", R.string.VoipGroupMutedForMe));
+                    this.statusTextView[i].setText(LocaleController.getString(R.string.VoipGroupMutedForMe));
                 } else if (i == 3) {
                     this.statusTextView[i].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
-                    this.statusTextView[i].setText(LocaleController.getString("WantsToSpeak", R.string.WantsToSpeak));
+                    this.statusTextView[i].setText(LocaleController.getString(R.string.WantsToSpeak));
                 }
                 SimpleTextView simpleTextView4 = this.statusTextView[i];
                 boolean z5 = LocaleController.isRTL;
@@ -732,15 +732,15 @@ public class GroupCallUserCell extends FrameLayout {
         r11 = r2;
         r2 = 0;
      */
-    /* JADX WARN: Removed duplicated region for block: B:159:0x02e1  */
-    /* JADX WARN: Removed duplicated region for block: B:168:0x032d  */
-    /* JADX WARN: Removed duplicated region for block: B:169:0x0332  */
-    /* JADX WARN: Removed duplicated region for block: B:209:0x03c8  */
-    /* JADX WARN: Removed duplicated region for block: B:220:0x03ff  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x0419  */
-    /* JADX WARN: Removed duplicated region for block: B:235:0x0441  */
-    /* JADX WARN: Removed duplicated region for block: B:248:0x0471  */
-    /* JADX WARN: Removed duplicated region for block: B:252:0x0488  */
+    /* JADX WARN: Removed duplicated region for block: B:159:0x02d5  */
+    /* JADX WARN: Removed duplicated region for block: B:168:0x031f  */
+    /* JADX WARN: Removed duplicated region for block: B:169:0x0324  */
+    /* JADX WARN: Removed duplicated region for block: B:209:0x03ba  */
+    /* JADX WARN: Removed duplicated region for block: B:220:0x03f1  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x040b  */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0433  */
+    /* JADX WARN: Removed duplicated region for block: B:248:0x0463  */
+    /* JADX WARN: Removed duplicated region for block: B:252:0x047a  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -843,23 +843,23 @@ public class GroupCallUserCell extends FrameLayout {
         if (isSelfUser()) {
             if (!z10 && !this.hasAvatar) {
                 if (this.currentUser != null) {
-                    this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrBio", R.string.TapToAddPhotoOrBio));
+                    this.statusTextView[4].setText(LocaleController.getString(R.string.TapToAddPhotoOrBio));
                 } else {
-                    this.statusTextView[4].setText(LocaleController.getString("TapToAddPhotoOrDescription", R.string.TapToAddPhotoOrDescription));
+                    this.statusTextView[4].setText(LocaleController.getString(R.string.TapToAddPhotoOrDescription));
                 }
                 this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
             } else if (!z10) {
                 if (this.currentUser != null) {
-                    this.statusTextView[4].setText(LocaleController.getString("TapToAddBio", R.string.TapToAddBio));
+                    this.statusTextView[4].setText(LocaleController.getString(R.string.TapToAddBio));
                 } else {
-                    this.statusTextView[4].setText(LocaleController.getString("TapToAddDescription", R.string.TapToAddDescription));
+                    this.statusTextView[4].setText(LocaleController.getString(R.string.TapToAddDescription));
                 }
                 this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
             } else if (!this.hasAvatar) {
-                this.statusTextView[4].setText(LocaleController.getString("TapToAddPhoto", R.string.TapToAddPhoto));
+                this.statusTextView[4].setText(LocaleController.getString(R.string.TapToAddPhoto));
                 this.statusTextView[4].setTextColor(Theme.getColor(this.grayIconColor));
             } else {
-                this.statusTextView[4].setText(LocaleController.getString("ThisIsYou", R.string.ThisIsYou));
+                this.statusTextView[4].setText(LocaleController.getString(R.string.ThisIsYou));
                 this.statusTextView[4].setTextColor(Theme.getColor(Theme.key_voipgroup_listeningText));
             }
             if (z10) {
@@ -908,7 +908,7 @@ public class GroupCallUserCell extends FrameLayout {
                         simpleTextView.setText(LocaleController.formatString("SpeakingWithVolume", i5, Integer.valueOf(i4)));
                     } else {
                         this.statusTextView[1].setLeftDrawable((Drawable) null);
-                        this.statusTextView[1].setText(LocaleController.getString("Speaking", R.string.Speaking));
+                        this.statusTextView[1].setText(LocaleController.getString(R.string.Speaking));
                     }
                 }
                 if (!isSelfUser()) {
@@ -1290,21 +1290,12 @@ public class GroupCallUserCell extends FrameLayout {
 
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-        int i;
-        String str;
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
         if (!accessibilityNodeInfo.isEnabled() || Build.VERSION.SDK_INT < 21) {
             return;
         }
         TLRPC$TL_groupCallParticipant tLRPC$TL_groupCallParticipant = this.participant;
-        if (!tLRPC$TL_groupCallParticipant.muted || tLRPC$TL_groupCallParticipant.can_self_unmute) {
-            i = R.string.VoipMute;
-            str = "VoipMute";
-        } else {
-            i = R.string.VoipUnmute;
-            str = "VoipUnmute";
-        }
-        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString(str, i)));
+        accessibilityNodeInfo.addAction(new AccessibilityNodeInfo.AccessibilityAction(16, LocaleController.getString((!tLRPC$TL_groupCallParticipant.muted || tLRPC$TL_groupCallParticipant.can_self_unmute) ? R.string.VoipMute : R.string.VoipUnmute)));
     }
 
     public long getPeerId() {

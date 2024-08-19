@@ -3,7 +3,6 @@ package com.google.gson;
 import com.google.gson.internal.ConstructorConstructor;
 import com.google.gson.internal.Excluder;
 import com.google.gson.internal.LazilyParsedNumber;
-import com.google.gson.internal.Primitives;
 import com.google.gson.internal.Streams;
 import com.google.gson.internal.bind.ArrayTypeAdapter;
 import com.google.gson.internal.bind.CollectionTypeAdapterFactory;
@@ -21,12 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.gson.stream.MalformedJsonException;
 import j$.util.concurrent.ConcurrentHashMap;
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Type;
@@ -66,24 +61,18 @@ public final class Gson {
     final boolean serializeNulls;
     final boolean serializeSpecialFloatingPointValues;
     final Strictness strictness;
-    private final ThreadLocal<Map<TypeToken<?>, TypeAdapter<?>>> threadLocalAdapterResults;
     final int timeStyle;
-    private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache;
     final boolean useJdkUnsafe;
     static final FormattingStyle DEFAULT_FORMATTING_STYLE = FormattingStyle.COMPACT;
     static final String DEFAULT_DATE_PATTERN = null;
     static final FieldNamingStrategy DEFAULT_FIELD_NAMING_STRATEGY = FieldNamingPolicy.IDENTITY;
     static final ToNumberStrategy DEFAULT_OBJECT_TO_NUMBER_STRATEGY = ToNumberPolicy.DOUBLE;
     static final ToNumberStrategy DEFAULT_NUMBER_TO_NUMBER_STRATEGY = ToNumberPolicy.LAZILY_PARSED_NUMBER;
-
-    public Gson() {
-        this(Excluder.DEFAULT, DEFAULT_FIELD_NAMING_STRATEGY, Collections.emptyMap(), false, false, false, true, DEFAULT_FORMATTING_STYLE, DEFAULT_STRICTNESS, false, true, LongSerializationPolicy.DEFAULT, DEFAULT_DATE_PATTERN, 2, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), DEFAULT_OBJECT_TO_NUMBER_STRATEGY, DEFAULT_NUMBER_TO_NUMBER_STRATEGY, Collections.emptyList());
-    }
+    private final ThreadLocal<Map<TypeToken<?>, TypeAdapter<?>>> threadLocalAdapterResults = new ThreadLocal<>();
+    private final ConcurrentMap<TypeToken<?>, TypeAdapter<?>> typeTokenCache = new ConcurrentHashMap();
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public Gson(Excluder excluder, FieldNamingStrategy fieldNamingStrategy, Map<Type, InstanceCreator<?>> map, boolean z, boolean z2, boolean z3, boolean z4, FormattingStyle formattingStyle, Strictness strictness, boolean z5, boolean z6, LongSerializationPolicy longSerializationPolicy, String str, int i, int i2, List<TypeAdapterFactory> list, List<TypeAdapterFactory> list2, List<TypeAdapterFactory> list3, ToNumberStrategy toNumberStrategy, ToNumberStrategy toNumberStrategy2, List<ReflectionAccessFilter> list4) {
-        this.threadLocalAdapterResults = new ThreadLocal<>();
-        this.typeTokenCache = new ConcurrentHashMap();
         this.excluder = excluder;
         this.fieldNamingStrategy = fieldNamingStrategy;
         this.instanceCreators = map;
@@ -492,95 +481,6 @@ public final class Gson {
         jsonWriter.setStrictness(strictness);
         jsonWriter.setSerializeNulls(this.serializeNulls);
         return jsonWriter;
-    }
-
-    public JsonReader newJsonReader(Reader reader) {
-        JsonReader jsonReader = new JsonReader(reader);
-        Strictness strictness = this.strictness;
-        if (strictness == null) {
-            strictness = Strictness.LEGACY_STRICT;
-        }
-        jsonReader.setStrictness(strictness);
-        return jsonReader;
-    }
-
-    public <T> T fromJson(String str, Class<T> cls) throws JsonSyntaxException {
-        return (T) Primitives.wrap(cls).cast(fromJson(str, TypeToken.get((Class) cls)));
-    }
-
-    public <T> T fromJson(String str, TypeToken<T> typeToken) throws JsonSyntaxException {
-        if (str == null) {
-            return null;
-        }
-        return (T) fromJson(new StringReader(str), typeToken);
-    }
-
-    public <T> T fromJson(Reader reader, Class<T> cls) throws JsonSyntaxException, JsonIOException {
-        return (T) Primitives.wrap(cls).cast(fromJson(reader, TypeToken.get((Class) cls)));
-    }
-
-    public <T> T fromJson(Reader reader, TypeToken<T> typeToken) throws JsonIOException, JsonSyntaxException {
-        JsonReader newJsonReader = newJsonReader(reader);
-        T t = (T) fromJson(newJsonReader, typeToken);
-        assertFullConsumption(t, newJsonReader);
-        return t;
-    }
-
-    public <T> T fromJson(JsonReader jsonReader, TypeToken<T> typeToken) throws JsonIOException, JsonSyntaxException {
-        boolean z;
-        Strictness strictness = jsonReader.getStrictness();
-        Strictness strictness2 = this.strictness;
-        if (strictness2 != null) {
-            jsonReader.setStrictness(strictness2);
-        } else if (jsonReader.getStrictness() == Strictness.LEGACY_STRICT) {
-            jsonReader.setStrictness(Strictness.LENIENT);
-        }
-        try {
-            try {
-                try {
-                    try {
-                        jsonReader.peek();
-                        z = false;
-                        try {
-                            return getAdapter(typeToken).read(jsonReader);
-                        } catch (EOFException e) {
-                            e = e;
-                            if (!z) {
-                                throw new JsonSyntaxException(e);
-                            }
-                            jsonReader.setStrictness(strictness);
-                            return null;
-                        }
-                    } finally {
-                        jsonReader.setStrictness(strictness);
-                    }
-                } catch (EOFException e2) {
-                    e = e2;
-                    z = true;
-                }
-            } catch (IOException e3) {
-                throw new JsonSyntaxException(e3);
-            }
-        } catch (AssertionError e4) {
-            throw new AssertionError("AssertionError (GSON 2.11.0): " + e4.getMessage(), e4);
-        } catch (IllegalStateException e5) {
-            throw new JsonSyntaxException(e5);
-        }
-    }
-
-    private static void assertFullConsumption(Object obj, JsonReader jsonReader) {
-        if (obj != null) {
-            try {
-                if (jsonReader.peek() == JsonToken.END_DOCUMENT) {
-                    return;
-                }
-                throw new JsonSyntaxException("JSON document was not fully consumed.");
-            } catch (MalformedJsonException e) {
-                throw new JsonSyntaxException(e);
-            } catch (IOException e2) {
-                throw new JsonIOException(e2);
-            }
-        }
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */

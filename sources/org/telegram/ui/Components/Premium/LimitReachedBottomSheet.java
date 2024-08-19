@@ -579,15 +579,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(context, this.resourcesProvider);
-                builder.setTitle(LocaleController.getString("PremiumNeeded", R.string.PremiumNeeded));
+                builder.setTitle(LocaleController.getString(R.string.PremiumNeeded));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(isGroup() ? R.string.PremiumNeededForBoostingGroup : R.string.PremiumNeededForBoosting)));
-                builder.setPositiveButton(LocaleController.getString("CheckPhoneNumberYes", R.string.CheckPhoneNumberYes), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda15
+                builder.setPositiveButton(LocaleController.getString(R.string.CheckPhoneNumberYes), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda15
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         LimitReachedBottomSheet.this.lambda$onViewCreated$7(dialogInterface, i2);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda16
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda16
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         dialogInterface.dismiss();
@@ -663,13 +663,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
                 builder2.setView(frameLayout2);
                 textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("ReplaceBoostChannelDescription", R.string.ReplaceBoostChannelDescription, chat.title, chat2.title)));
-                builder2.setPositiveButton(LocaleController.getString("Replace", R.string.Replace), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda18
+                builder2.setPositiveButton(LocaleController.getString(R.string.Replace), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda18
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         LimitReachedBottomSheet.this.lambda$onViewCreated$10(dialogInterface, i2);
                     }
                 });
-                builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda19
+                builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda19
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         dialogInterface.dismiss();
@@ -1006,7 +1006,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 AnimatedTextView animatedTextView = this.premiumButtonView.buttonTextView;
                 ChannelBoostsController.CanApplyBoost canApplyBoost = this.canApplyBoost;
                 if (canApplyBoost != null && canApplyBoost.alreadyActive) {
-                    string = LocaleController.getString("BoostingBoostAgain", R.string.BoostingBoostAgain);
+                    string = LocaleController.getString(R.string.BoostingBoostAgain);
                 } else {
                     string = LocaleController.getString(isGroup() ? R.string.BoostGroup : R.string.BoostChannel);
                 }
@@ -1015,7 +1015,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 if (canApplyBoost2 == null || !canApplyBoost2.isMaxLvl) {
                     return;
                 }
-                this.premiumButtonView.buttonTextView.setText(LocaleController.getString("OK", R.string.OK));
+                this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.OK));
                 return;
             }
             this.premiumButtonView.buttonTextView.setText(LocaleController.getString(isGroup() ? R.string.BoostGroup : R.string.BoostChannel));
@@ -1025,13 +1025,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         if (i2 == 18 || i2 == 20 || i2 == 24 || i2 == 25 || i2 == 29 || i2 == 22 || i2 == 23 || i2 == 21 || i2 == 26 || i2 == 27 || i2 == 30) {
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("d ");
             spannableStringBuilder.setSpan(new ColoredImageSpan(R.drawable.msg_copy_filled), 0, 1, 0);
-            spannableStringBuilder.append((CharSequence) LocaleController.getString("CopyLink", R.string.CopyLink));
+            spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.CopyLink));
             this.premiumButtonView.buttonTextView.setText(spannableStringBuilder);
         } else if (UserConfig.getInstance(this.currentAccount).isPremium() || MessagesController.getInstance(this.currentAccount).premiumFeaturesBlocked() || this.isVeryLargeFile) {
-            this.premiumButtonView.buttonTextView.setText(LocaleController.getString("OK", R.string.OK));
+            this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.OK));
             this.premiumButtonView.hideIcon();
         } else {
-            this.premiumButtonView.buttonTextView.setText(LocaleController.getString("IncreaseLimit", R.string.IncreaseLimit));
+            this.premiumButtonView.buttonTextView.setText(LocaleController.getString(R.string.IncreaseLimit));
             LimitParams limitParams = this.limitParams;
             if (limitParams != null) {
                 int i3 = limitParams.defaultLimit;
@@ -1069,7 +1069,7 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         } else {
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("ChatsLeaveAlert", R.string.ChatsLeaveAlert, new Object[0])));
         }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.setPositiveButton(LocaleController.getString(R.string.VoipGroupLeave), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda21
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
@@ -1102,13 +1102,13 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
             boolean z = canApplyBoost.canApply;
             if ((z || canApplyBoost.empty) && !canApplyBoost.boostedNow && !canApplyBoost.alreadyActive) {
                 if (canApplyBoost.isMaxLvl) {
-                    this.premiumButtonView.setOverlayText(LocaleController.getString("OK", R.string.OK), true, true);
+                    this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.OK), true, true);
                 } else {
                     this.premiumButtonView.clearOverlayText();
                 }
             } else if (z) {
                 if (BoostRepository.isMultiBoostsAvailable()) {
-                    this.premiumButtonView.setOverlayText(LocaleController.getString("BoostingBoostAgain", R.string.BoostingBoostAgain), true, true);
+                    this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.BoostingBoostAgain), true, true);
                 } else {
                     this.premiumButtonView.setOverlayText(LocaleController.getString(isGroup() ? R.string.BoostGroup : R.string.BoostChannel), true, true);
                 }
@@ -1125,14 +1125,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 if (buttonWithCounterView3 != null) {
                     buttonWithCounterView3.setText(LocaleController.getString(i2), true);
                 }
-                this.premiumButtonView.setOverlayText(LocaleController.getString("OK", i2), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(i2), true, true);
             } else if (BoostRepository.isMultiBoostsAvailable()) {
                 ButtonWithCounterView buttonWithCounterView4 = this.boostToUnlockGroupBtn;
                 if (buttonWithCounterView4 != null) {
                     buttonWithCounterView4.setText(LocaleController.getString(R.string.BoostGroup), true);
                 }
                 this.boostMiniBtn.setText(LocaleController.getString(R.string.BoostBtn), true);
-                this.premiumButtonView.setOverlayText(LocaleController.getString("BoostingBoostAgain", R.string.BoostingBoostAgain), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.BoostingBoostAgain), true, true);
             } else {
                 ButtonWithCounterView buttonWithCounterView5 = this.boostToUnlockGroupBtn;
                 if (buttonWithCounterView5 != null) {
@@ -1141,16 +1141,16 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 ButtonWithCounterView buttonWithCounterView6 = this.boostMiniBtn;
                 int i3 = R.string.OK;
                 buttonWithCounterView6.setText(LocaleController.getString(i3), true);
-                this.premiumButtonView.setOverlayText(LocaleController.getString("OK", i3), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(i3), true, true);
             }
         } else if (this.type == 11) {
             this.premiumButtonView.checkCounterView();
             if (!this.canSendLink) {
-                this.premiumButtonView.setOverlayText(LocaleController.getString("Close", R.string.Close), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.Close), true, true);
             } else if (this.selectedChats.size() > 0) {
-                this.premiumButtonView.setOverlayText(LocaleController.getString("SendInviteLink", R.string.SendInviteLink), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.SendInviteLink), true, true);
             } else {
-                this.premiumButtonView.setOverlayText(LocaleController.getString("ActionSkip", R.string.ActionSkip), true, true);
+                this.premiumButtonView.setOverlayText(LocaleController.getString(R.string.ActionSkip), true, true);
             }
             this.premiumButtonView.counterView.setCount(this.selectedChats.size(), true);
             this.premiumButtonView.invalidate();
@@ -1566,15 +1566,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                 int i3 = limitReachedBottomSheet3.type;
                 if (i3 != 11) {
                     if (i3 == 2) {
-                        headerCell.setText(LocaleController.getString("YourPublicCommunities", R.string.YourPublicCommunities));
+                        headerCell.setText(LocaleController.getString(R.string.YourPublicCommunities));
                     } else {
-                        headerCell.setText(LocaleController.getString("LastActiveCommunities", R.string.LastActiveCommunities));
+                        headerCell.setText(LocaleController.getString(R.string.LastActiveCommunities));
                     }
                 } else if (!limitReachedBottomSheet3.canSendLink) {
                     if (LimitReachedBottomSheet.this.restrictedUsers.size() == 1) {
-                        headerCell.setText(LocaleController.getString("ChannelInviteViaLinkRestricted2", R.string.ChannelInviteViaLinkRestricted2));
+                        headerCell.setText(LocaleController.getString(R.string.ChannelInviteViaLinkRestricted2));
                     } else {
-                        headerCell.setText(LocaleController.getString("ChannelInviteViaLinkRestricted3", R.string.ChannelInviteViaLinkRestricted3));
+                        headerCell.setText(LocaleController.getString(R.string.ChannelInviteViaLinkRestricted3));
                     }
                 } else {
                     headerCell.setText(LocaleController.getString(R.string.ChannelInviteViaLink));
@@ -1760,15 +1760,15 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         /* JADX WARN: Removed duplicated region for block: B:304:0x0939  */
         /* JADX WARN: Removed duplicated region for block: B:307:0x0993  */
         /* JADX WARN: Removed duplicated region for block: B:309:0x09a2  */
-        /* JADX WARN: Removed duplicated region for block: B:366:0x0afb  */
-        /* JADX WARN: Removed duplicated region for block: B:378:0x0b3f  */
-        /* JADX WARN: Removed duplicated region for block: B:381:0x0b4a  */
-        /* JADX WARN: Removed duplicated region for block: B:386:0x0b9e  */
-        /* JADX WARN: Removed duplicated region for block: B:396:0x0cee  */
-        /* JADX WARN: Removed duplicated region for block: B:400:0x0d14  */
-        /* JADX WARN: Removed duplicated region for block: B:403:0x0d27  */
-        /* JADX WARN: Removed duplicated region for block: B:404:0x0d3f  */
-        /* JADX WARN: Removed duplicated region for block: B:407:0x0d5a  */
+        /* JADX WARN: Removed duplicated region for block: B:366:0x0aef  */
+        /* JADX WARN: Removed duplicated region for block: B:378:0x0b33  */
+        /* JADX WARN: Removed duplicated region for block: B:381:0x0b3e  */
+        /* JADX WARN: Removed duplicated region for block: B:386:0x0b92  */
+        /* JADX WARN: Removed duplicated region for block: B:396:0x0ce2  */
+        /* JADX WARN: Removed duplicated region for block: B:400:0x0d08  */
+        /* JADX WARN: Removed duplicated region for block: B:403:0x0d1b  */
+        /* JADX WARN: Removed duplicated region for block: B:404:0x0d33  */
+        /* JADX WARN: Removed duplicated region for block: B:407:0x0d4e  */
         @SuppressLint({"SetTextI18n"})
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -2072,9 +2072,9 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                             this.title.setText(LimitReachedBottomSheet.this.getBoostsTitleString());
                         } else if (i6 == 18) {
                             if (LimitReachedBottomSheet.this.boostsStatus.level == 0) {
-                                this.title.setText(LocaleController.getString("BoostingEnableStories", R.string.BoostingEnableStories));
+                                this.title.setText(LocaleController.getString(R.string.BoostingEnableStories));
                             } else {
-                                this.title.setText(LocaleController.getString("BoostingIncreaseLevel", R.string.BoostingIncreaseLevel));
+                                this.title.setText(LocaleController.getString(R.string.BoostingIncreaseLevel));
                             }
                         } else if (i6 == 21) {
                             this.title.setText(LocaleController.getString(R.string.ReactionCustomReactions));
@@ -2095,14 +2095,14 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
                                 this.title.setText(LocaleController.getString(R.string.BoostingEnableWallpaper));
                             } else if (i6 == 11) {
                                 if (LimitReachedBottomSheet.this.canSendLink) {
-                                    this.title.setText(LocaleController.getString("ChannelInviteViaLink", R.string.ChannelInviteViaLink));
+                                    this.title.setText(LocaleController.getString(R.string.ChannelInviteViaLink));
                                 } else {
-                                    this.title.setText(LocaleController.getString("ChannelInviteViaLinkRestricted", R.string.ChannelInviteViaLinkRestricted));
+                                    this.title.setText(LocaleController.getString(R.string.ChannelInviteViaLinkRestricted));
                                 }
                             } else if (i6 == 6) {
-                                this.title.setText(LocaleController.getString("FileTooLarge", R.string.FileTooLarge));
+                                this.title.setText(LocaleController.getString(R.string.FileTooLarge));
                             } else {
-                                this.title.setText(LocaleController.getString("LimitReached", R.string.LimitReached));
+                                this.title.setText(LocaleController.getString(R.string.LimitReached));
                             }
                             this.title.setTextSize(1, 20.0f);
                             TextView textView6 = this.title;
@@ -2805,8 +2805,8 @@ public class LimitReachedBottomSheet extends BottomSheetWithRecyclerListView imp
         } else {
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("RevokeLinksAlert", R.string.RevokeLinksAlert, new Object[0])));
         }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda13
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Premium.LimitReachedBottomSheet$$ExternalSyntheticLambda13
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 LimitReachedBottomSheet.this.lambda$revokeLinks$25(arrayList, dialogInterface, i3);

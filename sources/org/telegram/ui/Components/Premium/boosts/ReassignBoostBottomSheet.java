@@ -285,9 +285,9 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
     private void updateActionButton(boolean z) {
         this.actionButton.setShowZero(false);
         if (this.selectedBoosts.size() > 1) {
-            this.actionButton.setText(LocaleController.getString("BoostingReassignBoosts", R.string.BoostingReassignBoosts), z);
+            this.actionButton.setText(LocaleController.getString(R.string.BoostingReassignBoosts), z);
         } else {
-            this.actionButton.setText(LocaleController.getString("BoostingReassignBoost", R.string.BoostingReassignBoost), z);
+            this.actionButton.setText(LocaleController.getString(R.string.BoostingReassignBoost), z);
         }
         this.actionButton.setCount(this.selectedBoosts.size(), z);
         this.actionButton.setEnabled(this.selectedBoosts.size() > 0);
@@ -295,7 +295,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return LocaleController.getString("BoostingReassignBoost", R.string.BoostingReassignBoost);
+        return LocaleController.getString(R.string.BoostingReassignBoost);
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -353,7 +353,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
                     HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
                     headerCell.setTextSize(15.0f);
                     headerCell.setPadding(0, 0, 0, AndroidUtilities.dp(2.0f));
-                    headerCell.setText(LocaleController.getString("BoostingRemoveBoostFrom", R.string.BoostingRemoveBoostFrom));
+                    headerCell.setText(LocaleController.getString(R.string.BoostingRemoveBoostFrom));
                 } else if (viewHolder.getItemViewType() == 0) {
                     ReassignBoostBottomSheet.this.topCell = (TopCell) viewHolder.itemView;
                     ReassignBoostBottomSheet.this.topCell.setData(ReassignBoostBottomSheet.this.currentChat, ReassignBoostBottomSheet.this);
@@ -399,7 +399,7 @@ public class ReassignBoostBottomSheet extends BottomSheetWithRecyclerListView {
             addView(frameLayout, LayoutHelper.createLinear(-1, 70, 0.0f, 15.0f, 0.0f, 0.0f));
             TextView textView = new TextView(context);
             textView.setTypeface(AndroidUtilities.bold());
-            textView.setText(LocaleController.getString("BoostingReassignBoost", R.string.BoostingReassignBoost));
+            textView.setText(LocaleController.getString(R.string.BoostingReassignBoost));
             textView.setTextSize(1, 20.0f);
             textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             addView(textView, LayoutHelper.createLinear(-2, -2, 1, 0, 15, 0, 7));

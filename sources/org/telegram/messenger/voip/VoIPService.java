@@ -199,6 +199,7 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.JoinCallAlert;
+import org.telegram.ui.Components.PermissionRequest;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.VoIPFeedbackActivity;
@@ -429,7 +430,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.e("Bluetooth SCO state updated: " + intExtra);
                 }
-                if (intExtra == 0 && VoIPService.this.isBtHeadsetConnected && (!VoIPService.this.btAdapter.isEnabled() || VoIPService.this.btAdapter.getProfileConnectionState(1) != 2)) {
+                if (intExtra == 0 && VoIPService.this.isBtHeadsetConnected && (!VoIPService.this.btAdapter.isEnabled() || !PermissionRequest.hasPermission("android.permission.BLUETOOTH_CONNECT") || VoIPService.this.btAdapter.getProfileConnectionState(1) != 2)) {
                     VoIPService.this.updateBluetoothHeadsetState(false);
                     return;
                 }
@@ -4219,7 +4220,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:61:0x0121 A[LOOP:0: B:59:0x011b->B:61:0x0121, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:61:0x0117 A[LOOP:0: B:59:0x0111->B:61:0x0117, LOOP_END] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4231,27 +4232,18 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         int route;
         CallAudioState callAudioState3;
         int route2;
-        int i;
-        String str;
         if (isBluetoothHeadsetConnected() && hasEarpiece()) {
-            BottomSheet.Builder cellType = new BottomSheet.Builder(context).setTitle(LocaleController.getString("VoipOutputDevices", R.string.VoipOutputDevices), true).selectedPos(num).setCellType(num != null ? BottomSheet.Builder.CELL_TYPE_CALL : 0);
-            String string = LocaleController.getString("VoipAudioRoutingSpeaker", R.string.VoipAudioRoutingSpeaker);
-            if (this.isHeadsetPlugged) {
-                i = R.string.VoipAudioRoutingHeadset;
-                str = "VoipAudioRoutingHeadset";
-            } else {
-                i = R.string.VoipAudioRoutingEarpiece;
-                str = "VoipAudioRoutingEarpiece";
+            BottomSheet.Builder cellType = new BottomSheet.Builder(context).setTitle(LocaleController.getString(R.string.VoipOutputDevices), true).selectedPos(num).setCellType(num != null ? BottomSheet.Builder.CELL_TYPE_CALL : 0);
+            String string = LocaleController.getString(R.string.VoipAudioRoutingSpeaker);
+            String string2 = LocaleController.getString(this.isHeadsetPlugged ? R.string.VoipAudioRoutingHeadset : R.string.VoipAudioRoutingEarpiece);
+            String str = this.currentBluetoothDeviceName;
+            if (str == null) {
+                str = LocaleController.getString(R.string.VoipAudioRoutingBluetooth);
             }
-            String string2 = LocaleController.getString(str, i);
-            String str2 = this.currentBluetoothDeviceName;
-            if (str2 == null) {
-                str2 = LocaleController.getString("VoipAudioRoutingBluetooth", R.string.VoipAudioRoutingBluetooth);
-            }
-            BottomSheet.Builder items = cellType.setItems(new CharSequence[]{string, string2, str2}, new int[]{R.drawable.msg_call_speaker, this.isHeadsetPlugged ? R.drawable.calls_menu_headset : R.drawable.msg_call_earpiece, R.drawable.msg_call_bluetooth}, new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda100
+            BottomSheet.Builder items = cellType.setItems(new CharSequence[]{string, string2, str}, new int[]{R.drawable.msg_call_speaker, this.isHeadsetPlugged ? R.drawable.calls_menu_headset : R.drawable.msg_call_earpiece, R.drawable.msg_call_bluetooth}, new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.voip.VoIPService$$ExternalSyntheticLambda100
                 @Override // android.content.DialogInterface.OnClickListener
-                public final void onClick(DialogInterface dialogInterface, int i2) {
-                    VoIPService.this.lambda$toggleSpeakerphoneOrShowRouteSheet$64(dialogInterface, i2);
+                public final void onClick(DialogInterface dialogInterface, int i) {
+                    VoIPService.this.lambda$toggleSpeakerphoneOrShowRouteSheet$64(dialogInterface, i);
                 }
             });
             final BottomSheet create = items.create();
@@ -4500,55 +4492,36 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     private void showNotification(String str, Bitmap bitmap) {
-        int i;
-        String str2;
-        int i2;
-        String str3;
         Intent action = new Intent(this, LaunchActivity.class).setAction(this.groupCall != null ? "voip_chat" : "voip");
         if (this.groupCall != null) {
             action.putExtra("currentAccount", this.currentAccount);
         }
         Notification.Builder contentIntent = new Notification.Builder(this).setContentText(str).setContentIntent(PendingIntent.getActivity(this, 50, action, ConnectionsManager.FileTypeVideo));
         if (this.groupCall != null) {
-            if (ChatObject.isChannelOrGiga(this.chat)) {
-                i2 = R.string.VoipLiveStream;
-                str3 = "VoipLiveStream";
-            } else {
-                i2 = R.string.VoipVoiceChat;
-                str3 = "VoipVoiceChat";
-            }
-            contentIntent.setContentTitle(LocaleController.getString(str3, i2));
+            contentIntent.setContentTitle(LocaleController.getString(ChatObject.isChannelOrGiga(this.chat) ? R.string.VoipLiveStream : R.string.VoipVoiceChat));
             contentIntent.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
         } else {
-            contentIntent.setContentTitle(LocaleController.getString("VoipOutgoingCall", R.string.VoipOutgoingCall));
+            contentIntent.setContentTitle(LocaleController.getString(R.string.VoipOutgoingCall));
             contentIntent.setSmallIcon(R.drawable.ic_call);
             contentIntent.setOngoing(true);
         }
-        int i3 = Build.VERSION.SDK_INT;
+        int i = Build.VERSION.SDK_INT;
         Intent intent = new Intent(this, VoIPActionsReceiver.class);
         intent.setAction(getPackageName() + ".END_CALL");
         if (this.groupCall != null) {
-            int i4 = R.drawable.ic_call_end_white_24dp;
-            if (ChatObject.isChannelOrGiga(this.chat)) {
-                i = R.string.VoipChannelLeaveAlertTitle;
-                str2 = "VoipChannelLeaveAlertTitle";
-            } else {
-                i = R.string.VoipGroupLeaveAlertTitle;
-                str2 = "VoipGroupLeaveAlertTitle";
-            }
-            contentIntent.addAction(i4, LocaleController.getString(str2, i), PendingIntent.getBroadcast(this, 0, intent, 167772160));
+            contentIntent.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString(ChatObject.isChannelOrGiga(this.chat) ? R.string.VoipChannelLeaveAlertTitle : R.string.VoipGroupLeaveAlertTitle), PendingIntent.getBroadcast(this, 0, intent, 167772160));
         } else {
-            contentIntent.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString("VoipEndCall", R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, intent, 167772160));
+            contentIntent.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString(R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, intent, 167772160));
         }
         contentIntent.setPriority(2);
         contentIntent.setShowWhen(false);
-        if (i3 >= 26) {
+        if (i >= 26) {
             contentIntent.setColor(-14143951);
             contentIntent.setColorized(true);
-        } else if (i3 >= 21) {
+        } else if (i >= 21) {
             contentIntent.setColor(-13851168);
         }
-        if (i3 >= 26) {
+        if (i >= 26) {
             NotificationsController.checkOtherNotificationsChannel();
             contentIntent.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
         }
@@ -5428,14 +5401,17 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 }
                 return;
             }
-            deviceType = mediaRouter.getSelectedRoute(1).getDeviceType();
-            if (deviceType == 3) {
-                updateBluetoothHeadsetState(this.btAdapter.getProfileConnectionState(1) == 2);
-                Iterator<StateListener> it2 = this.stateListeners.iterator();
-                while (it2.hasNext()) {
-                    it2.next().onAudioSettingsChanged();
+            MediaRouter.RouteInfo selectedRoute = mediaRouter.getSelectedRoute(1);
+            if (PermissionRequest.hasPermission("android.permission.BLUETOOTH_CONNECT")) {
+                deviceType = selectedRoute.getDeviceType();
+                if (deviceType == 3) {
+                    updateBluetoothHeadsetState(this.btAdapter.getProfileConnectionState(1) == 2);
+                    Iterator<StateListener> it2 = this.stateListeners.iterator();
+                    while (it2.hasNext()) {
+                        it2.next().onAudioSettingsChanged();
+                    }
+                    return;
                 }
-                return;
             }
             updateBluetoothHeadsetState(audioManager.isBluetoothA2dpOn());
         } catch (Throwable th) {
@@ -5918,18 +5894,15 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:28:0x00e6  */
-    /* JADX WARN: Type inference failed for: r5v20 */
-    /* JADX WARN: Type inference failed for: r5v5 */
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00e1  */
+    /* JADX WARN: Type inference failed for: r15v2 */
+    /* JADX WARN: Type inference failed for: r15v4 */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     private void showIncomingNotification(String str, TLObject tLObject, boolean z, int i) {
         int i2;
         int i3;
-        int i4;
-        String str2;
-        int i5;
         Notification notification;
         Person.Builder name;
         Icon createWithAdaptiveBitmap;
@@ -5950,23 +5923,23 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         String id2;
         Intent intent = new Intent(this, LaunchActivity.class);
         intent.setAction("voip");
-        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding)).setSmallIcon(R.drawable.ic_call).setContentIntent(PendingIntent.getActivity(this, 0, intent, ConnectionsManager.FileTypeVideo));
-        int i6 = Build.VERSION.SDK_INT;
-        if (i6 >= 26) {
+        Notification.Builder contentIntent = new Notification.Builder(this).setContentTitle(LocaleController.getString(z ? R.string.VoipInVideoCallBranding : R.string.VoipInCallBranding)).setSmallIcon(R.drawable.ic_call).setContentIntent(PendingIntent.getActivity(this, 0, intent, ConnectionsManager.FileTypeVideo));
+        int i4 = Build.VERSION.SDK_INT;
+        if (i4 >= 26) {
             SharedPreferences globalNotificationsSettings = MessagesController.getGlobalNotificationsSettings();
-            int i7 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
+            int i5 = globalNotificationsSettings.getInt("calls_notification_channel", 0);
             NotificationManager notificationManager = (NotificationManager) getSystemService("notification");
-            notificationChannel = notificationManager.getNotificationChannel("incoming_calls2" + i7);
+            notificationChannel = notificationManager.getNotificationChannel("incoming_calls2" + i5);
             if (notificationChannel != null) {
                 id2 = notificationChannel.getId();
                 notificationManager.deleteNotificationChannel(id2);
             }
-            notificationChannel2 = notificationManager.getNotificationChannel("incoming_calls3" + i7);
+            notificationChannel2 = notificationManager.getNotificationChannel("incoming_calls3" + i5);
             if (notificationChannel2 != null) {
                 id = notificationChannel2.getId();
                 notificationManager.deleteNotificationChannel(id);
             }
-            notificationChannel3 = notificationManager.getNotificationChannel("incoming_calls4" + i7);
+            notificationChannel3 = notificationManager.getNotificationChannel("incoming_calls4" + i5);
             if (notificationChannel3 != null) {
                 importance = notificationChannel3.getImportance();
                 if (importance >= 4) {
@@ -5978,13 +5951,13 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                             legacyStreamType = contentType.setLegacyStreamType(2);
                             usage = legacyStreamType.setUsage(2);
                             build2 = usage.build();
-                            NotificationChannel notificationChannel4 = new NotificationChannel("incoming_calls4" + i7, LocaleController.getString("IncomingCallsSystemSetting", R.string.IncomingCallsSystemSetting), 4);
+                            NotificationChannel notificationChannel4 = new NotificationChannel("incoming_calls4" + i5, LocaleController.getString(R.string.IncomingCallsSystemSetting), 4);
                             try {
                                 notificationChannel4.setSound(null, build2);
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
-                            notificationChannel4.setDescription(LocaleController.getString("IncomingCallsSystemSettingDescription", R.string.IncomingCallsSystemSettingDescription));
+                            notificationChannel4.setDescription(LocaleController.getString(R.string.IncomingCallsSystemSettingDescription));
                             notificationChannel4.enableVibration(false);
                             notificationChannel4.enableLights(false);
                             notificationChannel4.setBypassDnd(true);
@@ -5997,65 +5970,59 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                                 return;
                             }
                         }
-                        contentIntent.setChannelId("incoming_calls4" + i7);
+                        contentIntent.setChannelId("incoming_calls4" + i5);
                     }
                 }
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("User messed up the notification channel; deleting it and creating a proper one");
                 }
-                notificationManager.deleteNotificationChannel("incoming_calls4" + i7);
-                i7++;
-                globalNotificationsSettings.edit().putInt("calls_notification_channel", i7).commit();
+                notificationManager.deleteNotificationChannel("incoming_calls4" + i5);
+                i5++;
+                globalNotificationsSettings.edit().putInt("calls_notification_channel", i5).commit();
             }
             z2 = true;
             if (z2) {
             }
-            contentIntent.setChannelId("incoming_calls4" + i7);
-        } else if (i6 >= 21) {
+            contentIntent.setChannelId("incoming_calls4" + i5);
+        } else if (i4 >= 21) {
             contentIntent.setSound(null);
         }
         Intent intent2 = new Intent(this, VoIPActionsReceiver.class);
         intent2.setAction(getPackageName() + ".DECLINE_CALL");
         intent2.putExtra("call_id", getCallID());
-        int i8 = R.string.VoipDeclineCall;
-        String string = LocaleController.getString("VoipDeclineCall", i8);
-        int i9 = Build.VERSION.SDK_INT;
-        if (i9 < 24 || i9 >= 31) {
-            i2 = i8;
-            i3 = 0;
+        int i6 = R.string.VoipDeclineCall;
+        String string = LocaleController.getString(i6);
+        int i7 = Build.VERSION.SDK_INT;
+        if (i7 < 24 || i7 >= 31) {
+            i2 = 0;
         } else {
             SpannableString spannableString = new SpannableString(string);
-            i2 = i8;
-            i3 = 0;
+            i2 = 0;
             spannableString.setSpan(new ForegroundColorSpan(-769226), 0, spannableString.length(), 0);
             string = spannableString;
         }
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, i3, intent2, 301989888);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, i2, intent2, 301989888);
         Intent intent3 = new Intent(this, VoIPActionsReceiver.class);
         intent3.setAction(getPackageName() + ".ANSWER_CALL");
         intent3.putExtra("call_id", getCallID());
-        int i10 = R.string.VoipAnswerCall;
-        String string2 = LocaleController.getString("VoipAnswerCall", i10);
-        if (i9 < 24 || i9 >= 31) {
-            i4 = i10;
-            str2 = "VoipDeclineCall";
-            i5 = 0;
+        int i8 = R.string.VoipAnswerCall;
+        String string2 = LocaleController.getString(i8);
+        if (i7 < 24 || i7 >= 31) {
+            i3 = 0;
         } else {
             SpannableString spannableString2 = new SpannableString(string2);
-            str2 = "VoipDeclineCall";
-            i4 = i10;
-            i5 = 0;
+            i3 = 0;
             spannableString2.setSpan(new ForegroundColorSpan(-16733696), 0, spannableString2.length(), 0);
             string2 = spannableString2;
         }
-        PendingIntent broadcast2 = PendingIntent.getBroadcast(this, i5, intent3, 301989888);
+        PendingIntent broadcast2 = PendingIntent.getBroadcast(this, i3, intent3, 301989888);
         contentIntent.setPriority(2);
-        contentIntent.setShowWhen(i5);
-        if (i9 >= 21) {
+        contentIntent.setShowWhen(i3);
+        if (i7 >= 21) {
             contentIntent.setColor(-13851168);
-            contentIntent.setVibrate(new long[i5]);
+            contentIntent.setVibrate(new long[i3]);
             contentIntent.setCategory("call");
-            contentIntent.setFullScreenIntent(PendingIntent.getActivity(this, i5, intent, ConnectionsManager.FileTypeVideo), true);
+            contentIntent.setFullScreenIntent(PendingIntent.getActivity(this, i3, intent, ConnectionsManager.FileTypeVideo), true);
             if (tLObject instanceof TLRPC$User) {
                 TLRPC$User tLRPC$User = (TLRPC$User) tLObject;
                 if (!TextUtils.isEmpty(tLRPC$User.phone)) {
@@ -6063,7 +6030,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 }
             }
         }
-        if (i9 >= 31) {
+        if (i7 >= 31) {
             Bitmap roundAvatarBitmap = getRoundAvatarBitmap(this, this.currentAccount, tLObject);
             String formatName = ContactsController.formatName(tLObject);
             if (TextUtils.isEmpty(formatName)) {
@@ -6076,7 +6043,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             forIncomingCall = Notification.CallStyle.forIncomingCall(build, broadcast, broadcast2);
             contentIntent.setStyle(forIncomingCall);
             notification = contentIntent.build();
-        } else if (i9 >= 21) {
+        } else if (i7 >= 21) {
             contentIntent.addAction(R.drawable.ic_call_end_white_24dp, string, broadcast);
             contentIntent.addAction(R.drawable.ic_call, string2, broadcast2);
             contentIntent.setContentText(str);
@@ -6087,11 +6054,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
                 remoteViews.setTextViewText(R.id.title, z ? LocaleController.formatString("VoipInVideoCallBrandingWithName", R.string.VoipInVideoCallBrandingWithName, ContactsController.formatName(currentUser.first_name, currentUser.last_name)) : LocaleController.formatString("VoipInCallBrandingWithName", R.string.VoipInCallBrandingWithName, ContactsController.formatName(currentUser.first_name, currentUser.last_name)));
             } else {
-                remoteViews.setTextViewText(R.id.title, z ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
+                remoteViews.setTextViewText(R.id.title, LocaleController.getString(z ? R.string.VoipInVideoCallBranding : R.string.VoipInCallBranding));
             }
             Bitmap roundAvatarBitmap2 = getRoundAvatarBitmap(this, this.currentAccount, tLObject);
-            remoteViews.setTextViewText(R.id.answer_text, LocaleController.getString("VoipAnswerCall", i4));
-            remoteViews.setTextViewText(R.id.decline_text, LocaleController.getString(str2, i2));
+            remoteViews.setTextViewText(R.id.answer_text, LocaleController.getString(i8));
+            remoteViews.setTextViewText(R.id.decline_text, LocaleController.getString(i6));
             remoteViews.setImageViewBitmap(R.id.photo, roundAvatarBitmap2);
             remoteViews.setOnClickPendingIntent(R.id.answer_btn, broadcast2);
             remoteViews.setOnClickPendingIntent(R.id.decline_btn, broadcast);
@@ -6106,7 +6073,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
             notification = contentIntent.getNotification();
         }
         this.foregroundStarted = true;
-        if (i9 >= 33) {
+        if (i7 >= 33) {
             this.foregroundId = 202;
             this.foregroundNotification = notification;
             int currentForegroundType = getCurrentForegroundType();

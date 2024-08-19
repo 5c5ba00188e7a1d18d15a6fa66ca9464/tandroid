@@ -54,8 +54,8 @@ public class BackButtonMenu {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x025a  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x027a A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x0252  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0272 A[SYNTHETIC] */
     /* JADX WARN: Type inference failed for: r12v5, types: [android.graphics.drawable.BitmapDrawable] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.ActionBarPopupWindow$ActionBarPopupWindowLayout, android.view.View] */
     /* JADX WARN: Type inference failed for: r1v13, types: [android.widget.FrameLayout, android.view.View, android.view.ViewGroup] */
@@ -154,16 +154,16 @@ public class BackButtonMenu {
                     }
                     pulledDialog = pulledDialog2;
                     if (pulledDialog2.activity == ChatActivity.class && UserObject.isUserSelf(tLRPC$User)) {
-                        str = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        str = LocaleController.getString(R.string.SavedMessages);
                         avatarDrawable.setAvatarType(1);
                         backupImageView.setImageDrawable(avatarDrawable);
                     } else if (UserObject.isReplyUser(tLRPC$User)) {
-                        str = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                        str = LocaleController.getString(R.string.RepliesTitle);
                         avatarDrawable.setAvatarType(12);
                         backupImageView.setImageDrawable(avatarDrawable);
                     } else {
                         if (UserObject.isDeleted(tLRPC$User)) {
-                            str = LocaleController.getString("HiddenName", R.string.HiddenName);
+                            str = LocaleController.getString(R.string.HiddenName);
                             avatarDrawable.setInfo(baseFragment.getCurrentAccount(), tLRPC$User);
                             backupImageView.setImage(ImageLocation.getForUser(tLRPC$User, 1), "50_50", avatarDrawable, tLRPC$User);
                         } else {
@@ -220,7 +220,7 @@ public class BackButtonMenu {
                     backupImageView.setImageDrawable(ContextCompat.getDrawable(parentActivity, R.drawable.msg_viewchats).mutate());
                     backupImageView.setSize(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(24.0f));
                     backupImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
-                    textView.setText(LocaleController.getString("AllChats", R.string.AllChats));
+                    textView.setText(LocaleController.getString(R.string.AllChats));
                     z = true;
                     frameLayout.setBackground(Theme.getSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), false));
                     final PulledDialog pulledDialog322 = pulledDialog;

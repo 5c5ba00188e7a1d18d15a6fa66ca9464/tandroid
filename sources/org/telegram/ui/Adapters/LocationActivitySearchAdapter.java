@@ -102,9 +102,9 @@ public class LocationActivitySearchAdapter extends BaseLocationAdapter {
             locationCell.setLocation(tLRPC$TL_messageMediaVenue, i2, z);
         } else if (viewHolder.getItemViewType() == 1) {
             if (i == 0 && !this.locations.isEmpty()) {
-                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("LocationOnMap", R.string.LocationOnMap));
+                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.LocationOnMap));
             } else {
-                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString("NearbyVenue", R.string.NearbyVenue));
+                ((GraySectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.NearbyVenue));
             }
         }
     }

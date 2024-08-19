@@ -95,7 +95,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("EncryptionKey", R.string.EncryptionKey));
+        this.actionBar.setTitle(LocaleController.getString(R.string.EncryptionKey));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.IdenticonActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -212,7 +212,7 @@ public class IdenticonActivity extends BaseFragment implements NotificationCente
             spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.formatString("EncryptionKeyDescription", i7, str, str)));
             int indexOf = spannableStringBuilder.toString().indexOf("telegram.org");
             if (indexOf != -1) {
-                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString("EncryptionKeyLink", R.string.EncryptionKeyLink)), indexOf, indexOf + 12, 33);
+                spannableStringBuilder.setSpan(new URLSpanReplacement(LocaleController.getString(R.string.EncryptionKeyLink)), indexOf, indexOf + 12, 33);
             }
             this.textView.setText(spannableStringBuilder);
         }

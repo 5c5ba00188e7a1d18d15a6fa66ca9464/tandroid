@@ -4197,13 +4197,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:61:0x03d6  */
-        /* JADX WARN: Removed duplicated region for block: B:64:0x03f8  */
-        /* JADX WARN: Removed duplicated region for block: B:67:0x04c9  */
-        /* JADX WARN: Removed duplicated region for block: B:68:0x0533  */
-        /* JADX WARN: Removed duplicated region for block: B:71:0x0648  */
-        /* JADX WARN: Removed duplicated region for block: B:76:0x0676  */
-        /* JADX WARN: Removed duplicated region for block: B:79:0x0694  */
+        /* JADX WARN: Removed duplicated region for block: B:61:0x03d0  */
+        /* JADX WARN: Removed duplicated region for block: B:64:0x03f2  */
+        /* JADX WARN: Removed duplicated region for block: B:67:0x04c3  */
+        /* JADX WARN: Removed duplicated region for block: B:68:0x052d  */
+        /* JADX WARN: Removed duplicated region for block: B:71:0x0642  */
+        /* JADX WARN: Removed duplicated region for block: B:76:0x0670  */
+        /* JADX WARN: Removed duplicated region for block: B:79:0x068e  */
         /* JADX WARN: Removed duplicated region for block: B:81:? A[RETURN, SYNTHETIC] */
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -4240,7 +4240,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             String string = LoginActivity.this.activityMode != 1 ? null : LocaleController.getString(R.string.CancelAccountReset);
             int i2 = this.currentType;
             if (i2 == 11) {
-                this.titleTextView.setText(string == null ? LocaleController.getString("MissedCallDescriptionTitle", R.string.MissedCallDescriptionTitle) : string);
+                this.titleTextView.setText(string == null ? LocaleController.getString(R.string.MissedCallDescriptionTitle) : string);
                 FrameLayout frameLayout = new FrameLayout(context);
                 this.missedCallArrowIcon = new ImageView(context);
                 this.missedCallPhoneIcon = new ImageView(context);
@@ -4255,7 +4255,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 textView3.setTextSize(1, 14.0f);
                 this.missedCallDescriptionSubtitle.setGravity(1);
                 this.missedCallDescriptionSubtitle.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
-                this.missedCallDescriptionSubtitle.setText(AndroidUtilities.replaceTags(LocaleController.getString("MissedCallDescriptionSubtitle", R.string.MissedCallDescriptionSubtitle)));
+                this.missedCallDescriptionSubtitle.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MissedCallDescriptionSubtitle)));
                 addView(this.missedCallDescriptionSubtitle, LayoutHelper.createLinear(-1, -2, 49, 36, 16, 36, 0));
                 this.codeFieldContainer = new CodeFieldContainer(context) { // from class: org.telegram.ui.LoginActivity.LoginActivitySmsView.1
                     @Override // org.telegram.ui.CodeFieldContainer
@@ -4280,7 +4280,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 textView5.setTextSize(1, 14.0f);
                 this.missedCallDescriptionSubtitle2.setGravity(1);
                 this.missedCallDescriptionSubtitle2.setLineSpacing(AndroidUtilities.dp(2.0f), 1.0f);
-                this.missedCallDescriptionSubtitle2.setText(AndroidUtilities.replaceTags(LocaleController.getString("MissedCallDescriptionSubtitle2", R.string.MissedCallDescriptionSubtitle2)));
+                this.missedCallDescriptionSubtitle2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.MissedCallDescriptionSubtitle2)));
                 addView(this.missedCallDescriptionSubtitle2, LayoutHelper.createLinear(-1, -2, 49, 36, 28, 36, 12));
             } else {
                 if (i2 == 3) {

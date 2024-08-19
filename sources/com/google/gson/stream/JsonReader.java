@@ -42,15 +42,6 @@ public class JsonReader implements Closeable {
         return this.strictness == Strictness.LENIENT;
     }
 
-    public final void setStrictness(Strictness strictness) {
-        Objects.requireNonNull(strictness);
-        this.strictness = strictness;
-    }
-
-    public final Strictness getStrictness() {
-        return this.strictness;
-    }
-
     public void beginArray() throws IOException {
         int i = this.peeked;
         if (i == 0) {

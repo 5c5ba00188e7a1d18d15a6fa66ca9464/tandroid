@@ -853,9 +853,9 @@ public class StoriesUtilities {
     public static CharSequence getUploadingStr(TextView textView, boolean z, boolean z2) {
         String string;
         if (z2) {
-            string = LocaleController.getString("StoryEditing", R.string.StoryEditing);
+            string = LocaleController.getString(R.string.StoryEditing);
         } else {
-            string = LocaleController.getString("UploadingStory", R.string.UploadingStory);
+            string = LocaleController.getString(R.string.UploadingStory);
         }
         if (string.indexOf("…") > 0) {
             SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(string);
@@ -870,9 +870,9 @@ public class StoriesUtilities {
     public static void applyUploadingStr(SimpleTextView simpleTextView, boolean z, boolean z2) {
         String string;
         if (z2) {
-            string = LocaleController.getString("StoryEditing", R.string.StoryEditing);
+            string = LocaleController.getString(R.string.StoryEditing);
         } else {
-            string = LocaleController.getString("UploadingStory", R.string.UploadingStory);
+            string = LocaleController.getString(R.string.UploadingStory);
         }
         if (string.indexOf("…") > 0) {
             SpannableStringBuilder valueOf = SpannableStringBuilder.valueOf(string);
@@ -904,7 +904,7 @@ public class StoriesUtilities {
 
     public static CharSequence createReplyStoryString() {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        spannableStringBuilder.append((CharSequence) "d ").append((CharSequence) LocaleController.getString("Story", R.string.Story));
+        spannableStringBuilder.append((CharSequence) "d ").append((CharSequence) LocaleController.getString(R.string.Story));
         spannableStringBuilder.setSpan(new ColoredImageSpan(R.drawable.msg_mini_replystory2), 0, 1, 0);
         return spannableStringBuilder;
     }

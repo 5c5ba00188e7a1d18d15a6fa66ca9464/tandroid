@@ -360,9 +360,9 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
     /* JADX WARN: Type inference failed for: r0v18, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r13v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r1v11 */
-    /* JADX WARN: Type inference failed for: r1v12, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v17 */
+    /* JADX WARN: Type inference failed for: r1v10 */
+    /* JADX WARN: Type inference failed for: r1v11, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v16 */
     /* JADX WARN: Type inference failed for: r4v13, types: [android.widget.LinearLayout, android.view.View, android.view.ViewGroup] */
     public static void openRenameReplyAlert(Context context, final int i, String str, final QuickRepliesController.QuickReply quickReply, final Theme.ResourcesProvider resourcesProvider, boolean z, final Utilities.Callback<String> callback) {
         Object builder;
@@ -546,7 +546,7 @@ public class QuickRepliesActivity extends BaseFragment implements NotificationCe
                 QuickRepliesActivity.lambda$openRenameReplyAlert$6(EditTextBoldCursor.this, callback2, i, quickReply, textView2, callback, dialogInterface, i3);
             }
         });
-        r14.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda3
+        r14.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Business.QuickRepliesActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 dialogInterface.dismiss();

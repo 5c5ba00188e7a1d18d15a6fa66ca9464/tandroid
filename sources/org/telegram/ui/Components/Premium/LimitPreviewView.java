@@ -108,7 +108,7 @@ public class LimitPreviewView extends LinearLayout {
         TextView textView = new TextView(context);
         this.defaultText = textView;
         textView.setTypeface(AndroidUtilities.bold());
-        textView.setText(LocaleController.getString("LimitFree", R.string.LimitFree));
+        textView.setText(LocaleController.getString(R.string.LimitFree));
         textView.setGravity(16);
         int i4 = Theme.key_windowBackgroundWhiteBlackText;
         textView.setTextColor(Theme.getColor(i4, resourcesProvider));
@@ -129,7 +129,7 @@ public class LimitPreviewView extends LinearLayout {
         TextView textView3 = new TextView(context);
         this.premiumText = textView3;
         textView3.setTypeface(AndroidUtilities.bold());
-        textView3.setText(LocaleController.getString("LimitPremium", R.string.LimitPremium));
+        textView3.setText(LocaleController.getString(R.string.LimitPremium));
         textView3.setGravity(16);
         textView3.setTextColor(-1);
         TextView textView4 = new TextView(context) { // from class: org.telegram.ui.Components.Premium.LimitPreviewView.1

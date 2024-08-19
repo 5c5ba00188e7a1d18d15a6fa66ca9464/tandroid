@@ -4530,7 +4530,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             botWebViewSheet.setDefaultFullsize(false);
             botWebViewSheet.setNeedsContext(true);
             botWebViewSheet.setParentActivity(this.parentActivity);
-            botWebViewSheet.requestWebView(null, of);
+            botWebViewSheet.requestWebView(this.parentFragment, of);
             botWebViewSheet.show();
             BotCommandsMenuView botCommandsMenuView2 = this.botCommandsMenuButton;
             if (botCommandsMenuView2 != null) {
@@ -4545,7 +4545,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             createBotViewer.setDefaultFullsize(false);
             createBotViewer.setNeedsContext(false);
             createBotViewer.setParentActivity(this.parentFragment.getParentActivity());
-            createBotViewer.requestWebView(null, of);
+            createBotViewer.requestWebView(this.parentFragment, of);
             createBotViewer.show();
             BotCommandsMenuView botCommandsMenuView3 = this.botCommandsMenuButton;
             if (botCommandsMenuView3 != null) {
@@ -4784,9 +4784,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(getContext(), true, z8, this.resourcesProvider);
                     this.actionScheduleButton = actionBarMenuSubItem;
                     if (z5) {
-                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("SetReminder", R.string.SetReminder), R.drawable.msg_calendar2);
+                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.SetReminder), R.drawable.msg_calendar2);
                     } else {
-                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("ScheduleMessage", R.string.ScheduleMessage), R.drawable.msg_calendar2);
+                        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.ScheduleMessage), R.drawable.msg_calendar2);
                     }
                     this.actionScheduleButton.setMinimumWidth(AndroidUtilities.dp(196.0f));
                     this.actionScheduleButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda58
@@ -4800,7 +4800,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     if (!z5 && this.dialog_id > 0) {
                         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(getContext(), true, z8, this.resourcesProvider);
                         this.sendWhenOnlineButton = actionBarMenuSubItem2;
-                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SendWhenOnline", R.string.SendWhenOnline), R.drawable.msg_online);
+                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.SendWhenOnline), R.drawable.msg_online);
                         this.sendWhenOnlineButton.setMinimumWidth(AndroidUtilities.dp(196.0f));
                         this.sendWhenOnlineButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda59
                             @Override // android.view.View.OnClickListener
@@ -4813,7 +4813,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 if (z7) {
                     ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(getContext(), !z6, true, this.resourcesProvider);
-                    actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound), R.drawable.input_notify_off);
+                    actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.SendWithoutSound), R.drawable.input_notify_off);
                     actionBarMenuSubItem3.setMinimumWidth(AndroidUtilities.dp(196.0f));
                     actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ChatActivityEnterView$$ExternalSyntheticLambda50
                         @Override // android.view.View.OnClickListener
@@ -11643,13 +11643,13 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 createBotViewer.setDefaultFullsize(false);
                                 createBotViewer.setNeedsContext(true);
                                 createBotViewer.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                                createBotViewer.requestWebView(null, of2);
+                                createBotViewer.requestWebView(ChatActivityEnterView.this.parentFragment, of2);
                                 createBotViewer.show();
                                 return;
                             } else {
                                 BotWebViewSheet botWebViewSheet = new BotWebViewSheet(ChatActivityEnterView.this.getContext(), ChatActivityEnterView.this.resourcesProvider);
                                 botWebViewSheet.setParentActivity(ChatActivityEnterView.this.parentActivity);
-                                botWebViewSheet.requestWebView(null, of2);
+                                botWebViewSheet.requestWebView(ChatActivityEnterView.this.parentFragment, of2);
                                 botWebViewSheet.show();
                                 return;
                             }

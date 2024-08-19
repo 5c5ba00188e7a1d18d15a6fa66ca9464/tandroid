@@ -206,14 +206,14 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
         textPaint2.setTypeface(AndroidUtilities.bold());
         textPaint2.setTextSize(AndroidUtilities.dp(15.0f));
         textPaint2.setColor(-1);
-        final String string = LocaleController.getString("VoipVideoOnPause", R.string.VoipVideoOnPause);
-        String string2 = LocaleController.getString("VoipVideoScreenSharingTwoLines", R.string.VoipVideoScreenSharingTwoLines);
+        final String string = LocaleController.getString(R.string.VoipVideoOnPause);
+        String string2 = LocaleController.getString(R.string.VoipVideoScreenSharingTwoLines);
         int dp = AndroidUtilities.dp(400.0f);
         Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
         final StaticLayout staticLayout = new StaticLayout(string2, textPaint, dp, alignment, 1.0f, 0.0f, false);
         TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(call.chatId));
         final StaticLayout staticLayout2 = new StaticLayout(LocaleController.formatString("VoipVideoNotAvailable", R.string.VoipVideoNotAvailable, LocaleController.formatPluralString("Participants", MessagesController.getInstance(this.currentAccount).groupCallVideoMaxParticipants, new Object[0])), textPaint, AndroidUtilities.dp(400.0f), alignment, 1.0f, 0.0f, false);
-        final String string3 = LocaleController.getString("VoipVideoScreenSharing", R.string.VoipVideoScreenSharing);
+        final String string3 = LocaleController.getString(R.string.VoipVideoScreenSharing);
         final float measureText = textPaint.measureText(string);
         final float measureText2 = textPaint2.measureText(string3);
         VoIPTextureView voIPTextureView = new VoIPTextureView(groupCallRenderersContainer.getContext(), false, false, true, true) { // from class: org.telegram.ui.Components.voip.GroupCallMiniTextureView.1
@@ -601,7 +601,7 @@ public class GroupCallMiniTextureView extends FrameLayout implements GroupCallSt
             }
         };
         this.stopSharingTextView = textView;
-        textView.setText(LocaleController.getString("VoipVideoScreenStopSharing", R.string.VoipVideoScreenStopSharing));
+        textView.setText(LocaleController.getString(R.string.VoipVideoScreenStopSharing));
         this.stopSharingTextView.setTextSize(1, 15.0f);
         this.stopSharingTextView.setTypeface(AndroidUtilities.bold());
         this.stopSharingTextView.setPadding(AndroidUtilities.dp(21.0f), 0, AndroidUtilities.dp(21.0f), 0);

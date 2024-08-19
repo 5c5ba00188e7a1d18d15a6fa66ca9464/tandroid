@@ -36,6 +36,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -79,6 +80,7 @@ public class ReactionsLayoutInBubble {
     public int fromWidth;
     private float fromX;
     private float fromY;
+    public boolean hasPaidReaction;
     public boolean hasUnreadReactions;
     public int height;
     public boolean isEmpty;
@@ -165,8 +167,8 @@ public class ReactionsLayoutInBubble {
     }
 
     /* JADX WARN: Multi-variable type inference failed */
-    /* JADX WARN: Removed duplicated region for block: B:102:0x01fa A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x01f7  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x020b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0208  */
     /* JADX WARN: Type inference failed for: r11v0 */
     /* JADX WARN: Type inference failed for: r11v4, types: [int, boolean] */
     /* JADX WARN: Type inference failed for: r11v5 */
@@ -183,6 +185,7 @@ public class ReactionsLayoutInBubble {
         ArrayList arrayList = new ArrayList(this.reactionButtons);
         ?? r11 = 0;
         this.hasUnreadReactions = false;
+        this.hasPaidReaction = false;
         this.reactionButtons.clear();
         if (messageObject != null) {
             comparator.dialogId = messageObject.getDialogId();
@@ -210,6 +213,7 @@ public class ReactionsLayoutInBubble {
                     }
                     ReactionLayoutButton reactionLayoutButton = new ReactionLayoutButton(reactionButton, tLRPC$ReactionCount, z, z2);
                     this.reactionButtons.add(reactionLayoutButton);
+                    this.hasPaidReaction = this.hasPaidReaction || reactionLayoutButton.paid;
                     if (!z && !z2 && messageObject.messageOwner.reactions.recent_reactions != null) {
                         if (messageObject.getDialogId() > 0 && !UserObject.isReplyUser(messageObject.getDialogId())) {
                             ArrayList<TLObject> arrayList2 = new ArrayList<>();
@@ -442,6 +446,62 @@ public class ReactionsLayoutInBubble {
             canvas.scale(f13, f13, reactionButton2.x + f6 + (reactionButton2.width / 2.0f), reactionButton2.y + f7 + (reactionButton2.height / 2.0f));
             this.outButtons.get(i2).draw(canvas, reactionButton2.x + f6, f7 + reactionButton2.y, 1.0f, f12, false);
             canvas.restore();
+        }
+    }
+
+    public boolean hasOverlay() {
+        return this.hasPaidReaction && !(this.isEmpty && this.outButtons.isEmpty()) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
+    }
+
+    public void drawOverlay(Canvas canvas, float f) {
+        ReactionButton reactionButton;
+        float f2;
+        if (this.isEmpty && this.outButtons.isEmpty()) {
+            return;
+        }
+        float f3 = this.x;
+        float f4 = this.y;
+        if (this.isEmpty) {
+            f3 = this.lastDrawnX;
+            f4 = this.lastDrawnY;
+        } else if (this.animateMove) {
+            float f5 = 1.0f - f;
+            f3 = (f3 * f) + (this.fromX * f5);
+            f4 = (f4 * f) + (this.fromY * f5);
+        }
+        float f6 = f3;
+        float f7 = f4;
+        for (int i = 0; i < this.reactionButtons.size(); i++) {
+            ReactionButton reactionButton2 = this.reactionButtons.get(i);
+            if (reactionButton2.paid) {
+                canvas.save();
+                float f8 = reactionButton2.x;
+                float f9 = reactionButton2.y;
+                if (f != 1.0f && reactionButton2.animationType == 3) {
+                    float f10 = 1.0f - f;
+                    f8 = (f8 * f) + (reactionButton2.animateFromX * f10);
+                    f9 = (f9 * f) + (reactionButton2.animateFromY * f10);
+                }
+                if (f == 1.0f || reactionButton2.animationType != 1) {
+                    f2 = 1.0f;
+                } else {
+                    float f11 = (f * 0.5f) + 0.5f;
+                    canvas.scale(f11, f11, f6 + f8 + (reactionButton2.width / 2.0f), f7 + f9 + (reactionButton2.height / 2.0f));
+                    f2 = f;
+                }
+                reactionButton2.drawOverlay(canvas, f6 + f8, f7 + f9, reactionButton2.animationType == 3 ? f : 1.0f, f2, false);
+                canvas.restore();
+            }
+        }
+        for (int i2 = 0; i2 < this.outButtons.size(); i2++) {
+            if (this.outButtons.get(i2).paid) {
+                float f12 = 1.0f - f;
+                float f13 = (f12 * 0.5f) + 0.5f;
+                canvas.save();
+                canvas.scale(f13, f13, reactionButton.x + f6 + (reactionButton.width / 2.0f), reactionButton.y + f7 + (reactionButton.height / 2.0f));
+                this.outButtons.get(i2).drawOverlay(canvas, reactionButton.x + f6, f7 + reactionButton.y, 1.0f, f12, false);
+                canvas.restore();
+            }
         }
     }
 
@@ -817,8 +877,15 @@ public class ReactionsLayoutInBubble {
                 VisibleReaction visibleReaction = this.visibleReaction;
                 if (visibleReaction.isStar) {
                     this.paid = true;
-                    this.imageReceiver.setImageBitmap(new RLottieDrawable(R.raw.star_reaction_click, "star_reaction_click", AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f)));
-                    this.particles = (reactionButton == null || (particles = reactionButton.particles) == null) ? new StarsReactionsSheet.Particles(1, 30) : particles;
+                    if (LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
+                        this.imageReceiver.setImageBitmap(new RLottieDrawable(R.raw.star_reaction_click, "star_reaction_click", AndroidUtilities.dp(40.0f), AndroidUtilities.dp(40.0f)));
+                    } else {
+                        this.imageReceiver.setImageBitmap(ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.star_reaction).mutate());
+                    }
+                    if (reactionButton == null || (particles = reactionButton.particles) == null) {
+                        particles = new StarsReactionsSheet.Particles(1, SharedConfig.getDevicePerformanceClass() == 2 ? 25 : 8);
+                    }
+                    this.particles = particles;
                 } else if (visibleReaction.emojicon != null) {
                     TLRPC$TL_availableReaction tLRPC$TL_availableReaction = MediaDataController.getInstance(i).getReactionsMap().get(this.visibleReaction.emojicon);
                     if (tLRPC$TL_availableReaction != null) {
@@ -875,13 +942,47 @@ public class ReactionsLayoutInBubble {
             return ((i == 0 || (this.isTag && !this.hasName && i == 1)) && this.counterDrawable.countChangeProgress == 1.0f) ? false : true;
         }
 
+        public void drawOverlay(Canvas canvas, float f, float f2, float f3, float f4, boolean z) {
+            if (this.particles != null && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS)) {
+                RectF rectF = AndroidUtilities.rectTmp;
+                rectF.set(f, f2, this.width + f, this.height + f2);
+                float f5 = this.height / 2.0f;
+                this.tagPath.rewind();
+                this.tagPath.addRoundRect(rectF, f5, f5, Path.Direction.CW);
+                this.particles.bounds.set(rectF);
+                this.particles.bounds.inset(-AndroidUtilities.dp(4.0f), -AndroidUtilities.dp(4.0f));
+                StarsReactionsSheet.Particles particles = this.particles;
+                particles.setBounds(particles.bounds);
+                this.particles.process();
+                View view = this.parentView;
+                if (view != null) {
+                    view.invalidate();
+                }
+                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), 0.4f), getDrawServiceShaderBackground()));
+                canvas.save();
+                canvas.clipPath(this.tagPath);
+                this.particles.draw(canvas, this.textColor);
+                canvas.restore();
+            }
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:147:0x0391  */
+        /* JADX WARN: Removed duplicated region for block: B:151:0x03ad  */
+        /* JADX WARN: Removed duplicated region for block: B:152:0x03b5  */
+        /* JADX WARN: Removed duplicated region for block: B:161:0x03fd  */
+        /* JADX WARN: Removed duplicated region for block: B:163:? A[RETURN, SYNTHETIC] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+        */
         public void draw(Canvas canvas, float f, float f2, float f3, float f4, boolean z) {
             float f5;
             float f6;
-            int dp;
+            float f7;
             int i;
+            int i2;
             Paint paint;
             Theme.MessageDrawable currentBackgroundDrawable;
+            boolean z2 = true;
             this.wasDrawn = true;
             AnimatedEmojiDrawable animatedEmojiDrawable = this.animatedEmojiDrawable;
             ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
@@ -925,7 +1026,7 @@ public class ReactionsLayoutInBubble {
                 animatedTextDrawable.setTextColor(this.lastDrawnTextColor);
             }
             ReactionsLayoutInBubble.paint.setColor(this.lastDrawnBackgroundColor);
-            boolean z2 = this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0;
+            z2 = (this.isTag && drawTagDot() && Color.alpha(this.lastDrawnTagDotColor) == 0) ? false : false;
             if (f4 != 1.0f) {
                 ReactionsLayoutInBubble.textPaint.setAlpha((int) (ReactionsLayoutInBubble.textPaint.getAlpha() * f4));
                 ReactionsLayoutInBubble.paint.setAlpha((int) (ReactionsLayoutInBubble.paint.getAlpha() * f4));
@@ -934,19 +1035,18 @@ public class ReactionsLayoutInBubble {
                 imageReceiver.setAlpha(f4);
             }
             float scale = this.bounce.getScale(0.1f);
-            int i2 = this.width;
+            int i3 = this.width;
             if (f3 != 1.0f && this.animationType == 3) {
-                i2 = (int) ((i2 * f3) + (this.animateFromWidth * (1.0f - f3)));
+                i3 = (int) ((i3 * f3) + (this.animateFromWidth * (1.0f - f3)));
             }
             RectF rectF = AndroidUtilities.rectTmp;
-            float f7 = i2;
-            rectF.set(f, f2, f + f7, this.height + f2);
+            float f8 = i3;
+            rectF.set(f, f2, f + f8, this.height + f2);
             if (scale != 1.0f) {
                 canvas.save();
-                canvas.scale(scale, scale, (f7 / 2.0f) + f, (this.height / 2.0f) + f2);
+                canvas.scale(scale, scale, (f8 / 2.0f) + f, (this.height / 2.0f) + f2);
             }
-            float f8 = this.height / 2.0f;
-            float f9 = 0.0f;
+            float f9 = this.height / 2.0f;
             if (getDrawServiceShaderBackground() > 0.0f) {
                 Paint themePaint = Theme.getThemePaint("paintChatActionBackground", this.resourcesProvider);
                 Paint themePaint2 = Theme.getThemePaint("paintChatActionBackgroundDarken", this.resourcesProvider);
@@ -954,10 +1054,10 @@ public class ReactionsLayoutInBubble {
                 int alpha2 = themePaint2.getAlpha();
                 themePaint.setAlpha((int) (alpha * f4 * getDrawServiceShaderBackground()));
                 themePaint2.setAlpha((int) (alpha2 * f4 * getDrawServiceShaderBackground()));
-                drawRoundRect(canvas, rectF, f8, themePaint);
+                drawRoundRect(canvas, rectF, f9, themePaint);
                 Theme.ResourcesProvider resourcesProvider = this.resourcesProvider;
                 if (resourcesProvider == null ? Theme.hasGradientService() : resourcesProvider.hasGradientService()) {
-                    drawRoundRect(canvas, rectF, f8, themePaint2);
+                    drawRoundRect(canvas, rectF, f9, themePaint2);
                 }
                 themePaint.setAlpha(alpha);
                 themePaint2.setAlpha(alpha2);
@@ -965,7 +1065,7 @@ public class ReactionsLayoutInBubble {
             if (z && getDrawServiceShaderBackground() < 1.0f) {
                 View view = this.parentView;
                 if ((view instanceof ChatMessageCell) && (currentBackgroundDrawable = ((ChatMessageCell) view).getCurrentBackgroundDrawable(false)) != null && !this.isTag) {
-                    canvas.drawRoundRect(rectF, f8, f8, currentBackgroundDrawable.getPaint());
+                    canvas.drawRoundRect(rectF, f9, f9, currentBackgroundDrawable.getPaint());
                 }
             }
             if (z2) {
@@ -973,28 +1073,10 @@ public class ReactionsLayoutInBubble {
                 canvas.saveLayerAlpha(rectF, NotificationCenter.voipServiceCreated, 31);
                 rectF.right -= AndroidUtilities.dp(4.0f);
             }
-            boolean z3 = this.particles != null && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
-            if (z3) {
-                this.particles.bounds.set(rectF);
-                this.particles.bounds.inset(-AndroidUtilities.dp(4.0f), -AndroidUtilities.dp(4.0f));
-                StarsReactionsSheet.Particles particles = this.particles;
-                particles.setBounds(particles.bounds);
-                this.particles.process();
-                View view2 = this.parentView;
-                if (view2 != null) {
-                    view2.invalidate();
-                }
-                this.particles.draw(canvas, ColorUtils.blendARGB(ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), ColorUtils.blendARGB(this.serviceTextColor, ColorUtils.setAlphaComponent(this.backgroundColor, NotificationCenter.voipServiceCreated), 0.4f), getDrawServiceShaderBackground()));
+            if (this.particles != null) {
+                LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
             }
-            drawRoundRect(canvas, rectF, f8, ReactionsLayoutInBubble.paint);
-            if (z3) {
-                canvas.save();
-                this.tagPath.rewind();
-                this.tagPath.addRoundRect(rectF, f8, f8, Path.Direction.CW);
-                canvas.clipPath(this.tagPath);
-                this.particles.draw(canvas, this.textColor);
-                canvas.restore();
-            }
+            drawRoundRect(canvas, rectF, f9, ReactionsLayoutInBubble.paint);
             if (this.isTag && drawTagDot()) {
                 if (z2) {
                     paint = ReactionsLayoutInBubble.cutTagPaint;
@@ -1011,55 +1093,83 @@ public class ReactionsLayoutInBubble {
             if (imageReceiver != null) {
                 if (this.paid) {
                     i = AndroidUtilities.dp(22.0f);
-                    dp = AndroidUtilities.dp(4.0f);
+                    i2 = AndroidUtilities.dp(4.0f);
                 } else if (this.animatedEmojiDrawable != null) {
-                    int dp2 = AndroidUtilities.dp(24.0f);
-                    int dp3 = AndroidUtilities.dp(6.0f);
+                    int dp = AndroidUtilities.dp(24.0f);
+                    int dp2 = AndroidUtilities.dp(6.0f);
                     imageReceiver.setRoundRadius(AndroidUtilities.dp(6.0f));
-                    i = dp2;
-                    dp = dp3;
+                    i = dp;
+                    i2 = dp2;
                 } else {
-                    int dp4 = AndroidUtilities.dp(20.0f);
-                    dp = AndroidUtilities.dp(8.0f);
+                    int dp3 = AndroidUtilities.dp(20.0f);
+                    int dp4 = AndroidUtilities.dp(8.0f);
                     imageReceiver.setRoundRadius(0);
-                    i = dp4;
+                    i = dp3;
+                    i2 = dp4;
                 }
-                int i3 = (int) ((this.height - i) / 2.0f);
+                int i4 = (int) ((this.height - i) / 2.0f);
                 if (this.isTag) {
-                    dp -= AndroidUtilities.dp(2.0f);
+                    i2 -= AndroidUtilities.dp(2.0f);
                 }
-                int i4 = ((int) f) + dp;
-                int i5 = ((int) f2) + i3;
-                this.drawingImageRect.set(i4, i5, i4 + i, i + i5);
+                int i5 = ((int) f) + i2;
+                int i6 = ((int) f2) + i4;
+                this.drawingImageRect.set(i5, i6, i5 + i, i + i6);
                 drawImage(canvas, this.drawingImageRect, f4);
             }
             AnimatedTextView.AnimatedTextDrawable animatedTextDrawable2 = this.textDrawable;
-            if (animatedTextDrawable2 != null && animatedTextDrawable2.isNotEmpty() > 0.0f) {
-                canvas.save();
-                if (!this.hasName || drawTagDot()) {
-                    f6 = this.hasName ? 9 : 8;
-                } else {
-                    f6 = 10.0f;
+            if (animatedTextDrawable2 != null) {
+                f5 = 0.0f;
+                if (animatedTextDrawable2.isNotEmpty() > 0.0f) {
+                    canvas.save();
+                    if (!this.hasName || drawTagDot()) {
+                        f7 = this.hasName ? 9 : 8;
+                    } else {
+                        f7 = 10.0f;
+                    }
+                    canvas.translate(AndroidUtilities.dp(f7) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
+                    this.textDrawable.setBounds(0, 0, this.width, this.height);
+                    this.textDrawable.draw(canvas);
+                    this.textDrawable.setAlpha((int) (255.0f * f4));
+                    canvas.restore();
+                    f5 = this.textDrawable.getCurrentWidth() + (AndroidUtilities.dp(4.0f) * this.textDrawable.isNotEmpty());
+                    if (this.counterDrawable != null && drawCounter()) {
+                        canvas.save();
+                        if (this.hasName || drawTagDot()) {
+                            f6 = this.hasName ? 9 : 8;
+                        } else {
+                            f6 = 10.0f;
+                        }
+                        canvas.translate(AndroidUtilities.dp(f6) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f) + f5 + (!this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
+                        this.counterDrawable.draw(canvas);
+                        canvas.restore();
+                    }
+                    if (!this.isTag && this.avatarsDrawable != null) {
+                        canvas.save();
+                        canvas.translate(f + AndroidUtilities.dp(10.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
+                        this.avatarsDrawable.setAlpha(f4);
+                        this.avatarsDrawable.setTransitionProgress(f3);
+                        this.avatarsDrawable.onDraw(canvas);
+                        canvas.restore();
+                    }
+                    if (scale == 1.0f) {
+                        canvas.restore();
+                        return;
+                    }
+                    return;
                 }
-                canvas.translate(AndroidUtilities.dp(f6) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
-                this.textDrawable.setBounds(0, 0, this.width, this.height);
-                this.textDrawable.draw(canvas);
-                this.textDrawable.setAlpha((int) (255.0f * f4));
-                canvas.restore();
-                f9 = this.textDrawable.getCurrentWidth() + (AndroidUtilities.dp(4.0f) * this.textDrawable.isNotEmpty());
+            } else {
+                f5 = 0.0f;
             }
-            if (this.counterDrawable != null && drawCounter()) {
+            if (this.counterDrawable != null) {
                 canvas.save();
-                if (!this.hasName || drawTagDot()) {
-                    f5 = this.hasName ? 9 : 8;
-                } else {
-                    f5 = 10.0f;
+                if (this.hasName) {
                 }
-                canvas.translate(AndroidUtilities.dp(f5) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f) + f9 + (this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
+                f6 = this.hasName ? 9 : 8;
+                canvas.translate(AndroidUtilities.dp(f6) + f + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f) + f5 + (!this.paid ? -AndroidUtilities.dp(1.0f) : 0), f2);
                 this.counterDrawable.draw(canvas);
                 canvas.restore();
             }
-            if (!this.isTag && this.avatarsDrawable != null) {
+            if (!this.isTag) {
                 canvas.save();
                 canvas.translate(f + AndroidUtilities.dp(10.0f) + AndroidUtilities.dp(20.0f) + AndroidUtilities.dp(2.0f), f2);
                 this.avatarsDrawable.setAlpha(f4);
@@ -1067,8 +1177,7 @@ public class ReactionsLayoutInBubble {
                 this.avatarsDrawable.onDraw(canvas);
                 canvas.restore();
             }
-            if (scale != 1.0f) {
-                canvas.restore();
+            if (scale == 1.0f) {
             }
         }
 

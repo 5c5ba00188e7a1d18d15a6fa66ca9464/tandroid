@@ -48,7 +48,7 @@ public class FeaturesPageView extends BaseListPageView {
     ArrayList<Item> items;
     public final int type;
 
-    /* JADX WARN: Removed duplicated region for block: B:9:0x01eb  */
+    /* JADX WARN: Removed duplicated region for block: B:9:0x01c3  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -60,14 +60,14 @@ public class FeaturesPageView extends BaseListPageView {
         ArrayList arrayList = new ArrayList();
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         if (i == 0) {
-            arrayList.add(new Item(1, R.drawable.msg_stories_order, LocaleController.getString("PremiumStoriesPriority", R.string.PremiumStoriesPriority), LocaleController.getString("PremiumStoriesPriorityDescription", R.string.PremiumStoriesPriorityDescription), 20));
-            arrayList.add(new Item(1, R.drawable.msg_stories_stealth, LocaleController.getString("PremiumStoriesStealth", R.string.PremiumStoriesStealth), LocaleController.getString("PremiumStoriesStealthDescription", R.string.PremiumStoriesStealthDescription), 15));
+            arrayList.add(new Item(1, R.drawable.msg_stories_order, LocaleController.getString(R.string.PremiumStoriesPriority), LocaleController.getString(R.string.PremiumStoriesPriorityDescription), 20));
+            arrayList.add(new Item(1, R.drawable.msg_stories_stealth, LocaleController.getString(R.string.PremiumStoriesStealth), LocaleController.getString(R.string.PremiumStoriesStealthDescription), 15));
             arrayList.add(new Item(1, R.drawable.menu_quality_hd, LocaleController.getString(R.string.PremiumStoriesQuality), LocaleController.getString(R.string.PremiumStoriesQualityDescription), 25));
-            arrayList.add(new Item(1, R.drawable.msg_stories_views, LocaleController.getString("PremiumStoriesViews", R.string.PremiumStoriesViews), LocaleController.getString("PremiumStoriesViewsDescription", R.string.PremiumStoriesViewsDescription), 16));
-            arrayList.add(new Item(1, R.drawable.msg_stories_timer, LocaleController.getString("PremiumStoriesExpiration", R.string.PremiumStoriesExpiration), LocaleController.getString("PremiumStoriesExpirationDescription", R.string.PremiumStoriesExpirationDescription), 17));
-            arrayList.add(new Item(1, R.drawable.msg_stories_save, LocaleController.getString("PremiumStoriesSaveToGallery", R.string.PremiumStoriesSaveToGallery), LocaleController.getString("PremiumStoriesSaveToGalleryDescription", R.string.PremiumStoriesSaveToGalleryDescription), 18));
-            arrayList.add(new Item(1, R.drawable.msg_stories_caption, LocaleController.getString("PremiumStoriesCaption", R.string.PremiumStoriesCaption), LocaleController.getString("PremiumStoriesCaptionDescription", R.string.PremiumStoriesCaptionDescription), 21));
-            arrayList.add(new Item(1, R.drawable.msg_stories_link, LocaleController.getString("PremiumStoriesFormatting", R.string.PremiumStoriesFormatting), LocaleController.getString("PremiumStoriesFormattingDescription", R.string.PremiumStoriesFormattingDescription), 19));
+            arrayList.add(new Item(1, R.drawable.msg_stories_views, LocaleController.getString(R.string.PremiumStoriesViews), LocaleController.getString(R.string.PremiumStoriesViewsDescription), 16));
+            arrayList.add(new Item(1, R.drawable.msg_stories_timer, LocaleController.getString(R.string.PremiumStoriesExpiration), LocaleController.getString(R.string.PremiumStoriesExpirationDescription), 17));
+            arrayList.add(new Item(1, R.drawable.msg_stories_save, LocaleController.getString(R.string.PremiumStoriesSaveToGallery), LocaleController.getString(R.string.PremiumStoriesSaveToGalleryDescription), 18));
+            arrayList.add(new Item(1, R.drawable.msg_stories_caption, LocaleController.getString(R.string.PremiumStoriesCaption), LocaleController.getString(R.string.PremiumStoriesCaptionDescription), 21));
+            arrayList.add(new Item(1, R.drawable.msg_stories_link, LocaleController.getString(R.string.PremiumStoriesFormatting), LocaleController.getString(R.string.PremiumStoriesFormattingDescription), 19));
         } else if (i == 1) {
             sparseIntArray = messagesController.businessFeaturesTypesToPosition;
             arrayList.add(new Item(1, R.drawable.menu_premium_location, LocaleController.getString(R.string.PremiumBusinessLocation), LocaleController.getString(R.string.PremiumBusinessLocationDescription), 29));
@@ -212,7 +212,7 @@ public class FeaturesPageView extends BaseListPageView {
                 textView.setTextSize(1, 20.0f);
                 textView.setTypeface(AndroidUtilities.bold());
                 textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, FeaturesPageView.this.resourcesProvider));
-                textView.setText(LocaleController.getString("UpgradedStories", R.string.UpgradedStories));
+                textView.setText(LocaleController.getString(R.string.UpgradedStories));
                 addView(textView, LayoutHelper.createFrame(-2, -2.0f, 1, 0.0f, 111.0f, 0.0f, 0.0f));
                 GradientTools gradientTools = this.gradientTools;
                 gradientTools.isLinear = true;

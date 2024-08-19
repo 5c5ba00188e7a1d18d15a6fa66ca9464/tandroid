@@ -626,7 +626,7 @@ public class ManageLinksActivity extends BaseFragment {
     public View createView(final Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteLinks", R.string.InviteLinks));
+        this.actionBar.setTitle(LocaleController.getString(R.string.InviteLinks));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ManageLinksActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -743,15 +743,15 @@ public class ManageLinksActivity extends BaseFragment {
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteAllRevokedLinks", R.string.DeleteAllRevokedLinks));
-                builder.setMessage(LocaleController.getString("DeleteAllRevokedLinkHelp", R.string.DeleteAllRevokedLinkHelp));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
+                builder.setTitle(LocaleController.getString(R.string.DeleteAllRevokedLinks));
+                builder.setMessage(LocaleController.getString(R.string.DeleteAllRevokedLinkHelp));
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$$ExternalSyntheticLambda6
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i4) {
                         ManageLinksActivity.this.lambda$createView$8(dialogInterface, i4);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 showDialog(builder.create());
             } else {
                 int i4 = this.adminsStartRow;
@@ -840,8 +840,6 @@ public class ManageLinksActivity extends BaseFragment {
 
         public HintInnerCell(Context context) {
             super(context);
-            int i;
-            String str;
             EmptyView emptyView = new EmptyView(context);
             this.emptyView = emptyView;
             addView(emptyView, LayoutHelper.createFrame(-2, -2.0f, 49, 0.0f, 10.0f, 0.0f, 0.0f));
@@ -850,15 +848,7 @@ public class ManageLinksActivity extends BaseFragment {
             textView.setTextColor(Theme.getColor(Theme.key_chats_message));
             this.messageTextView.setTextSize(1, 14.0f);
             this.messageTextView.setGravity(17);
-            TextView textView2 = this.messageTextView;
-            if (ManageLinksActivity.this.isChannel) {
-                i = R.string.PrimaryLinkHelpChannel;
-                str = "PrimaryLinkHelpChannel";
-            } else {
-                i = R.string.PrimaryLinkHelp;
-                str = "PrimaryLinkHelp";
-            }
-            textView2.setText(LocaleController.getString(str, i));
+            this.messageTextView.setText(LocaleController.getString(ManageLinksActivity.this.isChannel ? R.string.PrimaryLinkHelpChannel : R.string.PrimaryLinkHelp));
             addView(this.messageTextView, LayoutHelper.createFrame(-1, -2.0f, 51, 52.0f, 143.0f, 52.0f, 18.0f));
         }
 
@@ -973,7 +963,7 @@ public class ManageLinksActivity extends BaseFragment {
                 case 8:
                     TextSettingsCell textSettingsCell2 = new TextSettingsCell(this.mContext);
                     textSettingsCell2.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    textSettingsCell2.setText(LocaleController.getString("DeleteAllRevokedLinks", R.string.DeleteAllRevokedLinks), false);
+                    textSettingsCell2.setText(LocaleController.getString(R.string.DeleteAllRevokedLinks), false);
                     textSettingsCell2.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                     textSettingsCell = textSettingsCell2;
                     break;
@@ -1026,25 +1016,25 @@ public class ManageLinksActivity extends BaseFragment {
                 if (i == ManageLinksActivity.this.permanentLinkHeaderRow) {
                     if (!ManageLinksActivity.this.isPublic || ManageLinksActivity.this.adminId != ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
                         if (ManageLinksActivity.this.adminId == ManageLinksActivity.this.getAccountInstance().getUserConfig().clientUserId) {
-                            headerCell.setText(LocaleController.getString("ChannelInviteLinkTitle", R.string.ChannelInviteLinkTitle));
+                            headerCell.setText(LocaleController.getString(R.string.ChannelInviteLinkTitle));
                             return;
                         } else {
-                            headerCell.setText(LocaleController.getString("PermanentLinkForThisAdmin", R.string.PermanentLinkForThisAdmin));
+                            headerCell.setText(LocaleController.getString(R.string.PermanentLinkForThisAdmin));
                             return;
                         }
                     }
-                    headerCell.setText(LocaleController.getString("PublicLink", R.string.PublicLink));
+                    headerCell.setText(LocaleController.getString(R.string.PublicLink));
                 } else if (i != ManageLinksActivity.this.revokedHeader) {
                     if (i != ManageLinksActivity.this.linksHeaderRow) {
                         if (i == ManageLinksActivity.this.adminsHeaderRow) {
-                            headerCell.setText(LocaleController.getString("LinksCreatedByOtherAdmins", R.string.LinksCreatedByOtherAdmins));
+                            headerCell.setText(LocaleController.getString(R.string.LinksCreatedByOtherAdmins));
                             return;
                         }
                         return;
                     }
-                    headerCell.setText(LocaleController.getString("LinksCreatedByThisAdmin", R.string.LinksCreatedByThisAdmin));
+                    headerCell.setText(LocaleController.getString(R.string.LinksCreatedByThisAdmin));
                 } else {
-                    headerCell.setText(LocaleController.getString("RevokedLinks", R.string.RevokedLinks));
+                    headerCell.setText(LocaleController.getString(R.string.RevokedLinks));
                 }
             } else if (itemViewType == 2) {
                 LinkActionView linkActionView = (LinkActionView) viewHolder.itemView;
@@ -1071,7 +1061,7 @@ public class ManageLinksActivity extends BaseFragment {
                 PorterDuff.Mode mode = PorterDuff.Mode.MULTIPLY;
                 drawable.setColorFilter(new PorterDuffColorFilter(color, mode));
                 drawable2.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_checkboxCheck), mode));
-                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString("CreateNewLink", R.string.CreateNewLink), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
+                ((CreationTextCell) viewHolder.itemView).setTextAndIcon(LocaleController.getString(R.string.CreateNewLink), new CombinedDrawable(drawable, drawable2), !ManageLinksActivity.this.invites.isEmpty());
             } else if (itemViewType == 5) {
                 if (i < ManageLinksActivity.this.linksStartRow || i >= ManageLinksActivity.this.linksEndRow) {
                     tLRPC$TL_chatInviteExported = (TLRPC$TL_chatInviteExported) ManageLinksActivity.this.revokedInvites.get(i - ManageLinksActivity.this.revokedLinksStartRow);
@@ -1238,7 +1228,7 @@ public class ManageLinksActivity extends BaseFragment {
             DiffCallback saveListState = saveListState();
             this.revokedInvites.add(0, tLRPC$TL_chatInviteExported);
             updateRecyclerViewAnimated(saveListState);
-            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
+            BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
         }
     }
 
@@ -1384,12 +1374,12 @@ public class ManageLinksActivity extends BaseFragment {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$1() {
             final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString("DeleteLink", R.string.DeleteLink)).setMessage(LocaleController.getString("DeleteLinkHelp", R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setTitle(LocaleController.getString(R.string.DeleteLink)).setMessage(LocaleController.getString(R.string.DeleteLinkHelp)).setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda7
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ManageLinksActivity.LinkCell.this.lambda$new$0(tLRPC$TL_chatInviteExported, dialogInterface, i);
                 }
-            }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).show();
+            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1452,12 +1442,12 @@ public class ManageLinksActivity extends BaseFragment {
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$new$6() {
             final TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported = this.invite;
-            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert)).setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink)).setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
+            new AlertDialog.Builder(ManageLinksActivity.this.getParentActivity()).setMessage(LocaleController.getString(R.string.RevokeAlert)).setTitle(LocaleController.getString(R.string.RevokeLink)).setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ManageLinksActivity$LinkCell$$ExternalSyntheticLambda6
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ManageLinksActivity.LinkCell.this.lambda$new$5(tLRPC$TL_chatInviteExported, dialogInterface, i);
                 }
-            }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).show();
+            }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
         }
 
         /* JADX INFO: Access modifiers changed from: private */
@@ -1648,8 +1638,6 @@ public class ManageLinksActivity extends BaseFragment {
         public void setLink(TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported, int i) {
             String str;
             int i2;
-            String str2;
-            int i3;
             this.timerRunning = false;
             TLRPC$TL_chatInviteExported tLRPC$TL_chatInviteExported2 = this.invite;
             if (tLRPC$TL_chatInviteExported2 == null || tLRPC$TL_chatInviteExported == null || !tLRPC$TL_chatInviteExported2.link.equals(tLRPC$TL_chatInviteExported.link)) {
@@ -1666,12 +1654,12 @@ public class ManageLinksActivity extends BaseFragment {
                 this.priceLayout.setVisibility(0);
                 this.optionsView.setVisibility(8);
                 this.priceTitleView.setText(StarsIntroActivity.replaceStarsWithPlain("⭐️ " + LocaleController.formatNumber(tLRPC$TL_chatInviteExported.subscription_pricing.amount, ','), 0.75f));
-                int i4 = tLRPC$TL_chatInviteExported.subscription_pricing.period;
-                if (i4 == 2592000) {
+                int i3 = tLRPC$TL_chatInviteExported.subscription_pricing.period;
+                if (i3 == 2592000) {
                     this.priceSubitleView.setText(LocaleController.getString(R.string.StarsParticipantSubscriptionPerMonth));
-                } else if (i4 == 300) {
+                } else if (i3 == 300) {
                     this.priceSubitleView.setText("per 5 minutes");
-                } else if (i4 == 60) {
+                } else if (i3 == 60) {
                     this.priceSubitleView.setText("each minute");
                 }
                 dp = AndroidUtilities.dp(28.0f) + ((int) Math.max(HintView2.measureCorrectly(this.priceTitleView.getText(), this.priceTitleView.getPaint()), HintView2.measureCorrectly(this.priceSubitleView.getText(), this.priceSubitleView.getPaint())));
@@ -1693,20 +1681,20 @@ public class ManageLinksActivity extends BaseFragment {
             } else {
                 this.titleView.setText(tLRPC$TL_chatInviteExported.link);
             }
-            int i5 = tLRPC$TL_chatInviteExported.usage;
-            if (i5 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
+            int i4 = tLRPC$TL_chatInviteExported.usage;
+            if (i4 == 0 && tLRPC$TL_chatInviteExported.usage_limit == 0 && tLRPC$TL_chatInviteExported.requested == 0) {
                 str = LocaleController.getString(tLRPC$TL_chatInviteExported.subscription_pricing != null ? R.string.NoOneSubscribed : R.string.NoOneJoined);
             } else {
-                int i6 = tLRPC$TL_chatInviteExported.usage_limit;
-                if (i6 > 0 && i5 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
-                    str = LocaleController.formatPluralString("CanJoin", i6, new Object[0]);
-                } else if (i6 > 0 && tLRPC$TL_chatInviteExported.expired && tLRPC$TL_chatInviteExported.revoked) {
+                int i5 = tLRPC$TL_chatInviteExported.usage_limit;
+                if (i5 > 0 && i4 == 0 && !tLRPC$TL_chatInviteExported.expired && !tLRPC$TL_chatInviteExported.revoked) {
+                    str = LocaleController.formatPluralString("CanJoin", i5, new Object[0]);
+                } else if (i5 > 0 && tLRPC$TL_chatInviteExported.expired && tLRPC$TL_chatInviteExported.revoked) {
                     str = LocaleController.formatPluralString("PeopleJoined", tLRPC$TL_chatInviteExported.usage, new Object[0]) + ", " + LocaleController.formatPluralString("PeopleJoinedRemaining", tLRPC$TL_chatInviteExported.usage_limit - tLRPC$TL_chatInviteExported.usage, new Object[0]);
                 } else {
-                    if (i5 <= 0) {
+                    if (i4 <= 0) {
                         str = "";
                     } else {
-                        str = LocaleController.formatPluralString("PeopleJoined", i5, new Object[0]);
+                        str = LocaleController.formatPluralString("PeopleJoined", i4, new Object[0]);
                     }
                     if (tLRPC$TL_chatInviteExported.requested > 0) {
                         if (tLRPC$TL_chatInviteExported.usage > 0) {
@@ -1721,7 +1709,7 @@ public class ManageLinksActivity extends BaseFragment {
                 DotDividerSpan dotDividerSpan = new DotDividerSpan();
                 dotDividerSpan.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder2.append((CharSequence) "  .  ").setSpan(dotDividerSpan, spannableStringBuilder2.length() - 3, spannableStringBuilder2.length() - 2, 0);
-                spannableStringBuilder2.append((CharSequence) LocaleController.getString("Permanent", R.string.Permanent));
+                spannableStringBuilder2.append((CharSequence) LocaleController.getString(R.string.Permanent));
                 this.subtitleView.setText(spannableStringBuilder2);
             } else if (tLRPC$TL_chatInviteExported.expired || tLRPC$TL_chatInviteExported.revoked) {
                 if (tLRPC$TL_chatInviteExported.revoked && tLRPC$TL_chatInviteExported.usage == 0) {
@@ -1732,17 +1720,10 @@ public class ManageLinksActivity extends BaseFragment {
                 dotDividerSpan2.setTopPadding(AndroidUtilities.dp(1.5f));
                 spannableStringBuilder3.append((CharSequence) "  .  ").setSpan(dotDividerSpan2, spannableStringBuilder3.length() - 3, spannableStringBuilder3.length() - 2, 0);
                 boolean z = tLRPC$TL_chatInviteExported.revoked;
-                if (z || (i3 = tLRPC$TL_chatInviteExported.usage_limit) <= 0 || tLRPC$TL_chatInviteExported.usage < i3) {
-                    if (z) {
-                        i2 = R.string.Revoked;
-                        str2 = "Revoked";
-                    } else {
-                        i2 = R.string.Expired;
-                        str2 = "Expired";
-                    }
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString(str2, i2));
+                if (z || (i2 = tLRPC$TL_chatInviteExported.usage_limit) <= 0 || tLRPC$TL_chatInviteExported.usage < i2) {
+                    spannableStringBuilder3.append((CharSequence) LocaleController.getString(z ? R.string.Revoked : R.string.Expired));
                 } else {
-                    spannableStringBuilder3.append((CharSequence) LocaleController.getString("LinkLimitReached", R.string.LinkLimitReached));
+                    spannableStringBuilder3.append((CharSequence) LocaleController.getString(R.string.LinkLimitReached));
                 }
                 this.subtitleView.setText(spannableStringBuilder3);
             } else if (tLRPC$TL_chatInviteExported.expire_date > 0) {
@@ -1758,11 +1739,11 @@ public class ManageLinksActivity extends BaseFragment {
                     spannableStringBuilder4.append((CharSequence) LocaleController.formatPluralString("DaysLeft", (int) (currentTimeMillis / 86400000), new Object[0]));
                 } else {
                     long j = currentTimeMillis / 1000;
-                    int i7 = (int) (j % 60);
+                    int i6 = (int) (j % 60);
                     long j2 = j / 60;
-                    int i8 = (int) (j2 / 60);
+                    int i7 = (int) (j2 / 60);
                     Locale locale = Locale.ENGLISH;
-                    spannableStringBuilder4.append((CharSequence) String.format(locale, "%02d", Integer.valueOf(i8))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf((int) (j2 % 60)))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf(i7)));
+                    spannableStringBuilder4.append((CharSequence) String.format(locale, "%02d", Integer.valueOf(i7))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf((int) (j2 % 60)))).append((CharSequence) String.format(locale, ":%02d", Integer.valueOf(i6)));
                     this.timerRunning = true;
                 }
                 this.subtitleView.setText(spannableStringBuilder4);
@@ -1862,7 +1843,7 @@ public class ManageLinksActivity extends BaseFragment {
                 }
             }
             if (getParentActivity() != null) {
-                BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString("InviteRevokedHint", R.string.InviteRevokedHint)).show();
+                BulletinFactory.of(this).createSimpleBulletin(R.raw.linkbroken, LocaleController.getString(R.string.InviteRevokedHint)).show();
             }
         }
     }

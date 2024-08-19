@@ -899,7 +899,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
         }
         StickerSetBulletinLayout stickerSetBulletinLayout = new StickerSetBulletinLayout(this.contentLayout.getContext(), null, -1, messageObject.getDocument(), this.chatActivity.getResourceProvider());
         stickerSetBulletinLayout.titleTextView.setText(tLRPC$TL_messages_stickerSet.set.title);
-        stickerSetBulletinLayout.subtitleTextView.setText(LocaleController.getString("PremiumStickerTooltip", R.string.PremiumStickerTooltip));
+        stickerSetBulletinLayout.subtitleTextView.setText(LocaleController.getString(R.string.PremiumStickerTooltip));
         Bulletin.UndoButton undoButton = new Bulletin.UndoButton(this.chatActivity.getParentActivity(), true, this.chatActivity.getResourceProvider());
         stickerSetBulletinLayout.setButton(undoButton);
         undoButton.setUndoAction(new Runnable() { // from class: org.telegram.ui.EmojiAnimationsOverlay$$ExternalSyntheticLambda2
@@ -908,7 +908,7 @@ public class EmojiAnimationsOverlay implements NotificationCenter.NotificationCe
                 EmojiAnimationsOverlay.this.lambda$showStickerSetBulletin$3(messageObject);
             }
         });
-        undoButton.setText(LocaleController.getString("ViewAction", R.string.ViewAction));
+        undoButton.setText(LocaleController.getString(R.string.ViewAction));
         Bulletin make = Bulletin.make(this.chatActivity, stickerSetBulletinLayout, 2750);
         make.hash = messageObject.getId();
         make.show();

@@ -138,28 +138,28 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
         int i3 = 0;
         for (int i4 = 8; i3 < i4; i4 = 8) {
             if (i3 == 0) {
-                string = LocaleController.getString("LocalPhotoCache", R.string.LocalPhotoCache);
+                string = LocaleController.getString(R.string.LocalPhotoCache);
                 i = Theme.key_statisticChartLine_lightblue;
             } else if (i3 == i2) {
-                string = LocaleController.getString("LocalVideoCache", R.string.LocalVideoCache);
+                string = LocaleController.getString(R.string.LocalVideoCache);
                 i = Theme.key_statisticChartLine_blue;
             } else if (i3 == 2) {
-                string = LocaleController.getString("LocalDocumentCache", R.string.LocalDocumentCache);
+                string = LocaleController.getString(R.string.LocalDocumentCache);
                 i = Theme.key_statisticChartLine_green;
             } else if (i3 == 3) {
-                string = LocaleController.getString("LocalMusicCache", R.string.LocalMusicCache);
+                string = LocaleController.getString(R.string.LocalMusicCache);
                 i = Theme.key_statisticChartLine_red;
             } else if (i3 == 4) {
-                string = LocaleController.getString("LocalAudioCache", R.string.LocalAudioCache);
+                string = LocaleController.getString(R.string.LocalAudioCache);
                 i = Theme.key_statisticChartLine_lightgreen;
             } else if (i3 == 5) {
-                string = LocaleController.getString("LocalStickersCache", R.string.LocalStickersCache);
+                string = LocaleController.getString(R.string.LocalStickersCache);
                 i = Theme.key_statisticChartLine_orange;
             } else if (i3 == 7) {
-                string = LocaleController.getString("LocalStoriesCache", R.string.LocalStoriesCache);
+                string = LocaleController.getString(R.string.LocalStoriesCache);
                 i = Theme.key_statisticChartLine_indigo;
             } else {
-                string = LocaleController.getString("LocalMiscellaneousCache", R.string.LocalMiscellaneousCache);
+                string = LocaleController.getString(R.string.LocalMiscellaneousCache);
                 i = Theme.key_statisticChartLine_purple;
             }
             CacheControlActivity.FileEntities fileEntities = dialogFileEntities.entitiesByType.get(i3);
@@ -341,15 +341,15 @@ public class DilogCacheBottomSheet extends BottomSheetWithRecyclerListView {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createButton$3(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(LocaleController.getString("ClearCache", R.string.ClearCache));
-        builder.setMessage(LocaleController.getString("ClearCacheForChat", R.string.ClearCacheForChat));
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda2
+        builder.setTitle(LocaleController.getString(R.string.ClearCache));
+        builder.setMessage(LocaleController.getString(R.string.ClearCacheForChat));
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda2
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 DilogCacheBottomSheet.this.lambda$createButton$1(dialogInterface, i);
             }
         });
-        builder.setPositiveButton(LocaleController.getString("Clear", R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda3
+        builder.setPositiveButton(LocaleController.getString(R.string.Clear), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DilogCacheBottomSheet$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 DilogCacheBottomSheet.this.lambda$createButton$2(dialogInterface, i);

@@ -113,8 +113,8 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         this(context, iNavigationLayout, i, j, null);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:78:0x041b  */
-    /* JADX WARN: Removed duplicated region for block: B:93:0x047c A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:78:0x0409  */
+    /* JADX WARN: Removed duplicated region for block: B:93:0x046a A[SYNTHETIC] */
     @SuppressLint({"ClickableViewAccessibility"})
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -222,7 +222,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject = messageObject3;
         } else if (i == 2) {
             TLRPC$TL_message tLRPC$TL_message2 = new TLRPC$TL_message();
-            tLRPC$TL_message2.message = LocaleController.getString("DoubleTapPreviewMessage", R.string.DoubleTapPreviewMessage);
+            tLRPC$TL_message2.message = LocaleController.getString(R.string.DoubleTapPreviewMessage);
             tLRPC$TL_message2.date = currentTimeMillis - 3540;
             tLRPC$TL_message2.dialog_id = 1L;
             tLRPC$TL_message2.flags = NotificationCenter.appUpdateAvailable;
@@ -238,7 +238,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             MessageObject messageObject4 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message2, true, false);
             messageObject4.resetLayout();
             messageObject4.eventId = 1L;
-            messageObject4.customName = LocaleController.getString("DoubleTapPreviewSenderName", R.string.DoubleTapPreviewSenderName);
+            messageObject4.customName = LocaleController.getString(R.string.DoubleTapPreviewSenderName);
             messageObject4.customAvatarDrawable = ContextCompat.getDrawable(context, R.drawable.dino_pic);
             messageObject4.overrideLinkColor = 5;
             messageObject4.overrideLinkEmoji = 0L;
@@ -246,9 +246,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
         } else {
             TLRPC$TL_message tLRPC$TL_message3 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message3.message = LocaleController.getString("FontSizePreviewReply", R.string.FontSizePreviewReply);
+                tLRPC$TL_message3.message = LocaleController.getString(R.string.FontSizePreviewReply);
             } else {
-                tLRPC$TL_message3.message = LocaleController.getString("NewThemePreviewReply", R.string.NewThemePreviewReply);
+                tLRPC$TL_message3.message = LocaleController.getString(R.string.NewThemePreviewReply);
             }
             int indexOf = tLRPC$TL_message3.message.indexOf("👋");
             if (indexOf >= 0) {
@@ -274,9 +274,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             MessageObject messageObject5 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message3, true, false);
             TLRPC$TL_message tLRPC$TL_message4 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message4.message = LocaleController.getString("FontSizePreviewLine2", R.string.FontSizePreviewLine2);
+                tLRPC$TL_message4.message = LocaleController.getString(R.string.FontSizePreviewLine2);
             } else {
-                String string = LocaleController.getString("NewThemePreviewLine3", R.string.NewThemePreviewLine3);
+                String string = LocaleController.getString(R.string.NewThemePreviewLine3);
                 StringBuilder sb = new StringBuilder(string);
                 int indexOf2 = string.indexOf(42);
                 int lastIndexOf = string.lastIndexOf(42);
@@ -318,9 +318,9 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             messageObject6.eventId = 1L;
             TLRPC$TL_message tLRPC$TL_message5 = new TLRPC$TL_message();
             if (i == 0) {
-                tLRPC$TL_message5.message = LocaleController.getString("FontSizePreviewLine1", R.string.FontSizePreviewLine1);
+                tLRPC$TL_message5.message = LocaleController.getString(R.string.FontSizePreviewLine1);
             } else {
-                tLRPC$TL_message5.message = LocaleController.getString("NewThemePreviewLine1", R.string.NewThemePreviewLine1);
+                tLRPC$TL_message5.message = LocaleController.getString(R.string.NewThemePreviewLine1);
             }
             tLRPC$TL_message5.date = i4;
             tLRPC$TL_message5.dialog_id = 1L;
@@ -338,7 +338,7 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             tLRPC$TL_peerUser9.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
             MessageObject messageObject7 = new MessageObject(UserConfig.selectedAccount, tLRPC$TL_message5, true, false);
             if (i != 0) {
-                messageObject7.customReplyName = LocaleController.getString("NewThemePreviewName", R.string.NewThemePreviewName);
+                messageObject7.customReplyName = LocaleController.getString(R.string.NewThemePreviewName);
             }
             messageObject7.eventId = 1L;
             messageObject7.resetLayout();

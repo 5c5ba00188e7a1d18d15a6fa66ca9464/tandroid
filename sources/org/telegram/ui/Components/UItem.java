@@ -8,7 +8,6 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
@@ -583,15 +582,7 @@ public class UItem extends AdapterWithDiffUtils.Item {
         return new UItem(getFactory(cls).viewType, false);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:19:0x0045 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:20:0x0046  */
-    /*
-        Code decompiled incorrectly, please refer to instructions dump.
-    */
     public static <F extends UItemFactory<?>> UItemFactory<?> getFactory(Class<F> cls) {
-        F f;
-        Exception e;
-        HashMap<Class<? extends UItemFactory<?>>, UItemFactory<?>> hashMap;
         if (factoryInstances == null) {
             factoryInstances = new HashMap<>();
         }
@@ -599,29 +590,25 @@ public class UItem extends AdapterWithDiffUtils.Item {
             factories = new LongSparseArray<>();
         }
         UItemFactory<?> uItemFactory = factoryInstances.get(cls);
+        Exception e = null;
         if (uItemFactory == null) {
             try {
-                hashMap = factoryInstances;
-                f = cls.getDeclaredConstructor(null).newInstance(null);
-            } catch (Exception e2) {
-                f = uItemFactory;
-                e = e2;
-            }
-            try {
-                hashMap.put(cls, f);
-                factories.put(f.viewType, f);
+                HashMap<Class<? extends UItemFactory<?>>, UItemFactory<?>> hashMap = factoryInstances;
+                F newInstance = cls.getDeclaredConstructor(null).newInstance(null);
+                try {
+                    hashMap.put(cls, newInstance);
+                    factories.put(newInstance.viewType, newInstance);
+                } catch (Exception e2) {
+                    e = e2;
+                }
+                uItemFactory = newInstance;
             } catch (Exception e3) {
                 e = e3;
-                FileLog.e(e);
-                uItemFactory = f;
-                if (uItemFactory == null) {
-                }
             }
-            uItemFactory = f;
         }
-        if (uItemFactory == null) {
+        if (uItemFactory != null) {
             return uItemFactory;
         }
-        throw new RuntimeException("couldnt create factory of " + cls);
+        throw new RuntimeException("couldnt create factory of " + cls, e);
     }
 }

@@ -804,7 +804,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     twoStepVerificationActivity.needHideProgress();
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle(LocaleController.getString("EditAdminTransferAlertTitle", R.string.EditAdminTransferAlertTitle));
+                builder.setTitle(LocaleController.getString(R.string.EditAdminTransferAlertTitle));
                 LinearLayout linearLayout = new LinearLayout(activity);
                 linearLayout.setPadding(AndroidUtilities.dp(24.0f), AndroidUtilities.dp(2.0f), AndroidUtilities.dp(24.0f), 0);
                 linearLayout.setOrientation(1);
@@ -830,7 +830,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 textView2.setTextColor(Theme.getColor(i2));
                 textView2.setTextSize(1, 16.0f);
                 textView2.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-                textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText1", R.string.EditAdminTransferAlertText1)));
+                textView2.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText1)));
                 if (LocaleController.isRTL) {
                     linearLayout2.addView(textView2, LayoutHelper.createLinear(-1, -2));
                     linearLayout2.addView(imageView, LayoutHelper.createLinear(-2, -2, 5));
@@ -849,7 +849,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 textView3.setTextColor(Theme.getColor(i2));
                 textView3.setTextSize(1, 16.0f);
                 textView3.setGravity((LocaleController.isRTL ? 5 : 3) | 48);
-                textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText2", R.string.EditAdminTransferAlertText2)));
+                textView3.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText2)));
                 if (LocaleController.isRTL) {
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                     i = 5;
@@ -860,13 +860,13 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     linearLayout3.addView(textView3, LayoutHelper.createLinear(-1, -2));
                 }
                 if ("PASSWORD_MISSING".equals(tLRPC$TL_error.text)) {
-                    builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda46
+                    builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChannelMonetizationLayout$$ExternalSyntheticLambda46
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i4) {
                             ChannelMonetizationLayout.this.lambda$initWithdraw$20(dialogInterface, i4);
                         }
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 } else {
                     TextView textView4 = new TextView(activity);
                     textView4.setTextColor(Theme.getColor(i2));
@@ -875,9 +875,9 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                         i = 3;
                     }
                     textView4.setGravity(i | 48);
-                    textView4.setText(LocaleController.getString("EditAdminTransferAlertText3", R.string.EditAdminTransferAlertText3));
+                    textView4.setText(LocaleController.getString(R.string.EditAdminTransferAlertText3));
                     linearLayout.addView(textView4, LayoutHelper.createLinear(-1, -2, 0.0f, 11.0f, 0.0f, 0.0f));
-                    builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
                 }
                 if (twoStepVerificationActivity != null) {
                     twoStepVerificationActivity.showDialog(builder.create());

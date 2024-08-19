@@ -204,9 +204,9 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
                 super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
                 if (Theme.isCurrentThemeDark()) {
-                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToDayTheme", R.string.AccDescrSwitchToDayTheme));
+                    accessibilityNodeInfo.setText(LocaleController.getString(R.string.AccDescrSwitchToDayTheme));
                 } else {
-                    accessibilityNodeInfo.setText(LocaleController.getString("AccDescrSwitchToNightTheme", R.string.AccDescrSwitchToNightTheme));
+                    accessibilityNodeInfo.setText(LocaleController.getString(R.string.AccDescrSwitchToNightTheme));
                 }
             }
         };
@@ -843,8 +843,6 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     }
 
     private void setArrowState(boolean z) {
-        int i;
-        String str;
         float f = this.accountsShown ? 180.0f : 0.0f;
         if (z) {
             this.arrowView.animate().rotation(f).setDuration(220L).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
@@ -852,15 +850,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
             this.arrowView.animate().cancel();
             this.arrowView.setRotation(f);
         }
-        ImageView imageView = this.arrowView;
-        if (this.accountsShown) {
-            i = R.string.AccDescrHideAccounts;
-            str = "AccDescrHideAccounts";
-        } else {
-            i = R.string.AccDescrShowAccounts;
-            str = "AccDescrShowAccounts";
-        }
-        imageView.setContentDescription(LocaleController.getString(str, i));
+        this.arrowView.setContentDescription(LocaleController.getString(this.accountsShown ? R.string.AccDescrHideAccounts : R.string.AccDescrShowAccounts));
     }
 
     @Override // org.telegram.messenger.NotificationCenter.NotificationCenterDelegate

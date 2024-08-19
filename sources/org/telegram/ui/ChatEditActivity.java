@@ -569,11 +569,11 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     /* JADX WARN: Removed duplicated region for block: B:198:0x06fd  */
-    /* JADX WARN: Removed duplicated region for block: B:206:0x0752  */
-    /* JADX WARN: Removed duplicated region for block: B:214:0x079d  */
-    /* JADX WARN: Removed duplicated region for block: B:224:0x07d7  */
-    /* JADX WARN: Removed duplicated region for block: B:234:0x0801  */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x080e  */
+    /* JADX WARN: Removed duplicated region for block: B:206:0x0750  */
+    /* JADX WARN: Removed duplicated region for block: B:214:0x079b  */
+    /* JADX WARN: Removed duplicated region for block: B:224:0x07d5  */
+    /* JADX WARN: Removed duplicated region for block: B:234:0x07ff  */
+    /* JADX WARN: Removed duplicated region for block: B:237:0x080c  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -1126,7 +1126,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     if (!ChatObject.isChannel(this.currentChat) || this.currentChat.gigagroup) {
                         TextCell textCell17 = new TextCell(context);
                         this.logCell = textCell17;
-                        textCell17.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+                        textCell17.setTextAndIcon((CharSequence) LocaleController.getString(R.string.EventLog), R.drawable.msg_log, false);
                         this.logCell.setBackground(Theme.getSelectorDrawable(false));
                         this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
                             @Override // android.view.View.OnClickListener
@@ -1231,7 +1231,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             }
             TextCell textCell172 = new TextCell(context);
             this.logCell = textCell172;
-            textCell172.setTextAndIcon((CharSequence) LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
+            textCell172.setTextAndIcon((CharSequence) LocaleController.getString(R.string.EventLog), R.drawable.msg_log, false);
             this.logCell.setBackground(Theme.getSelectorDrawable(false));
             this.logCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ChatEditActivity$$ExternalSyntheticLambda9
                 @Override // android.view.View.OnClickListener

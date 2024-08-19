@@ -533,7 +533,7 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return LocaleController.getString("TelegramPremium", R.string.TelegramPremium);
+        return LocaleController.getString(R.string.TelegramPremium);
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
@@ -759,12 +759,12 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$0() {
-            Browser.openUrl(PremiumPreviewBottomSheet.this.fragment.getParentActivity(), LocaleController.getString("TermsOfServiceUrl", R.string.TermsOfServiceUrl));
+            Browser.openUrl(PremiumPreviewBottomSheet.this.fragment.getParentActivity(), LocaleController.getString(R.string.TermsOfServiceUrl));
         }
 
         /* JADX INFO: Access modifiers changed from: private */
         public /* synthetic */ void lambda$onCreateViewHolder$1() {
-            Browser.openUrl(PremiumPreviewBottomSheet.this.fragment.getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", R.string.PrivacyPolicyUrl));
+            Browser.openUrl(PremiumPreviewBottomSheet.this.fragment.getParentActivity(), LocaleController.getString(R.string.PrivacyPolicyUrl));
         }
 
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter

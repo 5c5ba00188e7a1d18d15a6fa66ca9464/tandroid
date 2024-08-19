@@ -148,7 +148,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         this.parentFragment = baseFragment;
         this.chatId = j;
         fixNavigationBar();
-        this.searchView.searchEditText.setHint(LocaleController.getString("SearchForChats", R.string.SearchForChats));
+        this.searchView.searchEditText.setHint(LocaleController.getString(R.string.SearchForChats));
         this.touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         SearchAdapter searchAdapter = new SearchAdapter();
         this.searchAdapter = searchAdapter;
@@ -232,7 +232,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         imageView.setScaleX(0.0f);
         imageView.setScaleY(0.0f);
         imageView.setAlpha(0.0f);
-        imageView.setContentDescription(LocaleController.getString("Next", R.string.Next));
+        imageView.setContentDescription(LocaleController.getString(R.string.Next));
         this.containerView.addView(imageView, LayoutHelper.createFrame(i3 >= 21 ? 56 : 60, i3 >= 21 ? 56 : 60, 85, 14.0f, 14.0f, 14.0f, 14.0f));
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).topMargin = AndroidUtilities.dp(20.0f);
         ((ViewGroup.MarginLayoutParams) this.emptyView.getLayoutParams()).leftMargin = AndroidUtilities.dp(4.0f);
@@ -360,13 +360,13 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
         } else {
             builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AddMembersAlertNamesText", R.string.AddMembersAlertNamesText, sb, chat.title)));
         }
-        builder.setPositiveButton(LocaleController.getString("Add", R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
+        builder.setPositiveButton(LocaleController.getString(R.string.Add), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.InviteMembersBottomSheet$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 InviteMembersBottomSheet.this.lambda$new$1(dialogInterface, i3);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.create();
         builder.show();
     }
@@ -658,7 +658,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 manageChatTextCell = new View(context);
             } else if (i != 5) {
                 ManageChatTextCell manageChatTextCell2 = new ManageChatTextCell(context);
-                manageChatTextCell2.setText(LocaleController.getString("VoipGroupCopyInviteLink", R.string.VoipGroupCopyInviteLink), null, R.drawable.msg_link, 7, true);
+                manageChatTextCell2.setText(LocaleController.getString(R.string.VoipGroupCopyInviteLink), null, R.drawable.msg_link, 7, true);
                 int i2 = Theme.key_dialogTextBlue2;
                 manageChatTextCell2.setColors(i2, i2);
                 manageChatTextCell = manageChatTextCell2;
@@ -674,9 +674,9 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
                 stickerEmptyView.setLayoutParams(new RecyclerView.LayoutParams(-1, -1));
                 stickerEmptyView.subtitle.setVisibility(8);
                 if (InviteMembersBottomSheet.this.dialogsDelegate != null) {
-                    stickerEmptyView.title.setText(LocaleController.getString("FilterNoChats", R.string.FilterNoChats));
+                    stickerEmptyView.title.setText(LocaleController.getString(R.string.FilterNoChats));
                 } else {
-                    stickerEmptyView.title.setText(LocaleController.getString("NoContacts", R.string.NoContacts));
+                    stickerEmptyView.title.setText(LocaleController.getString(R.string.NoContacts));
                 }
                 stickerEmptyView.setAnimateLayoutChange(true);
                 manageChatTextCell = stickerEmptyView;
@@ -852,7 +852,7 @@ public class InviteMembersBottomSheet extends UsersAlertBase implements Notifica
             String publicUsername;
             int itemViewType = viewHolder.getItemViewType();
             if (itemViewType == 0) {
-                ((GroupCreateSectionCell) viewHolder.itemView).setText(LocaleController.getString("GlobalSearch", R.string.GlobalSearch));
+                ((GroupCreateSectionCell) viewHolder.itemView).setText(LocaleController.getString(R.string.GlobalSearch));
             } else if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;

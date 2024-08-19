@@ -103,14 +103,14 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     /* JADX WARN: Can't wrap try/catch for region: R(8:114|(1:116)(2:124|(1:126)(8:127|(1:129)(1:131)|130|118|119|120|96|97))|117|118|119|120|96|97) */
-    /* JADX WARN: Code restructure failed: missing block: B:145:0x03b6, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:145:0x03aa, code lost:
         r0 = move-exception;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:146:0x03b7, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:146:0x03ab, code lost:
         org.telegram.messenger.FileLog.e(r0);
         r10 = r10;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:89:0x0262, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:89:0x0258, code lost:
         if ((r0 instanceof org.telegram.tgnet.TLRPC$TL_messageActionChannelMigrateFrom) != false) goto L54;
      */
     @Override // android.widget.RemoteViewsService.RemoteViewsFactory
@@ -144,11 +144,11 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         TLRPC$FileLocation tLRPC$FileLocation3;
         if (this.deleted) {
             RemoteViews remoteViews = new RemoteViews(this.mContext.getPackageName(), R.layout.widget_deleted);
-            remoteViews.setTextViewText(R.id.widget_deleted_text, LocaleController.getString("WidgetLoggedOff", R.string.WidgetLoggedOff));
+            remoteViews.setTextViewText(R.id.widget_deleted_text, LocaleController.getString(R.string.WidgetLoggedOff));
             return remoteViews;
         } else if (i >= this.dids.size()) {
             RemoteViews remoteViews2 = new RemoteViews(this.mContext.getPackageName(), R.layout.widget_edititem);
-            remoteViews2.setTextViewText(R.id.widget_edititem_text, LocaleController.getString("TapToEditWidget", R.string.TapToEditWidget));
+            remoteViews2.setTextViewText(R.id.widget_edititem_text, LocaleController.getString(R.string.TapToEditWidget));
             Bundle bundle = new Bundle();
             bundle.putInt("appWidgetId", this.appWidgetId);
             bundle.putInt("appWidgetType", 0);
@@ -164,11 +164,11 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 tLRPC$User = this.accountInstance.getMessagesController().getUser(l);
                 if (tLRPC$User != null) {
                     if (UserObject.isUserSelf(tLRPC$User)) {
-                        formatName = LocaleController.getString("SavedMessages", R.string.SavedMessages);
+                        formatName = LocaleController.getString(R.string.SavedMessages);
                     } else if (UserObject.isReplyUser(tLRPC$User)) {
-                        formatName = LocaleController.getString("RepliesTitle", R.string.RepliesTitle);
+                        formatName = LocaleController.getString(R.string.RepliesTitle);
                     } else if (UserObject.isDeleted(tLRPC$User)) {
-                        formatName = LocaleController.getString("HiddenName", R.string.HiddenName);
+                        formatName = LocaleController.getString(R.string.HiddenName);
                     } else {
                         formatName = ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name);
                     }
@@ -284,7 +284,7 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     String str4 = "📎 ";
                     if (tLRPC$Chat != null && chat == null && (!ChatObject.isChannel(tLRPC$Chat) || ChatObject.isMegagroup(tLRPC$Chat))) {
                         if (messageObject.isOutOwner()) {
-                            str2 = LocaleController.getString("FromYou", R.string.FromYou);
+                            str2 = LocaleController.getString(R.string.FromYou);
                         } else if (tLRPC$User2 != null) {
                             str2 = UserObject.getFirstName(tLRPC$User2).replace("\n", "");
                         } else {
@@ -372,9 +372,9 @@ class ChatsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     } else {
                         TLRPC$MessageMedia tLRPC$MessageMedia2 = messageObject.messageOwner.media;
                         if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaPhoto) && (tLRPC$MessageMedia2.photo instanceof TLRPC$TL_photoEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence3 = LocaleController.getString("AttachPhotoExpired", R.string.AttachPhotoExpired);
+                            charSequence3 = LocaleController.getString(R.string.AttachPhotoExpired);
                         } else if ((tLRPC$MessageMedia2 instanceof TLRPC$TL_messageMediaDocument) && (tLRPC$MessageMedia2.document instanceof TLRPC$TL_documentEmpty) && tLRPC$MessageMedia2.ttl_seconds != 0) {
-                            charSequence3 = LocaleController.getString("AttachVideoExpired", R.string.AttachVideoExpired);
+                            charSequence3 = LocaleController.getString(R.string.AttachVideoExpired);
                         } else if (messageObject.caption != null) {
                             if (messageObject.isVideo()) {
                                 str4 = "📹 ";

@@ -624,7 +624,7 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         String string;
         int i = this.type;
         if (i == 1) {
-            string = LocaleController.getString("BoostingSelectUpToWarningUsers", R.string.BoostingSelectUpToWarningUsers);
+            string = LocaleController.getString(R.string.BoostingSelectUpToWarningUsers);
         } else if (i == 2) {
             string = LocaleController.formatPluralString("BoostingSelectUpToWarningChannelsGroupsPlural", (int) BoostRepository.giveawayAddPeersMax(), new Object[0]);
         } else {
@@ -691,9 +691,9 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         this.actionButton.setShowZero(false);
         int i = this.type;
         if (i == 1) {
-            string = LocaleController.getString("BoostingSaveRecipients", R.string.BoostingSaveRecipients);
+            string = LocaleController.getString(R.string.BoostingSaveRecipients);
         } else if (i == 2 || i == 3) {
-            string = LocaleController.getString("Save", R.string.Save);
+            string = LocaleController.getString(R.string.Save);
         } else {
             string = "";
         }
@@ -835,13 +835,13 @@ public class SelectorBottomSheet extends BottomSheetWithRecyclerListView {
         if (i != 1) {
             if (i != 2) {
                 if (i == 3) {
-                    return LocaleController.getString("BoostingSelectCountry", R.string.BoostingSelectCountry);
+                    return LocaleController.getString(R.string.BoostingSelectCountry);
                 }
                 return "";
             }
-            return LocaleController.getString("BoostingAddChannelOrGroup", R.string.BoostingAddChannelOrGroup);
+            return LocaleController.getString(R.string.BoostingAddChannelOrGroup);
         }
-        return LocaleController.getString("GiftPremium", R.string.GiftPremium);
+        return LocaleController.getString(R.string.GiftPremium);
     }
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView

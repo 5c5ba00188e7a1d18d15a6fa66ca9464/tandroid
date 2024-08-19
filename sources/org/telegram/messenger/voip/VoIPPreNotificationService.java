@@ -23,6 +23,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLog;
@@ -61,7 +62,7 @@ public class VoIPPreNotificationService {
 
     /* JADX WARN: Removed duplicated region for block: B:27:0x00e6  */
     /* JADX WARN: Removed duplicated region for block: B:48:0x01f6  */
-    /* JADX WARN: Removed duplicated region for block: B:57:0x0245  */
+    /* JADX WARN: Removed duplicated region for block: B:57:0x026f  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -165,6 +166,9 @@ public class VoIPPreNotificationService {
                             contentIntent.addPerson("tel:" + user.phone);
                         }
                     }
+                    Intent intent4 = new Intent(ApplicationLoader.applicationContext, VoIPActionsReceiver.class);
+                    intent4.setAction(context.getPackageName() + ".HIDE_CALL");
+                    contentIntent.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent4, 167772160));
                     Bitmap roundAvatarBitmap = VoIPService.getRoundAvatarBitmap(context, i, user);
                     formatName = ContactsController.formatName(user);
                     if (TextUtils.isEmpty(formatName)) {
@@ -190,16 +194,16 @@ public class VoIPPreNotificationService {
         if (z2) {
         }
         contentIntent.setChannelId("incoming_calls4" + i3);
-        Intent intent4 = new Intent(context, VoIPActionsReceiver.class);
-        intent4.setAction(context.getPackageName() + ".DECLINE_CALL");
-        intent4.putExtra("call_id", j2);
+        Intent intent5 = new Intent(context, VoIPActionsReceiver.class);
+        intent5.setAction(context.getPackageName() + ".DECLINE_CALL");
+        intent5.putExtra("call_id", j2);
         string = LocaleController.getString(R.string.VoipDeclineCall);
         i2 = Build.VERSION.SDK_INT;
         if (i2 >= 24) {
             SpannableString spannableString3 = new SpannableString(string);
             spannableString3.setSpan(new ForegroundColorSpan(-769226), 0, spannableString3.length(), 0);
         }
-        PendingIntent broadcast2 = PendingIntent.getBroadcast(context, 0, intent4, 301989888);
+        PendingIntent broadcast2 = PendingIntent.getBroadcast(context, 0, intent5, 301989888);
         Intent intent22 = new Intent(context, VoIPActionsReceiver.class);
         intent22.setAction(context.getPackageName() + ".ANSWER_CALL");
         intent22.putExtra("call_id", j2);
@@ -213,6 +217,9 @@ public class VoIPPreNotificationService {
         contentIntent.setShowWhen(false);
         if (i2 >= 21) {
         }
+        Intent intent42 = new Intent(ApplicationLoader.applicationContext, VoIPActionsReceiver.class);
+        intent42.setAction(context.getPackageName() + ".HIDE_CALL");
+        contentIntent.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent42, 167772160));
         Bitmap roundAvatarBitmap2 = VoIPService.getRoundAvatarBitmap(context, i, user);
         formatName = ContactsController.formatName(user);
         if (TextUtils.isEmpty(formatName)) {

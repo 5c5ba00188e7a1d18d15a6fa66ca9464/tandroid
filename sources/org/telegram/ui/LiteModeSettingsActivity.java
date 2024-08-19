@@ -79,7 +79,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("PowerUsage", R.string.PowerUsage));
+        this.actionBar.setTitle(LocaleController.getString(R.string.PowerUsage));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.LiteModeSettingsActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -140,7 +140,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
         int i2 = item.viewType;
         if (i2 == 3 || i2 == 4) {
             if (LiteMode.isPowerSaverApplied()) {
-                this.restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(0.1f, -1, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString("LiteBatteryRestricted", R.string.LiteBatteryRestricted)).show();
+                this.restrictBulletin = BulletinFactory.of(this).createSimpleBulletin(new BatteryDrawable(0.1f, -1, Theme.getColor(Theme.key_dialogSwipeRemove), 1.3f), LocaleController.getString(R.string.LiteBatteryRestricted)).show();
             } else if (item.viewType == 3 && item.getFlagsCount() > 1 && (!LocaleController.isRTL ? f < view.getMeasuredWidth() - AndroidUtilities.dp(75.0f) : f > AndroidUtilities.dp(75.0f)) && (expandedIndex = getExpandedIndex(item.flags)) != -1) {
                 this.expanded[expandedIndex] = !zArr[expandedIndex];
                 updateValues();
@@ -252,12 +252,12 @@ public class LiteModeSettingsActivity extends BaseFragment {
             arrayList.add(Item.asInfo(formatString));
         }
         this.items.add(Item.asHeader(LocaleController.getString("LiteOptionsTitle")));
-        this.items.add(Item.asSwitch(R.drawable.msg2_sticker, LocaleController.getString("LiteOptionsStickers", R.string.LiteOptionsStickers), 3));
+        this.items.add(Item.asSwitch(R.drawable.msg2_sticker, LocaleController.getString(R.string.LiteOptionsStickers), 3));
         if (this.expanded[0]) {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), 1));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayChat"), 2));
         }
-        this.items.add(Item.asSwitch(R.drawable.msg2_smile_status, LocaleController.getString("LiteOptionsEmoji", R.string.LiteOptionsEmoji), LiteMode.FLAGS_ANIMATED_EMOJI));
+        this.items.add(Item.asSwitch(R.drawable.msg2_smile_status, LocaleController.getString(R.string.LiteOptionsEmoji), LiteMode.FLAGS_ANIMATED_EMOJI));
         if (this.expanded[1]) {
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayKeyboard"), LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD));
             this.items.add(Item.asCheckbox(LocaleController.getString("LiteOptionsAutoplayReactions"), LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS));
@@ -811,7 +811,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             int i2 = Theme.key_windowBackgroundWhiteGrayText;
             textView4.setTextColor(Theme.getColor(i2));
             this.leftTextView.setGravity(3);
-            this.leftTextView.setText(LocaleController.getString("LiteBatteryDisabled", R.string.LiteBatteryDisabled));
+            this.leftTextView.setText(LocaleController.getString(R.string.LiteBatteryDisabled));
             this.valuesView.addView(this.leftTextView, LayoutHelper.createFrame(-2, -2, 19));
             AnimatedTextView animatedTextView2 = new AnimatedTextView(context, false, true, true) { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.3
                 /* JADX INFO: Access modifiers changed from: protected */
@@ -842,7 +842,7 @@ public class LiteModeSettingsActivity extends BaseFragment {
             textView5.setTextSize(1, 13.0f);
             this.rightTextView.setTextColor(Theme.getColor(i2));
             this.rightTextView.setGravity(5);
-            this.rightTextView.setText(LocaleController.getString("LiteBatteryEnabled", R.string.LiteBatteryEnabled));
+            this.rightTextView.setText(LocaleController.getString(R.string.LiteBatteryEnabled));
             this.valuesView.addView(this.rightTextView, LayoutHelper.createFrame(-2, -2, 21));
             addView(this.valuesView, LayoutHelper.createFrame(-1, -2.0f, 55, 21.0f, 52.0f, 21.0f, 0.0f));
             this.seekBarAccessibilityDelegate = new IntSeekBarAccessibilityDelegate() { // from class: org.telegram.ui.LiteModeSettingsActivity.PowerSaverSlider.4
@@ -912,28 +912,18 @@ public class LiteModeSettingsActivity extends BaseFragment {
         }
 
         public void update() {
-            int i;
-            String str;
             int powerSaverLevel = LiteMode.getPowerSaverLevel();
             this.middleTextView.cancelAnimation();
             if (powerSaverLevel <= 0) {
-                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysDisabled", R.string.LiteBatteryAlwaysDisabled), !LocaleController.isRTL);
+                this.middleTextView.setText(LocaleController.getString(R.string.LiteBatteryAlwaysDisabled), !LocaleController.isRTL);
             } else if (powerSaverLevel >= 100) {
-                this.middleTextView.setText(LocaleController.getString("LiteBatteryAlwaysEnabled", R.string.LiteBatteryAlwaysEnabled), !LocaleController.isRTL);
+                this.middleTextView.setText(LocaleController.getString(R.string.LiteBatteryAlwaysEnabled), !LocaleController.isRTL);
             } else {
                 float f = powerSaverLevel;
                 this.batteryIcon.setFillValue(f / 100.0f, true);
-                this.middleTextView.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString("LiteBatteryWhenBelow", R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText)), !LocaleController.isRTL);
+                this.middleTextView.setText(AndroidUtilities.replaceCharSequence("%s", LocaleController.getString(R.string.LiteBatteryWhenBelow), TextUtils.concat(String.format("%d%% ", Integer.valueOf(Math.round(f))), this.batteryText)), !LocaleController.isRTL);
             }
-            AnimatedTextView animatedTextView = this.headerOnView;
-            if (LiteMode.isPowerSaverApplied()) {
-                i = R.string.LiteBatteryEnabled;
-                str = "LiteBatteryEnabled";
-            } else {
-                i = R.string.LiteBatteryDisabled;
-                str = "LiteBatteryDisabled";
-            }
-            animatedTextView.setText(LocaleController.getString(str, i).toUpperCase());
+            this.headerOnView.setText(LocaleController.getString(LiteMode.isPowerSaverApplied() ? R.string.LiteBatteryEnabled : R.string.LiteBatteryDisabled).toUpperCase());
             updateHeaderOnVisibility(powerSaverLevel > 0 && powerSaverLevel < 100);
             updateOnActive(powerSaverLevel >= 100);
             updateOffActive(powerSaverLevel <= 0);

@@ -188,7 +188,7 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
 
     @Override // org.telegram.ui.Components.BottomSheetWithRecyclerListView
     protected CharSequence getTitle() {
-        return this.isUnused ? LocaleController.getString("BoostingGiftLink", R.string.BoostingGiftLink) : LocaleController.getString("BoostingUsedGiftLink", R.string.BoostingUsedGiftLink);
+        return this.isUnused ? LocaleController.getString(R.string.BoostingGiftLink) : LocaleController.getString(R.string.BoostingUsedGiftLink);
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -239,9 +239,9 @@ public class GiftInfoBottomSheet extends BottomSheetWithRecyclerListView {
         public void onHiddenLinkClicked() {
             String string;
             if ((GiftInfoBottomSheet.this.slug == null || GiftInfoBottomSheet.this.slug.isEmpty()) && GiftInfoBottomSheet.this.giftCode.to_id == -1) {
-                string = LocaleController.getString("BoostingOnlyGiveawayCreatorSeeLink", R.string.BoostingOnlyGiveawayCreatorSeeLink);
+                string = LocaleController.getString(R.string.BoostingOnlyGiveawayCreatorSeeLink);
             } else {
-                string = LocaleController.getString("BoostingOnlyRecipientCode", R.string.BoostingOnlyRecipientCode);
+                string = LocaleController.getString(R.string.BoostingOnlyRecipientCode);
             }
             GiftInfoBottomSheet giftInfoBottomSheet = GiftInfoBottomSheet.this;
             BulletinFactory.of(giftInfoBottomSheet.container, ((BottomSheet) giftInfoBottomSheet).resourcesProvider).createSimpleBulletin(R.raw.chats_infotip, string).show(true);

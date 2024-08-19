@@ -302,7 +302,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         };
         createActionBar(context);
         this.contentView.addView(this.actionBar);
-        this.actionBar.setTitle(LocaleController.getString("Calendar", R.string.Calendar));
+        this.actionBar.setTitle(LocaleController.getString(R.string.Calendar));
         this.actionBar.setCastShadows(false);
         RecyclerListView recyclerListView = new RecyclerListView(context) { // from class: org.telegram.ui.CalendarActivity.3
             /* JADX INFO: Access modifiers changed from: protected */
@@ -330,7 +330,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         });
         boolean z = this.calendarType == 0 && this.canClearHistory;
         this.contentView.addView(this.listView, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 36.0f, 0.0f, z ? 48.0f : 0.0f));
-        final String[] strArr = {LocaleController.getString("CalendarWeekNameShortMonday", R.string.CalendarWeekNameShortMonday), LocaleController.getString("CalendarWeekNameShortTuesday", R.string.CalendarWeekNameShortTuesday), LocaleController.getString("CalendarWeekNameShortWednesday", R.string.CalendarWeekNameShortWednesday), LocaleController.getString("CalendarWeekNameShortThursday", R.string.CalendarWeekNameShortThursday), LocaleController.getString("CalendarWeekNameShortFriday", R.string.CalendarWeekNameShortFriday), LocaleController.getString("CalendarWeekNameShortSaturday", R.string.CalendarWeekNameShortSaturday), LocaleController.getString("CalendarWeekNameShortSunday", R.string.CalendarWeekNameShortSunday)};
+        final String[] strArr = {LocaleController.getString(R.string.CalendarWeekNameShortMonday), LocaleController.getString(R.string.CalendarWeekNameShortTuesday), LocaleController.getString(R.string.CalendarWeekNameShortWednesday), LocaleController.getString(R.string.CalendarWeekNameShortThursday), LocaleController.getString(R.string.CalendarWeekNameShortFriday), LocaleController.getString(R.string.CalendarWeekNameShortSaturday), LocaleController.getString(R.string.CalendarWeekNameShortSunday)};
         final Drawable mutate = ContextCompat.getDrawable(context, R.drawable.header_shadow).mutate();
         this.contentView.addView(new View(context) { // from class: org.telegram.ui.CalendarActivity.5
             @Override // android.view.View
@@ -403,7 +403,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                     CalendarActivity.this.lambda$createView$0(view);
                 }
             });
-            this.selectDaysButton.setText(LocaleController.getString("SelectDays", R.string.SelectDays));
+            this.selectDaysButton.setText(LocaleController.getString(R.string.SelectDays));
             this.selectDaysButton.setAllCaps(true);
             this.bottomBar.addView(this.selectDaysButton, LayoutHelper.createFrame(-1, -1.0f, 0, 0.0f, 0.0f, 0.0f, 0.0f));
             TextView textView2 = new TextView(context);
@@ -448,7 +448,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                 this.selectDaysHint = hintView;
                 hintView.setExtraTranslationY(AndroidUtilities.dp(24.0f));
                 this.contentView.addView(this.selectDaysHint, LayoutHelper.createFrame(-2, -2.0f, 51, 19.0f, 0.0f, 19.0f, 0.0f));
-                this.selectDaysHint.setText(LocaleController.getString("SelectDaysTooltip", R.string.SelectDaysTooltip));
+                this.selectDaysHint.setText(LocaleController.getString(R.string.SelectDaysTooltip));
             }
             this.selectDaysHint.showForView(this.bottomBar, true);
             return;
@@ -999,7 +999,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                     ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(CalendarActivity.this.getParentActivity(), R.drawable.popup_fixed_alert, CalendarActivity.this.getResourceProvider());
                     actionBarPopupWindowLayout.setBackgroundColor(CalendarActivity.this.getThemedColor(Theme.key_actionBarDefaultSubmenuBackground));
                     ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), true, false);
-                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("JumpToDate", R.string.JumpToDate), R.drawable.msg_message);
+                    actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.JumpToDate), R.drawable.msg_message);
                     actionBarMenuSubItem.setMinimumWidth(NotificationCenter.audioRouteChanged);
                     actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
@@ -1010,7 +1010,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                     actionBarPopupWindowLayout.addView(actionBarMenuSubItem);
                     if (CalendarActivity.this.canClearHistory) {
                         ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, false);
-                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("SelectThisDay", R.string.SelectThisDay), R.drawable.msg_select);
+                        actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.SelectThisDay), R.drawable.msg_select);
                         actionBarMenuSubItem2.setMinimumWidth(NotificationCenter.audioRouteChanged);
                         actionBarMenuSubItem2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda1
                             @Override // android.view.View.OnClickListener
@@ -1020,7 +1020,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
                         });
                         actionBarPopupWindowLayout.addView(actionBarMenuSubItem2);
                         ActionBarMenuSubItem actionBarMenuSubItem3 = new ActionBarMenuSubItem(CalendarActivity.this.getParentActivity(), false, true);
-                        actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("ClearHistory", R.string.ClearHistory), R.drawable.msg_delete);
+                        actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.ClearHistory), R.drawable.msg_delete);
                         actionBarMenuSubItem3.setMinimumWidth(NotificationCenter.audioRouteChanged);
                         actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.CalendarActivity$MonthView$2$$ExternalSyntheticLambda2
                             @Override // android.view.View.OnClickListener
@@ -1557,7 +1557,7 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
         String string;
         HintView hintView;
         if (!this.canClearHistory) {
-            this.actionBar.setTitle(LocaleController.getString("Calendar", R.string.Calendar));
+            this.actionBar.setTitle(LocaleController.getString(R.string.Calendar));
             this.backDrawable.setRotation(0.0f, true);
             return;
         }
@@ -1577,10 +1577,10 @@ public class CalendarActivity extends BaseFragment implements NotificationCenter
             string = LocaleController.formatPluralString("Days", abs, new Object[0]);
             this.backDrawable.setRotation(1.0f, true);
         } else if (z3) {
-            string = LocaleController.getString("SelectDays", R.string.SelectDays);
+            string = LocaleController.getString(R.string.SelectDays);
             this.backDrawable.setRotation(1.0f, true);
         } else {
-            string = LocaleController.getString("Calendar", R.string.Calendar);
+            string = LocaleController.getString(R.string.Calendar);
             this.backDrawable.setRotation(0.0f, true);
         }
         if (abs > 1) {

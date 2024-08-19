@@ -42606,108 +42606,83 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:156:0x02d6, code lost:
-        r7 = (org.telegram.ui.Adapters.DialogsSearchAdapter.DialogSearchResult) r4.get(r11.id);
-        r8 = r11.status;
+    /* JADX WARN: Code restructure failed: missing block: B:196:0x03e2, code lost:
+        if (r3.contains(" " + r8) != false) goto L197;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:157:0x02e0, code lost:
-        if (r8 == null) goto L142;
+    /* JADX WARN: Code restructure failed: missing block: B:85:0x016a, code lost:
+        if (r15.startsWith(r6) == false) goto L88;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:158:0x02e2, code lost:
-        r27 = r4;
-        r8.expires = r1.intValue(1);
+    /* JADX WARN: Code restructure failed: missing block: B:9:0x004e, code lost:
+        if (r7.length() == 0) goto L9;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:160:0x02ed, code lost:
-        r27 = r4;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:161:0x02f0, code lost:
-        if (r9 != 1) goto L141;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:162:0x02f2, code lost:
-        r7.name = org.telegram.messenger.AndroidUtilities.generateSearchName(r11.first_name, r11.last_name, r10);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:163:0x02fd, code lost:
-        r7.name = org.telegram.messenger.AndroidUtilities.generateSearchName("@" + org.telegram.messenger.UserObject.getPublicUsername(r11), null, "@" + r10);
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:164:0x0326, code lost:
-        r7.object = r11;
-        r6 = r6 + 1;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:198:0x03ed, code lost:
-        if (r3.contains(" " + r9) != false) goto L185;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:87:0x0174, code lost:
-        if (r6.startsWith(r15) == false) goto L75;
-     */
-    /* JADX WARN: Code restructure failed: missing block: B:9:0x0052, code lost:
-        if (r9.length() == 0) goto L9;
-     */
-    /* JADX WARN: Removed duplicated region for block: B:106:0x01cb A[Catch: all -> 0x017c, Exception -> 0x06ad, TryCatch #2 {Exception -> 0x06ad, blocks: (B:86:0x0170, B:95:0x0187, B:99:0x01aa, B:104:0x01ba, B:106:0x01cb, B:108:0x01dc, B:113:0x0204, B:116:0x0218, B:318:0x0693, B:320:0x069d, B:322:0x06a1, B:333:0x06c2), top: B:414:0x0170 }] */
-    /* JADX WARN: Removed duplicated region for block: B:108:0x01dc A[Catch: all -> 0x017c, Exception -> 0x06ad, TRY_LEAVE, TryCatch #2 {Exception -> 0x06ad, blocks: (B:86:0x0170, B:95:0x0187, B:99:0x01aa, B:104:0x01ba, B:106:0x01cb, B:108:0x01dc, B:113:0x0204, B:116:0x0218, B:318:0x0693, B:320:0x069d, B:322:0x06a1, B:333:0x06c2), top: B:414:0x0170 }] */
-    /* JADX WARN: Removed duplicated region for block: B:113:0x0204 A[Catch: all -> 0x017c, Exception -> 0x06ad, TRY_ENTER, TRY_LEAVE, TryCatch #2 {Exception -> 0x06ad, blocks: (B:86:0x0170, B:95:0x0187, B:99:0x01aa, B:104:0x01ba, B:106:0x01cb, B:108:0x01dc, B:113:0x0204, B:116:0x0218, B:318:0x0693, B:320:0x069d, B:322:0x06a1, B:333:0x06c2), top: B:414:0x0170 }] */
-    /* JADX WARN: Removed duplicated region for block: B:147:0x02a7 A[Catch: all -> 0x00f7, Exception -> 0x0731, TryCatch #12 {Exception -> 0x0731, blocks: (B:39:0x00c4, B:41:0x00ca, B:44:0x00e8, B:50:0x00fb, B:52:0x0101, B:66:0x0119, B:68:0x0125, B:73:0x0134, B:75:0x013f, B:80:0x014e, B:82:0x015c, B:83:0x0164, B:118:0x0224, B:120:0x022a, B:123:0x023e, B:125:0x0245, B:129:0x0256, B:131:0x0260, B:134:0x0279, B:136:0x027f, B:140:0x0297, B:147:0x02a7, B:149:0x02b2, B:152:0x02c5, B:168:0x0340, B:156:0x02d6, B:158:0x02e2, B:162:0x02f2, B:164:0x0326, B:163:0x02fd, B:170:0x0358, B:183:0x0396, B:185:0x039c, B:190:0x03b5, B:192:0x03bd, B:195:0x03d4, B:197:0x03da, B:219:0x042c, B:201:0x03f3, B:203:0x03f9, B:206:0x040a, B:211:0x041b, B:216:0x0425, B:221:0x0430, B:223:0x0434, B:225:0x043a, B:229:0x0444, B:231:0x0462, B:344:0x06f7, B:346:0x06fd, B:349:0x0709, B:352:0x071d, B:354:0x0725, B:362:0x073b, B:364:0x0743, B:367:0x075c, B:369:0x0762, B:373:0x077a, B:379:0x0787, B:381:0x078e, B:383:0x079d, B:386:0x07a7, B:388:0x07de, B:387:0x07b4, B:390:0x07e5, B:391:0x07f2), top: B:421:0x00c4 }] */
-    /* JADX WARN: Removed duplicated region for block: B:167:0x0337  */
-    /* JADX WARN: Removed duplicated region for block: B:176:0x036a  */
-    /* JADX WARN: Removed duplicated region for block: B:179:0x037a A[Catch: all -> 0x0673, Exception -> 0x0678, TRY_ENTER, TRY_LEAVE, TryCatch #19 {Exception -> 0x0678, all -> 0x0673, blocks: (B:8:0x004e, B:18:0x0068, B:22:0x0086, B:25:0x009a, B:179:0x037a, B:182:0x038c, B:242:0x047e, B:245:0x0492), top: B:437:0x004e }] */
-    /* JADX WARN: Removed duplicated region for block: B:237:0x0470  */
-    /* JADX WARN: Removed duplicated region for block: B:240:0x047a  */
-    /* JADX WARN: Removed duplicated region for block: B:301:0x0659 A[Catch: all -> 0x04ca, Exception -> 0x04ce, LOOP:6: B:261:0x04d5->B:301:0x0659, LOOP_END, TryCatch #23 {Exception -> 0x04ce, all -> 0x04ca, blocks: (B:246:0x049c, B:248:0x04a2, B:252:0x04bc, B:254:0x04c3, B:262:0x04d7, B:264:0x04df, B:267:0x04f6, B:269:0x04fc, B:273:0x0514, B:278:0x051f, B:280:0x0526, B:282:0x0536, B:284:0x053c, B:288:0x054e, B:290:0x05dd, B:291:0x05df, B:293:0x05eb, B:296:0x05f5, B:298:0x0645, B:297:0x061c, B:301:0x0659, B:302:0x0663), top: B:429:0x049c }] */
-    /* JADX WARN: Removed duplicated region for block: B:333:0x06c2 A[Catch: all -> 0x06a6, Exception -> 0x06ad, TRY_ENTER, TRY_LEAVE, TryCatch #2 {Exception -> 0x06ad, blocks: (B:86:0x0170, B:95:0x0187, B:99:0x01aa, B:104:0x01ba, B:106:0x01cb, B:108:0x01dc, B:113:0x0204, B:116:0x0218, B:318:0x0693, B:320:0x069d, B:322:0x06a1, B:333:0x06c2), top: B:414:0x0170 }] */
-    /* JADX WARN: Removed duplicated region for block: B:337:0x06e0  */
-    /* JADX WARN: Removed duplicated region for block: B:346:0x06fd A[Catch: all -> 0x072b, Exception -> 0x0731, TryCatch #11 {all -> 0x072b, blocks: (B:344:0x06f7, B:346:0x06fd, B:349:0x0709, B:352:0x071d, B:354:0x0725, B:362:0x073b, B:364:0x0743, B:367:0x075c, B:369:0x0762, B:373:0x077a, B:379:0x0787, B:381:0x078e, B:383:0x079d, B:386:0x07a7, B:388:0x07de, B:387:0x07b4, B:390:0x07e5, B:391:0x07f2), top: B:419:0x06f7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:390:0x07e5 A[Catch: all -> 0x072b, Exception -> 0x0731, LOOP:10: B:361:0x0739->B:390:0x07e5, LOOP_END, TryCatch #11 {all -> 0x072b, blocks: (B:344:0x06f7, B:346:0x06fd, B:349:0x0709, B:352:0x071d, B:354:0x0725, B:362:0x073b, B:364:0x0743, B:367:0x075c, B:369:0x0762, B:373:0x077a, B:379:0x0787, B:381:0x078e, B:383:0x079d, B:386:0x07a7, B:388:0x07de, B:387:0x07b4, B:390:0x07e5, B:391:0x07f2), top: B:419:0x06f7 }] */
-    /* JADX WARN: Removed duplicated region for block: B:405:0x0812  */
-    /* JADX WARN: Removed duplicated region for block: B:410:0x081b  */
-    /* JADX WARN: Removed duplicated region for block: B:416:0x0693 A[EXC_TOP_SPLITTER, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:464:0x051f A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:469:0x0787 A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:476:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:105:0x01c4 A[Catch: all -> 0x0172, Exception -> 0x06a2, TryCatch #10 {all -> 0x0172, blocks: (B:84:0x0166, B:98:0x01a3, B:103:0x01b3, B:105:0x01c4, B:107:0x01d5, B:112:0x01fb, B:115:0x020f, B:94:0x0180), top: B:422:0x0166 }] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x01d5 A[Catch: all -> 0x0172, Exception -> 0x06a2, TRY_LEAVE, TryCatch #10 {all -> 0x0172, blocks: (B:84:0x0166, B:98:0x01a3, B:103:0x01b3, B:105:0x01c4, B:107:0x01d5, B:112:0x01fb, B:115:0x020f, B:94:0x0180), top: B:422:0x0166 }] */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x01fb A[Catch: all -> 0x0172, Exception -> 0x06a2, TRY_ENTER, TRY_LEAVE, TryCatch #10 {all -> 0x0172, blocks: (B:84:0x0166, B:98:0x01a3, B:103:0x01b3, B:105:0x01c4, B:107:0x01d5, B:112:0x01fb, B:115:0x020f, B:94:0x0180), top: B:422:0x0166 }] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x029e A[Catch: all -> 0x00f1, Exception -> 0x0726, TryCatch #8 {all -> 0x00f1, blocks: (B:39:0x00be, B:41:0x00c4, B:44:0x00e2, B:49:0x00f5, B:51:0x00fb, B:65:0x0113, B:67:0x011d, B:71:0x0129, B:73:0x0134, B:77:0x0141, B:79:0x014f, B:80:0x0157, B:117:0x021b, B:119:0x0221, B:122:0x0235, B:124:0x023c, B:128:0x024d, B:130:0x0257, B:133:0x0270, B:135:0x0276, B:139:0x028e, B:146:0x029e, B:148:0x02a9, B:151:0x02bc, B:166:0x0335, B:154:0x02cd, B:156:0x02d9, B:160:0x02e9, B:162:0x031d, B:161:0x02f4, B:168:0x034d, B:181:0x038b, B:183:0x0391, B:188:0x03aa, B:190:0x03b2, B:193:0x03c9, B:195:0x03cf, B:217:0x0421, B:199:0x03e8, B:201:0x03ee, B:204:0x03ff, B:209:0x0410, B:214:0x041a, B:219:0x0425, B:221:0x0429, B:223:0x042f, B:227:0x0439, B:229:0x0457), top: B:420:0x00be }] */
+    /* JADX WARN: Removed duplicated region for block: B:165:0x032e  */
+    /* JADX WARN: Removed duplicated region for block: B:174:0x035f  */
+    /* JADX WARN: Removed duplicated region for block: B:177:0x036f A[Catch: all -> 0x0668, Exception -> 0x066d, TRY_ENTER, TRY_LEAVE, TryCatch #23 {Exception -> 0x066d, all -> 0x0668, blocks: (B:8:0x004a, B:18:0x0064, B:22:0x0080, B:25:0x0094, B:177:0x036f, B:180:0x0381, B:240:0x0473, B:243:0x0487), top: B:427:0x004a }] */
+    /* JADX WARN: Removed duplicated region for block: B:235:0x0465  */
+    /* JADX WARN: Removed duplicated region for block: B:238:0x046f  */
+    /* JADX WARN: Removed duplicated region for block: B:299:0x064e A[Catch: all -> 0x04bf, Exception -> 0x04c3, LOOP:6: B:259:0x04ca->B:299:0x064e, LOOP_END, TryCatch #19 {Exception -> 0x04c3, all -> 0x04bf, blocks: (B:244:0x0491, B:246:0x0497, B:250:0x04b1, B:252:0x04b8, B:260:0x04cc, B:262:0x04d4, B:265:0x04eb, B:267:0x04f1, B:271:0x0509, B:276:0x0514, B:278:0x051b, B:280:0x052b, B:282:0x0531, B:286:0x0543, B:288:0x05d2, B:289:0x05d4, B:291:0x05e0, B:294:0x05ea, B:296:0x063a, B:295:0x0611, B:299:0x064e, B:300:0x0658), top: B:435:0x0491 }] */
+    /* JADX WARN: Removed duplicated region for block: B:331:0x06b7 A[Catch: all -> 0x069b, Exception -> 0x06a2, TRY_ENTER, TRY_LEAVE, TryCatch #14 {all -> 0x069b, blocks: (B:316:0x0688, B:318:0x0692, B:320:0x0696, B:331:0x06b7), top: B:424:0x0688 }] */
+    /* JADX WARN: Removed duplicated region for block: B:335:0x06d5  */
+    /* JADX WARN: Removed duplicated region for block: B:344:0x06f2 A[Catch: all -> 0x0720, Exception -> 0x0726, TryCatch #0 {all -> 0x0720, blocks: (B:342:0x06ec, B:344:0x06f2, B:347:0x06fe, B:350:0x0712, B:352:0x071a, B:360:0x0730, B:362:0x0738, B:365:0x0751, B:367:0x0757, B:371:0x076f, B:377:0x077c, B:379:0x0783, B:381:0x0792, B:384:0x079c, B:386:0x07d3, B:385:0x07a9, B:388:0x07da, B:389:0x07e7), top: B:412:0x06ec }] */
+    /* JADX WARN: Removed duplicated region for block: B:388:0x07da A[Catch: all -> 0x0720, Exception -> 0x0726, LOOP:10: B:359:0x072e->B:388:0x07da, LOOP_END, TryCatch #0 {all -> 0x0720, blocks: (B:342:0x06ec, B:344:0x06f2, B:347:0x06fe, B:350:0x0712, B:352:0x071a, B:360:0x0730, B:362:0x0738, B:365:0x0751, B:367:0x0757, B:371:0x076f, B:377:0x077c, B:379:0x0783, B:381:0x0792, B:384:0x079c, B:386:0x07d3, B:385:0x07a9, B:388:0x07da, B:389:0x07e7), top: B:412:0x06ec }] */
+    /* JADX WARN: Removed duplicated region for block: B:403:0x0807  */
+    /* JADX WARN: Removed duplicated region for block: B:408:0x0810  */
+    /* JADX WARN: Removed duplicated region for block: B:424:0x0688 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:474:0x0514 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:479:0x077c A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:486:? A[RETURN, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
     public void localSearch(int i, String str, ArrayList<Object> arrayList, ArrayList<CharSequence> arrayList2, ArrayList<TLRPC$User> arrayList3, ArrayList<Long> arrayList4, int i2) {
         SQLiteCursor sQLiteCursor;
-        Exception exc;
-        SQLiteCursor sQLiteCursor2;
         Throwable th;
+        SQLiteCursor sQLiteCursor2;
+        Exception exc;
         SQLiteCursor sQLiteCursor3;
-        String str2;
-        String str3;
-        String str4;
-        SQLiteCursor queryFinalized;
         Throwable th2;
-        Exception e;
+        String str2;
         int i3;
+        String str3;
+        SQLiteCursor queryFinalized;
+        Throwable th3;
+        Exception e;
+        String str4;
+        int i4;
+        ArrayList arrayList5;
         LongSparseArray longSparseArray;
         String str5;
-        ArrayList arrayList5;
-        int i4;
         int i5;
+        int i6;
         LongSparseArray longSparseArray2;
         String str6;
         String str7;
         ArrayList arrayList6;
-        int i6;
         int i7;
+        int i8;
         SQLiteCursor queryFinalized2;
         String str8;
         String str9;
         String str10;
         String str11;
-        int i8;
+        int i9;
         TLRPC$EncryptedChat tLRPC$EncryptedChat;
         TLRPC$User tLRPC$User;
         LongSparseArray longSparseArray3;
-        LongSparseArray longSparseArray4;
-        int i9;
         ArrayList arrayList7;
-        char c;
-        LongSparseArray longSparseArray5;
+        LongSparseArray longSparseArray4;
+        int i10;
         String str12;
+        char c;
         String str13;
         String str14;
+        String str15;
+        TLRPC$User TLdeserialize;
         TLRPC$User user;
-        ArrayList arrayList8;
         long clientUserId = UserConfig.getInstance(this.currentAccount).getClientUserId();
         try {
             try {
@@ -42715,50 +42690,49 @@ public class MessagesStorage extends BaseController {
                 if (TextUtils.isEmpty(lowerCase)) {
                     return;
                 }
-                String lowerCase2 = LocaleController.getString("SavedMessages", R.string.SavedMessages).toLowerCase();
-                String str15 = "saved messages";
-                String lowerCase3 = LocaleController.getString("RepliesTitle", R.string.RepliesTitle).toLowerCase();
+                String lowerCase2 = LocaleController.getString(R.string.SavedMessages).toLowerCase();
+                String str16 = "saved messages";
+                String lowerCase3 = LocaleController.getString(R.string.RepliesTitle).toLowerCase();
                 String translitString = LocaleController.getInstance().getTranslitString(lowerCase);
                 if (!lowerCase.equals(translitString)) {
                     try {
                     } catch (Exception e2) {
                         exc = e2;
-                        sQLiteCursor = null;
-                        sQLiteCursor3 = sQLiteCursor;
+                        sQLiteCursor2 = null;
+                        sQLiteCursor3 = sQLiteCursor2;
                         try {
                             checkSQLException(exc);
                             if (sQLiteCursor3 == null) {
                             }
-                        } catch (Throwable th3) {
-                            th = th3;
-                            th = th;
+                        } catch (Throwable th4) {
+                            th2 = th4;
+                            th = th2;
                             if (sQLiteCursor3 != null) {
                             }
                             throw th;
                         }
-                    } catch (Throwable th4) {
-                        th = th4;
-                        sQLiteCursor2 = null;
-                        sQLiteCursor3 = sQLiteCursor2;
+                    } catch (Throwable th5) {
+                        th = th5;
+                        sQLiteCursor = null;
+                        sQLiteCursor3 = sQLiteCursor;
                         if (sQLiteCursor3 != null) {
                         }
                         throw th;
                     }
                 }
                 translitString = null;
-                int i10 = (translitString != null ? 1 : 0) + 1;
-                String[] strArr = new String[i10];
+                int i11 = (translitString != null ? 1 : 0) + 1;
+                String[] strArr = new String[i11];
                 strArr[0] = lowerCase;
                 if (translitString != null) {
                     strArr[1] = translitString;
                 }
+                ArrayList arrayList8 = new ArrayList();
                 ArrayList arrayList9 = new ArrayList();
                 ArrayList arrayList10 = new ArrayList();
-                ArrayList arrayList11 = new ArrayList();
-                int i11 = i10;
-                LongSparseArray longSparseArray6 = new LongSparseArray();
+                LongSparseArray longSparseArray5 = new LongSparseArray();
                 if (i2 >= 0) {
-                    str4 = "RepliesTitle";
+                    i3 = i11;
                     str2 = "replies";
                     str3 = lowerCase3;
                     try {
@@ -42770,9 +42744,9 @@ public class MessagesStorage extends BaseController {
                         checkSQLException(exc);
                         if (sQLiteCursor3 == null) {
                         }
-                    } catch (Throwable th5) {
-                        th2 = th5;
-                        th = th2;
+                    } catch (Throwable th6) {
+                        th3 = th6;
+                        th = th3;
                         sQLiteCursor3 = null;
                         if (sQLiteCursor3 != null) {
                         }
@@ -42780,85 +42754,78 @@ public class MessagesStorage extends BaseController {
                     }
                 } else {
                     str2 = "replies";
+                    i3 = i11;
                     str3 = lowerCase3;
-                    str4 = "RepliesTitle";
                     queryFinalized = getDatabase().queryFinalized("SELECT did, date FROM dialogs ORDER BY date DESC LIMIT 600", new Object[0]);
                 }
                 while (queryFinalized.next()) {
                     try {
                         try {
-                            ArrayList arrayList12 = arrayList9;
+                            String str17 = lowerCase;
                             long longValue = queryFinalized.longValue(0);
                             DialogsSearchAdapter.DialogSearchResult dialogSearchResult = new DialogsSearchAdapter.DialogSearchResult();
-                            String str16 = str15;
+                            String str18 = str16;
                             dialogSearchResult.date = queryFinalized.intValue(1);
-                            longSparseArray6.put(longValue, dialogSearchResult);
+                            longSparseArray5.put(longValue, dialogSearchResult);
                             if (i != 15 || (arrayList4 != null && arrayList4.contains(Long.valueOf(longValue)))) {
                                 if (DialogObject.isEncryptedDialog(longValue)) {
-                                    arrayList8 = arrayList12;
                                     if (i == 0 || i == 3) {
                                         int encryptedChatId = DialogObject.getEncryptedChatId(longValue);
-                                        if (!arrayList11.contains(Integer.valueOf(encryptedChatId))) {
-                                            arrayList11.add(Integer.valueOf(encryptedChatId));
+                                        if (!arrayList10.contains(Integer.valueOf(encryptedChatId))) {
+                                            arrayList10.add(Integer.valueOf(encryptedChatId));
                                         }
                                     }
-                                } else if (!DialogObject.isUserDialog(longValue)) {
-                                    arrayList8 = arrayList12;
-                                    if (i != 4) {
-                                        long j = -longValue;
-                                        if (!arrayList10.contains(Long.valueOf(j))) {
-                                            arrayList10.add(Long.valueOf(j));
-                                        }
-                                    }
-                                } else if ((i != 4 || longValue != clientUserId) && i != 6 && i != 5 && i != 2) {
-                                    arrayList8 = arrayList12;
-                                    if (!arrayList8.contains(Long.valueOf(longValue))) {
+                                } else if (DialogObject.isUserDialog(longValue)) {
+                                    if ((i != 4 || longValue != clientUserId) && i != 6 && i != 5 && i != 2 && !arrayList8.contains(Long.valueOf(longValue))) {
                                         arrayList8.add(Long.valueOf(longValue));
                                     }
+                                } else if (i != 4) {
+                                    long j = -longValue;
+                                    if (!arrayList9.contains(Long.valueOf(j))) {
+                                        arrayList9.add(Long.valueOf(j));
+                                    }
                                 }
-                                arrayList9 = arrayList8;
-                                str15 = str16;
                             }
-                            arrayList9 = arrayList12;
-                            str15 = str16;
-                        } catch (Exception e4) {
+                            lowerCase = str17;
+                            str16 = str18;
+                        } catch (Throwable th7) {
                             sQLiteCursor3 = queryFinalized;
-                            exc = e4;
+                            th = th7;
                         }
-                    } catch (Throwable th6) {
+                    } catch (Exception e4) {
                         sQLiteCursor3 = queryFinalized;
-                        th = th6;
+                        exc = e4;
                     }
                 }
-                ArrayList arrayList13 = arrayList9;
-                String str17 = str15;
+                String str19 = str16;
+                String str20 = lowerCase;
                 queryFinalized.dispose();
                 if (i != 4) {
+                    str4 = str20;
                     try {
                         try {
-                        } catch (Exception e5) {
-                            exc = e5;
+                        } catch (Throwable th8) {
+                            th = th8;
                             sQLiteCursor3 = null;
-                            checkSQLException(exc);
-                            if (sQLiteCursor3 == null) {
-                                sQLiteCursor3.dispose();
-                                return;
+                            if (sQLiteCursor3 != null) {
                             }
-                            return;
+                            throw th;
                         }
-                    } catch (Throwable th7) {
-                        th = th7;
+                    } catch (Exception e5) {
+                        exc = e5;
                         sQLiteCursor3 = null;
-                        if (sQLiteCursor3 != null) {
+                        checkSQLException(exc);
+                        if (sQLiteCursor3 == null) {
                         }
-                        throw th;
                     }
+                } else {
+                    str4 = str20;
                 }
                 try {
                     try {
-                        if (!str17.startsWith(lowerCase)) {
-                            i3 = 0;
-                            if ((i != 4 && str3.startsWith(lowerCase)) || str2.startsWith(lowerCase)) {
+                        if (!str19.startsWith(str4)) {
+                            i4 = 0;
+                            if ((i != 4 && str3.startsWith(str4)) || str2.startsWith(str4)) {
                                 user = getMessagesController().getUser((Long) 708513L);
                                 if (user == null) {
                                     user = getMessagesController().getUser(Long.valueOf((long) UserObject.REPLY_BOT));
@@ -42866,109 +42833,122 @@ public class MessagesStorage extends BaseController {
                                 if (user != null) {
                                     DialogsSearchAdapter.DialogSearchResult dialogSearchResult2 = new DialogsSearchAdapter.DialogSearchResult();
                                     dialogSearchResult2.date = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                                    dialogSearchResult2.name = LocaleController.getString(str4, R.string.RepliesTitle);
+                                    dialogSearchResult2.name = LocaleController.getString(R.string.RepliesTitle);
                                     dialogSearchResult2.object = user;
-                                    longSparseArray6.put(user.id, dialogSearchResult2);
-                                    i3++;
+                                    longSparseArray5.put(user.id, dialogSearchResult2);
+                                    i4++;
                                 }
                             }
-                            String str18 = ";;;";
-                            String str19 = " ";
-                            if (arrayList13.isEmpty()) {
-                                longSparseArray = longSparseArray6;
+                            String str21 = ";;;";
+                            String str22 = " ";
+                            if (arrayList8.isEmpty()) {
+                                arrayList5 = arrayList10;
+                                longSparseArray = longSparseArray5;
                                 str5 = ";;;";
-                                arrayList5 = arrayList11;
-                                i4 = i11;
+                                i5 = i3;
                             } else {
-                                int i12 = i3;
+                                int i12 = i4;
                                 try {
-                                    SQLiteCursor queryFinalized3 = getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, status, name FROM users WHERE uid IN(%s)", TextUtils.join(",", arrayList13)), new Object[0]);
-                                    i3 = i12;
+                                    SQLiteCursor queryFinalized3 = getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, status, name FROM users WHERE uid IN(%s)", TextUtils.join(",", arrayList8)), new Object[0]);
+                                    i4 = i12;
                                     while (queryFinalized3.next()) {
                                         String stringValue = queryFinalized3.stringValue(2);
                                         String translitString2 = LocaleController.getInstance().getTranslitString(stringValue);
                                         if (stringValue.equals(translitString2)) {
                                             translitString2 = null;
                                         }
-                                        int lastIndexOf = stringValue.lastIndexOf(str18);
+                                        int lastIndexOf = stringValue.lastIndexOf(str21);
                                         String substring = lastIndexOf != -1 ? stringValue.substring(lastIndexOf + 3) : null;
-                                        String str20 = str18;
-                                        int i13 = i11;
+                                        String str23 = str21;
+                                        int i13 = i3;
                                         int i14 = 0;
                                         char c2 = 0;
                                         while (true) {
                                             if (i14 >= i13) {
-                                                longSparseArray4 = longSparseArray6;
-                                                i9 = i13;
-                                                arrayList7 = arrayList11;
+                                                arrayList7 = arrayList10;
+                                                longSparseArray4 = longSparseArray5;
+                                                i10 = i13;
                                                 break;
                                             }
-                                            arrayList7 = arrayList11;
-                                            String str21 = strArr[i14];
-                                            if (stringValue.startsWith(str21)) {
-                                                i9 = i13;
+                                            arrayList7 = arrayList10;
+                                            str12 = strArr[i14];
+                                            if (stringValue.startsWith(str12)) {
+                                                i10 = i13;
                                             } else {
-                                                i9 = i13;
-                                                if (!stringValue.contains(" " + str21)) {
+                                                i10 = i13;
+                                                if (!stringValue.contains(" " + str12)) {
                                                     if (translitString2 != null) {
-                                                        if (!translitString2.startsWith(str21)) {
-                                                            if (translitString2.contains(" " + str21)) {
+                                                        if (!translitString2.startsWith(str12)) {
+                                                            if (translitString2.contains(" " + str12)) {
                                                             }
                                                         }
                                                     }
-                                                    c = (substring == null || !substring.startsWith(str21)) ? c2 : (char) 2;
+                                                    c = (substring == null || !substring.startsWith(str12)) ? c2 : (char) 2;
                                                     if (c == 0) {
-                                                        str12 = translitString2;
-                                                        str13 = stringValue;
+                                                        str13 = translitString2;
+                                                        str14 = stringValue;
                                                         NativeByteBuffer byteBufferValue = queryFinalized3.byteBufferValue(0);
                                                         if (byteBufferValue == null) {
-                                                            longSparseArray4 = longSparseArray6;
+                                                            longSparseArray4 = longSparseArray5;
                                                             break;
                                                         }
-                                                        str14 = substring;
-                                                        TLRPC$User TLdeserialize = TLRPC$User.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
+                                                        str15 = substring;
+                                                        TLdeserialize = TLRPC$User.TLdeserialize(byteBufferValue, byteBufferValue.readInt32(false), false);
                                                         byteBufferValue.reuse();
                                                         if (i != 15 || (arrayList4 != null && arrayList4.contains(Long.valueOf(TLdeserialize.id)))) {
                                                             break;
                                                         }
-                                                        longSparseArray5 = longSparseArray6;
                                                     } else {
-                                                        longSparseArray5 = longSparseArray6;
-                                                        str12 = translitString2;
-                                                        str13 = stringValue;
-                                                        str14 = substring;
+                                                        str13 = translitString2;
+                                                        str14 = stringValue;
+                                                        str15 = substring;
                                                     }
                                                     i14++;
-                                                    translitString2 = str12;
-                                                    stringValue = str13;
-                                                    arrayList11 = arrayList7;
-                                                    substring = str14;
-                                                    longSparseArray6 = longSparseArray5;
+                                                    translitString2 = str13;
+                                                    stringValue = str14;
+                                                    arrayList10 = arrayList7;
+                                                    substring = str15;
+                                                    longSparseArray5 = longSparseArray5;
                                                     c2 = c;
-                                                    i13 = i9;
+                                                    i13 = i10;
                                                 }
                                             }
                                             c = 1;
                                             if (c == 0) {
                                             }
                                             i14++;
-                                            translitString2 = str12;
-                                            stringValue = str13;
-                                            arrayList11 = arrayList7;
-                                            substring = str14;
-                                            longSparseArray6 = longSparseArray5;
+                                            translitString2 = str13;
+                                            stringValue = str14;
+                                            arrayList10 = arrayList7;
+                                            substring = str15;
+                                            longSparseArray5 = longSparseArray5;
                                             c2 = c;
-                                            i13 = i9;
+                                            i13 = i10;
                                         }
-                                        str18 = str20;
-                                        arrayList11 = arrayList7;
-                                        i11 = i9;
-                                        longSparseArray6 = longSparseArray4;
+                                        DialogsSearchAdapter.DialogSearchResult dialogSearchResult3 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray5.get(TLdeserialize.id);
+                                        TLRPC$UserStatus tLRPC$UserStatus = TLdeserialize.status;
+                                        if (tLRPC$UserStatus != null) {
+                                            longSparseArray4 = longSparseArray5;
+                                            tLRPC$UserStatus.expires = queryFinalized3.intValue(1);
+                                        } else {
+                                            longSparseArray4 = longSparseArray5;
+                                        }
+                                        if (c == 1) {
+                                            dialogSearchResult3.name = AndroidUtilities.generateSearchName(TLdeserialize.first_name, TLdeserialize.last_name, str12);
+                                        } else {
+                                            dialogSearchResult3.name = AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(TLdeserialize), null, "@" + str12);
+                                        }
+                                        dialogSearchResult3.object = TLdeserialize;
+                                        i4++;
+                                        str21 = str23;
+                                        arrayList10 = arrayList7;
+                                        i3 = i10;
+                                        longSparseArray5 = longSparseArray4;
                                     }
-                                    longSparseArray = longSparseArray6;
-                                    str5 = str18;
-                                    arrayList5 = arrayList11;
-                                    i4 = i11;
+                                    arrayList5 = arrayList10;
+                                    longSparseArray = longSparseArray5;
+                                    str5 = str21;
+                                    i5 = i3;
                                     queryFinalized3.dispose();
                                 } catch (Exception e6) {
                                     e = e6;
@@ -42977,34 +42957,34 @@ public class MessagesStorage extends BaseController {
                                     checkSQLException(exc);
                                     if (sQLiteCursor3 == null) {
                                     }
-                                } catch (Throwable th8) {
-                                    th2 = th8;
-                                    th = th2;
+                                } catch (Throwable th9) {
+                                    th3 = th9;
+                                    th = th3;
                                     sQLiteCursor3 = null;
                                     if (sQLiteCursor3 != null) {
                                     }
                                     throw th;
                                 }
                             }
-                            if (arrayList10.isEmpty()) {
-                                i5 = i4;
+                            if (arrayList9.isEmpty()) {
+                                i6 = i5;
                                 longSparseArray2 = longSparseArray;
                             } else {
                                 try {
-                                    SQLiteCursor queryFinalized4 = getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, name FROM chats WHERE uid IN(%s)", TextUtils.join(",", arrayList10)), new Object[0]);
+                                    SQLiteCursor queryFinalized4 = getDatabase().queryFinalized(String.format(Locale.US, "SELECT data, name FROM chats WHERE uid IN(%s)", TextUtils.join(",", arrayList9)), new Object[0]);
                                     while (queryFinalized4.next()) {
                                         String stringValue2 = queryFinalized4.stringValue(1);
                                         String translitString3 = LocaleController.getInstance().getTranslitString(stringValue2);
                                         if (stringValue2.equals(translitString3)) {
                                             translitString3 = null;
                                         }
-                                        int i15 = i4;
+                                        int i15 = i5;
                                         for (int i16 = 0; i16 < i15; i16++) {
-                                            String str22 = strArr[i16];
-                                            if (!stringValue2.startsWith(str22)) {
-                                                if (!stringValue2.contains(" " + str22)) {
+                                            String str24 = strArr[i16];
+                                            if (!stringValue2.startsWith(str24)) {
+                                                if (!stringValue2.contains(" " + str24)) {
                                                     if (translitString3 != null) {
-                                                        if (!translitString3.startsWith(str22)) {
+                                                        if (!translitString3.startsWith(str24)) {
                                                         }
                                                     }
                                                 }
@@ -43023,21 +43003,21 @@ public class MessagesStorage extends BaseController {
                                                             }
                                                         }
                                                         longSparseArray3 = longSparseArray;
-                                                        DialogsSearchAdapter.DialogSearchResult dialogSearchResult3 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray3.get(-TLdeserialize2.id);
-                                                        dialogSearchResult3.name = AndroidUtilities.generateSearchName(TLdeserialize2.title, null, str22);
-                                                        dialogSearchResult3.object = TLdeserialize2;
-                                                        i3++;
+                                                        DialogsSearchAdapter.DialogSearchResult dialogSearchResult4 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray3.get(-TLdeserialize2.id);
+                                                        dialogSearchResult4.name = AndroidUtilities.generateSearchName(TLdeserialize2.title, null, str24);
+                                                        dialogSearchResult4.object = TLdeserialize2;
+                                                        i4++;
                                                         longSparseArray = longSparseArray3;
-                                                        i4 = i15;
+                                                        i5 = i15;
                                                     }
                                                 }
                                             }
                                         }
                                         longSparseArray3 = longSparseArray;
                                         longSparseArray = longSparseArray3;
-                                        i4 = i15;
+                                        i5 = i15;
                                     }
-                                    i5 = i4;
+                                    i6 = i5;
                                     longSparseArray2 = longSparseArray;
                                     queryFinalized4.dispose();
                                 } catch (Exception e7) {
@@ -43047,9 +43027,9 @@ public class MessagesStorage extends BaseController {
                                     checkSQLException(exc);
                                     if (sQLiteCursor3 == null) {
                                     }
-                                } catch (Throwable th9) {
-                                    th2 = th9;
-                                    th = th2;
+                                } catch (Throwable th10) {
+                                    th3 = th10;
+                                    th = th3;
                                     sQLiteCursor3 = null;
                                     if (sQLiteCursor3 != null) {
                                     }
@@ -43078,19 +43058,19 @@ public class MessagesStorage extends BaseController {
                                             char c3 = 0;
                                             int i17 = 0;
                                             while (true) {
-                                                if (i17 >= i5) {
+                                                if (i17 >= i6) {
                                                     break;
                                                 }
-                                                String str23 = strArr[i17];
-                                                if (!stringValue3.startsWith(str23)) {
-                                                    if (!stringValue3.contains(str19 + str23)) {
+                                                String str25 = strArr[i17];
+                                                if (!stringValue3.startsWith(str25)) {
+                                                    if (!stringValue3.contains(str22 + str25)) {
                                                         if (str9 != null) {
-                                                            if (!str9.startsWith(str23)) {
-                                                                if (str9.contains(str19 + str23)) {
+                                                            if (!str9.startsWith(str25)) {
+                                                                if (str9.contains(str22 + str25)) {
                                                                 }
                                                             }
                                                         }
-                                                        if (substring2 != null && substring2.startsWith(str23)) {
+                                                        if (substring2 != null && substring2.startsWith(str25)) {
                                                             c3 = 2;
                                                         }
                                                         if (c3 == 0) {
@@ -43099,12 +43079,12 @@ public class MessagesStorage extends BaseController {
                                                                 TLRPC$EncryptedChat TLdeserialize3 = TLRPC$EncryptedChat.TLdeserialize(byteBufferValue3, byteBufferValue3.readInt32(false), false);
                                                                 byteBufferValue3.reuse();
                                                                 tLRPC$EncryptedChat = TLdeserialize3;
-                                                                i8 = 6;
+                                                                i9 = 6;
                                                             } else {
-                                                                i8 = 6;
+                                                                i9 = 6;
                                                                 tLRPC$EncryptedChat = null;
                                                             }
-                                                            NativeByteBuffer byteBufferValue4 = queryFinalized5.byteBufferValue(i8);
+                                                            NativeByteBuffer byteBufferValue4 = queryFinalized5.byteBufferValue(i9);
                                                             if (byteBufferValue4 != null) {
                                                                 tLRPC$User = TLRPC$User.TLdeserialize(byteBufferValue4, byteBufferValue4.readInt32(false), false);
                                                                 byteBufferValue4.reuse();
@@ -43112,8 +43092,8 @@ public class MessagesStorage extends BaseController {
                                                                 tLRPC$User = null;
                                                             }
                                                             if (tLRPC$EncryptedChat != null && tLRPC$User != null) {
-                                                                DialogsSearchAdapter.DialogSearchResult dialogSearchResult4 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray2.get(DialogObject.makeEncryptedDialogId(tLRPC$EncryptedChat.id));
-                                                                str11 = str19;
+                                                                DialogsSearchAdapter.DialogSearchResult dialogSearchResult5 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray2.get(DialogObject.makeEncryptedDialogId(tLRPC$EncryptedChat.id));
+                                                                str11 = str22;
                                                                 tLRPC$EncryptedChat.user_id = queryFinalized5.longValue(2);
                                                                 tLRPC$EncryptedChat.a_or_b = queryFinalized5.byteArrayValue(3);
                                                                 tLRPC$EncryptedChat.auth_key = queryFinalized5.byteArrayValue(4);
@@ -43135,24 +43115,24 @@ public class MessagesStorage extends BaseController {
                                                                     tLRPC$EncryptedChat.admin_id = longValue2;
                                                                 }
                                                                 tLRPC$EncryptedChat.mtproto_seq = queryFinalized5.intValue(19);
-                                                                TLRPC$UserStatus tLRPC$UserStatus = tLRPC$User.status;
-                                                                if (tLRPC$UserStatus != null) {
-                                                                    tLRPC$UserStatus.expires = queryFinalized5.intValue(7);
+                                                                TLRPC$UserStatus tLRPC$UserStatus2 = tLRPC$User.status;
+                                                                if (tLRPC$UserStatus2 != null) {
+                                                                    tLRPC$UserStatus2.expires = queryFinalized5.intValue(7);
                                                                 }
                                                                 if (c3 == 1) {
                                                                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name));
-                                                                    dialogSearchResult4.name = spannableStringBuilder;
-                                                                    spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_chats_secretName)), 0, dialogSearchResult4.name.length(), 33);
+                                                                    dialogSearchResult5.name = spannableStringBuilder;
+                                                                    spannableStringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_chats_secretName)), 0, dialogSearchResult5.name.length(), 33);
                                                                 } else {
-                                                                    dialogSearchResult4.name = AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(tLRPC$User), null, "@" + str23);
+                                                                    dialogSearchResult5.name = AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(tLRPC$User), null, "@" + str25);
                                                                 }
-                                                                dialogSearchResult4.object = tLRPC$EncryptedChat;
+                                                                dialogSearchResult5.object = tLRPC$EncryptedChat;
                                                                 arrayList3.add(tLRPC$User);
-                                                                i3++;
+                                                                i4++;
                                                             }
                                                         } else {
                                                             i17++;
-                                                            str19 = str19;
+                                                            str22 = str22;
                                                         }
                                                     }
                                                 }
@@ -43160,24 +43140,24 @@ public class MessagesStorage extends BaseController {
                                                 if (c3 == 0) {
                                                 }
                                             }
-                                            str11 = str19;
+                                            str11 = str22;
                                             str5 = str10;
-                                            str19 = str11;
+                                            str22 = str11;
                                         } catch (Exception e8) {
                                             sQLiteCursor3 = queryFinalized5;
                                             exc = e8;
                                             checkSQLException(exc);
                                             if (sQLiteCursor3 == null) {
                                             }
-                                        } catch (Throwable th10) {
+                                        } catch (Throwable th11) {
                                             sQLiteCursor3 = queryFinalized5;
-                                            th = th10;
+                                            th = th11;
                                             if (sQLiteCursor3 != null) {
                                             }
                                             throw th;
                                         }
                                     }
-                                    str6 = str19;
+                                    str6 = str22;
                                     str7 = str5;
                                     queryFinalized5.dispose();
                                 } catch (Exception e9) {
@@ -43187,28 +43167,27 @@ public class MessagesStorage extends BaseController {
                                     checkSQLException(exc);
                                     if (sQLiteCursor3 == null) {
                                     }
-                                } catch (Throwable th11) {
-                                    th2 = th11;
-                                    th = th2;
+                                } catch (Throwable th12) {
+                                    th3 = th12;
+                                    th = th3;
                                     sQLiteCursor3 = null;
                                     if (sQLiteCursor3 != null) {
                                     }
                                     throw th;
                                 }
                             }
-                            arrayList6 = new ArrayList(i3);
-                            for (i6 = 0; i6 < longSparseArray2.size(); i6++) {
+                            arrayList6 = new ArrayList(i4);
+                            for (i7 = 0; i7 < longSparseArray2.size(); i7++) {
                                 try {
-                                    DialogsSearchAdapter.DialogSearchResult dialogSearchResult5 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray2.valueAt(i6);
-                                    if (dialogSearchResult5.object != null && dialogSearchResult5.name != null) {
-                                        arrayList6.add(dialogSearchResult5);
+                                    DialogsSearchAdapter.DialogSearchResult dialogSearchResult6 = (DialogsSearchAdapter.DialogSearchResult) longSparseArray2.valueAt(i7);
+                                    if (dialogSearchResult6.object != null && dialogSearchResult6.name != null) {
+                                        arrayList6.add(dialogSearchResult6);
                                     }
-                                } catch (Throwable th12) {
-                                    th = th12;
+                                } catch (Throwable th13) {
+                                    th2 = th13;
                                     sQLiteCursor3 = null;
-                                    th = th;
+                                    th = th2;
                                     if (sQLiteCursor3 != null) {
-                                        sQLiteCursor3.dispose();
                                     }
                                     throw th;
                                 }
@@ -43221,10 +43200,10 @@ public class MessagesStorage extends BaseController {
                                     return lambda$localSearch$240;
                                 }
                             });
-                            for (i7 = 0; i7 < arrayList6.size(); i7++) {
-                                DialogsSearchAdapter.DialogSearchResult dialogSearchResult6 = (DialogsSearchAdapter.DialogSearchResult) arrayList6.get(i7);
-                                arrayList.add(dialogSearchResult6.object);
-                                arrayList2.add(dialogSearchResult6.name);
+                            for (i8 = 0; i8 < arrayList6.size(); i8++) {
+                                DialogsSearchAdapter.DialogSearchResult dialogSearchResult7 = (DialogsSearchAdapter.DialogSearchResult) arrayList6.get(i8);
+                                arrayList.add(dialogSearchResult7.object);
+                                arrayList2.add(dialogSearchResult7.name);
                             }
                             if (i != 2 && i != 15 && i != 6 && i != 5) {
                                 queryFinalized2 = getDatabase().queryFinalized("SELECT u.data, u.status, u.name, u.uid FROM users as u INNER JOIN contacts as c ON u.uid = c.uid", new Object[0]);
@@ -43238,26 +43217,26 @@ public class MessagesStorage extends BaseController {
                                             }
                                             int lastIndexOf3 = stringValue4.lastIndexOf(str7);
                                             String substring3 = lastIndexOf3 != -1 ? stringValue4.substring(lastIndexOf3 + 3) : null;
-                                            int i18 = 0;
                                             char c4 = 0;
+                                            int i18 = 0;
                                             while (true) {
-                                                if (i18 < i5) {
-                                                    String str24 = strArr[i18];
-                                                    if (stringValue4.startsWith(str24)) {
+                                                if (i18 < i6) {
+                                                    String str26 = strArr[i18];
+                                                    if (stringValue4.startsWith(str26)) {
                                                         str8 = str6;
                                                     } else {
                                                         StringBuilder sb = new StringBuilder();
                                                         str8 = str6;
                                                         sb.append(str8);
-                                                        sb.append(str24);
+                                                        sb.append(str26);
                                                         if (!stringValue4.contains(sb.toString())) {
                                                             if (translitString5 != null) {
-                                                                if (!translitString5.startsWith(str24)) {
-                                                                    if (translitString5.contains(str8 + str24)) {
+                                                                if (!translitString5.startsWith(str26)) {
+                                                                    if (translitString5.contains(str8 + str26)) {
                                                                     }
                                                                 }
                                                             }
-                                                            if (substring3 != null && substring3.startsWith(str24)) {
+                                                            if (substring3 != null && substring3.startsWith(str26)) {
                                                                 c4 = 2;
                                                             }
                                                             if (c4 == 0) {
@@ -43265,14 +43244,14 @@ public class MessagesStorage extends BaseController {
                                                                 if (byteBufferValue5 != null) {
                                                                     TLRPC$User TLdeserialize4 = TLRPC$User.TLdeserialize(byteBufferValue5, byteBufferValue5.readInt32(false), false);
                                                                     byteBufferValue5.reuse();
-                                                                    TLRPC$UserStatus tLRPC$UserStatus2 = TLdeserialize4.status;
-                                                                    if (tLRPC$UserStatus2 != null) {
-                                                                        tLRPC$UserStatus2.expires = queryFinalized2.intValue(1);
+                                                                    TLRPC$UserStatus tLRPC$UserStatus3 = TLdeserialize4.status;
+                                                                    if (tLRPC$UserStatus3 != null) {
+                                                                        tLRPC$UserStatus3.expires = queryFinalized2.intValue(1);
                                                                     }
                                                                     if (c4 == 1) {
-                                                                        arrayList2.add(AndroidUtilities.generateSearchName(TLdeserialize4.first_name, TLdeserialize4.last_name, str24));
+                                                                        arrayList2.add(AndroidUtilities.generateSearchName(TLdeserialize4.first_name, TLdeserialize4.last_name, str26));
                                                                     } else {
-                                                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(TLdeserialize4), null, "@" + str24));
+                                                                        arrayList2.add(AndroidUtilities.generateSearchName("@" + UserObject.getPublicUsername(TLdeserialize4), null, "@" + str26));
                                                                     }
                                                                     arrayList.add(TLdeserialize4);
                                                                 }
@@ -43289,11 +43268,12 @@ public class MessagesStorage extends BaseController {
                                                 }
                                             }
                                         }
-                                    } catch (Throwable th13) {
-                                        th = th13;
+                                    } catch (Throwable th14) {
+                                        th2 = th14;
                                         sQLiteCursor3 = queryFinalized2;
-                                        th = th;
+                                        th = th2;
                                         if (sQLiteCursor3 != null) {
+                                            sQLiteCursor3.dispose();
                                         }
                                         throw th;
                                     }
@@ -43302,30 +43282,30 @@ public class MessagesStorage extends BaseController {
                             }
                         }
                         TLRPC$User currentUser = UserConfig.getInstance(this.currentAccount).getCurrentUser();
-                        DialogsSearchAdapter.DialogSearchResult dialogSearchResult7 = new DialogsSearchAdapter.DialogSearchResult();
-                        dialogSearchResult7.date = ConnectionsManager.DEFAULT_DATACENTER_ID;
-                        dialogSearchResult7.name = lowerCase2;
-                        dialogSearchResult7.object = currentUser;
-                        longSparseArray6.put(currentUser.id, dialogSearchResult7);
-                        i3 = 1;
+                        DialogsSearchAdapter.DialogSearchResult dialogSearchResult8 = new DialogsSearchAdapter.DialogSearchResult();
+                        dialogSearchResult8.date = ConnectionsManager.DEFAULT_DATACENTER_ID;
+                        dialogSearchResult8.name = lowerCase2;
+                        dialogSearchResult8.object = currentUser;
+                        longSparseArray5.put(currentUser.id, dialogSearchResult8);
+                        i4 = 1;
                         if (i != 4) {
                             user = getMessagesController().getUser((Long) 708513L);
                             if (user == null) {
                             }
                             if (user != null) {
                             }
-                            String str182 = ";;;";
-                            String str192 = " ";
-                            if (arrayList13.isEmpty()) {
+                            String str212 = ";;;";
+                            String str222 = " ";
+                            if (arrayList8.isEmpty()) {
                             }
-                            if (arrayList10.isEmpty()) {
+                            if (arrayList9.isEmpty()) {
                             }
                             if (arrayList5.isEmpty()) {
                             }
                             str6 = " ";
                             str7 = str5;
-                            arrayList6 = new ArrayList(i3);
-                            while (i6 < longSparseArray2.size()) {
+                            arrayList6 = new ArrayList(i4);
+                            while (i7 < longSparseArray2.size()) {
                             }
                             Collections.sort(arrayList6, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda48
                                 @Override // java.util.Comparator
@@ -43335,7 +43315,7 @@ public class MessagesStorage extends BaseController {
                                     return lambda$localSearch$240;
                                 }
                             });
-                            while (i7 < arrayList6.size()) {
+                            while (i8 < arrayList6.size()) {
                             }
                             if (i != 2) {
                                 queryFinalized2 = getDatabase().queryFinalized("SELECT u.data, u.status, u.name, u.uid FROM users as u INNER JOIN contacts as c ON u.uid = c.uid", new Object[0]);
@@ -43349,18 +43329,18 @@ public class MessagesStorage extends BaseController {
                         }
                         if (user != null) {
                         }
-                        String str1822 = ";;;";
-                        String str1922 = " ";
-                        if (arrayList13.isEmpty()) {
+                        String str2122 = ";;;";
+                        String str2222 = " ";
+                        if (arrayList8.isEmpty()) {
                         }
-                        if (arrayList10.isEmpty()) {
+                        if (arrayList9.isEmpty()) {
                         }
                         if (arrayList5.isEmpty()) {
                         }
                         str6 = " ";
                         str7 = str5;
-                        arrayList6 = new ArrayList(i3);
-                        while (i6 < longSparseArray2.size()) {
+                        arrayList6 = new ArrayList(i4);
+                        while (i7 < longSparseArray2.size()) {
                         }
                         Collections.sort(arrayList6, new Comparator() { // from class: org.telegram.messenger.MessagesStorage$$ExternalSyntheticLambda48
                             @Override // java.util.Comparator
@@ -43370,33 +43350,34 @@ public class MessagesStorage extends BaseController {
                                 return lambda$localSearch$240;
                             }
                         });
-                        while (i7 < arrayList6.size()) {
+                        while (i8 < arrayList6.size()) {
                         }
                         if (i != 2) {
                         }
-                    } catch (Throwable th14) {
+                    } catch (Exception e10) {
                         sQLiteCursor2 = null;
-                        th = th14;
+                        exc = e10;
                         sQLiteCursor3 = sQLiteCursor2;
-                        if (sQLiteCursor3 != null) {
+                        checkSQLException(exc);
+                        if (sQLiteCursor3 == null) {
+                            sQLiteCursor3.dispose();
                         }
-                        throw th;
                     }
-                } catch (Exception e10) {
+                } catch (Throwable th15) {
                     sQLiteCursor = null;
-                    exc = e10;
+                    th = th15;
                     sQLiteCursor3 = sQLiteCursor;
-                    checkSQLException(exc);
-                    if (sQLiteCursor3 == null) {
+                    if (sQLiteCursor3 != null) {
                     }
+                    throw th;
                 }
-            } catch (Throwable th15) {
+            } catch (Exception e11) {
                 sQLiteCursor2 = null;
-                th = th15;
+                exc = e11;
             }
-        } catch (Exception e11) {
+        } catch (Throwable th16) {
             sQLiteCursor = null;
-            exc = e11;
+            th = th16;
         }
     }
 

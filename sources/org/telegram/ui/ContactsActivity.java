@@ -250,14 +250,14 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         this.actionBar.setAllowOverlayTitle(true);
         if (this.destroyAfterSelect) {
             if (this.returnAsResult) {
-                this.actionBar.setTitle(LocaleController.getString("SelectContact", R.string.SelectContact));
+                this.actionBar.setTitle(LocaleController.getString(R.string.SelectContact));
             } else if (this.createSecretChat) {
-                this.actionBar.setTitle(LocaleController.getString("NewSecretChat", R.string.NewSecretChat));
+                this.actionBar.setTitle(LocaleController.getString(R.string.NewSecretChat));
             } else {
-                this.actionBar.setTitle(LocaleController.getString("NewMessageTitle", R.string.NewMessageTitle));
+                this.actionBar.setTitle(LocaleController.getString(R.string.NewMessageTitle));
             }
         } else {
-            this.actionBar.setTitle(LocaleController.getString("Contacts", R.string.Contacts));
+            this.actionBar.setTitle(LocaleController.getString(R.string.Contacts));
         }
         ActionBar actionBar = this.actionBar;
         BackDrawable backDrawable = new BackDrawable(false);
@@ -280,7 +280,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return lambda$createView$0;
             }
         });
-        this.deleteItem = createActionMode.addItemWithWidth(100, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString("Delete", R.string.Delete));
+        this.deleteItem = createActionMode.addItemWithWidth(100, R.drawable.msg_delete, AndroidUtilities.dp(54.0f), LocaleController.getString(R.string.Delete));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ContactsActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i2) {
@@ -362,12 +362,12 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             }
         });
         int i2 = R.string.Search;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", i2));
-        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString("Search", i2));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(i2));
+        actionBarMenuItemSearchListener.setContentDescription(LocaleController.getString(i2));
         if (!this.createSecretChat && !this.returnAsResult) {
             ActionBarMenuItem addItem = createMenu.addItem(1, this.sortByName ? R.drawable.msg_contacts_time : R.drawable.msg_contacts_name);
             this.sortItem = addItem;
-            addItem.setContentDescription(LocaleController.getString("AccDescrContactSorting", R.string.AccDescrContactSorting));
+            addItem.setContentDescription(LocaleController.getString(R.string.AccDescrContactSorting));
         }
         this.searchListViewAdapter = new SearchAdapter(context, this.ignoreUsers, this.selectedContacts, this.allowUsernameSearch, false, false, this.allowBots, this.allowSelf, true, 0) { // from class: org.telegram.ui.ContactsActivity.3
             @Override // org.telegram.ui.Adapters.SearchAdapter
@@ -453,8 +453,8 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         stickerEmptyView.addView(flickerLoadingView, 0);
         this.emptyView.setAnimateLayoutChange(true);
         this.emptyView.showProgress(true, false);
-        this.emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
-        this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", R.string.SearchEmptyViewFilteredSubtitle2));
+        this.emptyView.title.setText(LocaleController.getString(R.string.NoResult));
+        this.emptyView.subtitle.setText(LocaleController.getString(R.string.SearchEmptyViewFilteredSubtitle2));
         frameLayout.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         this.listView = new RecyclerListView(context) { // from class: org.telegram.ui.ContactsActivity.6
             @Override // android.view.View
@@ -575,7 +575,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             } else {
                 this.floatingButton.setAnimation(z2 ? R.raw.write_contacts_fab_icon : R.raw.write_contacts_fab_icon_reverse, 52, 52);
             }
-            this.floatingButtonContainer.setContentDescription(LocaleController.getString("CreateNewContact", R.string.CreateNewContact));
+            this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.CreateNewContact));
             if (i3 >= 21) {
                 StateListAnimator stateListAnimator = new StateListAnimator();
                 RLottieImageView rLottieImageView2 = this.floatingButton;
@@ -795,15 +795,15 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("InviteUser", R.string.InviteUser));
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda8
+            builder.setMessage(LocaleController.getString(R.string.InviteUser));
+            builder.setTitle(LocaleController.getString(R.string.AppName));
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda8
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i4) {
                     ContactsActivity.this.lambda$createView$1(str2, dialogInterface, i4);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             showDialog(builder.create());
             return;
         } else {
@@ -847,28 +847,28 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     final TLRPC$User user = MessagesController.getInstance(((BaseFragment) ContactsActivity.this).currentAccount).getUser(Long.valueOf(dialogId));
                     final String sharedPrefKey = NotificationsController.getSharedPrefKey(dialogId, 0L);
                     boolean areStoriesNotMuted = NotificationsCustomSettingsActivity.areStoriesNotMuted(((BaseFragment) ContactsActivity.this).currentAccount, dialogId);
-                    ItemOptions addIf = ItemOptions.makeOptions(ContactsActivity.this, view).setScrimViewBackground(Theme.createRoundRectDrawable(0, 0, Theme.getColor(Theme.key_windowBackgroundWhite))).add(R.drawable.msg_discussion, LocaleController.getString("SendMessage", R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda0
+                    ItemOptions addIf = ItemOptions.makeOptions(ContactsActivity.this, view).setScrimViewBackground(Theme.createRoundRectDrawable(0, 0, Theme.getColor(Theme.key_windowBackgroundWhite))).add(R.drawable.msg_discussion, LocaleController.getString(R.string.SendMessage), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda0
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContactsActivity.7.this.lambda$onItemClick$0(dialogId);
                         }
-                    }).add(R.drawable.msg_openprofile, LocaleController.getString("OpenProfile", R.string.OpenProfile), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda1
+                    }).add(R.drawable.msg_openprofile, LocaleController.getString(R.string.OpenProfile), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda1
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContactsActivity.7.this.lambda$onItemClick$1(dialogId);
                         }
-                    }).addIf(areStoriesNotMuted, R.drawable.msg_mute, LocaleController.getString("NotificationsStoryMute", R.string.NotificationsStoryMute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda2
+                    }).addIf(areStoriesNotMuted, R.drawable.msg_mute, LocaleController.getString(R.string.NotificationsStoryMute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda2
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContactsActivity.7.this.lambda$onItemClick$2(sharedPrefKey, dialogId, user);
                         }
-                    }).addIf(!areStoriesNotMuted, R.drawable.msg_unmute, LocaleController.getString("NotificationsStoryUnmute", R.string.NotificationsStoryUnmute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda3
+                    }).addIf(!areStoriesNotMuted, R.drawable.msg_unmute, LocaleController.getString(R.string.NotificationsStoryUnmute), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda3
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContactsActivity.7.this.lambda$onItemClick$3(sharedPrefKey, dialogId, user);
                         }
                     });
-                    addIf.add(R.drawable.msg_viewintopic, LocaleController.getString("ShowInChats", R.string.ShowInChats), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda4
+                    addIf.add(R.drawable.msg_viewintopic, LocaleController.getString(R.string.ShowInChats), new Runnable() { // from class: org.telegram.ui.ContactsActivity$7$$ExternalSyntheticLambda4
                         @Override // java.lang.Runnable
                         public final void run() {
                             ContactsActivity.7.this.lambda$onItemClick$6(dialogId, user);
@@ -1060,19 +1060,19 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
     public void performSelectedContactsDelete() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), getResourceProvider());
         if (this.selectedContacts.size() == 1) {
-            builder.setTitle(LocaleController.getString("DeleteContactTitle", R.string.DeleteContactTitle));
-            builder.setMessage(LocaleController.getString("DeleteContactSubtitle", R.string.DeleteContactSubtitle));
+            builder.setTitle(LocaleController.getString(R.string.DeleteContactTitle));
+            builder.setMessage(LocaleController.getString(R.string.DeleteContactSubtitle));
         } else {
             builder.setTitle(LocaleController.formatPluralString("DeleteContactsTitle", this.selectedContacts.size(), new Object[0]));
-            builder.setMessage(LocaleController.getString("DeleteContactsSubtitle", R.string.DeleteContactsSubtitle));
+            builder.setMessage(LocaleController.getString(R.string.DeleteContactsSubtitle));
         }
-        builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
+        builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ContactsActivity.this.lambda$performSelectedContactsDelete$4(dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda10
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda10
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -1102,7 +1102,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
             if (tLRPC$User.bot) {
                 if (tLRPC$User.bot_nochats) {
                     try {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("BotCantJoinGroups", R.string.BotCantJoinGroups)).show();
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.BotCantJoinGroups)).show();
                         return;
                     } catch (Exception e) {
                         FileLog.e(e);
@@ -1112,30 +1112,30 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                     TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.channelId));
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     if (ChatObject.canAddAdmins(chat)) {
-                        builder.setTitle(LocaleController.getString("AddBotAdminAlert", R.string.AddBotAdminAlert));
-                        builder.setMessage(LocaleController.getString("AddBotAsAdmin", R.string.AddBotAsAdmin));
-                        builder.setPositiveButton(LocaleController.getString("AddAsAdmin", R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda11
+                        builder.setTitle(LocaleController.getString(R.string.AddBotAdminAlert));
+                        builder.setMessage(LocaleController.getString(R.string.AddBotAsAdmin));
+                        builder.setPositiveButton(LocaleController.getString(R.string.AddAsAdmin), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda11
                             @Override // android.content.DialogInterface.OnClickListener
                             public final void onClick(DialogInterface dialogInterface, int i) {
                                 ContactsActivity.this.lambda$didSelectResult$6(tLRPC$User, str, dialogInterface, i);
                             }
                         });
-                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                     } else {
-                        builder.setMessage(LocaleController.getString("CantAddBotAsAdmin", R.string.CantAddBotAsAdmin));
-                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                        builder.setMessage(LocaleController.getString(R.string.CantAddBotAsAdmin));
+                        builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                     }
                     showDialog(builder.create());
                     return;
                 }
             }
             AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
-            builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder2.setTitle(LocaleController.getString(R.string.AppName));
             String formatStringSimple = LocaleController.formatStringSimple(this.selectAlertString, UserObject.getUserName(tLRPC$User));
             if (tLRPC$User.bot || !this.needForwardCount) {
                 editTextBoldCursor = null;
             } else {
-                formatStringSimple = String.format("%s\n\n%s", formatStringSimple, LocaleController.getString("AddToTheGroupForwardCount", R.string.AddToTheGroupForwardCount));
+                formatStringSimple = String.format("%s\n\n%s", formatStringSimple, LocaleController.getString(R.string.AddToTheGroupForwardCount));
                 editTextBoldCursor = new EditTextBoldCursor(getParentActivity());
                 editTextBoldCursor.setTextSize(1, 18.0f);
                 editTextBoldCursor.setText("50");
@@ -1184,13 +1184,13 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
                 builder2.setView(editTextBoldCursor);
             }
             builder2.setMessage(formatStringSimple);
-            builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda12
+            builder2.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ContactsActivity$$ExternalSyntheticLambda12
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     ContactsActivity.this.lambda$didSelectResult$7(tLRPC$User, editTextBoldCursor, dialogInterface, i);
                 }
             });
-            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder2.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             showDialog(builder2.create());
             if (editTextBoldCursor != null) {
                 ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) editTextBoldCursor.getLayoutParams();

@@ -837,7 +837,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
         }
 
         /* JADX WARN: Multi-variable type inference failed */
-        /* JADX WARN: Removed duplicated region for block: B:52:0x00f4  */
+        /* JADX WARN: Removed duplicated region for block: B:52:0x00f0  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -854,10 +854,10 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 }
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 if (i == this.groupStartRow) {
-                    graySectionCell.setText(LocaleController.getString("ChannelMembers", R.string.ChannelMembers));
+                    graySectionCell.setText(LocaleController.getString(R.string.ChannelMembers));
                     return;
                 } else if (i == this.globalStartRow) {
-                    graySectionCell.setText(LocaleController.getString("GlobalSearch", R.string.GlobalSearch));
+                    graySectionCell.setText(LocaleController.getString(R.string.GlobalSearch));
                     return;
                 } else {
                     return;
@@ -1052,7 +1052,7 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
             } else if (itemViewType == 1) {
                 ManageChatTextCell manageChatTextCell = (ManageChatTextCell) viewHolder.itemView;
                 if (i == GroupVoipInviteAlert.this.addNewRow) {
-                    manageChatTextCell.setText(LocaleController.getString("VoipGroupCopyInviteLink", R.string.VoipGroupCopyInviteLink), null, R.drawable.msg_link, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
+                    manageChatTextCell.setText(LocaleController.getString(R.string.VoipGroupCopyInviteLink), null, R.drawable.msg_link, 7, (!GroupVoipInviteAlert.this.loadingUsers || GroupVoipInviteAlert.this.firstLoaded) && GroupVoipInviteAlert.this.membersHeaderRow == -1 && !GroupVoipInviteAlert.this.participants.isEmpty());
                 }
             } else if (itemViewType != 2) {
             } else {
@@ -1060,16 +1060,16 @@ public class GroupVoipInviteAlert extends UsersAlertBase {
                 if (i != GroupVoipInviteAlert.this.membersHeaderRow) {
                     if (i == GroupVoipInviteAlert.this.contactsHeaderRow) {
                         if (GroupVoipInviteAlert.this.showContacts) {
-                            graySectionCell.setText(LocaleController.getString("YourContactsToInvite", R.string.YourContactsToInvite));
+                            graySectionCell.setText(LocaleController.getString(R.string.YourContactsToInvite));
                             return;
                         } else {
-                            graySectionCell.setText(LocaleController.getString("GroupContacts", R.string.GroupContacts));
+                            graySectionCell.setText(LocaleController.getString(R.string.GroupContacts));
                             return;
                         }
                     }
                     return;
                 }
-                graySectionCell.setText(LocaleController.getString("ChannelOtherMembers", R.string.ChannelOtherMembers));
+                graySectionCell.setText(LocaleController.getString(R.string.ChannelOtherMembers));
             }
         }
 

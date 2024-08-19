@@ -300,7 +300,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             simpleTextView.setTextColor(r12.getThemedColor(i));
             this.leftTab.setTextSize(13);
             this.leftTab.setLeftDrawable(R.drawable.msg_tabs_mic1);
-            this.leftTab.setText(LocaleController.getString("VoipGroupInviteCanSpeak", R.string.VoipGroupInviteCanSpeak));
+            this.leftTab.setText(LocaleController.getString(R.string.VoipGroupInviteCanSpeak));
             this.leftTab.setGravity(17);
             addView(this.leftTab, LayoutHelper.createFrame(-1, -1.0f, 51, 14.0f, 0.0f, 0.0f, 0.0f));
             this.leftTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$SwitchView$$ExternalSyntheticLambda0
@@ -314,7 +314,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             simpleTextView2.setTextColor(r12.getThemedColor(i));
             this.rightTab.setTextSize(13);
             this.rightTab.setLeftDrawable(R.drawable.msg_tabs_mic2);
-            this.rightTab.setText(LocaleController.getString("VoipGroupInviteListenOnly", R.string.VoipGroupInviteListenOnly));
+            this.rightTab.setText(LocaleController.getString(R.string.VoipGroupInviteListenOnly));
             this.rightTab.setGravity(17);
             addView(this.rightTab, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 0.0f, 14.0f, 0.0f));
             this.rightTab.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$SwitchView$$ExternalSyntheticLambda1
@@ -442,7 +442,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             this.searchEditText.setLines(1);
             this.searchEditText.setSingleLine(true);
             this.searchEditText.setImeOptions(268435459);
-            this.searchEditText.setHint(LocaleController.getString("ShareSendTo", R.string.ShareSendTo));
+            this.searchEditText.setHint(LocaleController.getString(R.string.ShareSendTo));
             this.searchEditText.setCursorColor(r10.getThemedColor(r10.darkTheme ? Theme.key_voipgroup_searchText : Theme.key_featuredStickers_addedIcon));
             this.searchEditText.setCursorSize(AndroidUtilities.dp(20.0f));
             this.searchEditText.setCursorWidth(1.5f);
@@ -473,11 +473,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         String obj = SearchField.this.searchEditText.getText().toString();
                         if (obj.length() != 0) {
                             if (ShareAlert.this.searchEmptyView != null) {
-                                ShareAlert.this.searchEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                                ShareAlert.this.searchEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
                             }
                         } else if (ShareAlert.this.gridView.getAdapter() != ShareAlert.this.listAdapter) {
                             int currentTop = ShareAlert.this.getCurrentTop();
-                            ShareAlert.this.searchEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                            ShareAlert.this.searchEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
                             ShareAlert.this.searchEmptyView.showProgress(false, true);
                             ShareAlert.this.checkCurrentList(false);
                             ShareAlert.this.listAdapter.notifyDataSetChanged();
@@ -1070,9 +1070,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         return;
                     }
                     if (i5 == 0) {
-                        ShareAlert.this.pickerBottomLayout.setText(LocaleController.getString("VoipGroupCopySpeakerLink", R.string.VoipGroupCopySpeakerLink).toUpperCase());
+                        ShareAlert.this.pickerBottomLayout.setText(LocaleController.getString(R.string.VoipGroupCopySpeakerLink).toUpperCase());
                     } else {
-                        ShareAlert.this.pickerBottomLayout.setText(LocaleController.getString("VoipGroupCopyListenLink", R.string.VoipGroupCopyListenLink).toUpperCase());
+                        ShareAlert.this.pickerBottomLayout.setText(LocaleController.getString(R.string.VoipGroupCopyListenLink).toUpperCase());
                     }
                 }
             };
@@ -1392,7 +1392,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (this.darkTheme) {
             this.searchEmptyView.title.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
         }
-        this.searchEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        this.searchEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
         this.searchGridView.setEmptyView(this.searchEmptyView);
         this.searchGridView.setHideIfEmpty(false);
         this.searchGridView.setAnimateEmptyView(true, 0);
@@ -1423,9 +1423,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             this.pickerBottomLayout.setTypeface(AndroidUtilities.bold());
             this.pickerBottomLayout.setGravity(17);
             if (this.darkTheme && this.linkToCopy[1] != null) {
-                this.pickerBottomLayout.setText(LocaleController.getString("VoipGroupCopySpeakerLink", R.string.VoipGroupCopySpeakerLink).toUpperCase());
+                this.pickerBottomLayout.setText(LocaleController.getString(R.string.VoipGroupCopySpeakerLink).toUpperCase());
             } else {
-                this.pickerBottomLayout.setText(LocaleController.getString("CopyLink", R.string.CopyLink).toUpperCase());
+                this.pickerBottomLayout.setText(LocaleController.getString(R.string.CopyLink).toUpperCase());
             }
             this.pickerBottomLayout.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$$ExternalSyntheticLambda11
                 @Override // android.view.View.OnClickListener
@@ -1495,7 +1495,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             this.commentTextView.getEditText().setCursorColor(getThemedColor(i6));
         }
         this.commentTextView.setBackgroundColor(themedColor);
-        this.commentTextView.setHint(LocaleController.getString("ShareComment", R.string.ShareComment));
+        this.commentTextView.setHint(LocaleController.getString(R.string.ShareComment));
         this.commentTextView.onResume();
         this.commentTextView.setPadding(0, 0, AndroidUtilities.dp(84.0f), 0);
         this.frameLayout2.addView(this.commentTextView, LayoutHelper.createFrame(-1, -2, 51));
@@ -1731,7 +1731,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 dismiss();
                 if (this.linkToCopy[0] == null && this.loadingLink) {
                     this.copyLinkOnEnd = true;
-                    Toast.makeText(getContext(), LocaleController.getString("Loading", R.string.Loading), 0).show();
+                    Toast.makeText(getContext(), LocaleController.getString(R.string.Loading), 0).show();
                     return;
                 }
                 copyLink(getContext());
@@ -1978,31 +1978,31 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 TLRPC$Chat chat = MessagesController.getInstance(this.currentAccount).getChat(Long.valueOf(-tLRPC$Dialog.id));
                 if (ChatObject.isChannel(chat) && !chat.megagroup && (!ChatObject.isCanWriteToChannel(-tLRPC$Dialog.id, this.currentAccount) || this.hasPoll == 2)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.parentActivity);
-                    builder.setTitle(LocaleController.getString("SendMessageTitle", R.string.SendMessageTitle));
+                    builder.setTitle(LocaleController.getString(R.string.SendMessageTitle));
                     if (this.hasPoll == 2) {
                         if (this.isChannel) {
-                            builder.setMessage(LocaleController.getString("PublicPollCantForward", R.string.PublicPollCantForward));
+                            builder.setMessage(LocaleController.getString(R.string.PublicPollCantForward));
                         } else if (ChatObject.isActionBannedByDefault(chat, 10)) {
-                            builder.setMessage(LocaleController.getString("ErrorSendRestrictedPollsAll", R.string.ErrorSendRestrictedPollsAll));
+                            builder.setMessage(LocaleController.getString(R.string.ErrorSendRestrictedPollsAll));
                         } else {
-                            builder.setMessage(LocaleController.getString("ErrorSendRestrictedPolls", R.string.ErrorSendRestrictedPolls));
+                            builder.setMessage(LocaleController.getString(R.string.ErrorSendRestrictedPolls));
                         }
                     } else {
-                        builder.setMessage(LocaleController.getString("ChannelCantSendMessage", R.string.ChannelCantSendMessage));
+                        builder.setMessage(LocaleController.getString(R.string.ChannelCantSendMessage));
                     }
-                    builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
                     builder.show();
                     return;
                 }
             } else if (DialogObject.isEncryptedDialog(tLRPC$Dialog.id) && this.hasPoll != 0) {
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this.parentActivity);
-                builder2.setTitle(LocaleController.getString("SendMessageTitle", R.string.SendMessageTitle));
+                builder2.setTitle(LocaleController.getString(R.string.SendMessageTitle));
                 if (this.hasPoll != 0) {
-                    builder2.setMessage(LocaleController.getString("PollCantForwardSecretChat", R.string.PollCantForwardSecretChat));
+                    builder2.setMessage(LocaleController.getString(R.string.PollCantForwardSecretChat));
                 } else {
-                    builder2.setMessage(LocaleController.getString("InvoiceCantForwardSecretChat", R.string.InvoiceCantForwardSecretChat));
+                    builder2.setMessage(LocaleController.getString(R.string.InvoiceCantForwardSecretChat));
                 }
-                builder2.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+                builder2.setNegativeButton(LocaleController.getString(R.string.OK), null);
                 builder2.show();
                 return;
             }
@@ -2323,7 +2323,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 actionBarMenuSubItem.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             }
             actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem, LayoutHelper.createLinear(-1, 48));
-            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString("ShowSendersName", R.string.ShowSendersName), 0);
+            actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(R.string.ShowSendersName), 0);
             this.showSendersName = true;
             actionBarMenuSubItem.setChecked(true);
             final ActionBarMenuSubItem actionBarMenuSubItem2 = new ActionBarMenuSubItem(getContext(), true, false, true, this.resourcesProvider);
@@ -2331,7 +2331,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 actionBarMenuSubItem2.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             }
             actionBarPopupWindowLayout.addView((View) actionBarMenuSubItem2, LayoutHelper.createLinear(-1, 48));
-            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString("HideSendersName", R.string.HideSendersName), 0);
+            actionBarMenuSubItem2.setTextAndIcon(LocaleController.getString(R.string.HideSendersName), 0);
             actionBarMenuSubItem2.setChecked(!this.showSendersName);
             actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$$ExternalSyntheticLambda17
                 @Override // android.view.View.OnClickListener
@@ -2385,7 +2385,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             actionBarMenuSubItem3.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             actionBarMenuSubItem3.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
         }
-        actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound), R.drawable.input_notify_off);
+        actionBarMenuSubItem3.setTextAndIcon(LocaleController.getString(R.string.SendWithoutSound), R.drawable.input_notify_off);
         actionBarMenuSubItem3.setMinimumWidth(AndroidUtilities.dp(196.0f));
         actionBarPopupWindowLayout2.addView((View) actionBarMenuSubItem3, LayoutHelper.createLinear(-1, 48));
         actionBarMenuSubItem3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$$ExternalSyntheticLambda20
@@ -2399,7 +2399,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             actionBarMenuSubItem4.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             actionBarMenuSubItem4.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
         }
-        actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString("SendMessage", R.string.SendMessage), R.drawable.msg_send);
+        actionBarMenuSubItem4.setTextAndIcon(LocaleController.getString(R.string.SendMessage), R.drawable.msg_send);
         actionBarMenuSubItem4.setMinimumWidth(AndroidUtilities.dp(196.0f));
         actionBarPopupWindowLayout2.addView((View) actionBarMenuSubItem4, LayoutHelper.createLinear(-1, 48));
         actionBarMenuSubItem4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ShareAlert$$ExternalSyntheticLambda21
@@ -2599,11 +2599,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             CharSequence charSequence2 = charSequenceArr[c2];
                             i2 = i8;
                             tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
-                            of = SendMessagesHelper.SendMessageParams.of(charSequence2 == null ? tLRPC$TL_forumTopic2 : charSequence2.toString(), keyAt2, null, messageObject2, null, true, entities, null, null, z, 0, null, false);
+                            of = SendMessagesHelper.SendMessageParams.of(charSequence2 == null ? tLRPC$TL_forumTopic2 : charSequence2.toString(), keyAt2, messageObject2, messageObject2, null, true, entities, null, null, z, 0, null, false);
                         } else {
                             i2 = i8;
                             tLRPC$TL_forumTopic = tLRPC$TL_forumTopic2;
-                            of = SendMessagesHelper.SendMessageParams.of(this.sendingText[i7], keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false);
+                            of = SendMessagesHelper.SendMessageParams.of(this.sendingText[i7], keyAt2, messageObject2, messageObject2, null, true, null, null, null, z, 0, null, false);
                         }
                     } else {
                         i2 = i8;
@@ -2611,7 +2611,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         if (this.frameLayout2.getTag() != null && this.commentTextView.length() > 0 && charSequenceArr[0] != null) {
                             SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(charSequenceArr[0].toString(), keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false));
                         }
-                        of = SendMessagesHelper.SendMessageParams.of(null, keyAt2, null, messageObject2, null, true, null, null, null, z, 0, null, false);
+                        of = SendMessagesHelper.SendMessageParams.of(null, keyAt2, messageObject2, messageObject2, null, true, null, null, null, z, 0, null, false);
                         of.sendingStory = this.storyItem;
                     }
                     SendMessagesHelper.getInstance(this.currentAccount).sendMessage(of);
@@ -2638,9 +2638,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         CharSequence charSequence3 = charSequenceArr[c];
                         j = keyAt3;
                         i = i9;
-                        sendMessagesHelper2.sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence3 == null ? null : charSequence3.toString(), keyAt3, null, messageObject, null, true, entities, null, null, z, 0, null, false));
+                        sendMessagesHelper2.sendMessage(SendMessagesHelper.SendMessageParams.of(charSequence3 == null ? null : charSequence3.toString(), keyAt3, messageObject, messageObject, null, true, entities, null, null, z, 0, null, false));
                     }
-                    SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.sendingText[i7], j, null, messageObject, null, true, null, null, null, z, 0, null, false));
+                    SendMessagesHelper.getInstance(this.currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(this.sendingText[i7], j, messageObject, messageObject, null, true, null, null, null, z, 0, null, false));
                     i4 = 1;
                     i9 = i + 1;
                 }
@@ -3881,7 +3881,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 graySectionCell2.setTextColor(ShareAlert.this.darkTheme ? Theme.key_voipgroup_nameText : Theme.key_graySectionText);
                 ShareAlert shareAlert = ShareAlert.this;
                 graySectionCell2.setBackgroundColor(shareAlert.getThemedColor(shareAlert.darkTheme ? Theme.key_voipgroup_searchBackground : Theme.key_graySection));
-                graySectionCell2.setText(LocaleController.getString("Recent", R.string.Recent));
+                graySectionCell2.setText(LocaleController.getString(R.string.Recent));
                 graySectionCell = graySectionCell2;
             } else if (i == 4) {
                 graySectionCell = new View(this.context) { // from class: org.telegram.ui.Components.ShareAlert.ShareSearchAdapter.6

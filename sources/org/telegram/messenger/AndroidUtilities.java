@@ -1616,13 +1616,13 @@ public class AndroidUtilities {
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(baseFragment.getParentActivity());
             builder.setMessage(LocaleController.getString(ApplicationLoader.getMapsProvider().getInstallMapsString()));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda31
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda31
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     AndroidUtilities.lambda$isMapsInstalled$9(mapsAppPackageName, baseFragment, dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             baseFragment.showDialog(builder.create());
             return false;
         }
@@ -2008,19 +2008,19 @@ public class AndroidUtilities {
                 switch (c) {
                     case 0:
                     case 1:
-                        substring = LocaleController.getString("PhoneMobile", R.string.PhoneMobile);
+                        substring = LocaleController.getString(R.string.PhoneMobile);
                         break;
                     case 2:
-                        substring = LocaleController.getString("PhoneHome", R.string.PhoneHome);
+                        substring = LocaleController.getString(R.string.PhoneHome);
                         break;
                     case 3:
-                        substring = LocaleController.getString("PhoneMain", R.string.PhoneMain);
+                        substring = LocaleController.getString(R.string.PhoneMain);
                         break;
                     case 4:
-                        substring = LocaleController.getString("PhoneWork", R.string.PhoneWork);
+                        substring = LocaleController.getString(R.string.PhoneWork);
                         break;
                     case 5:
-                        substring = LocaleController.getString("PhoneOther", R.string.PhoneOther);
+                        substring = LocaleController.getString(R.string.PhoneOther);
                         break;
                 }
             }
@@ -3805,10 +3805,10 @@ public class AndroidUtilities {
         return bArr2;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:47:0x010c A[Catch: Exception -> 0x00fe, TRY_ENTER, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:52:0x012c A[Catch: Exception -> 0x00fe, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x016b A[Catch: Exception -> 0x00fe, TRY_LEAVE, TryCatch #0 {Exception -> 0x00fe, blocks: (B:33:0x00cd, B:35:0x00e4, B:37:0x00f3, B:39:0x00f7, B:44:0x0102, B:47:0x010c, B:51:0x0128, B:66:0x016b, B:61:0x0141, B:63:0x0145, B:65:0x0167, B:64:0x0160, B:52:0x012c, B:56:0x0135, B:59:0x013c), top: B:72:0x00cd, inners: #1 }] */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x013c A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x0108 A[Catch: Exception -> 0x00fa, TRY_ENTER, TryCatch #1 {Exception -> 0x00fa, blocks: (B:33:0x00c9, B:35:0x00e0, B:37:0x00ef, B:39:0x00f3, B:44:0x00fe, B:47:0x0108, B:51:0x0124, B:66:0x0167, B:61:0x013d, B:63:0x0141, B:65:0x0163, B:64:0x015c, B:52:0x0128, B:56:0x0131, B:59:0x0138), top: B:74:0x00c9, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x0128 A[Catch: Exception -> 0x00fa, TryCatch #1 {Exception -> 0x00fa, blocks: (B:33:0x00c9, B:35:0x00e0, B:37:0x00ef, B:39:0x00f3, B:44:0x00fe, B:47:0x0108, B:51:0x0124, B:66:0x0167, B:61:0x013d, B:63:0x0141, B:65:0x0163, B:64:0x015c, B:52:0x0128, B:56:0x0131, B:59:0x0138), top: B:74:0x00c9, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0167 A[Catch: Exception -> 0x00fa, TRY_LEAVE, TryCatch #1 {Exception -> 0x00fa, blocks: (B:33:0x00c9, B:35:0x00e0, B:37:0x00ef, B:39:0x00f3, B:44:0x00fe, B:47:0x0108, B:51:0x0124, B:66:0x0167, B:61:0x013d, B:63:0x0141, B:65:0x0163, B:64:0x015c, B:52:0x0128, B:56:0x0131, B:59:0x0138), top: B:74:0x00c9, inners: #0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x0138 A[EXC_TOP_SPLITTER, SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -3840,8 +3840,8 @@ public class AndroidUtilities {
             hashMap.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i)));
             builder.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i), hashMap);
             builder.setTopAnimationIsNew(true);
-            builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setMessage(LocaleController.getString(R.string.IncorrectTheme));
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
             baseFragment.showDialog(builder.create());
             return;
         }
@@ -3897,7 +3897,7 @@ public class AndroidUtilities {
             hashMap2.put("info2.**", Integer.valueOf(baseFragment.getThemedColor(i2)));
             builder2.setTopAnimation(R.raw.not_available, 52, false, baseFragment.getThemedColor(i2), hashMap2);
             builder2.setTopAnimationIsNew(true);
-            builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder2.setPositiveButton(LocaleController.getString(R.string.OK), null);
             builder2.setMessage(LocaleController.formatString("NoHandleAppInstalled", R.string.NoHandleAppInstalled, messageObject.getDocument().mime_type));
             baseFragment.showDialog(builder2.create());
         }
@@ -4380,7 +4380,7 @@ public class AndroidUtilities {
         int i2 = 5;
         if (!TextUtils.isEmpty(str5)) {
             TextView textView = new TextView(activity);
-            textView.setText(LocaleController.getString("UseProxyTelegramInfo2", R.string.UseProxyTelegramInfo2));
+            textView.setText(LocaleController.getString(R.string.UseProxyTelegramInfo2));
             textView.setTextColor(Theme.getColor(Theme.key_dialogTextGray4));
             textView.setTextSize(1, 14.0f);
             textView.setGravity(49);
@@ -4472,7 +4472,7 @@ public class AndroidUtilities {
         TextView textView2 = pickerBottomLayout.cancelButton;
         int i4 = Theme.key_dialogTextBlue2;
         textView2.setTextColor(Theme.getColor(i4));
-        pickerBottomLayout.cancelButton.setText(LocaleController.getString("Cancel", R.string.Cancel).toUpperCase());
+        pickerBottomLayout.cancelButton.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
         pickerBottomLayout.cancelButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda28
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {
@@ -4482,7 +4482,7 @@ public class AndroidUtilities {
         pickerBottomLayout.doneButtonTextView.setTextColor(Theme.getColor(i4));
         pickerBottomLayout.doneButton.setPadding(dp(18.0f), 0, dp(18.0f), 0);
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(8);
-        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString("ConnectingConnectProxy", R.string.ConnectingConnectProxy).toUpperCase());
+        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString(R.string.ConnectingConnectProxy).toUpperCase());
         pickerBottomLayout.doneButton.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.messenger.AndroidUtilities$$ExternalSyntheticLambda29
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {

@@ -705,7 +705,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         TextView textView2 = this.dropDown;
         int i = Theme.key_dialogTextBlack;
         textView2.setTextColor(getThemedColor(i));
-        this.dropDown.setText(LocaleController.getString("ChatGallery", R.string.ChatGallery));
+        this.dropDown.setText(LocaleController.getString(R.string.ChatGallery));
         this.dropDown.setTypeface(AndroidUtilities.bold());
         Drawable mutate = context.getResources().getDrawable(R.drawable.ic_arrow_drop_down).mutate();
         this.dropDownDrawable = mutate;
@@ -721,11 +721,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         toggleButton.setState(!this.parentAlert.captionAbove, false);
         this.previewItem = this.parentAlert.selectedMenuItem.addSubItem(6, R.drawable.msg_view_file, LocaleController.getString(R.string.AttachMediaPreviewButton));
         this.parentAlert.selectedMenuItem.addColoredGap(4);
-        this.parentAlert.selectedMenuItem.addSubItem(3, R.drawable.msg_openin, LocaleController.getString("OpenInExternalApp", R.string.OpenInExternalApp));
-        this.compressItem = this.parentAlert.selectedMenuItem.addSubItem(1, R.drawable.msg_filehq, LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression));
-        this.parentAlert.selectedMenuItem.addSubItem(0, R.drawable.msg_ungroup, LocaleController.getString("SendWithoutGrouping", R.string.SendWithoutGrouping));
+        this.parentAlert.selectedMenuItem.addSubItem(3, R.drawable.msg_openin, LocaleController.getString(R.string.OpenInExternalApp));
+        this.compressItem = this.parentAlert.selectedMenuItem.addSubItem(1, R.drawable.msg_filehq, LocaleController.getString(R.string.SendWithoutCompression));
+        this.parentAlert.selectedMenuItem.addSubItem(0, R.drawable.msg_ungroup, LocaleController.getString(R.string.SendWithoutGrouping));
         this.parentAlert.selectedMenuItem.addColoredGap(5);
-        this.spoilerItem = this.parentAlert.selectedMenuItem.addSubItem(2, R.drawable.msg_spoiler, LocaleController.getString("EnablePhotoSpoiler", R.string.EnablePhotoSpoiler));
+        this.spoilerItem = this.parentAlert.selectedMenuItem.addSubItem(2, R.drawable.msg_spoiler, LocaleController.getString(R.string.EnablePhotoSpoiler));
         this.parentAlert.selectedMenuItem.addSubItem(7, this.captionItem);
         this.starsItem = this.parentAlert.selectedMenuItem.addSubItem(8, R.drawable.menu_feature_paid, LocaleController.getString(R.string.PaidMediaButton));
         this.parentAlert.selectedMenuItem.setFitSubItems(true);
@@ -898,7 +898,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.gridView.addOnItemTouchListener(recyclerViewItemRangeSelector);
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context, null, resourcesProvider);
         this.progressView = emptyTextProgressView;
-        emptyTextProgressView.setText(LocaleController.getString("NoPhotos", R.string.NoPhotos));
+        emptyTextProgressView.setText(LocaleController.getString(R.string.NoPhotos));
         this.progressView.setOnTouchListener(null);
         this.progressView.setTextSize(16);
         addView(this.progressView, LayoutHelper.createFrame(-1, -2.0f));
@@ -1024,7 +1024,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.cameraPanel.addView(shutterButton, LayoutHelper.createFrame(84, 84, 17));
         this.shutterButton.setDelegate(new 10(resourcesProvider, container));
         this.shutterButton.setFocusable(true);
-        this.shutterButton.setContentDescription(LocaleController.getString("AccDescrShutter", R.string.AccDescrShutter));
+        this.shutterButton.setContentDescription(LocaleController.getString(R.string.AccDescrShutter));
         ImageView imageView = new ImageView(context);
         this.switchCameraButton = imageView;
         imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -1035,7 +1035,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 ChatAttachAlertPhotoLayout.this.lambda$new$7(view);
             }
         });
-        this.switchCameraButton.setContentDescription(LocaleController.getString("AccDescrSwitchCamera", R.string.AccDescrSwitchCamera));
+        this.switchCameraButton.setContentDescription(LocaleController.getString(R.string.AccDescrSwitchCamera));
         for (int i2 = 0; i2 < 2; i2++) {
             this.flashModeButton[i2] = new ImageView(context);
             this.flashModeButton[i2].setScaleType(ImageView.ScaleType.CENTER);
@@ -1054,7 +1054,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         this.tooltipTextView = textView5;
         textView5.setTextSize(1, 15.0f);
         this.tooltipTextView.setTextColor(-1);
-        this.tooltipTextView.setText(LocaleController.getString("TapForVideo", R.string.TapForVideo));
+        this.tooltipTextView.setText(LocaleController.getString(R.string.TapForVideo));
         this.tooltipTextView.setShadowLayer(AndroidUtilities.dp(3.33333f), 0.0f, AndroidUtilities.dp(0.666f), 1275068416);
         this.tooltipTextView.setPadding(AndroidUtilities.dp(6.0f), 0, AndroidUtilities.dp(6.0f), 0);
         this.cameraPanel.addView(this.tooltipTextView, LayoutHelper.createFrame(-2, -2.0f, 81, 0.0f, 0.0f, 0.0f, 16.0f));
@@ -1837,7 +1837,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (this.parentAlert.checkCanRemoveRestrictionsByBoosts()) {
                 return true;
             }
-            BulletinFactory.of(this.parentAlert.sizeNotifierFrameLayout, this.resourcesProvider).createErrorBulletin(LocaleController.getString("GlobalAttachVideoRestricted", R.string.GlobalAttachVideoRestricted)).show();
+            BulletinFactory.of(this.parentAlert.sizeNotifierFrameLayout, this.resourcesProvider).createErrorBulletin(LocaleController.getString(R.string.GlobalAttachVideoRestricted)).show();
             return true;
         } else if (this.photoEnabled || photoEntry.isVideo) {
             return false;
@@ -1845,7 +1845,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (this.parentAlert.checkCanRemoveRestrictionsByBoosts()) {
                 return true;
             }
-            BulletinFactory.of(this.parentAlert.sizeNotifierFrameLayout, this.resourcesProvider).createErrorBulletin(LocaleController.getString("GlobalAttachPhotoRestricted", R.string.GlobalAttachPhotoRestricted)).show();
+            BulletinFactory.of(this.parentAlert.sizeNotifierFrameLayout, this.resourcesProvider).createErrorBulletin(LocaleController.getString(R.string.GlobalAttachPhotoRestricted)).show();
             return true;
         }
     }
@@ -2544,15 +2544,15 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         switch (c) {
             case 0:
                 imageView.setImageResource(R.drawable.flash_on);
-                imageView.setContentDescription(LocaleController.getString("AccDescrCameraFlashOn", R.string.AccDescrCameraFlashOn));
+                imageView.setContentDescription(LocaleController.getString(R.string.AccDescrCameraFlashOn));
                 return;
             case 1:
                 imageView.setImageResource(R.drawable.flash_off);
-                imageView.setContentDescription(LocaleController.getString("AccDescrCameraFlashOff", R.string.AccDescrCameraFlashOff));
+                imageView.setContentDescription(LocaleController.getString(R.string.AccDescrCameraFlashOff));
                 return;
             case 2:
                 imageView.setImageResource(R.drawable.flash_auto);
-                imageView.setContentDescription(LocaleController.getString("AccDescrCameraFlashAuto", R.string.AccDescrCameraFlashAuto));
+                imageView.setContentDescription(LocaleController.getString(R.string.AccDescrCameraFlashAuto));
                 return;
             default:
                 return;
@@ -2903,7 +2903,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 });
                 this.cameraView.setClipToOutline(true);
             }
-            this.cameraView.setContentDescription(LocaleController.getString("AccDescrInstantCamera", R.string.AccDescrInstantCamera));
+            this.cameraView.setContentDescription(LocaleController.getString(R.string.AccDescrInstantCamera));
             BottomSheet.ContainerView container = this.parentAlert.getContainer();
             CameraView cameraView3 = this.cameraView;
             int i = this.itemSize;
@@ -3749,7 +3749,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             chatAttachAlert.captionAbove = !z2;
             this.captionItem.setState(z2, true);
         } else if ((i == 0 || i == 1) && this.parentAlert.maxSelectedPhotos > 0 && selectedPhotosOrder.size() > 1 && (chat = this.parentAlert.getChat()) != null && !ChatObject.hasAdminRights(chat) && chat.slowmode_enabled) {
-            AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString("Slowmode", R.string.Slowmode), LocaleController.getString("SlowmodeSendError", R.string.SlowmodeSendError), this.resourcesProvider).show();
+            AlertsCreator.createSimpleAlert(getContext(), LocaleController.getString(R.string.Slowmode), LocaleController.getString(R.string.SlowmodeSendError), this.resourcesProvider).show();
         } else if (i == 0) {
             ChatAttachAlert chatAttachAlert2 = this.parentAlert;
             if (chatAttachAlert2.editingMessageObject == null) {
@@ -3873,7 +3873,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             MediaController.AlbumEntry albumEntry = this.dropDownAlbums.get(i - 10);
             this.selectedAlbumEntry = albumEntry;
             if (albumEntry == this.galleryAlbumEntry) {
-                this.dropDown.setText(LocaleController.getString("ChatGallery", R.string.ChatGallery));
+                this.dropDown.setText(LocaleController.getString(R.string.ChatGallery));
             } else {
                 this.dropDown.setText(albumEntry.bucketName);
             }
@@ -4232,9 +4232,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         Theme.setDrawableColor(this.dropDownDrawable, getThemedColor(i));
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:42:0x00da  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x00e4  */
-    /* JADX WARN: Removed duplicated region for block: B:51:0x012a  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x00d6  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x00e0  */
+    /* JADX WARN: Removed duplicated region for block: B:51:0x0124  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -4261,13 +4261,13 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (chatAttachAlert2.avatarPicker == 0) {
                 this.galleryAlbumEntry = MediaController.allMediaAlbumEntry;
                 if (this.mediaEnabled) {
-                    this.progressView.setText(LocaleController.getString("NoPhotos", R.string.NoPhotos));
+                    this.progressView.setText(LocaleController.getString(R.string.NoPhotos));
                     this.progressView.setLottie(0, 0, 0);
                 } else {
                     TLRPC$Chat chat = chatAttachAlert2.getChat();
                     this.progressView.setLottie(R.raw.media_forbidden, 150, 150);
                     if (ChatObject.isActionBannedByDefault(chat, 7)) {
-                        this.progressView.setText(LocaleController.getString("GlobalAttachMediaRestricted", R.string.GlobalAttachMediaRestricted));
+                        this.progressView.setText(LocaleController.getString(R.string.GlobalAttachMediaRestricted));
                     } else if (AndroidUtilities.isBannedForever(chat.banned_rights)) {
                         this.progressView.setText(LocaleController.formatString("AttachMediaRestrictedForever", R.string.AttachMediaRestrictedForever, new Object[0]));
                     } else {
@@ -4286,7 +4286,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 updatePhotosCounter(false);
                 this.cameraPhotoLayoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
                 this.layoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
-                this.dropDown.setText(LocaleController.getString("ChatGallery", R.string.ChatGallery));
+                this.dropDown.setText(LocaleController.getString(R.string.ChatGallery));
                 albumEntry = this.galleryAlbumEntry;
                 this.selectedAlbumEntry = albumEntry;
                 if (albumEntry != null) {
@@ -4312,7 +4312,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         updatePhotosCounter(false);
         this.cameraPhotoLayoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
         this.layoutManager.scrollToPositionWithOffset(0, MediaController.VIDEO_BITRATE_480);
-        this.dropDown.setText(LocaleController.getString("ChatGallery", R.string.ChatGallery));
+        this.dropDown.setText(LocaleController.getString(R.string.ChatGallery));
         albumEntry = this.galleryAlbumEntry;
         this.selectedAlbumEntry = albumEntry;
         if (albumEntry != null) {
@@ -5017,7 +5017,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                             if (!(baseFragment instanceof ChatActivity) || (currentChat = ((ChatActivity) baseFragment).getCurrentChat()) == null || ChatObject.hasAdminRights(currentChat) || !currentChat.slowmode_enabled || ChatAttachAlertPhotoLayout.this.alertOnlyOnce == 2) {
                                 return;
                             }
-                            AlertsCreator.createSimpleAlert(ChatAttachAlertPhotoLayout.this.getContext(), LocaleController.getString("Slowmode", R.string.Slowmode), LocaleController.getString("SlowmodeSelectSendError", R.string.SlowmodeSelectSendError), ChatAttachAlertPhotoLayout.this.resourcesProvider).show();
+                            AlertsCreator.createSimpleAlert(ChatAttachAlertPhotoLayout.this.getContext(), LocaleController.getString(R.string.Slowmode), LocaleController.getString(R.string.SlowmodeSelectSendError), ChatAttachAlertPhotoLayout.this.resourcesProvider).show();
                             if (ChatAttachAlertPhotoLayout.this.alertOnlyOnce == 1) {
                                 ChatAttachAlertPhotoLayout.this.alertOnlyOnce = 2;
                                 return;

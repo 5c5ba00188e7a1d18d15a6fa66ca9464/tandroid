@@ -134,7 +134,7 @@ public class ManageChatUserCell extends FrameLayout {
                     ManageChatUserCell.this.lambda$new$0(view);
                 }
             });
-            this.optionsButton.setContentDescription(LocaleController.getString("AccDescrUserOptions", R.string.AccDescrUserOptions));
+            this.optionsButton.setContentDescription(LocaleController.getString(R.string.AccDescrUserOptions));
         }
     }
 
@@ -266,7 +266,7 @@ public class ManageChatUserCell extends FrameLayout {
         this.dividerColor = i;
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:114:0x01a3, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:114:0x019d, code lost:
         if (r12.equals(r6) == false) goto L105;
      */
     /* JADX WARN: Code restructure failed: missing block: B:44:0x0067, code lost:
@@ -335,13 +335,13 @@ public class ManageChatUserCell extends FrameLayout {
             } else if (tLRPC$User.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$User.bot_chat_history || this.isAdmin) {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", R.string.BotStatusRead));
+                    this.statusTextView.setText(LocaleController.getString(R.string.BotStatusRead));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", R.string.BotStatusCantRead));
+                    this.statusTextView.setText(LocaleController.getString(R.string.BotStatusCantRead));
                 }
             } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
-                this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
+                this.statusTextView.setText(LocaleController.getString(R.string.Online));
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
                 this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
@@ -390,11 +390,11 @@ public class ManageChatUserCell extends FrameLayout {
                         this.statusTextView.setText(LocaleController.formatPluralString("Members", tLRPC$Chat.participants_count, new Object[0]));
                     }
                 } else if (tLRPC$Chat.has_geo) {
-                    this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaLocation));
                 } else if (!ChatObject.isPublic(tLRPC$Chat)) {
-                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaPrivate));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaPublic));
                 }
             }
             this.lastAvatar = tLRPC$FileLocation4;

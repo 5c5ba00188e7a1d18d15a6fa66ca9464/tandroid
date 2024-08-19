@@ -2561,15 +2561,15 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         } else if (activity == null) {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity, this.resourcesProvider);
-            builder.setMessage(LocaleController.getString("PhotoEditorDiscardAlert", R.string.PhotoEditorDiscardAlert));
-            builder.setTitle(LocaleController.getString("DiscardChanges", R.string.DiscardChanges));
-            builder.setPositiveButton(LocaleController.getString("PassportDiscard", R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda28
+            builder.setMessage(LocaleController.getString(R.string.PhotoEditorDiscardAlert));
+            builder.setTitle(LocaleController.getString(R.string.DiscardChanges));
+            builder.setPositiveButton(LocaleController.getString(R.string.PassportDiscard), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda28
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     runnable.run();
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             photoViewer.showAlertDialog(builder);
         }
     }
@@ -3259,7 +3259,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         textView.setPadding(AndroidUtilities.dp(16.0f), 0, AndroidUtilities.dp(14.0f), 0);
         textView.setTextSize(1, 14.0f);
         textView.setTag(0);
-        textView.setText(LocaleController.getString("PaintDelete", R.string.PaintDelete));
+        textView.setText(LocaleController.getString(R.string.PaintDelete));
         TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
         textView.setEllipsize(truncateAt);
         textView.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda19
@@ -3278,7 +3278,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView2.setTextSize(1, 14.0f);
             textView2.setEllipsize(truncateAt);
             textView2.setTag(1);
-            textView2.setText(LocaleController.getString("PaintEdit", R.string.PaintEdit));
+            textView2.setText(LocaleController.getString(R.string.PaintEdit));
             textView2.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda20
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -3296,7 +3296,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView3.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
             textView3.setTextSize(1, 14.0f);
             textView3.setTag(2);
-            textView3.setText(LocaleController.getString("Flip", R.string.Flip));
+            textView3.setText(LocaleController.getString(R.string.Flip));
             textView3.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda21
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -3315,7 +3315,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
             textView4.setPadding(AndroidUtilities.dp(14.0f), 0, AndroidUtilities.dp(16.0f), 0);
             textView4.setTextSize(1, 14.0f);
             textView4.setTag(2);
-            textView4.setText(LocaleController.getString("PaintDuplicate", R.string.PaintDuplicate));
+            textView4.setText(LocaleController.getString(R.string.PaintDuplicate));
             textView4.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$$ExternalSyntheticLambda22
                 @Override // android.view.View.OnClickListener
                 public final void onClick(View view) {
@@ -4318,15 +4318,15 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public void onClearEmojiRecent() {
             AlertDialog.Builder builder = new AlertDialog.Builder(LPhotoPaintView.this.getContext(), LPhotoPaintView.this.resourcesProvider);
-            builder.setTitle(LocaleController.getString("ClearRecentEmojiTitle", R.string.ClearRecentEmojiTitle));
-            builder.setMessage(LocaleController.getString("ClearRecentEmojiText", R.string.ClearRecentEmojiText));
-            builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$22$$ExternalSyntheticLambda0
+            builder.setTitle(LocaleController.getString(R.string.ClearRecentEmojiTitle));
+            builder.setMessage(LocaleController.getString(R.string.ClearRecentEmojiText));
+            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.Paint.Views.LPhotoPaintView$22$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     LPhotoPaintView.22.this.lambda$onClearEmojiRecent$0(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             builder.show();
         }
 

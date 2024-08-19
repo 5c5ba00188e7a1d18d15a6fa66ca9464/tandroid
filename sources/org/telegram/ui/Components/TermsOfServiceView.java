@@ -64,7 +64,7 @@ public class TermsOfServiceView extends FrameLayout {
         textView.setTextColor(Theme.getColor(i2));
         this.titleTextView.setTextSize(1, 17.0f);
         this.titleTextView.setTypeface(AndroidUtilities.bold());
-        this.titleTextView.setText(LocaleController.getString("PrivacyPolicyAndTerms", R.string.PrivacyPolicyAndTerms));
+        this.titleTextView.setText(LocaleController.getString(R.string.PrivacyPolicyAndTerms));
         linearLayout.addView(this.titleTextView, LayoutHelper.createLinear(-2, -2, 3, 0, 20, 0, 0));
         TextView textView2 = new TextView(context);
         this.textView = textView2;
@@ -83,7 +83,7 @@ public class TermsOfServiceView extends FrameLayout {
         this.scrollView.addView(linearLayout, new FrameLayout.LayoutParams(-1, -2));
         addView(this.scrollView, LayoutHelper.createLinear(-1, -2));
         TextView textView3 = new TextView(context);
-        textView3.setText(LocaleController.getString("Decline", R.string.Decline).toUpperCase());
+        textView3.setText(LocaleController.getString(R.string.Decline).toUpperCase());
         textView3.setGravity(17);
         textView3.setTypeface(AndroidUtilities.bold());
         int i3 = Theme.key_windowBackgroundWhiteGrayText;
@@ -99,7 +99,7 @@ public class TermsOfServiceView extends FrameLayout {
             }
         });
         TextView textView4 = new TextView(context);
-        textView4.setText(LocaleController.getString("Accept", R.string.Accept));
+        textView4.setText(LocaleController.getString(R.string.Accept));
         textView4.setGravity(17);
         textView4.setTypeface(AndroidUtilities.bold());
         textView4.setTextColor(-1);
@@ -124,30 +124,30 @@ public class TermsOfServiceView extends FrameLayout {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$4(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle(LocaleController.getString("TermsOfService", R.string.TermsOfService));
-        builder.setPositiveButton(LocaleController.getString("DeclineDeactivate", R.string.DeclineDeactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
+        builder.setTitle(LocaleController.getString(R.string.TermsOfService));
+        builder.setPositiveButton(LocaleController.getString(R.string.DeclineDeactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 TermsOfServiceView.this.lambda$new$3(dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Back", R.string.Back), null);
-        builder.setMessage(LocaleController.getString("TosUpdateDecline", R.string.TosUpdateDecline));
+        builder.setNegativeButton(LocaleController.getString(R.string.Back), null);
+        builder.setMessage(LocaleController.getString(R.string.TosUpdateDecline));
         builder.show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$new$3(DialogInterface dialogInterface, int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
-        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-        builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
+        builder.setMessage(LocaleController.getString(R.string.TosDeclineDeleteAccount));
+        builder.setTitle(LocaleController.getString(R.string.AppName));
+        builder.setPositiveButton(LocaleController.getString(R.string.Deactivate), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda4
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface2, int i2) {
                 TermsOfServiceView.this.lambda$new$2(dialogInterface2, i2);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.show();
     }
 
@@ -186,14 +186,14 @@ public class TermsOfServiceView extends FrameLayout {
         if (tLObject instanceof TLRPC$TL_boolTrue) {
             MessagesController.getInstance(this.currentAccount).performLogout(0);
         } else if (tLRPC$TL_error == null || tLRPC$TL_error.code != -1000) {
-            String string = LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred);
+            String string = LocaleController.getString(R.string.ErrorOccurred);
             if (tLRPC$TL_error != null) {
                 string = string + "\n" + tLRPC$TL_error.text;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setTitle(LocaleController.getString(R.string.AppName));
             builder.setMessage(string);
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
             builder.show();
         }
     }
@@ -202,14 +202,14 @@ public class TermsOfServiceView extends FrameLayout {
     public /* synthetic */ void lambda$new$6(View view) {
         if (this.currentTos.min_age_confirm != 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setTitle(LocaleController.getString("TosAgeTitle", R.string.TosAgeTitle));
-            builder.setPositiveButton(LocaleController.getString("Agree", R.string.Agree), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
+            builder.setTitle(LocaleController.getString(R.string.TosAgeTitle));
+            builder.setPositiveButton(LocaleController.getString(R.string.Agree), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.TermsOfServiceView$$ExternalSyntheticLambda2
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     TermsOfServiceView.this.lambda$new$5(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             builder.setMessage(LocaleController.formatString("TosAgeText", R.string.TosAgeText, LocaleController.formatPluralString("Years", this.currentTos.min_age_confirm, new Object[0])));
             builder.show();
             return;

@@ -115,10 +115,10 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         setTitle(LocaleController.getString(R.string.NewContactTitle), true);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:58:0x03fd  */
-    /* JADX WARN: Removed duplicated region for block: B:64:0x041c  */
-    /* JADX WARN: Removed duplicated region for block: B:67:0x042b  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0419 A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:58:0x03f9  */
+    /* JADX WARN: Removed duplicated region for block: B:64:0x0418  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x0427  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0415 A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -151,7 +151,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.firstNameField = outlineEditText;
         outlineEditText.getEditText().setInputType(49152);
         this.firstNameField.getEditText().setImeOptions(5);
-        this.firstNameField.setHint(LocaleController.getString("FirstName", R.string.FirstName));
+        this.firstNameField.setHint(LocaleController.getString(R.string.FirstName));
         if (this.initialFirstName != null) {
             this.firstNameField.getEditText().setText(this.initialFirstName);
             this.initialFirstName = null;
@@ -170,7 +170,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         outlineEditText2.setBackground(null);
         this.lastNameField.getEditText().setInputType(49152);
         this.lastNameField.getEditText().setImeOptions(5);
-        this.lastNameField.setHint(LocaleController.getString("LastName", R.string.LastName));
+        this.lastNameField.setHint(LocaleController.getString(R.string.LastName));
         if (this.initialLastName != null) {
             this.lastNameField.getEditText().setText(this.initialLastName);
             this.initialLastName = null;
@@ -625,7 +625,7 @@ public class NewContactBottomSheet extends BottomSheet implements AdapterView.On
         this.doneButton.setGravity(17);
         this.doneButton.setLines(1);
         this.doneButton.setSingleLine(true);
-        this.doneButton.setText(LocaleController.getString("CreateContact", R.string.CreateContact));
+        this.doneButton.setText(LocaleController.getString(R.string.CreateContact));
         TextView textView3 = this.doneButton;
         BaseFragment baseFragment = this.parentFragment;
         int i5 = Theme.key_featuredStickers_buttonText;

@@ -274,12 +274,12 @@ public class Browser {
     /* JADX WARN: Code restructure failed: missing block: B:44:0x00f5, code lost:
         if ("https".equals(r1) != false) goto L116;
      */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x02b4 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:105:0x02b0, B:107:0x02b4, B:109:0x02ba, B:111:0x02c9, B:113:0x02cf, B:115:0x02d9, B:117:0x02e3, B:128:0x0303, B:130:0x0307, B:132:0x0313, B:134:0x031d, B:135:0x0325, B:123:0x02f4), top: B:153:0x02b0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x0300  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0303 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:105:0x02b0, B:107:0x02b4, B:109:0x02ba, B:111:0x02c9, B:113:0x02cf, B:115:0x02d9, B:117:0x02e3, B:128:0x0303, B:130:0x0307, B:132:0x0313, B:134:0x031d, B:135:0x0325, B:123:0x02f4), top: B:153:0x02b0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0313 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:105:0x02b0, B:107:0x02b4, B:109:0x02ba, B:111:0x02c9, B:113:0x02cf, B:115:0x02d9, B:117:0x02e3, B:128:0x0303, B:130:0x0307, B:132:0x0313, B:134:0x031d, B:135:0x0325, B:123:0x02f4), top: B:153:0x02b0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0325 A[Catch: Exception -> 0x02f1, TRY_LEAVE, TryCatch #7 {Exception -> 0x02f1, blocks: (B:105:0x02b0, B:107:0x02b4, B:109:0x02ba, B:111:0x02c9, B:113:0x02cf, B:115:0x02d9, B:117:0x02e3, B:128:0x0303, B:130:0x0307, B:132:0x0313, B:134:0x031d, B:135:0x0325, B:123:0x02f4), top: B:153:0x02b0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0120 A[Catch: Exception -> 0x0166, TryCatch #3 {Exception -> 0x0166, blocks: (B:51:0x0104, B:53:0x0120, B:57:0x0152, B:59:0x015f, B:62:0x0169, B:66:0x0172, B:67:0x018a, B:69:0x0192, B:72:0x01bd, B:73:0x01cf, B:70:0x01a7, B:75:0x01e6, B:77:0x01ea, B:80:0x01f0, B:82:0x01f9, B:84:0x0203, B:86:0x0208, B:88:0x0212, B:92:0x0220, B:94:0x022c, B:96:0x023e), top: B:147:0x0104 }] */
+    /* JADX WARN: Removed duplicated region for block: B:107:0x02b2 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x02fe  */
+    /* JADX WARN: Removed duplicated region for block: B:128:0x0301 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0311 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
+    /* JADX WARN: Removed duplicated region for block: B:135:0x0323 A[Catch: Exception -> 0x02ef, TRY_LEAVE, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0120 A[Catch: Exception -> 0x0166, TryCatch #3 {Exception -> 0x0166, blocks: (B:51:0x0104, B:53:0x0120, B:57:0x0152, B:59:0x015f, B:62:0x0169, B:66:0x0172, B:67:0x018a, B:69:0x0192, B:72:0x01bd, B:73:0x01cf, B:70:0x01a7, B:75:0x01e6, B:77:0x01ea, B:80:0x01f0, B:82:0x01f9, B:84:0x0203, B:86:0x0208, B:88:0x0212, B:92:0x0220, B:94:0x022c, B:96:0x023e), top: B:146:0x0104 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -503,7 +503,7 @@ public class Browser {
         builder.setToolbarColor(Theme.getColor(Theme.key_actionBarBrowser));
         builder.setShowTitle(true);
         try {
-            builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo), true);
+            builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.msg_filled_shareout), LocaleController.getString(R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent2, ConnectionsManager.FileTypeVideo), true);
             CustomTabsIntent build = builder.build();
             build.setUseNewTask();
             build.launchUrl(context, uri2);

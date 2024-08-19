@@ -86,7 +86,7 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("InviteLink", R.string.InviteLink));
+        this.actionBar.setTitle(LocaleController.getString(R.string.InviteLink));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.GroupInviteActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -142,21 +142,21 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                 Intent intent = new Intent("android.intent.action.SEND");
                 intent.setType("text/plain");
                 intent.putExtra("android.intent.extra.TEXT", this.invite.link);
-                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("InviteToGroupByLink", R.string.InviteToGroupByLink)), 500);
+                getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.InviteToGroupByLink)), 500);
             } catch (Exception e2) {
                 FileLog.e(e2);
             }
         } else if (i == this.revokeLinkRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
-            builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-            builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
+            builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
+            builder.setTitle(LocaleController.getString(R.string.RevokeLink));
+            builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.GroupInviteActivity$$ExternalSyntheticLambda3
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i2) {
                     GroupInviteActivity.this.lambda$createView$0(dialogInterface, i2);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             showDialog(builder.create());
         }
     }
@@ -230,9 +230,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setMessage(LocaleController.getString("RevokeAlertNewLink", R.string.RevokeAlertNewLink));
-                builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-                builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+                builder.setMessage(LocaleController.getString(R.string.RevokeAlertNewLink));
+                builder.setTitle(LocaleController.getString(R.string.RevokeLink));
+                builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
                 showDialog(builder.create());
             }
         }
@@ -286,15 +286,15 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                 if (i != GroupInviteActivity.this.copyLinkRow) {
                     if (i != GroupInviteActivity.this.shareLinkRow) {
                         if (i == GroupInviteActivity.this.revokeLinkRow) {
-                            textSettingsCell.setText(LocaleController.getString("RevokeLink", R.string.RevokeLink), true);
+                            textSettingsCell.setText(LocaleController.getString(R.string.RevokeLink), true);
                             return;
                         }
                         return;
                     }
-                    textSettingsCell.setText(LocaleController.getString("ShareLink", R.string.ShareLink), false);
+                    textSettingsCell.setText(LocaleController.getString(R.string.ShareLink), false);
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("CopyLink", R.string.CopyLink), true);
+                textSettingsCell.setText(LocaleController.getString(R.string.CopyLink), true);
             } else if (itemViewType != 1) {
                 if (itemViewType != 2) {
                     return;
@@ -306,9 +306,9 @@ public class GroupInviteActivity extends BaseFragment implements NotificationCen
                     if (i == GroupInviteActivity.this.linkInfoRow) {
                         TLRPC$Chat chat = GroupInviteActivity.this.getMessagesController().getChat(Long.valueOf(GroupInviteActivity.this.chatId));
                         if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            textInfoPrivacyCell.setText(LocaleController.getString("ChannelLinkInfo", R.string.ChannelLinkInfo));
+                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.ChannelLinkInfo));
                         } else {
-                            textInfoPrivacyCell.setText(LocaleController.getString("LinkInfo", R.string.LinkInfo));
+                            textInfoPrivacyCell.setText(LocaleController.getString(R.string.LinkInfo));
                         }
                         textInfoPrivacyCell.setBackgroundDrawable(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                         return;

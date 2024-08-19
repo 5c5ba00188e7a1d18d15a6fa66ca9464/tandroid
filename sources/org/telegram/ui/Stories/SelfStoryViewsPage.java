@@ -277,7 +277,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
         frameLayout.addView(textView);
         5 r12 = new 5(getContext(), true, 13.0f, this.resourcesProvider);
         this.searchField = r12;
-        r12.setHint(LocaleController.getString("Search", R.string.Search));
+        r12.setHint(LocaleController.getString(R.string.Search));
         frameLayout.addView(this.searchField, LayoutHelper.createFrame(-1, -1.0f, 51, 0.0f, 36.0f, 0.0f, 0.0f));
         addView(frameLayout);
     }
@@ -743,7 +743,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             this.TOP_PADDING = 46;
         } else {
             this.TOP_PADDING = 46;
-            this.titleView.setText(LocaleController.getString("UploadingStory", R.string.UploadingStory));
+            this.titleView.setText(LocaleController.getString(R.string.UploadingStory));
             this.searchField.setVisibility(8);
             this.headerView.setVisibility(8);
         }
@@ -1008,21 +1008,21 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                     };
                     if (i == 7) {
                         stickerEmptyView.title.setVisibility(8);
-                        stickerEmptyView.setSubtitle(LocaleController.getString("NoResult", R.string.NoResult));
+                        stickerEmptyView.setSubtitle(LocaleController.getString(R.string.NoResult));
                     } else if (i == 8) {
                         stickerEmptyView.title.setVisibility(8);
-                        stickerEmptyView.setSubtitle(LocaleController.getString("NoContactsViewed", R.string.NoContactsViewed));
+                        stickerEmptyView.setSubtitle(LocaleController.getString(R.string.NoContactsViewed));
                     } else if (i == 10) {
                         stickerEmptyView.title.setVisibility(0);
-                        stickerEmptyView.title.setText(LocaleController.getString("ServerErrorViewersTitle", R.string.ServerErrorViewersTitle));
-                        stickerEmptyView.setSubtitle(LocaleController.getString("ServerErrorViewers", R.string.ServerErrorViewers));
+                        stickerEmptyView.title.setText(LocaleController.getString(R.string.ServerErrorViewersTitle));
+                        stickerEmptyView.setSubtitle(LocaleController.getString(R.string.ServerErrorViewers));
                     } else if (SelfStoryViewsPage.this.defaultModel.isExpiredViews) {
                         stickerEmptyView.title.setVisibility(8);
                         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-                        spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString("ExpiredViewsStub", R.string.ExpiredViewsStub)));
+                        spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceTags(LocaleController.getString(R.string.ExpiredViewsStub)));
                         if (!MessagesController.getInstance(SelfStoryViewsPage.this.currentAccount).premiumFeaturesBlocked()) {
                             spannableStringBuilder.append((CharSequence) "\n\n");
-                            String string = LocaleController.getString("ExpiredViewsStubPremiumDescription", R.string.ExpiredViewsStubPremiumDescription);
+                            String string = LocaleController.getString(R.string.ExpiredViewsStubPremiumDescription);
                             final SelfStoryViewsPage selfStoryViewsPage2 = SelfStoryViewsPage.this;
                             spannableStringBuilder.append((CharSequence) AndroidUtilities.replaceSingleTag(string, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda1
                                 @Override // java.lang.Runnable
@@ -1030,7 +1030,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                                     SelfStoryViewsPage.access$1300(SelfStoryViewsPage.this);
                                 }
                             }));
-                            String string2 = LocaleController.getString("LearnMore", R.string.LearnMore);
+                            String string2 = LocaleController.getString(R.string.LearnMore);
                             final SelfStoryViewsPage selfStoryViewsPage3 = SelfStoryViewsPage.this;
                             stickerEmptyView.createButtonLayout(string2, new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda2
                                 @Override // java.lang.Runnable
@@ -1075,14 +1075,14 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                     linksTextView2.setGravity(17);
                     linksTextView2.setDisablePaddingsOffsetY(true);
                     if (i == 11) {
-                        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString("StoryViewsPremiumHint", R.string.StoryViewsPremiumHint), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda0
+                        linksTextView2.setText(AndroidUtilities.replaceSingleTag(LocaleController.getString(R.string.StoryViewsPremiumHint), new Runnable() { // from class: org.telegram.ui.Stories.SelfStoryViewsPage$ListAdapter$$ExternalSyntheticLambda0
                             @Override // java.lang.Runnable
                             public final void run() {
                                 SelfStoryViewsPage.ListAdapter.this.lambda$onCreateViewHolder$0();
                             }
                         }));
                     } else {
-                        linksTextView2.setText(LocaleController.getString("ServerErrorViewersFull", R.string.ServerErrorViewersFull));
+                        linksTextView2.setText(LocaleController.getString(R.string.ServerErrorViewersFull));
                     }
                     linksTextView2.setLayoutParams(new RecyclerView.LayoutParams(-1, -2));
                     linksTextView = linksTextView2;
@@ -1719,7 +1719,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             linearLayout.setOrientation(0);
             TextView textView = new TextView(context);
             this.allViewersView = textView;
-            textView.setText(LocaleController.getString("AllViewers", R.string.AllViewers));
+            textView.setText(LocaleController.getString(R.string.AllViewers));
             TextView textView2 = this.allViewersView;
             int i2 = Theme.key_dialogTextBlack;
             textView2.setTextColor(Theme.getColor(i2, SelfStoryViewsPage.this.resourcesProvider));
@@ -1728,7 +1728,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
             this.allViewersView.setPadding(AndroidUtilities.dp(12.0f), AndroidUtilities.dp(4.0f), AndroidUtilities.dp(12.0f), AndroidUtilities.dp(4.0f));
             TextView textView3 = new TextView(context);
             this.contactsViewersView = textView3;
-            textView3.setText(LocaleController.getString("Contacts", R.string.Contacts));
+            textView3.setText(LocaleController.getString(R.string.Contacts));
             this.contactsViewersView.setTextColor(Theme.getColor(i2, SelfStoryViewsPage.this.resourcesProvider));
             this.contactsViewersView.setTextSize(1, 14.0f);
             this.contactsViewersView.setTypeface(AndroidUtilities.bold());
@@ -1832,7 +1832,7 @@ public class SelfStoryViewsPage extends FrameLayout implements NotificationCente
                         SelfStoryViewsPage.HeaderView.1.this.lambda$onCreate$0(view);
                     }
                 });
-                ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, !SelfStoryViewsPage.this.state.sortByReactions ? R.drawable.menu_views_recent2 : R.drawable.menu_views_recent, LocaleController.getString("SortByTime", R.string.SortByTime), false, SelfStoryViewsPage.this.resourcesProvider);
+                ActionBarMenuSubItem addItem2 = ActionBarMenuItem.addItem(actionBarPopupWindowLayout, !SelfStoryViewsPage.this.state.sortByReactions ? R.drawable.menu_views_recent2 : R.drawable.menu_views_recent, LocaleController.getString(R.string.SortByTime), false, SelfStoryViewsPage.this.resourcesProvider);
                 if (SelfStoryViewsPage.this.state.sortByReactions) {
                     addItem2.setAlpha(0.5f);
                 }

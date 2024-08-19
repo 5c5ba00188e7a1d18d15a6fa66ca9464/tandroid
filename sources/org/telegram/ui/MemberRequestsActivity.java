@@ -30,27 +30,17 @@ public class MemberRequestsActivity extends BaseFragment {
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        int i;
-        String str;
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.MemberRequestsActivity.2
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i) {
+                if (i == -1) {
                     MemberRequestsActivity.this.finishFragment();
                 }
             }
         });
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        ActionBar actionBar = this.actionBar;
-        if (this.delegate.isChannel) {
-            i = R.string.SubscribeRequests;
-            str = "SubscribeRequests";
-        } else {
-            i = R.string.MemberRequests;
-            str = "MemberRequests";
-        }
-        actionBar.setTitle(LocaleController.getString(str, i));
+        this.actionBar.setTitle(LocaleController.getString(this.delegate.isChannel ? R.string.SubscribeRequests : R.string.MemberRequests));
         ActionBarMenuItem actionBarMenuItemSearchListener = this.actionBar.createMenu().addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() { // from class: org.telegram.ui.MemberRequestsActivity.3
             @Override // org.telegram.ui.ActionBar.ActionBarMenuItem.ActionBarMenuItemSearchListener
             public void onSearchExpand() {
@@ -71,7 +61,7 @@ public class MemberRequestsActivity extends BaseFragment {
                 MemberRequestsActivity.this.delegate.setQuery(editText.getText().toString());
             }
         });
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(R.string.Search));
         actionBarMenuItemSearchListener.setVisibility(8);
         FrameLayout rootLayout = this.delegate.getRootLayout();
         this.delegate.lambda$new$8();

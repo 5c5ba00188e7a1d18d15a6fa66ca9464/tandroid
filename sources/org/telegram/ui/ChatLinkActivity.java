@@ -284,7 +284,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         this.searchWas = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Discussion", R.string.Discussion));
+        this.actionBar.setTitle(LocaleController.getString(R.string.Discussion));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ChatLinkActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -341,7 +341,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             }
         });
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(R.string.Search));
         this.searchAdapter = new SearchAdapter(context);
         FrameLayout frameLayout = new FrameLayout(context);
         this.fragmentView = frameLayout;
@@ -352,7 +352,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
         emptyTextProgressView.showProgress();
-        this.emptyView.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        this.emptyView.setText(LocaleController.getString(R.string.NoResult));
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
         RecyclerListView recyclerListView = new RecyclerListView(context);
         this.listView = recyclerListView;
@@ -429,21 +429,21 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 TLRPC$Chat tLRPC$Chat3 = this.chats.get(0);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 if (this.isChannel) {
-                    string = LocaleController.getString("DiscussionUnlinkGroup", R.string.DiscussionUnlinkGroup);
+                    string = LocaleController.getString(R.string.DiscussionUnlinkGroup);
                     formatString = LocaleController.formatString("DiscussionUnlinkChannelAlert", R.string.DiscussionUnlinkChannelAlert, tLRPC$Chat3.title);
                 } else {
-                    string = LocaleController.getString("DiscussionUnlink", R.string.DiscussionUnlinkChannel);
+                    string = LocaleController.getString(R.string.DiscussionUnlinkChannel);
                     formatString = LocaleController.formatString("DiscussionUnlinkGroupAlert", R.string.DiscussionUnlinkGroupAlert, tLRPC$Chat3.title);
                 }
                 builder.setTitle(string);
                 builder.setMessage(AndroidUtilities.replaceTags(formatString));
-                builder.setPositiveButton(LocaleController.getString("DiscussionUnlink", R.string.DiscussionUnlink), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
+                builder.setPositiveButton(LocaleController.getString(R.string.DiscussionUnlink), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         ChatLinkActivity.this.lambda$createView$5(dialogInterface, i3);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -572,7 +572,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
             formatString = LocaleController.formatString("DiscussionLinkGroupPublicAlert", R.string.DiscussionLinkGroupPublicAlert, tLRPC$Chat.title, this.currentChat.title);
         }
         if (chatFull.hidden_prehistory) {
-            formatString = formatString + "\n\n" + LocaleController.getString("DiscussionLinkGroupAlertHistory", R.string.DiscussionLinkGroupAlertHistory);
+            formatString = formatString + "\n\n" + LocaleController.getString(R.string.DiscussionLinkGroupAlertHistory);
         }
         textView.setText(AndroidUtilities.replaceTags(formatString));
         FrameLayout frameLayout = new FrameLayout(getParentActivity());
@@ -597,13 +597,13 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
         frameLayout.addView(textView, LayoutHelper.createFrame(-2, -2.0f, (LocaleController.isRTL ? 5 : 3) | 48, 24.0f, 57.0f, 24.0f, 9.0f));
         avatarDrawable.setInfo(this.currentAccount, tLRPC$Chat);
         backupImageView.setForUserOrChat(tLRPC$Chat, avatarDrawable);
-        builder.setPositiveButton(LocaleController.getString("DiscussionLinkGroup", R.string.DiscussionLinkGroup), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
+        builder.setPositiveButton(LocaleController.getString(R.string.DiscussionLinkGroup), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.ChatLinkActivity$$ExternalSyntheticLambda1
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 ChatLinkActivity.this.lambda$showLinkAlert$9(chatFull, tLRPC$Chat, dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         showDialog(builder.create());
     }
 
@@ -836,7 +836,7 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                         this.messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("DiscussionChannelGroupSetHelp2", R.string.DiscussionChannelGroupSetHelp2, chat.title)));
                     }
                 } else {
-                    this.messageTextView.setText(LocaleController.getString("DiscussionChannelHelp3", R.string.DiscussionChannelHelp3));
+                    this.messageTextView.setText(LocaleController.getString(R.string.DiscussionChannelHelp3));
                 }
             } else {
                 TLRPC$Chat chat2 = ChatLinkActivity.this.getMessagesController().getChat(Long.valueOf(ChatLinkActivity.this.info.linked_chat_id));
@@ -1321,9 +1321,9 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                 TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                 if (i == ChatLinkActivity.this.detailRow) {
                     if (ChatLinkActivity.this.isChannel) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("DiscussionChannelHelp2", R.string.DiscussionChannelHelp2));
+                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.DiscussionChannelHelp2));
                     } else {
-                        textInfoPrivacyCell.setText(LocaleController.getString("DiscussionGroupHelp2", R.string.DiscussionGroupHelp2));
+                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.DiscussionGroupHelp2));
                     }
                 }
             } else if (itemViewType != 2) {
@@ -1333,16 +1333,16 @@ public class ChatLinkActivity extends BaseFragment implements NotificationCenter
                     if (ChatLinkActivity.this.info.linked_chat_id != 0) {
                         int i2 = Theme.key_text_RedRegular;
                         manageChatTextCell.setColors(i2, i2);
-                        manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkGroup", R.string.DiscussionUnlinkGroup), null, R.drawable.msg_remove, false);
+                        manageChatTextCell.setText(LocaleController.getString(R.string.DiscussionUnlinkGroup), null, R.drawable.msg_remove, false);
                         return;
                     }
                     manageChatTextCell.setColors(Theme.key_windowBackgroundWhiteBlueIcon, Theme.key_windowBackgroundWhiteBlueButton);
-                    manageChatTextCell.setText(LocaleController.getString("DiscussionCreateGroup", R.string.DiscussionCreateGroup), null, R.drawable.msg_groups, true);
+                    manageChatTextCell.setText(LocaleController.getString(R.string.DiscussionCreateGroup), null, R.drawable.msg_groups, true);
                     return;
                 }
                 int i3 = Theme.key_text_RedRegular;
                 manageChatTextCell.setColors(i3, i3);
-                manageChatTextCell.setText(LocaleController.getString("DiscussionUnlinkChannel", R.string.DiscussionUnlinkChannel), null, R.drawable.msg_remove, false);
+                manageChatTextCell.setText(LocaleController.getString(R.string.DiscussionUnlinkChannel), null, R.drawable.msg_remove, false);
             }
         }
 

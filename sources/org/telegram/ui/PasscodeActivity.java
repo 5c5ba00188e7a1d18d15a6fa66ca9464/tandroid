@@ -150,29 +150,29 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     }
 
     /* JADX WARN: Removed duplicated region for block: B:30:0x0149  */
-    /* JADX WARN: Removed duplicated region for block: B:34:0x016d  */
-    /* JADX WARN: Removed duplicated region for block: B:37:0x01ed  */
-    /* JADX WARN: Removed duplicated region for block: B:38:0x01ef  */
-    /* JADX WARN: Removed duplicated region for block: B:41:0x0202  */
-    /* JADX WARN: Removed duplicated region for block: B:42:0x0204  */
-    /* JADX WARN: Removed duplicated region for block: B:45:0x021c  */
-    /* JADX WARN: Removed duplicated region for block: B:46:0x021f  */
-    /* JADX WARN: Removed duplicated region for block: B:49:0x02ba  */
-    /* JADX WARN: Removed duplicated region for block: B:50:0x02bc  */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:54:0x02d1  */
-    /* JADX WARN: Removed duplicated region for block: B:63:0x03ef A[LOOP:0: B:62:0x03ed->B:63:0x03ef, LOOP_END] */
-    /* JADX WARN: Removed duplicated region for block: B:66:0x0445  */
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0459  */
-    /* JADX WARN: Removed duplicated region for block: B:72:0x04c9  */
-    /* JADX WARN: Removed duplicated region for block: B:73:0x04cc  */
-    /* JADX WARN: Removed duplicated region for block: B:75:0x04d0  */
-    /* JADX WARN: Removed duplicated region for block: B:76:0x04d3  */
-    /* JADX WARN: Removed duplicated region for block: B:79:0x0524  */
-    /* JADX WARN: Removed duplicated region for block: B:80:0x0527  */
-    /* JADX WARN: Removed duplicated region for block: B:82:0x052b  */
-    /* JADX WARN: Removed duplicated region for block: B:83:0x052e  */
-    /* JADX WARN: Removed duplicated region for block: B:86:0x054d  */
+    /* JADX WARN: Removed duplicated region for block: B:34:0x0169  */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x01e9  */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01eb  */
+    /* JADX WARN: Removed duplicated region for block: B:41:0x01fe  */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x0200  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0218  */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x021b  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x02b6  */
+    /* JADX WARN: Removed duplicated region for block: B:50:0x02b8  */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x02c5  */
+    /* JADX WARN: Removed duplicated region for block: B:54:0x02cd  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x03eb A[LOOP:0: B:62:0x03e9->B:63:0x03eb, LOOP_END] */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x0441  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0455  */
+    /* JADX WARN: Removed duplicated region for block: B:72:0x04c5  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x04c8  */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x04cc  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x04cf  */
+    /* JADX WARN: Removed duplicated region for block: B:79:0x0520  */
+    /* JADX WARN: Removed duplicated region for block: B:80:0x0523  */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0527  */
+    /* JADX WARN: Removed duplicated region for block: B:83:0x052a  */
+    /* JADX WARN: Removed duplicated region for block: B:86:0x0549  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -262,7 +262,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         sizeNotifierFrameLayout.addView(this.keyboardView, LayoutHelper.createLinear(-1, (int) NotificationCenter.didSetNewTheme));
         int i4 = this.type;
         if (i4 == 0) {
-            this.actionBar.setTitle(LocaleController.getString("Passcode", R.string.Passcode));
+            this.actionBar.setTitle(LocaleController.getString(R.string.Passcode));
             int i5 = Theme.key_windowBackgroundGray;
             frameLayout.setTag(Integer.valueOf(i5));
             frameLayout.setBackgroundColor(Theme.getColor(i5));
@@ -331,9 +331,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     this.titleTextView.setTypeface(AndroidUtilities.bold());
                     if (this.type != 1) {
                         if (SharedConfig.passcodeHash.length() != 0) {
-                            this.titleTextView.setText(LocaleController.getString("EnterNewPasscode", R.string.EnterNewPasscode));
+                            this.titleTextView.setText(LocaleController.getString(R.string.EnterNewPasscode));
                         } else {
-                            this.titleTextView.setText(LocaleController.getString("CreatePasscode", R.string.CreatePasscode));
+                            this.titleTextView.setText(LocaleController.getString(R.string.CreatePasscode));
                         }
                     } else {
                         this.titleTextView.setText(LocaleController.getString(R.string.EnterYourPasscode));
@@ -811,7 +811,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     return;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("AutoLock", R.string.AutoLock));
+                builder.setTitle(LocaleController.getString(R.string.AutoLock));
                 final NumberPicker numberPicker = new NumberPicker(getParentActivity());
                 numberPicker.setMinValue(0);
                 numberPicker.setMaxValue(4);
@@ -836,7 +836,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     }
                 });
                 builder.setView(numberPicker);
-                builder.setNegativeButton(LocaleController.getString("Done", R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
+                builder.setNegativeButton(LocaleController.getString(R.string.Done), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.PasscodeActivity$$ExternalSyntheticLambda18
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i3) {
                         PasscodeActivity.this.lambda$createView$4(numberPicker, i, dialogInterface, i3);
@@ -855,7 +855,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                 if (SharedConfig.allowScreenCapture) {
                     return;
                 }
-                AlertsCreator.showSimpleAlert(this, LocaleController.getString("ScreenCaptureAlert", R.string.ScreenCaptureAlert));
+                AlertsCreator.showSimpleAlert(this, LocaleController.getString(R.string.ScreenCaptureAlert));
             }
         }
     }
@@ -886,7 +886,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
     /* JADX INFO: Access modifiers changed from: private */
     public static /* synthetic */ String lambda$createView$3(int i) {
         if (i == 0) {
-            return LocaleController.getString("AutoLockDisabled", R.string.AutoLockDisabled);
+            return LocaleController.getString(R.string.AutoLockDisabled);
         }
         return i == 1 ? LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Minutes", 1, new Object[0])) : i == 2 ? LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Minutes", 5, new Object[0])) : i == 3 ? LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Hours", 1, new Object[0])) : i == 4 ? LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Hours", 5, new Object[0])) : "";
     }
@@ -1375,8 +1375,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         if (actionBarMenuItem != null) {
             actionBarMenuItem.setVisibility(8);
         }
-        this.titleTextView.setText(LocaleController.getString("ConfirmCreatePasscode", R.string.ConfirmCreatePasscode));
-        this.descriptionTextSwitcher.setText(AndroidUtilities.replaceTags(LocaleController.getString("PasscodeReinstallNotice", R.string.PasscodeReinstallNotice)));
+        this.titleTextView.setText(LocaleController.getString(R.string.ConfirmCreatePasscode));
+        this.descriptionTextSwitcher.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PasscodeReinstallNotice)));
         this.firstPassword = isPinCode() ? this.codeFieldContainer.getCode() : this.passwordEditText.getText().toString();
         this.passwordEditText.setText("");
         this.passwordEditText.setInputType(524417);
@@ -1696,13 +1696,13 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     } else {
                         formatString = LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Days", (int) Math.ceil(((i3 / 60.0f) / 60.0f) / 24.0f), new Object[0]));
                     }
-                    textSettingsCell.setTextAndValue(LocaleController.getString("AutoLock", R.string.AutoLock), formatString, true);
+                    textSettingsCell.setTextAndValue(LocaleController.getString(R.string.AutoLock), formatString, true);
                     int i4 = Theme.key_windowBackgroundWhiteBlackText;
                     textSettingsCell.setTag(Integer.valueOf(i4));
                     textSettingsCell.setTextColor(Theme.getColor(i4));
                     return;
                 }
-                textSettingsCell.setText(LocaleController.getString("ChangePasscode", R.string.ChangePasscode), true);
+                textSettingsCell.setText(LocaleController.getString(R.string.ChangePasscode), true);
                 if (SharedConfig.passcodeHash.length() == 0) {
                     int i5 = Theme.key_windowBackgroundWhiteGrayText7;
                     textSettingsCell.setTag(Integer.valueOf(i5));

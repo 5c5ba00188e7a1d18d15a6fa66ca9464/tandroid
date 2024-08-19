@@ -195,13 +195,13 @@ public class SaveToGallerySettingsHelper {
             StringBuilder sb = new StringBuilder();
             if (enabled()) {
                 if (this.savePhoto) {
-                    sb.append(LocaleController.getString("SaveToGalleryPhotos", R.string.SaveToGalleryPhotos));
+                    sb.append(LocaleController.getString(R.string.SaveToGalleryPhotos));
                 }
                 if (this.saveVideo) {
                     if (sb.length() != 0) {
                         sb.append(", ");
                     }
-                    sb.append(LocaleController.getString("SaveToGalleryVideos", R.string.SaveToGalleryVideos));
+                    sb.append(LocaleController.getString(R.string.SaveToGalleryVideos));
                     long j = this.limitVideo;
                     if (j > 0 && j < 4194304000L) {
                         sb.append(" (");
@@ -210,7 +210,7 @@ public class SaveToGallerySettingsHelper {
                     }
                 }
             } else {
-                sb.append(LocaleController.getString("SaveToGalleryOff", R.string.SaveToGalleryOff));
+                sb.append(LocaleController.getString(R.string.SaveToGalleryOff));
             }
             LongSparseArray<DialogException> saveGalleryExceptions = UserConfig.getInstance(i).getSaveGalleryExceptions(this.type);
             if (saveGalleryExceptions.size() != 0) {
@@ -238,7 +238,7 @@ public class SaveToGallerySettingsHelper {
             StringBuilder sb = new StringBuilder();
             if (enabled()) {
                 if (this.savePhoto) {
-                    sb.append(LocaleController.getString("SaveToGalleryPhotos", R.string.SaveToGalleryPhotos));
+                    sb.append(LocaleController.getString(R.string.SaveToGalleryPhotos));
                 }
                 if (this.saveVideo) {
                     if (sb.length() != 0) {
@@ -252,7 +252,7 @@ public class SaveToGallerySettingsHelper {
                     }
                 }
             } else {
-                sb.append(LocaleController.getString("SaveToGalleryOff", R.string.SaveToGalleryOff));
+                sb.append(LocaleController.getString(R.string.SaveToGalleryOff));
             }
             return sb;
         }

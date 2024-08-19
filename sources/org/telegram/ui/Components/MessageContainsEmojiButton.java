@@ -71,6 +71,12 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
         }
     }
 
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x010c, code lost:
+        r4 = null;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     public MessageContainsEmojiButton(int i, Context context, Theme.ResourcesProvider resourcesProvider, ArrayList<TLRPC$InputStickerSet> arrayList, int i2) {
         super(context);
         String string;
@@ -113,11 +119,11 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
             }
         } else {
             if (i2 == 0) {
-                string = LocaleController.getString("MessageContainsEmojiPack", R.string.MessageContainsEmojiPack);
+                string = LocaleController.getString(R.string.MessageContainsEmojiPack);
             } else if (i2 == 3) {
-                string = LocaleController.getString("MessageContainsReactionPack", R.string.MessageContainsReactionPack);
+                string = LocaleController.getString(R.string.MessageContainsReactionPack);
             } else {
-                string = LocaleController.getString("MessageContainsReactionsPack", R.string.MessageContainsReactionsPack);
+                string = LocaleController.getString(R.string.MessageContainsReactionsPack);
             }
             String[] split = string.split("%s");
             if (split.length <= 1) {
@@ -143,7 +149,6 @@ public class MessageContainsEmojiButton extends FrameLayout implements Notificat
                         i4++;
                     }
                 }
-                tLRPC$Document = null;
                 if (tLRPC$Document == null && (arrayList2 = stickerSet.documents) != null && arrayList2.size() > 0) {
                     tLRPC$Document = stickerSet.documents.get(0);
                 }

@@ -1616,12 +1616,12 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         if (tLRPC$TL_attachMenuBot == null) {
             return;
         }
-        new AlertDialog.Builder(LaunchActivity.getLastFragment().getContext()).setTitle(LocaleController.getString(R.string.BotRemoveFromMenuTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotRemoveFromMenu", R.string.BotRemoveFromMenu, tLRPC$TL_attachMenuBot.short_name))).setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda30
+        new AlertDialog.Builder(LaunchActivity.getLastFragment().getContext()).setTitle(LocaleController.getString(R.string.BotRemoveFromMenuTitle)).setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotRemoveFromMenu", R.string.BotRemoveFromMenu, tLRPC$TL_attachMenuBot.short_name))).setPositiveButton(LocaleController.getString(R.string.OK), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.bots.BotWebViewAttachedSheet$$ExternalSyntheticLambda30
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i2) {
                 BotWebViewAttachedSheet.lambda$deleteBot$27(i, j, tLRPC$TL_attachMenuBot, runnable, dialogInterface, i2);
             }
-        }).setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null).show();
+        }).setNegativeButton(LocaleController.getString(R.string.Cancel), null).show();
     }
 
     /* JADX INFO: Access modifiers changed from: private */

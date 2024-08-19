@@ -357,7 +357,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
                 EditTextEmoji.this.lambda$new$0(sizeNotifierFrameLayout, resourcesProvider, view);
             }
         });
-        this.emojiButton.setContentDescription(LocaleController.getString("Emoji", R.string.Emoji));
+        this.emojiButton.setContentDescription(LocaleController.getString(R.string.Emoji));
     }
 
     /* JADX INFO: Access modifiers changed from: private */
@@ -1044,15 +1044,15 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
         @Override // org.telegram.ui.Components.EmojiView.EmojiViewDelegate
         public void onClearEmojiRecent() {
             AlertDialog.Builder builder = new AlertDialog.Builder(EditTextEmoji.this.getContext(), EditTextEmoji.this.resourcesProvider);
-            builder.setTitle(LocaleController.getString("ClearRecentEmojiTitle", R.string.ClearRecentEmojiTitle));
-            builder.setMessage(LocaleController.getString("ClearRecentEmojiText", R.string.ClearRecentEmojiText));
-            builder.setPositiveButton(LocaleController.getString("ClearButton", R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextEmoji$7$$ExternalSyntheticLambda0
+            builder.setTitle(LocaleController.getString(R.string.ClearRecentEmojiTitle));
+            builder.setMessage(LocaleController.getString(R.string.ClearRecentEmojiText));
+            builder.setPositiveButton(LocaleController.getString(R.string.ClearButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.EditTextEmoji$7$$ExternalSyntheticLambda0
                 @Override // android.content.DialogInterface.OnClickListener
                 public final void onClick(DialogInterface dialogInterface, int i) {
                     EditTextEmoji.7.this.lambda$onClearEmojiRecent$0(dialogInterface, i);
                 }
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             if (EditTextEmoji.this.parentFragment != null) {
                 EditTextEmoji.this.parentFragment.showDialog(builder.create());
             } else {

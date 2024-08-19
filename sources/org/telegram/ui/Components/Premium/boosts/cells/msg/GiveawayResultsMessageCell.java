@@ -296,7 +296,7 @@ public class GiveawayResultsMessageCell {
                 spannableStringBuilder2.setSpan(new RelativeSizeSpan(1.05f), 0, spannableStringBuilder2.length(), 33);
                 spannableStringBuilder2.append((CharSequence) "\n");
             }
-            spannableStringBuilder2.append((CharSequence) LocaleController.getString("BoostingGiveawayResultsMsgAllWinnersReceivedLinks", R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks));
+            spannableStringBuilder2.append((CharSequence) LocaleController.getString(R.string.BoostingGiveawayResultsMsgAllWinnersReceivedLinks));
             TextPaint textPaint = this.textPaint;
             Layout.Alignment alignment = Layout.Alignment.ALIGN_CENTER;
             TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;

@@ -317,7 +317,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             updateListInternal(z, this.currentLoadingFilesTmp, this.recentLoadingFilesTmp);
             if (this.rowCount == 0) {
                 this.emptyView.showProgress(false, false);
-                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewDownloads", R.string.SearchEmptyViewDownloads));
+                this.emptyView.title.setText(LocaleController.getString(R.string.SearchEmptyViewDownloads));
                 this.emptyView.subtitle.setVisibility(8);
             }
             this.emptyView.setStickerType(9);
@@ -388,9 +388,9 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             updateListInternal(true, arrayList, arrayList2);
             if (this.rowCount == 0) {
                 this.emptyView.showProgress(false, true);
-                this.emptyView.title.setText(LocaleController.getString("SearchEmptyViewTitle2", R.string.SearchEmptyViewTitle2));
+                this.emptyView.title.setText(LocaleController.getString(R.string.SearchEmptyViewTitle2));
                 this.emptyView.subtitle.setVisibility(0);
-                this.emptyView.subtitle.setText(LocaleController.getString("SearchEmptyViewFilteredSubtitle2", R.string.SearchEmptyViewFilteredSubtitle2));
+                this.emptyView.subtitle.setText(LocaleController.getString(R.string.SearchEmptyViewFilteredSubtitle2));
             }
         }
     }
@@ -569,8 +569,8 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
             return new RecyclerListView.Holder(view);
         }
 
-        /* JADX WARN: Removed duplicated region for block: B:32:0x00a4  */
-        /* JADX WARN: Removed duplicated region for block: B:44:0x010e  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0094  */
+        /* JADX WARN: Removed duplicated region for block: B:46:0x00fe  */
         @Override // androidx.recyclerview.widget.RecyclerView.Adapter
         /*
             Code decompiled incorrectly, please refer to instructions dump.
@@ -582,12 +582,12 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                 GraySectionCell graySectionCell = (GraySectionCell) viewHolder.itemView;
                 SearchDownloadsContainer searchDownloadsContainer = SearchDownloadsContainer.this;
                 if (i == searchDownloadsContainer.downloadingFilesHeader) {
-                    String string = LocaleController.getString("Downloading", R.string.Downloading);
+                    String string = LocaleController.getString(R.string.Downloading);
                     if (graySectionCell.getText().equals(string)) {
-                        graySectionCell.setRightText(SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", R.string.PauseAll) : LocaleController.getString("ResumeAll", R.string.ResumeAll), SearchDownloadsContainer.this.hasCurrentDownload);
+                        graySectionCell.setRightText(LocaleController.getString(SearchDownloadsContainer.this.hasCurrentDownload ? R.string.PauseAll : R.string.ResumeAll), SearchDownloadsContainer.this.hasCurrentDownload);
                         return;
                     } else {
-                        graySectionCell.setText(string, SearchDownloadsContainer.this.hasCurrentDownload ? LocaleController.getString("PauseAll", R.string.PauseAll) : LocaleController.getString("ResumeAll", R.string.ResumeAll), new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.2
+                        graySectionCell.setText(string, LocaleController.getString(SearchDownloadsContainer.this.hasCurrentDownload ? R.string.PauseAll : R.string.ResumeAll), new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchDownloadsContainer.DownloadsAdapter.2
                             @Override // android.view.View.OnClickListener
                             public void onClick(View view) {
                                 for (int i2 = 0; i2 < SearchDownloadsContainer.this.currentLoadingFiles.size(); i2++) {
@@ -605,7 +605,7 @@ public class SearchDownloadsContainer extends FrameLayout implements Notificatio
                         return;
                     }
                 } else if (i == searchDownloadsContainer.recentFilesHeader) {
-                    graySectionCell.setText(LocaleController.getString("RecentlyDownloaded", R.string.RecentlyDownloaded), LocaleController.getString("Settings", R.string.Settings), new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$DownloadsAdapter$$ExternalSyntheticLambda0
+                    graySectionCell.setText(LocaleController.getString(R.string.RecentlyDownloaded), LocaleController.getString(R.string.Settings), new View.OnClickListener() { // from class: org.telegram.ui.Components.SearchDownloadsContainer$DownloadsAdapter$$ExternalSyntheticLambda0
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
                             SearchDownloadsContainer.DownloadsAdapter.this.lambda$onBindViewHolder$0(view);

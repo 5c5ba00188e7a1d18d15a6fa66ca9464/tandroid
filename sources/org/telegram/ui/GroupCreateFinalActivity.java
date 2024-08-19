@@ -330,19 +330,17 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
-        int i;
-        String str;
         EditTextEmoji editTextEmoji = this.editText;
         if (editTextEmoji != null) {
             editTextEmoji.onDestroy();
         }
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("NewGroup", R.string.NewGroup));
+        this.actionBar.setTitle(LocaleController.getString(R.string.NewGroup));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.GroupCreateFinalActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
-            public void onItemClick(int i2) {
-                if (i2 == -1) {
+            public void onItemClick(int i) {
+                if (i == -1) {
                     GroupCreateFinalActivity.this.finishFragment();
                 }
             }
@@ -351,20 +349,20 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             private boolean ignoreLayout;
 
             @Override // android.widget.FrameLayout, android.view.View
-            protected void onMeasure(int i2, int i3) {
-                int size = View.MeasureSpec.getSize(i2);
-                int size2 = View.MeasureSpec.getSize(i3);
+            protected void onMeasure(int i, int i2) {
+                int size = View.MeasureSpec.getSize(i);
+                int size2 = View.MeasureSpec.getSize(i2);
                 setMeasuredDimension(size, size2);
                 int paddingTop = size2 - getPaddingTop();
-                measureChildWithMargins(((BaseFragment) GroupCreateFinalActivity.this).actionBar, i2, 0, i3, 0);
+                measureChildWithMargins(((BaseFragment) GroupCreateFinalActivity.this).actionBar, i, 0, i2, 0);
                 if (measureKeyboardHeight() > AndroidUtilities.dp(20.0f) && !GroupCreateFinalActivity.this.editText.isPopupShowing()) {
                     this.ignoreLayout = true;
                     GroupCreateFinalActivity.this.editText.hideEmojiView();
                     this.ignoreLayout = false;
                 }
                 int childCount = getChildCount();
-                for (int i4 = 0; i4 < childCount; i4++) {
-                    View childAt = getChildAt(i4);
+                for (int i3 = 0; i3 < childCount; i3++) {
+                    View childAt = getChildAt(i3);
                     if (childAt != null && childAt.getVisibility() != 8 && childAt != ((BaseFragment) GroupCreateFinalActivity.this).actionBar) {
                         if (GroupCreateFinalActivity.this.editText != null && GroupCreateFinalActivity.this.editText.isPopupView(childAt)) {
                             if (AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) {
@@ -377,7 +375,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                                 childAt.measure(View.MeasureSpec.makeMeasureSpec(size, 1073741824), View.MeasureSpec.makeMeasureSpec(childAt.getLayoutParams().height, 1073741824));
                             }
                         } else {
-                            measureChildWithMargins(childAt, i2, 0, i3, 0);
+                            measureChildWithMargins(childAt, i, 0, i2, 0);
                         }
                     }
                 }
@@ -393,47 +391,47 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             /*
                 Code decompiled incorrectly, please refer to instructions dump.
             */
-            public void onLayout(boolean z, int i2, int i3, int i4, int i5) {
+            public void onLayout(boolean z, int i, int i2, int i3, int i4) {
+                int i5;
                 int i6;
                 int i7;
                 int i8;
                 int i9;
                 int i10;
-                int i11;
                 int measuredHeight;
                 int measuredHeight2;
                 int childCount = getChildCount();
                 int measureKeyboardHeight = measureKeyboardHeight();
                 int emojiPadding = (measureKeyboardHeight > AndroidUtilities.dp(20.0f) || AndroidUtilities.isInMultiwindow || AndroidUtilities.isTablet()) ? 0 : GroupCreateFinalActivity.this.editText.getEmojiPadding();
                 setBottomClip(emojiPadding);
-                for (int i12 = 0; i12 < childCount; i12++) {
-                    View childAt = getChildAt(i12);
+                for (int i11 = 0; i11 < childCount; i11++) {
+                    View childAt = getChildAt(i11);
                     if (childAt.getVisibility() != 8) {
                         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) childAt.getLayoutParams();
                         int measuredWidth = childAt.getMeasuredWidth();
                         int measuredHeight3 = childAt.getMeasuredHeight();
-                        int i13 = layoutParams.gravity;
-                        if (i13 == -1) {
-                            i13 = 51;
+                        int i12 = layoutParams.gravity;
+                        if (i12 == -1) {
+                            i12 = 51;
                         }
-                        int i14 = i13 & 112;
-                        int i15 = i13 & 7;
-                        if (i15 == 1) {
-                            i6 = (((i4 - i2) - measuredWidth) / 2) + layoutParams.leftMargin;
-                            i7 = layoutParams.rightMargin;
-                        } else if (i15 == 5) {
-                            i6 = i4 - measuredWidth;
-                            i7 = layoutParams.rightMargin;
+                        int i13 = i12 & 112;
+                        int i14 = i12 & 7;
+                        if (i14 == 1) {
+                            i5 = (((i3 - i) - measuredWidth) / 2) + layoutParams.leftMargin;
+                            i6 = layoutParams.rightMargin;
+                        } else if (i14 == 5) {
+                            i5 = i3 - measuredWidth;
+                            i6 = layoutParams.rightMargin;
                         } else {
-                            i8 = layoutParams.leftMargin;
-                            if (i14 == 16) {
-                                if (i14 == 48) {
-                                    i11 = layoutParams.topMargin + getPaddingTop();
-                                } else if (i14 == 80) {
-                                    i9 = ((i5 - emojiPadding) - i3) - measuredHeight3;
-                                    i10 = layoutParams.bottomMargin;
+                            i7 = layoutParams.leftMargin;
+                            if (i13 == 16) {
+                                if (i13 == 48) {
+                                    i10 = layoutParams.topMargin + getPaddingTop();
+                                } else if (i13 == 80) {
+                                    i8 = ((i4 - emojiPadding) - i2) - measuredHeight3;
+                                    i9 = layoutParams.bottomMargin;
                                 } else {
-                                    i11 = layoutParams.topMargin;
+                                    i10 = layoutParams.topMargin;
                                 }
                                 if (GroupCreateFinalActivity.this.editText != null && GroupCreateFinalActivity.this.editText.isPopupView(childAt)) {
                                     if (!AndroidUtilities.isTablet()) {
@@ -443,28 +441,28 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                                         measuredHeight = getMeasuredHeight() + measureKeyboardHeight;
                                         measuredHeight2 = childAt.getMeasuredHeight();
                                     }
-                                    i11 = measuredHeight - measuredHeight2;
+                                    i10 = measuredHeight - measuredHeight2;
                                 }
-                                childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
+                                childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                             } else {
-                                i9 = ((((i5 - emojiPadding) - i3) - measuredHeight3) / 2) + layoutParams.topMargin;
-                                i10 = layoutParams.bottomMargin;
+                                i8 = ((((i4 - emojiPadding) - i2) - measuredHeight3) / 2) + layoutParams.topMargin;
+                                i9 = layoutParams.bottomMargin;
                             }
-                            i11 = i9 - i10;
+                            i10 = i8 - i9;
                             if (GroupCreateFinalActivity.this.editText != null) {
                                 if (!AndroidUtilities.isTablet()) {
                                 }
-                                i11 = measuredHeight - measuredHeight2;
+                                i10 = measuredHeight - measuredHeight2;
                             }
-                            childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
+                            childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                         }
-                        i8 = i6 - i7;
-                        if (i14 == 16) {
+                        i7 = i5 - i6;
+                        if (i13 == 16) {
                         }
-                        i11 = i9 - i10;
+                        i10 = i8 - i9;
                         if (GroupCreateFinalActivity.this.editText != null) {
                         }
-                        childAt.layout(i8, i11, measuredWidth + i8, measuredHeight3 + i11);
+                        childAt.layout(i7, i10, measuredWidth + i7, measuredHeight3 + i10);
                     }
                 }
                 notifyHeightChanged();
@@ -516,18 +514,18 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             }
 
             @Override // android.view.View
-            public void invalidate(int i2, int i3, int i4, int i5) {
+            public void invalidate(int i, int i2, int i3, int i4) {
                 if (GroupCreateFinalActivity.this.avatarOverlay != null) {
                     GroupCreateFinalActivity.this.avatarOverlay.invalidate();
                 }
-                super.invalidate(i2, i3, i4, i5);
+                super.invalidate(i, i2, i3, i4);
             }
         };
         this.avatarImage = backupImageView;
         backupImageView.setRoundRadius(AndroidUtilities.dp(this.chatType == 5 ? 16.0f : 32.0f));
         this.avatarDrawable.setInfo(5L, null, null);
         this.avatarImage.setImageDrawable(this.avatarDrawable);
-        this.avatarImage.setContentDescription(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
+        this.avatarImage.setContentDescription(LocaleController.getString(R.string.ChoosePhoto));
         FrameLayout frameLayout2 = this.editTextContainer;
         BackupImageView backupImageView2 = this.avatarImage;
         boolean z = LocaleController.isRTL;
@@ -553,12 +551,12 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                 GroupCreateFinalActivity.this.lambda$createView$4(view2);
             }
         });
-        int i2 = R.raw.camera;
-        this.cameraDrawable = new RLottieDrawable(i2, "" + i2, AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false, null);
+        int i = R.raw.camera;
+        this.cameraDrawable = new RLottieDrawable(i, "" + i, AndroidUtilities.dp(60.0f), AndroidUtilities.dp(60.0f), false, null);
         RLottieImageView rLottieImageView = new RLottieImageView(context) { // from class: org.telegram.ui.GroupCreateFinalActivity.6
             @Override // android.view.View
-            public void invalidate(int i3, int i4, int i5, int i6) {
-                super.invalidate(i3, i4, i5, i6);
+            public void invalidate(int i2, int i3, int i4, int i5) {
+                super.invalidate(i2, i3, i4, i5);
                 GroupCreateFinalActivity.this.avatarOverlay.invalidate();
             }
 
@@ -597,18 +595,11 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         showAvatarProgress(false, false);
         EditTextEmoji editTextEmoji2 = new EditTextEmoji(context, sizeNotifierFrameLayout, this, 0, false);
         this.editText = editTextEmoji2;
-        int i3 = this.chatType;
-        if (i3 == 0 || i3 == 4 || i3 == 5) {
-            i = R.string.EnterGroupNamePlaceholder;
-            str = "EnterGroupNamePlaceholder";
-        } else {
-            i = R.string.EnterListName;
-            str = "EnterListName";
-        }
-        editTextEmoji2.setHint(LocaleController.getString(str, i));
-        String str2 = this.nameToSet;
-        if (str2 != null) {
-            this.editText.setText(str2);
+        int i2 = this.chatType;
+        editTextEmoji2.setHint(LocaleController.getString((i2 == 0 || i2 == 4 || i2 == 5) ? R.string.EnterGroupNamePlaceholder : R.string.EnterListName));
+        String str = this.nameToSet;
+        if (str != null) {
+            this.editText.setText(str);
             EditTextEmoji editTextEmoji3 = this.editText;
             editTextEmoji3.setSelection(editTextEmoji3.getText().length());
             this.nameToSet = null;
@@ -632,32 +623,32 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         linearLayout.addView(this.listView, LayoutHelper.createLinear(-1, -1));
         this.listView.setOnScrollListener(new RecyclerView.OnScrollListener() { // from class: org.telegram.ui.GroupCreateFinalActivity.8
             @Override // androidx.recyclerview.widget.RecyclerView.OnScrollListener
-            public void onScrollStateChanged(RecyclerView recyclerView, int i4) {
-                if (i4 == 1) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int i3) {
+                if (i3 == 1) {
                     AndroidUtilities.hideKeyboard(GroupCreateFinalActivity.this.editText);
                 }
             }
         });
         this.listView.setOnItemClickListener(new RecyclerListView.OnItemClickListenerExtended() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda3
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ boolean hasDoubleTap(View view2, int i4) {
-                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i4);
+            public /* synthetic */ boolean hasDoubleTap(View view2, int i3) {
+                return RecyclerListView.OnItemClickListenerExtended.-CC.$default$hasDoubleTap(this, view2, i3);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public /* synthetic */ void onDoubleTap(View view2, int i4, float f, float f2) {
-                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i4, f, f2);
+            public /* synthetic */ void onDoubleTap(View view2, int i3, float f, float f2) {
+                RecyclerListView.OnItemClickListenerExtended.-CC.$default$onDoubleTap(this, view2, i3, f, f2);
             }
 
             @Override // org.telegram.ui.Components.RecyclerListView.OnItemClickListenerExtended
-            public final void onItemClick(View view2, int i4, float f, float f2) {
-                GroupCreateFinalActivity.this.lambda$createView$6(view2, i4, f, f2);
+            public final void onItemClick(View view2, int i3, float f, float f2) {
+                GroupCreateFinalActivity.this.lambda$createView$6(view2, i3, f, f2);
             }
         });
         this.floatingButtonContainer = new FrameLayout(context);
         Drawable createSimpleSelectorCircleDrawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56.0f), Theme.getColor(Theme.key_chats_actionBackground), Theme.getColor(Theme.key_chats_actionPressedBackground));
-        int i4 = Build.VERSION.SDK_INT;
-        if (i4 < 21) {
+        int i3 = Build.VERSION.SDK_INT;
+        if (i3 < 21) {
             Drawable mutate = context.getResources().getDrawable(R.drawable.floating_shadow).mutate();
             mutate.setColorFilter(new PorterDuffColorFilter(-16777216, PorterDuff.Mode.MULTIPLY));
             CombinedDrawable combinedDrawable = new CombinedDrawable(mutate, createSimpleSelectorCircleDrawable, 0, 0);
@@ -665,7 +656,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             createSimpleSelectorCircleDrawable = combinedDrawable;
         }
         this.floatingButtonContainer.setBackgroundDrawable(createSimpleSelectorCircleDrawable);
-        if (i4 >= 21) {
+        if (i3 >= 21) {
             StateListAnimator stateListAnimator = new StateListAnimator();
             stateListAnimator.addState(new int[]{16842919}, ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(2.0f), AndroidUtilities.dp(4.0f)).setDuration(200L));
             stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this.floatingButtonIcon, "translationZ", AndroidUtilities.dp(4.0f), AndroidUtilities.dp(2.0f)).setDuration(200L));
@@ -680,10 +671,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         }
         VerticalPositionAutoAnimator.attach(this.floatingButtonContainer);
         View view2 = this.floatingButtonContainer;
-        int i5 = i4 >= 21 ? 56 : 60;
-        float f = i4 >= 21 ? 56.0f : 60.0f;
+        int i4 = i3 >= 21 ? 56 : 60;
+        float f = i3 >= 21 ? 56.0f : 60.0f;
         boolean z6 = LocaleController.isRTL;
-        sizeNotifierFrameLayout.addView(view2, LayoutHelper.createFrame(i5, f, (z6 ? 3 : 5) | 80, z6 ? 14.0f : 0.0f, 0.0f, z6 ? 0.0f : 14.0f, 14.0f));
+        sizeNotifierFrameLayout.addView(view2, LayoutHelper.createFrame(i4, f, (z6 ? 3 : 5) | 80, z6 ? 14.0f : 0.0f, 0.0f, z6 ? 0.0f : 14.0f, 14.0f));
         this.floatingButtonContainer.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.GroupCreateFinalActivity$$ExternalSyntheticLambda4
             @Override // android.view.View.OnClickListener
             public final void onClick(View view3) {
@@ -696,8 +687,8 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
         this.floatingButtonIcon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_actionIcon), PorterDuff.Mode.MULTIPLY));
         this.floatingButtonIcon.setImageResource(R.drawable.checkbig);
         this.floatingButtonIcon.setPadding(0, AndroidUtilities.dp(2.0f), 0, 0);
-        this.floatingButtonContainer.setContentDescription(LocaleController.getString("Done", R.string.Done));
-        this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i4 >= 21 ? 56 : 60, i4 >= 21 ? 56.0f : 60.0f));
+        this.floatingButtonContainer.setContentDescription(LocaleController.getString(R.string.Done));
+        this.floatingButtonContainer.addView(this.floatingButtonIcon, LayoutHelper.createFrame(i3 >= 21 ? 56 : 60, i3 >= 21 ? 56.0f : 60.0f));
         ContextProgressView contextProgressView = new ContextProgressView(context, 1);
         this.progressView = contextProgressView;
         contextProgressView.setAlpha(0.0f);
@@ -1112,10 +1103,10 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
             this.items.add(new InnerItem(0));
             if (GroupCreateFinalActivity.this.chatType == 5) {
                 this.items.add(new InnerItem(6));
-                this.items.add(new InnerItem(5, LocaleController.getString("ForumToggleDescription", R.string.ForumToggleDescription)));
+                this.items.add(new InnerItem(5, LocaleController.getString(R.string.ForumToggleDescription)));
             } else {
                 this.items.add(new InnerItem(4));
-                this.items.add(new InnerItem(5, LocaleController.getString("GroupCreateAutodeleteDescription", R.string.GroupCreateAutodeleteDescription)));
+                this.items.add(new InnerItem(5, LocaleController.getString(R.string.GroupCreateAutodeleteDescription)));
             }
             if (GroupCreateFinalActivity.this.currentGroupCreateAddress != null) {
                 this.items.add(new InnerItem(1));
@@ -1194,7 +1185,7 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                         headerCell.setText(LocaleController.formatPluralString("Members", GroupCreateFinalActivity.this.selectedContacts.size(), new Object[0]));
                         return;
                     } else {
-                        headerCell.setText(LocaleController.getString("AttachLocation", R.string.AttachLocation));
+                        headerCell.setText(LocaleController.getString(R.string.AttachLocation));
                         return;
                     }
                 case 2:
@@ -1210,16 +1201,16 @@ public class GroupCreateFinalActivity extends BaseFragment implements Notificati
                     if (GroupCreateFinalActivity.this.ttlPeriod != 0) {
                         formatTTLString = LocaleController.formatTTLString(GroupCreateFinalActivity.this.ttlPeriod);
                     } else {
-                        formatTTLString = LocaleController.getString("PasswordOff", R.string.PasswordOff);
+                        formatTTLString = LocaleController.getString(R.string.PasswordOff);
                     }
-                    textCell.setTextAndValueAndIcon(LocaleController.getString("AutoDeleteMessages", R.string.AutoDeleteMessages), formatTTLString, ((BaseFragment) GroupCreateFinalActivity.this).fragmentBeginToShow, R.drawable.msg_autodelete, false);
+                    textCell.setTextAndValueAndIcon(LocaleController.getString(R.string.AutoDeleteMessages), formatTTLString, ((BaseFragment) GroupCreateFinalActivity.this).fragmentBeginToShow, R.drawable.msg_autodelete, false);
                     return;
                 case 5:
                     ((TextInfoPrivacyCell) viewHolder.itemView).setText(this.items.get(i).string);
                     return;
                 case 6:
                     TextCell textCell2 = (TextCell) viewHolder.itemView;
-                    textCell2.setTextAndCheckAndIcon(LocaleController.getString("ChannelTopics", R.string.ChannelTopics), true, R.drawable.msg_topics, false);
+                    textCell2.setTextAndCheckAndIcon(LocaleController.getString(R.string.ChannelTopics), true, R.drawable.msg_topics, false);
                     textCell2.getCheckBox().setAlpha(0.75f);
                     return;
                 default:

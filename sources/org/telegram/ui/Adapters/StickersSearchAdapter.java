@@ -473,7 +473,7 @@ public class StickersSearchAdapter extends RecyclerListView.SelectionAdapter {
                 linearLayout2.addView(new Space(this.context), LayoutHelper.createLinear(-1, 15));
                 TextView textView = new TextView(this.context);
                 this.emptyTextView = textView;
-                textView.setText(LocaleController.getString("NoStickersFound", R.string.NoStickersFound));
+                textView.setText(LocaleController.getString(R.string.NoStickersFound));
                 this.emptyTextView.setTextSize(1, 16.0f);
                 this.emptyTextView.setTextColor(getThemedColor(i2));
                 linearLayout2.addView(this.emptyTextView, LayoutHelper.createLinear(-2, -2));

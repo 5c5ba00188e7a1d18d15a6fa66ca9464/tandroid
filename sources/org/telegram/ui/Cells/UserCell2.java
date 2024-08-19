@@ -294,13 +294,13 @@ public class UserCell2 extends FrameLayout {
             if (tLRPC$User.bot) {
                 this.statusTextView.setTextColor(this.statusColor);
                 if (tLRPC$User.bot_chat_history) {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusRead", R.string.BotStatusRead));
+                    this.statusTextView.setText(LocaleController.getString(R.string.BotStatusRead));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("BotStatusCantRead", R.string.BotStatusCantRead));
+                    this.statusTextView.setText(LocaleController.getString(R.string.BotStatusCantRead));
                 }
             } else if (tLRPC$User.id == UserConfig.getInstance(this.currentAccount).getClientUserId() || (((tLRPC$UserStatus = tLRPC$User.status) != null && tLRPC$UserStatus.expires > ConnectionsManager.getInstance(this.currentAccount).getCurrentTime()) || MessagesController.getInstance(this.currentAccount).onlinePrivacy.containsKey(Long.valueOf(tLRPC$User.id)))) {
                 this.statusTextView.setTextColor(this.statusOnlineColor);
-                this.statusTextView.setText(LocaleController.getString("Online", R.string.Online));
+                this.statusTextView.setText(LocaleController.getString(R.string.Online));
             } else {
                 this.statusTextView.setTextColor(this.statusColor);
                 this.statusTextView.setText(LocaleController.formatUserStatus(this.currentAccount, tLRPC$User));
@@ -313,20 +313,20 @@ public class UserCell2 extends FrameLayout {
                 if (i2 != 0) {
                     this.statusTextView.setText(LocaleController.formatPluralString("Subscribers", i2, new Object[0]));
                 } else if (!ChatObject.isPublic(tLRPC$Chat)) {
-                    this.statusTextView.setText(LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate));
+                    this.statusTextView.setText(LocaleController.getString(R.string.ChannelPrivate));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("ChannelPublic", R.string.ChannelPublic));
+                    this.statusTextView.setText(LocaleController.getString(R.string.ChannelPublic));
                 }
             } else {
                 int i3 = tLRPC$Chat.participants_count;
                 if (i3 != 0) {
                     this.statusTextView.setText(LocaleController.formatPluralString("Members", i3, new Object[0]));
                 } else if (tLRPC$Chat.has_geo) {
-                    this.statusTextView.setText(LocaleController.getString("MegaLocation", R.string.MegaLocation));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaLocation));
                 } else if (!ChatObject.isPublic(tLRPC$Chat)) {
-                    this.statusTextView.setText(LocaleController.getString("MegaPrivate", R.string.MegaPrivate));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaPrivate));
                 } else {
-                    this.statusTextView.setText(LocaleController.getString("MegaPublic", R.string.MegaPublic));
+                    this.statusTextView.setText(LocaleController.getString(R.string.MegaPublic));
                 }
             }
             this.avatarImageView.setForUserOrChat(tLRPC$Chat, this.avatarDrawable);

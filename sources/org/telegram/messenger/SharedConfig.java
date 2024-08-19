@@ -232,9 +232,9 @@ public class SharedConfig {
         });
         readOnlyStorageDirAlertShowed = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(lastFragment.getParentActivity());
-        builder.setTitle(LocaleController.getString("SdCardError", R.string.SdCardError));
-        builder.setSubtitle(LocaleController.getString("SdCardErrorDescription", R.string.SdCardErrorDescription));
-        builder.setPositiveButton(LocaleController.getString("DoNotUseSDCard", R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
+        builder.setTitle(LocaleController.getString(R.string.SdCardError));
+        builder.setSubtitle(LocaleController.getString(R.string.SdCardErrorDescription));
+        builder.setPositiveButton(LocaleController.getString(R.string.DoNotUseSDCard), new DialogInterface.OnClickListener() { // from class: org.telegram.messenger.SharedConfig$$ExternalSyntheticLambda5
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 SharedConfig.lambda$checkSdCard$1(dialogInterface, i);

@@ -415,9 +415,9 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
     /* JADX WARN: Type inference failed for: r0v16, types: [org.telegram.ui.ActionBar.AlertDialog] */
     /* JADX WARN: Type inference failed for: r14v0, types: [org.telegram.ui.ActionBar.AlertDialog[]] */
     /* JADX WARN: Type inference failed for: r15v0, types: [org.telegram.ui.ActionBar.AlertDialog$Builder] */
-    /* JADX WARN: Type inference failed for: r1v15 */
-    /* JADX WARN: Type inference failed for: r1v16, types: [boolean] */
-    /* JADX WARN: Type inference failed for: r1v21 */
+    /* JADX WARN: Type inference failed for: r1v14 */
+    /* JADX WARN: Type inference failed for: r1v15, types: [boolean] */
+    /* JADX WARN: Type inference failed for: r1v20 */
     public static void openRenameTagAlert(Context context, final int i, final TLRPC$Reaction tLRPC$Reaction, final Theme.ResourcesProvider resourcesProvider, boolean z) {
         Object builder;
         ?? r1;
@@ -544,7 +544,7 @@ public class SearchTagsList extends BlurredFrameLayout implements NotificationCe
                 SearchTagsList.lambda$openRenameTagAlert$5(EditTextBoldCursor.this, i, tLRPC$Reaction, dialogInterface, i3);
             }
         });
-        r15.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
+        r15.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.Components.SearchTagsList$$ExternalSyntheticLambda9
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i3) {
                 dialogInterface.dismiss();

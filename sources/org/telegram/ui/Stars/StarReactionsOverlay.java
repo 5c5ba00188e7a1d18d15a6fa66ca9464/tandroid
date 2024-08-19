@@ -132,7 +132,7 @@ public class StarReactionsOverlay extends View {
         final MessageObject primaryMessageObject = this.cell.getPrimaryMessageObject();
         final StarsController starsController = StarsController.getInstance(this.chatActivity.getCurrentAccount());
         final long pendingPaidReactions = starsController.getPendingPaidReactions(primaryMessageObject);
-        if (!starsController.balanceAvailable() || starsController.getBalance() >= pendingPaidReactions) {
+        if (!starsController.balanceAvailable() || starsController.getBalance(false) >= pendingPaidReactions) {
             return;
         }
         StarsController.getInstance(this.chatActivity.getCurrentAccount()).undoPaidReaction();
@@ -231,7 +231,8 @@ public class StarReactionsOverlay extends View {
         int[] iArr5 = this.pos2;
         canvas.translate(i6 - iArr5[0], iArr[1] - iArr5[1]);
         this.cell.setScrimReaction(null);
-        this.cell.drawReactionsLayout(canvas, 0.0f, num);
+        this.cell.drawReactionsLayout(canvas, 1.0f, num);
+        this.cell.drawReactionsLayoutOverlay(canvas, 1.0f);
         this.cell.setScrimReaction(num);
         canvas.restore();
         canvas.restore();

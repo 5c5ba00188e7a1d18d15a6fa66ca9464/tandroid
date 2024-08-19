@@ -618,7 +618,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         int i2 = R.drawable.bar_selector_lock;
         imageView3.setBackgroundResource(i2);
         this.passwordFrameLayout.addView(this.checkImage, LayoutHelper.createFrame(60, 60.0f, 85, 0.0f, 0.0f, 10.0f, 4.0f));
-        this.checkImage.setContentDescription(LocaleController.getString("Done", R.string.Done));
+        this.checkImage.setContentDescription(LocaleController.getString(R.string.Done));
         this.checkImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda7
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -631,7 +631,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         this.fingerprintImage.setScaleType(scaleType);
         this.fingerprintImage.setBackgroundResource(i2);
         this.passwordFrameLayout.addView(this.fingerprintImage, LayoutHelper.createFrame(60, 60.0f, 83, 10.0f, 0.0f, 0.0f, 4.0f));
-        this.fingerprintImage.setContentDescription(LocaleController.getString("AccDescrFingerprint", R.string.AccDescrFingerprint));
+        this.fingerprintImage.setContentDescription(LocaleController.getString(R.string.AccDescrFingerprint));
         this.fingerprintImage.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.PasscodeView$$ExternalSyntheticLambda8
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {

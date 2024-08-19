@@ -359,7 +359,7 @@ public class StickerEmojiCell extends FrameLayout implements NotificationCenter.
     @Override // android.view.View
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(accessibilityNodeInfo);
-        String string = LocaleController.getString("AttachSticker", R.string.AttachSticker);
+        String string = LocaleController.getString(R.string.AttachSticker);
         if (this.sticker != null) {
             int i = 0;
             while (true) {

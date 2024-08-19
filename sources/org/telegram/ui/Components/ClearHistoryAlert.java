@@ -108,9 +108,9 @@ public class ClearHistoryAlert extends BottomSheet {
     /* JADX WARN: Removed duplicated region for block: B:132:0x00d8  */
     /* JADX WARN: Removed duplicated region for block: B:133:0x00e1  */
     /* JADX WARN: Removed duplicated region for block: B:142:0x00ff  */
-    /* JADX WARN: Removed duplicated region for block: B:178:0x02ea  */
-    /* JADX WARN: Removed duplicated region for block: B:190:0x0452  */
-    /* JADX WARN: Removed duplicated region for block: B:191:0x0460  */
+    /* JADX WARN: Removed duplicated region for block: B:178:0x02e0  */
+    /* JADX WARN: Removed duplicated region for block: B:190:0x0432  */
+    /* JADX WARN: Removed duplicated region for block: B:191:0x043e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -266,7 +266,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     textView.setTextSize(1, 20.0f);
                     int i6 = Theme.key_dialogTextBlack;
                     textView.setTextColor(getThemedColor(i6));
-                    textView.setText(LocaleController.getString("ClearHistory", R.string.ClearHistory));
+                    textView.setText(LocaleController.getString(R.string.ClearHistory));
                     textView.setSingleLine(true);
                     textView.setEllipsize(TextUtils.TruncateAt.END);
                     this.linearLayout.addView(textView, LayoutHelper.createLinear(-2, -2, 51, 23, 20, 23, 0));
@@ -282,9 +282,9 @@ public class ClearHistoryAlert extends BottomSheet {
                     } else if (!ChatObject.isChannel(tLRPC$Chat) || (tLRPC$Chat.megagroup && !ChatObject.isPublic(tLRPC$Chat))) {
                         textView2.setText(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureClearHistoryWithChat", R.string.AreYouSureClearHistoryWithChat, tLRPC$Chat.title)));
                     } else if (tLRPC$Chat.megagroup) {
-                        textView2.setText(LocaleController.getString("AreYouSureClearHistoryGroup", R.string.AreYouSureClearHistoryGroup));
+                        textView2.setText(LocaleController.getString(R.string.AreYouSureClearHistoryGroup));
                     } else {
-                        textView2.setText(LocaleController.getString("AreYouSureClearHistoryChannel", R.string.AreYouSureClearHistoryChannel));
+                        textView2.setText(LocaleController.getString(R.string.AreYouSureClearHistoryChannel));
                     }
                     if (z3 && !UserObject.isDeleted(tLRPC$User)) {
                         CheckBoxCell checkBoxCell = new CheckBoxCell(context, 1, resourcesProvider);
@@ -302,7 +302,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     }
                     BottomSheetCell bottomSheetCell = new BottomSheetCell(context, resourcesProvider);
                     bottomSheetCell.setBackground(null);
-                    bottomSheetCell.setText(LocaleController.getString("AlertClearHistory", R.string.AlertClearHistory));
+                    bottomSheetCell.setText(LocaleController.getString(R.string.AlertClearHistory));
                     bottomSheetCell.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda1
                         @Override // android.view.View.OnClickListener
                         public final void onClick(View view) {
@@ -316,7 +316,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     shadowSectionCell.setBackgroundDrawable(combinedDrawable);
                     this.linearLayout.addView(shadowSectionCell, LayoutHelper.createLinear(-1, -2));
                     HeaderCell headerCell = new HeaderCell(context, resourcesProvider);
-                    headerCell.setText(LocaleController.getString("AutoDeleteHeader", R.string.AutoDeleteHeader));
+                    headerCell.setText(LocaleController.getString(R.string.AutoDeleteHeader));
                     this.linearLayout.addView(headerCell, LayoutHelper.createLinear(-1, -2, 1.0f, this.autoDeleteOnly ? 20.0f : 0.0f, 1.0f, 0.0f));
                 } else {
                     RLottieImageView rLottieImageView = new RLottieImageView(context);
@@ -329,7 +329,7 @@ public class ClearHistoryAlert extends BottomSheet {
                     textView3.setTypeface(AndroidUtilities.bold());
                     textView3.setTextSize(1, 24.0f);
                     textView3.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-                    textView3.setText(LocaleController.getString("AutoDeleteAlertTitle", R.string.AutoDeleteAlertTitle));
+                    textView3.setText(LocaleController.getString(R.string.AutoDeleteAlertTitle));
                     this.linearLayout.addView(textView3, LayoutHelper.createLinear(-2, -2, 49, 17, 18, 17, 0));
                     TextView textView4 = new TextView(context);
                     textView4.setTextSize(1, 14.0f);
@@ -338,9 +338,9 @@ public class ClearHistoryAlert extends BottomSheet {
                     if (tLRPC$User != null) {
                         textView4.setText(LocaleController.formatString("AutoDeleteAlertUserInfo", R.string.AutoDeleteAlertUserInfo, UserObject.getFirstName(tLRPC$User)));
                     } else if (ChatObject.isChannel(tLRPC$Chat) && !tLRPC$Chat.megagroup) {
-                        textView4.setText(LocaleController.getString("AutoDeleteAlertChannelInfo", R.string.AutoDeleteAlertChannelInfo));
+                        textView4.setText(LocaleController.getString(R.string.AutoDeleteAlertChannelInfo));
                     } else {
-                        textView4.setText(LocaleController.getString("AutoDeleteAlertGroupInfo", R.string.AutoDeleteAlertGroupInfo));
+                        textView4.setText(LocaleController.getString(R.string.AutoDeleteAlertGroupInfo));
                     }
                     this.linearLayout.addView(textView4, LayoutHelper.createLinear(-2, -2, 49, 30, 22, 30, 20));
                 }
@@ -361,7 +361,7 @@ public class ClearHistoryAlert extends BottomSheet {
                         nestedScrollView.smoothScrollTo(0, ClearHistoryAlert.this.linearLayout.getMeasuredHeight());
                     }
                 });
-                slideChooseView.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
+                slideChooseView.setOptions(this.currentTimer, LocaleController.getString(R.string.AutoDeleteNever), LocaleController.getString(R.string.AutoDelete24Hours), LocaleController.getString(R.string.AutoDelete7Days), LocaleController.getString(R.string.AutoDelete1Month));
                 this.linearLayout.addView(slideChooseView, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
                 FrameLayout frameLayout = new FrameLayout(context);
                 CombinedDrawable combinedDrawable2 = new CombinedDrawable(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -369,17 +369,17 @@ public class ClearHistoryAlert extends BottomSheet {
                 frameLayout.setBackgroundDrawable(combinedDrawable2);
                 this.linearLayout.addView(frameLayout, LayoutHelper.createLinear(-1, -2));
                 TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context, resourcesProvider);
-                textInfoPrivacyCell.setText(LocaleController.getString("AutoDeleteInfo", R.string.AutoDeleteInfo));
+                textInfoPrivacyCell.setText(LocaleController.getString(R.string.AutoDeleteInfo));
                 frameLayout.addView(textInfoPrivacyCell);
                 BottomSheetCell bottomSheetCell2 = new BottomSheetCell(context, resourcesProvider);
                 this.setTimerButton = bottomSheetCell2;
                 bottomSheetCell2.setBackgroundColor(getThemedColor(i2));
                 if (!this.autoDeleteOnly) {
-                    this.setTimerButton.setText(LocaleController.getString("AutoDeleteSet", R.string.AutoDeleteSet));
+                    this.setTimerButton.setText(LocaleController.getString(R.string.AutoDeleteSet));
                 } else if (z && this.currentTimer == 0) {
-                    this.setTimerButton.setText(LocaleController.getString("EnableAutoDelete", R.string.EnableAutoDelete));
+                    this.setTimerButton.setText(LocaleController.getString(R.string.EnableAutoDelete));
                 } else {
-                    this.setTimerButton.setText(LocaleController.getString("AutoDeleteConfirm", R.string.AutoDeleteConfirm));
+                    this.setTimerButton.setText(LocaleController.getString(R.string.AutoDeleteConfirm));
                 }
                 this.setTimerButton.background.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.Components.ClearHistoryAlert$$ExternalSyntheticLambda2
                     @Override // android.view.View.OnClickListener
@@ -416,7 +416,7 @@ public class ClearHistoryAlert extends BottomSheet {
                 nestedScrollView.smoothScrollTo(0, ClearHistoryAlert.this.linearLayout.getMeasuredHeight());
             }
         });
-        slideChooseView2.setOptions(this.currentTimer, LocaleController.getString("AutoDeleteNever", R.string.AutoDeleteNever), LocaleController.getString("AutoDelete24Hours", R.string.AutoDelete24Hours), LocaleController.getString("AutoDelete7Days", R.string.AutoDelete7Days), LocaleController.getString("AutoDelete1Month", R.string.AutoDelete1Month));
+        slideChooseView2.setOptions(this.currentTimer, LocaleController.getString(R.string.AutoDeleteNever), LocaleController.getString(R.string.AutoDelete24Hours), LocaleController.getString(R.string.AutoDelete7Days), LocaleController.getString(R.string.AutoDelete1Month));
         this.linearLayout.addView(slideChooseView2, LayoutHelper.createLinear(-1, -2, 0.0f, 8.0f, 0.0f, 0.0f));
         FrameLayout frameLayout2 = new FrameLayout(context);
         CombinedDrawable combinedDrawable22 = new CombinedDrawable(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundGray)), Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -424,7 +424,7 @@ public class ClearHistoryAlert extends BottomSheet {
         frameLayout2.setBackgroundDrawable(combinedDrawable22);
         this.linearLayout.addView(frameLayout2, LayoutHelper.createLinear(-1, -2));
         TextInfoPrivacyCell textInfoPrivacyCell2 = new TextInfoPrivacyCell(context, resourcesProvider);
-        textInfoPrivacyCell2.setText(LocaleController.getString("AutoDeleteInfo", R.string.AutoDeleteInfo));
+        textInfoPrivacyCell2.setText(LocaleController.getString(R.string.AutoDeleteInfo));
         frameLayout2.addView(textInfoPrivacyCell2);
         BottomSheetCell bottomSheetCell22 = new BottomSheetCell(context, resourcesProvider);
         this.setTimerButton = bottomSheetCell22;

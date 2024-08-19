@@ -193,16 +193,16 @@ public abstract class GiftInfoAdapter extends RecyclerListView.SelectionAdapter 
             if (tLRPC$TL_payments_checkedGiftCode3.boost != null) {
                 String str2 = this.slug;
                 if (str2 == null || str2.isEmpty()) {
-                    textInfoCell.setText(LocaleController.getString("BoostingLinkNotActivated", R.string.BoostingLinkNotActivated));
+                    textInfoCell.setText(LocaleController.getString(R.string.BoostingLinkNotActivated));
                     return;
                 }
                 textInfoCell.setFixedSize(14);
                 textInfoCell.setText(null);
             } else if (this.isUnused) {
                 if (tLRPC$TL_payments_checkedGiftCode3.to_id == -1) {
-                    string = LocaleController.getString("BoostingSendLinkToAnyone", R.string.BoostingSendLinkToAnyone);
+                    string = LocaleController.getString(R.string.BoostingSendLinkToAnyone);
                 } else {
-                    string = LocaleController.getString("BoostingSendLinkToFriends", R.string.BoostingSendLinkToFriends);
+                    string = LocaleController.getString(R.string.BoostingSendLinkToFriends);
                 }
                 textInfoCell.setText(AndroidUtilities.replaceSingleTag(string, Theme.key_chat_messageLinkIn, 0, new GiftInfoAdapter$$ExternalSyntheticLambda2(this), this.resourcesProvider));
             } else {

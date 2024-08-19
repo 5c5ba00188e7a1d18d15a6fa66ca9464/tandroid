@@ -16691,7 +16691,7 @@ public class MessagesController extends BaseController implements NotificationCe
         return (str2 == null || str2.length() <= 0) ? "" : AndroidUtilities.removeDiacritics(tLRPC$User.last_name);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:274:0x0353  */
+    /* JADX WARN: Removed duplicated region for block: B:274:0x033a  */
     /* JADX WARN: Removed duplicated region for block: B:286:0x014c A[SYNTHETIC] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -16726,7 +16726,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (z) {
                                 string = LocaleController.formatString("IsRecordingAudio", R.string.IsRecordingAudio, getUserNameForTyping(user));
                             } else {
-                                string = LocaleController.getString("RecordingAudio", R.string.RecordingAudio);
+                                string = LocaleController.getString(R.string.RecordingAudio);
                             }
                             i = 1;
                         } else {
@@ -16734,44 +16734,44 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (z) {
                                     string = LocaleController.formatString("IsRecordingRound", R.string.IsRecordingRound, getUserNameForTyping(user));
                                 } else {
-                                    string = LocaleController.getString("RecordingRound", R.string.RecordingRound);
+                                    string = LocaleController.getString(R.string.RecordingRound);
                                 }
                             } else if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadRoundAction)) {
                                 if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadAudioAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsSendingAudio", R.string.IsSendingAudio, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingAudio", R.string.SendingAudio);
+                                        string = LocaleController.getString(R.string.SendingAudio);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadVideoAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
+                                        string = LocaleController.getString(R.string.SendingVideoStatus);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageRecordVideoAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsRecordingVideo", R.string.IsRecordingVideo, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("RecordingVideoStatus", R.string.RecordingVideoStatus);
+                                        string = LocaleController.getString(R.string.RecordingVideoStatus);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadDocumentAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsSendingFile", R.string.IsSendingFile, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingFile", R.string.SendingFile);
+                                        string = LocaleController.getString(R.string.SendingFile);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageUploadPhotoAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsSendingPhoto", R.string.IsSendingPhoto, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingPhoto", R.string.SendingPhoto);
+                                        string = LocaleController.getString(R.string.SendingPhoto);
                                     }
                                 } else if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageGamePlayAction) {
                                     if (z) {
                                         string = LocaleController.formatString("IsSendingGame", R.string.IsSendingGame, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SendingGame", R.string.SendingGame);
+                                        string = LocaleController.getString(R.string.SendingGame);
                                     }
                                     i = 3;
                                 } else {
@@ -16779,7 +16779,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         if (z) {
                                             string = LocaleController.formatString("IsSelectingLocation", R.string.IsSelectingLocation, getUserNameForTyping(user));
                                         } else {
-                                            string = LocaleController.getString("SelectingLocation", R.string.SelectingLocation);
+                                            string = LocaleController.getString(R.string.SelectingLocation);
                                         }
                                     } else if (!(tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageChooseContactAction)) {
                                         if (tLRPC$SendMessageAction instanceof TLRPC$TL_sendMessageEmojiInteractionSeen) {
@@ -16793,7 +16793,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                             if (z) {
                                                 string = LocaleController.formatString("IsTypingGroup", R.string.IsTypingGroup, getUserNameForTyping(user));
                                             } else {
-                                                string = LocaleController.getString("Typing", R.string.Typing);
+                                                string = LocaleController.getString(R.string.Typing);
                                             }
                                             i = 0;
                                             if (string != null) {
@@ -16811,7 +16811,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                         } else if (z) {
                                             string = LocaleController.formatString("IsChoosingSticker", R.string.IsChoosingSticker, getUserNameForTyping(user));
                                         } else {
-                                            string = LocaleController.getString("ChoosingSticker", R.string.ChoosingSticker);
+                                            string = LocaleController.getString(R.string.ChoosingSticker);
                                         }
                                         i = 5;
                                         if (string != null) {
@@ -16821,7 +16821,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                     } else if (z) {
                                         string = LocaleController.formatString("IsSelectingContact", R.string.IsSelectingContact, getUserNameForTyping(user));
                                     } else {
-                                        string = LocaleController.getString("SelectingContact", R.string.SelectingContact);
+                                        string = LocaleController.getString(R.string.SelectingContact);
                                     }
                                     i = 0;
                                     if (string != null) {
@@ -16833,7 +16833,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             } else if (z) {
                                 string = LocaleController.formatString("IsSendingVideo", R.string.IsSendingVideo, getUserNameForTyping(user));
                             } else {
-                                string = LocaleController.getString("SendingVideoStatus", R.string.SendingVideoStatus);
+                                string = LocaleController.getString(R.string.SendingVideoStatus);
                             }
                             i = 4;
                         }
@@ -18155,7 +18155,7 @@ public class MessagesController extends BaseController implements NotificationCe
         TLRPC$TL_folder tLRPC$TL_folder = new TLRPC$TL_folder();
         tLRPC$TL_dialogFolder.folder = tLRPC$TL_folder;
         tLRPC$TL_folder.id = i;
-        tLRPC$TL_folder.title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
+        tLRPC$TL_folder.title = LocaleController.getString(R.string.ArchivedChats);
         tLRPC$TL_dialogFolder.pinned = true;
         int i2 = 0;
         for (int i3 = 0; i3 < this.allDialogs.size(); i3++) {
@@ -32283,7 +32283,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (baseFragment instanceof ChatActivity) {
                     ((ChatActivity) baseFragment).shakeContent();
                 }
-                BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString("NoUsernameFound", R.string.NoUsernameFound)).show();
+                BulletinFactory.of(baseFragment).createErrorBulletin(LocaleController.getString(R.string.NoUsernameFound)).show();
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -34377,7 +34377,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     botWebViewSheet.setDefaultFullsize(true);
                     botWebViewSheet.setNeedsContext(true);
                     botWebViewSheet.setParentActivity(baseFragment2.getParentActivity());
-                    botWebViewSheet.requestWebView(null, of);
+                    botWebViewSheet.requestWebView(baseFragment2, of);
                     botWebViewSheet.show();
                     return;
                 }
@@ -34385,7 +34385,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createBotViewer.setDefaultFullsize(true);
                 createBotViewer.setNeedsContext(false);
                 createBotViewer.setParentActivity(baseFragment2.getParentActivity());
-                createBotViewer.requestWebView(null, of);
+                createBotViewer.requestWebView(baseFragment2, of);
                 createBotViewer.show();
                 return;
             }
@@ -34409,7 +34409,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     botWebViewSheet2.setDefaultFullsize(false);
                     botWebViewSheet2.setNeedsContext(true);
                     botWebViewSheet2.setParentActivity(baseFragment3.getParentActivity());
-                    botWebViewSheet2.requestWebView(null, of2);
+                    botWebViewSheet2.requestWebView(baseFragment3, of2);
                     botWebViewSheet2.show();
                     return;
                 }
@@ -34417,7 +34417,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 createBotViewer2.setDefaultFullsize(false);
                 createBotViewer2.setNeedsContext(false);
                 createBotViewer2.setParentActivity(baseFragment3.getParentActivity());
-                createBotViewer2.requestWebView(null, of2);
+                createBotViewer2.requestWebView(baseFragment3, of2);
                 createBotViewer2.show();
                 return;
             }

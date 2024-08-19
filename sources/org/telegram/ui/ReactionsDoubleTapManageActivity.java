@@ -57,7 +57,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
 
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(final Context context) {
-        this.actionBar.setTitle(LocaleController.getString("Reactions", R.string.Reactions));
+        this.actionBar.setTitle(LocaleController.getString(R.string.Reactions));
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ReactionsDoubleTapManageActivity.1
@@ -91,7 +91,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
                     setDefaultReactionCell = themePreviewMessagesCell;
                 } else if (i == 2) {
                     TextInfoPrivacyCell textInfoPrivacyCell = new TextInfoPrivacyCell(context);
-                    textInfoPrivacyCell.setText(LocaleController.getString("DoubleTapPreviewRational", R.string.DoubleTapPreviewRational));
+                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.DoubleTapPreviewRational));
                     textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     setDefaultReactionCell = textInfoPrivacyCell;
                 } else if (i == 3) {
@@ -187,7 +187,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
             this.textView = textView;
             textView.setTextSize(1, 16.0f);
             this.textView.setTextColor(ReactionsDoubleTapManageActivity.this.getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-            this.textView.setText(LocaleController.getString("DoubleTapSetting", R.string.DoubleTapSetting));
+            this.textView.setText(LocaleController.getString(R.string.DoubleTapSetting));
             addView(this.textView, LayoutHelper.createFrame(-1, -2.0f, 23, 20.0f, 0.0f, 48.0f, 0.0f));
             this.imageDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, AndroidUtilities.dp(24.0f));
         }

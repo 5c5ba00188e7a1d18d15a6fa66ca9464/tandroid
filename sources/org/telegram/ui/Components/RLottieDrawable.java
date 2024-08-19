@@ -10,8 +10,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.JsonReader;
 import android.view.View;
-import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -35,7 +35,6 @@ import org.telegram.messenger.utils.BitmapsCache;
 import org.telegram.ui.Components.RLottieDrawable;
 /* loaded from: classes3.dex */
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
-    public static Gson gson;
     public static DispatchQueue lottieCacheGenerateQueue;
     private boolean allowDrawFramesWhileCacheGenerating;
     private boolean allowVibration;
@@ -124,14 +123,6 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private static ThreadLocal<byte[]> readBufferLocal = new ThreadLocal<>();
     private static ThreadLocal<byte[]> bufferLocal = new ThreadLocal<>();
     private static final DispatchQueuePool loadFrameRunnableQueue = new DispatchQueuePool(4);
-
-    /* JADX INFO: Access modifiers changed from: private */
-    /* loaded from: classes3.dex */
-    public class LottieMetadata {
-        float fr;
-        float ip;
-        float op;
-    }
 
     public static native long create(String str, String str2, int i, int i2, int[] iArr, boolean z, int[] iArr2, boolean z2, int i3);
 
@@ -1009,24 +1000,62 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
         this.timeBetweenFrames = Math.max(this.shouldLimitFps ? 33 : 16, (int) (1000.0f / iArr2[c]));
     }
 
+    /* JADX WARN: Removed duplicated region for block: B:50:0x006b A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x0059 A[SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+    */
     private void parseLottieMetadata(File file, String str, int[] iArr) {
-        LottieMetadata lottieMetadata;
-        if (gson == null) {
-            gson = new Gson();
-        }
+        char c;
         try {
-            if (file != null) {
-                FileReader fileReader = new FileReader(file.getAbsolutePath());
-                lottieMetadata = (LottieMetadata) gson.fromJson(fileReader, LottieMetadata.class);
-                try {
-                    fileReader.close();
-                } catch (Exception unused) {
+            JsonReader jsonReader = new JsonReader(new FileReader(file.getAbsoluteFile()));
+            jsonReader.beginObject();
+            double d = 30.0d;
+            double d2 = 0.0d;
+            double d3 = 0.0d;
+            while (jsonReader.hasNext()) {
+                String nextName = jsonReader.nextName();
+                int hashCode = nextName.hashCode();
+                if (hashCode == 3276) {
+                    if (nextName.equals("fr")) {
+                        c = 2;
+                        if (c != 0) {
+                        }
+                    }
+                    c = 65535;
+                    if (c != 0) {
+                    }
+                } else if (hashCode != 3367) {
+                    if (hashCode == 3553 && nextName.equals("op")) {
+                        c = 1;
+                        if (c != 0) {
+                            d3 = jsonReader.nextDouble();
+                        } else if (c == 1) {
+                            d2 = jsonReader.nextDouble();
+                        } else if (c == 2) {
+                            d = jsonReader.nextDouble();
+                        } else {
+                            jsonReader.skipValue();
+                        }
+                    }
+                    c = 65535;
+                    if (c != 0) {
+                    }
+                } else {
+                    if (nextName.equals("ip")) {
+                        c = 0;
+                        if (c != 0) {
+                        }
+                    }
+                    c = 65535;
+                    if (c != 0) {
+                    }
                 }
-            } else {
-                lottieMetadata = (LottieMetadata) gson.fromJson(str, LottieMetadata.class);
             }
-            iArr[0] = (int) (lottieMetadata.op - lottieMetadata.ip);
-            iArr[1] = (int) lottieMetadata.fr;
+            jsonReader.endObject();
+            jsonReader.close();
+            iArr[0] = (int) (d2 - d3);
+            iArr[1] = (int) d;
         } catch (Exception e) {
             FileLog.e((Throwable) e, false);
             String absolutePath = file.getAbsolutePath();

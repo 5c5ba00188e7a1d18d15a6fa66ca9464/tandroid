@@ -16,20 +16,11 @@ import org.telegram.ui.ActionBar.Theme;
 /* loaded from: classes4.dex */
 public class ReadAllMentionsMenu {
     public static ActionBarPopupWindow show(int i, Activity activity, INavigationLayout iNavigationLayout, FrameLayout frameLayout, View view, Theme.ResourcesProvider resourcesProvider, final Runnable runnable) {
-        int i2;
-        String str;
         ActionBarPopupWindow.ActionBarPopupWindowLayout actionBarPopupWindowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(activity);
         actionBarPopupWindowLayout.setMinimumWidth(AndroidUtilities.dp(200.0f));
         ActionBarMenuSubItem actionBarMenuSubItem = new ActionBarMenuSubItem((Context) activity, true, true, resourcesProvider);
         actionBarMenuSubItem.setMinimumWidth(AndroidUtilities.dp(200.0f));
-        if (i == 0) {
-            i2 = R.string.ReadAllReactions;
-            str = "ReadAllReactions";
-        } else {
-            i2 = R.string.ReadAllMentions;
-            str = "ReadAllMentions";
-        }
-        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(str, i2), R.drawable.msg_seen);
+        actionBarMenuSubItem.setTextAndIcon(LocaleController.getString(i == 0 ? R.string.ReadAllReactions : R.string.ReadAllMentions), R.drawable.msg_seen);
         actionBarMenuSubItem.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ReadAllMentionsMenu$$ExternalSyntheticLambda0
             @Override // android.view.View.OnClickListener
             public final void onClick(View view2) {

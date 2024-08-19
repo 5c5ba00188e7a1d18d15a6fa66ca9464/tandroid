@@ -143,8 +143,8 @@ public class SelectorSearchCell extends ScrollView {
         this.spansContainer.addView(this.editText);
         EditTextBoldCursor editTextBoldCursor3 = this.editText;
         int i2 = R.string.Search;
-        editTextBoldCursor3.setHintText(LocaleController.getString("Search", i2));
-        this.hintTextWidth = (int) this.editText.getPaint().measureText(LocaleController.getString("Search", i2));
+        editTextBoldCursor3.setHintText(LocaleController.getString(i2));
+        this.hintTextWidth = (int) this.editText.getPaint().measureText(LocaleController.getString(i2));
         this.editText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.Components.Premium.boosts.cells.selector.SelectorSearchCell.2
             @Override // android.text.TextWatcher
             public void beforeTextChanged(CharSequence charSequence, int i3, int i4, int i5) {

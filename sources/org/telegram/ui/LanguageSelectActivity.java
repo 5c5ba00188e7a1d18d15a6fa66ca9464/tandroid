@@ -83,7 +83,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         this.searchWas = false;
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
-        this.actionBar.setTitle(LocaleController.getString("Language", R.string.Language));
+        this.actionBar.setTitle(LocaleController.getString(R.string.Language));
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.LanguageSelectActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
             public void onItemClick(int i) {
@@ -130,7 +130,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         });
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(R.string.Search));
         this.listAdapter = new ListAdapter(context, false);
         this.searchListViewAdapter = new ListAdapter(context, true);
         FrameLayout frameLayout = new FrameLayout(context);
@@ -139,7 +139,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         FrameLayout frameLayout2 = (FrameLayout) this.fragmentView;
         EmptyTextProgressView emptyTextProgressView = new EmptyTextProgressView(context);
         this.emptyView = emptyTextProgressView;
-        emptyTextProgressView.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        emptyTextProgressView.setText(LocaleController.getString(R.string.NoResult));
         this.emptyView.showTextView();
         this.emptyView.setShowAtCenter(true);
         frameLayout2.addView(this.emptyView, LayoutHelper.createFrame(-1, -1.0f));
@@ -404,15 +404,15 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
             if (localeInfo != null && localeInfo.pathToFile != null && (!localeInfo.isRemote() || localeInfo.serverIndex == Integer.MAX_VALUE)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("DeleteLocalizationTitle", R.string.DeleteLocalizationTitle));
+                builder.setTitle(LocaleController.getString(R.string.DeleteLocalizationTitle));
                 builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteLocalizationText", R.string.DeleteLocalizationText, localeInfo.name)));
-                builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
+                builder.setPositiveButton(LocaleController.getString(R.string.Delete), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LanguageSelectActivity$$ExternalSyntheticLambda5
                     @Override // android.content.DialogInterface.OnClickListener
                     public final void onClick(DialogInterface dialogInterface, int i2) {
                         LanguageSelectActivity.this.lambda$createView$5(localeInfo, dialogInterface, i2);
                     }
                 });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 AlertDialog create = builder.create();
                 showDialog(create);
                 TextView textView = (TextView) create.getButton(-1);
@@ -552,7 +552,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
     private void updateLanguage() {
         if (this.actionBar != null) {
-            String string = LocaleController.getString("Language", R.string.Language);
+            String string = LocaleController.getString(R.string.Language);
             if (!TextUtils.equals(this.actionBar.getTitle(), string)) {
                 this.actionBar.setTitleAnimated(string, true, 350L, CubicBezierInterpolator.EASE_OUT_QUINT);
             }
@@ -689,22 +689,22 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
 
-        /* JADX WARN: Code restructure failed: missing block: B:104:0x028c, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:104:0x027e, code lost:
             if (r13 == (r11.this$0.unofficialLanguages.size() - 1)) goto L123;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:114:0x02cd, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:114:0x02bf, code lost:
             if (r13 == (r11.this$0.sortedLanguages.size() - 1)) goto L123;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:115:0x02cf, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:115:0x02c1, code lost:
             r13 = true;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:116:0x02d1, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:116:0x02c3, code lost:
             r13 = false;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:44:0x0128, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:44:0x0122, code lost:
             if (r12.getValueTextView().getPaint().measureText(r3) > java.lang.Math.min((org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(34.0f)) / 2.0f, (org.telegram.messenger.AndroidUtilities.displaySize.x - org.telegram.messenger.AndroidUtilities.dp(84.0f)) - r12.getTextView().getPaint().measureText(r0))) goto L32;
          */
-        /* JADX WARN: Code restructure failed: missing block: B:96:0x0256, code lost:
+        /* JADX WARN: Code restructure failed: missing block: B:96:0x0248, code lost:
             if (r13 == (r11.this$0.searchResult.size() - 1)) goto L123;
          */
         /* JADX WARN: Multi-variable type inference failed */
@@ -720,8 +720,6 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
         */
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
             boolean z;
-            int i2;
-            String str;
             String sb;
             int itemViewType = viewHolder.getItemViewType();
             LocaleController.LocaleInfo localeInfo = 0;
@@ -747,7 +745,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 if (localeInfo != null) {
                     if (localeInfo.isLocal()) {
-                        textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString("LanguageCustom", R.string.LanguageCustom)), localeInfo.nameEnglish, false, false, !z);
+                        textRadioCell.setTextAndValueAndCheck(String.format("%1$s (%2$s)", localeInfo.name, LocaleController.getString(R.string.LanguageCustom)), localeInfo.nameEnglish, false, false, !z);
                     } else {
                         textRadioCell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameEnglish, false, false, !z);
                     }
@@ -767,10 +765,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 TextCheckCell textCheckCell = (TextCheckCell) viewHolder.itemView;
                 textCheckCell.updateRTL();
                 if (i == 1) {
-                    textCheckCell.setTextAndCheck(LocaleController.getString("ShowTranslateButton", R.string.ShowTranslateButton), LanguageSelectActivity.this.getContextValue(), true);
+                    textCheckCell.setTextAndCheck(LocaleController.getString(R.string.ShowTranslateButton), LanguageSelectActivity.this.getContextValue(), true);
                     textCheckCell.setCheckBoxIcon(0);
                 } else if (i == 2) {
-                    String string = LocaleController.getString("ShowTranslateChatButton", R.string.ShowTranslateChatButton);
+                    String string = LocaleController.getString(R.string.ShowTranslateChatButton);
                     boolean chatValue = LanguageSelectActivity.this.getChatValue();
                     if (!LanguageSelectActivity.this.getContextValue() && !LanguageSelectActivity.this.getChatValue()) {
                         r1 = false;
@@ -779,17 +777,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     textCheckCell.setCheckBoxIcon(LanguageSelectActivity.this.getUserConfig().isPremium() ? 0 : R.drawable.permission_locked);
                 }
             } else {
-                int i3 = 3;
+                int i2 = 3;
                 if (itemViewType == 3) {
-                    HeaderCell headerCell = (HeaderCell) viewHolder.itemView;
-                    if (i == 0) {
-                        i2 = R.string.TranslateMessages;
-                        str = "TranslateMessages";
-                    } else {
-                        i2 = R.string.Language;
-                        str = "Language";
-                    }
-                    headerCell.setText(LocaleController.getString(str, i2));
+                    ((HeaderCell) viewHolder.itemView).setText(LocaleController.getString(i == 0 ? R.string.TranslateMessages : R.string.Language));
                 } else if (itemViewType != 4) {
                     if (itemViewType != 5) {
                         return;
@@ -797,10 +787,10 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     TextInfoPrivacyCell textInfoPrivacyCell = (TextInfoPrivacyCell) viewHolder.itemView;
                     textInfoPrivacyCell.updateRTL();
                     if (!LanguageSelectActivity.this.getMessagesController().premiumFeaturesBlocked() && (LanguageSelectActivity.this.getContextValue() || LanguageSelectActivity.this.getChatValue())) {
-                        i3 = 4;
+                        i2 = 4;
                     }
-                    if (i == i3) {
-                        textInfoPrivacyCell.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
+                    if (i == i2) {
+                        textInfoPrivacyCell.setText(LocaleController.getString(R.string.TranslateMessagesInfo1));
                         textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         textInfoPrivacyCell.setTopPadding(11);
                         textInfoPrivacyCell.setBottomPadding(16);
@@ -808,13 +798,13 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     textInfoPrivacyCell.setTopPadding(0);
                     textInfoPrivacyCell.setBottomPadding(16);
-                    textInfoPrivacyCell.setText(LocaleController.getString("TranslateMessagesInfo2", R.string.TranslateMessagesInfo2));
+                    textInfoPrivacyCell.setText(LocaleController.getString(R.string.TranslateMessagesInfo2));
                     textInfoPrivacyCell.setBackground(Theme.getThemedDrawableByKey(this.mContext, R.drawable.greydivider_top, Theme.key_windowBackgroundGrayShadow));
                 } else {
                     ?? r12 = (TextSettingsCell) viewHolder.itemView;
                     r12.updateRTL();
                     HashSet<String> restrictedLanguages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
-                    String string2 = LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate);
+                    String string2 = LocaleController.getString(R.string.DoNotTranslate);
                     try {
                         boolean[] zArr = new boolean[1];
                         if (restrictedLanguages.size() == 0) {

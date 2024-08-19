@@ -1212,9 +1212,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     */
     public void onEventReceived(String str, String str2) {
         char c;
+        int checkSelfPermission;
         boolean z;
         boolean z2;
-        int checkSelfPermission;
         boolean z3;
         LaunchActivity launchActivity;
         char c2;
@@ -1712,7 +1712,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     final MyWebView myWebView2 = this.webView;
                     final String[] strArr = {"cancelled"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), this.resourcesProvider);
-                    builder.setTitle(LocaleController.getString("ShareYouPhoneNumberTitle", R.string.ShareYouPhoneNumberTitle));
+                    builder.setTitle(LocaleController.getString(R.string.ShareYouPhoneNumberTitle));
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
                     String userName = UserObject.getUserName(this.botUser);
                     if (TextUtils.isEmpty(userName)) {
@@ -1726,13 +1726,13 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         spannableStringBuilder.append((CharSequence) LocaleController.getString(R.string.AreYouSureShareMyContactInfoBotUnblock));
                     }
                     builder.setMessage(spannableStringBuilder);
-                    builder.setPositiveButton(LocaleController.getString("ShareContact", R.string.ShareContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda21
+                    builder.setPositiveButton(LocaleController.getString(R.string.ShareContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda21
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i7) {
                             BotWebViewContainer.this.lambda$onEventReceived$23(strArr, z6, i6, myWebView2, dialogInterface, i7);
                         }
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda22
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.web.BotWebViewContainer$$ExternalSyntheticLambda22
                         @Override // android.content.DialogInterface.OnClickListener
                         public final void onClick(DialogInterface dialogInterface, int i7) {
                             dialogInterface.dismiss();
@@ -4488,7 +4488,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                 MyWebView myWebView = MyWebView.this;
                 myWebView.d("onGeolocationPermissionsShowPrompt " + str);
                 String userName = this.val$bot ? UserObject.getUserName(MyWebView.this.botWebViewContainer.botUser) : AndroidUtilities.getHostAuthority(MyWebView.this.getUrl());
-                Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(MyWebView.this.botWebViewContainer.parentActivity, MyWebView.this.botWebViewContainer.resourcesProvider, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, R.raw.permission_request_location, LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestGeolocationPermission : R.string.WebViewRequestGeolocationPermission, userName), LocaleController.formatString(R.string.BotWebViewRequestGeolocationPermissionWithHint, userName), new Consumer() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$$ExternalSyntheticLambda7
+                Dialog createWebViewPermissionsRequestDialog = AlertsCreator.createWebViewPermissionsRequestDialog(MyWebView.this.botWebViewContainer.parentActivity, MyWebView.this.botWebViewContainer.resourcesProvider, new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}, R.raw.permission_request_location, LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestGeolocationPermission : R.string.WebViewRequestGeolocationPermission, userName), LocaleController.formatString(this.val$bot ? R.string.BotWebViewRequestGeolocationPermissionWithHint : R.string.WebViewRequestGeolocationPermissionWithHint, userName), new Consumer() { // from class: org.telegram.ui.web.BotWebViewContainer$MyWebView$3$$ExternalSyntheticLambda7
                     @Override // androidx.core.util.Consumer
                     public final void accept(Object obj) {
                         BotWebViewContainer.MyWebView.3.this.lambda$onGeolocationPermissionsShowPrompt$1(callback, str, (Boolean) obj);

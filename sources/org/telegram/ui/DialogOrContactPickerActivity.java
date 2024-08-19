@@ -143,7 +143,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     @Override // org.telegram.ui.ActionBar.BaseFragment
     public View createView(Context context) {
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        this.actionBar.setTitle(LocaleController.getString("BlockUserMultiTitle", R.string.BlockUserMultiTitle));
+        this.actionBar.setTitle(LocaleController.getString(R.string.BlockUserMultiTitle));
         if (AndroidUtilities.isTablet()) {
             this.actionBar.setOccupyStatusBar(false);
         }
@@ -181,7 +181,7 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             }
         });
         this.searchItem = actionBarMenuItemSearchListener;
-        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
+        actionBarMenuItemSearchListener.setSearchFieldHint(LocaleController.getString(R.string.Search));
         ScrollSlidingTextTabStrip scrollSlidingTextTabStrip = new ScrollSlidingTextTabStrip(context);
         this.scrollSlidingTextTabStrip = scrollSlidingTextTabStrip;
         scrollSlidingTextTabStrip.setUseSameWidth(true);
@@ -655,15 +655,15 @@ public class DialogOrContactPickerActivity extends BaseFragment {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setTitle(LocaleController.getString("BlockUser", R.string.BlockUser));
+        builder.setTitle(LocaleController.getString(R.string.BlockUser));
         builder.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("AreYouSureBlockContact2", R.string.AreYouSureBlockContact2, ContactsController.formatName(tLRPC$User.first_name, tLRPC$User.last_name))));
-        builder.setPositiveButton(LocaleController.getString("BlockContact", R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
+        builder.setPositiveButton(LocaleController.getString(R.string.BlockContact), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.DialogOrContactPickerActivity$$ExternalSyntheticLambda3
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 DialogOrContactPickerActivity.this.lambda$showBlockAlert$3(tLRPC$User, dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         AlertDialog create = builder.create();
         showDialog(create);
         TextView textView = (TextView) create.getButton(-1);
@@ -675,10 +675,10 @@ public class DialogOrContactPickerActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$showBlockAlert$3(TLRPC$User tLRPC$User, DialogInterface dialogInterface, int i) {
         if (MessagesController.isSupportUser(tLRPC$User)) {
-            AlertsCreator.showSimpleToast(this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+            AlertsCreator.showSimpleToast(this, LocaleController.getString(R.string.ErrorOccurred));
         } else {
             MessagesController.getInstance(this.currentAccount).blockPeer(tLRPC$User.id);
-            AlertsCreator.showSimpleToast(this, LocaleController.getString("UserBlocked", R.string.UserBlocked));
+            AlertsCreator.showSimpleToast(this, LocaleController.getString(R.string.UserBlocked));
         }
         finishFragment();
     }
@@ -688,8 +688,8 @@ public class DialogOrContactPickerActivity extends BaseFragment {
         if (scrollSlidingTextTabStrip == null) {
             return;
         }
-        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString("BlockUserChatsTitle", R.string.BlockUserChatsTitle));
-        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString("BlockUserContactsTitle", R.string.BlockUserContactsTitle));
+        scrollSlidingTextTabStrip.addTextTab(0, LocaleController.getString(R.string.BlockUserChatsTitle));
+        this.scrollSlidingTextTabStrip.addTextTab(1, LocaleController.getString(R.string.BlockUserContactsTitle));
         this.scrollSlidingTextTabStrip.setVisibility(0);
         this.actionBar.setExtraHeight(AndroidUtilities.dp(44.0f));
         int currentTabId = this.scrollSlidingTextTabStrip.getCurrentTabId();

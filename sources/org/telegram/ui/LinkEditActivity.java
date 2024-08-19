@@ -121,7 +121,7 @@ public class LinkEditActivity extends BaseFragment {
         this.chatId = j;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:52:0x0539  */
+    /* JADX WARN: Removed duplicated region for block: B:52:0x051f  */
     @Override // org.telegram.ui.ActionBar.BaseFragment
     /*
         Code decompiled incorrectly, please refer to instructions dump.
@@ -133,9 +133,9 @@ public class LinkEditActivity extends BaseFragment {
         this.actionBar.setAllowOverlayTitle(true);
         int i2 = this.type;
         if (i2 == 0) {
-            this.actionBar.setTitle(LocaleController.getString("NewLink", R.string.NewLink));
+            this.actionBar.setTitle(LocaleController.getString(R.string.NewLink));
         } else if (i2 == 1) {
-            this.actionBar.setTitle(LocaleController.getString("EditLink", R.string.EditLink));
+            this.actionBar.setTitle(LocaleController.getString(R.string.EditLink));
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.LinkEditActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -159,9 +159,9 @@ public class LinkEditActivity extends BaseFragment {
         this.createTextView.setSingleLine();
         int i3 = this.type;
         if (i3 == 0) {
-            this.createTextView.setText(LocaleController.getString("CreateLinkHeader", R.string.CreateLinkHeader));
+            this.createTextView.setText(LocaleController.getString(R.string.CreateLinkHeader));
         } else if (i3 == 1) {
-            this.createTextView.setText(LocaleController.getString("SaveLinkHeader", R.string.SaveLinkHeader));
+            this.createTextView.setText(LocaleController.getString(R.string.SaveLinkHeader));
         }
         this.createTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
         this.createTextView.setTextSize(1, 14.0f);
@@ -245,9 +245,9 @@ public class LinkEditActivity extends BaseFragment {
         this.buttonTextView.setTypeface(AndroidUtilities.bold());
         int i4 = this.type;
         if (i4 == 0) {
-            this.buttonTextView.setText(LocaleController.getString("CreateLink", R.string.CreateLink));
+            this.buttonTextView.setText(LocaleController.getString(R.string.CreateLink));
         } else if (i4 == 1) {
-            this.buttonTextView.setText(LocaleController.getString("SaveLink", R.string.SaveLink));
+            this.buttonTextView.setText(LocaleController.getString(R.string.SaveLink));
         }
         TLRPC$Chat chat = getMessagesController().getChat(Long.valueOf(this.chatId));
         if (chat == null || chat.username == null) {
@@ -381,7 +381,7 @@ public class LinkEditActivity extends BaseFragment {
                 textView4.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
                 this.timeEditText.setGravity(16);
                 this.timeEditText.setTextSize(1, 16.0f);
-                this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", R.string.TimeLimitHint));
+                this.timeEditText.setHint(LocaleController.getString(R.string.TimeLimitHint));
                 this.timeEditText.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
                     public final void onClick(View view) {
@@ -403,11 +403,11 @@ public class LinkEditActivity extends BaseFragment {
                 linearLayout.addView(this.timeEditText, LayoutHelper.createLinear(i, 50));
                 TextInfoPrivacyCell textInfoPrivacyCell3 = new TextInfoPrivacyCell(context);
                 this.divider = textInfoPrivacyCell3;
-                textInfoPrivacyCell3.setText(LocaleController.getString("TimeLimitHelp", R.string.TimeLimitHelp));
+                textInfoPrivacyCell3.setText(LocaleController.getString(R.string.TimeLimitHelp));
                 linearLayout.addView(this.divider);
                 HeaderCell headerCell2 = new HeaderCell(context);
                 this.usesHeaderCell = headerCell2;
-                headerCell2.setText(LocaleController.getString("LimitNumberOfUses", R.string.LimitNumberOfUses));
+                headerCell2.setText(LocaleController.getString(R.string.LimitNumberOfUses));
                 linearLayout.addView(this.usesHeaderCell);
                 SlideChooseView slideChooseView2 = new SlideChooseView(context);
                 this.usesChooseView = slideChooseView2;
@@ -437,7 +437,7 @@ public class LinkEditActivity extends BaseFragment {
                 editText.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
                 this.usesEditText.setGravity(16);
                 this.usesEditText.setTextSize(1, 16.0f);
-                this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", R.string.UsesLimitHint));
+                this.usesEditText.setHint(LocaleController.getString(R.string.UsesLimitHint));
                 this.usesEditText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
                 this.usesEditText.setInputType(2);
                 this.usesEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.7
@@ -473,7 +473,7 @@ public class LinkEditActivity extends BaseFragment {
                 linearLayout.addView(this.usesEditText, LayoutHelper.createLinear(i, 50));
                 TextInfoPrivacyCell textInfoPrivacyCell4 = new TextInfoPrivacyCell(context);
                 this.dividerUses = textInfoPrivacyCell4;
-                textInfoPrivacyCell4.setText(LocaleController.getString("UsesLimitHelp", R.string.UsesLimitHelp));
+                textInfoPrivacyCell4.setText(LocaleController.getString(R.string.UsesLimitHelp));
                 linearLayout.addView(this.dividerUses);
                 EditText editText2 = new EditText(context) { // from class: org.telegram.ui.LinkEditActivity.8
                     @Override // android.widget.TextView, android.view.View
@@ -503,7 +503,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.nameEditText.setCursorVisible(false);
                 this.nameEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
                 this.nameEditText.setGravity(16);
-                this.nameEditText.setHint(LocaleController.getString("LinkNameHint", R.string.LinkNameHint));
+                this.nameEditText.setHint(LocaleController.getString(R.string.LinkNameHint));
                 EditText editText3 = this.nameEditText;
                 int i7 = Theme.key_windowBackgroundWhiteGrayText;
                 editText3.setHintTextColor(Theme.getColor(i7));
@@ -520,13 +520,13 @@ public class LinkEditActivity extends BaseFragment {
                 int i9 = R.drawable.greydivider_bottom;
                 int i10 = Theme.key_windowBackgroundGrayShadow;
                 textInfoPrivacyCell5.setBackground(Theme.getThemedDrawableByKey(context, i9, i10));
-                this.dividerName.setText(LocaleController.getString("LinkNameHelp", R.string.LinkNameHelp));
+                this.dividerName.setText(LocaleController.getString(R.string.LinkNameHelp));
                 linearLayout.addView(this.dividerName);
                 if (this.type == 1) {
                     TextSettingsCell textSettingsCell = new TextSettingsCell(context);
                     this.revokeLink = textSettingsCell;
                     textSettingsCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    this.revokeLink.setText(LocaleController.getString("RevokeLink", R.string.RevokeLink), false);
+                    this.revokeLink.setText(LocaleController.getString(R.string.RevokeLink), false);
                     this.revokeLink.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                     this.revokeLink.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda8
                         @Override // android.view.View.OnClickListener
@@ -594,7 +594,7 @@ public class LinkEditActivity extends BaseFragment {
         textView42.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.timeEditText.setGravity(16);
         this.timeEditText.setTextSize(1, 16.0f);
-        this.timeEditText.setHint(LocaleController.getString("TimeLimitHint", R.string.TimeLimitHint));
+        this.timeEditText.setHint(LocaleController.getString(R.string.TimeLimitHint));
         this.timeEditText.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda5
             @Override // android.view.View.OnClickListener
             public final void onClick(View view) {
@@ -616,11 +616,11 @@ public class LinkEditActivity extends BaseFragment {
         linearLayout.addView(this.timeEditText, LayoutHelper.createLinear(i, 50));
         TextInfoPrivacyCell textInfoPrivacyCell32 = new TextInfoPrivacyCell(context);
         this.divider = textInfoPrivacyCell32;
-        textInfoPrivacyCell32.setText(LocaleController.getString("TimeLimitHelp", R.string.TimeLimitHelp));
+        textInfoPrivacyCell32.setText(LocaleController.getString(R.string.TimeLimitHelp));
         linearLayout.addView(this.divider);
         HeaderCell headerCell22 = new HeaderCell(context);
         this.usesHeaderCell = headerCell22;
-        headerCell22.setText(LocaleController.getString("LimitNumberOfUses", R.string.LimitNumberOfUses));
+        headerCell22.setText(LocaleController.getString(R.string.LimitNumberOfUses));
         linearLayout.addView(this.usesHeaderCell);
         SlideChooseView slideChooseView22 = new SlideChooseView(context);
         this.usesChooseView = slideChooseView22;
@@ -650,7 +650,7 @@ public class LinkEditActivity extends BaseFragment {
         editText5.setPadding(AndroidUtilities.dp(22.0f), 0, AndroidUtilities.dp(22.0f), 0);
         this.usesEditText.setGravity(16);
         this.usesEditText.setTextSize(1, 16.0f);
-        this.usesEditText.setHint(LocaleController.getString("UsesLimitHint", R.string.UsesLimitHint));
+        this.usesEditText.setHint(LocaleController.getString(R.string.UsesLimitHint));
         this.usesEditText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
         this.usesEditText.setInputType(2);
         this.usesEditText.addTextChangedListener(new TextWatcher() { // from class: org.telegram.ui.LinkEditActivity.7
@@ -686,7 +686,7 @@ public class LinkEditActivity extends BaseFragment {
         linearLayout.addView(this.usesEditText, LayoutHelper.createLinear(i, 50));
         TextInfoPrivacyCell textInfoPrivacyCell42 = new TextInfoPrivacyCell(context);
         this.dividerUses = textInfoPrivacyCell42;
-        textInfoPrivacyCell42.setText(LocaleController.getString("UsesLimitHelp", R.string.UsesLimitHelp));
+        textInfoPrivacyCell42.setText(LocaleController.getString(R.string.UsesLimitHelp));
         linearLayout.addView(this.dividerUses);
         EditText editText22 = new EditText(context) { // from class: org.telegram.ui.LinkEditActivity.8
             @Override // android.widget.TextView, android.view.View
@@ -716,7 +716,7 @@ public class LinkEditActivity extends BaseFragment {
         this.nameEditText.setCursorVisible(false);
         this.nameEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(32)});
         this.nameEditText.setGravity(16);
-        this.nameEditText.setHint(LocaleController.getString("LinkNameHint", R.string.LinkNameHint));
+        this.nameEditText.setHint(LocaleController.getString(R.string.LinkNameHint));
         EditText editText32 = this.nameEditText;
         int i72 = Theme.key_windowBackgroundWhiteGrayText;
         editText32.setHintTextColor(Theme.getColor(i72));
@@ -733,7 +733,7 @@ public class LinkEditActivity extends BaseFragment {
         int i92 = R.drawable.greydivider_bottom;
         int i102 = Theme.key_windowBackgroundGrayShadow;
         textInfoPrivacyCell52.setBackground(Theme.getThemedDrawableByKey(context, i92, i102));
-        this.dividerName.setText(LocaleController.getString("LinkNameHelp", R.string.LinkNameHelp));
+        this.dividerName.setText(LocaleController.getString(R.string.LinkNameHelp));
         linearLayout.addView(this.dividerName);
         if (this.type == 1) {
         }
@@ -908,15 +908,15 @@ public class LinkEditActivity extends BaseFragment {
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$10(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-        builder.setMessage(LocaleController.getString("RevokeAlert", R.string.RevokeAlert));
-        builder.setTitle(LocaleController.getString("RevokeLink", R.string.RevokeLink));
-        builder.setPositiveButton(LocaleController.getString("RevokeButton", R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda13
+        builder.setMessage(LocaleController.getString(R.string.RevokeAlert));
+        builder.setTitle(LocaleController.getString(R.string.RevokeLink));
+        builder.setPositiveButton(LocaleController.getString(R.string.RevokeButton), new DialogInterface.OnClickListener() { // from class: org.telegram.ui.LinkEditActivity$$ExternalSyntheticLambda13
             @Override // android.content.DialogInterface.OnClickListener
             public final void onClick(DialogInterface dialogInterface, int i) {
                 LinkEditActivity.this.lambda$createView$9(dialogInterface, i);
             }
         });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         showDialog(builder.create());
     }
 
@@ -1199,7 +1199,7 @@ public class LinkEditActivity extends BaseFragment {
         String[] strArr = new String[i5];
         for (int i6 = 0; i6 < i5; i6++) {
             if (i6 == size) {
-                strArr[i6] = LocaleController.getString("NoLimit", R.string.NoLimit);
+                strArr[i6] = LocaleController.getString(R.string.NoLimit);
             } else {
                 strArr[i6] = this.dispalyedUses.get(i6).toString();
             }
@@ -1237,7 +1237,7 @@ public class LinkEditActivity extends BaseFragment {
         String[] strArr = new String[i4];
         for (int i5 = 0; i5 < i4; i5++) {
             if (i5 == size) {
-                strArr[i5] = LocaleController.getString("NoLimit", R.string.NoLimit);
+                strArr[i5] = LocaleController.getString(R.string.NoLimit);
             } else if (this.dispalyedDates.get(i5).intValue() == this.defaultDates[0]) {
                 strArr[i5] = LocaleController.formatPluralString("Hours", 1, new Object[0]);
             } else if (this.dispalyedDates.get(i5).intValue() == this.defaultDates[1]) {
@@ -1247,7 +1247,7 @@ public class LinkEditActivity extends BaseFragment {
             } else {
                 long j2 = currentTime;
                 if (j2 < 86400) {
-                    strArr[i5] = LocaleController.getString("MessageScheduleToday", R.string.MessageScheduleToday);
+                    strArr[i5] = LocaleController.getString(R.string.MessageScheduleToday);
                 } else if (j2 < 31449600) {
                     strArr[i5] = LocaleController.getInstance().getFormatterScheduleDay().format(j * 1000);
                 } else {
@@ -1267,7 +1267,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.dispalyedDates.add(Integer.valueOf(iArr[i]));
                 i++;
             } else {
-                this.timeChooseView.setOptions(3, LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Days", 1, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.getString("NoLimit", R.string.NoLimit));
+                this.timeChooseView.setOptions(3, LocaleController.formatPluralString("Hours", 1, new Object[0]), LocaleController.formatPluralString("Days", 1, new Object[0]), LocaleController.formatPluralString("Weeks", 1, new Object[0]), LocaleController.getString(R.string.NoLimit));
                 return;
             }
         }
@@ -1287,7 +1287,7 @@ public class LinkEditActivity extends BaseFragment {
                 this.dispalyedUses.add(Integer.valueOf(iArr[i]));
                 i++;
             } else {
-                this.usesChooseView.setOptions(3, "1", "10", "100", LocaleController.getString("NoLimit", R.string.NoLimit));
+                this.usesChooseView.setOptions(3, "1", "10", "100", LocaleController.getString(R.string.NoLimit));
                 return;
             }
         }

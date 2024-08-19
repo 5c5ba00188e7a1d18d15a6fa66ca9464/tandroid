@@ -177,9 +177,9 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         this.actionBar.setAllowOverlayTitle(true);
         if (this.addContact) {
-            this.actionBar.setTitle(LocaleController.getString("NewContact", R.string.NewContact));
+            this.actionBar.setTitle(LocaleController.getString(R.string.NewContact));
         } else {
-            this.actionBar.setTitle(LocaleController.getString("EditContact", R.string.EditContact));
+            this.actionBar.setTitle(LocaleController.getString(R.string.EditContact));
         }
         this.actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() { // from class: org.telegram.ui.ContactAddActivity.1
             @Override // org.telegram.ui.ActionBar.ActionBar.ActionBarMenuOnItemClick
@@ -208,7 +208,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 ContactAddActivity.this.finishFragment();
             }
         });
-        this.doneButton = this.actionBar.createMenu().addItem(1, LocaleController.getString("Done", R.string.Done).toUpperCase());
+        this.doneButton = this.actionBar.createMenu().addItem(1, LocaleController.getString(R.string.Done).toUpperCase());
         ScrollView scrollView = new ScrollView(context);
         this.fragmentView = scrollView;
         scrollView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
@@ -305,7 +305,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.firstNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.firstNameField.setInputType(49152);
         this.firstNameField.setImeOptions(5);
-        this.firstNameField.setHint(LocaleController.getString("FirstName", R.string.FirstName));
+        this.firstNameField.setHint(LocaleController.getString(R.string.FirstName));
         this.firstNameField.setCursorColor(Theme.getColor(i, this.resourcesProvider));
         this.firstNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.firstNameField.setCursorWidth(1.5f);
@@ -348,7 +348,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         this.lastNameField.setGravity(LocaleController.isRTL ? 5 : 3);
         this.lastNameField.setInputType(49152);
         this.lastNameField.setImeOptions(6);
-        this.lastNameField.setHint(LocaleController.getString("LastName", R.string.LastName));
+        this.lastNameField.setHint(LocaleController.getString(R.string.LastName));
         this.lastNameField.setCursorColor(Theme.getColor(i, this.resourcesProvider));
         this.lastNameField.setCursorSize(AndroidUtilities.dp(20.0f));
         this.lastNameField.setCursorWidth(1.5f);
@@ -385,7 +385,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 CheckBoxCell checkBoxCell = new CheckBoxCell(getParentActivity(), 0);
                 this.checkBoxCell = checkBoxCell;
                 checkBoxCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-                this.checkBoxCell.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString("SharePhoneNumberWith", R.string.SharePhoneNumberWith)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)), "", true, false);
+                this.checkBoxCell.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString(R.string.SharePhoneNumberWith)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)), "", true, false);
                 this.checkBoxCell.setPadding(AndroidUtilities.dp(7.0f), 0, AndroidUtilities.dp(7.0f), 0);
                 this.checkBoxCell.setOnClickListener(new View.OnClickListener() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda5
                     @Override // android.view.View.OnClickListener
@@ -454,7 +454,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             }
             this.oldAvatarView.setForUserOrChat(user.photo, this.avatarDrawable);
             this.oldPhotoCell.addView(this.oldAvatarView, LayoutHelper.createFrame(30, 30.0f, 16, 21.0f, 0.0f, 21.0f, 0.0f));
-            this.oldPhotoCell.setText(LocaleController.getString("ResetToOriginalPhoto", R.string.ResetToOriginalPhoto), false);
+            this.oldPhotoCell.setText(LocaleController.getString(R.string.ResetToOriginalPhoto), false);
             this.oldPhotoCell.getImageView().setVisibility(0);
             this.oldPhotoCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
             this.oldPhotoCell.setColors(i7, i8);
@@ -568,7 +568,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
 
     /* JADX INFO: Access modifiers changed from: private */
     public /* synthetic */ void lambda$createView$11(Context context, final TLRPC$User tLRPC$User, View view) {
-        AlertsCreator.createSimpleAlert(context, LocaleController.getString("ResetToOriginalPhotoTitle", R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString("Reset", R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
+        AlertsCreator.createSimpleAlert(context, LocaleController.getString(R.string.ResetToOriginalPhotoTitle), LocaleController.formatString("ResetToOriginalPhotoMessage", R.string.ResetToOriginalPhotoMessage, tLRPC$User.first_name), LocaleController.getString(R.string.Reset), new Runnable() { // from class: org.telegram.ui.ContactAddActivity$$ExternalSyntheticLambda12
             @Override // java.lang.Runnable
             public final void run() {
                 ContactAddActivity.this.lambda$createView$10(tLRPC$User);
@@ -681,8 +681,8 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
             return;
         }
         if (TextUtils.isEmpty(getPhone())) {
-            this.nameTextView.setText(LocaleController.getString("MobileHidden", R.string.MobileHidden));
-            this.infoTextView.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString("MobileHiddenExceptionInfo", R.string.MobileHiddenExceptionInfo)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)));
+            this.nameTextView.setText(LocaleController.getString(R.string.MobileHidden));
+            this.infoTextView.setText(AndroidUtilities.replaceCharSequence("%1$s", AndroidUtilities.replaceTags(LocaleController.getString(R.string.MobileHiddenExceptionInfo)), Emoji.replaceEmoji((CharSequence) UserObject.getFirstName(user), this.infoTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(12.0f), false)));
         } else {
             TextView textView = this.nameTextView;
             PhoneFormat phoneFormat = PhoneFormat.getInstance();
