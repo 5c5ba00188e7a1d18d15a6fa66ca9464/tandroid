@@ -732,6 +732,21 @@ public class DownloadController extends BaseController implements NotificationCe
         return false;
     }
 
+    public int canDownloadMediaType(MessageObject messageObject) {
+        TL_stories$StoryItem tL_stories$StoryItem;
+        TLRPC$MessageMedia tLRPC$MessageMedia;
+        if (messageObject.type == 23) {
+            return (!SharedConfig.isAutoplayVideo() || (tL_stories$StoryItem = ((TLRPC$TL_messageMediaStory) MessageObject.getMedia(messageObject)).storyItem) == null || (tLRPC$MessageMedia = tL_stories$StoryItem.media) == null || tLRPC$MessageMedia.document == null || !tL_stories$StoryItem.isPublic) ? 0 : 2;
+        } else if (messageObject.sponsoredMedia != null) {
+            return 2;
+        } else {
+            if (messageObject.isHiddenSensitive()) {
+                return 0;
+            }
+            return canDownloadMedia(messageObject.messageOwner);
+        }
+    }
+
     /* JADX WARN: Code restructure failed: missing block: B:37:0x006e, code lost:
         if (getContactsController().contactsDict.containsKey(java.lang.Long.valueOf(r7.user_id)) != false) goto L22;
      */

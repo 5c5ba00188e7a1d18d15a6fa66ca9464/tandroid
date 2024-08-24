@@ -264,32 +264,33 @@ public class Browser {
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2) {
-        openUrl(context, uri, z, z2, false, null, null, false);
+        openUrl(context, uri, z, z2, false, null, null, false, true);
     }
 
     public static void openUrl(Context context, Uri uri, boolean z, boolean z2, Progress progress) {
-        openUrl(context, uri, z, z2, false, progress, null, false);
+        openUrl(context, uri, z, z2, false, progress, null, false, true);
     }
 
     /* JADX WARN: Code restructure failed: missing block: B:44:0x00f5, code lost:
-        if ("https".equals(r1) != false) goto L116;
+        if ("https".equals(r1) != false) goto L127;
      */
-    /* JADX WARN: Removed duplicated region for block: B:107:0x02b2 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:126:0x02fe  */
-    /* JADX WARN: Removed duplicated region for block: B:128:0x0301 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:132:0x0311 A[Catch: Exception -> 0x02ef, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:135:0x0323 A[Catch: Exception -> 0x02ef, TRY_LEAVE, TryCatch #0 {Exception -> 0x02ef, blocks: (B:105:0x02ae, B:107:0x02b2, B:109:0x02b8, B:111:0x02c7, B:113:0x02cd, B:115:0x02d7, B:117:0x02e1, B:128:0x0301, B:130:0x0305, B:132:0x0311, B:134:0x031b, B:135:0x0323, B:123:0x02f2), top: B:141:0x02ae }] */
-    /* JADX WARN: Removed duplicated region for block: B:53:0x0120 A[Catch: Exception -> 0x0166, TryCatch #3 {Exception -> 0x0166, blocks: (B:51:0x0104, B:53:0x0120, B:57:0x0152, B:59:0x015f, B:62:0x0169, B:66:0x0172, B:67:0x018a, B:69:0x0192, B:72:0x01bd, B:73:0x01cf, B:70:0x01a7, B:75:0x01e6, B:77:0x01ea, B:80:0x01f0, B:82:0x01f9, B:84:0x0203, B:86:0x0208, B:88:0x0212, B:92:0x0220, B:94:0x022c, B:96:0x023e), top: B:146:0x0104 }] */
+    /* JADX WARN: Removed duplicated region for block: B:126:0x0300  */
+    /* JADX WARN: Removed duplicated region for block: B:130:0x0309 A[Catch: Exception -> 0x02f1, TRY_ENTER, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x02b0, B:108:0x02b4, B:110:0x02ba, B:112:0x02c9, B:114:0x02cf, B:116:0x02d9, B:118:0x02e3, B:127:0x0301, B:130:0x0309, B:132:0x0312, B:134:0x0316, B:136:0x0322, B:138:0x032c, B:140:0x0332, B:142:0x033c, B:144:0x0351, B:145:0x0355, B:146:0x035d, B:123:0x02f4), top: B:164:0x02b0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:132:0x0312 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x02b0, B:108:0x02b4, B:110:0x02ba, B:112:0x02c9, B:114:0x02cf, B:116:0x02d9, B:118:0x02e3, B:127:0x0301, B:130:0x0309, B:132:0x0312, B:134:0x0316, B:136:0x0322, B:138:0x032c, B:140:0x0332, B:142:0x033c, B:144:0x0351, B:145:0x0355, B:146:0x035d, B:123:0x02f4), top: B:164:0x02b0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:136:0x0322 A[Catch: Exception -> 0x02f1, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x02b0, B:108:0x02b4, B:110:0x02ba, B:112:0x02c9, B:114:0x02cf, B:116:0x02d9, B:118:0x02e3, B:127:0x0301, B:130:0x0309, B:132:0x0312, B:134:0x0316, B:136:0x0322, B:138:0x032c, B:140:0x0332, B:142:0x033c, B:144:0x0351, B:145:0x0355, B:146:0x035d, B:123:0x02f4), top: B:164:0x02b0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:146:0x035d A[Catch: Exception -> 0x02f1, TRY_LEAVE, TryCatch #7 {Exception -> 0x02f1, blocks: (B:106:0x02b0, B:108:0x02b4, B:110:0x02ba, B:112:0x02c9, B:114:0x02cf, B:116:0x02d9, B:118:0x02e3, B:127:0x0301, B:130:0x0309, B:132:0x0312, B:134:0x0316, B:136:0x0322, B:138:0x032c, B:140:0x0332, B:142:0x033c, B:144:0x0351, B:145:0x0355, B:146:0x035d, B:123:0x02f4), top: B:164:0x02b0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:164:0x02b0 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:53:0x0120 A[Catch: Exception -> 0x0166, TryCatch #2 {Exception -> 0x0166, blocks: (B:51:0x0104, B:53:0x0120, B:57:0x0152, B:59:0x015f, B:62:0x0169, B:66:0x0172, B:67:0x018a, B:69:0x0192, B:72:0x01bd, B:73:0x01cf, B:70:0x01a7, B:75:0x01e6, B:77:0x01ea, B:80:0x01f0, B:82:0x01f9, B:84:0x0203, B:86:0x0208, B:88:0x0212, B:92:0x0220, B:94:0x022c, B:96:0x023e), top: B:156:0x0104 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
-    public static void openUrl(final Context context, final Uri uri, boolean z, boolean z2, boolean z3, final Progress progress, String str, boolean z4) {
-        boolean z5;
+    public static void openUrl(final Context context, final Uri uri, boolean z, boolean z2, boolean z3, final Progress progress, String str, boolean z4, boolean z5) {
         boolean z6;
+        boolean z7;
         String str2;
         boolean[] zArr;
         Uri uri2;
-        boolean z7;
+        boolean z8;
         LaunchActivity launchActivity;
         String lowerCase;
         String str3;
@@ -303,13 +304,13 @@ public class Browser {
         boolean isInternalUri = isInternalUri(uri, zArr2);
         String browserPackageName = getBrowserPackageName(str);
         if (browserPackageName != null) {
+            z7 = false;
             z6 = false;
-            z5 = false;
         } else {
-            z5 = z;
-            z6 = z2;
+            z6 = z;
+            z7 = z2;
         }
-        if (z6) {
+        if (z7) {
             try {
                 String hostAuthority2 = AndroidUtilities.getHostAuthority(uri);
                 if (UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser() != null) {
@@ -328,12 +329,12 @@ public class Browser {
                     tLRPC$TL_messages_getWebPagePreview.message = uri.toString();
                     str2 = browserPackageName;
                     zArr = zArr2;
-                    final boolean z8 = z5;
+                    final boolean z9 = z6;
                     try {
                         final int sendRequest = ConnectionsManager.getInstance(UserConfig.selectedAccount).sendRequest(tLRPC$TL_messages_getWebPagePreview, new RequestDelegate() { // from class: org.telegram.messenger.browser.Browser$$ExternalSyntheticLambda0
                             @Override // org.telegram.tgnet.RequestDelegate
                             public final void run(TLObject tLObject, TLRPC$TL_error tLRPC$TL_error) {
-                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z8, tLObject, tLRPC$TL_error);
+                                Browser.lambda$openUrl$1(Browser.Progress.this, alertDialogArr, i, uri, context, z9, tLObject, tLRPC$TL_error);
                             }
                         });
                         if (progress != null) {
@@ -364,19 +365,16 @@ public class Browser {
                     e = e;
                     uri2 = uri;
                     FileLog.e(e);
-                    try {
-                        if (!SharedConfig.inappBrowser) {
-                        }
-                        if (!isTonsite(uri2.toString())) {
-                        }
-                        z7 = true;
-                        if (!isInternalUri) {
-                        }
-                        if (!z7) {
-                        }
-                    } catch (Exception e2) {
-                        FileLog.e(e2);
-                        return;
+                    if (z5) {
+                    }
+                    if (!isTonsite(uri2.toString())) {
+                    }
+                    z8 = true;
+                    if (uri2.getScheme() != null) {
+                    }
+                    if (!isInternalUri) {
+                    }
+                    if (!z8) {
                     }
                 }
             } else {
@@ -387,36 +385,40 @@ public class Browser {
             }
             try {
                 uri2 = uri.normalizeScheme();
-            } catch (Exception e3) {
-                FileLog.e(e3);
+            } catch (Exception e2) {
+                FileLog.e(e2);
                 uri2 = uri;
                 hostAuthority = AndroidUtilities.getHostAuthority(uri2.toString().toLowerCase());
                 if (AccountInstance.getInstance(i).getMessagesController().autologinDomains.contains(hostAuthority)) {
                 }
-                if (z5) {
+                if (z6) {
                 }
-                if (!SharedConfig.inappBrowser) {
+                if (z5) {
                 }
                 if (!isTonsite(uri2.toString())) {
                 }
-                z7 = true;
+                z8 = true;
+                if (uri2.getScheme() != null) {
+                }
                 if (!isInternalUri) {
                 }
-                if (!z7) {
+                if (!z8) {
                 }
             }
-        } catch (Exception e4) {
-            e = e4;
+        } catch (Exception e3) {
+            e = e3;
             uri2 = uri;
             FileLog.e(e);
-            if (!SharedConfig.inappBrowser) {
+            if (z5) {
             }
             if (!isTonsite(uri2.toString())) {
             }
-            z7 = true;
+            z8 = true;
+            if (uri2.getScheme() != null) {
+            }
             if (!isInternalUri) {
             }
-            if (!z7) {
+            if (!z8) {
             }
         }
         try {
@@ -442,51 +444,75 @@ public class Browser {
                 }
                 uri2 = Uri.parse("https://" + str4);
             }
-        } catch (Exception e5) {
-            e = e5;
+        } catch (Exception e4) {
+            e = e4;
             FileLog.e(e);
-            if (!SharedConfig.inappBrowser) {
+            if (z5) {
             }
             if (!isTonsite(uri2.toString())) {
             }
-            z7 = true;
+            z8 = true;
+            if (uri2.getScheme() != null) {
+            }
             if (!isInternalUri) {
             }
-            if (!z7) {
+            if (!z8) {
             }
         }
-        if (z5 || SharedConfig.inappBrowser || !SharedConfig.customTabs || isInternalUri || str3.equals("tel") || isTonsite(uri2.toString()) || (!zArr[0] && openInExternalApp(context, uri2.toString(), false) && hasAppToOpen(context, uri2.toString()))) {
-            if (!SharedConfig.inappBrowser && TextUtils.isEmpty(str2)) {
-                if (!RestrictedDomainsList.getInstance().isRestricted(AndroidUtilities.getHostAuthority(uri2, true))) {
-                    if (uri2.getScheme() != null && !"https".equals(uri2.getScheme()) && !"http".equals(uri2.getScheme()) && !"tonsite".equals(uri2.getScheme())) {
-                    }
-                    z7 = true;
-                    if (!isInternalUri && (launchActivity = LaunchActivity.instance) != null) {
-                        openAsInternalIntent(launchActivity, uri2.toString(), z3, progress);
-                        return;
-                    } else if (!z7) {
-                        if (openInExternalApp(context, uri2.toString(), z4)) {
-                            return;
+        if (z6 || SharedConfig.inappBrowser || !SharedConfig.customTabs || isInternalUri || str3.equals("tel") || isTonsite(uri2.toString()) || (!zArr[0] && openInExternalApp(context, uri2.toString(), false) && hasAppToOpen(context, uri2.toString()))) {
+            if (z5) {
+                try {
+                    if (SharedConfig.inappBrowser) {
+                        if (TextUtils.isEmpty(str2)) {
+                            if (!RestrictedDomainsList.getInstance().isRestricted(AndroidUtilities.getHostAuthority(uri2, true))) {
+                                if (uri2.getScheme() != null && !"https".equals(uri2.getScheme()) && !"http".equals(uri2.getScheme()) && !"tonsite".equals(uri2.getScheme())) {
+                                }
+                                z8 = true;
+                                if (uri2.getScheme() != null) {
+                                    uri2.getScheme().equalsIgnoreCase("intent");
+                                }
+                                if (!isInternalUri && (launchActivity = LaunchActivity.instance) != null) {
+                                    openAsInternalIntent(launchActivity, uri2.toString(), z3, progress);
+                                    return;
+                                } else if (!z8) {
+                                    if (openInExternalApp(context, uri2.toString(), z4)) {
+                                        return;
+                                    }
+                                    if (uri2.getScheme() != null && uri2.getScheme().equalsIgnoreCase("intent")) {
+                                        String stringExtra = Intent.parseUri(uri2.toString(), 1).getStringExtra("browser_fallback_url");
+                                        if (!TextUtils.isEmpty(stringExtra)) {
+                                            uri2 = Uri.parse(stringExtra);
+                                        }
+                                    }
+                                    openInTelegramBrowser(context, uri2.toString(), progress);
+                                    return;
+                                } else {
+                                    openInExternalBrowser(context, uri2.toString(), z4, str2);
+                                    return;
+                                }
+                            }
                         }
-                        openInTelegramBrowser(context, uri2.toString(), progress);
-                        return;
-                    } else {
-                        openInExternalBrowser(context, uri2.toString(), z4, str2);
-                        return;
                     }
+                } catch (Exception e5) {
+                    FileLog.e(e5);
+                    return;
                 }
             }
             if (!isTonsite(uri2.toString())) {
-                z7 = false;
+                z8 = false;
+                if (uri2.getScheme() != null) {
+                }
                 if (!isInternalUri) {
                 }
-                if (!z7) {
+                if (!z8) {
                 }
             }
-            z7 = true;
+            z8 = true;
+            if (uri2.getScheme() != null) {
+            }
             if (!isInternalUri) {
             }
-            if (!z7) {
+            if (!z8) {
             }
         }
         if (MessagesController.getInstance(i).authDomains.contains(hostAuthority)) {
@@ -510,14 +536,16 @@ public class Browser {
         } catch (Exception e6) {
             e = e6;
             FileLog.e(e);
-            if (!SharedConfig.inappBrowser) {
+            if (z5) {
             }
             if (!isTonsite(uri2.toString())) {
             }
-            z7 = true;
+            z8 = true;
+            if (uri2.getScheme() != null) {
+            }
             if (!isInternalUri) {
             }
-            if (!z7) {
+            if (!z8) {
             }
         }
     }
@@ -691,7 +719,7 @@ public class Browser {
         try {
             if (!isTonsite(str) && !isInternalUrl(str, null)) {
                 Uri parse = Uri.parse(str);
-                String replace = replace(parse, parse.getScheme() == null ? "https" : parse.getScheme(), parse.getHost() != null ? parse.getHost().toLowerCase() : parse.getHost(), TextUtils.isEmpty(parse.getPath()) ? "/" : parse.getPath());
+                String replace = replace(parse, parse.getScheme() == null ? "https" : parse.getScheme(), null, parse.getHost() != null ? parse.getHost().toLowerCase() : parse.getHost(), TextUtils.isEmpty(parse.getPath()) ? "/" : parse.getPath());
                 Uri parse2 = Uri.parse(replace);
                 boolean z2 = parse2.getScheme() != null && parse2.getScheme().equalsIgnoreCase("intent");
                 if (!z2 || z) {
@@ -705,7 +733,7 @@ public class Browser {
                         intent.addCategory("android.intent.category.DEFAULT");
                         intent.addFlags(268435456);
                         intent.addFlags(1024);
-                    } else if (!hasAppToOpen(context, replace)) {
+                    } else if (!z2 && !hasAppToOpen(context, replace)) {
                         return false;
                     }
                     context.startActivity(intent);
@@ -1142,10 +1170,10 @@ public class Browser {
     }
 
     public static String replaceHostname(Uri uri, String str, String str2) {
-        return replace(uri, str2, str, null);
+        return replace(uri, str2, null, str, null);
     }
 
-    public static String replace(Uri uri, String str, String str2, String str3) {
+    public static String replace(Uri uri, String str, String str2, String str3, String str4) {
         StringBuilder sb = new StringBuilder();
         if (str == null) {
             str = uri.getScheme();
@@ -1154,23 +1182,28 @@ public class Browser {
             sb.append(str);
             sb.append("://");
         }
-        if (uri.getUserInfo() != null) {
-            sb.append(uri.getUserInfo());
+        if (str2 == null) {
+            if (uri.getUserInfo() != null) {
+                sb.append(uri.getUserInfo());
+                sb.append("@");
+            }
+        } else if (!TextUtils.isEmpty(str2)) {
+            sb.append(str2);
             sb.append("@");
         }
-        if (str2 == null) {
+        if (str3 == null) {
             if (uri.getHost() != null) {
                 sb.append(uri.getHost());
             }
         } else {
-            sb.append(str2);
+            sb.append(str3);
         }
         if (uri.getPort() != -1) {
             sb.append(":");
             sb.append(uri.getPort());
         }
-        if (str3 != null) {
-            sb.append(str3);
+        if (str4 != null) {
+            sb.append(str4);
         } else {
             sb.append(uri.getPath());
         }

@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.IDN;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -181,6 +182,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     private boolean lastExpanded;
     private long lastPostStoryMs;
     private String lastQrText;
+    private float lastViewportHeightReported;
+    private boolean lastViewportIsExpanded;
+    private boolean lastViewportStateStable;
     private ValueCallback<Uri[]> mFilePathCallback;
     private String mUrl;
     private Runnable onCloseListener;
@@ -475,7 +479,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (Browser.isInternalUri(uri, zArr) && !zArr[0] && this.delegate != null) {
                 setKeyboardFocusable(false);
             }
-            Browser.openUrl(getContext(), uri, true, z, false, null, str, false);
+            Browser.openUrl(getContext(), uri, true, z, false, null, str, false, true);
         }
     }
 
@@ -710,15 +714,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             if (z) {
                 this.lastExpanded = webViewSwipeContainer.getSwipeOffsetY() == (-webViewSwipeContainer.getOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY();
             }
-            int measuredHeight = (int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getSwipeOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY());
+            float measuredHeight = ((int) (((webViewSwipeContainer.getMeasuredHeight() - webViewSwipeContainer.getOffsetY()) - webViewSwipeContainer.getSwipeOffsetY()) + webViewSwipeContainer.getTopActionBarOffsetY())) / AndroidUtilities.density;
+            if (Math.abs(measuredHeight - this.lastViewportHeightReported) <= 0.1f && this.lastViewportStateStable == z && this.lastViewportIsExpanded == this.lastExpanded) {
+                return;
+            }
+            this.lastViewportHeightReported = measuredHeight;
+            this.lastViewportStateStable = z;
+            this.lastViewportIsExpanded = this.lastExpanded;
             try {
                 JSONObject jSONObject = new JSONObject();
-                jSONObject.put("height", measuredHeight / AndroidUtilities.density);
+                jSONObject.put("height", measuredHeight);
                 jSONObject.put("is_state_stable", z);
                 jSONObject.put("is_expanded", this.lastExpanded);
                 notifyEvent("viewport_changed", jSONObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException unused) {
             }
         }
     }
@@ -1193,20 +1202,20 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
-    /* JADX WARN: Removed duplicated region for block: B:1048:0x0449  */
-    /* JADX WARN: Removed duplicated region for block: B:1073:0x0492  */
-    /* JADX WARN: Removed duplicated region for block: B:1080:0x04a0 A[Catch: Exception -> 0x042f, TryCatch #0 {Exception -> 0x042f, blocks: (B:1028:0x0405, B:1116:0x0509, B:1053:0x0451, B:1055:0x0456, B:1078:0x049a, B:1079:0x049d, B:1080:0x04a0, B:1062:0x0470, B:1065:0x047b, B:1068:0x0485, B:1081:0x04a3, B:1082:0x04ad, B:1110:0x04f3, B:1111:0x04f7, B:1112:0x04fb, B:1113:0x04ff, B:1114:0x0503, B:1084:0x04b1, B:1087:0x04bb, B:1090:0x04c5, B:1093:0x04cf, B:1096:0x04d9, B:1035:0x0425, B:1040:0x0432, B:1043:0x043c), top: B:1411:0x0405 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1081:0x04a3 A[Catch: Exception -> 0x042f, TryCatch #0 {Exception -> 0x042f, blocks: (B:1028:0x0405, B:1116:0x0509, B:1053:0x0451, B:1055:0x0456, B:1078:0x049a, B:1079:0x049d, B:1080:0x04a0, B:1062:0x0470, B:1065:0x047b, B:1068:0x0485, B:1081:0x04a3, B:1082:0x04ad, B:1110:0x04f3, B:1111:0x04f7, B:1112:0x04fb, B:1113:0x04ff, B:1114:0x0503, B:1084:0x04b1, B:1087:0x04bb, B:1090:0x04c5, B:1093:0x04cf, B:1096:0x04d9, B:1035:0x0425, B:1040:0x0432, B:1043:0x043c), top: B:1411:0x0405 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1116:0x0509 A[Catch: Exception -> 0x042f, TRY_LEAVE, TryCatch #0 {Exception -> 0x042f, blocks: (B:1028:0x0405, B:1116:0x0509, B:1053:0x0451, B:1055:0x0456, B:1078:0x049a, B:1079:0x049d, B:1080:0x04a0, B:1062:0x0470, B:1065:0x047b, B:1068:0x0485, B:1081:0x04a3, B:1082:0x04ad, B:1110:0x04f3, B:1111:0x04f7, B:1112:0x04fb, B:1113:0x04ff, B:1114:0x0503, B:1084:0x04b1, B:1087:0x04bb, B:1090:0x04c5, B:1093:0x04cf, B:1096:0x04d9, B:1035:0x0425, B:1040:0x0432, B:1043:0x043c), top: B:1411:0x0405 }] */
-    /* JADX WARN: Removed duplicated region for block: B:1237:0x0781 A[RETURN] */
-    /* JADX WARN: Removed duplicated region for block: B:1238:0x0782  */
-    /* JADX WARN: Removed duplicated region for block: B:1260:0x0839  */
-    /* JADX WARN: Removed duplicated region for block: B:1493:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1500:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1522:? A[RETURN, SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:961:0x02ec  */
-    /* JADX WARN: Removed duplicated region for block: B:966:0x02f5 A[Catch: JSONException -> 0x02be, TryCatch #5 {JSONException -> 0x02be, blocks: (B:941:0x02a0, B:943:0x02af, B:945:0x02b5, B:948:0x02c0, B:968:0x02fa, B:964:0x02f1, B:966:0x02f5, B:953:0x02d5, B:956:0x02df), top: B:1421:0x02a0 }] */
-    /* JADX WARN: Removed duplicated region for block: B:968:0x02fa A[Catch: JSONException -> 0x02be, TRY_LEAVE, TryCatch #5 {JSONException -> 0x02be, blocks: (B:941:0x02a0, B:943:0x02af, B:945:0x02b5, B:948:0x02c0, B:968:0x02fa, B:964:0x02f1, B:966:0x02f5, B:953:0x02d5, B:956:0x02df), top: B:1421:0x02a0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1051:0x0449  */
+    /* JADX WARN: Removed duplicated region for block: B:1076:0x0492  */
+    /* JADX WARN: Removed duplicated region for block: B:1083:0x04a0 A[Catch: Exception -> 0x042f, TryCatch #0 {Exception -> 0x042f, blocks: (B:1031:0x0405, B:1119:0x0509, B:1056:0x0451, B:1058:0x0456, B:1081:0x049a, B:1082:0x049d, B:1083:0x04a0, B:1065:0x0470, B:1068:0x047b, B:1071:0x0485, B:1084:0x04a3, B:1085:0x04ad, B:1113:0x04f3, B:1114:0x04f7, B:1115:0x04fb, B:1116:0x04ff, B:1117:0x0503, B:1087:0x04b1, B:1090:0x04bb, B:1093:0x04c5, B:1096:0x04cf, B:1099:0x04d9, B:1038:0x0425, B:1043:0x0432, B:1046:0x043c), top: B:1417:0x0405 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1084:0x04a3 A[Catch: Exception -> 0x042f, TryCatch #0 {Exception -> 0x042f, blocks: (B:1031:0x0405, B:1119:0x0509, B:1056:0x0451, B:1058:0x0456, B:1081:0x049a, B:1082:0x049d, B:1083:0x04a0, B:1065:0x0470, B:1068:0x047b, B:1071:0x0485, B:1084:0x04a3, B:1085:0x04ad, B:1113:0x04f3, B:1114:0x04f7, B:1115:0x04fb, B:1116:0x04ff, B:1117:0x0503, B:1087:0x04b1, B:1090:0x04bb, B:1093:0x04c5, B:1096:0x04cf, B:1099:0x04d9, B:1038:0x0425, B:1043:0x0432, B:1046:0x043c), top: B:1417:0x0405 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1119:0x0509 A[Catch: Exception -> 0x042f, TRY_LEAVE, TryCatch #0 {Exception -> 0x042f, blocks: (B:1031:0x0405, B:1119:0x0509, B:1056:0x0451, B:1058:0x0456, B:1081:0x049a, B:1082:0x049d, B:1083:0x04a0, B:1065:0x0470, B:1068:0x047b, B:1071:0x0485, B:1084:0x04a3, B:1085:0x04ad, B:1113:0x04f3, B:1114:0x04f7, B:1115:0x04fb, B:1116:0x04ff, B:1117:0x0503, B:1087:0x04b1, B:1090:0x04bb, B:1093:0x04c5, B:1096:0x04cf, B:1099:0x04d9, B:1038:0x0425, B:1043:0x0432, B:1046:0x043c), top: B:1417:0x0405 }] */
+    /* JADX WARN: Removed duplicated region for block: B:1240:0x0781 A[RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:1241:0x0782  */
+    /* JADX WARN: Removed duplicated region for block: B:1263:0x0839  */
+    /* JADX WARN: Removed duplicated region for block: B:1499:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1506:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1528:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:964:0x02ec  */
+    /* JADX WARN: Removed duplicated region for block: B:969:0x02f5 A[Catch: JSONException -> 0x02be, TryCatch #5 {JSONException -> 0x02be, blocks: (B:944:0x02a0, B:946:0x02af, B:948:0x02b5, B:951:0x02c0, B:971:0x02fa, B:967:0x02f1, B:969:0x02f5, B:956:0x02d5, B:959:0x02df), top: B:1427:0x02a0 }] */
+    /* JADX WARN: Removed duplicated region for block: B:971:0x02fa A[Catch: JSONException -> 0x02be, TRY_LEAVE, TryCatch #5 {JSONException -> 0x02be, blocks: (B:944:0x02a0, B:946:0x02af, B:948:0x02b5, B:951:0x02c0, B:971:0x02fa, B:967:0x02f1, B:969:0x02f5, B:956:0x02d5, B:959:0x02df), top: B:1427:0x02a0 }] */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1481,6 +1490,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
             BotWebViewVibrationEffect botWebViewVibrationEffect2 = null;
             switch (c) {
                 case 0:
+                    if (this.botUser == null) {
+                        return;
+                    }
                     try {
                         JSONObject jSONObject2 = new JSONObject(str2);
                         final String string = jSONObject2.getString("req_id");
@@ -1489,7 +1501,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                         final int i3 = this.currentAccount;
                         final MyWebView myWebView = this.webView;
                         TL_bots$invokeWebViewCustomMethod tL_bots$invokeWebViewCustomMethod = new TL_bots$invokeWebViewCustomMethod();
-                        tL_bots$invokeWebViewCustomMethod.bot = MessagesController.getInstance(i3).getInputUser(this.botUser);
+                        tL_bots$invokeWebViewCustomMethod.bot = MessagesController.getInstance(i3).getInputUser(this.botUser.id);
                         tL_bots$invokeWebViewCustomMethod.custom_method = string2;
                         TLRPC$TL_dataJSON tLRPC$TL_dataJSON = new TLRPC$TL_dataJSON();
                         tL_bots$invokeWebViewCustomMethod.params = tLRPC$TL_dataJSON;
@@ -3925,54 +3937,67 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
                     return false;
                 }
                 Uri parse = Uri.parse(str);
-                if (!this.val$bot && Browser.openInExternalApp(this.val$context, str, true)) {
-                    MyWebView myWebView = MyWebView.this;
-                    myWebView.d("shouldOverrideUrlLoading(" + str + ") = true (openInExternalBrowser)");
-                    if (!MyWebView.this.isPageLoaded && !MyWebView.this.canGoBack()) {
-                        if (MyWebView.this.botWebViewContainer.delegate != null) {
-                            MyWebView.this.botWebViewContainer.delegate.onInstantClose();
-                        } else if (MyWebView.this.onCloseListener != null) {
-                            MyWebView.this.onCloseListener.run();
-                            MyWebView.this.onCloseListener = null;
-                        }
-                    }
-                    return true;
-                } else if (this.val$bot || parse == null || parse.getScheme() == null || "https".equals(parse.getScheme()) || "http".equals(parse.getScheme()) || "tonsite".equals(parse.getScheme())) {
-                    if (MyWebView.this.botWebViewContainer != null && Browser.isInternalUri(parse, null)) {
-                        if (!this.val$bot && "1".equals(parse.getQueryParameter("embed")) && "t.me".equals(parse.getAuthority())) {
-                            return false;
-                        }
-                        if (MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols != null && MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
-                            MyWebView myWebView2 = MyWebView.this;
-                            if (myWebView2.opener != null) {
-                                if (myWebView2.botWebViewContainer.delegate != null) {
-                                    MyWebView.this.botWebViewContainer.delegate.onInstantClose();
-                                } else if (MyWebView.this.onCloseListener != null) {
-                                    MyWebView.this.onCloseListener.run();
-                                    MyWebView.this.onCloseListener = null;
-                                }
-                                if (MyWebView.this.opener.botWebViewContainer != null && MyWebView.this.opener.botWebViewContainer.delegate != null) {
-                                    MyWebView.this.opener.botWebViewContainer.delegate.onCloseToTabs();
-                                }
+                if (!this.val$bot) {
+                    if (Browser.openInExternalApp(this.val$context, str, true)) {
+                        MyWebView myWebView = MyWebView.this;
+                        myWebView.d("shouldOverrideUrlLoading(" + str + ") = true (openInExternalBrowser)");
+                        if (!MyWebView.this.isPageLoaded && !MyWebView.this.canGoBack()) {
+                            if (MyWebView.this.botWebViewContainer.delegate != null) {
+                                MyWebView.this.botWebViewContainer.delegate.onInstantClose();
+                            } else if (MyWebView.this.onCloseListener != null) {
+                                MyWebView.this.onCloseListener.run();
+                                MyWebView.this.onCloseListener = null;
                             }
-                            MyWebView.this.botWebViewContainer.onOpenUri(parse);
                         }
-                        MyWebView myWebView3 = MyWebView.this;
-                        myWebView3.d("shouldOverrideUrlLoading(" + str + ") = true");
                         return true;
                     }
-                    if (parse != null) {
-                        MyWebView.this.currentUrl = parse.toString();
+                    if (parse != null && parse.getScheme() != null && parse.getScheme().equalsIgnoreCase("intent")) {
+                        try {
+                            String stringExtra = Intent.parseUri(parse.toString(), 1).getStringExtra("browser_fallback_url");
+                            if (!TextUtils.isEmpty(stringExtra)) {
+                                MyWebView.this.loadUrl(stringExtra);
+                                return true;
+                            }
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if (parse != null && parse.getScheme() != null && !"https".equals(parse.getScheme()) && !"http".equals(parse.getScheme()) && !"tonsite".equals(parse.getScheme())) {
+                        MyWebView myWebView2 = MyWebView.this;
+                        myWebView2.d("shouldOverrideUrlLoading(" + str + ") = true (browser open)");
+                        Browser.openUrl(MyWebView.this.getContext(), parse);
+                        return true;
+                    }
+                }
+                if (MyWebView.this.botWebViewContainer != null && Browser.isInternalUri(parse, null)) {
+                    if (!this.val$bot && "1".equals(parse.getQueryParameter("embed")) && "t.me".equals(parse.getAuthority())) {
+                        return false;
+                    }
+                    if (MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols != null && MessagesController.getInstance(MyWebView.this.botWebViewContainer.currentAccount).webAppAllowedProtocols.contains(parse.getScheme())) {
+                        MyWebView myWebView3 = MyWebView.this;
+                        if (myWebView3.opener != null) {
+                            if (myWebView3.botWebViewContainer.delegate != null) {
+                                MyWebView.this.botWebViewContainer.delegate.onInstantClose();
+                            } else if (MyWebView.this.onCloseListener != null) {
+                                MyWebView.this.onCloseListener.run();
+                                MyWebView.this.onCloseListener = null;
+                            }
+                            if (MyWebView.this.opener.botWebViewContainer != null && MyWebView.this.opener.botWebViewContainer.delegate != null) {
+                                MyWebView.this.opener.botWebViewContainer.delegate.onCloseToTabs();
+                            }
+                        }
+                        MyWebView.this.botWebViewContainer.onOpenUri(parse);
                     }
                     MyWebView myWebView4 = MyWebView.this;
-                    myWebView4.d("shouldOverrideUrlLoading(" + str + ") = false");
-                    return false;
-                } else {
-                    MyWebView myWebView5 = MyWebView.this;
-                    myWebView5.d("shouldOverrideUrlLoading(" + str + ") = true (browser open)");
-                    Browser.openUrl(MyWebView.this.getContext(), parse);
+                    myWebView4.d("shouldOverrideUrlLoading(" + str + ") = true");
                     return true;
                 }
+                if (parse != null) {
+                    MyWebView.this.currentUrl = parse.toString();
+                }
+                MyWebView myWebView5 = MyWebView.this;
+                myWebView5.d("shouldOverrideUrlLoading(" + str + ") = false");
+                return false;
             }
 
             public /* synthetic */ void lambda$$3() {
@@ -5203,6 +5228,6 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         StringBuilder sb = new StringBuilder();
         sb.append(".");
         sb.append(MessagesController.getInstance(UserConfig.selectedAccount).tonProxyAddress);
-        return (hostAuthority.endsWith(sb.toString()) && (str2 = rotatedTONHosts.get(hostAuthority)) != null) ? Browser.replace(Uri.parse(str), "tonsite", str2, null) : str;
+        return (hostAuthority.endsWith(sb.toString()) && (str2 = rotatedTONHosts.get(hostAuthority)) != null) ? Browser.replace(Uri.parse(str), "tonsite", null, str2, null) : str;
     }
 }

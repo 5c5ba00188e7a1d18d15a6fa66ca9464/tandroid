@@ -1686,7 +1686,7 @@ public class AlertsCreator {
         showOpenUrlAlert(baseFragment, str, z, z2, z3, false, progress, resourcesProvider);
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:23:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0091  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1698,7 +1698,7 @@ public class AlertsCreator {
         }
         final long inlineReturn = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getInlineReturn() : 0L;
         if (Browser.isInternalUrl(str, null) || !z3) {
-            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress, null, false);
+            Browser.openUrl(baseFragment.getParentActivity(), Uri.parse(str), inlineReturn == 0, z2, z4 && checkInternalBotApp(str), progress, null, false, true);
             return;
         }
         if (z) {

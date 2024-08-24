@@ -67,7 +67,6 @@ import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
@@ -953,7 +952,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         if (this.chat != null && !this.createGroupCall && MessagesController.getInstance(this.currentAccount).getGroupCall(this.chat.id, false) == null) {
             FileLog.w("VoIPService: trying to open group call without call " + this.chat.id);
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 3");
             return 2;
         }
         if (this.videoCall) {
@@ -983,7 +981,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 FileLog.w("VoIPService: user == null AND chat == null");
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 4");
             return 2;
         }
         sharedInstance = this;
@@ -1368,19 +1365,16 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 FileLog.w("Call is null, wtf");
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 5");
         } else if (tLRPC$PhoneCall instanceof TLRPC$TL_phoneCallDiscarded) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.w("Call " + this.privateCall.id + " was discarded before the service started, stopping");
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 6");
         } else if (XiaomiUtilities.isMIUI() && !XiaomiUtilities.isCustomPermissionGranted(XiaomiUtilities.OP_SHOW_WHEN_LOCKED) && ((KeyguardManager) getSystemService("keyguard")).inKeyguardRestrictedInputMode()) {
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.e("MIUI: no permission to show when locked but the screen is locked. ¯\\_(ツ)_/¯");
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 7");
         } else {
             TLRPC$TL_phone_receivedCall tLRPC$TL_phone_receivedCall = new TLRPC$TL_phone_receivedCall();
             TLRPC$TL_inputPhoneCall tLRPC$TL_inputPhoneCall = new TLRPC$TL_inputPhoneCall();
@@ -1420,7 +1414,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 FileLog.e("error on receivedCall: " + tLRPC$TL_error);
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 8");
             return;
         }
         if (USE_CONNECTION_SERVICE) {
@@ -1910,8 +1903,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         this.currentGroupModeStreaming = optBoolean;
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:69:0x0168  */
-    /* JADX WARN: Removed duplicated region for block: B:74:0x0175  */
+    /* JADX WARN: Removed duplicated region for block: B:69:0x0161  */
+    /* JADX WARN: Removed duplicated region for block: B:74:0x016e  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
     */
@@ -1957,7 +1950,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                     AndroidUtilities.runOnUIThread(this.afterSoundRunnable, 1500L);
                     endConnectionServiceCall(1500L);
                     stopSelf();
-                    Log.i("lolkek", "VOIPService stopSelf 9");
                     return;
                 }
                 callEnded();
@@ -5966,7 +5958,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                             } catch (Exception e2) {
                                 FileLog.e(e2);
                                 stopSelf();
-                                Log.i("lolkek", "VOIPService stopSelf 10");
                                 return;
                             }
                         }
@@ -6094,32 +6085,18 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
     private static int getCurrentForegroundType(ContextWrapper contextWrapper, boolean z) {
         int checkSelfPermission;
         int checkSelfPermission2;
-        int checkSelfPermission3;
-        int checkSelfPermission4;
         if (Build.VERSION.SDK_INT < 29) {
             return NotificationCenter.invalidateMotionBackground;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("getCurrentForegroundType, CAMERA=");
         checkSelfPermission = contextWrapper.checkSelfPermission("android.permission.CAMERA");
-        sb.append(checkSelfPermission);
-        Log.i("lolkek", sb.toString());
-        checkSelfPermission2 = contextWrapper.checkSelfPermission("android.permission.CAMERA");
-        int i = checkSelfPermission2 == 0 ? 64 : 0;
-        StringBuilder sb2 = new StringBuilder();
-        sb2.append("getCurrentForegroundType, MICROPHONE=");
-        checkSelfPermission3 = contextWrapper.checkSelfPermission("android.permission.RECORD_AUDIO");
-        sb2.append(checkSelfPermission3);
-        Log.i("lolkek", sb2.toString());
-        checkSelfPermission4 = contextWrapper.checkSelfPermission("android.permission.RECORD_AUDIO");
-        if (checkSelfPermission4 == 0) {
+        int i = checkSelfPermission == 0 ? 64 : 0;
+        checkSelfPermission2 = contextWrapper.checkSelfPermission("android.permission.RECORD_AUDIO");
+        if (checkSelfPermission2 == 0) {
             i |= 128;
         }
-        Log.i("lolkek", "getCurrentForegroundType, MEDIA_PROJECTION=" + z);
         if (z) {
             i |= 32;
         }
-        Log.i("lolkek", "getCurrentForegroundType, MEDIA_PLAYBACK=true");
         return i | 2;
     }
 
@@ -6190,7 +6167,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
                 this.systemCallConnection = null;
             }
             stopSelf();
-            Log.i("lolkek", "VOIPService stopSelf 1");
         }
     }
 
@@ -6419,7 +6395,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
         }
         endConnectionServiceCall(this.needPlayEndSound ? i : 0L);
         stopSelf();
-        Log.i("lolkek", "VOIPService stopSelf 2");
     }
 
     /* JADX INFO: Access modifiers changed from: private */

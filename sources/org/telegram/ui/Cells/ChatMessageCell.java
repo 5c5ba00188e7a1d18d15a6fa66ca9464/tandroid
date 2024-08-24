@@ -6476,17 +6476,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (messageObject == null || messageObject.mediaExists) {
             return;
         }
-        int canDownloadMedia = DownloadController.getInstance(this.currentAccount).canDownloadMedia(messageObject.messageOwner);
+        int canDownloadMediaType = DownloadController.getInstance(this.currentAccount).canDownloadMediaType(messageObject);
         TLRPC$Document document = messageObject.getDocument();
         if (MessageObject.isStickerDocument(document) || MessageObject.isAnimatedStickerDocument(document, true) || MessageObject.isGifDocument(document) || MessageObject.isRoundVideoDocument(document) || this.isSmallImage) {
             return;
         }
         TLRPC$PhotoSize closestPhotoSizeWithSize = document == null ? FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize()) : null;
-        if (canDownloadMedia == 2 || (canDownloadMedia == 1 && messageObject.isVideo())) {
-            if (canDownloadMedia != 2 && document != null && !messageObject.shouldEncryptPhotoOrVideo() && messageObject.canStreamVideo()) {
+        if (canDownloadMediaType == 2 || (canDownloadMediaType == 1 && messageObject.isVideo())) {
+            if (canDownloadMediaType != 2 && document != null && !messageObject.shouldEncryptPhotoOrVideo() && messageObject.canStreamVideo()) {
                 FileLoader.getInstance(this.currentAccount).loadFile(document, messageObject, 1, 0);
             }
-        } else if (canDownloadMedia != 0) {
+        } else if (canDownloadMediaType != 0) {
             if (document != null) {
                 FileLoader.getInstance(this.currentAccount).loadFile(document, messageObject, 1, ((MessageObject.isVideoDocument(document) || messageObject.isVoiceOnce() || messageObject.isRoundOnce()) && messageObject.shouldEncryptPhotoOrVideo()) ? 2 : 0);
             } else if (closestPhotoSizeWithSize != null) {
@@ -27181,7 +27181,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (tLRPC$MessageMedia != null) {
             this.documentAttach = tLRPC$MessageMedia.document;
         } else if (messageObject.type == 0) {
-            this.documentAttach = MessageObject.getMedia(messageObject.messageOwner).webpage.document;
+            TLRPC$MessageMedia media = MessageObject.getMedia(messageObject.messageOwner);
+            TLRPC$WebPage tLRPC$WebPage = media == null ? null : media.webpage;
+            this.documentAttach = tLRPC$WebPage == null ? null : tLRPC$WebPage.document;
         } else {
             this.documentAttach = messageObject.getDocument();
         }
@@ -27228,17 +27230,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (dp2 < 0) {
                 dp2 = AndroidUtilities.dp(100.0f);
             }
-            int i6 = dp2;
             TextUtils.TruncateAt truncateAt = TextUtils.TruncateAt.END;
-            CharSequence ellipsize = TextUtils.ellipsize(messageObject.getMusicTitle().replace('\n', ' '), Theme.chat_audioTitlePaint, i6 - AndroidUtilities.dp(12.0f), truncateAt);
+            CharSequence ellipsize = TextUtils.ellipsize(messageObject.getMusicTitle().replace('\n', ' '), Theme.chat_audioTitlePaint, dp2 - AndroidUtilities.dp(12.0f), truncateAt);
             TextPaint textPaint = Theme.chat_audioTitlePaint;
             Layout.Alignment alignment = Layout.Alignment.ALIGN_NORMAL;
-            StaticLayout staticLayout = new StaticLayout(ellipsize, textPaint, i6, alignment, 1.0f, 0.0f, false);
+            StaticLayout staticLayout = new StaticLayout(ellipsize, textPaint, dp2, alignment, 1.0f, 0.0f, false);
             this.songLayout = staticLayout;
             if (staticLayout.getLineCount() > 0) {
                 this.songX = -((int) Math.ceil(this.songLayout.getLineLeft(0)));
             }
-            StaticLayout staticLayout2 = new StaticLayout(TextUtils.ellipsize(messageObject.getMusicAuthor().replace('\n', ' '), Theme.chat_audioPerformerPaint, i6, truncateAt), Theme.chat_audioPerformerPaint, i6, alignment, 1.0f, 0.0f, false);
+            StaticLayout staticLayout2 = new StaticLayout(TextUtils.ellipsize(messageObject.getMusicAuthor().replace('\n', ' '), Theme.chat_audioPerformerPaint, dp2, truncateAt), Theme.chat_audioPerformerPaint, dp2, alignment, 1.0f, 0.0f, false);
             this.performerLayout = staticLayout2;
             if (staticLayout2.getLineCount() > 0) {
                 this.performerX = -((int) Math.ceil(this.performerLayout.getLineLeft(0)));
@@ -27254,8 +27255,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 i4++;
             }
-            int i7 = (int) d;
-            int ceil = (int) Math.ceil(Theme.chat_audioTimePaint.measureText(AndroidUtilities.formatShortDuration(i7, i7)));
+            int i6 = (int) d;
+            int ceil = (int) Math.ceil(Theme.chat_audioTimePaint.measureText(AndroidUtilities.formatShortDuration(i6, i6)));
             this.widthBeforeNewTimeLine = (this.backgroundWidth - AndroidUtilities.dp(86.0f)) - ceil;
             this.availableTimeWidth = this.backgroundWidth - AndroidUtilities.dp(28.0f);
             return ceil;
@@ -27265,9 +27266,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 String string = LocaleController.getString("AttachGif", R.string.AttachGif);
                 this.infoWidth = (int) Math.ceil(Theme.chat_infoPaint.measureText(string));
                 TextPaint textPaint2 = Theme.chat_infoPaint;
-                int i8 = this.infoWidth;
+                int i7 = this.infoWidth;
                 Layout.Alignment alignment2 = Layout.Alignment.ALIGN_NORMAL;
-                this.infoLayout = new StaticLayout(string, textPaint2, i8, alignment2, 1.0f, 0.0f, false);
+                this.infoLayout = new StaticLayout(string, textPaint2, i7, alignment2, 1.0f, 0.0f, false);
                 String format2 = String.format("%s", AndroidUtilities.formatFileSize(this.documentAttach.size));
                 this.docTitleWidth = (int) Math.ceil(Theme.chat_infoPaint.measureText(format2));
                 this.docTitleLayout = new StaticLayout(format2, Theme.chat_infoPaint, this.docTitleWidth, alignment2, 1.0f, 0.0f, false);
@@ -27289,13 +27290,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             this.docTitleLayout = createStaticLayout;
             this.docTitleOffsetX = Integer.MIN_VALUE;
             if (createStaticLayout != null && createStaticLayout.getLineCount() > 0) {
-                int i9 = 0;
+                int i8 = 0;
                 while (i4 < this.docTitleLayout.getLineCount()) {
-                    i9 = Math.max(i9, (int) Math.ceil(this.docTitleLayout.getLineWidth(i4)));
+                    i8 = Math.max(i8, (int) Math.ceil(this.docTitleLayout.getLineWidth(i4)));
                     this.docTitleOffsetX = Math.max(this.docTitleOffsetX, (int) Math.ceil(-this.docTitleLayout.getLineLeft(i4)));
                     i4++;
                 }
-                i2 = Math.min(i3, i9);
+                i2 = Math.min(i3, i8);
             } else {
                 this.docTitleOffsetX = 0;
                 i2 = i3;
@@ -41926,34 +41927,34 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:1019:0x1914, code lost:
-        if (r1 < 1.0f) goto L292;
+    /* JADX WARN: Code restructure failed: missing block: B:1021:0x191c, code lost:
+        if (r1 < 1.0f) goto L294;
      */
     /* JADX WARN: Code restructure failed: missing block: B:394:0x0b7a, code lost:
-        if (r0 == 3) goto L680;
+        if (r0 == 3) goto L682;
      */
     /* JADX WARN: Code restructure failed: missing block: B:726:0x128c, code lost:
-        if (r11 < r14) goto L1052;
+        if (r11 < r14) goto L1054;
      */
     /* JADX WARN: Code restructure failed: missing block: B:912:0x172b, code lost:
-        if (r1.revealingMediaSpoilers != false) goto L317;
+        if (r1.revealingMediaSpoilers != false) goto L319;
      */
     /* JADX WARN: Code restructure failed: missing block: B:922:0x174c, code lost:
-        if (r54.radialProgress.getIcon() != 4) goto L317;
+        if (r54.radialProgress.getIcon() != 4) goto L319;
      */
     /* JADX WARN: Multi-variable type inference failed */
     /* JADX WARN: Removed duplicated region for block: B:1000:0x18db  */
-    /* JADX WARN: Removed duplicated region for block: B:1016:0x1909  */
-    /* JADX WARN: Removed duplicated region for block: B:1024:0x1928  */
-    /* JADX WARN: Removed duplicated region for block: B:1060:0x19ec  */
+    /* JADX WARN: Removed duplicated region for block: B:1018:0x1911  */
+    /* JADX WARN: Removed duplicated region for block: B:1026:0x1930  */
+    /* JADX WARN: Removed duplicated region for block: B:1062:0x19f4  */
     /* JADX WARN: Removed duplicated region for block: B:110:0x03dc  */
     /* JADX WARN: Removed duplicated region for block: B:112:0x03e0  */
-    /* JADX WARN: Removed duplicated region for block: B:1144:0x1bf0  */
-    /* JADX WARN: Removed duplicated region for block: B:1151:0x1c0f  */
-    /* JADX WARN: Removed duplicated region for block: B:1154:0x1c5f  */
-    /* JADX WARN: Removed duplicated region for block: B:1170:0x1d1d  */
-    /* JADX WARN: Removed duplicated region for block: B:1196:0x0fbe A[SYNTHETIC] */
-    /* JADX WARN: Removed duplicated region for block: B:1197:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1146:0x1bf8  */
+    /* JADX WARN: Removed duplicated region for block: B:1153:0x1c17  */
+    /* JADX WARN: Removed duplicated region for block: B:1156:0x1c67  */
+    /* JADX WARN: Removed duplicated region for block: B:1172:0x1d25  */
+    /* JADX WARN: Removed duplicated region for block: B:1198:0x0fbe A[SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:1199:? A[ADDED_TO_REGION, RETURN, SYNTHETIC] */
     /* JADX WARN: Removed duplicated region for block: B:207:0x0657  */
     /* JADX WARN: Removed duplicated region for block: B:208:0x065e  */
     /* JADX WARN: Removed duplicated region for block: B:211:0x066c  */
@@ -42480,7 +42481,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                                 }
                                                 if (!this.drawVideoImageButton || this.animatingDrawVideoImageButton != 0) {
                                                     messageObject3 = this.currentMessageObject;
-                                                    if (!messageObject3.isRepostPreview && !messageObject3.sendPreview && this.photoImage.getVisible() && !this.isSmallImage) {
+                                                    if (!messageObject3.isRepostPreview && !messageObject3.sendPreview && this.photoImage.getVisible() && !this.isSmallImage && !this.currentMessageObject.isHiddenSensitive()) {
                                                         f18 = this.controlsAlpha;
                                                         if (this.drawPhotoImage && (messageObject4 = this.currentMessageObject) != null && messageObject4.hasMediaSpoilers() && this.currentMessageObject.isSensitive()) {
                                                             if (this.currentMessageObject.isMediaSpoilersRevealed) {
