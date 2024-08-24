@@ -11636,6 +11636,9 @@ public class MediaCodecVideoConvertor {
     }
 
     private static void applyAudioInputs(ArrayList<MixedSoundInfo> arrayList, ArrayList<AudioInput> arrayList2) throws IOException {
+        if (arrayList == null) {
+            return;
+        }
         for (int i = 0; i < arrayList.size(); i++) {
             MixedSoundInfo mixedSoundInfo = arrayList.get(i);
             GeneralAudioInput generalAudioInput = new GeneralAudioInput(mixedSoundInfo.audioFile);

@@ -17,7 +17,7 @@ public class DownMixAudioRemixer implements AudioRemixer {
         return i / 2;
     }
 
-    private short mix(short s, short s2) {
+    public static short mix(short s, short s2) {
         int i;
         int i2 = s + LiteMode.FLAG_CHAT_SCALE;
         int i3 = s2 + LiteMode.FLAG_CHAT_SCALE;

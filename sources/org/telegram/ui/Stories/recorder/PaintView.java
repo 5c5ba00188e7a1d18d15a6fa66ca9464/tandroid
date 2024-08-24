@@ -1543,6 +1543,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
 
     private LocationView createLocationSticker(TLRPC$MessageMedia tLRPC$MessageMedia, TL_stories$MediaArea tL_stories$MediaArea, boolean z) {
         MediaController.CropState cropState;
+        int i;
         onTextAdd();
         this.forceChanges = true;
         getPaintingSize();
@@ -1555,6 +1556,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
         if (startPositionRelativeToEntity.y == this.entitiesView.getMeasuredHeight() / 2.0f) {
             locationView.setStickyY(2);
+        }
+        Swatch swatch = this.colorSwatch;
+        if (swatch != null && (i = swatch.color) != -47814) {
+            locationView.setColor(i);
         }
         locationView.setDelegate(this);
         locationView.setMaxWidth(dp);
@@ -1574,6 +1579,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
 
     private WeatherView createWeatherView(Weather.State state, boolean z) {
         MediaController.CropState cropState;
+        int i;
         onTextAdd();
         this.forceChanges = true;
         getPaintingSize();
@@ -1586,6 +1592,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
         if (startPositionRelativeToEntity.y == this.entitiesView.getMeasuredHeight() / 2.0f) {
             weatherView.setStickyY(2);
+        }
+        Swatch swatch = this.colorSwatch;
+        if (swatch != null && (i = swatch.color) != -47814) {
+            weatherView.setColor(i);
         }
         weatherView.setDelegate(this);
         weatherView.setMaxWidth(dp);
@@ -1605,6 +1615,7 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
 
     private LinkView createLinkSticker(LinkPreview.WebPagePreview webPagePreview, TL_stories$MediaArea tL_stories$MediaArea, boolean z) {
         MediaController.CropState cropState;
+        int i;
         onTextAdd();
         this.forceChanges = true;
         getPaintingSize();
@@ -1617,6 +1628,10 @@ public class PaintView extends SizeNotifierFrameLayoutPhoto implements IPhotoPai
         }
         if (startPositionRelativeToEntity.y == this.entitiesView.getMeasuredHeight() / 2.0f) {
             linkView.setStickyY(2);
+        }
+        Swatch swatch = this.colorSwatch;
+        if (swatch != null && (i = swatch.color) != -47814) {
+            linkView.setColor(i);
         }
         linkView.setDelegate(this);
         linkView.setMaxWidth(dp);
